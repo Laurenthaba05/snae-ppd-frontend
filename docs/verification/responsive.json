@@ -1,0 +1,63 @@
+{
+  "kind": "offline-react18-visual-review",
+  "checks": [
+    {
+      "width": 320,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 1024,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 1280,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    },
+    {
+      "width": 1920,
+      "login": true,
+      "dashboard": true,
+      "catalog": true,
+      "assistance": true,
+      "errors": []
+    }
+  ],
+  "connected_form": "Test driver for rendering only; no provider connection; visibility toggle passed",
+  "limitations": "Pas un build Vite cible, ni authentification réelle. Navigation en mémoire dans le banc."
+}

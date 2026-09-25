@@ -1,0 +1,62 @@
+{
+  "kind": "offline-ui-smoke",
+  "runtime": "React 18.2.0; navigation en mémoire; transpilation TypeScript 5.8.3",
+  "results": [
+    {
+      "name": "Connexion de démonstration clairement identifiée",
+      "passed": true
+    },
+    {
+      "name": "Entrée, identité fictive et bandeau permanent",
+      "passed": true
+    },
+    {
+      "name": "Catalogue institutionnel et commandes visibles pour A",
+      "passed": true
+    },
+    {
+      "name": "Relecture explicite de la commande avant écriture",
+      "passed": true
+    },
+    {
+      "name": "Création simulée, fermeture et relecture du catalogue",
+      "passed": true
+    },
+    {
+      "name": "Modification avec motif et version attendue",
+      "passed": true
+    },
+    {
+      "name": "Changement de statut simulé et fiche actualisée",
+      "passed": true
+    },
+    {
+      "name": "Proposition sur rôle utilisé, pas d’auto-approbation affichée",
+      "passed": true
+    },
+    {
+      "name": "Approbation indépendante simulée et état APPLIED",
+      "passed": true
+    },
+    {
+      "name": "Persona agent : navigation et mutations restreintes",
+      "passed": true
+    },
+    {
+      "name": "Affichage mobile 390px, menu clavier Échap/focus et absence de débordement horizontal global",
+      "passed": true
+    },
+    {
+      "name": "Déconnexion locale efface les vues protégées",
+      "passed": true
+    },
+    {
+      "name": "Aucune erreur JavaScript non gérée, aucun appel backend dans la démo",
+      "passed": true
+    }
+  ],
+  "passed": 13,
+  "errors": [],
+  "requests": [],
+  "limitations": "Données simulées. Ne valide pas le backend, le SSO, PostgreSQL ni la sécurité du serveur."
+}

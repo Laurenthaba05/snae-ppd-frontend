@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.test-build/
+.env
+.env.local
+.env.*.local
+*.log
+.idea/
+.vscode/
+playwright-report/
+test-results/
+artifacts/
+__pycache__/

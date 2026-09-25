@@ -1,0 +1,32 @@
+{
+  "name": "snae-ppd-frontend",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0 <23 || >=24"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "demo": "vite --mode demo --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "build:demo": "tsc --noEmit && vite build --mode demo",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "tsc -p tsconfig.core.json && node --test tests/*.test.mjs",
+    "check": "npm run test && npm run build"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "oidc-client-ts": "^3.3.0",
+    "@supabase/supabase-js": "^2.57.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0"
+  }
+}
