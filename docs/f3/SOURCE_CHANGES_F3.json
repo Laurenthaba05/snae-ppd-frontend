@@ -1,0 +1,57 @@
+[
+  {
+    "path": "src/app.tsx",
+    "change": "modified",
+    "sha256": "2e7003bb86a3c2030138a5760bbc6f9be737916bf8d3408226e9de1575694ab6"
+  },
+  {
+    "path": "src/design/f3.css",
+    "change": "added",
+    "sha256": "cd8a6982f3f99fb79dcfd2c59e01d592b84449560b23f2b2f90c3b28462adc93"
+  },
+  {
+    "path": "src/design/journeys.ts",
+    "change": "added",
+    "sha256": "4d09bdbfed9245d9c6003fe12a37a17ae9b5db2c30b5eac561e9332e29f6f9a8"
+  },
+  {
+    "path": "src/design/navigation.ts",
+    "change": "added",
+    "sha256": "9d4425a90889d9657068d729a30940ee1036267dc39bfd923804fb716cec85a8"
+  },
+  {
+    "path": "src/main.tsx",
+    "change": "modified",
+    "sha256": "3a914e72b89f330e86da4f6127b2b2d51aa4c4d1aee60691a588ab6e1fb86d43"
+  },
+  {
+    "path": "src/pages/ArchivalIntake.tsx",
+    "change": "modified",
+    "sha256": "98888cb66cfe6800256eca0d9594e3ecc16f3cda2c24b92b7663ba8223a1be4e"
+  },
+  {
+    "path": "src/pages/Dashboard.tsx",
+    "change": "modified",
+    "sha256": "0970b6af67b8d0e1c98c7df657444c8ba1237cbce2526063475484aab1b74364"
+  },
+  {
+    "path": "src/pages/DesignPreview.tsx",
+    "change": "added",
+    "sha256": "f074d6f312d47e0f6bce0e6965c80ac87a15de06631e4044c90cc14de753af5c"
+  },
+  {
+    "path": "src/pages/Journeys.tsx",
+    "change": "added",
+    "sha256": "befc3f9b1cdc362d02b79b8dfbc6ec56cec0dbba26e874b4f7b5723fa0cf0644"
+  },
+  {
+    "path": "src/pages/Records.tsx",
+    "change": "modified",
+    "sha256": "0e8583bee4a117cea2c6e78593433d7a4cc84d814093c419301977284b3741b5"
+  },
+  {
+    "path": "src/ui/Tabs.tsx",
+    "change": "added",
+    "sha256": "01b90c00163be340febd206105b64a29763312c73a48213bcc6fb60ff4148fa5"
+  }
+]

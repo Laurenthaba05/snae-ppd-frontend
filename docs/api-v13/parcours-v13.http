@@ -1,0 +1,47 @@
+# Test ONLY against an isolated staging environment, using an authorized short-lived token.
+# These requests are not executed by opening this file. UUIDs are operator-supplied.
+@base = http://127.0.0.1:8080/api/v1
+@token = REPLACE_WITH_SHORT_LIVED_STAGING_TOKEN
+@institutionId = 00000000-0000-0000-0000-000000000000
+@departmentId = 00000000-0000-0000-0000-000000000000
+@dossierId = 00000000-0000-0000-0000-000000000000
+@documentId = 00000000-0000-0000-0000-000000000000
+@taskId = 00000000-0000-0000-0000-000000000000
+
+### Scoped title/reference search (not OCR full text)
+GET {{base}}/documents?institutionId={{institutionId}}&departmentId={{departmentId}}&q=rapport&page=0&size=20
+Authorization: Bearer {{token}}
+
+### Only visible children; no global total
+GET {{base}}/dossiers/{{dossierId}}/documents?page=0&size=20
+Authorization: Bearer {{token}}
+
+### Re-read and copy versionLock before a description command
+GET {{base}}/documents/{{documentId}}
+Authorization: Bearer {{token}}
+
+### Replaces description section; nullable fields set to null are cleared
+PUT {{base}}/documents/{{documentId}}/description
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"expectedVersion":0,"title":"Rapport corrigé — TEST","description":"Données synthétiques uniquement","documentDate":null,"reason":"Correction de saisie en recette"}
+
+### Available to this actor with the assigned role and scope
+GET {{base}}/workflow-tasks/inbox?bucket=AVAILABLE&page=0&size=20
+Authorization: Bearer {{token}}
+
+### Claim before asking for completion choices
+POST {{base}}/workflow-tasks/{{taskId}}/claim
+Authorization: Bearer {{token}}
+
+### Advice only, rechecked by POST complete
+GET {{base}}/workflow-tasks/{{taskId}}/actions
+Authorization: Bearer {{token}}
+
+### Do NOT execute blindly: choose the returned transition code or null for final completion
+POST {{base}}/workflow-tasks/{{taskId}}/complete
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"transitionCode":null,"comment":"Validation de recette uniquement"}

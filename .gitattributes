@@ -1,0 +1,14 @@
+# Fins de ligne LF partout : les empreintes de MANIFEST.sha256 et les scripts en dépendent.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.pdf binary
+*.zip binary
+# Modèles d’import ouverts dans Excel : octets conservés tels quels (CRLF).
+*.csv -text

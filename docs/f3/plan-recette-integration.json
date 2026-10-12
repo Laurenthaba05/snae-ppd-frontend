@@ -1,0 +1,1006 @@
+[
+  {
+    "id": "P01",
+    "title": "Se connecter et retrouver son périmètre",
+    "role": "Tous les utilisateurs",
+    "status": "existant",
+    "normal_case": "Session nominative et droits reçus du serveur ; pas de rôle déduit du poste.",
+    "negative_cases": [
+      "Compte non provisionné : rester sur une erreur explicite",
+      "Session expirée : annuler les requêtes et revenir à la connexion",
+      "Aucun fournisseur configuré : connexion indisponible"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/iam/me"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P02",
+    "title": "Enregistrer une institution",
+    "role": "Administrateur habilité",
+    "status": "existant",
+    "normal_case": "Institution créée ; le code applicatif n’est pas un numéro légal de création.",
+    "negative_cases": [
+      "Code en doublon : corriger",
+      "Conflit de version : relire",
+      "Permission refusée : aucune création"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/iam/institutions",
+      "POST /api/v1/iam/institutions"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P03",
+    "title": "Structurer les départements",
+    "role": "Administrateur habilité",
+    "status": "existant",
+    "normal_case": "Structure organisationnelle rattachée ; ne pas réécrire la provenance historique.",
+    "negative_cases": [
+      "Parent incompatible ou cycle : refuser",
+      "Réorganisation : examiner les comptes et droits dépendants"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/iam/departments",
+      "GET /api/v1/iam/departments/{id}/impact"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P04",
+    "title": "Provisionner un utilisateur SSO",
+    "role": "Administrateur habilité",
+    "status": "partiel",
+    "normal_case": "Compte rattaché à une identité existante ; automatisation d’invitation hors contrat observé.",
+    "negative_cases": [
+      "Le fournisseur SSO ne crée pas automatiquement le compte métier",
+      "Pas d’invitation par email inventée"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/iam/users",
+      "GET /api/v1/iam/users/{id}"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P05",
+    "title": "Attribuer ou révoquer des habilitations",
+    "role": "Administrateur habilité",
+    "status": "partiel",
+    "normal_case": "Habilitation explicite ; écrans dédiés de création des délégations et changement de portée à compléter.",
+    "negative_cases": [
+      "Périmètre trop large : refus",
+      "Délégation expirée : ne pas proposer de commande",
+      "Impossible de s’octroyer des droits implicitement"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/iam/role-assignments",
+      "POST /api/v1/iam/role-assignments/{id}/revoke",
+      "GET /api/v1/iam/users/{id}/access-summary"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P06",
+    "title": "Approuver un changement sensible de permissions",
+    "role": "Deux administrateurs indépendants",
+    "status": "existant",
+    "normal_case": "Changement appliqué après contrôle indépendant, ou demande clôturée sans effet.",
+    "negative_cases": [
+      "Auto-approbation : refus",
+      "Version dépassée : relire l’impact",
+      "Réponse incertaine : même intention, jamais une nouvelle écriture aveugle"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/iam/roles/{id}/permission-changes",
+      "POST /api/v1/iam/permission-changes/{id}/approve",
+      "POST /api/v1/iam/permission-changes/{id}/reject"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P07",
+    "title": "Gérer un départ et fermer les accès",
+    "role": "Administrateur habilité",
+    "status": "existant",
+    "normal_case": "Accès retirés sans effacer l’identité des événements historiques.",
+    "negative_cases": [
+      "La déconnexion du navigateur seule ne révoque pas les droits",
+      "Conserver les traces de responsabilité des anciennes actions"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/iam/users/{id}/status",
+      "POST /api/v1/iam/users/{id}/revoke-tokens"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P08",
+    "title": "Créer une entrée archivistique",
+    "role": "Gestionnaire national habilité",
+    "status": "existant",
+    "normal_case": "Entrée OUVERTE. Le numéro est saisi, pas généré par le backend fourni.",
+    "negative_cases": [
+      "Date future interdite",
+      "Numéro déjà utilisé : corriger",
+      "Nouvelle tentative identique : conserver la clé d’intention"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/archival-intake/entries"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P09",
+    "title": "Rattacher le contenu d’une entrée",
+    "role": "Gestionnaire national habilité",
+    "status": "partiel",
+    "normal_case": "Liens enregistrés ; inventaire paginé et contrôles de lot restent à ajouter côté backend.",
+    "negative_cases": [
+      "Objet inexistant : pas de rattachement",
+      "Inventaire du contenu lié non fourni par ces GET",
+      "Ne pas afficher un total de pièces non renvoyé"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/archival-intake/entries/{id}/documents/{documentId}",
+      "POST /api/v1/archival-intake/entries/{id}/dossiers/{dossierId}",
+      "POST /api/v1/archival-intake/entries/{id}/physical-archives/{archiveId}"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P10",
+    "title": "Clôturer le registre d’entrée",
+    "role": "Gestionnaire national habilité",
+    "status": "existant",
+    "normal_case": "État CLOTUREE, pas une preuve autonome d’admission probante.",
+    "negative_cases": [
+      "Entrée déjà clôturée : conflit",
+      "Échec réseau : relire avant de recommencer",
+      "Clôture distincte de validation, scellement et conservation"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/archival-intake/entries/{id}/close"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P11",
+    "title": "Admettre un versement complet avec bordereau",
+    "role": "Service producteur puis archiviste",
+    "status": "cible",
+    "normal_case": "Parcours cible. Lien entrée/workflow existant, mais admission du lot et bordereau non exposés dans cette archive.",
+    "negative_cases": [
+      "Lot partiellement admis : politique à décider",
+      "Stockage échoué : ne pas annoncer intégré",
+      "Aucune transition inventée dans le mode connecté"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P12",
+    "title": "Créer une notice et préparer ses fichiers",
+    "role": "Agent documentaire habilité",
+    "status": "existant",
+    "normal_case": "Notice de travail, distincte d’une archive définitive.",
+    "negative_cases": [
+      "Ne pas créer une version supplémentaire pour contourner une réponse incomplète",
+      "Référence existante : relire",
+      "Dépôt interrompu : suivre le reçu"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/documents",
+      "GET /api/v1/documents/{id}/versions",
+      "POST /api/v1/versions/{versionId}/content"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P13",
+    "title": "Suivre un dépôt et traiter la quarantaine",
+    "role": "Agent documentaire habilité",
+    "status": "partiel",
+    "normal_case": "Le reçu technique, l’antivirus et la validation archivistique restent des états distincts.",
+    "negative_cases": [
+      "COMPLETED ne signifie pas admission définitive",
+      "REJECTED : ne pas relancer le même fichier sans correction",
+      "Annulation backend présente ; commande UI à compléter"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/ingestions/{id}",
+      "GET /api/v1/versions/{versionId}/ingestions",
+      "POST /api/v1/ingestions/{id}/cancel"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P14",
+    "title": "Valider le maître et sceller une version",
+    "role": "Archiviste habilité",
+    "status": "existant",
+    "normal_case": "Scellement technique et reçu d’horodatage éventuel ; aucune homologation juridique revendiquée.",
+    "negative_cases": [
+      "Fichier infecté ou maître absent : refus",
+      "Version scellée : pas de remplacement",
+      "Horodatage qualifié : disponibilité à confirmer en recette"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/files/{fileId}/validate-master",
+      "POST /api/v1/versions/{versionId}/seal",
+      "POST /api/v1/versions/{versionId}/timestamp"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P15",
+    "title": "Créer et clore un dossier",
+    "role": "Agent ou archiviste habilité",
+    "status": "partiel",
+    "normal_case": "Dossier décrit ; ne pas fabriquer une liste complète à partir d’une seule page documentaire.",
+    "negative_cases": [
+      "Vue exhaustive des documents du dossier à compléter par contrat dédié",
+      "Clôture du dossier distincte de la conservation définitive des pièces"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/dossiers",
+      "GET /api/v1/dossiers/{id}",
+      "POST /api/v1/dossiers/{id}/close"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P16",
+    "title": "Décrire un fonds et ses producteurs",
+    "role": "Archiviste habilité",
+    "status": "existant",
+    "normal_case": "Description hiérarchique et provenance conservées, sans les confondre avec l’organigramme courant.",
+    "negative_cases": [
+      "Parent invalide ou cycle : refus",
+      "Version en conflit : relire",
+      "Exports EAD/EAC à valider avec les outils d’échange destinataires"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/archives/descriptions",
+      "POST /api/v1/archives/authorities",
+      "POST /api/v1/archives/descriptions",
+      "GET /api/v1/archives/descriptions/{id}/ead"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P17",
+    "title": "Importer des descriptions en CSV",
+    "role": "Archiviste habilité",
+    "status": "existant",
+    "normal_case": "Import contrôlé ; pas d’écriture à partir d’un fichier non prévisualisé.",
+    "negative_cases": [
+      "Prévisualisation périmée : recommencer",
+      "Ligne invalide : corriger avant import",
+      "Échappement CSV nécessaire à l’export"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/archives/template/{kind}",
+      "POST /api/v1/archives/imports/preview",
+      "POST /api/v1/archives/imports"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P18",
+    "title": "Administrer le plan de classement",
+    "role": "Archiviste habilité",
+    "status": "partiel",
+    "normal_case": "Classement actif et rattachement documentaire ; provenance inchangée.",
+    "negative_cases": [
+      "Code en doublon : refus",
+      "Rubrique inactive : ne pas proposer",
+      "Déplacement des branches et versionnement complet à étendre"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/classification/nodes",
+      "POST /api/v1/classification/nodes/{id}/activate",
+      "PUT /api/v1/documents/{id}/classification"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P19",
+    "title": "Définir puis renseigner les métadonnées",
+    "role": "Archiviste puis agent habilité",
+    "status": "existant",
+    "normal_case": "Des formulaires métier typés, sans exposer le JSON aux utilisateurs ordinaires.",
+    "negative_cases": [
+      "Type, champ requis ou enum invalide : erreur au champ",
+      "Remplacement complet : préserver les valeurs non modifiées",
+      "Changement d’un schéma actif à cadrer"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/admin/metadata-schemas",
+      "GET /api/v1/documents/{documentId}/metadata/schema",
+      "PUT /api/v1/documents/{documentId}/metadata"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P20",
+    "title": "Retrouver une archive autorisée",
+    "role": "Utilisateur habilité",
+    "status": "existant",
+    "normal_case": "Résultats filtrés par le serveur ; aucune fuite de titre ou d’extrait non autorisé.",
+    "negative_cases": [
+      "Aucun résultat ne prouve pas l’absence de document",
+      "Index indisponible : afficher une erreur, pas zéro résultat",
+      "Filtres date et institution absents du contrat de recherche fourni"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/search?q=…&type=…&page=…&size=…"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P21",
+    "title": "Consulter ou télécharger un fichier",
+    "role": "Lecteur habilité",
+    "status": "existant",
+    "normal_case": "Le contrat actuel sert le même contenu à la lecture et au téléchargement ; séparation de droits à développer.",
+    "negative_cases": [
+      "Accès refusé : fermer l’aperçu",
+      "Session changée : révoquer l’URL locale",
+      "Fichier altéré, trop volumineux ou non pris en charge : état explicite"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/files/{fileId}/content"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P22",
+    "title": "Configurer un circuit de validation",
+    "role": "Administrateur fonctionnel habilité",
+    "status": "existant",
+    "normal_case": "Un circuit paramétré, pas une séquence figée commune à tous les documents.",
+    "negative_cases": [
+      "Étape initiale/finale incohérente : refus",
+      "Graphe invalide : corriger",
+      "Aucun code de transition inventé par le frontend"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/admin/workflow-definitions",
+      "POST /api/v1/admin/workflow-definitions/{definitionId}/steps",
+      "POST /api/v1/admin/workflow-definitions/{definitionId}/transitions"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P23",
+    "title": "Prendre en charge et terminer une validation",
+    "role": "Validateur habilité",
+    "status": "partiel",
+    "normal_case": "Instance EN_COURS puis TERMINE ; terminer le circuit n’est pas automatiquement admettre un lot.",
+    "negative_cases": [
+      "Tâche déjà prise : conflit",
+      "Mauvais responsable : refus",
+      "Échec d’écriture : état inconnu à relire",
+      "API des transitions disponibles par acteur à ajouter"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/documents/{documentId}/workflow",
+      "POST /api/v1/workflow-tasks/{taskId}/claim",
+      "POST /api/v1/workflow-tasks/{taskId}/complete"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P24",
+    "title": "Demander une correction et reprendre le circuit",
+    "role": "Validateur et agent documentaliste",
+    "status": "partiel",
+    "normal_case": "Branche dépendante de la définition active ; libellé métier à fournir avec les transitions serveur.",
+    "negative_cases": [
+      "Retour impossible sans transition configurée",
+      "Une version scellée ne se modifie pas",
+      "Suspension et annulation sont des décisions distinctes"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/workflow-tasks/{taskId}/complete",
+      "POST /api/v1/workflows/{instanceId}/cancel"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P25",
+    "title": "Suivre un projet de numérisation",
+    "role": "Opérateur habilité",
+    "status": "partiel",
+    "normal_case": "Suivi et rattachement disponibles ; capture scanner à intégrer séparément.",
+    "negative_cases": [
+      "Aucun pilotage TWAIN/WIA exposé",
+      "Un projet peut être annulé",
+      "Élément incomplet : ne pas afficher terminé"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/digitization/projects",
+      "POST /api/v1/digitization/elements",
+      "POST /api/v1/digitization/elements/{id}/files/{fichierId}"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P26",
+    "title": "Enregistrer puis valider un résultat OCR",
+    "role": "Opérateur puis contrôleur habilité",
+    "status": "partiel",
+    "normal_case": "NON_VALIDE puis VALIDE ; pas de bouton « Lancer l’OCR » sans service d’exécution.",
+    "negative_cases": [
+      "Résultat enregistré ≠ moteur OCR exécuté",
+      "Confiance 0–1 descriptive, pas garantie d’exactitude",
+      "Conservation de l’original obligatoire dans le design"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/digitization/ocr-results",
+      "POST /api/v1/digitization/ocr-results/{id}/validate"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P27",
+    "title": "Consigner un contrôle qualité",
+    "role": "Contrôleur habilité",
+    "status": "existant",
+    "normal_case": "Constat tracé ; formulaires visuels à préférer au JSON de défauts.",
+    "negative_cases": [
+      "Un contrôle déclaré ne prouve pas une analyse automatique",
+      "Pas de statut automatique À corriger si aucun objet backend correspondant"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/digitization/quality-controls",
+      "POST /api/v1/digitization/elements/{id}/quality-controls"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P28",
+    "title": "Demander et instruire une consultation",
+    "role": "Demandeur puis instructeur habilités",
+    "status": "existant",
+    "normal_case": "DEPOSEE → EN_INSTRUCTION → AUTORISEE ou REFUSEE, deux fins alternatives.",
+    "negative_cases": [
+      "Une autorisation de demande n’accorde pas implicitement un droit de téléchargement",
+      "Aucun catalogue d’objets secrets n’est exposé pour demander l’accès"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/consultations/requests",
+      "GET /api/v1/consultations/requests?mine=true",
+      "POST /api/v1/consultations/requests/{id}/claim",
+      "POST /api/v1/consultations/requests/{id}/authorize"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P29",
+    "title": "Communiquer une pièce et enregistrer son retour",
+    "role": "Gestionnaire des communications",
+    "status": "existant",
+    "normal_case": "DEMANDEE → REMISE → RESTITUEE ; contrôles serveur conservés.",
+    "negative_cases": [
+      "Demande autorisée distincte de pièce remise",
+      "Communication physique et téléchargement ne sont pas interchangeables"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/communications",
+      "POST /api/v1/communications/{id}/deliver",
+      "POST /api/v1/communications/{id}/return"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P30",
+    "title": "Gérer les sources et restrictions d’accès",
+    "role": "Archiviste ou responsable habilité",
+    "status": "existant",
+    "normal_case": "Restriction documentée et tracée ; sources à valider par les responsables compétents.",
+    "negative_cases": [
+      "Une restriction de lecture n’est pas un gel de conservation",
+      "Aucun délai juridique national inventé par le frontend"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/rights/sources",
+      "POST /api/v1/rights/documents/{documentId}/restrictions",
+      "POST /api/v1/rights/restrictions/{id}/release"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P31",
+    "title": "Publier un dérivé autorisé et le retirer",
+    "role": "Responsable de publication habilité",
+    "status": "partiel",
+    "normal_case": "Publication PUBLIEE ou RETIREE ; portail public séparé absent du périmètre livré.",
+    "negative_cases": [
+      "Le maître de conservation ne se publie pas comme un dérivé",
+      "Publication métier ≠ portail public anonyme",
+      "Revalidation des restrictions au serveur"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/publication/documents/{documentId}/publications",
+      "POST /api/v1/publication/publications/{id}/withdraw"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P32",
+    "title": "Appliquer une règle de conservation",
+    "role": "Archiviste habilité",
+    "status": "existant",
+    "normal_case": "Date et règle calculées côté serveur, pas une durée arbitraire dans la fiche.",
+    "negative_cases": [
+      "Règle absente ou ambiguë : blocage explicite",
+      "Date de base absente : ne pas inventer une échéance",
+      "Gel actif : suspendre le traitement concerné"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/retention/documents/{documentId}/schedule",
+      "GET /api/v1/retention/events"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P33",
+    "title": "Décider le sort final sans fausse destruction",
+    "role": "Proposant, validateur et exécutant distincts",
+    "status": "partiel",
+    "normal_case": "La destruction physique et le transfert final sont volontairement bloqués par le backend actuel.",
+    "negative_cases": [
+      "ELIMINER : DESTRUCTION_STORAGE_NOT_CONFIGURED",
+      "TRANSFERER : TRANSFER_HANDOVER_NOT_CONFIGURED",
+      "Gel ou acteur non indépendant : refus"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/retention/events/{id}/dispositions",
+      "POST /api/v1/retention/dispositions/{id}/validate",
+      "GET /api/v1/retention/dispositions/{id}/readiness",
+      "POST /api/v1/retention/dispositions/{id}/execute"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P34",
+    "title": "Ouvrir puis lever un gel",
+    "role": "Responsable habilité",
+    "status": "existant",
+    "normal_case": "ACTIF → LEVE ; décisions de conservation réexaminées ensuite selon le serveur.",
+    "negative_cases": [
+      "Le gel bloque le devenir mais n’est pas une restriction de consultation",
+      "Levée ≠ suppression ni exécution automatique"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/retention/legal-holds",
+      "POST /api/v1/retention/legal-holds/{id}/release"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P35",
+    "title": "Surveiller intégrité et sauvegardes",
+    "role": "Responsable de préservation habilité",
+    "status": "existant",
+    "normal_case": "État réellement renvoyé par le serveur ; disponibilité d’exploitation non prouvée par l’audit statique.",
+    "negative_cases": [
+      "Planificateur désactivé : l’indiquer, pas un faux statut vert",
+      "Anomalie d’intégrité : bloquer l’usage concerné",
+      "Restauration de sauvegarde : pas de commande UI inventée"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/preservation/monitor",
+      "GET /api/v1/preservation/backups",
+      "POST /api/v1/files/{fileId}/verify-integrity"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P36",
+    "title": "Localiser et déplacer une archive physique",
+    "role": "Magasinier ou archiviste habilité",
+    "status": "existant",
+    "normal_case": "Localisation et mouvements gérés avec leurs objets dédiés.",
+    "negative_cases": [
+      "Emplacement incompatible ou inactif : refus",
+      "Original manquant : signalement et traçabilité",
+      "Un fichier numérisé ne remplace pas automatiquement l’original"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/physical-archives/archives",
+      "GET /api/v1/physical-archives/locations"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P37",
+    "title": "Enrichir un document patrimonial",
+    "role": "Conservateur habilité",
+    "status": "existant",
+    "normal_case": "Description patrimoniale enrichie sans modifier le contenu original.",
+    "negative_cases": [
+      "Date incertaine : conserver la précision déclarée",
+      "Valeur patrimoniale ≠ accès public automatique"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "POST /api/v1/heritage/documents/{documentId}/texts",
+      "GET /api/v1/heritage/documents/{documentId}/subjects"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P38",
+    "title": "Conduire une restauration physique",
+    "role": "Conservateur et intervenant habilités",
+    "status": "existant",
+    "normal_case": "DIAGNOSTIC → A_VALIDER → EN_COURS → TERMINEE selon les transitions serveur.",
+    "negative_cases": [
+      "Pas d’approbation fictive sans habilitation",
+      "Échec ou intervention partielle à documenter",
+      "Photos et pièces probantes selon les objets disponibles"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/physical-archives/restorations"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P39",
+    "title": "Examiner la traçabilité",
+    "role": "Auditeur national habilité",
+    "status": "existant",
+    "normal_case": "Lecture auditée ; l’audit statique ne prouve pas une inaltérabilité certifiée.",
+    "negative_cases": [
+      "Accès AUDIT_READ national requis dans le code courant",
+      "Une erreur de lecture n’est pas un journal vide",
+      "Aucun effacement du journal depuis le frontend"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [
+      "GET /api/v1/audit/events",
+      "GET /api/v1/audit/objects/{objectType}/{objectId}/events"
+    ],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P40",
+    "title": "Disposer d’une corbeille de tâches et d’indicateurs",
+    "role": "Chaque métier dans son périmètre",
+    "status": "cible",
+    "normal_case": "Cible prioritaire : endpoints agrégés, filtrage serveur et compteur par périmètre à ajouter.",
+    "negative_cases": [
+      "Aucun total national calculé à partir d’une page",
+      "Endpoint global Mes tâches absent",
+      "Ne pas exposer les compteurs d’objets interdits"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P41",
+    "title": "Recevoir une notification exploitable",
+    "role": "Utilisateur concerné",
+    "status": "cible",
+    "normal_case": "Aucun bouton de notification avec compteur fictif dans le mode connecté.",
+    "negative_cases": [
+      "Une notification n’est pas une preuve de traitement",
+      "Email, centre de notifications et accusé de lecture non exposés dans les contrôleurs examinés"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  },
+  {
+    "id": "P42",
+    "title": "Reprendre après un incident sans doublon",
+    "role": "Tous les utilisateurs",
+    "status": "partiel",
+    "normal_case": "Le retour visuel ne doit jamais afficher une réussite inventée ; généraliser à tous les formulaires.",
+    "negative_cases": [
+      "401 : reconnexion",
+      "403/404 masqué : ne pas divulguer l’objet",
+      "409 : version ou état périmé",
+      "422 : corriger les champs",
+      "503/réseau : succès non confirmé"
+    ],
+    "integration_checks": [
+      "Deux institutions et deux périmètres distincts lorsque applicable.",
+      "Utilisateur sans permission puis utilisateur habilité ; vérifier le serveur.",
+      "État de départ périmé ou ressource modifiée par un autre acteur.",
+      "Erreur de validation et réseau interrompu après envoi ; pas de double écriture.",
+      "Navigation clavier et affichage mobile sans divulgation de données."
+    ],
+    "expected_server_calls": [],
+    "execution_in_this_session": "Conception et test d’affichage dans l’atlas uniquement ; API distante non exécutée."
+  }
+]

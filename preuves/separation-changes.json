@@ -1,0 +1,40 @@
+{
+  "originalFiles": 164,
+  "unchanged": 162,
+  "changed": [
+    "README.md",
+    ".github/workflows/frontend.yml"
+  ],
+  "removed": [],
+  "added": [
+    "release-separation.json",
+    "preuves/separation-tests.json",
+    "preuves/separation-frontend-environment.log",
+    "docs/README-AVANT-SEPARATION.md",
+    "docs/SEPARATION.md",
+    "docs/CONTRATS-FRONTEND-V13.md",
+    "outils/check_package.py",
+    "modeles/modele-institutions.xlsx",
+    "modeles/modele-documents.xlsx",
+    "modeles/modele-dossiers.csv",
+    "modeles/modele-departments.csv",
+    "modeles/modele-departments.xlsx",
+    "modeles/modele-documents.csv",
+    "modeles/modele-dossiers.xlsx",
+    "modeles/modele-institutions.csv",
+    "docs/api-v13/parcours-v13.http",
+    "docs/api-v13/ROUTES.md",
+    "docs/api-v13/routes.json",
+    "docs/acquisition/05-API-ET-RECETTE.md",
+    "docs/acquisition/04-EXTRACTION.md",
+    "docs/acquisition/02-IMPORTS.md",
+    "docs/acquisition/03-SCANNER.md",
+    "docs/acquisition/06-CHANGEMENTS-ET-LIMITES.md",
+    "docs/acquisition/01-DEMARRAGE.md"
+  ],
+  "commonComponentsAdded": [
+    "modeles et documentation",
+    "outil de contrôle"
+  ],
+  "notes": "Comparaison aux chemins relatifs du composant original ; source applicative inchangée. Manifestes et fichiers de preuves de séparation sont ajoutés après cette comparaison."
+}

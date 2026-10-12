@@ -1,0 +1,1087 @@
+export interface Journey { id:string; group:string; title:string; role:string; route:string; steps:string[]; exceptions:string[]; support:"existant"|"partiel"|"cible"; api:string[]; source:string; result:string }
+export const journeys: Journey[] = [
+  {
+    "id": "P01",
+    "group": "Identité",
+    "title": "Se connecter et retrouver son périmètre",
+    "role": "Tous les utilisateurs",
+    "route": "profile",
+    "steps": [
+      "Ouvrir la connexion",
+      "S’authentifier via le fournisseur configuré",
+      "Résoudre le compte avec /iam/me",
+      "Ouvrir le périmètre autorisé"
+    ],
+    "exceptions": [
+      "Compte non provisionné : rester sur une erreur explicite",
+      "Session expirée : annuler les requêtes et revenir à la connexion",
+      "Aucun fournisseur configuré : connexion indisponible"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/iam/me"
+    ],
+    "source": "auth/session.tsx · IdentityController.kt",
+    "result": "Session nominative et droits reçus du serveur ; pas de rôle déduit du poste."
+  },
+  {
+    "id": "P02",
+    "group": "Identité",
+    "title": "Enregistrer une institution",
+    "role": "Administrateur habilité",
+    "route": "institutions",
+    "steps": [
+      "Rechercher une institution existante",
+      "Créer la fiche",
+      "Renseigner code interne, nom et type",
+      "Confirmer et ouvrir la fiche"
+    ],
+    "exceptions": [
+      "Code en doublon : corriger",
+      "Conflit de version : relire",
+      "Permission refusée : aucune création"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/iam/institutions",
+      "POST /api/v1/iam/institutions"
+    ],
+    "source": "pages/Catalog.tsx · IdentityController.kt",
+    "result": "Institution créée ; le code applicatif n’est pas un numéro légal de création."
+  },
+  {
+    "id": "P03",
+    "group": "Identité",
+    "title": "Structurer les départements",
+    "role": "Administrateur habilité",
+    "route": "departments",
+    "steps": [
+      "Choisir l’institution",
+      "Choisir une unité parente admissible",
+      "Renseigner le département",
+      "Enregistrer puis consulter l’impact"
+    ],
+    "exceptions": [
+      "Parent incompatible ou cycle : refuser",
+      "Réorganisation : examiner les comptes et droits dépendants"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/iam/departments",
+      "GET /api/v1/iam/departments/{id}/impact"
+    ],
+    "source": "pages/EntityForm.tsx · IdentityGovernanceController.kt",
+    "result": "Structure organisationnelle rattachée ; ne pas réécrire la provenance historique."
+  },
+  {
+    "id": "P04",
+    "group": "Identité",
+    "title": "Provisionner un utilisateur SSO",
+    "role": "Administrateur habilité",
+    "route": "users",
+    "steps": [
+      "Vérifier l’identité dans le fournisseur",
+      "Renseigner le sujet SSO et le profil",
+      "Choisir institution et département",
+      "Créer le compte applicatif"
+    ],
+    "exceptions": [
+      "Le fournisseur SSO ne crée pas automatiquement le compte métier",
+      "Pas d’invitation par email inventée"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/iam/users",
+      "GET /api/v1/iam/users/{id}"
+    ],
+    "source": "pages/EntityForm.tsx · IdentityController.kt",
+    "result": "Compte rattaché à une identité existante ; automatisation d’invitation hors contrat observé."
+  },
+  {
+    "id": "P05",
+    "group": "Identité",
+    "title": "Attribuer ou révoquer des habilitations",
+    "role": "Administrateur habilité",
+    "route": "roles",
+    "steps": [
+      "Sélectionner le rôle",
+      "Examiner les permissions",
+      "Choisir bénéficiaire, portée et période",
+      "Attribuer ou révoquer",
+      "Relire la synthèse d’accès"
+    ],
+    "exceptions": [
+      "Périmètre trop large : refus",
+      "Délégation expirée : ne pas proposer de commande",
+      "Impossible de s’octroyer des droits implicitement"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/iam/role-assignments",
+      "POST /api/v1/iam/role-assignments/{id}/revoke",
+      "GET /api/v1/iam/users/{id}/access-summary"
+    ],
+    "source": "pages/Actions.tsx · IdentityController.kt",
+    "result": "Habilitation explicite ; écrans dédiés de création des délégations et changement de portée à compléter."
+  },
+  {
+    "id": "P06",
+    "group": "Identité",
+    "title": "Approuver un changement sensible de permissions",
+    "role": "Deux administrateurs indépendants",
+    "route": "governance",
+    "steps": [
+      "Examiner l’impact du rôle",
+      "Proposer la différence de permissions",
+      "Faire examiner par un autre approbateur",
+      "Appliquer, rejeter ou annuler",
+      "Relire le journal"
+    ],
+    "exceptions": [
+      "Auto-approbation : refus",
+      "Version dépassée : relire l’impact",
+      "Réponse incertaine : même intention, jamais une nouvelle écriture aveugle"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/iam/roles/{id}/permission-changes",
+      "POST /api/v1/iam/permission-changes/{id}/approve",
+      "POST /api/v1/iam/permission-changes/{id}/reject"
+    ],
+    "source": "pages/Governance.tsx · IdentityGovernanceController.kt",
+    "result": "Changement appliqué après contrôle indépendant, ou demande clôturée sans effet."
+  },
+  {
+    "id": "P07",
+    "group": "Identité",
+    "title": "Gérer un départ et fermer les accès",
+    "role": "Administrateur habilité",
+    "route": "users",
+    "steps": [
+      "Ouvrir le compte",
+      "Vérifier attributions et délégations",
+      "Révoquer les accès concernés",
+      "Suspendre le compte et révoquer les anciens jetons",
+      "Contrôler la synthèse"
+    ],
+    "exceptions": [
+      "La déconnexion du navigateur seule ne révoque pas les droits",
+      "Conserver les traces de responsabilité des anciennes actions"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/iam/users/{id}/status",
+      "POST /api/v1/iam/users/{id}/revoke-tokens"
+    ],
+    "source": "pages/Actions.tsx · IdentityController.kt",
+    "result": "Accès retirés sans effacer l’identité des événements historiques."
+  },
+  {
+    "id": "P08",
+    "group": "Versements",
+    "title": "Créer une entrée archivistique",
+    "role": "Gestionnaire national habilité",
+    "route": "versements",
+    "steps": [
+      "Choisir le mode d’entrée",
+      "Renseigner numéro et date réelle",
+      "Renseigner provenance et responsable disponibles",
+      "Créer l’entrée ouverte"
+    ],
+    "exceptions": [
+      "Date future interdite",
+      "Numéro déjà utilisé : corriger",
+      "Nouvelle tentative identique : conserver la clé d’intention"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/archival-intake/entries"
+    ],
+    "source": "pages/ArchivalIntake.tsx · ArchivalIntakeService.kt",
+    "result": "Entrée OUVERTE. Le numéro est saisi, pas généré par le backend fourni."
+  },
+  {
+    "id": "P09",
+    "group": "Versements",
+    "title": "Rattacher le contenu d’une entrée",
+    "role": "Gestionnaire national habilité",
+    "route": "versements",
+    "steps": [
+      "Ouvrir une entrée",
+      "Sélectionner un document, dossier ou original physique existant",
+      "Confirmer le rattachement",
+      "Vérifier l’état renvoyé"
+    ],
+    "exceptions": [
+      "Objet inexistant : pas de rattachement",
+      "Inventaire du contenu lié non fourni par ces GET",
+      "Ne pas afficher un total de pièces non renvoyé"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/archival-intake/entries/{id}/documents/{documentId}",
+      "POST /api/v1/archival-intake/entries/{id}/dossiers/{dossierId}",
+      "POST /api/v1/archival-intake/entries/{id}/physical-archives/{archiveId}"
+    ],
+    "source": "pages/ArchivalIntake.tsx · ArchivalIntakeController.kt",
+    "result": "Liens enregistrés ; inventaire paginé et contrôles de lot restent à ajouter côté backend."
+  },
+  {
+    "id": "P10",
+    "group": "Versements",
+    "title": "Clôturer le registre d’entrée",
+    "role": "Gestionnaire national habilité",
+    "route": "versements",
+    "steps": [
+      "Ouvrir l’entrée",
+      "Vérifier les informations",
+      "Lire l’avertissement de clôture",
+      "Confirmer",
+      "Relire le statut serveur"
+    ],
+    "exceptions": [
+      "Entrée déjà clôturée : conflit",
+      "Échec réseau : relire avant de recommencer",
+      "Clôture distincte de validation, scellement et conservation"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/archival-intake/entries/{id}/close"
+    ],
+    "source": "pages/ArchivalIntake.tsx · ArchivalIntakeService.kt",
+    "result": "État CLOTUREE, pas une preuve autonome d’admission probante."
+  },
+  {
+    "id": "P11",
+    "group": "Versements",
+    "title": "Admettre un versement complet avec bordereau",
+    "role": "Service producteur puis archiviste",
+    "route": "versements",
+    "steps": [
+      "Préparer un lot",
+      "Contrôler l’inventaire et les fichiers",
+      "Soumettre",
+      "Accepter, refuser ou demander correction",
+      "Confirmer l’intégration",
+      "Produire le reçu lié à l’inventaire"
+    ],
+    "exceptions": [
+      "Lot partiellement admis : politique à décider",
+      "Stockage échoué : ne pas annoncer intégré",
+      "Aucune transition inventée dans le mode connecté"
+    ],
+    "support": "cible",
+    "api": [],
+    "source": "ArchivalIntakeController.kt · WorkflowController.kt",
+    "result": "Parcours cible. Lien entrée/workflow existant, mais admission du lot et bordereau non exposés dans cette archive."
+  },
+  {
+    "id": "P12",
+    "group": "Archives",
+    "title": "Créer une notice et préparer ses fichiers",
+    "role": "Agent documentaire habilité",
+    "route": "documents",
+    "steps": [
+      "Créer la notice avec institution, type et référence",
+      "Lire les versions existantes",
+      "Sélectionner la version non scellée",
+      "Déposer le fichier",
+      "Suivre le reçu d’ingestion"
+    ],
+    "exceptions": [
+      "Ne pas créer une version supplémentaire pour contourner une réponse incomplète",
+      "Référence existante : relire",
+      "Dépôt interrompu : suivre le reçu"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/documents",
+      "GET /api/v1/documents/{id}/versions",
+      "POST /api/v1/versions/{versionId}/content"
+    ],
+    "source": "pages/RecordForm.tsx · pages/Records.tsx · RecordCoreController.kt",
+    "result": "Notice de travail, distincte d’une archive définitive."
+  },
+  {
+    "id": "P13",
+    "group": "Archives",
+    "title": "Suivre un dépôt et traiter la quarantaine",
+    "role": "Agent documentaire habilité",
+    "route": "documents",
+    "steps": [
+      "Sélectionner le fichier et son usage",
+      "Envoyer le contenu",
+      "Lire PROCESSING, RETRYABLE, REJECTED ou COMPLETED",
+      "Examiner analyse et état du fichier",
+      "Faire valider lorsque requis"
+    ],
+    "exceptions": [
+      "COMPLETED ne signifie pas admission définitive",
+      "REJECTED : ne pas relancer le même fichier sans correction",
+      "Annulation backend présente ; commande UI à compléter"
+    ],
+    "support": "partiel",
+    "api": [
+      "GET /api/v1/ingestions/{id}",
+      "GET /api/v1/versions/{versionId}/ingestions",
+      "POST /api/v1/ingestions/{id}/cancel"
+    ],
+    "source": "core/ingestion.ts · ContentStorageController.kt",
+    "result": "Le reçu technique, l’antivirus et la validation archivistique restent des états distincts."
+  },
+  {
+    "id": "P14",
+    "group": "Archives",
+    "title": "Valider le maître et sceller une version",
+    "role": "Archiviste habilité",
+    "route": "documents",
+    "steps": [
+      "Lire les fichiers et leur contrôle",
+      "Valider le fichier maître admissible",
+      "Examiner la version",
+      "Déclencher le scellement",
+      "Vérifier le hash et l’état",
+      "Horodater si le service est configuré"
+    ],
+    "exceptions": [
+      "Fichier infecté ou maître absent : refus",
+      "Version scellée : pas de remplacement",
+      "Horodatage qualifié : disponibilité à confirmer en recette"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/files/{fileId}/validate-master",
+      "POST /api/v1/versions/{versionId}/seal",
+      "POST /api/v1/versions/{versionId}/timestamp"
+    ],
+    "source": "pages/Records.tsx · FileIngestionService.kt · PreservationController.kt",
+    "result": "Scellement technique et reçu d’horodatage éventuel ; aucune homologation juridique revendiquée."
+  },
+  {
+    "id": "P15",
+    "group": "Archives",
+    "title": "Créer et clore un dossier",
+    "role": "Agent ou archiviste habilité",
+    "route": "dossiers",
+    "steps": [
+      "Créer un dossier contextualisé",
+      "Rattacher les notices à la création",
+      "Consulter sa fiche",
+      "Clore le dossier autorisé"
+    ],
+    "exceptions": [
+      "Vue exhaustive des documents du dossier à compléter par contrat dédié",
+      "Clôture du dossier distincte de la conservation définitive des pièces"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/dossiers",
+      "GET /api/v1/dossiers/{id}",
+      "POST /api/v1/dossiers/{id}/close"
+    ],
+    "source": "pages/Records.tsx · RecordCoreController.kt",
+    "result": "Dossier décrit ; ne pas fabriquer une liste complète à partir d’une seule page documentaire."
+  },
+  {
+    "id": "P16",
+    "group": "Archives",
+    "title": "Décrire un fonds et ses producteurs",
+    "role": "Archiviste habilité",
+    "route": "fonds",
+    "steps": [
+      "Choisir l’institution",
+      "Créer une autorité ou un producteur",
+      "Décrire les niveaux fonds, série, dossier ou pièce",
+      "Relier les notices",
+      "Exporter les formats disponibles"
+    ],
+    "exceptions": [
+      "Parent invalide ou cycle : refus",
+      "Version en conflit : relire",
+      "Exports EAD/EAC à valider avec les outils d’échange destinataires"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/archives/descriptions",
+      "POST /api/v1/archives/authorities",
+      "POST /api/v1/archives/descriptions",
+      "GET /api/v1/archives/descriptions/{id}/ead"
+    ],
+    "source": "pages/ArchivalDescription.tsx · ArchiveController.kt",
+    "result": "Description hiérarchique et provenance conservées, sans les confondre avec l’organigramme courant."
+  },
+  {
+    "id": "P17",
+    "group": "Archives",
+    "title": "Importer des descriptions en CSV",
+    "role": "Archiviste habilité",
+    "route": "fonds",
+    "steps": [
+      "Obtenir le modèle",
+      "Préparer les lignes",
+      "Prévisualiser et contrôler les anomalies",
+      "Confirmer avec le hash de prévisualisation",
+      "Relire le résultat"
+    ],
+    "exceptions": [
+      "Prévisualisation périmée : recommencer",
+      "Ligne invalide : corriger avant import",
+      "Échappement CSV nécessaire à l’export"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/archives/template/{kind}",
+      "POST /api/v1/archives/imports/preview",
+      "POST /api/v1/archives/imports"
+    ],
+    "source": "pages/ArchivalDescription.tsx · ArchiveController.kt",
+    "result": "Import contrôlé ; pas d’écriture à partir d’un fichier non prévisualisé."
+  },
+  {
+    "id": "P18",
+    "group": "Archives",
+    "title": "Administrer le plan de classement",
+    "role": "Archiviste habilité",
+    "route": "classement",
+    "steps": [
+      "Choisir la portée",
+      "Créer un nœud et son parent",
+      "Activer la rubrique",
+      "Reclasser un document autorisé",
+      "Vérifier le rattachement"
+    ],
+    "exceptions": [
+      "Code en doublon : refus",
+      "Rubrique inactive : ne pas proposer",
+      "Déplacement des branches et versionnement complet à étendre"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/classification/nodes",
+      "POST /api/v1/classification/nodes/{id}/activate",
+      "PUT /api/v1/documents/{id}/classification"
+    ],
+    "source": "pages/Classification.tsx · ClassificationController.kt",
+    "result": "Classement actif et rattachement documentaire ; provenance inchangée."
+  },
+  {
+    "id": "P19",
+    "group": "Archives",
+    "title": "Définir puis renseigner les métadonnées",
+    "role": "Archiviste puis agent habilité",
+    "route": "metadonnees",
+    "steps": [
+      "Créer un schéma et ses champs",
+      "Lier les types documentaires",
+      "Activer le schéma",
+      "Ouvrir les champs applicables au document",
+      "Valider et enregistrer les valeurs"
+    ],
+    "exceptions": [
+      "Type, champ requis ou enum invalide : erreur au champ",
+      "Remplacement complet : préserver les valeurs non modifiées",
+      "Changement d’un schéma actif à cadrer"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/admin/metadata-schemas",
+      "GET /api/v1/documents/{documentId}/metadata/schema",
+      "PUT /api/v1/documents/{documentId}/metadata"
+    ],
+    "source": "pages/Metadata.tsx · MetadataController.kt",
+    "result": "Des formulaires métier typés, sans exposer le JSON aux utilisateurs ordinaires."
+  },
+  {
+    "id": "P20",
+    "group": "Archives",
+    "title": "Retrouver une archive autorisée",
+    "role": "Utilisateur habilité",
+    "route": "recherche",
+    "steps": [
+      "Saisir des mots-clés",
+      "Choisir document, dossier ou tous",
+      "Parcourir les résultats autorisés",
+      "Ouvrir la fiche",
+      "Affiner la recherche"
+    ],
+    "exceptions": [
+      "Aucun résultat ne prouve pas l’absence de document",
+      "Index indisponible : afficher une erreur, pas zéro résultat",
+      "Filtres date et institution absents du contrat de recherche fourni"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/search?q=…&type=…&page=…&size=…"
+    ],
+    "source": "pages/Search.tsx · SearchController.kt",
+    "result": "Résultats filtrés par le serveur ; aucune fuite de titre ou d’extrait non autorisé."
+  },
+  {
+    "id": "P21",
+    "group": "Archives",
+    "title": "Consulter ou télécharger un fichier",
+    "role": "Lecteur habilité",
+    "route": "documents",
+    "steps": [
+      "Ouvrir la notice",
+      "Choisir une version et un fichier lisible",
+      "Vérifier l’accès serveur",
+      "Prévisualiser",
+      "Télécharger seulement selon le contrat actuel"
+    ],
+    "exceptions": [
+      "Accès refusé : fermer l’aperçu",
+      "Session changée : révoquer l’URL locale",
+      "Fichier altéré, trop volumineux ou non pris en charge : état explicite"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/files/{fileId}/content"
+    ],
+    "source": "ui/FileContentDialog.tsx · ContentStorageController.kt",
+    "result": "Le contrat actuel sert le même contenu à la lecture et au téléchargement ; séparation de droits à développer."
+  },
+  {
+    "id": "P22",
+    "group": "Traitements",
+    "title": "Configurer un circuit de validation",
+    "role": "Administrateur fonctionnel habilité",
+    "route": "circuits-validation",
+    "steps": [
+      "Créer une définition",
+      "Définir étapes et rôles",
+      "Définir les transitions",
+      "Associer les types documentaires",
+      "Valider et activer le graphe"
+    ],
+    "exceptions": [
+      "Étape initiale/finale incohérente : refus",
+      "Graphe invalide : corriger",
+      "Aucun code de transition inventé par le frontend"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/admin/workflow-definitions",
+      "POST /api/v1/admin/workflow-definitions/{definitionId}/steps",
+      "POST /api/v1/admin/workflow-definitions/{definitionId}/transitions"
+    ],
+    "source": "pages/Workflow.tsx · WorkflowController.kt",
+    "result": "Un circuit paramétré, pas une séquence figée commune à tous les documents."
+  },
+  {
+    "id": "P23",
+    "group": "Traitements",
+    "title": "Prendre en charge et terminer une validation",
+    "role": "Validateur habilité",
+    "route": "documents",
+    "steps": [
+      "Ouvrir le circuit du document",
+      "Prendre une tâche ouverte",
+      "Examiner les pièces",
+      "Choisir une transition autorisée",
+      "Terminer la tâche",
+      "Relire le prochain état"
+    ],
+    "exceptions": [
+      "Tâche déjà prise : conflit",
+      "Mauvais responsable : refus",
+      "Échec d’écriture : état inconnu à relire",
+      "API des transitions disponibles par acteur à ajouter"
+    ],
+    "support": "partiel",
+    "api": [
+      "GET /api/v1/documents/{documentId}/workflow",
+      "POST /api/v1/workflow-tasks/{taskId}/claim",
+      "POST /api/v1/workflow-tasks/{taskId}/complete"
+    ],
+    "source": "pages/Workflow.tsx · WorkflowRuntimeService.kt",
+    "result": "Instance EN_COURS puis TERMINE ; terminer le circuit n’est pas automatiquement admettre un lot."
+  },
+  {
+    "id": "P24",
+    "group": "Traitements",
+    "title": "Demander une correction et reprendre le circuit",
+    "role": "Validateur et agent documentaliste",
+    "route": "documents",
+    "steps": [
+      "Examiner la tâche",
+      "Choisir la transition de correction configurée",
+      "Motiver le retour",
+      "Corriger l’objet autorisé",
+      "Reprendre selon le graphe"
+    ],
+    "exceptions": [
+      "Retour impossible sans transition configurée",
+      "Une version scellée ne se modifie pas",
+      "Suspension et annulation sont des décisions distinctes"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/workflow-tasks/{taskId}/complete",
+      "POST /api/v1/workflows/{instanceId}/cancel"
+    ],
+    "source": "pages/Workflow.tsx · WorkflowRuntimeService.kt",
+    "result": "Branche dépendante de la définition active ; libellé métier à fournir avec les transitions serveur."
+  },
+  {
+    "id": "P25",
+    "group": "Traitements",
+    "title": "Suivre un projet de numérisation",
+    "role": "Opérateur habilité",
+    "route": "numerisation",
+    "steps": [
+      "Créer le projet",
+      "Référencer les originaux et les éléments",
+      "Numériser avec l’équipement externe",
+      "Déposer puis lier les fichiers",
+      "Contrôler et terminer le projet"
+    ],
+    "exceptions": [
+      "Aucun pilotage TWAIN/WIA exposé",
+      "Un projet peut être annulé",
+      "Élément incomplet : ne pas afficher terminé"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/digitization/projects",
+      "POST /api/v1/digitization/elements",
+      "POST /api/v1/digitization/elements/{id}/files/{fichierId}"
+    ],
+    "source": "pages/Digitization.tsx · DigitizationController.kt",
+    "result": "Suivi et rattachement disponibles ; capture scanner à intégrer séparément."
+  },
+  {
+    "id": "P26",
+    "group": "Traitements",
+    "title": "Enregistrer puis valider un résultat OCR",
+    "role": "Opérateur puis contrôleur habilité",
+    "route": "ocr",
+    "steps": [
+      "Sélectionner un fichier admissible",
+      "Importer le texte produit par un moteur externe",
+      "Renseigner langue, moteur et confiance",
+      "Vérifier les résultats",
+      "Valider le texte"
+    ],
+    "exceptions": [
+      "Résultat enregistré ≠ moteur OCR exécuté",
+      "Confiance 0–1 descriptive, pas garantie d’exactitude",
+      "Conservation de l’original obligatoire dans le design"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/digitization/ocr-results",
+      "POST /api/v1/digitization/ocr-results/{id}/validate"
+    ],
+    "source": "pages/Digitization.tsx · DigitizationController.kt",
+    "result": "NON_VALIDE puis VALIDE ; pas de bouton « Lancer l’OCR » sans service d’exécution."
+  },
+  {
+    "id": "P27",
+    "group": "Traitements",
+    "title": "Consigner un contrôle qualité",
+    "role": "Contrôleur habilité",
+    "route": "controle",
+    "steps": [
+      "Ouvrir l’élément et les fichiers",
+      "Examiner lisibilité et complétude",
+      "Renseigner la fiche de contrôle",
+      "Consigner la décision",
+      "Corriger et contrôler à nouveau si nécessaire"
+    ],
+    "exceptions": [
+      "Un contrôle déclaré ne prouve pas une analyse automatique",
+      "Pas de statut automatique À corriger si aucun objet backend correspondant"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/digitization/quality-controls",
+      "POST /api/v1/digitization/elements/{id}/quality-controls"
+    ],
+    "source": "pages/Digitization.tsx · DigitizationController.kt",
+    "result": "Constat tracé ; formulaires visuels à préférer au JSON de défauts."
+  },
+  {
+    "id": "P28",
+    "group": "Accès",
+    "title": "Demander et instruire une consultation",
+    "role": "Demandeur puis instructeur habilités",
+    "route": "consultations",
+    "steps": [
+      "Créer une demande sur une référence connue et admissible",
+      "Consulter ses demandes",
+      "Faire prendre en charge",
+      "Autoriser ou refuser avec motif",
+      "Présenter la décision"
+    ],
+    "exceptions": [
+      "Une autorisation de demande n’accorde pas implicitement un droit de téléchargement",
+      "Aucun catalogue d’objets secrets n’est exposé pour demander l’accès"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/consultations/requests",
+      "GET /api/v1/consultations/requests?mine=true",
+      "POST /api/v1/consultations/requests/{id}/claim",
+      "POST /api/v1/consultations/requests/{id}/authorize"
+    ],
+    "source": "pages/Consultations.tsx · ConsultationController.kt",
+    "result": "DEPOSEE → EN_INSTRUCTION → AUTORISEE ou REFUSEE, deux fins alternatives."
+  },
+  {
+    "id": "P29",
+    "group": "Accès",
+    "title": "Communiquer une pièce et enregistrer son retour",
+    "role": "Gestionnaire des communications",
+    "route": "communications",
+    "steps": [
+      "Sélectionner le bénéficiaire et l’objet",
+      "Référencer la demande si nécessaire",
+      "Enregistrer la communication",
+      "Constater la remise",
+      "Constater la restitution"
+    ],
+    "exceptions": [
+      "Demande autorisée distincte de pièce remise",
+      "Communication physique et téléchargement ne sont pas interchangeables"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/communications",
+      "POST /api/v1/communications/{id}/deliver",
+      "POST /api/v1/communications/{id}/return"
+    ],
+    "source": "pages/Consultations.tsx · ConsultationController.kt",
+    "result": "DEMANDEE → REMISE → RESTITUEE ; contrôles serveur conservés."
+  },
+  {
+    "id": "P30",
+    "group": "Accès",
+    "title": "Gérer les sources et restrictions d’accès",
+    "role": "Archiviste ou responsable habilité",
+    "route": "droits",
+    "steps": [
+      "Créer la référence juridique vérifiée",
+      "Rattacher le statut au document",
+      "Ouvrir la restriction",
+      "Examiner ses conditions",
+      "Lever avec justification"
+    ],
+    "exceptions": [
+      "Une restriction de lecture n’est pas un gel de conservation",
+      "Aucun délai juridique national inventé par le frontend"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/rights/sources",
+      "POST /api/v1/rights/documents/{documentId}/restrictions",
+      "POST /api/v1/rights/restrictions/{id}/release"
+    ],
+    "source": "pages/Rights.tsx · RightsController.kt",
+    "result": "Restriction documentée et tracée ; sources à valider par les responsables compétents."
+  },
+  {
+    "id": "P31",
+    "group": "Accès",
+    "title": "Publier un dérivé autorisé et le retirer",
+    "role": "Responsable de publication habilité",
+    "route": "documents",
+    "steps": [
+      "Vérifier droits et version",
+      "Choisir le fichier de diffusion",
+      "Choisir canal et licence",
+      "Publier",
+      "Retirer si nécessaire"
+    ],
+    "exceptions": [
+      "Le maître de conservation ne se publie pas comme un dérivé",
+      "Publication métier ≠ portail public anonyme",
+      "Revalidation des restrictions au serveur"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/publication/documents/{documentId}/publications",
+      "POST /api/v1/publication/publications/{id}/withdraw"
+    ],
+    "source": "pages/Records.tsx · PublicationController.kt · SecurityConfig.kt",
+    "result": "Publication PUBLIEE ou RETIREE ; portail public séparé absent du périmètre livré."
+  },
+  {
+    "id": "P32",
+    "group": "Conservation",
+    "title": "Appliquer une règle de conservation",
+    "role": "Archiviste habilité",
+    "route": "sort-final",
+    "steps": [
+      "Définir et activer la règle applicable",
+      "Clore le document selon ses prérequis",
+      "Planifier l’échéance",
+      "Examiner l’événement calculé",
+      "Suivre l’arrivée à échéance"
+    ],
+    "exceptions": [
+      "Règle absente ou ambiguë : blocage explicite",
+      "Date de base absente : ne pas inventer une échéance",
+      "Gel actif : suspendre le traitement concerné"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/retention/documents/{documentId}/schedule",
+      "GET /api/v1/retention/events"
+    ],
+    "source": "pages/RetentionNational.tsx · RetentionController.kt",
+    "result": "Date et règle calculées côté serveur, pas une durée arbitraire dans la fiche."
+  },
+  {
+    "id": "P33",
+    "group": "Conservation",
+    "title": "Décider le sort final sans fausse destruction",
+    "role": "Proposant, validateur et exécutant distincts",
+    "route": "eliminations",
+    "steps": [
+      "Ouvrir l’échéance",
+      "Proposer une disposition",
+      "Faire valider indépendamment",
+      "Lire les blocages readiness",
+      "Exécuter la conservation définitive ou le réexamen supporté"
+    ],
+    "exceptions": [
+      "ELIMINER : DESTRUCTION_STORAGE_NOT_CONFIGURED",
+      "TRANSFERER : bordereau de versement obligatoire (TRANSFER_REQUIRED), exécution refusée sans réception (TRANSFER_NOT_ACCEPTED)",
+      "Gel ou acteur non indépendant : refus"
+    ],
+    "support": "partiel",
+    "api": [
+      "POST /api/v1/retention/events/{id}/dispositions",
+      "POST /api/v1/retention/dispositions/{id}/validate",
+      "GET /api/v1/retention/dispositions/{id}/readiness",
+      "POST /api/v1/retention/dispositions/{id}/execute"
+    ],
+    "source": "DispositionService.kt · RetentionPolicy.kt",
+    "result": "La destruction physique et le transfert final sont volontairement bloqués par le backend actuel."
+  },
+  {
+    "id": "P34",
+    "group": "Conservation",
+    "title": "Ouvrir puis lever un gel",
+    "role": "Responsable habilité",
+    "route": "gel-legal",
+    "steps": [
+      "Identifier document ou dossier",
+      "Renseigner référence et motif",
+      "Ouvrir le gel",
+      "Vérifier l’impact sur les échéances",
+      "Lever avec référence de décision"
+    ],
+    "exceptions": [
+      "Le gel bloque le devenir mais n’est pas une restriction de consultation",
+      "Levée ≠ suppression ni exécution automatique"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/retention/legal-holds",
+      "POST /api/v1/retention/legal-holds/{id}/release"
+    ],
+    "source": "LegalHoldService.kt · pages/Records.tsx",
+    "result": "ACTIF → LEVE ; décisions de conservation réexaminées ensuite selon le serveur."
+  },
+  {
+    "id": "P35",
+    "group": "Conservation",
+    "title": "Surveiller intégrité et sauvegardes",
+    "role": "Responsable de préservation habilité",
+    "route": "conservation",
+    "steps": [
+      "Lire l’état du service",
+      "Filtrer les anomalies",
+      "Ouvrir le fichier concerné",
+      "Vérifier l’intégrité ou consigner l’intervention",
+      "Consulter les sauvegardes"
+    ],
+    "exceptions": [
+      "Planificateur désactivé : l’indiquer, pas un faux statut vert",
+      "Anomalie d’intégrité : bloquer l’usage concerné",
+      "Restauration de sauvegarde : pas de commande UI inventée"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/preservation/monitor",
+      "GET /api/v1/preservation/backups",
+      "POST /api/v1/files/{fileId}/verify-integrity"
+    ],
+    "source": "ui/PreservationMonitoring.tsx · PreservationMonitorController.kt",
+    "result": "État réellement renvoyé par le serveur ; disponibilité d’exploitation non prouvée par l’audit statique."
+  },
+  {
+    "id": "P36",
+    "group": "Patrimoine",
+    "title": "Localiser et déplacer une archive physique",
+    "role": "Magasinier ou archiviste habilité",
+    "route": "archives-physiques",
+    "steps": [
+      "Définir les lieux et unités de rangement",
+      "Enregistrer l’archive physique",
+      "Consigner une sortie ou un mouvement",
+      "Suivre l’échéance de retour",
+      "Enregistrer la restitution"
+    ],
+    "exceptions": [
+      "Emplacement incompatible ou inactif : refus",
+      "Original manquant : signalement et traçabilité",
+      "Un fichier numérisé ne remplace pas automatiquement l’original"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/physical-archives/archives",
+      "GET /api/v1/physical-archives/locations"
+    ],
+    "source": "pages/PhysicalArchives.tsx · PhysicalArchivesController.kt",
+    "result": "Localisation et mouvements gérés avec leurs objets dédiés."
+  },
+  {
+    "id": "P37",
+    "group": "Patrimoine",
+    "title": "Enrichir un document patrimonial",
+    "role": "Conservateur habilité",
+    "route": "patrimoine",
+    "steps": [
+      "Ouvrir une notice",
+      "Relier lieux, événements et sujets",
+      "Renseigner les textes contextuels",
+      "Vérifier les attributions et sources",
+      "Consulter le contexte"
+    ],
+    "exceptions": [
+      "Date incertaine : conserver la précision déclarée",
+      "Valeur patrimoniale ≠ accès public automatique"
+    ],
+    "support": "existant",
+    "api": [
+      "POST /api/v1/heritage/documents/{documentId}/texts",
+      "GET /api/v1/heritage/documents/{documentId}/subjects"
+    ],
+    "source": "pages/Heritage.tsx · HeritageController.kt",
+    "result": "Description patrimoniale enrichie sans modifier le contenu original."
+  },
+  {
+    "id": "P38",
+    "group": "Patrimoine",
+    "title": "Conduire une restauration physique",
+    "role": "Conservateur et intervenant habilités",
+    "route": "restauration",
+    "steps": [
+      "Créer le diagnostic",
+      "Soumettre la demande",
+      "Autoriser et démarrer l’intervention",
+      "Consigner les actes et le résultat",
+      "Terminer et restituer à la conservation"
+    ],
+    "exceptions": [
+      "Pas d’approbation fictive sans habilitation",
+      "Échec ou intervention partielle à documenter",
+      "Photos et pièces probantes selon les objets disponibles"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/physical-archives/restorations"
+    ],
+    "source": "pages/PhysicalArchives.tsx · PhysicalArchivesController.kt",
+    "result": "DIAGNOSTIC → A_VALIDER → EN_COURS → TERMINEE selon les transitions serveur."
+  },
+  {
+    "id": "P39",
+    "group": "Pilotage",
+    "title": "Examiner la traçabilité",
+    "role": "Auditeur national habilité",
+    "route": "audit",
+    "steps": [
+      "Choisir catégorie ou objet",
+      "Parcourir les événements paginés",
+      "Ouvrir le détail",
+      "Examiner acteur, date, avant et après",
+      "Relier à l’opération métier"
+    ],
+    "exceptions": [
+      "Accès AUDIT_READ national requis dans le code courant",
+      "Une erreur de lecture n’est pas un journal vide",
+      "Aucun effacement du journal depuis le frontend"
+    ],
+    "support": "existant",
+    "api": [
+      "GET /api/v1/audit/events",
+      "GET /api/v1/audit/objects/{objectType}/{objectId}/events"
+    ],
+    "source": "pages/Audit.tsx · AuditController.kt",
+    "result": "Lecture auditée ; l’audit statique ne prouve pas une inaltérabilité certifiée."
+  },
+  {
+    "id": "P40",
+    "group": "Pilotage",
+    "title": "Disposer d’une corbeille de tâches et d’indicateurs",
+    "role": "Chaque métier dans son périmètre",
+    "route": "parcours",
+    "steps": [
+      "Choisir une vue Mes tâches",
+      "Voir uniquement les tâches autorisées",
+      "Filtrer retards et actions",
+      "Ouvrir l’objet source",
+      "Actualiser les indicateurs agrégés"
+    ],
+    "exceptions": [
+      "Aucun total national calculé à partir d’une page",
+      "Endpoint global Mes tâches absent",
+      "Ne pas exposer les compteurs d’objets interdits"
+    ],
+    "support": "cible",
+    "api": [],
+    "source": "WorkflowController.kt · pages/Dashboard.tsx",
+    "result": "Cible prioritaire : endpoints agrégés, filtrage serveur et compteur par périmètre à ajouter."
+  },
+  {
+    "id": "P41",
+    "group": "Pilotage",
+    "title": "Recevoir une notification exploitable",
+    "role": "Utilisateur concerné",
+    "route": "parcours",
+    "steps": [
+      "Recevoir une alerte serveur",
+      "Lire la cause et l’échéance",
+      "Ouvrir la ressource autorisée",
+      "Traiter l’action",
+      "Relire le nouvel état"
+    ],
+    "exceptions": [
+      "Une notification n’est pas une preuve de traitement",
+      "Email, centre de notifications et accusé de lecture non exposés dans les contrôleurs examinés"
+    ],
+    "support": "cible",
+    "api": [],
+    "source": "Inventaire des 21 contrôleurs fournis",
+    "result": "Aucun bouton de notification avec compteur fictif dans le mode connecté."
+  },
+  {
+    "id": "P42",
+    "group": "Transversal",
+    "title": "Reprendre après un incident sans doublon",
+    "role": "Tous les utilisateurs",
+    "route": "parcours",
+    "steps": [
+      "Identifier lecture ou écriture",
+      "Afficher la cause et la référence technique",
+      "Préserver l’intention de commande lorsque supportée",
+      "Relire le serveur",
+      "Reprendre explicitement"
+    ],
+    "exceptions": [
+      "401 : reconnexion",
+      "403/404 masqué : ne pas divulguer l’objet",
+      "409 : version ou état périmé",
+      "422 : corriger les champs",
+      "503/réseau : succès non confirmé"
+    ],
+    "support": "partiel",
+    "api": [],
+    "source": "core/http.ts · core/commands.ts · pages/Workflow.tsx",
+    "result": "Le retour visuel ne doit jamais afficher une réussite inventée ; généraliser à tous les formulaires."
+  }
+];

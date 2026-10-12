@@ -1,0 +1,47 @@
+{
+  "name": "snae-ppd-frontend",
+  "private": true,
+  "version": "0.3.0-rc1",
+  "type": "module",
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "demo": "vite --mode demo --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "build:demo": "tsc --noEmit && vite build --mode demo",
+    "preview": "vite preview --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:core && npm run test:ui",
+    "check": "npm run test && npm run build",
+    "test:ui": "vitest run --config vitest.config.ts",
+    "test:core": "tsc -p tsconfig.core.json && node --test tests/*.test.mjs",
+    "test:f3": "node --test tests/f3/*.test.mjs",
+    "preinstall": "node scripts/check-toolchain.mjs",
+    "test:p1": "node --test tests/p1/*.test.mjs",
+    "check:p1": "npm run typecheck && npm run test:p1 && npm run test:f3 && npm test && npm run build"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.117.1",
+    "oidc-client-ts": "3.5.0",
+    "pdfjs-dist": "6.3.289",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zxing-wasm": "3.1.4"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "1.0.9",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.7",
+    "@types/node": "22.20.4",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "jsdom": "30.1.1",
+    "typescript": "5.9.3",
+    "vite": "8.3.1",
+    "vitest": "5.0.3"
+  },
+  "packageManager": "npm@11.19.0"
+}

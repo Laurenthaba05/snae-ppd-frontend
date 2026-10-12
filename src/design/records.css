@@ -1,0 +1,55 @@
+/* Documents et dossiers : informations d'archivage, relations entre documents, structure du dossier */
+.record-flag{display:inline-block;padding:2px 9px;border-radius:999px;background:#fff0d6;color:#8a5a00;font-size:12px;font-weight:600}
+.record-info-gaps{margin:8px 0 0;color:#5d7176}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+.relation-groups{display:grid;gap:14px}
+.relation-group h4{margin:0 0 6px;font-size:14px;color:#17332f}
+.relation-group ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.relation-group li{display:grid;gap:2px;padding:8px 12px;border:1px solid #dfe7e4;border-radius:8px;background:#fbfdfc}
+.relation-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.dossier-structure h4{margin:18px 0 6px;font-size:14px;color:#17332f}
+@media (max-width:640px){.form-row{grid-template-columns:1fr}}
+
+/* Signatures électroniques */
+.signature-overview{margin:0 0 10px;color:#5d7176}
+.signature-group h4{margin:14px 0 6px;font-size:14px;color:#17332f}
+.signature-group ul,.signature-list{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.signature-item{display:grid;gap:3px;padding:10px 12px;border:1px solid #dfe7e4;border-left-width:4px;border-radius:8px;background:#fbfdfc}
+.signature-item.tone-success{border-left-color:#2e7047}.signature-item.tone-danger{border-left-color:#a34137;background:#fff8f6}.signature-item.tone-warning{border-left-color:#c58a1d}.signature-item.tone-neutral{border-left-color:#9aa8a4}
+.signature-head{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.signature-verdict{margin:2px 0 0;font-weight:600;color:#17332f}
+.signature-notes{margin:0;padding-left:18px;list-style:disc;display:block;color:#5d7176;font-size:13px}
+.signature-certificate summary{cursor:pointer;color:#33494d;font-size:13px}
+.badge-non_verifiee{background:#f1f3ee;color:#78816b;border-color:#e0e5d8}.badge-integrite_valide{background:#edf6ef;color:#2e7047;border-color:#d4e9d7}
+.badge-integrite_invalide{background:#fff0ee;color:#a34137;border-color:#efcfc6}.badge-indeterminee{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+
+/* Vocabulaires contrôlés, mots-clés, forme du document */
+.keyword-list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.keyword-item{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border:1px solid #cfe0db;border-radius:999px;background:#f3f9f7;color:#17332f;font-size:13.5px}
+.keyword-item.obsolete{background:#faf6ea;border-color:#eadcaf;color:#6e5517}
+.keyword-item small{color:#5d7176}
+.keyword-item button{border:0;background:transparent;color:#5d7176;cursor:pointer;font-size:16px;line-height:1;padding:0 4px}
+.term-label{display:inline-block}
+.term-label.depth-1{margin-left:18px}.term-label.depth-2{margin-left:36px}.term-label.depth-3{margin-left:54px}.term-label.depth-4{margin-left:72px}
+.term-picker-list{max-height:260px;overflow:auto;border:1px solid #dfe7e4;border-radius:8px;padding:6px 10px;display:grid;gap:4px}
+.term-picker-list label{display:flex;gap:8px;align-items:baseline}
+.badge-retire{background:#f1f3ee;color:#78816b;border-color:#e0e5d8}.badge-obsolete{background:#faf6ea;color:#856625;border-color:#eadcaf}
+
+/* Centre de notifications */
+.nx-badge{position:absolute;top:1px;right:0;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#b3261e;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center}
+.nx-menu.notifications{width:min(380px,calc(100vw - 32px));padding:0;max-height:70vh;overflow:auto}
+.notification-head,.notification-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #e4ebe8}
+.notification-foot{border-bottom:0;border-top:1px solid #e4ebe8}
+.notification-empty{margin:0;padding:18px 14px;color:#5d7176}
+.notification-list,.notification-rows,.notification-prefs{margin:0;padding:0;list-style:none}
+.notification-item{display:grid!important;gap:2px;width:100%;padding:10px 14px!important;border-radius:0!important;border-bottom:1px solid #eef2f0!important}
+.notification-item.unread{background:#f3f9f7}
+.notification-item.unread .notification-title{font-weight:700}
+.notification-message{color:#3c5651;font-size:13px}
+.notification-item small,.notification-rows small{color:#5d7176}
+.notification-rows li{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:12px 16px;border-bottom:1px solid #e4ebe8}
+.notification-rows li.unread{background:#f7fbf9;border-left:3px solid #2e7047}
+.notification-rows p{margin:2px 0}
+.notification-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.notification-prefs label{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.notification-prefs small{display:block;color:#5d7176}

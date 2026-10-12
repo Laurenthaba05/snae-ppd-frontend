@@ -1,0 +1,28 @@
+name: Frontend V13.1 - independent repository
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24.21.0'
+      - name: Clean install, types, regression tests and build-only bundle
+        # Public synthetic identity settings: compile only, not a deployable environment.
+        env:
+          VITE_DATA_MODE: connected
+          VITE_AUTH_MODE: oidc
+          VITE_OIDC_AUTHORITY: https://identity.example.invalid
+          VITE_OIDC_CLIENT_ID: snae-ppd-ci
+        run: |
+          npm ci
+          npm run typecheck
+          npm run test:f3
+          npm run test:p1
+          npm test
+          npm run build

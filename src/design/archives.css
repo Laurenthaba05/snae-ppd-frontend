@@ -1,0 +1,31 @@
+/* Notices d'autorité (ISAAR-CPF) : relations et filiation ; fiche du service d'archives (ISDIAH) */
+.form-section{grid-column:1/-1;margin:14px 0 2px;padding-bottom:4px;border-bottom:1px solid #dfe7e4;font-size:14px;font-weight:700;color:#17332f;letter-spacing:.01em}
+.form-section:first-child{margin-top:2px}
+.authority-dates{margin:0;font-size:13px;color:#5d7176}
+
+.authority-relations{display:grid;gap:14px}
+.relation-lineage{padding:12px 14px;border:1px solid #dfe7e4;border-radius:10px;background:#f7faf9}
+.relation-lineage h4{margin:0 0 8px;font-size:14px;color:#17332f}
+.relation-lineage ol{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none;align-items:stretch}
+.relation-lineage li{position:relative;display:grid;gap:2px;padding:7px 12px;border:1px solid #cbd8d3;border-radius:8px;background:#fff;font-size:13px}
+.relation-lineage li small{color:#5d7176;font-size:12px}
+.relation-lineage li+li{margin-left:14px}
+.relation-lineage li+li::before{content:"›";position:absolute;left:-13px;top:50%;transform:translateY(-52%);color:#5d7176;font-size:16px}
+.relation-lineage li.current{border-color:#1d6b4a;background:#eef6f2}
+.relation-chain{margin:0;font-size:13.5px;color:#33494d}
+.relation-empty{margin:0;font-size:13.5px;color:#5d7176}
+.relation-table td{vertical-align:top;font-size:13.5px}
+.relation-table tr.ended td{color:#5d7176}
+.relation-confirm{margin-right:8px;font-size:13px;font-weight:600;color:#a52a1f}
+.relation-form{display:grid;gap:10px;padding:14px;border:1px solid #cbd8d3;border-radius:10px;background:#fbfdfc}
+.relation-form h4{margin:0;font-size:14px}
+.relation-form-actions{display:flex;justify-content:flex-end;gap:8px}
+.relation-problems{margin:0;padding:8px 12px 8px 28px;border-radius:8px;background:#fde3e0;color:#7a1f16;font-size:13px}
+
+.institution-fiche .fiche-progress{margin:0 0 10px;font-size:13px;color:#5d7176}
+.fiche-list{display:grid;gap:10px;margin:0}
+.fiche-list>div{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:12px;align-items:start}
+.fiche-list dt{font-size:13px;font-weight:600;color:#33494d}
+.fiche-list dd{margin:0;font-size:13.5px}
+.fiche-text{white-space:pre-wrap;overflow-wrap:anywhere}
+@media (max-width:640px){.fiche-list>div{grid-template-columns:1fr;gap:2px}}

@@ -1,0 +1,5 @@
+{
+  "sourceScanFindings": [],
+  "missingReleaseEvidence": [],
+  "scope": "bounded patterns and paths, not an exhaustive secret or security audit"
+}

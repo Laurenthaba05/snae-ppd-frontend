@@ -1,0 +1,150 @@
+/* Patrimoine : biens patrimoniaux (liste, fiche, états, onglets, liens). */
+.asset-states{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:0 0 12px}
+.asset-states>div{padding:8px 12px;border:1px solid #dce5dc;border-radius:8px;background:#fbfcfb}
+.asset-states dt{font-size:13px;color:#5d7176;text-transform:uppercase;letter-spacing:.04em;margin:0}
+.asset-states dd{margin:2px 0 0;font-weight:600;font-size:15px}
+.asset-states .ok{background:#edf6ef;border-color:#d4e9d7}.asset-states .warn{background:#fbf4dd;border-color:#eadcaf}.asset-states .bad{background:#fff0ee;border-color:#efcfc6}
+.asset-tabs{display:flex;flex-wrap:wrap;gap:4px;margin:12px 0;border-bottom:1px solid #dce5dc}
+.asset-tabs button{border:0;background:none;padding:8px 14px;font:inherit;color:#5d7176;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.asset-tabs button.active{color:#1b4d3a;border-bottom-color:#2e7047;font-weight:600}.asset-tabs button:focus-visible{outline:2px solid #2e7047;outline-offset:-2px}
+.page-tabs{margin-top:0}
+.asset-tab{display:grid;gap:14px}.asset-group{display:grid;gap:8px}.asset-group h4,.asset-gaps h4{margin:0}
+.asset-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 18px;margin:0}
+.asset-fields>div{display:grid;gap:2px}.asset-fields>div.wide{grid-column:1/-1}
+.asset-fields dt{font-size:13.5px;color:#5d7176}.asset-fields dd{margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.asset-gaps{display:grid;gap:6px}.asset-info{margin:0;padding:0 0 0 18px;font-size:14px;color:#5d7176}
+.asset-criteres{display:flex;flex-wrap:wrap;gap:8px 18px;border:1px solid #dce5dc;border-radius:8px;padding:8px 12px}.asset-criteres legend{font-size:14px;color:#33494d;padding:0 4px}
+.asset-criteres label{display:flex;align-items:center;gap:6px;font-size:14px}
+.asset-flag{display:flex;flex-direction:row;align-items:center;gap:8px}.asset-flag span{font-size:14px}
+.asset-transitions{display:grid;gap:8px;margin-bottom:6px}
+.asset-links,.asset-picker{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.asset-links li,.asset-picker li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;border:1px solid #e4ebe4;border-radius:8px;font-size:14px}
+.asset-links small,.asset-picker small{color:#5d7176}
+.asset-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin:10px 0}.asset-filters .field{min-width:150px}.asset-filters .field:first-child{flex:1 1 260px}
+.asset-dashboard{margin:0 0 6px}.chip-link{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted}
+.asset-gap-count{display:inline-block;min-width:22px;padding:1px 7px;border-radius:999px;background:#fdf1cd;color:#8a6213;font-size:13.5px;text-align:center}
+.asset-journal ins{text-decoration:none;background:#e1f3e8;padding:0 3px;border-radius:3px}.asset-journal del{background:#fdeceb;padding:0 3px;border-radius:3px}
+.badge-minimale,.badge-en_redaction{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-a_relire{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-representation,.badge-justificatif,.badge-transcription,.badge-traduction,.badge-rapport,.badge-autre{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-creation,.badge-modification,.badge-lien{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-correction{background:#fbf4dd;color:#856625;border-color:#eadcaf}.badge-transition{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}
+
+/* Entrées patrimoniales : parcours, mention de prise en charge, reçu, reprise d'inventaire. */
+.entry-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:0 0 10px}.entry-head .btn{margin-left:auto}
+.entry-steps{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none;flex:1 1 360px}
+.entry-steps li{position:relative;padding:4px 12px;border:1px solid #dce5dc;border-radius:999px;font-size:13.5px;color:#5d7176;background:#fbfcfb}
+.entry-steps li.done{background:#edf6ef;border-color:#d4e9d7;color:#1b4d3a}.entry-steps li.done span::before{content:"\2713\00a0"}
+.entry-steps li.current{background:#1b4d3a;border-color:#1b4d3a;color:#fff;font-weight:600}
+.entry-mention{margin:0 0 12px;padding:10px 14px;border:1px solid #dce5dc;border-left:4px solid #5d7176;border-radius:8px;background:#fbfcfb}
+.entry-mention strong{font-size:13.5px;text-transform:uppercase;letter-spacing:.04em;color:#5d7176}.entry-mention p{margin:4px 0 0}
+.entry-mention.ok{border-left-color:#2e7047;background:#edf6ef}.entry-mention.warn{border-left-color:#b8860b;background:#fbf4dd}.entry-mention.bad{border-left-color:#b3402a;background:#fff0ee}
+.entry-receipt h3{margin:0 0 8px}.entry-receipt h4{margin:14px 0 6px}.entry-mention-text{margin:16px 0 0;padding:10px 14px;border:2px solid #16251f;border-radius:6px;font-weight:600}
+.badge-recue,.badge-en_examen{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-complement_requis,.badge-situation_a_clarifier{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-acceptee,.badge-formalisee{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}.badge-refusee,.badge-retournee{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+
+/* Les fiches ouvertes dans une fenêtre : leur contenu est un enfant direct de la fenêtre, il reprend donc la marge de son en-tête. */
+.modal>.asset-states,.modal>.asset-transitions,.modal>.asset-tabs,.modal>.asset-tab,.modal>.entry-head,.modal>.entry-mention,.modal>.entry-receipt{margin-left:28px;margin-right:28px}
+.modal>.asset-states,.modal>.entry-head{margin-top:20px}.modal>.asset-tab,.modal>.entry-receipt{margin-bottom:22px}.modal>.asset-tab{margin-top:4px}
+.asset-tab .form-grid{padding:0}
+@media(max-width:720px){.modal>.asset-states,.modal>.asset-transitions,.modal>.asset-tabs,.modal>.asset-tab,.modal>.entry-head,.modal>.entry-mention,.modal>.entry-receipt{margin-left:20px;margin-right:20px}}
+
+/* Localisation : emplacement habituel, actuel et dernière présence vérifiée d'une archive physique. */
+.placement-card{display:grid;gap:10px;padding:14px 16px;border:1px solid #dce5dc;border-left:4px solid #9bb5a4;border-radius:10px;background:#fff}
+.placement-card.warn{border-left-color:#b8860b;background:#fffdf5}.placement-card.bad{border-left-color:#b3402a;background:#fff8f6}
+.placement-card h4{margin:0}.placement-card h4 small{font-weight:400;color:#5d7176}
+.placement-gaps{display:inline-flex;flex-wrap:wrap;gap:6px}
+.placement-summary{margin:0;font-weight:600}
+.placement-facts{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.placement-stale{color:#8f2f1d}.placement-note{color:#5d7176}
+.placement-steps{margin:0}.placement-steps strong{color:#33494d}
+.placement-history{margin:0}
+.placement-choices{display:grid;gap:8px;margin:12px 27px;padding:10px 14px;border:1px solid #dce5dc;border-radius:8px}
+.placement-choices legend{padding:0 6px;font-size:14px;color:#33494d}
+.placement-choices label{display:flex;align-items:flex-start;gap:10px;padding:6px 4px;cursor:pointer}
+.placement-choices label span{display:grid;gap:2px}.placement-choices small{color:#5d7176}
+.badge-introuvable,.badge-absente{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.badge-autre_emplacement,.badge-sortie_en_retard{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-non_verifiee,.badge-verification_ancienne,.badge-verification,.badge-sortie,.badge-retour,.badge-rangement{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-presente,.badge-conforme{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.placement-card .section-heading{padding:0 0 8px;border-bottom:1px solid #eef2ee}
+.nowrap{white-space:nowrap}
+.modal form>.wf-blockers{margin:0 27px 18px}
+.asset-flag{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:10px}
+.asset-flag input[type=checkbox]{width:18px;height:18px;min-height:0;padding:0;margin:0;flex:none}
+.asset-flag span{flex:1 1 auto}
+
+/* Récolement : barre d'avancement, parcours des éléments. */
+.rec-progress{display:grid;gap:6px;flex:1 1 280px;min-width:0}.rec-progress.compact{gap:2px;flex:1 1 160px}
+.rec-bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#e7ece8;border:1px solid #d3ddd5}.rec-progress.compact .rec-bar{height:8px}
+.seg{display:block;height:100%}.seg.conformes{background:#3d8b5a}.seg.autres{background:#d2a12b}.seg.introuvables{background:#b3402a}.seg.reportes{background:#8aa3ad}.seg.restants{background:#e7ece8}
+.rec-legend{display:flex;flex-wrap:wrap;gap:4px 16px;margin:0;padding:0;list-style:none;font-size:14px;color:#33494d}
+.rec-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;border:1px solid #c3d0c6}
+.rec-progress small{color:#5d7176}
+.rec-cell{min-width:140px}
+tr.rec-el.bad td:first-child{box-shadow:inset 3px 0 #b3402a}tr.rec-el.warn td:first-child{box-shadow:inset 3px 0 #d2a12b}tr.rec-el.ok td:first-child{box-shadow:inset 3px 0 #3d8b5a}
+.badge-a_verifier{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-verifie{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}.badge-reporte{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-planifiee{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-en_cours{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}.badge-cloturee{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}.badge-annulee{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.badge-ecart_ouvert{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}.badge-regularise{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.modal>.notice{margin:0 28px 12px}
+@media(max-width:720px){.modal>.notice{margin:0 20px 12px}}
+.asset-tab .section-heading{padding:0;border-bottom:0}
+
+/* Conservation : constats d'état successifs et traitements. */
+.conservation-text{margin:0 0 10px;white-space:pre-line;overflow-wrap:anywhere}
+.conservation-subtitle{margin:14px 27px 0}
+.conservation-history li p{margin:2px 0}
+.conservation-docs{display:grid;gap:6px}
+.badge-stable,.badge-non_evalue{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-stable{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.badge-fragile{background:#fbf4dd;color:#856625;border-color:#eadcaf}.badge-intervention_requise{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.badge-m_libre{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}.badge-m_precautions{background:#fbf4dd;color:#856625;border-color:#eadcaf}.badge-m_interdite{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.badge-a_intervention_requise{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}.badge-a_traitement_a_valider,.badge-a_traitement_a_demarrer,.badge-a_fragile{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-a_traitement_en_cours{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}.badge-a_constat_ancien,.badge-a_sans_constat{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-propose{background:#eef2f5;color:#33494d;border-color:#d8e0e6}.badge-termine{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}.badge-refuse,.badge-annule{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+
+/* Mouvements des originaux : demande, autorisation, remise, réception, retour */
+.badge-r_demandee,.badge-r_aucune{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-r_aucune{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-r_autorisee,.badge-r_remise,.badge-r_recue{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}
+.badge-r_retournee{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.badge-r_refusee,.badge-r_annulee,.badge-r_objet{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-r_retard{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.placement-movement{margin:0;padding:8px 12px;border-left:4px solid #1f5da0;background:#f3f8fd;border-radius:6px}
+.modal-summary{margin:0 28px 10px}
+.cell-sub.bad,dd.bad{color:#8f2f1d}
+@media(max-width:720px){.modal-summary{margin-left:20px;margin-right:20px}}
+/* Une fenêtre ouverte depuis un onglet de bien (donc dans .asset-tab) garde le retrait des formulaires de fenêtre */
+.modal>form>.form-grid{padding:27px}
+@media(max-width:720px){.modal>form>.form-grid{padding:21px}}
+
+/* Numérisation commandée par le patrimoine : étapes, déroulé */
+.badge-d_sortie_a_autoriser,.badge-d_a_prendre_en_charge,.badge-d_original_a_remettre,.badge-d_a_receptionner,.badge-d_commandee{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-d_numerisation,.badge-d_original_a_rendre,.badge-d_finalisation,.badge-d_en_cours{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}
+.badge-d_receptionnee{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.badge-d_annulee,.badge-d_aucune,.badge-d_reprise{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-d_retard{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.order-timeline{list-style:none;margin:0 28px 14px;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.order-timeline li{position:relative;display:grid;gap:2px;padding:10px 10px 10px 30px;border:1px solid #dce5dc;border-radius:8px;background:#fff;font-size:13px;color:#425670}
+.order-timeline li small{font-size:11.5px;color:#91a0b2}
+.order-timeline .order-dot{position:absolute;left:11px;top:14px;width:9px;height:9px;border-radius:50%;border:2px solid #b8c6bd;background:#fff}
+.order-timeline li.done{background:#f3faf5;border-color:#c5e3cf}.order-timeline li.done .order-dot{background:#2f7a55;border-color:#2f7a55}
+.order-timeline li.current{background:#f3f8fd;border-color:#9dc0e6;font-weight:600}.order-timeline li.current .order-dot{background:#1f5da0;border-color:#1f5da0}
+.order-timeline li.cancelled{opacity:.55;text-decoration:line-through}
+@media(max-width:720px){.order-timeline{margin:0 20px 14px}}
+
+/* Prêts sortants et expositions : étapes d'un dossier, cartes de synthèse, originaux d'un dossier. */
+.badge-l_en_instruction,.badge-l_a_preparer,.badge-l_a_clore{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.badge-l_en_preparation,.badge-l_en_cours,.badge-l_pret,.badge-l_exposition{background:#e8f1fb;color:#1f5da0;border-color:#c9dcf1}
+.badge-l_clos{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
+.badge-l_refuse,.badge-l_annule{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-l_retard{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.dossier-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:0 0 12px;padding:0;list-style:none}
+.dossier-summary button{display:grid;gap:2px;width:100%;text-align:left;padding:8px 12px;border:1px solid #dce5dc;border-radius:8px;background:#fbfcfb;font:inherit;cursor:pointer}
+.dossier-summary button strong{font-size:20px;color:#1b4d3a}.dossier-summary button span{font-size:13.5px;color:#5d7176}
+.dossier-summary button.warn{background:#fbf4dd;border-color:#eadcaf}.dossier-summary button.bad{background:#fff0ee;border-color:#efcfc6}.dossier-summary button[aria-pressed=true]{outline:2px solid #2e7047}
+.dossier-elements{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.dossier-element{display:grid;gap:6px;padding:10px 14px;border:1px solid #dce5dc;border-left:4px solid #9aa9a3;border-radius:8px;background:#fff}
+.dossier-element.warn{border-left-color:#b8860b}.dossier-element.ok{border-left-color:#2e7047}.dossier-element.bad{border-left-color:#b3402a}
+.dossier-element header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}.dossier-element h5{margin:0;font-size:15px}.dossier-element p{margin:0;font-size:14px;color:#33494d}
+.dossier-picker{display:grid;gap:8px}.dossier-picker ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.dossier-picked{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}.dossier-picked li{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border:1px solid #c9d6c9;border-radius:999px;background:#f4f8f4;font-size:13.5px}
+.dossier-picked button{border:0;background:none;cursor:pointer;color:#8f2f1d;font-size:15px;line-height:1}
+.dossier-checklist{margin:0 28px 12px}.dossier-checklist .wf-blockers{margin:0}

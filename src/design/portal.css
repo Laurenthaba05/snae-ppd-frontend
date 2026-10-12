@@ -1,0 +1,83 @@
+/* Portail public des lecteurs : catalogue, abonnements, lecture. Tout est sous .portal-shell pour ne pas toucher à l'espace du personnel. */
+.portal-shell{--p-green:#1b4d3a;--p-green2:#2e7047;--p-gold:#b58b39;--p-ink:#1d2b26;--p-muted:#5d7176;--p-line:#dce5dc;--p-soft:#f4f7f4;min-height:100vh;display:flex;flex-direction:column;background:#fbfcfb;color:var(--p-ink)}
+.portal-shell h1{color:var(--p-green);letter-spacing:-.5px}
+.portal-header{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding:12px clamp(16px,4vw,48px);background:#fff;border-bottom:3px solid var(--p-green)}
+.portal-identity{display:flex;align-items:center;gap:12px}.portal-identity strong{display:block;font-size:12.5px;letter-spacing:.06em}.portal-identity small{color:var(--p-muted)}
+.portal-title{display:grid;text-decoration:none;color:var(--p-green);margin-right:auto}.portal-title span{font-size:18px;font-weight:700}.portal-title small{color:var(--p-muted);font-size:12.5px}
+.portal-nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}
+.portal-nav a:not(.btn),.portal-link-button{display:inline-flex;align-items:center;gap:6px;color:var(--p-ink);text-decoration:none;font-weight:500;padding:6px 2px;border:0;border-bottom:2px solid transparent;background:none;cursor:pointer;font-size:14.5px}
+.portal-nav a:not(.btn):hover,.portal-link-button:hover{border-bottom-color:var(--p-gold)}.portal-nav a[aria-current=page]{border-bottom-color:var(--p-green);color:var(--p-green);font-weight:700}
+.portal-banner{display:flex;align-items:center;gap:10px;padding:10px clamp(16px,4vw,48px);background:#fbf4dd;border-bottom:1px solid #eadcaf;color:#6c5217;font-size:14px}.portal-banner a{color:inherit;font-weight:600}
+.portal-main{flex:1;width:100%;max-width:1080px;margin:0 auto;padding:28px clamp(16px,4vw,32px) 48px;outline:0}
+.portal-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 24px;padding:14px clamp(16px,4vw,48px);border-top:1px solid var(--p-line);background:#fff;color:var(--p-muted);font-size:12.5px}
+.portal-page{display:grid;gap:16px;align-content:start}.portal-narrow{max-width:520px;margin:0 auto;width:100%}
+.portal-lead{font-size:16px;color:#33494d;max-width:70ch;margin:0}.portal-muted{color:var(--p-muted)}.portal-meta{color:var(--p-muted);font-size:13.5px;margin:0}
+.portal-back{margin:0}.portal-links{text-align:center;margin:0;color:var(--p-muted)}.portal-links a,.portal-shell .text-link{color:var(--p-green2)}
+
+/* catalogue */
+.portal-hero{display:grid;gap:10px;padding:28px clamp(16px,3vw,32px);border:1px solid var(--p-line);border-radius:14px;background:linear-gradient(135deg,#eef5ef,#fbf4dd 130%)}
+.portal-hero h1{margin:0}.portal-hero p{margin:0;max-width:62ch}
+.portal-search{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 14px;background:#fff;border:1px solid #c9d6c9;border-radius:10px;max-width:640px}
+.portal-search input{flex:1;min-width:0;border:0;outline:0;padding:10px 4px;font-size:16px;background:transparent}.portal-search:focus-within{outline:3px solid #b58b39;outline-offset:2px}
+.portal-chips{display:flex;flex-wrap:wrap;gap:8px}
+.portal-chip{border:1px solid #c9d6c9;background:#fff;border-radius:999px;padding:6px 14px;font-size:13.5px;color:var(--p-ink)}.portal-chip.active{background:var(--p-green);border-color:var(--p-green);color:#fff;font-weight:600}
+.portal-count{margin:0;color:var(--p-muted);font-size:13.5px}
+.portal-results{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.portal-results article{height:100%;padding:16px 18px;border:1px solid var(--p-line);border-radius:12px;background:#fff;display:grid;gap:6px;align-content:start}
+.portal-results h2{font-size:18px;margin:0;letter-spacing:0}.portal-results h2 a{color:var(--p-green);text-decoration:none}.portal-results h2 a:hover{text-decoration:underline}
+.portal-results p{margin:0}.portal-docs{display:flex;align-items:center;gap:6px;color:var(--p-green2);font-size:13px}
+.portal-pager{display:flex;align-items:center;justify-content:center;gap:16px;color:var(--p-muted)}
+
+/* notice */
+.portal-notice{display:grid;gap:16px;padding:22px clamp(16px,3vw,30px);border:1px solid var(--p-line);border-radius:14px;background:#fff}
+.portal-notice header h1{margin:2px 0 0}.portal-summary{font-size:16.5px;max-width:72ch;margin:0}
+.portal-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px;margin:0}.portal-fields>div{display:grid;gap:2px}.portal-fields dt{font-size:12px;color:var(--p-muted);text-transform:uppercase;letter-spacing:.04em}.portal-fields dd{margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.portal-documents h2{font-size:18px;margin:0 0 8px}.portal-documents ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.portal-documents li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--p-line);border-radius:10px;background:var(--p-soft)}
+.portal-documents li span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.portal-documents small{color:var(--p-muted)}
+
+/* lecture */
+.portal-viewer{gap:12px}
+.portal-viewer-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:5;padding:8px 0;background:#fbfcfb}
+.portal-viewer-nav{display:flex;align-items:center;gap:8px}.portal-viewer-nav select{padding:7px 10px;border:1px solid #c9d6c9;border-radius:8px;background:#fff}
+.portal-sheet{margin:0;display:grid;gap:10px;justify-items:center}
+.portal-sheet img{display:block;max-width:100%;height:auto;border:1px solid var(--p-line);box-shadow:0 6px 24px #16251f1f;background:#fff;user-select:none;-webkit-user-drag:none}.portal-sheet img:not(.loaded){position:absolute;opacity:0;pointer-events:none}
+.portal-sheet figcaption{max-width:70ch;text-align:center;font-size:12.5px;color:var(--p-muted)}
+.portal-gate{max-width:560px;margin:24px auto;padding:22px 24px;border:1px solid var(--p-line);border-radius:12px;background:#fff;display:grid;gap:8px;text-align:center}.portal-gate h1{font-size:23px;margin:0}.portal-gate p{margin:0}
+
+/* formules */
+.portal-plans{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.portal-plans article{height:100%;display:grid;gap:10px;align-content:start;padding:20px;border:1px solid var(--p-line);border-top:4px solid var(--p-gold);border-radius:12px;background:#fff}
+.portal-plans h2{font-size:19px;margin:0;letter-spacing:0}.portal-plans p{margin:0}
+.portal-price{font-size:26px;font-weight:700;color:var(--p-green)}.portal-price small{font-size:13.5px;font-weight:400;color:var(--p-muted)}
+.portal-plan-facts{margin:0;padding:0 0 0 18px;font-size:14px;color:#33494d}
+
+/* formulaires */
+.portal-form{display:grid;gap:14px}.portal-form .field{margin:0}.portal-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.portal-password{display:flex;gap:8px}.portal-password input{flex:1;min-width:0}
+.portal-check{display:flex;gap:10px;align-items:flex-start;font-size:14px}.portal-check input{margin-top:4px}
+.portal-issues{margin:-6px 0 0;padding:0 0 0 18px;color:#8a3a26;font-size:13px}.portal-issues:empty{display:none}
+.portal-shell .field input,.portal-shell .field select{width:100%;padding:10px 12px;border:1px solid #c9d6c9;border-radius:8px;background:#fff;font-size:15px}
+.portal-shell .field-error{color:#a02f3b}
+
+/* compte */
+.portal-section{display:grid;gap:12px;padding:18px clamp(14px,2.5vw,24px);border:1px solid var(--p-line);border-radius:12px;background:#fff}.portal-section h2{font-size:19px;margin:0}
+.portal-subscriptions{display:grid;gap:12px}
+.portal-subscription{display:grid;gap:8px;padding:14px 16px;border:1px solid var(--p-line);border-left:5px solid #9aa9a3;border-radius:10px;background:var(--p-soft)}
+.portal-subscription.tone-ok{border-left-color:var(--p-green2)}.portal-subscription.tone-warn{border-left-color:var(--p-gold);background:#fffaee}.portal-subscription.tone-bad{border-left-color:#b3402a}
+.portal-subscription header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}.portal-subscription h3{margin:0}.portal-subscription p{margin:0}
+.portal-payment{display:grid;gap:10px}.portal-reference{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}.portal-reference span{font-size:12.5px;color:var(--p-muted);text-transform:uppercase;letter-spacing:.04em}
+.portal-reference strong{font-size:24px;letter-spacing:.08em;padding:4px 14px;border:2px dashed var(--p-gold);border-radius:8px;background:#fff;user-select:all}
+.portal-receipt{display:grid;gap:14px;padding:22px 27px}.portal-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+@media (max-width:640px){.portal-two{grid-template-columns:1fr}.portal-nav{width:100%}.portal-title{margin-right:0}.portal-hero{padding:20px 16px}.portal-viewer-bar{position:static}}
+@media print{.portal-header,.portal-footer,.portal-banner,.portal-viewer-bar{display:none}}
+
+/* Administration du portail (espace du personnel) : états d'abonnement et mentions de la caisse. */
+.badge-en_attente_paiement,.badge-a_venir{background:#fbf4dd;color:#856625;border-color:#eadcaf}
+.row-muted td{color:#7a8795}.portal-recap{padding:8px 12px;border:1px solid #dce5dc;border-radius:8px;background:#fbfcfb}
+.portal-tag{padding:1px 8px;border-radius:999px;background:#fff3d6;color:#7a5600;font-size:12px}
+.portal-doc-note{flex-basis:100%;margin:0;color:var(--p-muted);font-size:13px}
+.portal-quote{margin:0;padding:6px 10px;border-left:3px solid var(--p-line,#dce5dc);color:var(--p-muted,#5d7176);font-style:italic;overflow-wrap:anywhere}
+.portal-dialog{padding:22px 27px}.portal-dialog textarea{width:100%}
+.portal-journal{list-style:none;margin:0;padding:0;display:grid;gap:6px}.portal-journal li{padding:6px 10px;border-left:3px solid #dce5dc}

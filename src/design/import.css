@@ -1,0 +1,30 @@
+/* Import en masse (institutions) depuis Excel / CSV */
+.imp{display:grid;gap:14px;padding:16px 28px 10px}
+.imp-steps{display:grid;gap:12px;margin:0;padding-left:20px;font-size:13px;color:#33494d}
+.imp-steps li{padding-left:4px}
+.imp-steps strong{color:#17332f}
+.imp-steps .btn{display:flex;margin-top:8px}
+.imp-drop{position:relative;display:grid;justify-items:center;gap:6px;padding:26px 16px;border:2px dashed #b9c9c4;border-radius:12px;background:#f7faf9;color:#33494d;text-align:center;cursor:pointer;transition:background .15s,border-color .15s}
+.imp-drop:hover,.imp-drop.over,.imp-drop:focus-within{border-color:#1d6b4a;background:#eef6f2}
+.imp-drop svg{color:#1d6b4a}
+.imp-drop small{color:#5d7176}
+.imp-drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.imp-summary{display:flex;flex-wrap:wrap;gap:8px}
+.imp-count{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:12.5px;background:#eef2f5;color:#33494d}
+.imp-count b{font-weight:800;color:inherit}
+.imp-count.ok{background:#e1f3e8;color:#1b6a47}.imp-count.warn{background:#fdf1cd;color:#8a6213}.imp-count.bad{background:#fde3e0;color:#a52a1f}
+.imp-progress{height:8px;border-radius:999px;background:#e3e9ed;overflow:hidden}
+.imp-progress span{display:block;height:100%;border-radius:999px;background:#1d6b4a;transition:width .2s}
+.imp-table{max-height:min(46vh,420px);overflow:auto;border:1px solid #e3e9ed;border-radius:8px}
+.imp-table table{min-width:640px}
+.imp-table thead th{position:sticky;top:0;z-index:1}
+.imp-table td,.imp-table th{white-space:normal;vertical-align:top}
+.imp-table tr.imp-bad td{background:#fff7f5}
+.imp-tag{display:inline-flex;align-items:flex-start;gap:5px;font-size:12px;line-height:1.35}
+.imp-tag svg{flex:none;margin-top:1px}
+.imp-tag.ok{color:#1b6a47}.imp-tag.bad{color:#a52a1f}.imp-tag.idle{color:#5d7176}
+.imp-reselect{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 12px;border:1px dashed #b9c9c4;border-radius:10px;background:#f7faf9;font-size:13px;color:#33494d}
+.imp-reselect label{cursor:pointer}
+.imp .form-grid{padding:0}
+.imp-drop.disabled{opacity:.55;cursor:not-allowed}.imp-drop.disabled input{cursor:not-allowed}
+.imp-note{margin:0;color:#5d7176;font-size:13px}.imp-steps li .field{margin:8px 0}

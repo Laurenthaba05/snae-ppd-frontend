@@ -1,0 +1,29 @@
+{
+  "base_archive": "SNAE-PPD-Frontend-F1-IAM.zip",
+  "base_sha256": "2bc5c167377f52d30c3aed362c6e3e6855098a299ad1a14f63bfe887f1f11180",
+  "version": "0.1.1",
+  "modified_or_added_sources": [
+    "src/main.tsx",
+    "src/app.tsx",
+    "src/institutional.css",
+    "src/pages/Login.tsx",
+    "src/pages/Dashboard.tsx",
+    "src/pages/Help.tsx",
+    "src/ui/Institutional.tsx"
+  ],
+  "protected_files_unchanged": [
+    "src/api/iam.ts",
+    "src/auth/config.ts",
+    "src/auth/session.tsx",
+    "src/auth/driver.ts",
+    "src/core/policy.ts",
+    "src/core/http.ts",
+    "src/core/commands.ts",
+    "src/core/validation.ts",
+    "src/core/types.ts",
+    "src/core/contracts.ts",
+    "src/demo/transport.ts",
+    ".env.demo",
+    ".env.example"
+  ]
+}

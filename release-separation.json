@@ -1,0 +1,14 @@
+{
+  "sourceVersion": "13.1.0-rc1",
+  "component": "frontend",
+  "packagingRevision": "separe-1",
+  "sourceArchive": "SNAE-PPD-v13.1-Acquisition.zip",
+  "sourceArchiveSha256": "9c0d6d84dc3dbdc2a5706d437187a5c48417a3a326c85abc2fced3b3de3fa56b",
+  "productionValidated": false,
+  "cleanBackendBuildValidated": false,
+  "cleanFrontendBuildValidated": false,
+  "physicalScannerValidated": false,
+  "applicationCodeChanged": false,
+  "newBusinessFeature": false,
+  "scope": "Separation de projets, chemins de lancement, CI et documentation uniquement."
+}

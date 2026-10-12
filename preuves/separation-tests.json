@@ -1,0 +1,48 @@
+{
+  "packagingRevision": "separe-1",
+  "sourceBackendFilesByteIdentical": 429,
+  "sourceFrontendFilesByteIdentical": 87,
+  "migrationsByteIdentical": 55,
+  "gradleBuildDefinitionByteIdentical": true,
+  "frontendPackageAndLockByteIdentical": true,
+  "frontendViteConfigByteIdentical": true,
+  "workerAndScannerSourceByteIdentical": true,
+  "pythonSyntaxFilesParsed": 22,
+  "executed": [
+    {
+      "command": "python -B -m unittest discover -s outils -p test_*.py -v",
+      "component": "backend",
+      "passed": 47,
+      "scope": "35 tests historiques des outils et 12 tests de rangement/manifeste ; processus externes simulés"
+    },
+    {
+      "command": "python -B -m unittest discover -s scripts -p test_*.py -v",
+      "component": "backend",
+      "passed": 66,
+      "scope": "sauvegardes simulées ; pas de PostgreSQL ou Supabase réels"
+    },
+    {
+      "command": "node --test tests/p1/environment.test.mjs",
+      "component": "frontend",
+      "passed": 14,
+      "scope": "politique pure ; Node 22 local, pas le Node 24 déclaré par le projet"
+    },
+    {
+      "command": "python -B -m unittest discover -s . -p test_scanner_bridge.py -v",
+      "component": "scanner",
+      "passed": 19,
+      "scope": "NAPS2 et matériel simulés ; HTTP loopback dans les tests"
+    }
+  ],
+  "notExecuted": [
+    "build Gradle complet",
+    "npm ci et bundle Vite",
+    "démarrage Docker/PostgreSQL",
+    "migration réelle",
+    "SSO et authentification réels",
+    "scanner physique",
+    "déploiement et restauration distante"
+  ],
+  "productionValidated": false,
+  "scope": "Séparation des sources uniquement, pas de nouvelles fonctions métier."
+}

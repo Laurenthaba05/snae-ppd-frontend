@@ -1,0 +1,329 @@
+{
+  "scope": "Banc visuel hors ligne, transpilation TypeScript + React fourni ; ni build Vite ni API métier distante. Navigation mémoire adaptée pour le banc.",
+  "checks": [
+    {
+      "test": "Connexion de démonstration",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Navigation repliée",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Registre : 7 notices fictives",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Filtre local",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Refus sans titres ni tableau",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Erreur distincte de vide",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "État vide explicite",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Création fictive locale",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Fiche de notice fictive créée",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Onglets clavier",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Entrées : états réels affichés",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas : 42 parcours",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P04",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P05",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P06",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P07",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P08",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P09",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P10",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P11",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P12",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P13",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P14",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P15",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P16",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P17",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P18",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P19",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P20",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P21",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P22",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P23",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P24",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P25",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P26",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P27",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P28",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P29",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P30",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P31",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P32",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P33",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P34",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P35",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P36",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P37",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P38",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P39",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P40",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P41",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Atlas P42",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Paramètre de parcours invalide",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Filtre de l’atlas",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Écran IAM préservé",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Pas de débordement global à 1024",
+      "passed": true,
+      "detail": "{\"width\": 1024, \"scroll\": 1024}"
+    },
+    {
+      "test": "Pas de débordement global à 768",
+      "passed": true,
+      "detail": "{\"width\": 768, \"scroll\": 768}"
+    },
+    {
+      "test": "Pas de débordement global à 390",
+      "passed": true,
+      "detail": "{\"width\": 390, \"scroll\": 390}"
+    },
+    {
+      "test": "Navigation mobile ouverte",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Navigation mobile fermée au clavier",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "test": "Pas d’erreur JavaScript",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "test": "Pas de requête distante",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "passed": 64,
+  "total": 64,
+  "errors": [],
+  "requests": []
+}

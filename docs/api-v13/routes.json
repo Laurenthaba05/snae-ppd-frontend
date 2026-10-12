@@ -1,0 +1,1813 @@
+{
+  "scope": "Static Kotlin annotation inventory; not generated/validated OpenAPI and not live endpoint tests.",
+  "count": 258,
+  "controllers": 23,
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/entries",
+      "handler": "create",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 24
+    },
+    {
+      "method": "GET",
+      "path": "/entries/{id}",
+      "handler": "get",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 30
+    },
+    {
+      "method": "GET",
+      "path": "/entries",
+      "handler": "list",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 33
+    },
+    {
+      "method": "POST",
+      "path": "/entries/{id}/documents/{documentId}",
+      "handler": "linkDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 36
+    },
+    {
+      "method": "POST",
+      "path": "/entries/{id}/dossiers/{dossierId}",
+      "handler": "linkDossier",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 39
+    },
+    {
+      "method": "POST",
+      "path": "/entries/{id}/physical-archives/{archiveId}",
+      "handler": "linkPhysicalArchive",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 42
+    },
+    {
+      "method": "POST",
+      "path": "/entries/{id}/close",
+      "handler": "close",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt",
+      "line": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/descriptions",
+      "handler": "authorities",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/authorities",
+      "handler": "description",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/descriptions/{id}",
+      "handler": "authority",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/authorities/{id}",
+      "handler": "create",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 13
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/archives/descriptions",
+      "handler": "update",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 14
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/archives/descriptions/{id}",
+      "handler": "createAuthority",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 15
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/archives/authorities",
+      "handler": "updateAuthority",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 16
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/archives/authorities/{id}",
+      "handler": "preview",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 17
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/archives/imports/preview",
+      "handler": "import",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 18
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/archives/imports",
+      "handler": "template",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 19
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/template/{kind}",
+      "handler": "export",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 20
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/export/{kind}",
+      "handler": "ead",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 23
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/descriptions/{id}/ead",
+      "handler": "eac",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 24
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/archives/authorities/{id}/eac",
+      "handler": "missingParameter",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt",
+      "line": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/audit/objects/{objectType}/{objectId}/events",
+      "handler": "objectEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/audit/api/AuditController.kt",
+      "line": 11
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/audit/events",
+      "handler": "recentEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/audit/api/AuditController.kt",
+      "line": 16
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/audit/events/{id}",
+      "handler": "event",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/audit/api/AuditController.kt",
+      "line": 21
+    },
+    {
+      "method": "POST",
+      "path": "/nodes",
+      "handler": "create",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/classification/api/ClassificationController.kt",
+      "line": 22
+    },
+    {
+      "method": "GET",
+      "path": "/nodes/{id}",
+      "handler": "get",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/classification/api/ClassificationController.kt",
+      "line": 28
+    },
+    {
+      "method": "GET",
+      "path": "/nodes",
+      "handler": "list",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/classification/api/ClassificationController.kt",
+      "line": 31
+    },
+    {
+      "method": "POST",
+      "path": "/nodes/{id}/activate",
+      "handler": "activate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/classification/api/ClassificationController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/nodes/{id}/deactivate",
+      "handler": "deactivate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/classification/api/ClassificationController.kt",
+      "line": 37
+    },
+    {
+      "method": "POST",
+      "path": "/consultations/requests",
+      "handler": "createRequest",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 26
+    },
+    {
+      "method": "GET",
+      "path": "/consultations/requests/{id}",
+      "handler": "getRequest",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 31
+    },
+    {
+      "method": "GET",
+      "path": "/consultations/requests",
+      "handler": "listRequests",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/consultations/requests/{id}/claim",
+      "handler": "claim",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 38
+    },
+    {
+      "method": "POST",
+      "path": "/consultations/requests/{id}/authorize",
+      "handler": "authorize",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 41
+    },
+    {
+      "method": "POST",
+      "path": "/consultations/requests/{id}/refuse",
+      "handler": "refuse",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 44
+    },
+    {
+      "method": "POST",
+      "path": "/communications",
+      "handler": "createCommunication",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 47
+    },
+    {
+      "method": "GET",
+      "path": "/communications/{id}",
+      "handler": "getCommunication",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/communications",
+      "handler": "listCommunications",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 55
+    },
+    {
+      "method": "POST",
+      "path": "/communications/{id}/deliver",
+      "handler": "deliver",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 58
+    },
+    {
+      "method": "POST",
+      "path": "/communications/{id}/return",
+      "handler": "returnItem",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt",
+      "line": 61
+    },
+    {
+      "method": "POST",
+      "path": "/projects",
+      "handler": "createProject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 43
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{id}",
+      "handler": "getProject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 48
+    },
+    {
+      "method": "GET",
+      "path": "/projects",
+      "handler": "listProjects",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 51
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{id}/complete",
+      "handler": "completeProject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 54
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{id}/cancel",
+      "handler": "cancelProject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 57
+    },
+    {
+      "method": "POST",
+      "path": "/elements",
+      "handler": "createElement",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 60
+    },
+    {
+      "method": "GET",
+      "path": "/elements/{id}",
+      "handler": "getElement",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 65
+    },
+    {
+      "method": "GET",
+      "path": "/elements",
+      "handler": "listElements",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 68
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{id}/elements",
+      "handler": "listElementsByProject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 71
+    },
+    {
+      "method": "POST",
+      "path": "/elements/{id}/files/{fichierId}",
+      "handler": "linkFile",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 74
+    },
+    {
+      "method": "POST",
+      "path": "/elements/{id}/complete",
+      "handler": "completeElement",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 78
+    },
+    {
+      "method": "POST",
+      "path": "/elements/{id}/quality-controls",
+      "handler": "createQualityControl",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 81
+    },
+    {
+      "method": "GET",
+      "path": "/quality-controls/{id}",
+      "handler": "getQualityControl",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 87
+    },
+    {
+      "method": "GET",
+      "path": "/elements/{id}/quality-controls",
+      "handler": "listQualityControls",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 90
+    },
+    {
+      "method": "GET",
+      "path": "/quality-controls",
+      "handler": "listAllQualityControls",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 93
+    },
+    {
+      "method": "POST",
+      "path": "/ocr-results",
+      "handler": "createOcrResult",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 96
+    },
+    {
+      "method": "POST",
+      "path": "/ocr-results/{id}/validate",
+      "handler": "validateOcrResult",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 101
+    },
+    {
+      "method": "GET",
+      "path": "/ocr-results/{id}",
+      "handler": "getOcrResult",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 104
+    },
+    {
+      "method": "GET",
+      "path": "/files/{fichierId}/ocr-results",
+      "handler": "listOcrResults",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 107
+    },
+    {
+      "method": "POST",
+      "path": "/elements/{id}/contributions",
+      "handler": "createContribution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 110
+    },
+    {
+      "method": "POST",
+      "path": "/contributions/{id}/approve",
+      "handler": "approveContribution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 116
+    },
+    {
+      "method": "POST",
+      "path": "/contributions/{id}/reject",
+      "handler": "rejectContribution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 120
+    },
+    {
+      "method": "GET",
+      "path": "/contributions/{id}",
+      "handler": "getContribution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 124
+    },
+    {
+      "method": "GET",
+      "path": "/elements/{id}/contributions",
+      "handler": "listContributions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt",
+      "line": 127
+    },
+    {
+      "method": "POST",
+      "path": "/places",
+      "handler": "createPlace",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 36
+    },
+    {
+      "method": "GET",
+      "path": "/places/{id}",
+      "handler": "getPlace",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 41
+    },
+    {
+      "method": "GET",
+      "path": "/places",
+      "handler": "listPlaces",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 44
+    },
+    {
+      "method": "POST",
+      "path": "/historical-events",
+      "handler": "createHistoricalEvent",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 47
+    },
+    {
+      "method": "GET",
+      "path": "/historical-events/{id}",
+      "handler": "getHistoricalEvent",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/historical-events",
+      "handler": "listHistoricalEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 55
+    },
+    {
+      "method": "POST",
+      "path": "/subjects",
+      "handler": "createSubject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 58
+    },
+    {
+      "method": "GET",
+      "path": "/subjects/{id}",
+      "handler": "getSubject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 63
+    },
+    {
+      "method": "GET",
+      "path": "/subjects",
+      "handler": "listSubjects",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 66
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/places/{placeId}",
+      "handler": "tagPlace",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 69
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/historical-events/{eventId}",
+      "handler": "tagHistoricalEvent",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 73
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/subjects/{subjectId}",
+      "handler": "tagSubject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 76
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/places",
+      "handler": "listDocumentPlaces",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 79
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/historical-events",
+      "handler": "listDocumentHistoricalEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 82
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/subjects",
+      "handler": "listDocumentSubjects",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 85
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/texts",
+      "handler": "createText",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 88
+    },
+    {
+      "method": "GET",
+      "path": "/texts/{id}",
+      "handler": "getText",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 94
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/texts",
+      "handler": "listDocumentTexts",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/heritage/api/HeritageController.kt",
+      "line": 97
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/me",
+      "handler": "me",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 12
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/institutions",
+      "handler": "institutions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 15
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/institutions/{id}",
+      "handler": "institution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 18
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/institutions",
+      "handler": "createInstitution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 20
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/iam/institutions/{id}",
+      "handler": "updateInstitution",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 22
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/institutions/{id}/status",
+      "handler": "institutionStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 24
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/departments",
+      "handler": "departments",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 27
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/departments/{id}",
+      "handler": "department",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 30
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/departments",
+      "handler": "createDepartment",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 32
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/iam/departments/{id}",
+      "handler": "updateDepartment",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/departments/{id}/status",
+      "handler": "departmentStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 36
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/users",
+      "handler": "users",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 39
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/users/{id}",
+      "handler": "user",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 42
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/users",
+      "handler": "registerUser",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 44
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/iam/users/{id}",
+      "handler": "updateUser",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 46
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/users/{id}/scope",
+      "handler": "changeUserScope",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 48
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/users/{id}/status",
+      "handler": "userStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 50
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/users/{id}/revoke-tokens",
+      "handler": "revokeTokens",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/roles",
+      "handler": "roles",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/roles/{id}",
+      "handler": "role",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 57
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/roles",
+      "handler": "createRole",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 59
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/iam/roles/{id}",
+      "handler": "updateRole",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 61
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/roles/{id}/status",
+      "handler": "roleStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 63
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/roles/{id}/permissions",
+      "handler": "rolePermissions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 65
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/iam/roles/{id}/permissions",
+      "handler": "replacePermissions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 67
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/permissions",
+      "handler": "permissions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 69
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/users/{id}/role-assignments",
+      "handler": "assignments",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/role-assignments/{id}",
+      "handler": "assignment",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 74
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/role-assignments",
+      "handler": "assignRole",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 76
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/role-assignments/{id}/revoke",
+      "handler": "revokeRole",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 78
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/users/{id}/delegations",
+      "handler": "delegations",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 81
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/delegations/{id}",
+      "handler": "delegation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 83
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/delegations",
+      "handler": "createDelegation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 85
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/delegations/{id}/revoke",
+      "handler": "revokeDelegation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityController.kt",
+      "line": 87
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/roles/{id}/impact",
+      "handler": "roleImpact",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 18
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/roles/{id}/permission-changes",
+      "handler": "propose",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 21
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/roles/{id}/permission-changes",
+      "handler": "list",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 26
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/permission-changes/{id}",
+      "handler": "get",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 30
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/permission-changes/{id}/approve",
+      "handler": "approve",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 33
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/permission-changes/{id}/reject",
+      "handler": "reject",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 37
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/iam/permission-changes/{id}/cancel",
+      "handler": "cancel",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 41
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/users/{id}/access-summary",
+      "handler": "accountSummary",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 45
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iam/departments/{id}/impact",
+      "handler": "departmentImpact",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/identity/api/IdentityGovernanceController.kt",
+      "line": 48
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/metadata-schemas",
+      "handler": "createSchema",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 22
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}/fields",
+      "handler": "addField",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 28
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}/document-types/{typeId}",
+      "handler": "bind",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}/activate",
+      "handler": "activate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 40
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/metadata-schemas",
+      "handler": "listSchemas",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}",
+      "handler": "getSchema",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 48
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}/fields",
+      "handler": "listFields",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/metadata-schemas/{schemaId}/document-types",
+      "handler": "listBindings",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 56
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/documents/{documentId}/metadata",
+      "handler": "replace",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 60
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{documentId}/metadata",
+      "handler": "get",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 65
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{documentId}/metadata/schema",
+      "handler": "applicableFields",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/metadata/api/MetadataController.kt",
+      "line": 68
+    },
+    {
+      "method": "POST",
+      "path": "/locations",
+      "handler": "createLocation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 44
+    },
+    {
+      "method": "GET",
+      "path": "/locations/{id}",
+      "handler": "getLocation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/locations",
+      "handler": "listLocations",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 52
+    },
+    {
+      "method": "POST",
+      "path": "/locations/{id}/activate",
+      "handler": "activateLocation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 55
+    },
+    {
+      "method": "POST",
+      "path": "/locations/{id}/deactivate",
+      "handler": "deactivateLocation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 58
+    },
+    {
+      "method": "POST",
+      "path": "/storage-units",
+      "handler": "createStorageUnit",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 61
+    },
+    {
+      "method": "GET",
+      "path": "/storage-units/{id}",
+      "handler": "getStorageUnit",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 66
+    },
+    {
+      "method": "GET",
+      "path": "/storage-units",
+      "handler": "listStorageUnits",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 69
+    },
+    {
+      "method": "GET",
+      "path": "/locations/{id}/storage-units",
+      "handler": "listStorageUnitsByLocation",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 72
+    },
+    {
+      "method": "POST",
+      "path": "/storage-units/{id}/activate",
+      "handler": "activateStorageUnit",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 75
+    },
+    {
+      "method": "POST",
+      "path": "/storage-units/{id}/deactivate",
+      "handler": "deactivateStorageUnit",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 78
+    },
+    {
+      "method": "POST",
+      "path": "/archives",
+      "handler": "createArchive",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 81
+    },
+    {
+      "method": "GET",
+      "path": "/archives/{id}",
+      "handler": "getArchive",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 87
+    },
+    {
+      "method": "GET",
+      "path": "/archives",
+      "handler": "listArchives",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 90
+    },
+    {
+      "method": "GET",
+      "path": "/storage-units/{id}/archives",
+      "handler": "listArchivesByStorageUnit",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 93
+    },
+    {
+      "method": "POST",
+      "path": "/archives/{id}/document/{documentId}",
+      "handler": "attachDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 96
+    },
+    {
+      "method": "POST",
+      "path": "/archives/{id}/checkout",
+      "handler": "checkout",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 99
+    },
+    {
+      "method": "POST",
+      "path": "/movements/{id}/checkin",
+      "handler": "checkin",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 105
+    },
+    {
+      "method": "GET",
+      "path": "/movements/{id}",
+      "handler": "getMovement",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 109
+    },
+    {
+      "method": "GET",
+      "path": "/archives/{id}/movements",
+      "handler": "listMovements",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 112
+    },
+    {
+      "method": "POST",
+      "path": "/archives/{id}/restorations",
+      "handler": "createRestoration",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 115
+    },
+    {
+      "method": "POST",
+      "path": "/restorations/{id}/advance",
+      "handler": "advanceRestoration",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 121
+    },
+    {
+      "method": "GET",
+      "path": "/restorations/{id}",
+      "handler": "getRestoration",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 126
+    },
+    {
+      "method": "GET",
+      "path": "/archives/{id}/restorations",
+      "handler": "listRestorations",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 129
+    },
+    {
+      "method": "GET",
+      "path": "/restorations",
+      "handler": "listAllRestorations",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/physicalarchives/api/PhysicalArchivesController.kt",
+      "line": 132
+    },
+    {
+      "method": "POST",
+      "path": "/versions/{id}/timestamp",
+      "handler": "createTimestamp",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationController.kt",
+      "line": 24
+    },
+    {
+      "method": "GET",
+      "path": "/versions/{id}/timestamp",
+      "handler": "getTimestamp",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationController.kt",
+      "line": 28
+    },
+    {
+      "method": "POST",
+      "path": "/files/{fileId}/preservation-events",
+      "handler": "recordEvent",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationController.kt",
+      "line": 31
+    },
+    {
+      "method": "GET",
+      "path": "/files/{fileId}/preservation-events",
+      "handler": "listEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationController.kt",
+      "line": 36
+    },
+    {
+      "method": "GET",
+      "path": "/preservation-events",
+      "handler": "listAllEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationController.kt",
+      "line": 39
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/preservation/backups",
+      "handler": "backups",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationMonitorController.kt",
+      "line": 17
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/preservation/monitor",
+      "handler": "read",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/preservation/api/PreservationMonitorController.kt",
+      "line": 19
+    },
+    {
+      "method": "POST",
+      "path": "/licences",
+      "handler": "createLicence",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 23
+    },
+    {
+      "method": "GET",
+      "path": "/licences/{id}",
+      "handler": "getLicence",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 28
+    },
+    {
+      "method": "GET",
+      "path": "/licences",
+      "handler": "listLicences",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 31
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/publications",
+      "handler": "publish",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/publications/{id}/withdraw",
+      "handler": "withdraw",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 40
+    },
+    {
+      "method": "GET",
+      "path": "/publications/{id}",
+      "handler": "getPublication",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 44
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/publications",
+      "handler": "listPublications",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/publication/api/PublicationController.kt",
+      "line": 47
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/document-types",
+      "handler": "documentTypes",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 25
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents",
+      "handler": "listDocuments",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 28
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{id}",
+      "handler": "getDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 34
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{id}/versions",
+      "handler": "listVersions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 37
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/versions/{versionId}/files",
+      "handler": "listFiles",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 40
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/dossiers",
+      "handler": "listDossiers",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 43
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/dossiers/{id}",
+      "handler": "getDossier",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/dossiers/{id}/documents",
+      "handler": "dossierDocuments",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/actors",
+      "handler": "listActors",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 57
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{id}/actors",
+      "handler": "listDocumentActors",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 61
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/document-types",
+      "handler": "createType",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 64
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/actors",
+      "handler": "createActor",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 70
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/dossiers",
+      "handler": "createDossier",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 76
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/dossiers/{id}/close",
+      "handler": "closeDossier",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 82
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents",
+      "handler": "createDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 85
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/{id}/versions",
+      "handler": "createVersion",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 91
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/{id}/actors",
+      "handler": "attachActor",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 95
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/documents/{id}/classification",
+      "handler": "classify",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 101
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/{id}/close",
+      "handler": "closeDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 104
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/versions/{versionId}/files",
+      "handler": "registerFile",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 107
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/files/{fileId}/scan-status",
+      "handler": "updateScanStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 113
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/files/{fileId}/checksums",
+      "handler": "checksum",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 116
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/files/{fileId}/validate-master",
+      "handler": "validateMaster",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 122
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/versions/{versionId}/seal",
+      "handler": "seal",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordCoreController.kt",
+      "line": 125
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/documents/{id}/description",
+      "handler": "document",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordDescriptionController.kt",
+      "line": 17
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/dossiers/{id}/description",
+      "handler": "dossier",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/records/api/RecordDescriptionController.kt",
+      "line": 21
+    },
+    {
+      "method": "POST",
+      "path": "/rules",
+      "handler": "createRule",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 28
+    },
+    {
+      "method": "POST",
+      "path": "/rules/{id}/versions",
+      "handler": "createVersion",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 33
+    },
+    {
+      "method": "POST",
+      "path": "/versions/{id}/activate",
+      "handler": "activate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 39
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{id}/schedule",
+      "handler": "schedule",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 42
+    },
+    {
+      "method": "GET",
+      "path": "/events",
+      "handler": "listEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 46
+    },
+    {
+      "method": "GET",
+      "path": "/legal-holds",
+      "handler": "listLegalHolds",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{id}/events",
+      "handler": "documentEvents",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{id}/legal-holds",
+      "handler": "documentHolds",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 55
+    },
+    {
+      "method": "GET",
+      "path": "/events/{id}",
+      "handler": "getEvent",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 58
+    },
+    {
+      "method": "GET",
+      "path": "/events/{id}/dispositions",
+      "handler": "eventDispositions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 61
+    },
+    {
+      "method": "POST",
+      "path": "/events/refresh-due",
+      "handler": "refresh",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 64
+    },
+    {
+      "method": "POST",
+      "path": "/events/{id}/dispositions",
+      "handler": "propose",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 67
+    },
+    {
+      "method": "POST",
+      "path": "/dispositions/{id}/validate",
+      "handler": "validate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 72
+    },
+    {
+      "method": "POST",
+      "path": "/dispositions/{id}/execute",
+      "handler": "execute",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 77
+    },
+    {
+      "method": "POST",
+      "path": "/dispositions/{id}/reexamine",
+      "handler": "reexamine",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 81
+    },
+    {
+      "method": "POST",
+      "path": "/dispositions/{id}/cancel",
+      "handler": "cancel",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 85
+    },
+    {
+      "method": "GET",
+      "path": "/dispositions/{id}/readiness",
+      "handler": "readiness",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 89
+    },
+    {
+      "method": "POST",
+      "path": "/legal-holds",
+      "handler": "openHold",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 92
+    },
+    {
+      "method": "POST",
+      "path": "/legal-holds/{id}/release",
+      "handler": "releaseHold",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 98
+    },
+    {
+      "method": "GET",
+      "path": "/legal-holds/{id}",
+      "handler": "getHold",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/retention/api/RetentionController.kt",
+      "line": 102
+    },
+    {
+      "method": "POST",
+      "path": "/sources",
+      "handler": "createSource",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 36
+    },
+    {
+      "method": "GET",
+      "path": "/sources/{id}",
+      "handler": "getSource",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 41
+    },
+    {
+      "method": "GET",
+      "path": "/sources",
+      "handler": "listSources",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 44
+    },
+    {
+      "method": "POST",
+      "path": "/statuses",
+      "handler": "createStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 47
+    },
+    {
+      "method": "GET",
+      "path": "/statuses/{id}",
+      "handler": "getStatus",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/statuses",
+      "handler": "listStatuses",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 55
+    },
+    {
+      "method": "POST",
+      "path": "/documents/{documentId}/restrictions",
+      "handler": "openRestriction",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 58
+    },
+    {
+      "method": "POST",
+      "path": "/restrictions/{id}/release",
+      "handler": "releaseRestriction",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 64
+    },
+    {
+      "method": "GET",
+      "path": "/restrictions/{id}",
+      "handler": "getRestriction",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 69
+    },
+    {
+      "method": "GET",
+      "path": "/documents/{documentId}/restrictions",
+      "handler": "listRestrictions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/rights/api/RightsController.kt",
+      "line": 72
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/search",
+      "handler": "search",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/search/api/SearchController.kt",
+      "line": 14
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/search/reindex",
+      "handler": "reindexAll",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/search/api/SearchController.kt",
+      "line": 19
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/system/status",
+      "handler": "status",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/shared/api/SystemController.kt",
+      "line": 16
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/versions/{versionId}/content",
+      "handler": "upload",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 25
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/versions/{versionId}/ingestions",
+      "handler": "list",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 39
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/ingestions/{id}",
+      "handler": "status",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 44
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/ingestions/{id}/cancel",
+      "handler": "cancel",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 47
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/files/{fileId}/verify-integrity",
+      "handler": "verify",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 50
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/files/{fileId}/content",
+      "handler": "download",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/storage/api/ContentStorageController.kt",
+      "line": 53
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-definitions",
+      "handler": "create",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 22
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/steps",
+      "handler": "addStep",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 28
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/transitions",
+      "handler": "addTransition",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 34
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/document-types/{typeId}",
+      "handler": "bind",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 40
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/activate",
+      "handler": "activate",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 46
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/workflow-definitions",
+      "handler": "listDefinitions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}",
+      "handler": "getDefinition",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 52
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/steps",
+      "handler": "listSteps",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 55
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/transitions",
+      "handler": "listTransitions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 58
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/admin/workflow-definitions/{definitionId}/document-types",
+      "handler": "listBindings",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 61
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/documents/{documentId}/workflow",
+      "handler": "listByDocument",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 64
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/documents/{documentId}/workflow",
+      "handler": "start",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 67
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/workflow-tasks/{taskId}/claim",
+      "handler": "claim",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 73
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/workflow-tasks/{taskId}/complete",
+      "handler": "complete",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 76
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/workflows/{instanceId}/cancel",
+      "handler": "cancel",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 81
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/workflows/{instanceId}",
+      "handler": "get",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt",
+      "line": 86
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/workflow-tasks/inbox",
+      "handler": "inbox",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowTaskQueryController.kt",
+      "line": 10
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/workflow-tasks/{taskId}/actions",
+      "handler": "actions",
+      "source": "src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowTaskQueryController.kt",
+      "line": 14
+    }
+  ]
+}

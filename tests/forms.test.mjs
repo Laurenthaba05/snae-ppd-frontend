@@ -1,0 +1,24 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {metadataDraft,metadataPayload} from '../.test-build/metadataEditor.js';
+import {optionalPayload,optionalFieldGroups} from '../.test-build/optionalFields.js';
+const field={fieldCode:'SUJET',fieldName:'Sujet',type:'TEXTE',repeatable:true};
+const value=(order,text)=>({fieldCode:'SUJET',order,value:text});
+test('Modifier un autre champ conserve toutes les occurrences et leur ordre',()=>{
+ const other={fieldCode:'TITRE',fieldName:'Titre',type:'TEXTE',repeatable:false};
+ const current=[value(0,'A'),value(2,'B'),value(5,'C'),{fieldCode:'TITRE',order:0,value:'Ancien'}];
+ const draft=metadataDraft([field,other],current); draft.TITRE[0].raw='Nouveau';
+ assert.deepEqual(metadataPayload([field,other],current,draft),[value(0,'A'),value(2,'B'),value(5,'C'),{fieldCode:'TITRE',order:0,value:'Nouveau'}]);
+});
+test('Retirer une occurrence ne supprime pas les autres',()=>{const current=[value(0,'A'),value(1,'B')];const draft=metadataDraft([field],current);draft.SUJET=draft.SUJET.filter(v=>v.order!==0);assert.deepEqual(metadataPayload([field],current,draft),[value(1,'B')]);});
+test('Ajouter une occurrence transmet la nouvelle valeur',()=>{const current=[value(0,'A')];const draft=metadataDraft([field],current);draft.SUJET.push({order:1,raw:'B',initial:''});assert.deepEqual(metadataPayload([field],current,draft),[value(0,'A'),value(1,'B')]);});
+test('Le remplacement préserve une valeur hors des champs éditables',()=>{const current=[{fieldCode:'AUTRE',order:1,value:'conserver'}];assert.deepEqual(metadataPayload([field],current,metadataDraft([field],current)),current);});
+test('Les valeurs false et zéro sont préservées',()=>{for(const [type,val] of [['BOOLEEN',false],['ENTIER',0]]){const f={...field,type};const current=[value(0,val)];assert.deepEqual(metadataPayload([f],current,metadataDraft([f],current)),current);}});
+test('Un horodatage non modifié conserve son instant et sa précision',()=>{const f={...field,type:'DATETIME'},current=[value(0,'2026-09-27T12:34:56.123456Z')];assert.deepEqual(metadataPayload([f],current,metadataDraft([f],current)),current);});
+test('Une saisie entière non entière est refusée',()=>{const f={...field,type:'ENTIER'},draft=metadataDraft([f],[]);draft.SUJET[0].raw='1.5';assert.throws(()=>metadataPayload([f],[],draft));});
+test('Les champs optionnels vides laissent agir les valeurs serveur par défaut',()=>assert.deepEqual(optionalPayload(optionalFieldGroups.workflowBinding,{}),{}));
+test('Quantité et dates archivistiques ont les types du contrat serveur',()=>assert.deepEqual(optionalPayload(optionalFieldGroups.archive,{quantite:'12.5',dateExtremeDebut:'2020-01-01',dateExtremeFin:'2021-02-03'}),{quantite:12.5,dateExtremeDebut:'2020-01-01',dateExtremeFin:'2021-02-03'}));
+test('Les périodes inversées sont refusées',()=>assert.throws(()=>optionalPayload(optionalFieldGroups.archive,{dateExtremeDebut:'2021-01-01',dateExtremeFin:'2020-01-01'})));
+test('La confiance OCR est bornée entre zéro et un',()=>{assert.deepEqual(optionalPayload(optionalFieldGroups.ocr,{confiance:'0'}),{confiance:0});assert.throws(()=>optionalPayload(optionalFieldGroups.ocr,{confiance:'90'}));});
+test('Les objets structurés sont parsés et les JSON invalides refusés',()=>{assert.deepEqual(optionalPayload(optionalFieldGroups.storage,{conditionsConservation:'{"temperature":18}'}),{conditionsConservation:{temperature:18}});assert.throws(()=>optionalPayload(optionalFieldGroups.storage,{conditionsConservation:'[]'}));assert.throws(()=>optionalPayload(optionalFieldGroups.storage,{conditionsConservation:'invalide'}));});
+test('Les références et dates optionnelles invalides sont refusées',()=>{assert.throws(()=>optionalPayload(optionalFieldGroups.intake,{sourceActeurId:'invalide'}));assert.throws(()=>optionalPayload(optionalFieldGroups.archive,{dateExtremeDebut:'2026-02-30'}));});

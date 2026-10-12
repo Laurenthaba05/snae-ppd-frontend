@@ -1,0 +1,20 @@
+/* Versement structuré : circuit, bordereau, constat, journal des étapes, accords */
+.check-field>span{display:flex;align-items:center;gap:8px;font-weight:600}
+.check-field>span input{width:auto}
+.structured-intake{display:grid;gap:14px;margin-top:14px}
+.stage-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.stage-banner p{margin:0;font-size:13.5px;color:#33494d}
+.stage-actions{display:grid;gap:8px}
+.stage-actions .table-actions{justify-content:flex-start}
+.stage-journal{margin:0;padding:0 0 0 18px;display:grid;gap:4px;font-size:13px;color:#33494d}
+.stage-journal time{color:#5d7176}
+.stage-journal em{color:#5d7176}
+.bordereau{display:grid;gap:10px}
+.bordereau .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bordereau .section-heading h4{margin:0}
+.bordereau-totals,.bordereau-outcome{margin:0;font-size:13.5px;color:#33494d}
+.bordereau-table td{vertical-align:top;font-size:13.5px}
+.finding{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600}
+.finding.conforme{background:#e3f2ea;color:#175c3a}
+.finding.ecart{background:#fff0d6;color:#8a5a00}
+.finding.absent{background:#fde3e0;color:#9c2a1f}

@@ -1,0 +1,20 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { App } from './app';
+import './styles.css';
+import './institutional.css';
+import './archive-modules.css';
+import './design/f3.css';
+import './design/dashboard.css';
+import './design/import.css';
+import './design/scanning.css';
+import './design/heritage.css';
+import './design/archives.css';
+import './design/portal.css';
+import './design/intake.css';
+import './design/destruction.css';
+import './design/records.css';
+const root = document.getElementById('root');
+if (!root)
+    throw new Error('Point de montage introuvable.');
+createRoot(root).render(<App />);

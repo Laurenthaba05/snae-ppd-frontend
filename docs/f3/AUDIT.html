@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>SNAE-PPD — audit et conception F3</title><style>body{font:16px/1.75 'Segoe UI',Arial,sans-serif;color:#243b32;background:#f4f7f5;margin:0}header{background:#103b2e;color:#fff;padding:45px max(24px,calc((100vw - 1140px)/2));border-top:5px solid #b79b57}header small{letter-spacing:.17em;color:#ceddce}header h1{font-size:36px;line-height:1.2;letter-spacing:-.035em;margin:12px 0}header p{color:#cfdfd3;max-width:800px}main{max-width:1140px;margin:30px auto;background:#fff;padding:45px;border:1px solid #dce5de;border-radius:14px}h1,h2,h3{line-height:1.3;letter-spacing:-.02em}h2{border-top:1px solid #dce5de;padding-top:35px;margin-top:45px;font-size:25px}h3{font-size:19px;margin-top:29px}a{color:#1c6747;text-decoration-thickness:1px;text-underline-offset:3px}table{border-collapse:collapse;width:100%;font-size:13px;display:block;overflow:auto;margin:22px 0}th{background:#eaf1eb;text-align:left}th,td{border:1px solid #dce5de;padding:12px;min-width:160px;vertical-align:top}pre{overflow:auto;background:#f1f5f1;border:1px solid #dce5de;padding:18px;border-radius:8px;max-height:400px;font-size:11px}code{font-size:.88em;overflow-wrap:anywhere}p,li{max-width:100%}nav{padding:20px;display:flex;gap:20px;flex-wrap:wrap;background:#e9f0e9;border-radius:8px;margin:22px 0}.warning{background:#faf4e4;padding:20px;border-left:4px solid #b38e3d}.print{padding:10px 15px;border:1px solid #d3dfd4;background:#fff;color:#214e36;border-radius:6px;cursor:pointer}@media(max-width:760px){header{padding:25px 20px}header h1{font-size:28px}main{padding:22px;margin:15px;border-radius:9px}h2{font-size:22px}body{font-size:14px}}@media print{body{background:white}header{background:white;color:#123c2d;padding:0}header p{color:#333}main{border:0;margin:0;padding:0}pre{max-height:none;white-space:pre-wrap}nav,.print{display:none}h2,h3{break-after:avoid}tr{break-inside:avoid}}</style></head><body><header><small>CONCEPTION · CONTRATS · PARCOURS UTILISATEURS</small><h1>Un espace d’archives.<br/>Des actions fidèles au système.</h1><p>Audit des deux projets fournis, décisions de refonte et 42 parcours de référence — 1er octobre 2026.</p></header><main><div class="warning"><b>État de livraison :</b> proposition de design et source F3 pour recette. Les limites de build, d’intégration et de sécurité sont détaillées dans le rapport.</div><nav aria-label="Sommaire du rapport"><a href="#1-conclusion">1. Conclusion</a><a href="#2-m-thode-et-p-rim-tre-v-rifi">2. Méthode et périmètre vérifié</a><a href="#3-carts-et-d-cisions-de-conception">3. Écarts et décisions de conception</a><a href="#4-design-cible-sobre-et-op-rationnel">4. Design cible : sobre et opérationnel</a><a href="#5-matrice-fonctionnelle-et-int-gration">5. Matrice fonctionnelle et intégration</a><a href="#6-parcours-transverses-et-tats-couvrir">6. Parcours transverses et états à couvrir</a><a href="#7-ce-qui-a-r-ellement-t-modifi-dans-f3">7. Ce qui a réellement été modifié dans F3</a><a href="#8-api-compl-ter-en-priorit">8. API à compléter en priorité</a><a href="#9-s-curit-et-conformit-v-rifier">9. Sécurité et conformité à vérifier</a><a href="#10-v-rifications-ex-cut-es-et-limites">10. Vérifications exécutées et limites</a><a href="#11-plan-de-r-alisation-prioris">11. Plan de réalisation priorisé</a><a href="#12-utilisation-de-la-livraison">12. Utilisation de la livraison</a><a href="#13-r-f-rences-publiques-utilis-es">13. Références publiques utilisées</a><a href="#14-sources-techniques-et-int-grit-des-fichiers">14. Sources techniques et intégrité des fichiers</a><a href="#15-atlas-des-42-parcours">15. Atlas des 42 parcours</a></nav><h1>SNAE-PPD — Audit frontend/backend et refonte F3</h1>
+<p><strong>Livraison de conception et de recette · 1er octobre 2026</strong><br>
+Périmètre : les deux ZIP fournis dans cette conversation. Cette livraison n’est pas une certification d’accessibilité, de sécurité, de conformité juridique ni de mise en production.</br></p>
+<h2 id="1-conclusion">1. Conclusion</h2>
+<p>Le projet contient déjà un socle applicatif conséquent. La meilleure évolution n’est pas d’ajouter davantage de cartes, de slogans et d’illustrations : il faut rendre l’interface fidèle aux capacités du serveur et centrée sur les opérations réelles. L’interface précédente confond parfois un parcours cible avec une fonction exécutable.</p>
+<p>La F3 proposée conserve l’identité visuelle institutionnelle, réduit la navigation affichée, introduit de véritables onglets contextuels pour la fiche documentaire, rend explicites les états serveur et fournit un atlas de 42 parcours avec issues normales et exceptions. Une partie des composants connectés a été améliorée ; la livraison ne prétend pas réimplémenter tous les modules ni corriger toute la sécurité serveur.</p>
+<p><strong>Point de vigilance principal : une entrée clôturée n’est pas un versement officiellement admis ; une ingestion terminée n’est pas une archive définitivement conservée.</strong></p>
+<h2 id="2-m-thode-et-p-rim-tre-v-rifi">2. Méthode et périmètre vérifié</h2>
+<p>Les ZIP ont été extraits pour inspection de leurs sources. Les copies historiques, <code>.claude/worktrees</code>, les sorties <code>build</code>, <code>.git</code>, les dépendances <code>node_modules</code> et <code>dist</code> ne sont pas considérées comme de nouvelles fonctionnalités du code racine. Les recherches documentaires n’indexant pas le contenu des ZIP, l’analyse a porté directement sur les fichiers montés.</p>
+<p>Inventaire du backend racine : <strong>21 contrôleurs, 253 déclarations de routes HTTP, 53 migrations SQL V1 à V53</strong>. Les 16 clients API et les écrans du frontend fourni ont été comparés à ces contrats, notamment pour les dossiers, documents, entrées, workflows, droits et conservation. Les DTO, services et règles déterminants ont été examinés pour interpréter les actions et états. L’inventaire de routes est une extraction statique ; il n’est ni un OpenAPI complet ni la preuve qu’un endpoint fonctionne en exploitation.</p>
+<p>Les 42 parcours se répartissent en <strong>26 parcours à contrat présent, 13 parcours partiels et 3 parcours cibles</strong>. « Contrat présent » signifie que le code expose les contrats cités ; cela ne signifie pas que toutes les pages sont terminées, que toutes les permissions ont été testées en intégration, ni que l’installation est prête pour la production.</p>
+<p>Les références HTTP du catalogue ont toutes été comparées aux routes extraites, avec normalisation des noms de paramètres de chemin. Le nom <code>v12.1</code> du ZIP et les versions mentionnées dans les anciens README ne suffisent pas à identifier les capacités réelles.</p>
+<p>Aucune connexion au PostgreSQL distant, au fournisseur SSO, à un antivirus, à un service d’horodatage ou à une archive réelle n’a été effectuée. Aucun secret ni fichier <code>.env.local</code> fourni n’a été réutilisé dans le prototype.</p>
+<h2 id="3-carts-et-d-cisions-de-conception">3. Écarts et décisions de conception</h2>
+<h3 id="p0-versement-un-circuit-complet-a-t-dessin-pas-impl-ment">P0 — Versement : un circuit complet a été dessiné, pas implémenté</h3>
+<p><strong>Constat.</strong> Le domaine courant possède OUVERTE/CLOTUREE. Les routes créent, lisent, lient et clôturent une entrée. Il manque le contrat métier de soumission, décision d’admission, intégration confirmée, inventaire du contenu et bordereau probant.</p>
+<p><strong>Décision.</strong> Montrer « Entrées archivistiques » ; conserver l’admission complète dans un parcours cible. Ne pas afficher « intégré » après /close.</p>
+<p>Sources : S01, S02.</p>
+<h3 id="p0-destruction-et-transfert-ne-sont-pas-ex-cutables">P0 — Destruction et transfert ne sont pas exécutables</h3>
+<p><strong>Constat.</strong> RetentionPolicy bloque ELIMINER et TRANSFERER. Le champ enum et la proposition de décision ne prouvent pas une capacité d’exécution. Le réexamen dispose de son traitement distinct.</p>
+<p><strong>Décision.</strong> Lire /readiness et ses causes ; aucune suppression, certificat ou transfert simulé en connecté. Compléter l’exécution seulement avec les mécanismes de stockage et de remise nécessaires.</p>
+<p>Sources : S03.</p>
+<h3 id="p0-une-entr-e-une-ingestion-et-une-archive-ne-partagent-pas-le-m-me-statut">P0 — Une entrée, une ingestion et une archive ne partagent pas le même statut</h3>
+<p><strong>Constat.</strong> Le document distingue statut métier, cycle archivistique, confidentialité et diffusion. Version, scellement, fichier, antivirus et ingestion ont leur propre état.</p>
+<p><strong>Décision.</strong> Afficher un état principal contextualisé puis les autres axes dans la fiche. Ne pas assimiler COMPLETED, CLEAN, VALIDE et ARCHIVE_DEFINITIVE.</p>
+<p>Sources : S04, S10.</p>
+<h3 id="p1-la-d-monstration-initiale-peut-enseigner-un-workflow-faux">P1 — La démonstration initiale peut enseigner un workflow faux</h3>
+<p><strong>Constat.</strong> Le composant générique avance dans une liste de libellés. Des branches alternatives deviennent des étapes successives, notamment autorisation et refus.</p>
+<p><strong>Décision.</strong> Retirer ce simulateur des routes de démonstration actives. Utiliser des parcours explicites, avec décisions alternatives et résultat attendu.</p>
+<p>Sources : S08.</p>
+<h3 id="p1-la-fiche-documentaire-est-trop-longue-et-charge-trop-de-domaines">P1 — La fiche documentaire est trop longue et charge trop de domaines</h3>
+<p><strong>Constat.</strong> La fiche initiale monte successivement versions, acteurs, publication, rétention et d’autres panneaux. Certains appels sont initiés avant la décision visuelle de permission.</p>
+<p><strong>Décision.</strong> Onglets contextuels ; montage des panneaux sélectionnés ; vérification de visibilité avant montage ; aucune autorisation déduite du simple titre d’administrateur.</p>
+<p>Sources : S07, S09.</p>
+<h3 id="p1-le-backend-a-plus-de-capacit-s-que-ne-le-disent-certains-guides">P1 — Le backend a plus de capacités que ne le disent certains guides</h3>
+<p><strong>Constat.</strong> Le code racine contient V53 et les endpoints fonds, autorités, imports CSV, export EAD/EAC, ainsi que des lectures documentaires et d’autres modules.</p>
+<p><strong>Décision.</strong> Utiliser le code et ses contrats comme référence de cette livraison, pas le nom du ZIP ou un ancien README. Vérifier chaque route et DTO avant raccordement.</p>
+<p>Sources : S05.</p>
+<h3 id="p1-ocr-et-scanner-sont-confondus-avec-leur-suivi">P1 — OCR et scanner sont confondus avec leur suivi</h3>
+<p><strong>Constat.</strong> Les routes de numérisation gèrent projets, éléments, contrôles et résultats OCR. Aucune commande générale de pilotage scanner ou de lancement d’un moteur OCR n’a été identifiée dans les contrôleurs inventoriés.</p>
+<p><strong>Décision.</strong> Présenter « Enregistrer / valider un résultat OCR », pas « OCR exécuté ». Prévoir un connecteur et des jobs si ces capacités sont ajoutées.</p>
+<p>Sources : S13.</p>
+<h3 id="p1-certains-crans-demandent-des-identifiants-techniques-l-utilisateur">P1 — Certains écrans demandent des identifiants techniques à l’utilisateur</h3>
+<p><strong>Constat.</strong> Des formulaires de rattachement et de commande demandent UUID ou code de transition. Les libellés et actions contextualisés doivent provenir de listes autorisées ou de contrats enrichis.</p>
+<p><strong>Décision.</strong> Sélecteurs contextuels, références métier lisibles, UUID repliés. Les choix proposés doivent respecter le périmètre serveur.</p>
+<p>Sources : S11, S14.</p>
+<h3 id="p1-les-erreurs-de-commande-ne-sont-pas-homog-nes">P1 — Les erreurs de commande ne sont pas homogènes</h3>
+<p><strong>Constat.</strong> Certaines actions, dont la clôture d’entrée initiale, n’affichent pas leurs échecs. Des clés de requête nouvelles sont parfois générées à chaque clic.</p>
+<p><strong>Décision.</strong> Distinguer refus, conflit, validation et succès incertain ; conserver la même intention seulement sur les contrats réellement idempotents ; relire avant de répéter.</p>
+<p>Sources : S11.</p>
+<h3 id="p1-publication-ne-signifie-pas-portail-public-d-ploy">P1 — Publication ne signifie pas portail public déployé</h3>
+<p><strong>Constat.</strong> L’API de publication gère des objets et une visibilité. Le filtre de sécurité reste authentifié hors endpoints techniques publics observés.</p>
+<p><strong>Décision.</strong> Ne pas inventer une URL publique d’archive. Traiter portail public, anonymisation, dérivés, index et droits comme un chantier de diffusion séparé.</p>
+<p>Sources : S15.</p>
+<h3 id="p2-les-indicateurs-et-la-corbeille-globale-de-t-ches-restent-incomplets">P2 — Les indicateurs et la corbeille globale de tâches restent incomplets</h3>
+<p><strong>Constat.</strong> Les routes de workflow sont centrées sur une définition, un document ou une instance. Aucun contrat agrégé Mes tâches/notifications/compteurs nationaux complet n’apparaît dans l’inventaire.</p>
+<p><strong>Décision.</strong> Accueil orienté opérations sans chiffres fabriqués. Ajouter des APIs paginées et filtrées par habilitation pour la corbeille et les compteurs.</p>
+<p>Sources : S14.</p>
+<h3 id="p2-les-fichiers-livr-s-ne-constituent-pas-une-installation-reproductible-ici">P2 — Les fichiers livrés ne constituent pas une installation reproductible ici</h3>
+<p><strong>Constat.</strong> Le frontend contient des dépendances natives Windows. Node local 22.16.0 ne satisfait pas la plage engines déclarée. Une tentative de build échoue ; le contrôle TypeScript, lui, passe.</p>
+<p><strong>Décision.</strong> Distribuer sources + lockfile, sans node_modules, sans .env.local ni .git. Réinstaller proprement dans l’environnement cible et effectuer la recette réelle.</p>
+<p>Sources : S12.</p>
+<h2 id="4-design-cible-sobre-et-op-rationnel">4. Design cible : sobre et opérationnel</h2>
+<h3 id="structure-de-navigation">Structure de navigation</h3>
+<p>La navigation principale est regroupée en neuf espaces repliables : Mon espace, Versements, Archives, Traitements, Accès &amp; diffusion, Conservation, Patrimoine, Administration, Aide &amp; parcours. Un seul groupe est ouvert à la fois. La visibilité en mode connecté dépend des habilitations et du périmètre sélectionné, pas d’un nom de métier supposé.</p>
+<p>L’agent voit prioritairement ses opérations documentaires ; l’archiviste accède au classement, à la description et aux traitements autorisés ; l’administrateur configure l’organisation et les habilitations ; l’auditeur consulte les événements autorisés. Ces personas sont des modèles de conception, pas de nouveaux rôles imposés au backend. Le rôle national d’administration ne doit pas conférer implicitement un droit sur les archives confidentielles.</p>
+<h3 id="grammaire-d-cran">Grammaire d’écran</h3>
+<p>Chaque écran présente un intitulé, une courte explication, une action principale et une zone de travail. Une liste affiche les critères utiles, un nombre de résultats dont la portée est claire et une pagination. Le détail s’ouvre avec contexte et référence. Les actions avancées sont regroupées ou repliées. Les instructions juridiques, taux d’intégrité, délais et nombres de documents ne sont jamais fabriqués pour remplir l’écran.</p>
+<p>L’accueil privilégie six points d’entrée métier maximum, sans faux compteurs. Les notifications et les métriques devront provenir d’API dédiées, avec leur périmètre et leur date d’observation. L’écran ne doit pas télécharger tous les objets pour reconstituer des statistiques globales.</p>
+<h3 id="fiche-documentaire">Fiche documentaire</h3>
+<p>La fiche utilise les onglets Description, Fichiers &amp; versions, Traitement, Accès &amp; diffusion, Conservation et Historique, sous réserve des droits disponibles. Le panneau de l’onglet actif est monté à la demande. L’onglet Historique n’appelle pas l’audit lorsque l’utilisateur ne dispose pas de la permission correspondante.</p>
+<p>Le titre et la référence métier restent visibles. Le cycle archivistique et la confidentialité sont affichés séparément. La description comporte le producteur et le classement. Les fichiers distinguent original, maître, dérivé de consultation et dérivé public. Les preuves et identifiants techniques sont secondaires. Un dossier sans endpoint complet de contenu ne doit pas montrer une liste fictive de pièces.</p>
+<h3 id="cr-ation-et-d-cision">Création et décision</h3>
+<p>Les formulaires utilisent les référentiels autorisés existants, demandent les champs réellement requis et placent les détails facultatifs dans une section secondaire. Une référence automatique n’est annoncée que si le serveur la génère réellement. Un formulaire long doit conserver son intention et expliquer une reprise ; il ne doit pas multiplier les créations après un délai réseau.</p>
+<p>Une décision sensible indique l’objet, l’effet attendu, les prérequis, le motif lorsqu’il existe dans le contrat et le besoin de validation indépendante. Une réponse incertaine n’est ni une réussite ni un échec définitif : l’utilisateur est invité à relire l’état avant de recommencer.</p>
+<h3 id="syst-me-graphique">Système graphique</h3>
+<p>Fond clair <code>#F4F7F6</code>, surfaces blanches, navigation vert profond <code>#0C2D25</code>, texte principal <code>#182C30</code>, couleur primaire <code>#123E32</code>, bordures <code>#DCE5E2</code>, or discret pour les repères, pas pour tout le menu. Rayons de 7 à 12 px ; marges de 16 à 32 px ; typographie système avec repli Segoe UI/Arial. Aucun fichier de police n’est livré.</p>
+<p>La hiérarchie repose sur la taille, les espacements et les libellés plutôt que sur une accumulation de couleurs. Les icônes sont accompagnées d’un texte. Pas de portrait inventé, de photo de palais en grand fond, de données ministérielles fictives présentées comme réelles, ni d’emblème prétendument homologué.</p>
+<h3 id="mobile-et-accessibilit">Mobile et accessibilité</h3>
+<p>Sous 720 px, la navigation devient un panneau avec fermeture au clavier. Les formulaires passent en une colonne ; les tableaux conservent un défilement local sans faire déborder toute la page. Le focus est visible, les boutons ont des noms accessibles et les onglets prennent en charge les flèches, Début et Fin.</p>
+<p>La cible proposée est WCAG 2.2 niveau AA : navigation clavier, contrastes, visibilité du focus, erreurs compréhensibles et annonces d’état. Les tests visuels exécutés ne suffisent pas à attester cette conformité. Un contrôle complet avec lecteur d’écran, zoom, contraste sur toutes les combinaisons et parcours réels reste nécessaire. Référence : W3C WCAG 2.2, recommandation du 12 décembre 2024, consultée le 1er octobre 2026.</p>
+<h2 id="5-matrice-fonctionnelle-et-int-gration">5. Matrice fonctionnelle et intégration</h2>
+<h3 id="identit-organisation">Identité &amp; organisation</h3>
+<p><strong>Écran et informations :</strong> Institution, département, utilisateur SSO, rôle, permission, délégation, approbation.</p>
+<p><strong>Parcours :</strong> Catalogue → fiche → action contrôlée ; changer de périmètre explicitement.</p>
+<p><strong>Contrat et limites :</strong> Contrats présents ; IAM_USER_MANAGE et habilitations fines. Provisionnement SSO distinct de création de compte applicatif.</p>
+<p><strong>Références dans l’atlas :</strong> P01–P07.</p>
+<h3 id="entr-es-versements">Entrées / versements</h3>
+<p><strong>Écran et informations :</strong> Numéro fourni, mode, date, provenance et références disponibles.</p>
+<p><strong>Parcours :</strong> Liste → créer → rattacher → relire → clôturer.</p>
+<p><strong>Contrat et limites :</strong> National ARCHIVAL_INTAKE_READ/MANAGE. Admission complète et bordereau restent à développer.</p>
+<p><strong>Références dans l’atlas :</strong> P08–P11.</p>
+<h3 id="documents">Documents</h3>
+<p><strong>Écran et informations :</strong> Référence, titre, type, institution, département, dossier, classe, axes de statut.</p>
+<p><strong>Parcours :</strong> Liste sobre → fiche à onglets → fichiers ou opération habilitée.</p>
+<p><strong>Contrat et limites :</strong> DOCUMENT_READ/CREATE. Pas de modification libre d’un original archivé ; pas de suppression directe.</p>
+<p><strong>Références dans l’atlas :</strong> P12–P14, P21.</p>
+<h3 id="dossiers">Dossiers</h3>
+<p><strong>Écran et informations :</strong> Référence, titre, rattachement, dates et statut.</p>
+<p><strong>Parcours :</strong> Catalogue → notice → clôture selon prérequis.</p>
+<p><strong>Contrat et limites :</strong> Lire la notice n’équivaut pas à disposer de la liste de tous les documents du dossier : contrat de relation à compléter.</p>
+<p><strong>Références dans l’atlas :</strong> P15.</p>
+<h3 id="fonds-producteurs">Fonds &amp; producteurs</h3>
+<p><strong>Écran et informations :</strong> Niveaux fonds/série/dossier/pièce, parent, producteur et provenance.</p>
+<p><strong>Parcours :</strong> Arbre → description → autorité ; import avec prévisualisation.</p>
+<p><strong>Contrat et limites :</strong> ARCHIVAL_DESCRIPTION_READ/MANAGE. CSV previewHash ; EAD/EAC disponibles sans certification de conformité revendiquée.</p>
+<p><strong>Références dans l’atlas :</strong> P16–P17.</p>
+<h3 id="plan-de-classement">Plan de classement</h3>
+<p><strong>Écran et informations :</strong> Code, libellé, parent, institution, état.</p>
+<p><strong>Parcours :</strong> Parcourir → créer/activer → rattacher au document.</p>
+<p><strong>Contrat et limites :</strong> CLASSIFICATION_READ/MANAGE et DOCUMENT_CLASSIFY ; ne pas confondre organigramme et classement.</p>
+<p><strong>Références dans l’atlas :</strong> P18.</p>
+<h3 id="m-tadonn-es">Métadonnées</h3>
+<p><strong>Écran et informations :</strong> Schéma, version, champs, valeurs documentaires.</p>
+<p><strong>Parcours :</strong> Configurer → afficher schéma du document → renseigner → valider.</p>
+<p><strong>Contrat et limites :</strong> METADATA_SCHEMA_MANAGE et DOCUMENT_METADATA_READ. Le formulaire doit suivre le schéma serveur.</p>
+<p><strong>Références dans l’atlas :</strong> P19.</p>
+<h3 id="recherche-lecture">Recherche &amp; lecture</h3>
+<p><strong>Écran et informations :</strong> Texte, type de cible, page ; fichier et version sélectionnés.</p>
+<p><strong>Parcours :</strong> Rechercher → résultat autorisé → notice → contenu.</p>
+<p><strong>Contrat et limites :</strong> SEARCH_READ puis contrôle document/fichier. Le téléchargement et l’aperçu passent aujourd’hui par le même endpoint de contenu.</p>
+<p><strong>Références dans l’atlas :</strong> P20–P21.</p>
+<h3 id="circuits-de-validation">Circuits de validation</h3>
+<p><strong>Écran et informations :</strong> Définition, étapes, transitions, affectation, état de tâche.</p>
+<p><strong>Parcours :</strong> Configurer le circuit ; puis prendre en charge et décider depuis le document.</p>
+<p><strong>Contrat et limites :</strong> WORKFLOW_DEFINITION_MANAGE / WORKFLOW_READ et capacités d’exécution. Les transitions disponibles doivent être exposées pour une UX sans codes techniques.</p>
+<p><strong>Références dans l’atlas :</strong> P22–P24.</p>
+<h3 id="num-risation">Numérisation</h3>
+<p><strong>Écran et informations :</strong> Projet, source papier, élément, fichiers liés, clôture.</p>
+<p><strong>Parcours :</strong> Projet → éléments → import → contrôle → résultat.</p>
+<p><strong>Contrat et limites :</strong> DIGITIZATION_READ/MANAGE national dans le contrat courant ; scanner matériel absent.</p>
+<p><strong>Références dans l’atlas :</strong> P25.</p>
+<h3 id="ocr-qualit">OCR &amp; qualité</h3>
+<p><strong>Écran et informations :</strong> Résultat OCR, langue, confiance, contrôle et motif.</p>
+<p><strong>Parcours :</strong> Enregistrer le résultat externe → comparer → corriger → valider.</p>
+<p><strong>Contrat et limites :</strong> Suivi de résultat et contrôle présents. Pas d’exécution OCR prouvée ; score de confiance ≠ taux de justesse garanti.</p>
+<p><strong>Références dans l’atlas :</strong> P26–P27.</p>
+<h3 id="consultations">Consultations</h3>
+<p><strong>Écran et informations :</strong> Référence cible, motif, demandeur, décision.</p>
+<p><strong>Parcours :</strong> Déposer → prendre en charge → autoriser OU refuser.</p>
+<p><strong>Contrat et limites :</strong> L’autorisation d’une demande n’ajoute pas automatiquement les permissions de lecture du fichier.</p>
+<p><strong>Références dans l’atlas :</strong> P28.</p>
+<h3 id="communications">Communications</h3>
+<p><strong>Écran et informations :</strong> Bénéficiaire, demande liée, lieu, remise et retour.</p>
+<p><strong>Parcours :</strong> Créer → remettre → restituer.</p>
+<p><strong>Contrat et limites :</strong> Contrats présents ; la communication physique n’est pas un téléchargement.</p>
+<p><strong>Références dans l’atlas :</strong> P29.</p>
+<h3 id="droits-diffusion">Droits &amp; diffusion</h3>
+<p><strong>Écran et informations :</strong> Source juridique, restriction, visibilité, canal, licence.</p>
+<p><strong>Parcours :</strong> Renseigner → vérifier → autoriser/lever ; publier/retirer.</p>
+<p><strong>Contrat et limites :</strong> RIGHTS_READ national ; PUBLICATION_READ/MANAGE scoped. Portail public non livré.</p>
+<p><strong>Références dans l’atlas :</strong> P30–P31.</p>
+<h3 id="conservation-sort-final">Conservation &amp; sort final</h3>
+<p><strong>Écran et informations :</strong> Règle, déclencheur, durée, échéance, disposition, blocages.</p>
+<p><strong>Parcours :</strong> Planifier → proposer → valider indépendamment → lire readiness.</p>
+<p><strong>Contrat et limites :</strong> Conservation définitive et réexamen selon actions réelles ; destruction et transfert bloqués.</p>
+<p><strong>Références dans l’atlas :</strong> P32–P33.</p>
+<h3 id="gels">Gels</h3>
+<p><strong>Écran et informations :</strong> Objet concerné, référence, motif, début et levée.</p>
+<p><strong>Parcours :</strong> Ouvrir → constater les impacts → lever.</p>
+<p><strong>Contrat et limites :</strong> LEGAL_HOLD_MANAGE. Ne pas convertir une levée en destruction automatique.</p>
+<p><strong>Références dans l’atlas :</strong> P34.</p>
+<h3 id="pr-servation">Préservation</h3>
+<p><strong>Écran et informations :</strong> Événements, anomalies d’intégrité, preuve d’horodatage et sauvegardes.</p>
+<p><strong>Parcours :</strong> Surveiller → diagnostiquer → vérifier → consigner.</p>
+<p><strong>Contrat et limites :</strong> PRESERVATION_EVENT_READ et actions spécifiques. État configuré d’un service à lire ; aucune disponibilité ou restauration certifiée par cette analyse.</p>
+<p><strong>Références dans l’atlas :</strong> P35.</p>
+<h3 id="archives-physiques">Archives physiques</h3>
+<p><strong>Écran et informations :</strong> Emplacement, unité, boîte, archive, mouvement.</p>
+<p><strong>Parcours :</strong> Localiser → sortir → suivre → restituer.</p>
+<p><strong>Contrat et limites :</strong> PHYSICALARCHIVES_READ/MANAGE national. Sélecteur physique du rattachement à améliorer.</p>
+<p><strong>Références dans l’atlas :</strong> P36.</p>
+<h3 id="patrimoine-restauration">Patrimoine &amp; restauration</h3>
+<p><strong>Écran et informations :</strong> Lieux, sujets, événements, textes ; diagnostic et intervention.</p>
+<p><strong>Parcours :</strong> Décrire → enrichir ; diagnostiquer → autoriser → intervenir → terminer.</p>
+<p><strong>Contrat et limites :</strong> HERITAGE_READ / RESTORATION_READ nationaux dans le code courant. Pas de passage automatique de toute archive définitive en patrimoine public.</p>
+<p><strong>Références dans l’atlas :</strong> P37–P38.</p>
+<h3 id="audit-pilotage">Audit &amp; pilotage</h3>
+<p><strong>Écran et informations :</strong> Événements paginés, objet, acteur, avant/après.</p>
+<p><strong>Parcours :</strong> Ouvrir un événement → examiner → relier à l’acte.</p>
+<p><strong>Contrat et limites :</strong> AUDIT_READ national ; Mes tâches, notifications et métriques agrégées : contrats cibles.</p>
+<p><strong>Références dans l’atlas :</strong> P39–P41.</p>
+<h3 id="incidents-reprise">Incidents &amp; reprise</h3>
+<p><strong>Écran et informations :</strong> Code HTTP, code métier, champs, référence technique, intention.</p>
+<p><strong>Parcours :</strong> Comprendre → corriger ou relire → reprendre explicitement.</p>
+<p><strong>Contrat et limites :</strong> 401, 403/404 masqué, 409, 422, 503/réseau ; ne jamais transformer un échec en données fictives.</p>
+<p><strong>Références dans l’atlas :</strong> P42.</p>
+<h2 id="6-parcours-transverses-et-tats-couvrir">6. Parcours transverses et états à couvrir</h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Réponse attendue de l’interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Première utilisation</td>
+<td>Expliquer le périmètre et donner une seule action pertinente.</td>
+</tr>
+<tr>
+<td>Chargement</td>
+<td>Indicateur déterministe ; ne pas afficher une ancienne liste d’un autre périmètre.</td>
+</tr>
+<tr>
+<td>Liste vide</td>
+<td>Distinguer absence de données, filtre trop restrictif et défaut d’autorisation.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Interrompre les requêtes concernées et demander une reconnexion sans répétition d’écriture.</td>
+</tr>
+<tr>
+<td>403 ou 404 masqué</td>
+<td>Ne révéler ni titre, ni extrait, ni existence d’un objet interdit.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Relire la version/état et expliquer le conflit ; ne pas écraser silencieusement.</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Afficher les champs invalides et les codes métier utiles, sans réussite fictive.</td>
+</tr>
+<tr>
+<td>Réseau / 503</td>
+<td>Marquer le succès non confirmé ; conserver la même intention uniquement si l’idempotence serveur est prévue.</td>
+</tr>
+<tr>
+<td>Mutation sensible</td>
+<td>Confirmation contextualisée et contrôle serveur ; validation indépendante si exigée.</td>
+</tr>
+<tr>
+<td>Travail concurrent</td>
+<td>Les actions visibles peuvent devenir périmées ; relire le serveur après refus de transition.</td>
+</tr>
+<tr>
+<td>Changement de périmètre / déconnexion</td>
+<td>Annuler les lectures en cours et purger les données qui ne doivent plus être visibles.</td>
+</tr>
+<tr>
+<td>Fichier infecté ou inconnu</td>
+<td>Quarantaine ; ne pas autoriser l’aperçu sur la seule base d’un type MIME ou d’une extension.</td>
+</tr>
+</tbody>
+</table>
+<p>Ces états sont à décliner dans chaque opération, pas uniquement dans une page d’aide. Une partie est déjà traitée dans les composants de transport et formulaires fournis ; l’homogénéisation complète reste un chantier.</p>
+<h2 id="7-ce-qui-a-r-ellement-t-modifi-dans-f3">7. Ce qui a réellement été modifié dans F3</h2>
+<p>Le thème F3 et ses règles adaptatives sont ajoutés dans <code>src/design/f3.css</code>. La navigation est restructurée dans <code>src/app.tsx</code> et sa politique de visibilité documentée dans <code>src/design/navigation.ts</code>. L’accueil est remplacé par une vue orientée opérations.</p>
+<p>La fiche documentaire connectée de <code>src/pages/Records.tsx</code> est réorganisée par onglets conditionnels. Les accès aux panneaux de publication, rétention, droits et audit sont filtrés avant leur montage. La publication ne propose plus <code>NON_PUBLIE</code>, valeur refusée par le service lors d’une publication. Le retrait de publication affiche une erreur de commande. La durée de conservation n’est plus préremplie arbitrairement à dix ans.</p>
+<p>Le dialogue de création d’entrée conserve une clé d’intention pour la répétition d’un même corps de requête. Le rattachement documentaire utilise le sélecteur de catalogue existant. La clôture d’entrée possède une confirmation, un indicateur d’exécution et un message d’erreur ; elle n’est pas présentée comme une admission. Le sélecteur d’archives physiques et plusieurs formulaires techniques restent à améliorer.</p>
+<p>Un nouvel écran de démonstration présente le registre documentaire, la fiche, les états vide/refus/indisponible et les entrées, sans avancer artificiellement d’un état métier au suivant. Les autres domaines ouvrent leurs parcours de référence. La démonstration IAM existante est conservée. Le mode connecté reste distinct et continue d’utiliser les API fournies.</p>
+<p>L’atlas <code>src/pages/Journeys.tsx</code> contient 42 parcours filtrables, leurs acteurs, étapes, exceptions, résultats et contrats. Ce guide n’exécute aucun acte métier. Certains domaines disposent d’un écran de parcours plutôt que d’une nouvelle suite complète d’écrans détaillés : il ne faut pas assimiler la couverture de conception à la couverture d’implémentation.</p>
+<p>Le fichier HTML autonome est un prototype hors ligne : sources transpillées et moteur React fourni, navigation mémoire adaptée, aucune requête distante. Il facilite la validation visuelle sans installation. Il n’est pas un build Vite de production et ne contient ni moteur PDF opérationnel ni backend.</p>
+<h2 id="8-api-compl-ter-en-priorit">8. API à compléter en priorité</h2>
+<p>Les éléments suivants sont des <strong>contrats à concevoir</strong>, pas des routes existantes : admission complète d’un versement avec états et preuves ; inventaire paginé du contenu d’entrée ; liste paginée des documents d’un dossier ; tâches de l’utilisateur avec actions autorisées et libellés ; centre de notifications ; agrégats de pilotage filtrés ; exécution de destruction/transfert et preuves ; jobs OCR/scanner ; portail public séparé.</p>
+<p>Le contrat de chaque action doit expliciter le DTO, les champs requis, les permissions, le périmètre, les états de départ, la réponse, les erreurs, la concurrence, l’idempotence éventuelle et l’audit. Un paramètre de confirmation envoyé par le client ne doit pas être considéré comme une preuve d’autorisation.</p>
+<p>Pour les listes volumineuses encore non paginées, il faut éviter de bâtir une interface nationale sur des <code>findAll()</code>. Prévoir pagination serveur, filtres bornés, ordre stable et compteur dont la portée est définie. Cela doit être testé avec un jeu volumétrique représentatif plutôt qu’annoncé à partir de quelques fixtures.</p>
+<h2 id="9-s-curit-et-conformit-v-rifier">9. Sécurité et conformité à vérifier</h2>
+<p>La politique de navigation ne remplace jamais l’autorisation objet côté serveur. OWASP API1:2023 décrit précisément le risque d’accès à un objet par manipulation d’identifiant. Il faut tester au minimum deux institutions, deux départements, un profil sans droit documentaire, un auditeur et un compte suspendu.</p>
+<p>Pour les fichiers, les validations de format, taille, contenu, stockage et quarantaine doivent être effectuées côté serveur. Le filtre d’extension dans le navigateur et l’empreinte calculée localement ne prouvent ni innocuité ni conservation probante. Référence : OWASP File Upload Cheat Sheet.</p>
+<p>À vérifier en environnement de recette : API de contenu et restrictions, séparation des validateurs, révision d’habilitation pendant une session, invalidation des requêtes, cache de recherche, accès aux sources physiques et aux métadonnées sensibles, URLs et aperçu des fichiers, reprise d’une commande après réponse perdue.</p>
+<p>Le projet fourni contient des fichiers d’environnement. Ils ont été exclus de la livraison F3. Leurs valeurs n’ont pas été reproduites. Examiner séparément leur diffusion et renouveler les secrets réellement exposés, le cas échéant. Un domaine d’hébergement, un fournisseur SSO ou une image institutionnelle ne constituent pas à eux seuls une conformité juridique. Les durées, autorités de décision et règles d’accès restent à valider par les responsables compétents.</p>
+<h2 id="10-v-rifications-ex-cut-es-et-limites">10. Vérifications exécutées et limites</h2>
+<table>
+<thead>
+<tr>
+<th>Vérification</th>
+<th>Résultat de cette session</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contrôle TypeScript du frontend fourni</td>
+<td>Réussi.</td>
+</tr>
+<tr>
+<td>Contrôle TypeScript de la source F3</td>
+<td>Réussi.</td>
+</tr>
+<tr>
+<td>Tests F3 de visibilité et de références API</td><td>16 réussis sur 16.</td></tr><tr><td>Tests cœur fournis exécutés sur F3</td>
+<td>70 réussis sur 71 ; un fichier de tests PDF échoue dans cet environnement au chargement, identique au constat initial.</td>
+</tr>
+<tr>
+<td>Inventaire des références HTTP de l’atlas</td>
+<td>Toutes correspondent aux méthodes et chemins extraits des contrôleurs, paramètres normalisés. Ce n’est pas un test de réponse.</td>
+</tr>
+<tr>
+<td>Recette navigateur du prototype local</td>
+<td>64 vérifications réussies : navigation, filtre, notice locale, onglets clavier, 42 parcours, état vide/refus/erreur et tailles 1440/1024/768/390 px.</td>
+</tr>
+<tr>
+<td>Erreurs JavaScript dans cette recette</td>
+<td>Aucune observée.</td>
+</tr>
+<tr>
+<td>Requêtes distantes dans cette recette</td>
+<td>Aucune.</td>
+</tr>
+<tr>
+<td>Build Vite et tests Vitest</td>
+<td>Non validés : dépendances natives Linux absentes dans le node_modules Windows fourni ; exécution npm initialement bloquée aussi par les droits des binaires. L’appel direct échoue sur le binding natif.</td>
+</tr>
+<tr>
+<td>Backend, PostgreSQL, migrations en base, SSO et antivirus</td>
+<td>Non exécutés contre un environnement actif.</td>
+</tr>
+<tr>
+<td>PDF réel, numérisation, OCR, horodatage et restauration</td>
+<td>Non validés en intégration dans cette session.</td>
+</tr>
+<tr>
+<td>Audit de sécurité et WCAG exhaustifs</td>
+<td>Non réalisés ; aucun certificat ni verdict « production-ready ».</td>
+</tr>
+</tbody>
+</table>
+<p>Les versions Node disponibles localement ne correspondent pas exactement à la plage <code>engines</code> du paquet fourni. Les résultats existants dans <code>build</code> ou <code>dist</code> du ZIP n’ont pas été présentés comme des tests exécutés durant cette analyse. Les journaux bruts et les scénarios sont joints pour distinguer clairement les observations des limites.</p>
+<h2 id="11-plan-de-r-alisation-prioris">11. Plan de réalisation priorisé</h2>
+<p><strong>Lot A — stabiliser le socle.</strong> Installer proprement les dépendances verrouillées dans un environnement compatible ; établir la CI ; vérifier les profils SSO et les permissions ; uniformiser les erreurs ; générer ou maintenir une spécification de contrats. Critère de sortie : build et tests réellement verts sur la plateforme cible, sans jeux de données de secours en connecté.</p>
+<p><strong>Lot B — finaliser le chemin documentaire.</strong> Organisation → entrée → document → fichier contrôlé → validation → classement → consultation. Compléter les contrats manquants du dossier et de l’admission avant d’activer les actions correspondantes. Critère de sortie : parcours de référence sur des fichiers de recette, preuve de chaque étape, gestion des doublons et du succès incertain.</p>
+<p><strong>Lot C — déployer les expériences métier.</strong> Reprendre les écrans de traitement, communication, fonds, patrimoine et conservation avec les composants F3, leurs décisions et leurs habilitations. Ajouter la corbeille de tâches et les notifications. Critère de sortie : tests multi-profils, multi-institutions et mobile, au-delà du prototype visuel.</p>
+<p><strong>Lot D — homologation et pilote.</strong> Tests de charge et de restauration, audit sécurité et accessibilité, validation documentaire/juridique, formation puis pilote limité. Critère de sortie : décisions de mise en service documentées et responsabilités d’exploitation attribuées. Aucun calendrier fiable n’est déduit de la seule lecture du code.</p>
+<h2 id="12-utilisation-de-la-livraison">12. Utilisation de la livraison</h2>
+<p>Pour la revue de design, ouvrir <code>SNAE-PPD-F3-Prototype.html</code> dans un navigateur puis « Ouvrir la démonstration ». Le prototype fonctionne sans compte serveur ; n’y saisir que des données de test. Les éléments métier fictifs ne sont ni sauvegardés sur un backend ni des archives probantes.</p>
+<p>Pour développer, extraire le ZIP F3 dans un nouveau répertoire. Utiliser une version de Node compatible avec <code>package.json</code>, puis <code>npm.cmd ci</code>, <code>npm.cmd run typecheck</code> et <code>npm.cmd run demo</code> sous Windows. Le mode connecté s’obtient avec une configuration propre issue de <code>.env.example</code>, un fournisseur d’identité réel et l’API de recette. Aucun secret backend ne doit être placé dans une variable VITE.</p>
+<p>Ne pas remplacer aveuglément le frontend actuellement utilisé. Commencer par comparer les fichiers modifiés et effectuer la recette dans une branche séparée. Le backend d’origine n’a pas été modifié par cette livraison. Le lockfile fourni est conservé ; aucune migration de framework ni mise à jour de dépendance n’a été effectuée.</p>
+<h2 id="13-r-f-rences-publiques-utilis-es">13. Références publiques utilisées</h2>
+<ul>
+<li>W3C, Web Content Accessibility Guidelines 2.2 : https://www.w3.org/TR/WCAG22/ — cible de conception, non certification.</li>
+<li>OWASP, API1:2023 Broken Object Level Authorization : https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/ — contrôle serveur par objet.</li>
+<li>OWASP, File Upload Cheat Sheet : https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html — sécurité du téléversement.</li>
+</ul>
+<h2 id="14-sources-techniques-et-int-grit-des-fichiers">14. Sources techniques et intégrité des fichiers</h2>
+<p><strong>snae-ppd-backend-v12.1(2).zip</strong> — 31246102 octets<br/>
+SHA-256 : <code>59beab5ea53c8f4daea172563011b8c4e977355d8e94b25172aad1f17e6ec00e</code></p>
+<p><strong>SNAE-PPD-Frontend-F2-Parcours-Archives(1)(1).zip</strong> — 60237675 octets<br/>
+SHA-256 : <code>89badaa726efdf72b35784c56d51899191970b1825ace63965025f19a6602a73</code></p>
+<h3 id="s01-tats-de-l-entr-e-archivistique">S01 — États de l’entrée archivistique</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/archivalintake/domain/ArchivalIntakeDomain.kt</code> · lignes 1–16.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.archivalintake.domain
+   2  
+   3  import gn.gouv.snaeppd.shared.persistence.AuditableEntity
+   4  import jakarta.persistence.*
+   5  import java.time.Instant
+   6  import java.util.UUID
+   7  
+   8  enum class IntakeMode { VERSEMENT, DON, DEPOT, ACHAT, TRANSFERT, COLLECTE, RESTITUTION, AUTRE }
+   9  enum class IntakeStatus { OUVERTE, CLOTUREE }
+  10  
+  11  @Entity
+  12  @Table(name = "entrees_archivistiques", schema = "snae")
+  13  class EntreeArchivistique : AuditableEntity() {
+  14      @Column(nullable = false, unique = true, length = 150) lateinit var numero: String
+  15      @Enumerated(EnumType.STRING)
+  16      @Column(name = "mode_entree", nullable = false, length = 30) lateinit var modeEntree: IntakeMode
+</code></pre>
+<h3 id="s02-routes-d-entr-e-cr-ation-rattachement-cl-ture">S02 — Routes d’entrée : création, rattachement, clôture</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/archivalintake/api/ArchivalIntakeController.kt</code> · lignes 15–47.</p>
+<pre><code class="language-text">  15      @field:NotNull val modeEntree: IntakeMode, val sourceActeurId: UUID? = null,
+  16      val sourceInstitutionId: UUID? = null, @field:NotNull val dateEntree: Instant,
+  17      val instrument: String? = null, @field:Size(max=255) val referencePreuve: String? = null,
+  18      val responsableId: UUID? = null, val description: String? = null)
+  19  
+  20  @RestController
+  21  @RequestMapping("/api/v1/archival-intake")
+  22  class ArchivalIntakeController(private val intakes: ArchivalIntakeService) {
+  23  
+  24      @PostMapping("/entries")
+  25      @ResponseStatus(HttpStatus.CREATED)
+  26      fun create(@RequestHeader("Idempotency-Key") key: String, @Valid @RequestBody r: CreateIntakeRequest) = intakes.create(
+  27          CreateIntakeCommand(r.numero, r.modeEntree, r.sourceActeurId, r.sourceInstitutionId, r.dateEntree,
+  28              r.instrument, r.referencePreuve, r.responsableId, r.description, key))
+  29  
+  30      @GetMapping("/entries/{id}")
+  31      fun get(@PathVariable id: UUID) = intakes.get(id)
+  32  
+  33      @GetMapping("/entries")
+  34      fun list() = intakes.list()
+  35  
+  36      @PostMapping("/entries/{id}/documents/{documentId}")
+  37      fun linkDocument(@PathVariable id: UUID, @PathVariable documentId: UUID) = intakes.linkDocument(id, documentId)
+  38  
+  39      @PostMapping("/entries/{id}/dossiers/{dossierId}")
+  40      fun linkDossier(@PathVariable id: UUID, @PathVariable dossierId: UUID) = intakes.linkDossier(id, dossierId)
+  41  
+  42      @PostMapping("/entries/{id}/physical-archives/{archiveId}")
+  43      fun linkPhysicalArchive(@PathVariable id: UUID, @PathVariable archiveId: UUID) = intakes.linkPhysicalArchive(id, archiveId)
+  44  
+  45      @PostMapping("/entries/{id}/close")
+  46      fun close(@PathVariable id: UUID) = intakes.close(id)
+  47  }
+</code></pre>
+<h3 id="s03-conservation-ex-cutions-bloqu-es">S03 — Conservation : exécutions bloquées</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/retention/policy/RetentionPolicy.kt</code> · lignes 65–94.</p>
+<pre><code class="language-text">  65      }
+  66  
+  67      fun idempotencyKey(value: String?): String {
+  68          val key = value?.trim().orEmpty()
+  69          if (!Regex("[A-Za-z0-9._:-]{1,160}").matches(key))
+  70              invalid("IDEMPOTENCY_KEY_REQUIRED", "Une clé d'idempotence de 1 à 160 caractères est requise.")
+  71          return key
+  72      }
+  73  
+  74      fun requireSupportedExecution(decision: FinalDisposition) {
+  75          when (decision) {
+  76              FinalDisposition.ELIMINER -&gt; invalid("DESTRUCTION_STORAGE_NOT_CONFIGURED",
+  77                  "La destruction physique vérifiable n'est pas raccordée. Aucun contenu n'a été déclaré détruit.")
+  78              FinalDisposition.TRANSFERER -&gt; invalid("TRANSFER_HANDOVER_NOT_CONFIGURED",
+  79                  "La confirmation de réception et le changement de détenteur ne sont pas raccordés.")
+  80              FinalDisposition.REEXAMINER -&gt; invalid("REEXAMINATION_REQUIRED", "Utilisez l'opération de réexamen.")
+  81              FinalDisposition.CONSERVER_DEFINITIVEMENT -&gt; Unit
+  82          }
+  83      }
+  84  
+  85      private fun invalid(code: String, message: String): Nothing = throw BusinessRuleException(code, message)
+  86  }
+  87  
+  88  data class RuleCandidate(val id: UUID, val institutionSpecific: Boolean, val typeSpecific: Boolean,
+  89      val nodeDistance: Int?, val priority: Int)
+  90  
+  91  object RetentionCandidateSelector {
+  92      fun select(candidates: List&lt;RuleCandidate&gt;): RuleCandidate {
+  93          if (candidates.isEmpty()) throw BusinessRuleException("RETENTION_RULE_NOT_FOUND", "Aucune règle applicable.")
+  94          val comparator = compareByDescending&lt;RuleCandidate&gt; { it.institutionSpecific }
+</code></pre>
+<h3 id="s04-axes-de-statut-du-document-de-sa-version-et-de-ses-fichiers">S04 — Axes de statut du document, de sa version et de ses fichiers</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/records/domain/DocumentEnums.kt</code> · lignes 1–12.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.records.domain
+   2  
+   3  enum class RecordStatus { BROUILLON, ACTIF, CLOS, SUSPENDU }
+   4  enum class ArchivalStatus { BROUILLON, ACTIF, SEMI_ACTIF, ARCHIVE_DEFINITIVE, ELIMINATION_APPROUVEE, DETRUIT }
+   5  enum class DistributionStatus { NON_PUBLIE, INTERNE, RESTREINT, PUBLIC }
+   6  enum class ConfidentialityLevel { PUBLIC, INTERNE, CONFIDENTIEL, SECRET }
+   7  enum class DocumentOrigin { CREE, RECU, IMPORTE, NUMERISE, VERSE }
+   8  enum class VersionState { BROUILLON, VALIDEE, REJETEE, OBSOLETE }
+   9  enum class FileRole { MAITRE_CONSERVATION, DERIVE_CONSULTATION, DERIVE_PUBLIC, PIECE_JOINTE, PREVIEW, AUTRE }
+  10  enum class FileScanStatus { PENDING_SCAN, CLEAN, INFECTED, QUARANTINED, FAILED }
+  11  enum class FileState { PENDING_SCAN, QUARANTINED, VALIDE, REJETE, ARCHIVE }
+  12  enum class ActorRole { AUTEUR, PRODUCTEUR, SIGNATAIRE, DESTINATAIRE, DONATEUR, DEPOSANT, DETENTEUR_ANTERIEUR, CONTRIBUTEUR, AUTRE }
+</code></pre>
+<h3 id="s05-description-archivistique-et-producteurs-v53">S05 — Description archivistique et producteurs V53</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/archives/ArchiveController.kt</code> · lignes 1–33.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.archives
+   2  
+   3  import org.springframework.http.ResponseEntity
+   4  import org.springframework.web.bind.annotation.*
+   5  import java.util.UUID
+   6  
+   7  @RestController
+   8  @RequestMapping("/api/v1/archives")
+   9  class ArchiveController(private val archive:ArchiveService,private val csv:ArchiveCsvService,private val exchange:ArchiveExchangeService) {
+  10   @GetMapping("/descriptions") fun descriptions(@RequestParam institutionId:UUID)=archive.descriptions(institutionId)
+  11   @GetMapping("/authorities") fun authorities(@RequestParam institutionId:UUID)=archive.authorities(institutionId)
+  12   @GetMapping("/descriptions/{id}") fun description(@PathVariable id:UUID)=archive.get(id)
+  13   @GetMapping("/authorities/{id}") fun authority(@PathVariable id:UUID)=archive.getAuthority(id)
+  14   @PostMapping("/descriptions") fun create(@RequestBody body:DescriptionInput,@RequestHeader("Idempotency-Key") key:String)=archive.saveDescription(null,body,key)
+  15   @PutMapping("/descriptions/{id}") fun update(@PathVariable id:UUID,@RequestBody body:DescriptionInput,@RequestHeader("Idempotency-Key") key:String)=archive.saveDescription(id,body,key)
+  16   @PostMapping("/authorities") fun createAuthority(@RequestBody body:AuthorityInput,@RequestHeader("Idempotency-Key") key:String)=archive.saveAuthority(null,body,key)
+  17   @PutMapping("/authorities/{id}") fun updateAuthority(@PathVariable id:UUID,@RequestBody body:AuthorityInput,@RequestHeader("Idempotency-Key") key:String)=archive.saveAuthority(id,body,key)
+  18   @PostMapping("/imports/preview") fun preview(@RequestBody body:CsvInput)=csv.preview(body)
+  19   @PostMapping("/imports") fun import(@RequestBody body:CsvInput,@RequestHeader("Idempotency-Key") key:String)=csv.import(body,key)
+  20   @GetMapping("/template/{kind}") fun template(@PathVariable kind:String,@RequestParam institutionId:UUID):ResponseEntity&lt;ByteArray&gt; {
+  21    archive.permission("MANAGE",institutionId); return download(csv.template(kind),"modele-$kind.csv","text/csv;charset=UTF-8")
+  22   }
+  23   @GetMapping("/export/{kind}") fun export(@PathVariable kind:String,@RequestParam institutionId:UUID)=download(exchange.csv(institutionId,kind),"$kind.csv","text/csv;charset=UTF-8")
+  24   @GetMapping("/descriptions/{id}/ead") fun ead(@PathVariable id:UUID):ResponseEntity&lt;ByteArray&gt; {
+  25    return download(exchange.ead(id),"fonds-$id.ead.xml","application/xml;charset=UTF-8")
+  26   }
+  27   @GetMapping("/authorities/{id}/eac") fun eac(@PathVariable id:UUID):ResponseEntity&lt;ByteArray&gt; {
+  28    return download(exchange.eac(id),"producteur-$id.eac.xml","application/xml;charset=UTF-8")
+  29   }
+  30   @ExceptionHandler(org.springframework.web.bind.MissingServletRequestParameterException::class)
+  31   fun missingParameter()=ResponseEntity.badRequest().body(mapOf("status" to 400,"code" to "ARCHIVAL_PARAMETER_REQUIRED","message" to "Sélectionnez une institution et fournissez les paramètres requis."))
+  32   private fun download(text:String,name:String,type:String)=ResponseEntity.ok().header("Content-Type",type)
+  33    .header("Content-Disposition","attachment; filename=\"$name\"").header("Cache-Control","no-store").header("X-Content-Type-Options","nosniff").body(text.toByteArray(Charsets.UTF_8))
+</code></pre>
+<h3 id="s06-consultations-et-communications">S06 — Consultations et communications</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/consultation/api/ConsultationController.kt</code> · lignes 21–63.</p>
+<pre><code class="language-text">  21  
+  22  @RestController
+  23  @RequestMapping("/api/v1")
+  24  class ConsultationController(private val requests: ConsultationRequestService, private val communications: CommunicationService) {
+  25  
+  26      @PostMapping("/consultations/requests")
+  27      @ResponseStatus(HttpStatus.CREATED)
+  28      fun createRequest(@RequestHeader("Idempotency-Key") key: String, @Valid @RequestBody r: CreateConsultationRequestBody) =
+  29          requests.create(CreateConsultationRequestCommand(r.documentId, r.dossierId, r.motif, key))
+  30  
+  31      @GetMapping("/consultations/requests/{id}")
+  32      fun getRequest(@PathVariable id: UUID) = requests.get(id)
+  33  
+  34      @GetMapping("/consultations/requests")
+  35      fun listRequests(@RequestParam(required = false) institutionId: UUID?, @RequestParam(required = false) mine: Boolean?) =
+  36          if (mine == true) requests.listMine() else requests.listByInstitution(requireNotNull(institutionId) { "institutionId is required unless mine=true" })
+  37  
+  38      @PostMapping("/consultations/requests/{id}/claim")
+  39      fun claim(@PathVariable id: UUID) = requests.claim(id)
+  40  
+  41      @PostMapping("/consultations/requests/{id}/authorize")
+  42      fun authorize(@PathVariable id: UUID, @RequestBody(required = false) body: AuthorizeBody?) = requests.authorize(id, body?.decisionMotif)
+  43  
+  44      @PostMapping("/consultations/requests/{id}/refuse")
+  45      fun refuse(@PathVariable id: UUID, @Valid @RequestBody body: RefuseBody) = requests.refuse(id, body.decisionMotif)
+  46  
+  47      @PostMapping("/communications")
+  48      @ResponseStatus(HttpStatus.CREATED)
+  49      fun createCommunication(@RequestHeader("Idempotency-Key") key: String, @Valid @RequestBody r: CreateCommunicationBody) =
+  50          communications.create(CreateCommunicationCommand(r.documentId, r.dossierId, r.beneficiaireId, r.demandeConsultationId, r.lieu, key))
+  51  
+  52      @GetMapping("/communications/{id}")
+  53      fun getCommunication(@PathVariable id: UUID) = communications.get(id)
+  54  
+  55      @GetMapping("/communications")
+  56      fun listCommunications(@RequestParam institutionId: UUID) = communications.listByInstitution(institutionId)
+  57  
+  58      @PostMapping("/communications/{id}/deliver")
+  59      fun deliver(@PathVariable id: UUID) = communications.deliver(id)
+  60  
+  61      @PostMapping("/communications/{id}/return")
+  62      fun returnItem(@PathVariable id: UUID) = communications.returnItem(id)
+  63  }
+</code></pre>
+<h3 id="s07-fiche-documentaire-initiale-empilement-des-panneaux">S07 — Fiche documentaire initiale : empilement des panneaux</h3>
+<p>frontend fourni · <code>src/pages/Records.tsx</code> · lignes 910–953.</p>
+<pre><code class="language-text"> 910  export function RecordDetailPage({ kind, id }: {
+ 911      kind: RecordCatalog;
+ 912      id: string;
+ 913  }) {
+ 914      const { me, records, epoch } = useSession();
+ 915      const q = useResource&lt;RecordDocument | Dossier&gt;(s =&gt; kind === 'documents' ? records!.document(id, s) : records!.dossier(id, s), 'record-detail:' + kind + id + epoch);
+ 916      const institutionName = useInstitutionNames();
+ 917      const departmentName = useDepartmentNames(q.data?.institutionId ?? null);
+ 918      const [reclassifying, setReclassifying] = useState(false);
+ 919      if (q.loading)
+ 920          return &lt;Busy /&gt;;
+ 921      if (q.error)
+ 922          return &lt;ErrorNotice error={q.error} onRetry={q.refresh}/&gt;;
+ 923      const e = q.data!;
+ 924      const scope = { institutionId: e.institutionId, departmentId: e.departmentId };
+ 925      const m = recordMeta[kind];
+ 926      const isDocument = kind === 'documents';
+ 927      const fields: [
+ 928          string,
+ 929          unknown
+ 930      ][] = [['Cote', e.reference], ['Institution', institutionName(e.institutionId)], ['Département', departmentName(e.departmentId)], ['Statut métier', e.businessStatus], ...(isDocument ? [['Type de document', (e as RecordDocument).typeDocumentId], ['Dossier', (e as RecordDocument).dossierId], ['Diffusion', (e as RecordDocument).distributionStatus], ['Version verrou', (e as RecordDocument).versionLock], ['Détruit', (e as RecordDocument).destroyed ? 'Oui' : 'Non']] as [
+ 931                  string,
+ 932                  unknown
+ 933              ][] : [['Ouvert le', formatDate((e as Dossier).openedOn)], ['Clos le', formatDate((e as Dossier).closedOn)]] as [
+ 934              string,
+ 935              unknown
+ 936          ][])];
+ 937      return &lt;RecordWorkspaceProvider scope={scope} key={kind + id + epoch}&gt;&lt;button className="back-link" onClick={() =&gt; navigate('/app/' + kind)}&gt;← Retour à {m.name.toLowerCase()}&lt;/button&gt;
+ 938          &lt;PageHead eyebrow="FICHE DE RÉFÉRENCE" title={e.title} description="État actuel renvoyé par le backend."/&gt;
+ 939          &lt;div className="detail-grid"&gt;&lt;section className="panel detail-card"&gt;&lt;div className="section-heading"&gt;&lt;h3&gt;Informations&lt;/h3&gt;&lt;div className="table-actions"&gt;&lt;Badge value={e.archivalStatus}/&gt;{isDocument &amp;&amp; can(me, 'DOCUMENT_CLASSIFY', scope) &amp;&amp; &lt;button className="btn small secondary" onClick={() =&gt; setReclassifying(true)}&gt;Reclasser&lt;/button&gt;}&lt;/div&gt;&lt;/div&gt;&lt;dl&gt;{fields.map(([label, value]) =&gt; &lt;div key={label}&gt;&lt;dt&gt;{label}&lt;/dt&gt;&lt;dd&gt;{value === null || value === undefined || value === '' ? '—' : String(value)}&lt;/dd&gt;&lt;/div&gt;)}&lt;/dl&gt;&lt;/section&gt;
+ 940          &lt;section className="panel detail-card"&gt;&lt;span className="feature-icon"&gt;&lt;Icon name="shield" size={25}/&gt;&lt;/span&gt;&lt;h3&gt;Confidentialité&lt;/h3&gt;&lt;Badge value={e.confidentiality}/&gt;&lt;p&gt;Les habilitations de lecture sont contrôlées à chaque appel, indépendamment de cet affichage.&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;
+ 941          {isDocument &amp;&amp; &lt;VersionsPanel documentId={id}/&gt;}
+ 942          {isDocument &amp;&amp; &lt;ActorsPanel documentId={id}/&gt;}
+ 943          {isDocument &amp;&amp; &lt;PublicationPanel documentId={id}/&gt;}
+ 944          {isDocument &amp;&amp; &lt;RetentionPanel documentId={id} businessStatus={e.businessStatus} onDocumentChanged={q.refresh}/&gt;}
+ 945          {isDocument &amp;&amp; can(me, 'LEGAL_HOLD_MANAGE', scope) &amp;&amp; &lt;LegalHoldsPanel documentId={id} institutionId={e.institutionId}/&gt;}
+ 946          {isDocument &amp;&amp; can(me, 'HERITAGE_READ', scope) &amp;&amp; &lt;HeritagePanel documentId={id}/&gt;}
+ 947          {isDocument &amp;&amp; can(me, 'RIGHTS_READ', scope) &amp;&amp; &lt;RightsPanel documentId={id}/&gt;}
+ 948          {isDocument &amp;&amp; can(me, 'DOCUMENT_METADATA_READ', scope) &amp;&amp; &lt;MetadataPanel documentId={id}/&gt;}
+ 949          {isDocument &amp;&amp; can(me, 'WORKFLOW_READ', scope) &amp;&amp; &lt;WorkflowPanel documentId={id}/&gt;}
+ 950          &lt;AuditPanel objectType={isDocument ? 'DOCUMENT' : 'DOSSIER'} objectId={id}/&gt;
+ 951          {reclassifying &amp;&amp; &lt;ReclassifyDialog documentId={id} institutionId={e.institutionId} currentNodeId={isDocument ? (e as RecordDocument).classificationNodeId : null} onClose={() =&gt; setReclassifying(false)} onSuccess={q.refresh}/&gt;}
+ 952          &lt;/RecordWorkspaceProvider&gt;;
+ 953  }
+</code></pre>
+<h3 id="s08-maquette-initiale-progression-g-n-rique-des-tats">S08 — Maquette initiale : progression générique des états</h3>
+<p>frontend fourni · <code>src/pages/ArchiveModules.tsx</code> · lignes 1–85.</p>
+<pre><code class="language-text">   1  import React, { useMemo, useState } from 'react';
+   2  import { useSession } from '../auth/session';
+   3  import { useWorkspace } from '../ui/workspace';
+   4  import { navigate } from '../ui/navigation';
+   5  import { Empty, Notice, PageHead } from '../ui/components';
+   6  
+   7  type Field = { key: string; label: string; type?: 'text' | 'date' | 'textarea' | 'select'; options?: string[]; required?: boolean };
+   8  type Module = { id: string; title: string; description: string; group: string; fields: Field[]; examples: Array&lt;Record&lt;string, string&gt;&gt;; stages: string[] };
+   9  const f = (key: string, label: string, required = false): Field =&gt; ({ key, label, required });
+  10  const select = (key: string, label: string, options: string[]): Field =&gt; ({ key, label, type: 'select', options });
+  11  export const archiveModules: Module[] = [
+  12    { id: 'versements', title: 'Versements', description: 'Préparer et suivre le transfert des documents vers les archives.', group: 'Collecte', fields: [f('title','Intitulé du versement',true), f('producer','Service producteur',true), f('reference','Référence du bordereau'), select('medium','Support',['Papier','Numérique','Mixte']), {key:'description',label:'Description',type:'textarea'}], stages: ['Brouillon','À examiner','Accepté','Rejeté'], examples: [{title:'Versement des délibérations',producer:'Secrétariat général',reference:'VER-2026-001',medium:'Numérique',description:'Lot de démonstration.'}] },
+  13    { id: 'documents', title: 'Documents', description: 'Décrire, classer et consulter les notices documentaires.', group: 'Archives', fields: [f('title','Titre du document',true), f('reference','Cote ou référence',true), f('producer','Producteur'), select('medium','Support',['Papier','Numérique','Audiovisuel']), {key:'date',label:'Date du document',type:'date'}, {key:'description',label:'Description',type:'textarea'}], stages: ['Brouillon','En contrôle','Validé','Archivé'], examples: [{title:'Rapport annuel',reference:'RAP-2025-001',producer:'Direction des études',medium:'Numérique',date:'2025-12-31',description:'Notice fictive, sans fichier déposé.'}] },
+  14    { id: 'dossiers', title: 'Dossiers', description: 'Regrouper les pièces et suivre leur cycle de vie.', group: 'Archives', fields: [f('title','Intitulé du dossier',true),f('reference','Cote',true),f('producer','Service responsable'),{key:'description',label:'Objet du dossier',type:'textarea'}], stages: ['Ouvert','En instruction','Clos','Archivé'], examples: [{title:'Dossier de démonstration',reference:'DOS-2026-001',producer:'Direction administrative',description:'Aucune pièce réelle.'}] },
+  15    { id: 'classement', title: 'Plan de classement', description: 'Organiser les séries et les catégories documentaires.', group: 'Archives', fields: [f('title','Nom de la série',true),f('reference','Code de classement',true),f('parent','Série parente'),{key:'description',label:'Périmètre',type:'textarea'}], stages: ['Projet','Actif','Clos'], examples: [{title:'Administration générale',reference:'AG',parent:'',description:'Exemple de série.'}] },
+  16    { id: 'metadonnees', title: 'Métadonnées', description: 'Définir les champs de description et leur usage.', group: 'Archives', fields: [f('title','Nom du champ',true),f('reference','Code technique',true),select('medium','Nature',['Texte','Date','Nombre','Liste']),{key:'description',label:'Règle de saisie',type:'textarea'}], stages: ['Projet','Actif','Retiré'], examples: [{title:'Date de production',reference:'date_production',medium:'Date',description:'Exemple de définition.'}] },
+  17    { id: 'recherche', title: 'Recherche', description: 'Explorer les notices de démonstration du périmètre courant.', group: 'Accès', fields: [], stages: [], examples: [] },
+  18    { id: 'consultations', title: 'Consultations', description: 'Suivre les demandes de consultation et leur instruction.', group: 'Accès', fields: [f('title','Objet de la demande',true),f('reference','Cote demandée',true),f('producer','Demandeur'),{key:'description',label:'Motif',type:'textarea'}], stages: ['Déposée','En instruction','Autorisée','Refusée','Terminée'], examples: [{title:'Consultation d’un rapport',reference:'RAP-2025-001',producer:'Agent fictif',description:'Demande de recette.'}] },
+  19    { id: 'communications', title: 'Communications', description: 'Tracer la mise à disposition et la restitution des pièces.', group: 'Accès', fields: [f('title','Objet de la communication',true),f('reference','Cote du document',true),f('producer','Bénéficiaire'),{key:'date',label:'Date prévue',type:'date'}], stages: ['Demandée','Remise','Restituée'], examples: [] },
+  20    { id: 'numerisation', title: 'Numérisation', description: 'Préparer les lots à numériser et contrôler leur qualité.', group: 'Traitements', fields: [f('title','Nom du lot',true),f('reference','Cote source',true),f('producer','Atelier responsable'),{key:'description',label:'Consignes',type:'textarea'}], stages: ['À préparer','En cours','Contrôle qualité','Terminé'], examples: [{title:'Lot patrimoine A',reference:'PAT-001',producer:'Atelier pilote',description:'Exemple sans images numérisées.'}] },
+  21    { id: 'ocr', title: 'OCR et indexation', description: 'Suivre l’extraction et la vérification des textes.', group: 'Traitements', fields: [f('title','Nom du traitement',true),f('reference','Cote source',true),{key:'description',label:'Observations',type:'textarea'}], stages: ['À traiter','En cours','À vérifier','Validé'], examples: [] },
+  22    { id: 'controle', title: 'Contrôle qualité', description: 'Consigner les anomalies et leur résolution.', group: 'Traitements', fields: [f('title','Contrôle',true),f('reference','Référence de la pièce',true),select('medium','Gravité',['Mineure','Majeure','Bloquante']),{key:'description',label:'Constat',type:'textarea'}], stages: ['Ouvert','À corriger','Vérifié','Clos'], examples: [] },
+  23    { id: 'conservation', title: 'Conservation', description: 'Planifier la préservation et les vérifications d’intégrité.', group: 'Conservation', fields: [f('title','Action de conservation',true),f('reference','Cote ou lot',true),{key:'date',label:'Date prévue',type:'date'},{key:'description',label:'Mesures prévues',type:'textarea'}], stages: ['Planifiée','En cours','Contrôlée','Terminée'], examples: [] },
+  24    { id: 'sort-final', title: 'Durées et sort final', description: 'Préparer les règles de conservation et les décisions associées.', group: 'Conservation', fields: [f('title','Catégorie documentaire',true),f('reference','Code de règle',true),f('duration','Durée proposée'),select('medium','Sort proposé',['Conserver','Évaluer','Éliminer']),{key:'description',label:'Fondement et observations',type:'textarea'}], stages: ['Projet','À valider','Approuvé','Suspendu'], examples: [] },
+  25    { id: 'gel-legal', title: 'Gel et restrictions', description: 'Examiner les restrictions et les gels de conservation.', group: 'Conservation', fields: [f('title','Objet de la mesure',true),f('reference','Cote concernée',true),{key:'description',label:'Motif et autorité compétente',type:'textarea'}], stages: ['Proposé','Actif','Levé'], examples: [] },
+  26    { id: 'eliminations', title: 'Éliminations', description: 'Préparer les bordereaux sans détruire de données dans la démonstration.', group: 'Conservation', fields: [f('title','Intitulé du bordereau',true),f('reference','Référence des archives',true),{key:'description',label:'Justification',type:'textarea'}], stages: ['Projet','À autoriser','Autorisé','Exécuté'], examples: [] },
+  27    { id: 'patrimoine', title: 'Patrimoine historique', description: 'Inventorier les fonds patrimoniaux et leurs conditions de conservation.', group: 'Patrimoine', fields: [f('title','Nom du fonds',true),f('reference','Cote patrimoniale',true),f('producer','Origine'),{key:'date',label:'Date repère',type:'date'},{key:'description',label:'État matériel et contexte',type:'textarea'}], stages: ['À inventorier','Inventorié','À restaurer','Conservé'], examples: [{title:'Collection historique de démonstration',reference:'PAT-001',producer:'Archives publiques',description:'Notice fictive, sans document historique réel.'}] },
+  28    { id: 'restauration', title: 'Restauration', description: 'Suivre le constat d’état et les interventions patrimoniales.', group: 'Patrimoine', fields: [f('title','Intervention',true),f('reference','Cote patrimoniale',true),f('producer','Responsable'),{key:'description',label:'Constat et intervention envisagée',type:'textarea'}], stages: ['Diagnostic','À valider','En cours','Terminée'], examples: [] },
+  29    { id: 'statistiques', title: 'Indicateurs', description: 'Lire uniquement les volumes des notices fictives de cet onglet.', group: 'Pilotage', fields: [], stages: [], examples: [] },
+  30    { id: 'audit', title: 'Journal et traçabilité', description: 'Voir les actions de cette démonstration locale.', group: 'Pilotage', fields: [], stages: [], examples: [] }
+  31  ];
+  32  
+  33  type RecordItem = Record&lt;string, string&gt; &amp; { id: string; status: string; createdAt: string; institutionId: string; departmentId: string };
+  34  type State = Record&lt;string, RecordItem[]&gt;;
+  35  const storageKey = 'snae-f2-demo-records-v1';
+  36  function initial(): State { return Object.fromEntries(archiveModules.map(m =&gt; [m.id, m.examples.map((x,i) =&gt; ({...x,id:`${m.id}-example-${i}`,status:m.stages[0] ?? '',createdAt:'2026-09-24T00:00:00.000Z',institutionId:'',departmentId:''}))])); }
+  37  function load(): State { try { const s = sessionStorage.getItem(storageKey); return s ? {...initial(),...JSON.parse(s)} : initial(); } catch { return initial(); } }
+  38  function save(next: State) { sessionStorage.setItem(storageKey, JSON.stringify(next)); window.dispatchEvent(new Event('snae-demo-changed')); }
+  39  function useRecords() { const [records,setRecords] = useState&lt;State&gt;(load); const update = (next: State) =&gt; {setRecords(next);save(next);}; return {records,update}; }
+  40  function scopeMatch(item: RecordItem, scope: {institutionId?: string | null;departmentId?: string | null}) { return (!scope.institutionId || item.institutionId === scope.institutionId) &amp;&amp; (!scope.departmentId || item.departmentId === scope.departmentId); }
+  41  export function ArchiveModulePage({ section, id }: {section: string;id?: string}) {
+  42    const module = archiveModules.find(m =&gt; m.id === section)!;
+  43    const {demo} = useSession();
+  44    const {scope} = useWorkspace();
+  45    const {records,update} = useRecords();
+  46    const [query,setQuery] = useState('');
+  47    const [creating,setCreating] = useState(false);
+  48    const [form,setForm] = useState&lt;Record&lt;string,string&gt;&gt;({});
+  49    const [error,setError] = useState('');
+  50    const [audit,setAudit] = useState&lt;Array&lt;{at:string;message:string}&gt;&gt;(() =&gt; {try {return JSON.parse(sessionStorage.getItem('snae-f2-demo-audit-v1') || '[]');} catch {return [];} });
+  51    const log = (message: string) =&gt; { const next=[{at:new Date().toISOString(),message},...audit].slice(0,100);setAudit(next);sessionStorage.setItem('snae-f2-demo-audit-v1',JSON.stringify(next)); };
+  52    const visible = useMemo(() =&gt; (records[section] ?? []).filter(x =&gt; scopeMatch(x,scope)),[records,section,scope]);
+  53    const matching = visible.filter(x =&gt; Object.values(x).some(v =&gt; typeof v === 'string' &amp;&amp; v.toLowerCase().includes(query.toLowerCase())));
+  54    const selected = id ? visible.find(x=&gt;x.id===id) : undefined;
+  55    const base = `/app/${section}`;
+  56    const create = (event: React.FormEvent) =&gt; {
+  57      event.preventDefault();
+  58      if (!demo) return;
+  59      const missing=module.fields.find(field=&gt;field.required &amp;&amp; !form[field.key]?.trim());
+  60      if (missing) {setError(`Renseignez « ${missing.label} ».`);return;}
+  61      const item:RecordItem={...form,id:crypto.randomUUID(),status:module.stages[0] ?? '',createdAt:new Date().toISOString(),institutionId:scope.institutionId ?? '',departmentId:scope.departmentId ?? ''};
+  62      update({...records,[section]:[item,...(records[section]??[])]});log(`${module.title} · notice créée · ${item.id}`);setCreating(false);setForm({});setError('');navigate(`${base}/${encodeURIComponent(item.id)}`);
+  63    };
+  64    const advance = () =&gt; {
+  65      if (!demo || !selected) return;
+  66      const index=module.stages.indexOf(selected.status);
+  67      if (index&lt;0 || index===module.stages.length-1) return;
+  68      const next=module.stages[index+1] ?? '';update({...records,[section]:(records[section]??[]).map(x=&gt;x.id===id?{...x,status:next}:x)});log(`${module.title} · étape « ${next} » · ${id}`);
+  69    };
+  70    if (!demo) return &lt;&gt;&lt;PageHead eyebrow={module.group.toUpperCase()} title={module.title} description={module.description}/&gt;&lt;Notice tone="warning"&gt;Écran de parcours disponible pour la recette visuelle. Les contrats et autorisations du module métier doivent être raccordés et vérifiés avant toute utilisation avec des archives réelles. Aucune écriture n’est envoyée au serveur.&lt;/Notice&gt;&lt;/&gt;;
+  71    if (section==='audit') return &lt;&gt;&lt;PageHead eyebrow="PILOTAGE / DÉMONSTRATION" title={module.title} description={module.description}/&gt;&lt;Notice&gt;Ce journal est uniquement une trace locale de démonstration, modifiable ou effaçable depuis le navigateur. Il n’a aucune valeur de preuve.&lt;/Notice&gt;{audit.length ? &lt;div className="archive-list"&gt;{audit.map((a,i)=&gt;&lt;div className="archive-row" key={i}&gt;&lt;strong&gt;{a.message}&lt;/strong&gt;&lt;small&gt;{new Date(a.at).toLocaleString('fr-FR')}&lt;/small&gt;&lt;/div&gt;)}&lt;/div&gt; : &lt;Empty title="Aucune action locale"/&gt;}&lt;/&gt;;
+  72    if (section==='statistiques') return &lt;&gt;&lt;PageHead eyebrow="PILOTAGE / DÉMONSTRATION" title={module.title} description={module.description}/&gt;&lt;Notice&gt;Ces chiffres représentent les notices fictives visibles dans cet onglet. Ils ne sont pas des indicateurs nationaux.&lt;/Notice&gt;&lt;div className="archive-stats"&gt;{archiveModules.filter(m=&gt;m.stages.length).map(m=&gt;&lt;button key={m.id} className="archive-stat" onClick={()=&gt;navigate(`/app/${m.id}`)}&gt;&lt;strong&gt;{(records[m.id]??[]).filter(x=&gt;scopeMatch(x,scope)).length}&lt;/strong&gt;&lt;span&gt;{m.title}&lt;/span&gt;&lt;/button&gt;)}&lt;/div&gt;&lt;/&gt;;
+  73    if (section==='recherche') {
+  74      const found=archiveModules.filter(m=&gt;m.stages.length).flatMap(m=&gt;(records[m.id]??[]).filter(x=&gt;scopeMatch(x,scope)).map(x=&gt;({...x,module:m} as RecordItem &amp; {module:Module})) ).filter(x=&gt;query &amp;&amp; Object.values(x).some(v=&gt;typeof v==='string' &amp;&amp; v.toLowerCase().includes(query.toLowerCase())));
+  75      return &lt;&gt;&lt;PageHead eyebrow="ACCÈS / DÉMONSTRATION" title={module.title} description={module.description}/&gt;&lt;label className="archive-search-label"&gt;Rechercher dans les notices fictives&lt;input value={query} onChange={e=&gt;setQuery(e.target.value)} placeholder="Titre, cote, producteur…"/&gt;&lt;/label&gt;{!query ? &lt;Empty title="Saisissez un terme de recherche" description="La recherche porte sur les notices locales de démonstration."/&gt; : found.length ? &lt;div className="archive-list"&gt;{found.map(x=&gt;&lt;button className="archive-row" key={x.id} onClick={()=&gt;navigate(`/app/${x.module.id}/${encodeURIComponent(x.id)}`)}&gt;&lt;span&gt;&lt;strong&gt;{x.title}&lt;/strong&gt;&lt;small&gt;{x.module.title} · {x.reference ?? 'Sans cote'}&lt;/small&gt;&lt;/span&gt;&lt;b&gt;{x.status}&lt;/b&gt;&lt;/button&gt;)}&lt;/div&gt; : &lt;Empty title="Aucun résultat"/&gt;}&lt;/&gt;;
+  76    }
+  77    return &lt;&gt;
+  78      &lt;PageHead eyebrow={`${module.group.toUpperCase()} / ${demo?'DÉMONSTRATION':'RECETTE'}`} title={module.title} description={module.description}&gt;
+  79        {id ? &lt;button className="btn secondary" onClick={()=&gt;navigate(base)}&gt;Retour à la liste&lt;/button&gt; : &lt;button className="btn primary" onClick={()=&gt;{setCreating(true);setError('');}}&gt;Créer une notice fictive&lt;/button&gt;}
+  80      &lt;/PageHead&gt;
+  81      &lt;Notice&gt;Données de démonstration dans cet onglet. Les étapes et notices ci-dessous illustrent le parcours ; aucune règle métier, preuve d’audit ou autorisation serveur n’est exécutée.&lt;/Notice&gt;
+  82      {id ? selected ? &lt;section className="archive-panel"&gt;&lt;div className="archive-detail-head"&gt;&lt;div&gt;&lt;h2&gt;{selected.title}&lt;/h2&gt;&lt;p&gt;Référence : {selected.reference || '—'} · Créée le {new Date(selected.createdAt).toLocaleDateString('fr-FR')}&lt;/p&gt;&lt;/div&gt;&lt;span className="archive-status"&gt;{selected.status}&lt;/span&gt;&lt;/div&gt;&lt;dl className="archive-details"&gt;{module.fields.map(field=&gt;&lt;div key={field.key}&gt;&lt;dt&gt;{field.label}&lt;/dt&gt;&lt;dd&gt;{selected[field.key] || '—'}&lt;/dd&gt;&lt;/div&gt;)}&lt;/dl&gt;&lt;div className="archive-actions"&gt;{module.stages.indexOf(selected.status)&lt;module.stages.length-1 &amp;&amp; &lt;button className="btn secondary" onClick={advance}&gt;Simuler l’étape suivante : {module.stages[module.stages.indexOf(selected.status)+1]}&lt;/button&gt;}&lt;/div&gt;&lt;/section&gt; : &lt;Notice tone="warning"&gt;Notice inexistante dans ce périmètre de démonstration.&lt;/Notice&gt; : &lt;&gt;&lt;label className="archive-search-label"&gt;Filtrer cette liste&lt;input value={query} onChange={e=&gt;setQuery(e.target.value)} placeholder="Titre, cote, état…"/&gt;&lt;/label&gt;{matching.length ? &lt;div className="archive-list"&gt;{matching.map(item=&gt;&lt;button className="archive-row" key={item.id} onClick={()=&gt;navigate(`${base}/${encodeURIComponent(item.id)}`)}&gt;&lt;span&gt;&lt;strong&gt;{item.title}&lt;/strong&gt;&lt;small&gt;{item.reference || 'Sans cote'} · {item.producer || 'Producteur non renseigné'}&lt;/small&gt;&lt;/span&gt;&lt;b&gt;{item.status}&lt;/b&gt;&lt;/button&gt;)}&lt;/div&gt; : &lt;Empty title="Aucune notice dans ce périmètre" description="Créez une notice fictive pour explorer ce parcours."/&gt;}&lt;/&gt;}
+  83      {creating &amp;&amp; &lt;div className="archive-overlay" role="presentation" onMouseDown={e=&gt;{if(e.target===e.currentTarget)setCreating(false);}}&gt;&lt;section className="archive-form-panel" role="dialog" aria-modal="true" aria-label={`Créer une notice : ${module.title}`}&gt;&lt;div className="archive-form-head"&gt;&lt;h2&gt;Nouvelle notice · {module.title}&lt;/h2&gt;&lt;button className="btn secondary" onClick={()=&gt;setCreating(false)}&gt;Fermer&lt;/button&gt;&lt;/div&gt;&lt;form onSubmit={create}&gt;{module.fields.map(field=&gt;&lt;label key={field.key} className="archive-field"&gt;&lt;span&gt;{field.label}{field.required ? ' *':''}&lt;/span&gt;{field.type==='textarea' ? &lt;textarea value={form[field.key]??''} onChange={e=&gt;setForm({...form,[field.key]:e.target.value})}/&gt; : field.type==='select' ? &lt;select value={form[field.key]??''} onChange={e=&gt;setForm({...form,[field.key]:e.target.value})}&gt;&lt;option value=""&gt;Sélectionner&lt;/option&gt;{field.options?.map(option=&gt;&lt;option key={option}&gt;{option}&lt;/option&gt;)}&lt;/select&gt; : &lt;input type={field.type??'text'} value={form[field.key]??''} onChange={e=&gt;setForm({...form,[field.key]:e.target.value})} required={field.required}/&gt;}&lt;/label&gt;)}{error &amp;&amp; &lt;p role="alert" className="archive-error"&gt;{error}&lt;/p&gt;}&lt;div className="archive-actions"&gt;&lt;button type="button" className="btn secondary" onClick={()=&gt;setCreating(false)}&gt;Annuler&lt;/button&gt;&lt;button type="submit" className="btn primary"&gt;Créer dans la démonstration&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&lt;/section&gt;&lt;/div&gt;}
+  84    &lt;/&gt;;
+  85  }
+</code></pre>
+<h3 id="s09-navigation-initiale-et-p-rim-tres">S09 — Navigation initiale et périmètres</h3>
+<p>frontend fourni · <code>src/app.tsx</code> · lignes 35–88.</p>
+<pre><code class="language-text">  35  import type { Catalog, RecordCatalog } from './core/types';
+  36  
+  37  const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
+  38  const recordKeys = ['documents', 'dossiers'];
+  39  const connectedModules = new Set(['documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration']);
+  40  
+  41  function Shell() {
+  42      const { me, demo, epoch, logout, switchPersona, resetDemo } = useSession();
+  43      const { scope, setScope } = useWorkspace();
+  44      const path = usePath();
+  45      const [menu, setMenu] = useState(false);
+  46      const [scopeOpen, setScopeOpen] = useState(false);
+  47      const menuButton = useRef&lt;HTMLButtonElement&gt;(null);
+  48      const menuPanel = useRef&lt;HTMLElement&gt;(null);
+  49      const url = new URL(path, location.origin);
+  50      const parts = url.pathname.split('/').filter(Boolean);
+  51      const section = parts[1] ?? '';
+  52      const id = parts[2];
+  53      const central = platform(me);
+  54      const nav = [
+  55          { path: '', label: 'Vue d’ensemble', icon: 'home', group: 'workspace', ok: true, demo: false },
+  56          { path: 'fonds', label: 'Fonds et producteurs', icon: 'tree', group: 'Archives', ok: !demo &amp;&amp; me!.grants.some(g =&gt; g.permission === 'ARCHIVAL_DESCRIPTION_READ'), demo: false },
+  57          { path: 'institutions', label: 'Institutions', icon: 'building', group: 'admin', ok: me!.grants.some(g =&gt; g.permission === 'IAM_INSTITUTION_READ'), demo: false },
+  58          { path: 'departments', label: 'Départements', icon: 'tree', group: 'admin', ok: me!.grants.some(g =&gt; g.permission === 'IAM_DEPARTMENT_READ'), demo: false },
+  59          { path: 'users', label: 'Utilisateurs', icon: 'users', group: 'admin', ok: me!.grants.some(g =&gt; g.permission === 'IAM_USER_READ'), demo: false },
+  60          { path: 'roles', label: 'Rôles et habilitations', icon: 'shield', group: 'admin', ok: can(me, 'IAM_ROLE_READ', subjectTarget(me!)), demo: false },
+  61          { path: 'permissions', label: 'Permissions', icon: 'key', group: 'admin', ok: can(me, 'IAM_ROLE_READ', subjectTarget(me!)), demo: false },
+  62          { path: 'governance', label: 'Gouvernance', icon: 'check', group: 'admin', ok: central, demo: false },
+  63          ...archiveModules.map(module =&gt; ({ path: module.id, label: module.title, icon: module.group === 'Patrimoine' ? 'archive' : 'tree', group: module.group, ok: true, demo: !connectedModules.has(module.id) })),
+  64          { path: 'archives-physiques', label: 'Archives physiques', icon: 'archive', group: 'Conservation', ok: can(me, 'PHYSICALARCHIVES_READ', {}), demo: false },
+  65          { path: 'droits', label: 'Droits et sources juridiques', icon: 'shield', group: 'Accès', ok: can(me, 'RIGHTS_READ', {}), demo: false },
+  66          { path: 'circuits-validation', label: 'Circuits de validation', icon: 'check', group: 'Traitements', ok: can(me, 'WORKFLOW_DEFINITION_MANAGE', scope), demo: false },
+  67          { path: 'profile', label: 'Mon profil', icon: 'users', group: 'support', ok: true, demo: false },
+  68          { path: 'help', label: 'Guide &amp; assistance', icon: 'help', group: 'support', ok: true, demo: false }
+  69      ];
+  70      const title = nav.find(item =&gt; item.path === section)?.label ?? 'Guide';
+  71      const go = (route: string) =&gt; navigate('/app' + (route ? '/' + route : ''));
+  72  
+  73      useEffect(() =&gt; {
+  74          setMenu(false);
+  75          document.title = 'SNAE-PPD · ' + title;
+  76          document.getElementById('main-content')?.focus({ preventScroll: true });
+  77      }, [path]);
+  78      useEffect(() =&gt; {
+  79          const query = window.matchMedia('(min-width: 721px)');
+  80          const closeWideMenu = () =&gt; { if (query.matches) setMenu(false); };
+  81          query.addEventListener('change', closeWideMenu);
+  82          return () =&gt; query.removeEventListener('change', closeWideMenu);
+  83      }, []);
+  84      useEffect(() =&gt; {
+  85          if (!menu) return;
+  86          menuPanel.current?.querySelector&lt;HTMLButtonElement&gt;('button')?.focus();
+  87          const onKey = (event: KeyboardEvent) =&gt; {
+  88              if (event.key === 'Escape') { setMenu(false); menuButton.current?.focus(); }
+</code></pre>
+<h3 id="s10-d-p-t-de-contenu-tat-d-ingestion">S10 — Dépôt de contenu : état d’ingestion</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/storage/domain/StorageModels.kt</code> · lignes 1–24.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.storage.domain
+   2  
+   3  import gn.gouv.snaeppd.records.domain.FileRole
+   4  import java.io.InputStream
+   5  import java.nio.file.Files
+   6  import java.nio.file.LinkOption
+   7  import java.nio.file.Path
+   8  import java.time.Instant
+   9  import java.util.UUID
+  10  
+  11  enum class IngestionStatus { PROCESSING, RETRYABLE, REJECTED, COMPLETED }
+  12  enum class ScanOutcome { CLEAN, INFECTED, ERROR }
+  13  data class ObjectLocation(val provider: String, val bucket: String, val key: String)
+  14  data class ContentDescriptor(val filename: String, val mediaType: String, val extension: String,
+  15      val size: Long, val sha256: String)
+  16  data class ScanReport(val outcome: ScanOutcome, val engine: String, val code: String, val scannedAt: Instant)
+  17  data class UploadCommand(val versionId: UUID, val idempotencyKey: String, val role: FileRole)
+  18  data class IngestionView(val id: UUID, val versionId: UUID, val status: IngestionStatus,
+  19      val fileId: UUID?, val filename: String, val mediaType: String, val size: Long, val sha256: String,
+  20      val attempts: Int, val resultCode: String?, val createdAt: Instant, val updatedAt: Instant,
+  21      val leaseExpired: Boolean = false)
+  22  data class IngestionPage(val items: List&lt;IngestionView&gt;, val nextCursor: UUID?)
+  23  data class ReservedIngestion(val view: IngestionView, val attemptId: UUID?, val location: ObjectLocation?)
+  24  data class ManagedContent(val fileId: UUID, val documentId: UUID, val attemptId: UUID,
+</code></pre>
+<h3 id="s11-cl-ture-frontend-initiale-sans-gestion-locale-de-son-erreur">S11 — Clôture frontend initiale sans gestion locale de son erreur</h3>
+<p>frontend fourni · <code>src/pages/ArchivalIntake.tsx</code> · lignes 111–146.</p>
+<pre><code class="language-text"> 111                  &lt;div&gt;&lt;dt&gt;Statut&lt;/dt&gt;&lt;dd&gt;&lt;Badge value={intake.statut}/&gt;&lt;/dd&gt;&lt;/div&gt;
+ 112                  &lt;div&gt;&lt;dt&gt;Date d’entrée&lt;/dt&gt;&lt;dd&gt;{formatDate(intake.dateEntree)}&lt;/dd&gt;&lt;/div&gt;
+ 113                  &lt;div&gt;&lt;dt&gt;Référence de preuve&lt;/dt&gt;&lt;dd&gt;{intake.referencePreuve ?? '—'}&lt;/dd&gt;&lt;/div&gt;
+ 114                  &lt;div&gt;&lt;dt&gt;Description&lt;/dt&gt;&lt;dd&gt;{intake.description ?? '—'}&lt;/dd&gt;&lt;/div&gt;
+ 115              &lt;/dl&gt;
+ 116              {canManage &amp;&amp; intake.statut === 'OUVERTE' &amp;&amp; &lt;div className="table-actions"&gt;
+ 117                  &lt;button className="btn small secondary" onClick={() =&gt; setLinking('documents')}&gt;Rattacher un document&lt;/button&gt;
+ 118                  &lt;button className="btn small secondary" onClick={() =&gt; setLinking('dossiers')}&gt;Rattacher un dossier&lt;/button&gt;
+ 119                  &lt;button className="btn small secondary" onClick={() =&gt; setLinking('physical-archives')}&gt;Rattacher une archive physique&lt;/button&gt;
+ 120                  &lt;button className="btn small warning" onClick={close}&gt;Clôturer l’entrée&lt;/button&gt;
+ 121              &lt;/div&gt;}
+ 122          &lt;/div&gt;
+ 123          &lt;footer className="modal-footer"&gt;&lt;button type="button" className="btn secondary" onClick={onClose}&gt;Fermer&lt;/button&gt;&lt;/footer&gt;
+ 124          {linking &amp;&amp; &lt;LinkDialog intakeId={intake.id} kind={linking} onClose={() =&gt; setLinking(null)} onLinked={onChanged}/&gt;}
+ 125      &lt;/Modal&gt;;
+ 126  }
+ 127  
+ 128  export function ArchivalIntakePage() {
+ 129      const { me, archivalIntake, epoch } = useSession();
+ 130      const canManage = can(me, 'ARCHIVAL_INTAKE_MANAGE', {});
+ 131      const [creating, setCreating] = useState(false);
+ 132      const [selectedId, setSelectedId] = useState&lt;string | null&gt;(null);
+ 133      const entriesQ = useResource&lt;ArchivalIntake[]&gt;(s =&gt; archivalIntake!.entries(s), 'archival-intake-entries:' + epoch);
+ 134      const entries = entriesQ.data ?? [];
+ 135      const selected = entries.find(e =&gt; e.id === selectedId) ?? null;
+ 136      return &lt;&gt;&lt;PageHead eyebrow="MODULE · ENTRÉES D’ARCHIVES" title="Entrées archivistiques" description="Suivre les versements, dons, dépôts et autres entrées de fonds, et leur rattachement aux documents, dossiers et archives physiques."&gt;
+ 137          {canManage &amp;&amp; &lt;button className="btn primary" onClick={() =&gt; setCreating(true)}&gt;Créer une entrée&lt;/button&gt;}
+ 138      &lt;/PageHead&gt;
+ 139          &lt;div className="panel"&gt;
+ 140              &lt;div className="section-heading"&gt;&lt;h3&gt;Entrées&lt;/h3&gt;&lt;/div&gt;
+ 141              {entriesQ.loading ? &lt;Busy /&gt; : entriesQ.error ? &lt;ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/&gt; : entries.length ? &lt;div className="table-scroll"&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Numéro&lt;/th&gt;&lt;th&gt;Mode&lt;/th&gt;&lt;th&gt;Date&lt;/th&gt;&lt;th&gt;Statut&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;{entries.map(e =&gt; &lt;tr key={e.id}&gt;&lt;td&gt;&lt;button className="record-name" onClick={() =&gt; setSelectedId(e.id)}&gt;&lt;strong&gt;{e.numero}&lt;/strong&gt;&lt;/button&gt;&lt;/td&gt;&lt;td&gt;{e.modeEntree}&lt;/td&gt;&lt;td&gt;{formatDate(e.dateEntree)}&lt;/td&gt;&lt;td&gt;&lt;Badge value={e.statut}/&gt;&lt;/td&gt;&lt;/tr&gt;)}&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt; : &lt;Empty title="Aucune entrée archivistique" description="Créez la première entrée."/&gt;}
+ 142          &lt;/div&gt;
+ 143          {creating &amp;&amp; &lt;CreateIntakeDialog onClose={() =&gt; setCreating(false)} onCreated={entriesQ.refresh}/&gt;}
+ 144          {selected &amp;&amp; &lt;IntakeDetailDialog intake={selected} canManage={canManage} onClose={() =&gt; setSelectedId(null)} onChanged={entriesQ.refresh}/&gt;}
+ 145          &lt;/&gt;;
+ 146  }
+</code></pre>
+<h3 id="s12-d-clarations-de-d-pendances-fournies">S12 — Déclarations de dépendances fournies</h3>
+<p>frontend fourni · <code>package.json</code> · lignes 1–40.</p>
+<pre><code class="language-text">   1  {
+   2    "name": "snae-ppd-frontend",
+   3    "private": true,
+   4    "version": "0.2.0",
+   5    "type": "module",
+   6    "engines": {
+   7      "node": "^22.22.2 || ^24.15.0 || &gt;=26.0.0"
+   8    },
+   9    "scripts": {
+  10      "dev": "vite --host 127.0.0.1",
+  11      "demo": "vite --mode demo --host 127.0.0.1",
+  12      "build": "tsc --noEmit &amp;&amp; vite build",
+  13      "build:demo": "tsc --noEmit &amp;&amp; vite build --mode demo",
+  14      "preview": "vite preview --host 127.0.0.1",
+  15      "typecheck": "tsc --noEmit",
+  16      "test": "npm run test:core &amp;&amp; npm run test:ui",
+  17      "check": "npm run test &amp;&amp; npm run build",
+  18      "test:ui": "vitest run --config vitest.config.ts",
+  19      "test:core": "tsc -p tsconfig.core.json &amp;&amp; node --test tests/*.test.mjs"
+  20    },
+  21    "dependencies": {
+  22      "@supabase/supabase-js": "^2.57.4",
+  23      "oidc-client-ts": "^3.3.0",
+  24      "pdfjs-dist": "^6.3.289",
+  25      "react": "^19.3.0",
+  26      "react-dom": "^19.3.0"
+  27    },
+  28    "devDependencies": {
+  29      "@napi-rs/canvas": "^1.0.9",
+  30      "@testing-library/react": "^16.3.3",
+  31      "@testing-library/user-event": "^14.6.7",
+  32      "@types/node": "^22.0.0",
+  33      "@types/react": "^19.2.0",
+  34      "@types/react-dom": "^19.2.0",
+  35      "jsdom": "^30.1.1",
+  36      "typescript": "~5.9.3",
+  37      "vite": "^8.0.0",
+  38      "vitest": "^5.0.3"
+  39    }
+  40  }
+</code></pre>
+<h3 id="s13-num-risation-et-ocr-contr-leurs-disponibles">S13 — Numérisation et OCR : contrôleurs disponibles</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/digitization/api/DigitizationController.kt</code> · lignes 1–129.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.digitization.api
+   2  
+   3  import gn.gouv.snaeppd.digitization.service.*
+   4  import jakarta.validation.Valid
+   5  import jakarta.validation.constraints.NotBlank
+   6  import jakarta.validation.constraints.NotNull
+   7  import jakarta.validation.constraints.Size
+   8  import org.springframework.http.HttpStatus
+   9  import org.springframework.web.bind.annotation.*
+  10  import tools.jackson.databind.JsonNode
+  11  import java.math.BigDecimal
+  12  import java.time.LocalDate
+  13  import java.util.UUID
+  14  
+  15  data class CreateProjectRequest(@field:Size(max=100) val code: String? = null,
+  16      @field:NotBlank @field:Size(max=255) val nom: String, val description: String? = null,
+  17      val perimetre: String? = null, val responsableId: UUID? = null, val dateDebut: LocalDate? = null,
+  18      val dateFinPrevue: LocalDate? = null)
+  19  
+  20  data class CreateElementRequest(@field:NotNull val projetNumerisationId: UUID, val archivePhysiqueId: UUID? = null,
+  21      val documentId: UUID? = null, val ordre: Int? = null, val descriptionSource: String? = null)
+  22  
+  23  data class LinkFileRequest(@field:NotBlank @field:Size(max=40) val typeSortie: String)
+  24  
+  25  data class CreateQualityControlRequest(val dpi: Int? = null, @field:Size(max=40) val modeCouleur: String? = null,
+  26      val nettete: BigDecimal? = null, val nombrePages: Int? = null, val conforme: Boolean,
+  27      val defauts: JsonNode? = null, @field:Size(max=30) val decision: String? = null)
+  28  
+  29  data class CreateOcrResultRequest(@field:NotNull val fichierId: UUID,
+  30      @field:NotBlank @field:Size(max=20) val typeReconnaissance: String, @field:NotBlank val texte: String,
+  31      @field:Size(max=20) val langue: String? = null, @field:Size(max=100) val moteur: String? = null,
+  32      @field:Size(max=50) val versionMoteur: String? = null, val confiance: BigDecimal? = null, val numeroPage: Int? = null)
+  33  
+  34  data class CreateContributionRequest(val resultatOcrId: UUID? = null,
+  35      @field:NotBlank @field:Size(max=40) val typeContribution: String, @field:NotBlank @field:Size(max=20000) val contenu: String)
+  36  
+  37  @RestController
+  38  @RequestMapping("/api/v1/digitization")
+  39  class DigitizationController(private val projects: ProjectService, private val elements: ElementService,
+  40      private val qualityControls: QualityControlService, private val ocrResults: OcrResultService,
+  41      private val contributions: ContributionService) {
+  42  
+  43      @PostMapping("/projects")
+  44      @ResponseStatus(HttpStatus.CREATED)
+  45      fun createProject(@Valid @RequestBody r: CreateProjectRequest) = projects.create(
+  46          CreateProjectCommand(r.code, r.nom, r.description, r.perimetre, r.responsableId, r.dateDebut, r.dateFinPrevue))
+  47  
+  48      @GetMapping("/projects/{id}")
+  49      fun getProject(@PathVariable id: UUID) = projects.get(id)
+  50  
+  51      @GetMapping("/projects")
+  52      fun listProjects() = projects.list()
+  53  
+  54      @PostMapping("/projects/{id}/complete")
+  55      fun completeProject(@PathVariable id: UUID) = projects.complete(id)
+  56  
+  57      @PostMapping("/projects/{id}/cancel")
+  58      fun cancelProject(@PathVariable id: UUID) = projects.cancel(id)
+  59  
+  60      @PostMapping("/elements")
+  61      @ResponseStatus(HttpStatus.CREATED)
+  62      fun createElement(@RequestHeader("Idempotency-Key") key: String, @Valid @RequestBody r: CreateElementRequest) = elements.create(
+  63          CreateElementCommand(r.projetNumerisationId, r.archivePhysiqueId, r.documentId, r.ordre, r.descriptionSource, key))
+  64  
+  65      @GetMapping("/elements/{id}")
+  66      fun getElement(@PathVariable id: UUID) = elements.get(id)
+  67  
+  68      @GetMapping("/elements")
+  69      fun listElements() = elements.list()
+  70  
+  71      @GetMapping("/projects/{id}/elements")
+  72      fun listElementsByProject(@PathVariable id: UUID) = elements.listByProject(id)
+  73  
+  74      @PostMapping("/elements/{id}/files/{fichierId}")
+  75      fun linkFile(@PathVariable id: UUID, @PathVariable fichierId: UUID, @Valid @RequestBody r: LinkFileRequest) =
+  76          elements.linkFichier(id, fichierId, r.typeSortie)
+  77  
+  78      @PostMapping("/elements/{id}/complete")
+  79      fun completeElement(@PathVariable id: UUID) = elements.complete(id)
+  80  
+  81      @PostMapping("/elements/{id}/quality-controls")
+  82      @ResponseStatus(HttpStatus.CREATED)
+  83      fun createQualityControl(@PathVariable id: UUID, @RequestHeader("Idempotency-Key") key: String,
+  84          @Valid @RequestBody r: CreateQualityControlRequest) = qualityControls.create(
+  85          CreateQualityControlCommand(id, r.dpi, r.modeCouleur, r.nettete, r.nombrePages, r.conforme, r.defauts, r.decision, key))
+  86  
+  87      @GetMapping("/quality-controls/{id}")
+  88      fun getQualityControl(@PathVariable id: UUID) = qualityControls.get(id)
+  89  
+  90      @GetMapping("/elements/{id}/quality-controls")
+  91      fun listQualityControls(@PathVariable id: UUID) = qualityControls.listByElement(id)
+  92  
+  93      @GetMapping("/quality-controls")
+  94      fun listAllQualityControls() = qualityControls.listAll()
+  95  
+  96      @PostMapping("/ocr-results")
+  97      @ResponseStatus(HttpStatus.CREATED)
+  98      fun createOcrResult(@RequestHeader("Idempotency-Key") key: String, @Valid @RequestBody r: CreateOcrResultRequest) = ocrResults.create(
+  99          CreateOcrResultCommand(r.fichierId, r.typeReconnaissance, r.texte, r.langue, r.moteur, r.versionMoteur, r.confiance, r.numeroPage, key))
+ 100  
+ 101      @PostMapping("/ocr-results/{id}/validate")
+ 102      fun validateOcrResult(@PathVariable id: UUID, @RequestHeader("Idempotency-Key") key: String) = ocrResults.validate(id, key)
+ 103  
+ 104      @GetMapping("/ocr-results/{id}")
+ 105      fun getOcrResult(@PathVariable id: UUID) = ocrResults.get(id)
+ 106  
+ 107      @GetMapping("/files/{fichierId}/ocr-results")
+ 108      fun listOcrResults(@PathVariable fichierId: UUID) = ocrResults.listByFichier(fichierId)
+ 109  
+ 110      @PostMapping("/elements/{id}/contributions")
+ 111      @ResponseStatus(HttpStatus.CREATED)
+ 112      fun createContribution(@PathVariable id: UUID, @RequestHeader("Idempotency-Key") key: String,
+ 113          @Valid @RequestBody r: CreateContributionRequest) = contributions.create(
+ 114          CreateContributionCommand(id, r.resultatOcrId, r.typeContribution, r.contenu, key))
+ 115  
+ 116      @PostMapping("/contributions/{id}/approve")
+ 117      fun approveContribution(@PathVariable id: UUID, @RequestHeader("Idempotency-Key") key: String) =
+ 118          contributions.moderate(ModerateContributionCommand(id, true, key))
+ 119  
+ 120      @PostMapping("/contributions/{id}/reject")
+ 121      fun rejectContribution(@PathVariable id: UUID, @RequestHeader("Idempotency-Key") key: String) =
+ 122          contributions.moderate(ModerateContributionCommand(id, false, key))
+ 123  
+ 124      @GetMapping("/contributions/{id}")
+ 125      fun getContribution(@PathVariable id: UUID) = contributions.get(id)
+ 126  
+ 127      @GetMapping("/elements/{id}/contributions")
+ 128      fun listContributions(@PathVariable id: UUID) = contributions.listByElement(id)
+ 129  }
+</code></pre>
+<h3 id="s14-circuit-et-t-ches-contrats-disponibles">S14 — Circuit et tâches : contrats disponibles</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/workflow/api/WorkflowController.kt</code> · lignes 1–143.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.workflow.api
+   2  
+   3  import gn.gouv.snaeppd.workflow.domain.WorkflowDomain
+   4  import gn.gouv.snaeppd.workflow.service.*
+   5  import jakarta.validation.Valid
+   6  import jakarta.validation.constraints.NotBlank
+   7  import jakarta.validation.constraints.NotNull
+   8  import jakarta.validation.constraints.PositiveOrZero
+   9  import jakarta.validation.constraints.Size
+  10  import org.springframework.http.HttpStatus
+  11  import org.springframework.web.bind.annotation.*
+  12  import tools.jackson.databind.JsonNode
+  13  import java.time.LocalDate
+  14  import java.util.UUID
+  15  
+  16  @RestController
+  17  @RequestMapping("/api/v1")
+  18  class WorkflowController(
+  19      private val definitions: WorkflowDefinitionService,
+  20      private val runtime: WorkflowRuntimeService
+  21  ) {
+  22      @PostMapping("/admin/workflow-definitions")
+  23      @ResponseStatus(HttpStatus.CREATED)
+  24      fun create(@Valid @RequestBody request: CreateWorkflowRequest) = definitions.create(
+  25          CreateWorkflowDefinitionCommand(request.code, request.name, request.domain, request.institutionId, request.effectiveFrom ?: LocalDate.now())
+  26      ).toResponse()
+  27  
+  28      @PostMapping("/admin/workflow-definitions/{definitionId}/steps")
+  29      @ResponseStatus(HttpStatus.CREATED)
+  30      fun addStep(@PathVariable definitionId: UUID, @Valid @RequestBody request: AddStepRequest) = definitions.addStep(
+  31          AddWorkflowStepCommand(definitionId, request.code, request.label, request.order, request.responsibleRoleId, request.delayMinutes, request.initial, request.final)
+  32      ).toResponse()
+  33  
+  34      @PostMapping("/admin/workflow-definitions/{definitionId}/transitions")
+  35      @ResponseStatus(HttpStatus.CREATED)
+  36      fun addTransition(@PathVariable definitionId: UUID, @Valid @RequestBody request: AddTransitionRequest) = definitions.addTransition(
+  37          AddWorkflowTransitionCommand(definitionId, request.sourceStepId, request.destinationStepId, request.code, request.condition, request.action)
+  38      ).toResponse()
+  39  
+  40      @PostMapping("/admin/workflow-definitions/{definitionId}/document-types/{typeId}")
+  41      @ResponseStatus(HttpStatus.CREATED)
+  42      fun bind(@PathVariable definitionId: UUID, @PathVariable typeId: UUID, @Valid @RequestBody request: BindWorkflowRequest) = definitions.bind(
+  43          BindWorkflowCommand(definitionId, typeId, request.required, request.priority, request.from ?: LocalDate.now(), request.to)
+  44      ).toResponse()
+  45  
+  46      @PostMapping("/admin/workflow-definitions/{definitionId}/activate")
+  47      fun activate(@PathVariable definitionId: UUID) = definitions.activate(definitionId).toResponse()
+  48  
+  49      @GetMapping("/admin/workflow-definitions")
+  50      fun listDefinitions(@RequestParam(required = false) institutionId: UUID?) = definitions.list(institutionId).map { it.toResponse() }
+  51  
+  52      @GetMapping("/admin/workflow-definitions/{definitionId}")
+  53      fun getDefinition(@PathVariable definitionId: UUID) = definitions.get(definitionId).toResponse()
+  54  
+  55      @GetMapping("/admin/workflow-definitions/{definitionId}/steps")
+  56      fun listSteps(@PathVariable definitionId: UUID) = definitions.stepsOf(definitionId).map { it.toResponse() }
+  57  
+  58      @GetMapping("/admin/workflow-definitions/{definitionId}/transitions")
+  59      fun listTransitions(@PathVariable definitionId: UUID) = definitions.transitionsOf(definitionId).map { it.toResponse() }
+  60  
+  61      @GetMapping("/admin/workflow-definitions/{definitionId}/document-types")
+  62      fun listBindings(@PathVariable definitionId: UUID) = definitions.bindingsOf(definitionId).map { it.toResponse() }
+  63  
+  64      @GetMapping("/documents/{documentId}/workflow")
+  65      fun listByDocument(@PathVariable documentId: UUID) = runtime.listByDocument(documentId)
+  66  
+  67      @PostMapping("/documents/{documentId}/workflow")
+  68      @ResponseStatus(HttpStatus.CREATED)
+  69      fun start(@PathVariable documentId: UUID, @RequestHeader(value = "Idempotency-Key", required = false) key: String?, @Valid @RequestBody request: StartWorkflowRequest) = runtime.start(
+  70          StartDocumentWorkflowCommand(documentId, request.definitionId, workflowStartKey(key, request.idempotencyKey), request.context, request.entreeArchivistiqueId)
+  71      ).toStartResponse()
+  72  
+  73      @PostMapping("/workflow-tasks/{taskId}/claim")
+  74      fun claim(@PathVariable taskId: UUID) = runtime.claim(taskId).toResponse()
+  75  
+  76      @PostMapping("/workflow-tasks/{taskId}/complete")
+  77      fun complete(@PathVariable taskId: UUID, @Valid @RequestBody request: CompleteTaskRequest) = runtime.complete(
+  78          CompleteWorkflowTaskCommand(taskId, request.transitionCode, request.comment)
+  79      ).toStartResponse()
+  80  
+  81      @PostMapping("/workflows/{instanceId}/cancel")
+  82      fun cancel(@PathVariable instanceId: UUID, @Valid @RequestBody request: CancelWorkflowRequest) = runtime.cancel(
+  83          CancelWorkflowCommand(instanceId, request.reason)
+  84      ).toStartResponse()
+  85  
+  86      @GetMapping("/workflows/{instanceId}")
+  87      fun get(@PathVariable instanceId: UUID) = runtime.get(instanceId)
+  88  }
+  89  
+  90  data class CreateWorkflowRequest(
+  91      @field:NotBlank @field:Size(max=100) val code: String,
+  92      @field:NotBlank @field:Size(max=255) val name: String,
+  93      val domain: WorkflowDomain = WorkflowDomain.DOCUMENT,
+  94      val institutionId: UUID? = null,
+  95      val effectiveFrom: LocalDate? = null
+  96  )
+  97  
+  98  data class AddStepRequest(
+  99      @field:NotBlank @field:Size(max=100) val code: String,
+ 100      @field:NotBlank @field:Size(max=255) val label: String,
+ 101      @field:PositiveOrZero val order: Int,
+ 102      @field:NotNull val responsibleRoleId: UUID,
+ 103      @field:PositiveOrZero val delayMinutes: Int? = null,
+ 104      val initial: Boolean = false,
+ 105      val final: Boolean = false
+ 106  )
+ 107  
+ 108  data class AddTransitionRequest(
+ 109      @field:NotBlank @field:Size(max=100) val code: String,
+ 110      @field:NotNull val sourceStepId: UUID,
+ 111      @field:NotNull val destinationStepId: UUID,
+ 112      val condition: JsonNode? = null,
+ 113      val action: JsonNode? = null
+ 114  )
+ 115  
+ 116  data class BindWorkflowRequest(
+ 117      val required: Boolean = true,
+ 118      @field:PositiveOrZero val priority: Int = 100,
+ 119      val from: LocalDate? = null,
+ 120      val to: LocalDate? = null
+ 121  )
+ 122  
+ 123  data class StartWorkflowRequest(
+ 124      val definitionId: UUID? = null,
+ 125      val idempotencyKey: String? = null,
+ 126      val context: JsonNode? = null,
+ 127      val entreeArchivistiqueId: UUID? = null
+ 128  )
+ 129  
+ 130  data class CompleteTaskRequest(
+ 131      val transitionCode: String? = null,
+ 132      val comment: String? = null
+ 133  )
+ 134  
+ 135  data class CancelWorkflowRequest(@field:NotBlank val reason: String)
+ 136  
+ 137  internal fun workflowStartKey(header: String?, body: String?): String? {
+ 138      val h = header?.trim()?.takeIf { it.isNotEmpty() }
+ 139      val b = body?.trim()?.takeIf { it.isNotEmpty() }
+ 140      if (h != null &amp;&amp; b != null &amp;&amp; h != b) throw gn.gouv.snaeppd.shared.error.ConflictException(
+ 141          "IDEMPOTENCY_KEY_MISMATCH", "La clé du corps diffère de l'en-tête Idempotency-Key.")
+ 142      return h ?: b
+ 143  }
+</code></pre>
+<h3 id="s15-endpoints-publics-et-authentification">S15 — Endpoints publics et authentification</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/shared/config/SecurityConfig.kt</code> · lignes 1–97.</p>
+<pre><code class="language-text">   1  package gn.gouv.snaeppd.shared.config
+   2  
+   3  import gn.gouv.snaeppd.shared.security.JwtAudienceValidator
+   4  import gn.gouv.snaeppd.shared.security.JwtRequiredClaimsValidator
+   5  import gn.gouv.snaeppd.shared.security.JwtSecurityProperties
+   6  import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+   7  import org.springframework.boot.context.properties.EnableConfigurationProperties
+   8  import org.springframework.context.annotation.Bean
+   9  import org.springframework.context.annotation.Configuration
+  10  import org.springframework.security.config.Customizer.withDefaults
+  11  import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+  12  import org.springframework.security.config.annotation.web.builders.HttpSecurity
+  13  import org.springframework.security.config.http.SessionCreationPolicy
+  14  import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
+  15  import org.springframework.security.oauth2.jwt.JwtDecoder
+  16  import org.springframework.security.oauth2.jwt.JwtValidators
+  17  import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
+  18  import org.springframework.security.web.AuthenticationEntryPoint
+  19  import org.springframework.security.web.SecurityFilterChain
+  20  import org.springframework.security.web.access.AccessDeniedHandler
+  21  import org.springframework.http.client.SimpleClientHttpRequestFactory
+  22  import org.springframework.web.client.RestTemplate
+  23  
+  24  @Configuration
+  25  @EnableMethodSecurity
+  26  @EnableConfigurationProperties(JwtSecurityProperties::class)
+  27  class SecurityConfig {
+  28      @Bean
+  29      @ConditionalOnProperty(prefix = "snae.security.jwt", name = ["enabled"], havingValue = "true")
+  30      fun jwtDecoder(properties: JwtSecurityProperties): JwtDecoder {
+  31          require(properties.issuer.isNotBlank()) { "snae.security.jwt.issuer is required" }
+  32          require(properties.jwkSetUri.isNotBlank()) { "snae.security.jwt.jwk-set-uri is required" }
+  33          require(properties.audiences.isNotEmpty()) { "snae.security.jwt.audiences is required" }
+  34          require(properties.algorithms.isNotEmpty() &amp;&amp; properties.algorithms.all { it in setOf("RS256","ES256") }) {
+  35              "JWT algorithms must be explicitly configured from RS256 or ES256"
+  36          }
+  37          val jwksHttpClient = RestTemplate(SimpleClientHttpRequestFactory().apply {
+  38              setConnectTimeout(10_000)
+  39              setReadTimeout(20_000)
+  40          })
+  41          val decoder = NimbusJwtDecoder.withJwkSetUri(properties.jwkSetUri).restOperations(jwksHttpClient).jwsAlgorithms { algorithms -&gt;
+  42              algorithms.clear()
+  43              properties.algorithms.forEach {
+  44                  algorithms.add(org.springframework.security.oauth2.jose.jws.SignatureAlgorithm.from(it))
+  45              }
+  46          }.build()
+  47          decoder.setJwtValidator(
+  48              DelegatingOAuth2TokenValidator(
+  49                  JwtValidators.createDefaultWithIssuer(properties.issuer),
+  50                  JwtAudienceValidator(properties.audiences),
+  51                  JwtRequiredClaimsValidator()
+  52              )
+  53          )
+  54          return decoder
+  55      }
+  56  
+  57      @Bean
+  58      @ConditionalOnProperty(prefix = "snae.security.jwt", name = ["enabled"], havingValue = "true")
+  59      fun jwtSecurityFilterChain(
+  60          http: HttpSecurity,
+  61          authenticationEntryPoint: AuthenticationEntryPoint,
+  62          accessDeniedHandler: AccessDeniedHandler
+  63      ): SecurityFilterChain = configureBase(http, authenticationEntryPoint, accessDeniedHandler)
+  64          .oauth2ResourceServer { it.jwt(withDefaults()).authenticationEntryPoint(authenticationEntryPoint) }
+  65          .addFilterAfter(gn.gouv.snaeppd.identity.api.IdentityTokenContextFilter(),
+  66              org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter::class.java)
+  67          .build()
+  68  
+  69      @Bean
+  70      @ConditionalOnProperty(prefix = "snae.security.jwt", name = ["enabled"], havingValue = "false", matchIfMissing = true)
+  71      fun closedSecurityFilterChain(
+  72          http: HttpSecurity,
+  73          authenticationEntryPoint: AuthenticationEntryPoint,
+  74          accessDeniedHandler: AccessDeniedHandler
+  75      ): SecurityFilterChain = configureBase(http, authenticationEntryPoint, accessDeniedHandler).build()
+  76  
+  77      private fun configureBase(
+  78          http: HttpSecurity,
+  79          authenticationEntryPoint: AuthenticationEntryPoint,
+  80          accessDeniedHandler: AccessDeniedHandler
+  81      ): HttpSecurity = http
+  82          .csrf { it.disable() }
+  83          .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+  84          .headers {
+  85              it.contentTypeOptions(withDefaults())
+  86              it.frameOptions { frame -&gt; frame.deny() }
+  87              it.httpStrictTransportSecurity { hsts -&gt; hsts.includeSubDomains(true).maxAgeInSeconds(31_536_000) }
+  88          }
+  89          .exceptionHandling {
+  90              it.authenticationEntryPoint(authenticationEntryPoint)
+  91              it.accessDeniedHandler(accessDeniedHandler)
+  92          }
+  93          .authorizeHttpRequests {
+  94              it.requestMatchers("/actuator/health", "/actuator/health/**", "/api/v1/system/status").permitAll()
+  95              it.anyRequest().authenticated()
+  96          }
+  97  }
+</code></pre>
+<h3 id="s16-lecture-documentaire-et-versions">S16 — Lecture documentaire et versions</h3>
+<p>backend fourni · <code>src/main/kotlin/gn/gouv/snaeppd/records/service/RecordQueryService.kt</code> · lignes 45–134.</p>
+<pre><code class="language-text">  45          authorization.requirePermission("DOCUMENT_READ", institutionId, departmentId)
+  46          val bounded = boundedSize(size)
+  47          val boundedPage = boundedPage(page)
+  48          val ids = visibility.ids(true, institutionId, departmentId, boundedPage, bounded)
+  49          val byId = documents.findAllById(ids.take(bounded)).associateBy { it.id }
+  50          return RecordPage(ids.take(bounded).mapNotNull { byId[it]?.toResponse() }, boundedPage, bounded, ids.size &gt; bounded)
+  51      }
+  52  
+  53      fun document(id: UUID): DocumentResponse {
+  54          val item = documents.findById(id).orElseThrow { notFound("DOCUMENT") }
+  55          maskDenied("DOCUMENT") {
+  56              authorization.requirePermission("DOCUMENT_READ", item.institutionId, item.departementId)
+  57              confidentiality.requireReadable(item.id, item.niveauConfidentialite, item.institutionId, item.departementId)
+  58          }
+  59          return item.toResponse()
+  60      }
+  61  
+  62      fun versions(documentId: UUID): List&lt;VersionResponse&gt; {
+  63          val item = documents.findById(documentId).orElseThrow { notFound("DOCUMENT") }
+  64          maskDenied("DOCUMENT") {
+  65              authorization.requirePermission("DOCUMENT_READ", item.institutionId, item.departementId)
+  66              confidentiality.requireReadable(item.id, item.niveauConfidentialite, item.institutionId, item.departementId)
+  67          }
+  68          return versions.findAllByDocumentIdOrderByNumeroVersionDesc(documentId).map { it.toResponse() }
+  69      }
+  70  
+  71      fun files(versionId: UUID): List&lt;FileResponse&gt; {
+  72          val version = versions.findById(versionId).orElseThrow { notFound("VERSION") }
+  73          val document = documents.findById(version.documentId).orElseThrow { notFound("VERSION") }
+  74          maskDenied("VERSION") {
+  75              authorization.requirePermission("DOCUMENT_READ", document.institutionId, document.departementId)
+  76              confidentiality.requireReadable(document.id, document.niveauConfidentialite, document.institutionId, document.departementId)
+  77          }
+  78          return files.findAllByVersionDocumentId(versionId).map { it.toResponse() }
+  79      }
+  80  
+  81      fun dossiers(institutionId: UUID?, departmentId: UUID?, page: Int, size: Int): RecordPage&lt;DossierResponse&gt; {
+  82          authorization.requirePermission("DOSSIER_READ", institutionId, departmentId)
+  83          val bounded = boundedSize(size)
+  84          val boundedPage = boundedPage(page)
+  85          val ids = visibility.ids(false, institutionId, departmentId, boundedPage, bounded)
+  86          val byId = dossiers.findAllById(ids.take(bounded)).associateBy { it.id }
+  87          return RecordPage(ids.take(bounded).mapNotNull { byId[it]?.toResponse() }, boundedPage, bounded, ids.size &gt; bounded)
+  88      }
+  89  
+  90      fun dossier(id: UUID): DossierResponse {
+  91          val item = dossiers.findById(id).orElseThrow { notFound("DOSSIER") }
+  92          maskDenied("DOSSIER") {
+  93              authorization.requirePermission("DOSSIER_READ", item.institutionId, item.departementId)
+  94              confidentiality.requireClearance(item.niveauConfidentialite, item.institutionId, item.departementId)
+  95          }
+  96          return item.toResponse()
+  97      }
+  98  
+  99      /** types_document has no institution dimension at all (it's a shared national reference catalog),
+ 100       * so there is no per-record scope to check — gated instead on the caller holding DOCUMENT_READ in
+ 101       * their own institution/department, mirroring IdentityAccess.catalog()'s pattern for reference data. */
+ 102      fun documentTypes(): List&lt;DocumentTypeResponse&gt; {
+ 103          val actor = actors.current()
+ 104          authorization.requirePermission("DOCUMENT_READ", actor.institutionId, actor.departmentId)
+ 105          return types.findAll().filter { it.statut == "ACTIF" }.sortedBy { it.code }.map { it.toResponse() }
+ 106      }
+ 107  
+ 108      /** Acteurs (personnes/organismes liés aux documents) sont aussi un référentiel partagé sans
+ 109       * dimension institution, même logique de contrôle que documentTypes(). */
+ 110      fun actorsList(page: Int, size: Int): RecordPage&lt;ActorResponse&gt; {
+ 111          val actor = actors.current()
+ 112          authorization.requirePermission("DOCUMENT_READ", actor.institutionId, actor.departmentId)
+ 113          val bounded = boundedSize(size)
+ 114          val boundedPage = boundedPage(page)
+ 115          val result = acteurs.findAll(PageRequest.of(boundedPage, bounded, Sort.by(Sort.Direction.ASC, "nom").and(Sort.by(Sort.Direction.ASC, "id"))))
+ 116          return RecordPage(result.content.map { it.toResponse() }, boundedPage, bounded, result.hasNext())
+ 117      }
+ 118  
+ 119      fun documentActors(documentId: UUID): List&lt;DocumentActorResponse&gt; {
+ 120          val item = documents.findById(documentId).orElseThrow { notFound("DOCUMENT") }
+ 121          maskDenied("DOCUMENT") {
+ 122              authorization.requirePermission("DOCUMENT_READ", item.institutionId, item.departementId)
+ 123              confidentiality.requireReadable(item.id, item.niveauConfidentialite, item.institutionId, item.departementId)
+ 124          }
+ 125          return documentActeurs.findAllByDocumentId(documentId).map { it.toResponse() }
+ 126      }
+ 127  
+ 128      private fun boundedSize(size: Int) = size.coerceIn(1, 100)
+ 129      private fun boundedPage(page: Int) = page.coerceAtLeast(0)
+ 130      private fun notFound(type: String) = NotFoundException("${type}_NOT_FOUND", "Ressource introuvable.")
+ 131      private inline fun maskDenied(type: String, check: () -&gt; Unit) {
+ 132          try { check() } catch (e: AccessDeniedException) { throw notFound(type) }
+ 133      }
+ 134  }
+</code></pre>
+<h2 id="15-atlas-des-42-parcours">15. Atlas des 42 parcours</h2>
+<p>Chaque fiche décrit un parcours de référence. Les exceptions complètent le chemin nominal ; elles ne sont pas des étapes obligatoires à exécuter successivement.</p>
+<h3 id="p01-se-connecter-et-retrouver-son-p-rim-tre">P01 — Se connecter et retrouver son périmètre</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Tous les utilisateurs<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/profile</code></p>
+<ol>
+<li>Ouvrir la connexion</li>
+<li>S’authentifier via le fournisseur configuré</li>
+<li>Résoudre le compte avec /iam/me</li>
+<li>Ouvrir le périmètre autorisé</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Compte non provisionné : rester sur une erreur explicite</li>
+<li>Session expirée : annuler les requêtes et revenir à la connexion</li>
+<li>Aucun fournisseur configuré : connexion indisponible</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Session nominative et droits reçus du serveur ; pas de rôle déduit du poste.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/iam/me</code></p>
+<p><strong>Fichiers repères :</strong> auth/session.tsx · IdentityController.kt</p>
+<h3 id="p02-enregistrer-une-institution">P02 — Enregistrer une institution</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Administrateur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/institutions</code></p>
+<ol>
+<li>Rechercher une institution existante</li>
+<li>Créer la fiche</li>
+<li>Renseigner code interne, nom et type</li>
+<li>Confirmer et ouvrir la fiche</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Code en doublon : corriger</li>
+<li>Conflit de version : relire</li>
+<li>Permission refusée : aucune création</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Institution créée ; le code applicatif n’est pas un numéro légal de création.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/iam/institutions</code><br/>
+<code>POST /api/v1/iam/institutions</code></p>
+<p><strong>Fichiers repères :</strong> pages/Catalog.tsx · IdentityController.kt</p>
+<h3 id="p03-structurer-les-d-partements">P03 — Structurer les départements</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Administrateur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/departments</code></p>
+<ol>
+<li>Choisir l’institution</li>
+<li>Choisir une unité parente admissible</li>
+<li>Renseigner le département</li>
+<li>Enregistrer puis consulter l’impact</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Parent incompatible ou cycle : refuser</li>
+<li>Réorganisation : examiner les comptes et droits dépendants</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Structure organisationnelle rattachée ; ne pas réécrire la provenance historique.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/iam/departments</code><br/>
+<code>GET /api/v1/iam/departments/{id}/impact</code></p>
+<p><strong>Fichiers repères :</strong> pages/EntityForm.tsx · IdentityGovernanceController.kt</p>
+<h3 id="p04-provisionner-un-utilisateur-sso">P04 — Provisionner un utilisateur SSO</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Administrateur habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/users</code></p>
+<ol>
+<li>Vérifier l’identité dans le fournisseur</li>
+<li>Renseigner le sujet SSO et le profil</li>
+<li>Choisir institution et département</li>
+<li>Créer le compte applicatif</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Le fournisseur SSO ne crée pas automatiquement le compte métier</li>
+<li>Pas d’invitation par email inventée</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Compte rattaché à une identité existante ; automatisation d’invitation hors contrat observé.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/iam/users</code><br/>
+<code>GET /api/v1/iam/users/{id}</code></p>
+<p><strong>Fichiers repères :</strong> pages/EntityForm.tsx · IdentityController.kt</p>
+<h3 id="p05-attribuer-ou-r-voquer-des-habilitations">P05 — Attribuer ou révoquer des habilitations</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Administrateur habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/roles</code></p>
+<ol>
+<li>Sélectionner le rôle</li>
+<li>Examiner les permissions</li>
+<li>Choisir bénéficiaire, portée et période</li>
+<li>Attribuer ou révoquer</li>
+<li>Relire la synthèse d’accès</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Périmètre trop large : refus</li>
+<li>Délégation expirée : ne pas proposer de commande</li>
+<li>Impossible de s’octroyer des droits implicitement</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Habilitation explicite ; écrans dédiés de création des délégations et changement de portée à compléter.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/iam/role-assignments</code><br/>
+<code>POST /api/v1/iam/role-assignments/{id}/revoke</code><br/>
+<code>GET /api/v1/iam/users/{id}/access-summary</code></p>
+<p><strong>Fichiers repères :</strong> pages/Actions.tsx · IdentityController.kt</p>
+<h3 id="p06-approuver-un-changement-sensible-de-permissions">P06 — Approuver un changement sensible de permissions</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Deux administrateurs indépendants<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/governance</code></p>
+<ol>
+<li>Examiner l’impact du rôle</li>
+<li>Proposer la différence de permissions</li>
+<li>Faire examiner par un autre approbateur</li>
+<li>Appliquer, rejeter ou annuler</li>
+<li>Relire le journal</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Auto-approbation : refus</li>
+<li>Version dépassée : relire l’impact</li>
+<li>Réponse incertaine : même intention, jamais une nouvelle écriture aveugle</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Changement appliqué après contrôle indépendant, ou demande clôturée sans effet.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/iam/roles/{id}/permission-changes</code><br/>
+<code>POST /api/v1/iam/permission-changes/{id}/approve</code><br/>
+<code>POST /api/v1/iam/permission-changes/{id}/reject</code></p>
+<p><strong>Fichiers repères :</strong> pages/Governance.tsx · IdentityGovernanceController.kt</p>
+<h3 id="p07-g-rer-un-d-part-et-fermer-les-acc-s">P07 — Gérer un départ et fermer les accès</h3>
+<p><strong>Domaine :</strong> Identité · <strong>Acteur :</strong> Administrateur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/users</code></p>
+<ol>
+<li>Ouvrir le compte</li>
+<li>Vérifier attributions et délégations</li>
+<li>Révoquer les accès concernés</li>
+<li>Suspendre le compte et révoquer les anciens jetons</li>
+<li>Contrôler la synthèse</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>La déconnexion du navigateur seule ne révoque pas les droits</li>
+<li>Conserver les traces de responsabilité des anciennes actions</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Accès retirés sans effacer l’identité des événements historiques.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/iam/users/{id}/status</code><br/>
+<code>POST /api/v1/iam/users/{id}/revoke-tokens</code></p>
+<p><strong>Fichiers repères :</strong> pages/Actions.tsx · IdentityController.kt</p>
+<h3 id="p08-cr-er-une-entr-e-archivistique">P08 — Créer une entrée archivistique</h3>
+<p><strong>Domaine :</strong> Versements · <strong>Acteur :</strong> Gestionnaire national habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/versements</code></p>
+<ol>
+<li>Choisir le mode d’entrée</li>
+<li>Renseigner numéro et date réelle</li>
+<li>Renseigner provenance et responsable disponibles</li>
+<li>Créer l’entrée ouverte</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Date future interdite</li>
+<li>Numéro déjà utilisé : corriger</li>
+<li>Nouvelle tentative identique : conserver la clé d’intention</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Entrée OUVERTE. Le numéro est saisi, pas généré par le backend fourni.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/archival-intake/entries</code></p>
+<p><strong>Fichiers repères :</strong> pages/ArchivalIntake.tsx · ArchivalIntakeService.kt</p>
+<h3 id="p09-rattacher-le-contenu-d-une-entr-e">P09 — Rattacher le contenu d’une entrée</h3>
+<p><strong>Domaine :</strong> Versements · <strong>Acteur :</strong> Gestionnaire national habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/versements</code></p>
+<ol>
+<li>Ouvrir une entrée</li>
+<li>Sélectionner un document, dossier ou original physique existant</li>
+<li>Confirmer le rattachement</li>
+<li>Vérifier l’état renvoyé</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Objet inexistant : pas de rattachement</li>
+<li>Inventaire du contenu lié non fourni par ces GET</li>
+<li>Ne pas afficher un total de pièces non renvoyé</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Liens enregistrés ; inventaire paginé et contrôles de lot restent à ajouter côté backend.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/archival-intake/entries/{id}/documents/{documentId}</code><br/>
+<code>POST /api/v1/archival-intake/entries/{id}/dossiers/{dossierId}</code><br/>
+<code>POST /api/v1/archival-intake/entries/{id}/physical-archives/{archiveId}</code></p>
+<p><strong>Fichiers repères :</strong> pages/ArchivalIntake.tsx · ArchivalIntakeController.kt</p>
+<h3 id="p10-cl-turer-le-registre-d-entr-e">P10 — Clôturer le registre d’entrée</h3>
+<p><strong>Domaine :</strong> Versements · <strong>Acteur :</strong> Gestionnaire national habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/versements</code></p>
+<ol>
+<li>Ouvrir l’entrée</li>
+<li>Vérifier les informations</li>
+<li>Lire l’avertissement de clôture</li>
+<li>Confirmer</li>
+<li>Relire le statut serveur</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Entrée déjà clôturée : conflit</li>
+<li>Échec réseau : relire avant de recommencer</li>
+<li>Clôture distincte de validation, scellement et conservation</li>
+</ul>
+<p><strong>Résultat attendu :</strong> État CLOTUREE, pas une preuve autonome d’admission probante.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/archival-intake/entries/{id}/close</code></p>
+<p><strong>Fichiers repères :</strong> pages/ArchivalIntake.tsx · ArchivalIntakeService.kt</p>
+<h3 id="p11-admettre-un-versement-complet-avec-bordereau">P11 — Admettre un versement complet avec bordereau</h3>
+<p><strong>Domaine :</strong> Versements · <strong>Acteur :</strong> Service producteur puis archiviste<br/>
+<strong>Couverture :</strong> Évolution à développer · <strong>Écran :</strong> <code>/app/versements</code></p>
+<ol>
+<li>Préparer un lot</li>
+<li>Contrôler l’inventaire et les fichiers</li>
+<li>Soumettre</li>
+<li>Accepter, refuser ou demander correction</li>
+<li>Confirmer l’intégration</li>
+<li>Produire le reçu lié à l’inventaire</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Lot partiellement admis : politique à décider</li>
+<li>Stockage échoué : ne pas annoncer intégré</li>
+<li>Aucune transition inventée dans le mode connecté</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Parcours cible. Lien entrée/workflow existant, mais admission du lot et bordereau non exposés dans cette archive.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p>Aucun contrat complet cité pour cette expérience cible ou transverse.</p>
+<p><strong>Fichiers repères :</strong> ArchivalIntakeController.kt · WorkflowController.kt</p>
+<h3 id="p12-cr-er-une-notice-et-pr-parer-ses-fichiers">P12 — Créer une notice et préparer ses fichiers</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Agent documentaire habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Créer la notice avec institution, type et référence</li>
+<li>Lire les versions existantes</li>
+<li>Sélectionner la version non scellée</li>
+<li>Déposer le fichier</li>
+<li>Suivre le reçu d’ingestion</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Ne pas créer une version supplémentaire pour contourner une réponse incomplète</li>
+<li>Référence existante : relire</li>
+<li>Dépôt interrompu : suivre le reçu</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Notice de travail, distincte d’une archive définitive.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/documents</code><br/>
+<code>GET /api/v1/documents/{id}/versions</code><br/>
+<code>POST /api/v1/versions/{versionId}/content</code></p>
+<p><strong>Fichiers repères :</strong> pages/RecordForm.tsx · pages/Records.tsx · RecordCoreController.kt</p>
+<h3 id="p13-suivre-un-d-p-t-et-traiter-la-quarantaine">P13 — Suivre un dépôt et traiter la quarantaine</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Agent documentaire habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Sélectionner le fichier et son usage</li>
+<li>Envoyer le contenu</li>
+<li>Lire PROCESSING, RETRYABLE, REJECTED ou COMPLETED</li>
+<li>Examiner analyse et état du fichier</li>
+<li>Faire valider lorsque requis</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>COMPLETED ne signifie pas admission définitive</li>
+<li>REJECTED : ne pas relancer le même fichier sans correction</li>
+<li>Annulation backend présente ; commande UI à compléter</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Le reçu technique, l’antivirus et la validation archivistique restent des états distincts.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/ingestions/{id}</code><br/>
+<code>GET /api/v1/versions/{versionId}/ingestions</code><br/>
+<code>POST /api/v1/ingestions/{id}/cancel</code></p>
+<p><strong>Fichiers repères :</strong> core/ingestion.ts · ContentStorageController.kt</p>
+<h3 id="p14-valider-le-ma-tre-et-sceller-une-version">P14 — Valider le maître et sceller une version</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Archiviste habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Lire les fichiers et leur contrôle</li>
+<li>Valider le fichier maître admissible</li>
+<li>Examiner la version</li>
+<li>Déclencher le scellement</li>
+<li>Vérifier le hash et l’état</li>
+<li>Horodater si le service est configuré</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Fichier infecté ou maître absent : refus</li>
+<li>Version scellée : pas de remplacement</li>
+<li>Horodatage qualifié : disponibilité à confirmer en recette</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Scellement technique et reçu d’horodatage éventuel ; aucune homologation juridique revendiquée.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/files/{fileId}/validate-master</code><br/>
+<code>POST /api/v1/versions/{versionId}/seal</code><br/>
+<code>POST /api/v1/versions/{versionId}/timestamp</code></p>
+<p><strong>Fichiers repères :</strong> pages/Records.tsx · FileIngestionService.kt · PreservationController.kt</p>
+<h3 id="p15-cr-er-et-clore-un-dossier">P15 — Créer et clore un dossier</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Agent ou archiviste habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/dossiers</code></p>
+<ol>
+<li>Créer un dossier contextualisé</li>
+<li>Rattacher les notices à la création</li>
+<li>Consulter sa fiche</li>
+<li>Clore le dossier autorisé</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Vue exhaustive des documents du dossier à compléter par contrat dédié</li>
+<li>Clôture du dossier distincte de la conservation définitive des pièces</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Dossier décrit ; ne pas fabriquer une liste complète à partir d’une seule page documentaire.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/dossiers</code><br/>
+<code>GET /api/v1/dossiers/{id}</code><br/>
+<code>POST /api/v1/dossiers/{id}/close</code></p>
+<p><strong>Fichiers repères :</strong> pages/Records.tsx · RecordCoreController.kt</p>
+<h3 id="p16-d-crire-un-fonds-et-ses-producteurs">P16 — Décrire un fonds et ses producteurs</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Archiviste habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/fonds</code></p>
+<ol>
+<li>Choisir l’institution</li>
+<li>Créer une autorité ou un producteur</li>
+<li>Décrire les niveaux fonds, série, dossier ou pièce</li>
+<li>Relier les notices</li>
+<li>Exporter les formats disponibles</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Parent invalide ou cycle : refus</li>
+<li>Version en conflit : relire</li>
+<li>Exports EAD/EAC à valider avec les outils d’échange destinataires</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Description hiérarchique et provenance conservées, sans les confondre avec l’organigramme courant.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/archives/descriptions</code><br/>
+<code>POST /api/v1/archives/authorities</code><br/>
+<code>POST /api/v1/archives/descriptions</code><br/>
+<code>GET /api/v1/archives/descriptions/{id}/ead</code></p>
+<p><strong>Fichiers repères :</strong> pages/ArchivalDescription.tsx · ArchiveController.kt</p>
+<h3 id="p17-importer-des-descriptions-en-csv">P17 — Importer des descriptions en CSV</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Archiviste habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/fonds</code></p>
+<ol>
+<li>Obtenir le modèle</li>
+<li>Préparer les lignes</li>
+<li>Prévisualiser et contrôler les anomalies</li>
+<li>Confirmer avec le hash de prévisualisation</li>
+<li>Relire le résultat</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Prévisualisation périmée : recommencer</li>
+<li>Ligne invalide : corriger avant import</li>
+<li>Échappement CSV nécessaire à l’export</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Import contrôlé ; pas d’écriture à partir d’un fichier non prévisualisé.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/archives/template/{kind}</code><br/>
+<code>POST /api/v1/archives/imports/preview</code><br/>
+<code>POST /api/v1/archives/imports</code></p>
+<p><strong>Fichiers repères :</strong> pages/ArchivalDescription.tsx · ArchiveController.kt</p>
+<h3 id="p18-administrer-le-plan-de-classement">P18 — Administrer le plan de classement</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Archiviste habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/classement</code></p>
+<ol>
+<li>Choisir la portée</li>
+<li>Créer un nœud et son parent</li>
+<li>Activer la rubrique</li>
+<li>Reclasser un document autorisé</li>
+<li>Vérifier le rattachement</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Code en doublon : refus</li>
+<li>Rubrique inactive : ne pas proposer</li>
+<li>Déplacement des branches et versionnement complet à étendre</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Classement actif et rattachement documentaire ; provenance inchangée.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/classification/nodes</code><br/>
+<code>POST /api/v1/classification/nodes/{id}/activate</code><br/>
+<code>PUT /api/v1/documents/{id}/classification</code></p>
+<p><strong>Fichiers repères :</strong> pages/Classification.tsx · ClassificationController.kt</p>
+<h3 id="p19-d-finir-puis-renseigner-les-m-tadonn-es">P19 — Définir puis renseigner les métadonnées</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Archiviste puis agent habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/metadonnees</code></p>
+<ol>
+<li>Créer un schéma et ses champs</li>
+<li>Lier les types documentaires</li>
+<li>Activer le schéma</li>
+<li>Ouvrir les champs applicables au document</li>
+<li>Valider et enregistrer les valeurs</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Type, champ requis ou enum invalide : erreur au champ</li>
+<li>Remplacement complet : préserver les valeurs non modifiées</li>
+<li>Changement d’un schéma actif à cadrer</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Des formulaires métier typés, sans exposer le JSON aux utilisateurs ordinaires.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/admin/metadata-schemas</code><br/>
+<code>GET /api/v1/documents/{documentId}/metadata/schema</code><br/>
+<code>PUT /api/v1/documents/{documentId}/metadata</code></p>
+<p><strong>Fichiers repères :</strong> pages/Metadata.tsx · MetadataController.kt</p>
+<h3 id="p20-retrouver-une-archive-autoris-e">P20 — Retrouver une archive autorisée</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Utilisateur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/recherche</code></p>
+<ol>
+<li>Saisir des mots-clés</li>
+<li>Choisir document, dossier ou tous</li>
+<li>Parcourir les résultats autorisés</li>
+<li>Ouvrir la fiche</li>
+<li>Affiner la recherche</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Aucun résultat ne prouve pas l’absence de document</li>
+<li>Index indisponible : afficher une erreur, pas zéro résultat</li>
+<li>Filtres date et institution absents du contrat de recherche fourni</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Résultats filtrés par le serveur ; aucune fuite de titre ou d’extrait non autorisé.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/search?q=…&amp;type=…&amp;page=…&amp;size=…</code></p>
+<p><strong>Fichiers repères :</strong> pages/Search.tsx · SearchController.kt</p>
+<h3 id="p21-consulter-ou-t-l-charger-un-fichier">P21 — Consulter ou télécharger un fichier</h3>
+<p><strong>Domaine :</strong> Archives · <strong>Acteur :</strong> Lecteur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Ouvrir la notice</li>
+<li>Choisir une version et un fichier lisible</li>
+<li>Vérifier l’accès serveur</li>
+<li>Prévisualiser</li>
+<li>Télécharger seulement selon le contrat actuel</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Accès refusé : fermer l’aperçu</li>
+<li>Session changée : révoquer l’URL locale</li>
+<li>Fichier altéré, trop volumineux ou non pris en charge : état explicite</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Le contrat actuel sert le même contenu à la lecture et au téléchargement ; séparation de droits à développer.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/files/{fileId}/content</code></p>
+<p><strong>Fichiers repères :</strong> ui/FileContentDialog.tsx · ContentStorageController.kt</p>
+<h3 id="p22-configurer-un-circuit-de-validation">P22 — Configurer un circuit de validation</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Administrateur fonctionnel habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/circuits-validation</code></p>
+<ol>
+<li>Créer une définition</li>
+<li>Définir étapes et rôles</li>
+<li>Définir les transitions</li>
+<li>Associer les types documentaires</li>
+<li>Valider et activer le graphe</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Étape initiale/finale incohérente : refus</li>
+<li>Graphe invalide : corriger</li>
+<li>Aucun code de transition inventé par le frontend</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Un circuit paramétré, pas une séquence figée commune à tous les documents.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/admin/workflow-definitions</code><br/>
+<code>POST /api/v1/admin/workflow-definitions/{definitionId}/steps</code><br/>
+<code>POST /api/v1/admin/workflow-definitions/{definitionId}/transitions</code></p>
+<p><strong>Fichiers repères :</strong> pages/Workflow.tsx · WorkflowController.kt</p>
+<h3 id="p23-prendre-en-charge-et-terminer-une-validation">P23 — Prendre en charge et terminer une validation</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Validateur habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Ouvrir le circuit du document</li>
+<li>Prendre une tâche ouverte</li>
+<li>Examiner les pièces</li>
+<li>Choisir une transition autorisée</li>
+<li>Terminer la tâche</li>
+<li>Relire le prochain état</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Tâche déjà prise : conflit</li>
+<li>Mauvais responsable : refus</li>
+<li>Échec d’écriture : état inconnu à relire</li>
+<li>API des transitions disponibles par acteur à ajouter</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Instance EN_COURS puis TERMINE ; terminer le circuit n’est pas automatiquement admettre un lot.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/documents/{documentId}/workflow</code><br/>
+<code>POST /api/v1/workflow-tasks/{taskId}/claim</code><br/>
+<code>POST /api/v1/workflow-tasks/{taskId}/complete</code></p>
+<p><strong>Fichiers repères :</strong> pages/Workflow.tsx · WorkflowRuntimeService.kt</p>
+<h3 id="p24-demander-une-correction-et-reprendre-le-circuit">P24 — Demander une correction et reprendre le circuit</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Validateur et agent documentaliste<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Examiner la tâche</li>
+<li>Choisir la transition de correction configurée</li>
+<li>Motiver le retour</li>
+<li>Corriger l’objet autorisé</li>
+<li>Reprendre selon le graphe</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Retour impossible sans transition configurée</li>
+<li>Une version scellée ne se modifie pas</li>
+<li>Suspension et annulation sont des décisions distinctes</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Branche dépendante de la définition active ; libellé métier à fournir avec les transitions serveur.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/workflow-tasks/{taskId}/complete</code><br/>
+<code>POST /api/v1/workflows/{instanceId}/cancel</code></p>
+<p><strong>Fichiers repères :</strong> pages/Workflow.tsx · WorkflowRuntimeService.kt</p>
+<h3 id="p25-suivre-un-projet-de-num-risation">P25 — Suivre un projet de numérisation</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Opérateur habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/numerisation</code></p>
+<ol>
+<li>Créer le projet</li>
+<li>Référencer les originaux et les éléments</li>
+<li>Numériser avec l’équipement externe</li>
+<li>Déposer puis lier les fichiers</li>
+<li>Contrôler et terminer le projet</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Aucun pilotage TWAIN/WIA exposé</li>
+<li>Un projet peut être annulé</li>
+<li>Élément incomplet : ne pas afficher terminé</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Suivi et rattachement disponibles ; capture scanner à intégrer séparément.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/digitization/projects</code><br/>
+<code>POST /api/v1/digitization/elements</code><br/>
+<code>POST /api/v1/digitization/elements/{id}/files/{fichierId}</code></p>
+<p><strong>Fichiers repères :</strong> pages/Digitization.tsx · DigitizationController.kt</p>
+<h3 id="p26-enregistrer-puis-valider-un-r-sultat-ocr">P26 — Enregistrer puis valider un résultat OCR</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Opérateur puis contrôleur habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/ocr</code></p>
+<ol>
+<li>Sélectionner un fichier admissible</li>
+<li>Importer le texte produit par un moteur externe</li>
+<li>Renseigner langue, moteur et confiance</li>
+<li>Vérifier les résultats</li>
+<li>Valider le texte</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Résultat enregistré ≠ moteur OCR exécuté</li>
+<li>Confiance 0–1 descriptive, pas garantie d’exactitude</li>
+<li>Conservation de l’original obligatoire dans le design</li>
+</ul>
+<p><strong>Résultat attendu :</strong> NON_VALIDE puis VALIDE ; pas de bouton « Lancer l’OCR » sans service d’exécution.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/digitization/ocr-results</code><br/>
+<code>POST /api/v1/digitization/ocr-results/{id}/validate</code></p>
+<p><strong>Fichiers repères :</strong> pages/Digitization.tsx · DigitizationController.kt</p>
+<h3 id="p27-consigner-un-contr-le-qualit">P27 — Consigner un contrôle qualité</h3>
+<p><strong>Domaine :</strong> Traitements · <strong>Acteur :</strong> Contrôleur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/controle</code></p>
+<ol>
+<li>Ouvrir l’élément et les fichiers</li>
+<li>Examiner lisibilité et complétude</li>
+<li>Renseigner la fiche de contrôle</li>
+<li>Consigner la décision</li>
+<li>Corriger et contrôler à nouveau si nécessaire</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Un contrôle déclaré ne prouve pas une analyse automatique</li>
+<li>Pas de statut automatique À corriger si aucun objet backend correspondant</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Constat tracé ; formulaires visuels à préférer au JSON de défauts.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/digitization/quality-controls</code><br/>
+<code>POST /api/v1/digitization/elements/{id}/quality-controls</code></p>
+<p><strong>Fichiers repères :</strong> pages/Digitization.tsx · DigitizationController.kt</p>
+<h3 id="p28-demander-et-instruire-une-consultation">P28 — Demander et instruire une consultation</h3>
+<p><strong>Domaine :</strong> Accès · <strong>Acteur :</strong> Demandeur puis instructeur habilités<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/consultations</code></p>
+<ol>
+<li>Créer une demande sur une référence connue et admissible</li>
+<li>Consulter ses demandes</li>
+<li>Faire prendre en charge</li>
+<li>Autoriser ou refuser avec motif</li>
+<li>Présenter la décision</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Une autorisation de demande n’accorde pas implicitement un droit de téléchargement</li>
+<li>Aucun catalogue d’objets secrets n’est exposé pour demander l’accès</li>
+</ul>
+<p><strong>Résultat attendu :</strong> DEPOSEE → EN_INSTRUCTION → AUTORISEE ou REFUSEE, deux fins alternatives.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/consultations/requests</code><br/>
+<code>GET /api/v1/consultations/requests?mine=true</code><br/>
+<code>POST /api/v1/consultations/requests/{id}/claim</code><br/>
+<code>POST /api/v1/consultations/requests/{id}/authorize</code></p>
+<p><strong>Fichiers repères :</strong> pages/Consultations.tsx · ConsultationController.kt</p>
+<h3 id="p29-communiquer-une-pi-ce-et-enregistrer-son-retour">P29 — Communiquer une pièce et enregistrer son retour</h3>
+<p><strong>Domaine :</strong> Accès · <strong>Acteur :</strong> Gestionnaire des communications<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/communications</code></p>
+<ol>
+<li>Sélectionner le bénéficiaire et l’objet</li>
+<li>Référencer la demande si nécessaire</li>
+<li>Enregistrer la communication</li>
+<li>Constater la remise</li>
+<li>Constater la restitution</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Demande autorisée distincte de pièce remise</li>
+<li>Communication physique et téléchargement ne sont pas interchangeables</li>
+</ul>
+<p><strong>Résultat attendu :</strong> DEMANDEE → REMISE → RESTITUEE ; contrôles serveur conservés.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/communications</code><br/>
+<code>POST /api/v1/communications/{id}/deliver</code><br/>
+<code>POST /api/v1/communications/{id}/return</code></p>
+<p><strong>Fichiers repères :</strong> pages/Consultations.tsx · ConsultationController.kt</p>
+<h3 id="p30-g-rer-les-sources-et-restrictions-d-acc-s">P30 — Gérer les sources et restrictions d’accès</h3>
+<p><strong>Domaine :</strong> Accès · <strong>Acteur :</strong> Archiviste ou responsable habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/droits</code></p>
+<ol>
+<li>Créer la référence juridique vérifiée</li>
+<li>Rattacher le statut au document</li>
+<li>Ouvrir la restriction</li>
+<li>Examiner ses conditions</li>
+<li>Lever avec justification</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Une restriction de lecture n’est pas un gel de conservation</li>
+<li>Aucun délai juridique national inventé par le frontend</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Restriction documentée et tracée ; sources à valider par les responsables compétents.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/rights/sources</code><br/>
+<code>POST /api/v1/rights/documents/{documentId}/restrictions</code><br/>
+<code>POST /api/v1/rights/restrictions/{id}/release</code></p>
+<p><strong>Fichiers repères :</strong> pages/Rights.tsx · RightsController.kt</p>
+<h3 id="p31-publier-un-d-riv-autoris-et-le-retirer">P31 — Publier un dérivé autorisé et le retirer</h3>
+<p><strong>Domaine :</strong> Accès · <strong>Acteur :</strong> Responsable de publication habilité<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/documents</code></p>
+<ol>
+<li>Vérifier droits et version</li>
+<li>Choisir le fichier de diffusion</li>
+<li>Choisir canal et licence</li>
+<li>Publier</li>
+<li>Retirer si nécessaire</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Le maître de conservation ne se publie pas comme un dérivé</li>
+<li>Publication métier ≠ portail public anonyme</li>
+<li>Revalidation des restrictions au serveur</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Publication PUBLIEE ou RETIREE ; portail public séparé absent du périmètre livré.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/publication/documents/{documentId}/publications</code><br/>
+<code>POST /api/v1/publication/publications/{id}/withdraw</code></p>
+<p><strong>Fichiers repères :</strong> pages/Records.tsx · PublicationController.kt · SecurityConfig.kt</p>
+<h3 id="p32-appliquer-une-r-gle-de-conservation">P32 — Appliquer une règle de conservation</h3>
+<p><strong>Domaine :</strong> Conservation · <strong>Acteur :</strong> Archiviste habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/sort-final</code></p>
+<ol>
+<li>Définir et activer la règle applicable</li>
+<li>Clore le document selon ses prérequis</li>
+<li>Planifier l’échéance</li>
+<li>Examiner l’événement calculé</li>
+<li>Suivre l’arrivée à échéance</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Règle absente ou ambiguë : blocage explicite</li>
+<li>Date de base absente : ne pas inventer une échéance</li>
+<li>Gel actif : suspendre le traitement concerné</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Date et règle calculées côté serveur, pas une durée arbitraire dans la fiche.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/retention/documents/{documentId}/schedule</code><br/>
+<code>GET /api/v1/retention/events</code></p>
+<p><strong>Fichiers repères :</strong> pages/RetentionNational.tsx · RetentionController.kt</p>
+<h3 id="p33-d-cider-le-sort-final-sans-fausse-destruction">P33 — Décider le sort final sans fausse destruction</h3>
+<p><strong>Domaine :</strong> Conservation · <strong>Acteur :</strong> Proposant, validateur et exécutant distincts<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/eliminations</code></p>
+<ol>
+<li>Ouvrir l’échéance</li>
+<li>Proposer une disposition</li>
+<li>Faire valider indépendamment</li>
+<li>Lire les blocages readiness</li>
+<li>Exécuter la conservation définitive ou le réexamen supporté</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>ELIMINER : DESTRUCTION_STORAGE_NOT_CONFIGURED</li>
+<li>TRANSFERER : TRANSFER_HANDOVER_NOT_CONFIGURED</li>
+<li>Gel ou acteur non indépendant : refus</li>
+</ul>
+<p><strong>Résultat attendu :</strong> La destruction physique et le transfert final sont volontairement bloqués par le backend actuel.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/retention/events/{id}/dispositions</code><br/>
+<code>POST /api/v1/retention/dispositions/{id}/validate</code><br/>
+<code>GET /api/v1/retention/dispositions/{id}/readiness</code><br/>
+<code>POST /api/v1/retention/dispositions/{id}/execute</code></p>
+<p><strong>Fichiers repères :</strong> DispositionService.kt · RetentionPolicy.kt</p>
+<h3 id="p34-ouvrir-puis-lever-un-gel">P34 — Ouvrir puis lever un gel</h3>
+<p><strong>Domaine :</strong> Conservation · <strong>Acteur :</strong> Responsable habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/gel-legal</code></p>
+<ol>
+<li>Identifier document ou dossier</li>
+<li>Renseigner référence et motif</li>
+<li>Ouvrir le gel</li>
+<li>Vérifier l’impact sur les échéances</li>
+<li>Lever avec référence de décision</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Le gel bloque le devenir mais n’est pas une restriction de consultation</li>
+<li>Levée ≠ suppression ni exécution automatique</li>
+</ul>
+<p><strong>Résultat attendu :</strong> ACTIF → LEVE ; décisions de conservation réexaminées ensuite selon le serveur.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/retention/legal-holds</code><br/>
+<code>POST /api/v1/retention/legal-holds/{id}/release</code></p>
+<p><strong>Fichiers repères :</strong> LegalHoldService.kt · pages/Records.tsx</p>
+<h3 id="p35-surveiller-int-grit-et-sauvegardes">P35 — Surveiller intégrité et sauvegardes</h3>
+<p><strong>Domaine :</strong> Conservation · <strong>Acteur :</strong> Responsable de préservation habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/conservation</code></p>
+<ol>
+<li>Lire l’état du service</li>
+<li>Filtrer les anomalies</li>
+<li>Ouvrir le fichier concerné</li>
+<li>Vérifier l’intégrité ou consigner l’intervention</li>
+<li>Consulter les sauvegardes</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Planificateur désactivé : l’indiquer, pas un faux statut vert</li>
+<li>Anomalie d’intégrité : bloquer l’usage concerné</li>
+<li>Restauration de sauvegarde : pas de commande UI inventée</li>
+</ul>
+<p><strong>Résultat attendu :</strong> État réellement renvoyé par le serveur ; disponibilité d’exploitation non prouvée par l’audit statique.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/preservation/monitor</code><br/>
+<code>GET /api/v1/preservation/backups</code><br/>
+<code>POST /api/v1/files/{fileId}/verify-integrity</code></p>
+<p><strong>Fichiers repères :</strong> ui/PreservationMonitoring.tsx · PreservationMonitorController.kt</p>
+<h3 id="p36-localiser-et-d-placer-une-archive-physique">P36 — Localiser et déplacer une archive physique</h3>
+<p><strong>Domaine :</strong> Patrimoine · <strong>Acteur :</strong> Magasinier ou archiviste habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/archives-physiques</code></p>
+<ol>
+<li>Définir les lieux et unités de rangement</li>
+<li>Enregistrer l’archive physique</li>
+<li>Consigner une sortie ou un mouvement</li>
+<li>Suivre l’échéance de retour</li>
+<li>Enregistrer la restitution</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Emplacement incompatible ou inactif : refus</li>
+<li>Original manquant : signalement et traçabilité</li>
+<li>Un fichier numérisé ne remplace pas automatiquement l’original</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Localisation et mouvements gérés avec leurs objets dédiés.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/physical-archives/archives</code><br/>
+<code>GET /api/v1/physical-archives/locations</code></p>
+<p><strong>Fichiers repères :</strong> pages/PhysicalArchives.tsx · PhysicalArchivesController.kt</p>
+<h3 id="p37-enrichir-un-document-patrimonial">P37 — Enrichir un document patrimonial</h3>
+<p><strong>Domaine :</strong> Patrimoine · <strong>Acteur :</strong> Conservateur habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/patrimoine</code></p>
+<ol>
+<li>Ouvrir une notice</li>
+<li>Relier lieux, événements et sujets</li>
+<li>Renseigner les textes contextuels</li>
+<li>Vérifier les attributions et sources</li>
+<li>Consulter le contexte</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Date incertaine : conserver la précision déclarée</li>
+<li>Valeur patrimoniale ≠ accès public automatique</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Description patrimoniale enrichie sans modifier le contenu original.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>POST /api/v1/heritage/documents/{documentId}/texts</code><br/>
+<code>GET /api/v1/heritage/documents/{documentId}/subjects</code></p>
+<p><strong>Fichiers repères :</strong> pages/Heritage.tsx · HeritageController.kt</p>
+<h3 id="p38-conduire-une-restauration-physique">P38 — Conduire une restauration physique</h3>
+<p><strong>Domaine :</strong> Patrimoine · <strong>Acteur :</strong> Conservateur et intervenant habilités<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/restauration</code></p>
+<ol>
+<li>Créer le diagnostic</li>
+<li>Soumettre la demande</li>
+<li>Autoriser et démarrer l’intervention</li>
+<li>Consigner les actes et le résultat</li>
+<li>Terminer et restituer à la conservation</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Pas d’approbation fictive sans habilitation</li>
+<li>Échec ou intervention partielle à documenter</li>
+<li>Photos et pièces probantes selon les objets disponibles</li>
+</ul>
+<p><strong>Résultat attendu :</strong> DIAGNOSTIC → A_VALIDER → EN_COURS → TERMINEE selon les transitions serveur.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/physical-archives/restorations</code></p>
+<p><strong>Fichiers repères :</strong> pages/PhysicalArchives.tsx · PhysicalArchivesController.kt</p>
+<h3 id="p39-examiner-la-tra-abilit">P39 — Examiner la traçabilité</h3>
+<p><strong>Domaine :</strong> Pilotage · <strong>Acteur :</strong> Auditeur national habilité<br/>
+<strong>Couverture :</strong> Contrat présent dans le code · <strong>Écran :</strong> <code>/app/audit</code></p>
+<ol>
+<li>Choisir catégorie ou objet</li>
+<li>Parcourir les événements paginés</li>
+<li>Ouvrir le détail</li>
+<li>Examiner acteur, date, avant et après</li>
+<li>Relier à l’opération métier</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Accès AUDIT_READ national requis dans le code courant</li>
+<li>Une erreur de lecture n’est pas un journal vide</li>
+<li>Aucun effacement du journal depuis le frontend</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Lecture auditée ; l’audit statique ne prouve pas une inaltérabilité certifiée.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p><code>GET /api/v1/audit/events</code><br/>
+<code>GET /api/v1/audit/objects/{objectType}/{objectId}/events</code></p>
+<p><strong>Fichiers repères :</strong> pages/Audit.tsx · AuditController.kt</p>
+<h3 id="p40-disposer-d-une-corbeille-de-t-ches-et-d-indicateurs">P40 — Disposer d’une corbeille de tâches et d’indicateurs</h3>
+<p><strong>Domaine :</strong> Pilotage · <strong>Acteur :</strong> Chaque métier dans son périmètre<br/>
+<strong>Couverture :</strong> Évolution à développer · <strong>Écran :</strong> <code>/app/parcours</code></p>
+<ol>
+<li>Choisir une vue Mes tâches</li>
+<li>Voir uniquement les tâches autorisées</li>
+<li>Filtrer retards et actions</li>
+<li>Ouvrir l’objet source</li>
+<li>Actualiser les indicateurs agrégés</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Aucun total national calculé à partir d’une page</li>
+<li>Endpoint global Mes tâches absent</li>
+<li>Ne pas exposer les compteurs d’objets interdits</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Cible prioritaire : endpoints agrégés, filtrage serveur et compteur par périmètre à ajouter.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p>Aucun contrat complet cité pour cette expérience cible ou transverse.</p>
+<p><strong>Fichiers repères :</strong> WorkflowController.kt · pages/Dashboard.tsx</p>
+<h3 id="p41-recevoir-une-notification-exploitable">P41 — Recevoir une notification exploitable</h3>
+<p><strong>Domaine :</strong> Pilotage · <strong>Acteur :</strong> Utilisateur concerné<br/>
+<strong>Couverture :</strong> Évolution à développer · <strong>Écran :</strong> <code>/app/parcours</code></p>
+<ol>
+<li>Recevoir une alerte serveur</li>
+<li>Lire la cause et l’échéance</li>
+<li>Ouvrir la ressource autorisée</li>
+<li>Traiter l’action</li>
+<li>Relire le nouvel état</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>Une notification n’est pas une preuve de traitement</li>
+<li>Email, centre de notifications et accusé de lecture non exposés dans les contrôleurs examinés</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Aucun bouton de notification avec compteur fictif dans le mode connecté.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p>Aucun contrat complet cité pour cette expérience cible ou transverse.</p>
+<p><strong>Fichiers repères :</strong> Inventaire des 21 contrôleurs fournis</p>
+<h3 id="p42-reprendre-apr-s-un-incident-sans-doublon">P42 — Reprendre après un incident sans doublon</h3>
+<p><strong>Domaine :</strong> Transversal · <strong>Acteur :</strong> Tous les utilisateurs<br/>
+<strong>Couverture :</strong> Parcours partiel à compléter · <strong>Écran :</strong> <code>/app/parcours</code></p>
+<ol>
+<li>Identifier lecture ou écriture</li>
+<li>Afficher la cause et la référence technique</li>
+<li>Préserver l’intention de commande lorsque supportée</li>
+<li>Relire le serveur</li>
+<li>Reprendre explicitement</li>
+</ol>
+<p><strong>Exceptions et reprise :</strong></p>
+<ul>
+<li>401 : reconnexion</li>
+<li>403/404 masqué : ne pas divulguer l’objet</li>
+<li>409 : version ou état périmé</li>
+<li>422 : corriger les champs</li>
+<li>503/réseau : succès non confirmé</li>
+</ul>
+<p><strong>Résultat attendu :</strong> Le retour visuel ne doit jamais afficher une réussite inventée ; généraliser à tous les formulaires.</p>
+<p><strong>Contrats existants cités :</strong></p>
+<p>Aucun contrat complet cité pour cette expérience cible ou transverse.</p>
+<p><strong>Fichiers repères :</strong> core/http.ts · core/commands.ts · pages/Workflow.tsx</p>
+</main></body></html>
