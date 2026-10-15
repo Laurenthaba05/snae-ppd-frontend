@@ -142,7 +142,7 @@ it('la fiche du document liste ses relations et ses droits et exporte PREMIS', a
     render(<DocumentPremisPanel documentId={DOC} reference="DOC-1950-01" canManage={false} />);
     expect(await screen.findByText('scan.tif')).toBeTruthy();
     expect(screen.getByText(/migré vers/)).toBeTruthy();
-    expect(screen.getByText('Diffuser — interdit')).toBeTruthy();
+    expect(screen.getByText('Diffuser — Interdit')).toBeTruthy();
     expect(screen.getByText('Famille Diallo')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Inscrire un droit' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Exporter en XML' }));
@@ -226,4 +226,18 @@ it('l’export d’un paquet n’est proposé qu’avec l’habilitation, et le 
     await waitFor(() => expect(fixture.preservationPlanning.downloadPackage).toHaveBeenCalledWith(DOC, 'DIP'));
     await waitFor(() => expect(created).toHaveBeenCalled());
     click.mockRestore();
+});
+
+it('inscrit un droit conditionnel avec juridiction et justificatifs',async()=>{
+    fixture.preservationPlanning.addRight.mockResolvedValue(right());
+    render(<DocumentPremisPanel documentId={DOC} reference="DOC-1950-01" canManage />);
+    fireEvent.click(await screen.findByRole('button',{name:'Inscrire un droit'}));
+    const ui=within(await screen.findByRole('dialog')); const fill=(label:string|RegExp,value:string)=>fireEvent.change(ui.getByLabelText(label),{target:{value}});
+    fill(/^Base juridique/,'DROIT_AUTEUR'); fill(/^Acte/,'DIFFUSER'); fill('Décision','CONDITIONAL'); fill('Juridiction','GN'); fill('Date de détermination','2026-01-01'); fill('Statut du droit d’auteur','COPYRIGHTED');
+    fireEvent.click(ui.getByRole('button',{name:'Inscrire'})); expect(fixture.preservationPlanning.addRight).not.toHaveBeenCalled();
+    fill('Restriction','Accord écrit préalable');
+    fireEvent.click(ui.getByRole('button',{name:'Ajouter un justificatif'})); fill('Type de justificatif','contrat'); fill('Référence du justificatif','REF-2026'); fill('Rôle du justificatif','preuve'); fill('URI du justificatif','urn:contrat:2026');
+    fireEvent.click(ui.getByRole('button',{name:'Inscrire'}));
+    await waitFor(()=>expect(fixture.preservationPlanning.addRight).toHaveBeenCalledTimes(1));
+    expect(fixture.preservationPlanning.addRight.mock.calls[0]![1]).toMatchObject({decision:'CONDITIONAL',granted:false,jurisdiction:'GN',determinedOn:'2026-01-01',copyrightStatus:'COPYRIGHTED',evidence:[{type:'contrat',value:'REF-2026',role:'preuve',uri:'urn:contrat:2026'}]});
 });

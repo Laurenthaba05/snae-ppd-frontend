@@ -1,3 +1,4 @@
+import { safeReferenceUri } from './archiveEnrichment.js';
 import { formatBytes } from './format.js';
 
 /**
@@ -27,7 +28,11 @@ export interface PreservationAgent {
     id: string; institutionId: string | null; type: AgentType; name: string; version: string | null; identifier: string | null; description: string | null; status: 'ACTIF' | 'RETIRE'; createdAt: string;
 }
 export interface FileRelation { id: string; sourceFileId: string; sourceName: string; targetFileId: string; targetName: string; type: RelationType; eventId: string | null; createdAt: string }
-export interface PreservationRight {
+export interface RightEvidence { type: string; value: string; role?: string | null; uri?: string | null }
+export interface RightDetails { decision?: string; jurisdiction?: string | null; determinedOn?: string | null; copyrightStatus?: string | null; evidence?: RightEvidence[] }
+export const DECISION_LABELS: Record<string,string> = { ALLOW: 'Autorisé', DISALLOW: 'Interdit', CONDITIONAL: 'Sous conditions' };
+export const COPYRIGHT_LABELS: Record<string,string> = { COPYRIGHTED: 'Protégé', PUBLIC_DOMAIN: 'Domaine public', UNKNOWN: 'Inconnu' };
+export interface PreservationRight extends RightDetails {
     id: string; documentId: string; basis: RightBasis; holder: string | null; act: RightAct; granted: boolean; restriction: string | null; reference: string | null; startDate: string;
     endDate: string | null; status: 'ACTIF' | 'RETIRE'; retirementReason: string | null; createdAt: string;
 }
@@ -90,20 +95,25 @@ export function agentBody(institutionId: string | null, form: AgentForm): Record
     return { institutionId: form.national ? null : institutionId, type: form.type, name: form.name.trim(), version: opt(form.version), identifier: opt(form.identifier), description: opt(form.description) };
 }
 
-export interface RightForm { basis: string; holder: string; act: string; granted: boolean; restriction: string; reference: string; startDate: string; endDate: string }
-export const emptyRightForm = (today: string): RightForm => ({ basis: '', holder: '', act: '', granted: true, restriction: '', reference: '', startDate: today, endDate: '' });
+export interface RightForm extends RightDetails { basis: string; holder: string; act: string; granted: boolean; restriction: string; reference: string; startDate: string; endDate: string }
+export const emptyRightForm = (today: string): RightForm => ({ basis: '', holder: '', act: '', granted: true, restriction: '', reference: '', startDate: today, endDate: '', jurisdiction: '', determinedOn: '', copyrightStatus: '', evidence: [] });
 export function rightProblems(form: RightForm): string[] {
     const problems: string[] = [];
     if (!form.basis) problems.push('Choisissez la base juridique.');
     if (!form.act) problems.push('Choisissez l’acte concerné.');
     if (!form.startDate) problems.push('La date de début est obligatoire.');
     if (form.startDate && form.endDate && form.endDate < form.startDate) problems.push('La fin précède le début.');
-    if (!form.granted && !form.restriction.trim()) problems.push('Un acte non autorisé se motive : dites ce qui l’interdit.');
-    return problems;
+    if ((form.decision ? form.decision !== 'ALLOW' : !form.granted) && !form.restriction.trim()) problems.push('Si l’acte est interdit ou sous conditions, précisez le motif ou les conditions.');
+    if (form.jurisdiction && !/^[A-Z]{2}$/.test(form.jurisdiction)) problems.push('La juridiction doit être un code pays de deux lettres (ex. GN).');
+    if (form.determinedOn && form.determinedOn > new Date().toISOString().slice(0,10)) problems.push('La date de détermination ne peut pas être future.');
+    for (const e of form.evidence??[]) if (!e.type.trim()||!e.value.trim()||!safeReferenceUri(e.uri)) problems.push('Chaque justificatif nécessite un type, une référence et une URI valide si renseignée.');
+    return [...new Set(problems)];
 }
 export function rightBody(form: RightForm): Record<string, unknown> {
     const opt = (v: string) => v.trim() || null;
-    return { basis: form.basis, holder: opt(form.holder), act: form.act, granted: form.granted, restriction: opt(form.restriction), reference: opt(form.reference), startDate: form.startDate, endDate: opt(form.endDate) };
+    return { basis: form.basis, holder: opt(form.holder), act: form.act, granted: form.decision ? form.decision === 'ALLOW' : form.granted, restriction: opt(form.restriction), reference: opt(form.reference), startDate: form.startDate, endDate: opt(form.endDate),
+        ...(form.decision ? { decision: form.decision } : {}),
+        jurisdiction: opt(form.jurisdiction??''), determinedOn: opt(form.determinedOn??''), copyrightStatus: opt(form.copyrightStatus??''), evidence: form.evidence??[] };
 }
 
 export const relationProblems = (targetId: string, type: string, sourceId: string): string[] => {

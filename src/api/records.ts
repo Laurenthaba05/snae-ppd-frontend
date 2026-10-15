@@ -52,7 +52,7 @@ export class RecordsApi {
     retireTrustAnchor(id: string, reason: string, key: string): Promise<TrustAnchor> { return this.command('/trust-anchors/' + uuid(id) + '/retire', { reason }, key); }
     deleteSignature(id: string, signatureId: string, version: number, key: string): Promise<void> { return this.command('/documents/' + uuid(id) + '/signatures/' + uuid(signatureId) + '/delete', { version }, key); }
     command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request(path, { method, body, idempotencyKey: key } satisfies RequestOptions); }
-    uploadContent(versionId: string, file: File, role: string, key: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.upload!('/versions/' + uuid(versionId) + '/content', file, { role }, key, signal); }
+    uploadContent(versionId: string, file: File, role: 'PIECE_JOINTE' | 'MAITRE_CONSERVATION', key: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.upload!('/versions/' + uuid(versionId) + '/content', file, { role }, key, signal); }
     ingestion(id: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.request('/ingestions/' + uuid(id), { signal }); }
     ingestions(versionId: string, signal?: AbortSignal, before?: string | null): Promise<{ items: Ingestion[]; nextCursor: string | null }> { return this.transport.request('/versions/' + uuid(versionId) + '/ingestions' + query({ before, limit: 20 }), { signal }); }
     async actors(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Actor>> { return parsePage<Actor>(await this.transport.request('/actors' + query(params), { signal })); }
@@ -67,7 +67,7 @@ export class RecordsApi {
         return this.transport.request('/preservation/monitor' + query({ institutionId, departmentId, page, size: 25, attentionOnly: String(attentionOnly) }), { signal });
     }
     allPreservationEvents(institutionId: string | null | undefined, departmentId: string | null | undefined, signal?: AbortSignal): Promise<PreservationEventListItem[]> { return this.transport.request('/preservation-events' + query({ institutionId, departmentId }), { signal }); }
-    recordPreservationEvent(fileId: string, typeEvenement: string, resultat: string, outil: string | null, versionOutil: string | null, description: string | null): Promise<PreservationEvent> {
-        return this.transport.request('/files/' + uuid(fileId) + '/preservation-events', { method: 'POST', body: { typeEvenement, resultat, outil, versionOutil, description } } satisfies RequestOptions);
+    recordPreservationEvent(fileId: string, typeEvenement: string, resultat: string, outil: string | null, versionOutil: string | null, description: string | null, details: { agentId?: string | null; source?: unknown; destination?: unknown } = {}): Promise<PreservationEvent> {
+        return this.transport.request('/files/' + uuid(fileId) + '/preservation-events', { method: 'POST', body: { ...details, typeEvenement, resultat, outil, versionOutil, description } } satisfies RequestOptions);
     }
 }

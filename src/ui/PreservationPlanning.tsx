@@ -1,3 +1,5 @@
+import { DECISION_LABELS, COPYRIGHT_LABELS } from '../core/preservationPlanning';
+import { RightEvidenceFields, RightDetailsView } from './RightEvidenceFields';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
@@ -283,7 +285,7 @@ export function DocumentPremisPanel({ documentId, reference, canManage, canExpor
                 : (rights.data ?? []).length === 0 ? <p><small>Aucun droit inscrit pour ce document.</small></p>
                     : <div className="table-scroll"><table><thead><tr><th>Acte</th><th>Base</th><th>Titulaire</th><th>Période</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                         <tbody>{(rights.data ?? []).map(r => <tr key={r.id}>
-                            <td>{ACT_LABELS[r.act]}{!r.granted && ' — interdit'}{r.restriction && <small className="cell-sub">{r.restriction}</small>}</td>
+                            <td>{ACT_LABELS[r.act]}{' — '+(DECISION_LABELS[r.decision??(r.granted?'ALLOW':'DISALLOW')]??'Inconnu')}{r.restriction && <small className="cell-sub">{r.restriction}</small>}<RightDetailsView right={r}/></td>
                             <td>{BASIS_LABELS[r.basis]}{r.reference && <small className="cell-sub">{r.reference}</small>}</td>
                             <td>{r.holder ?? '—'}</td>
                             <td>{formatDay(r.startDate)}{r.endDate ? ` → ${formatDay(r.endDate)}` : ''}</td>
@@ -377,8 +379,12 @@ function RightDialog({ documentId, onClose, onDone }: { documentId: string; onCl
                 <Field label="Référence"><input value={form.reference} onChange={e => set('reference', e.target.value)} maxLength={255} disabled={action.busy} /></Field>
                 <Field label="Début *"><input type="date" value={form.startDate} onChange={e => set('startDate', e.target.value)} disabled={action.busy} /></Field>
                 <Field label="Fin"><input type="date" value={form.endDate} onChange={e => set('endDate', e.target.value)} disabled={action.busy} /></Field>
-                <Field label="Autorisation" wide><label className="check-row"><input type="checkbox" checked={form.granted} onChange={e => set('granted', e.target.checked)} disabled={action.busy} /> L’acte est autorisé</label></Field>
-                <Field label="Restriction" wide hint="Obligatoire si l’acte n’est pas autorisé."><textarea value={form.restriction} onChange={e => set('restriction', e.target.value)} rows={2} maxLength={2000} disabled={action.busy} /></Field>
+                <Field label="Décision" wide><select value={form.decision??(form.granted?'ALLOW':'DISALLOW')} onChange={e=>{ set('decision',e.target.value); set('granted',e.target.value==='ALLOW'); }} disabled={action.busy}>{Object.entries(DECISION_LABELS).map(([k,v])=><option key={k} value={k}>{v}</option>)}</select></Field>
+                <Field label="Juridiction" hint="Code pays ISO, par exemple GN pour la Guinée."><input aria-label="Juridiction" value={form.jurisdiction??''} maxLength={2} onChange={e=>set('jurisdiction',e.target.value.toUpperCase())} disabled={action.busy}/></Field>
+                <Field label="Date de détermination"><input type="date" value={form.determinedOn??''} max={todayIso()} onChange={e=>set('determinedOn',e.target.value)} disabled={action.busy}/></Field>
+                <Field label="Statut du droit d’auteur"><select value={form.copyrightStatus??''} onChange={e=>set('copyrightStatus',e.target.value)} disabled={action.busy}><option value="">Non renseigné</option>{Object.entries(COPYRIGHT_LABELS).map(([k,v])=><option key={k} value={k}>{v}</option>)}</select></Field>
+                <RightEvidenceFields value={form.evidence??[]} disabled={action.busy} onChange={v=>set('evidence',v)} />
+                <Field label="Restriction" wide hint="Précisez le motif d’interdiction ou les conditions à respecter."><textarea aria-label="Restriction" value={form.restriction} onChange={e => set('restriction', e.target.value)} rows={2} maxLength={2000} disabled={action.busy} /></Field>
             </div>
             {attempted && problems.length > 0 && <Notice tone="warning"><ul>{problems.map(p => <li key={p}>{p}</li>)}</ul></Notice>}
             {action.error ? <ErrorNotice error={action.error} /> : null}
