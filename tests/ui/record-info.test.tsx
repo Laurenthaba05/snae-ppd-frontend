@@ -11,6 +11,7 @@ const PARENT = '66666666-6666-4666-8666-666666666666';
 const PRODUCER = '77777777-7777-4777-8777-777777777777';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: { user: { institutionId: '97571d20-3f49-497e-a185-dac22208eb3f' } } as unknown,
+    classification: { nodes: vi.fn().mockResolvedValue([]) },
     records: { saveDocumentInfo: vi.fn(), saveDossierInfo: vi.fn(), documentRelations: vi.fn(), addRelation: vi.fn(), updateRelation: vi.fn(), deleteRelation: vi.fn(), dossier: vi.fn(), dossierChildren: vi.fn(),
         dossierVolumetry: vi.fn(), dossierDocuments: vi.fn(), documentTypes: vi.fn(), dossiers: vi.fn(), command: vi.fn(), transport: { request: vi.fn() } }
 }));
@@ -34,6 +35,7 @@ const relation = (id: string, label: string, over: Record<string, unknown> = {})
 
 beforeEach(() => {
     fixture.epoch += 1;
+    fixture.classification.nodes.mockResolvedValue([]);
     for (const fn of Object.values(fixture.records)) if ('mockReset' in fn) fn.mockReset();
     fixture.records.transport.request.mockReset();
     fixture.records.transport.request.mockImplementation(async (path: string) => { if (path.startsWith('/archives/authorities?')) return [{ id: PRODUCER, input: { institutionId: INST, code: 'DRH', name: 'Direction des ressources humaines', kind: 'COLLECTIVITE', details: {} }, version: 1, updatedAt: '' }]; throw new Error('appel inattendu ' + path); });

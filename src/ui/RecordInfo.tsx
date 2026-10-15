@@ -21,6 +21,13 @@ export function DocumentTypeName({ id }: { id: string }) {
     return <>{q.data?.find(t => t.id === id)?.label ?? (q.loading ? '…' : 'Type documentaire')}</>;
 }
 
+export function ClassificationName({ id, institutionId }: { id: string | null | undefined; institutionId: string }) {
+    const { classification, epoch } = useSession();
+    const q = useResource(s => id ? classification!.nodes(institutionId, s) : Promise.resolve([]), 'classification-label:' + institutionId + ':' + id + ':' + epoch);
+    const node = q.data?.find(n => n.id === id);
+    return <>{!id ? '—' : node ? [node.code, node.libelle].filter(Boolean).join(' · ') : q.loading ? '…' : 'Rubrique non disponible'}</>;
+}
+
 /** Le dossier qui contient un document, par sa cote et son intitulé, avec le lien pour l'ouvrir. */
 export function DossierLink({ id }: { id: string }) {
     const { records, epoch } = useSession();

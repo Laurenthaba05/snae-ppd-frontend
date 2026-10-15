@@ -1,3 +1,9 @@
+import { IntentKey } from '../core/validation';
+import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
+import { DossierCloseButton } from '../ui/DossierClose';
+import { RecordDescriptionButton, descriptionEditable } from '../ui/RecordDescription';
+import { LegalHoldDialog } from '../ui/LegalHoldDialog';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace, RecordWorkspaceProvider } from '../ui/workspace';
@@ -33,7 +39,7 @@ import { canSchedule as planningAllows } from '../core/retentionPlanning';
 import type { DocumentLifecycle, RetentionPlanning, RecordCatalog, RecordDocument, Dossier, DocumentVersion, DocumentFile, Page, Ingestion, Institution, Department, Actor, DocumentActor, RetentionEvent, Disposition, LegalHold, Licence, Publication, AuditEvent, QualifiedTimestamp, IntegrityCheck, ClassificationNode, PreservationEvent, PreservationEventListItem } from '../core/types';
 import { formatBytes } from '../core/format';
 import { CertificateButton, CertificateDialog, DestructionPreviewBox, DocumentTombstone } from '../ui/Destruction';
-import { DocumentArchivalPanel, DocumentRelationsPanel, DocumentTypeName, DossierLink, DossierStructurePanel } from '../ui/RecordInfo';
+import { DocumentArchivalPanel, DocumentRelationsPanel, DocumentTypeName, ClassificationName, DossierLink, DossierStructurePanel } from '../ui/RecordInfo';
 import { SignaturesPanel } from '../ui/Signatures';
 import { ImageTechnicalDialog, PdfaDialog } from '../ui/ScanProfiles';
 import { isImageFile, isPdfFile } from '../core/scanProfiles';
@@ -111,7 +117,7 @@ export function UploadDialog({ versionId, initialFile, defaultRole = 'PIECE_JOIN
     const { records } = useSession();
     const [file, setFile] = useState<File | null>(initialFile ?? null);
     const [key, setKey] = useState(initialFile ? crypto.randomUUID() : '');
-    const [role, setRole] = useState<string>(defaultRole);
+    const [role, setRole] = useState<typeof defaultRole>(defaultRole);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const [result, setResult] = useState<Ingestion | null>(null);
@@ -146,7 +152,7 @@ export function UploadDialog({ versionId, initialFile, defaultRole = 'PIECE_JOIN
     const processing = result?.status === 'PROCESSING' && result.leaseExpired !== true;
     return <Modal title="Téléverser un fichier" subtitle="Le fichier est analysé et contrôlé par le serveur avant d’être associé à cette version." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
         <Field label="Fichier *" wide hint={file ? 'Sélectionné : ' + file.name : undefined}><input type="file" onChange={e => pick(e.target.files?.[0] ?? null)} required={!file} disabled={busy || done || processing}/></Field>
-        <Field label="Rôle"><select value={role} onChange={e => { setRole(e.target.value); setKey(crypto.randomUUID()); setResult(null); setError(null); }} disabled={busy || done || processing}><option value="PIECE_JOINTE">Pièce jointe</option><option value="MAITRE_CONSERVATION">Maître de conservation</option></select></Field>
+        <Field label="Rôle"><select value={role} onChange={e => { setRole(e.target.value as typeof defaultRole); setKey(crypto.randomUUID()); setResult(null); setError(null); }} disabled={busy || done || processing}><option value="PIECE_JOINTE">Pièce jointe</option><option value="MAITRE_CONSERVATION">Maître de conservation</option></select></Field>
         {result && result.status === 'COMPLETED' && <Notice tone="info">Dépôt terminé : {result.filename} ({formatBytes(result.size)}). Validez ensuite le fichier dans la liste pour autoriser sa consultation.</Notice>}
         {result && result.status === 'REJECTED' && <Notice tone="warning">{ingestionMessage(result)}</Notice>}
         {result && (result.status === 'RETRYABLE' || result.leaseExpired === true) && <Notice tone="warning">{ingestionMessage(result)}</Notice>}
@@ -205,12 +211,16 @@ function IntegrityCell({ check }: {
     const ok = check.result === 'OK' && !check.blocked;
     return <span title={'SHA-256 attendu : ' + check.expectedSha256}>{ok ? <Icon name="check" size={16}/> : <Icon name="alert" size={16}/>} {check.blocked ? 'Fichier bloqué' : ok ? 'Intégrité confirmée' : 'Contrôle en anomalie'}<small>{formatDate(check.checkedAt)}</small></span>;
 }
-function PreservationDialog({ fileId, canManage, onClose }: {
+export function PreservationDialog({ fileId, canManage, onClose }: {
     fileId: string;
     canManage: boolean;
     onClose: () => void;
 }) {
-    const { records } = useSession();
+    const { records, preservationPlanning } = useSession();
+    const { scope } = useWorkspace();
+    const extra = useOptionalFields('preservationDetails');
+    const [agentId, setAgentId] = useState('');
+    const agentsQ = useResource(s => canManage ? preservationPlanning!.agents(scope.institutionId, false, s) : Promise.resolve([]), 'event-agents:' + scope.institutionId + ':' + canManage);
     const q = useResource<PreservationEvent[]>(s => records!.preservationEvents(fileId, s), 'preservation:' + fileId);
     const [typeEvenement, setTypeEvenement] = useState('MIGRATION_FORMAT');
     const [resultat, setResultat] = useState('SUCCES');
@@ -224,19 +234,21 @@ function PreservationDialog({ fileId, canManage, onClose }: {
         if (busy) return;
         setBusy(true); setError(null);
         try {
-            await records!.recordPreservationEvent(fileId, typeEvenement, resultat, outil.trim() || null, versionOutil.trim() || null, description.trim() || null);
-            setOutil(''); setVersionOutil(''); setDescription('');
+            await records!.recordPreservationEvent(fileId, typeEvenement, resultat, outil.trim() || null, versionOutil.trim() || null, description.trim() || null, { ...extra.payload(), agentId: agentId || null });
+            setOutil(''); setVersionOutil(''); setDescription(''); setAgentId(''); extra.reset();
             q.refresh();
         } catch (err) { setError(err); } finally { setBusy(false); }
     };
     return <Modal title="Journal de préservation" subtitle="Événements techniques consignés sur ce fichier (migration de format, rafraîchissement de support, vérification de fixité…)." onClose={onClose} locked={busy}>
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : q.data?.length ?
             <div className="table-scroll"><table><thead><tr><th>Type</th><th>Résultat</th><th>Outil</th><th>Date</th></tr></thead><tbody>
-                {q.data.map(ev => <tr key={ev.id}><td><Badge value={ev.typeEvenement}/></td><td><Badge value={ev.resultat}/></td><td>{ev.outil ?? '—'}{ev.versionOutil ? ' v' + ev.versionOutil : ''}</td><td>{formatDate(ev.dateEvenement)}</td></tr>)}
+                {q.data.map(ev => <tr key={ev.id}><td><Badge value={ev.typeEvenement}/></td><td><Badge value={ev.resultat}/></td><td>{ev.outil ?? '—'}{ev.versionOutil ? ' v' + ev.versionOutil : ''}</td><td>{formatDate(ev.dateEvenement)}{(ev.description || ev.agentId || ev.source || ev.destination) && <details><summary>Détails</summary>{ev.description && <p>{ev.description}</p>}{ev.agentId && <p>Agent : {agentsQ.data?.find(a => a.id === ev.agentId)?.name ?? ev.agentId}</p>}{ev.source && <><strong>État source</strong><pre>{JSON.stringify(ev.source, null, 2)}</pre></>}{ev.destination && <><strong>Destination</strong><pre>{JSON.stringify(ev.destination, null, 2)}</pre></>}</details>}</td></tr>)}
             </tbody></table></div> : <Empty title="Aucun événement de préservation" icon="archive"/>}
         {canManage && <form onSubmit={submit} className="form-grid">
             <Field label="Type *"><select value={typeEvenement} onChange={e => setTypeEvenement(e.target.value)}><option value="MIGRATION_FORMAT">Migration de format</option><option value="RAFRAICHISSEMENT_SUPPORT">Rafraîchissement de support</option><option value="VERIFICATION_FIXITE">Vérification de fixité</option><option value="NORMALISATION">Normalisation</option><option value="AUTRE">Autre</option></select></Field>
             <Field label="Résultat *"><select value={resultat} onChange={e => setResultat(e.target.value)}><option value="SUCCES">Succès</option><option value="ECHEC">Échec</option><option value="PARTIEL">Partiel</option></select></Field>
+            <Field label="Agent de préservation" hint="Logiciel, équipement ou organisme PREMIS responsable de cette intervention."><select aria-label="Agent de préservation" value={agentId} onChange={e => setAgentId(e.target.value)} disabled={agentsQ.loading || busy}><option value="">Non renseigné</option>{agentsQ.data?.filter(a => a.status === 'ACTIF').map(a => <option key={a.id} value={a.id}>{a.name}{a.version ? ' · ' + a.version : ''}</option>)}</select>{agentsQ.error ? <ErrorNotice error={agentsQ.error} onRetry={agentsQ.refresh}/> : null}</Field>
+            <OptionalFields form={extra} disabled={busy} />
             <Field label="Outil" hint="Optionnel."><input value={outil} onChange={e => setOutil(e.target.value)} maxLength={255}/></Field>
             <Field label="Version de l’outil" hint="Optionnelle."><input value={versionOutil} onChange={e => setVersionOutil(e.target.value)} maxLength={100}/></Field>
             <Field label="Description" wide hint="Optionnelle."><textarea value={description} onChange={e => setDescription(e.target.value)} maxLength={4000}/></Field>
@@ -334,7 +346,8 @@ export function VersionsPanel({ documentId, goTo }: { documentId: string; goTo?:
     const [sealing, setSealing] = useState<string | null>(null);
     const [error, setError] = useState<unknown>(null);
     const [sealedVersion, setSealedVersion] = useState<string | null>(null);
-    const versionKey = useRef(crypto.randomUUID());
+    const versionKey = useRef(new IntentKey());
+    const [versionComment, setVersionComment] = useState('');
     const sealKeys = useRef<Record<string, string>>({});
     const canUpload = can(me, 'FILE_INGEST', scope);
     const canVersion = can(me, 'DOCUMENT_VERSION_CREATE', scope);
@@ -342,7 +355,7 @@ export function VersionsPanel({ documentId, goTo }: { documentId: string; goTo?:
     const addVersion = async () => {
         if (creatingVersion) return;
         setCreatingVersion(true); setError(null);
-        try { await records!.command('/documents/' + documentId + '/versions', {}, versionKey.current); versionKey.current = crypto.randomUUID(); q.refresh(); lifecycleQ.refresh(); }
+        try { const body = versionComment.trim() ? { comment: versionComment.trim() } : {}; const path = '/documents/' + documentId + '/versions'; await records!.command(path, body, versionKey.current.forRequest('POST', path, body)); versionKey.current.clear(); setVersionComment(''); q.refresh(); lifecycleQ.refresh(); }
         catch (err) { setError(err); }
         finally { setCreatingVersion(false); }
     };
@@ -365,11 +378,12 @@ export function VersionsPanel({ documentId, goTo }: { documentId: string; goTo?:
         else if (action === 'CONSERVATION') goTo?.('preservation');
     };
     return <section className="panel"><div className="section-heading"><h3>Versions</h3>{canVersion && <button className="btn small secondary" onClick={addVersion} disabled={creatingVersion}>{creatingVersion ? 'Création…' : 'Nouvelle version'}</button>}</div>
+        {canVersion && <Field label="Commentaire de la nouvelle version" wide hint="Facultatif : explique le contenu ou le motif de cette version."><textarea aria-label="Commentaire de la nouvelle version" value={versionComment} onChange={e => setVersionComment(e.target.value)} maxLength={2000} disabled={creatingVersion} /></Field>}
         {lifecycle?.destroyed && <DocumentTombstone documentId={documentId}/>}
         {lifecycle && <DocumentLifecycleBox lifecycle={lifecycle} busy={sealing !== null || creatingVersion} onAction={onStep}
             can={{ UPLOAD: canUpload, INGESTIONS: canUpload, SEAL: canSeal, NEW_VERSION: canVersion, WORKFLOW: goTo !== undefined, CONSERVATION: goTo !== undefined }} />}
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : q.data!.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>État</th><th>Scellée</th><th>Empreinte</th><th>Horodatage RFC 3161</th><th>Actions</th></tr></thead><tbody>{q.data!.map(v =>
-            <React.Fragment key={v.id}><tr><td>v{v.number}</td><td><Badge value={v.state}/></td><td>{v.sealed ? <Badge value="VALIDEE"/> : '—'}</td><td>{v.sealedHash ? <CopyId value={v.sealedHash}/> : '—'}</td><td>{v.sealed && <VersionTimestampCell versionId={v.id}/>}</td><td><div className="table-actions">
+            <React.Fragment key={v.id}><tr><td>v{v.number}{v.comment && <small className="cell-sub">{v.comment}</small>}</td><td><Badge value={v.state}/></td><td>{v.sealed ? <Badge value="VALIDEE"/> : '—'}</td><td>{v.sealedHash ? <CopyId value={v.sealedHash}/> : '—'}</td><td>{v.sealed && <VersionTimestampCell versionId={v.id}/>}</td><td><div className="table-actions">
                 <button className="btn small secondary" aria-expanded={!!expanded[v.id]} onClick={() => setExpanded(prev => ({ ...prev, [v.id]: !prev[v.id] }))}>{expanded[v.id] ? 'Masquer les fichiers' : 'Voir les fichiers'}</button>
                 {canUpload && <button className="btn small secondary" onClick={() => setHistory(v.id)}>Suivi de mes dépôts</button>}
                 {canUpload && !v.sealed && <button className="btn small primary" onClick={() => setUpload(v.id)}>Téléverser un fichier</button>}
@@ -384,11 +398,12 @@ export function VersionsPanel({ documentId, goTo }: { documentId: string; goTo?:
         {history && <IngestionHistory versionId={history} onClose={() => { setHistory(null); lifecycleQ.refresh(); }} onRefreshFiles={() => refreshFiles(history)}/>}
     </section>;
 }
-function AttachActorDialog({ documentId, onClose, onSuccess }: {
+export function AttachActorDialog({ documentId, onClose, onSuccess }: {
     documentId: string;
     onClose: () => void;
     onSuccess: () => void;
 }) {
+    const extra = useOptionalFields('actorDetails');
     const { records } = useSession();
     const existing = useResource<Page<Actor>>(s => records!.actors({ page: 0, size: 100 }, s), 'attach-actor-existing');
     const [mode, setMode] = useState<'existing' | 'new'>('existing');
@@ -409,13 +424,15 @@ function AttachActorDialog({ documentId, onClose, onSuccess }: {
         setBusy(true);
         setError(null);
         try {
+            const details = mode === 'new' ? extra.payload() : {};
+            if (details.birthDate && details.deathDate && String(details.deathDate) < String(details.birthDate)) throw new Error('La date de fin doit suivre la naissance ou création.');
             let resolvedActorId = actorId;
             if (mode === 'new') {
                 if (!nom.trim() && !raisonSociale.trim())
                     throw new Error('Indiquez un nom ou une raison sociale.');
                 const created = await records!.command<{
                     id: string;
-                }>('/actors', { type: typeActeur, name: nom.trim() || null, firstName: prenom.trim() || null, legalName: raisonSociale.trim() || null }, crypto.randomUUID(), 'POST');
+                }>('/actors', { ...details, type: typeActeur, name: nom.trim() || null, firstName: prenom.trim() || null, legalName: raisonSociale.trim() || null }, crypto.randomUUID(), 'POST');
                 resolvedActorId = created.id;
             }
             if (!resolvedActorId)
@@ -436,7 +453,7 @@ function AttachActorDialog({ documentId, onClose, onSuccess }: {
         {mode === 'existing' ? <Field label="Acteur *" wide><select value={actorId} onChange={e => setActorId(e.target.value)} required disabled={existing.loading}><option value="">{existing.loading ? 'Chargement…' : 'Choisir un acteur'}</option>{existing.data?.items.map(a => <option key={a.id} value={a.id}>{actorLabel(a)}</option>)}</select>{!existing.loading && !existing.data?.items.length && <small>Aucun acteur enregistré pour l’instant — utilisez « Nouvel acteur ».</small>}</Field> : <><Field label="Type *"><select value={typeActeur} onChange={e => setTypeActeur(e.target.value)}><option value="PERSONNE_PHYSIQUE">Personne physique</option><option value="PERSONNE_MORALE">Personne morale</option><option value="SERVICE">Service</option></select></Field>
         <Field label="Nom" hint="Nom ou raison sociale requis."><input value={nom} onChange={e => setNom(e.target.value)} maxLength={255}/></Field>
         <Field label="Prénom"><input value={prenom} onChange={e => setPrenom(e.target.value)} maxLength={150}/></Field>
-        <Field label="Raison sociale"><input value={raisonSociale} onChange={e => setRaisonSociale(e.target.value)} maxLength={255}/></Field></>}
+        <Field label="Raison sociale"><input value={raisonSociale} onChange={e => setRaisonSociale(e.target.value)} maxLength={255}/></Field><OptionalFields form={extra} disabled={busy} /></>}
         <Field label="Rôle *"><select value={role} onChange={e => setRole(e.target.value)}><option value="AUTEUR">Auteur</option><option value="PRODUCTEUR">Producteur</option><option value="SIGNATAIRE">Signataire</option><option value="DESTINATAIRE">Destinataire</option><option value="DONATEUR">Donateur</option><option value="DEPOSANT">Déposant</option><option value="DETENTEUR_ANTERIEUR">Détenteur antérieur</option><option value="CONTRIBUTEUR">Contributeur</option><option value="AUTRE">Autre</option></select></Field>
         <Field label="Ordre" hint="Optionnel."><input type="number" min={0} value={order} onChange={e => setOrder(e.target.value)}/></Field>
         <Field label="Commentaire" wide hint="Optionnel."><textarea value={comment} onChange={e => setComment(e.target.value)} maxLength={2000}/></Field>
@@ -453,7 +470,7 @@ function ActorsPanel({ documentId }: {
     const canAttach = can(me, 'DOCUMENT_ACTOR_MANAGE', scope);
     const label = (actorId: string) => { const a = actorsLookup.data?.items.find(x => x.id === actorId); return a ? actorLabel(a) : 'Acteur non disponible'; };
     return <section className="panel"><div className="section-heading"><h3>Acteurs</h3>{canAttach && <button className="btn small secondary" onClick={() => setAttach(true)}>Attacher un acteur</button>}</div>
-        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : q.data!.length ? <div className="table-scroll"><table><thead><tr><th>Acteur</th><th>Rôle</th><th>Ordre</th><th>Commentaire</th></tr></thead><tbody>{q.data!.map(a => <tr key={a.id}><td>{label(a.actorId)}</td><td><Badge value={a.role}/></td><td>{a.order ?? '—'}</td><td>{a.comment ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun acteur attaché" icon="users"/>}
+        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : q.data!.length ? <div className="table-scroll"><table><thead><tr><th>Acteur</th><th>Rôle</th><th>Ordre</th><th>Commentaire</th></tr></thead><tbody>{q.data!.map(a => <tr key={a.id}><td>{label(a.actorId)}{(() => { const actor = actorsLookup.data?.items.find(x => x.id === a.actorId); return actor && <details><summary>Fiche de l’acteur</summary>{actor.externalId && <p>Identifiant externe : {actor.externalId}</p>}{actor.birthDate && <p>Naissance ou création : {actor.birthDate}</p>}{actor.deathDate && <p>Décès ou dissolution : {actor.deathDate}</p>}{actor.description && <p>{actor.description}</p>}</details>; })()}</td><td><Badge value={a.role}/></td><td>{a.order ?? '—'}</td><td>{a.comment ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun acteur attaché" icon="users"/>}
         {attach && <AttachActorDialog documentId={documentId} onClose={() => setAttach(false)} onSuccess={q.refresh}/>}
     </section>;
 }
@@ -490,12 +507,13 @@ function ProposeDispositionDialog({ eventId, onClose, onSuccess }: {
         <Field label="Commentaire" wide hint="Optionnel."><textarea value={comment} onChange={e => setComment(e.target.value)} maxLength={4000}/></Field>
         </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>{busy ? <span className="spinner"/> : <Icon name="arrow" size={17}/>} Proposer</button></footer></form></Modal>;
 }
-function ValidateDispositionDialog({ dispositionId, decision, onClose, onSuccess }: {
+export function ValidateDispositionDialog({ dispositionId, decision, onClose, onSuccess }: {
     dispositionId: string;
     decision?: string;
     onClose: () => void;
     onSuccess: () => void;
 }) {
+    const extra = useOptionalFields('dispositionEvidence');
     const { retention } = useSession();
     const [approve, setApprove] = useState(true);
     const [visaReference, setVisaReference] = useState('');
@@ -511,7 +529,9 @@ function ValidateDispositionDialog({ dispositionId, decision, onClose, onSuccess
         setBusy(true);
         setError(null);
         try {
-            await retention!.command('/dispositions/' + dispositionId + '/validate', { approve, visaReference: visaReference.trim() || null, procesVerbal: procesVerbal.trim() || null, comment: comment.trim() || null }, crypto.randomUUID(), 'POST');
+            const details = extra.payload();
+            if (details.evidenceJson) details.evidenceJson = JSON.stringify(details.evidenceJson);
+            await retention!.command('/dispositions/' + dispositionId + '/validate', { ...details, approve, visaReference: visaReference.trim() || null, procesVerbal: procesVerbal.trim() || null, comment: comment.trim() || null }, crypto.randomUUID(), 'POST');
             onSuccess();
             onClose();
         }
@@ -523,6 +543,7 @@ function ValidateDispositionDialog({ dispositionId, decision, onClose, onSuccess
         }
     };
     return <Modal title="Valider la disposition" subtitle="La validation doit être faite par une personne différente de celle qui a proposé la décision." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
+        <OptionalFields form={extra} disabled={busy} />
         <Field label="Décision *"><select value={approve ? '1' : '0'} onChange={e => setApprove(e.target.value === '1')}><option value="1">Approuver</option><option value="0">Rejeter</option></select></Field>
         {elimination && approve && <div className="span2"><DestructionPreviewBox dispositionId={dispositionId}/></div>}
         <Field label={elimination && approve ? 'Référence de visa *' : 'Référence de visa'} hint={elimination && approve ? 'Obligatoire pour une élimination : la référence du visa de l’autorité.' : 'Optionnelle.'}><input value={visaReference} onChange={e => setVisaReference(e.target.value)} maxLength={255} required={elimination && approve}/></Field>
@@ -606,6 +627,40 @@ function CancelDispositionDialog({ dispositionId, onClose, onSuccess }: {
         <Field label="Motif *" wide><textarea value={reason} onChange={e => setReason(e.target.value)} required maxLength={4000}/></Field>
         </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Retour</button><button type="submit" className="btn danger" disabled={busy}>{busy ? <span className="spinner"/> : <Icon name="close" size={17}/>} Annuler la disposition</button></footer></form></Modal>;
 }
+function ReexamineDispositionDialog({ dispositionId, onClose, onSuccess }: {
+    dispositionId: string;
+    onClose: () => void;
+    onSuccess: () => void;
+}) {
+    const { retention } = useSession();
+    const tomorrow = new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
+    const [nextReviewDate, setNextReviewDate] = useState('');
+    const [reason, setReason] = useState('');
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState<unknown>(null);
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (busy || !nextReviewDate || reason.trim().length < 4)
+            return;
+        setBusy(true);
+        setError(null);
+        try {
+            await retention!.command('/dispositions/' + dispositionId + '/reexamine', { nextReviewDate, reason: reason.trim() }, crypto.randomUUID(), 'POST');
+            onSuccess();
+            onClose();
+        }
+        catch (err) {
+            setError(err);
+        }
+        finally {
+            setBusy(false);
+        }
+    };
+    return <Modal title="Réexaminer le document" subtitle="Le document n’est ni conservé ni éliminé : son échéance est repoussée à la date de la prochaine revue." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
+        <Field label="Prochaine date de revue *" hint="Postérieure à aujourd’hui."><input type="date" min={tomorrow} value={nextReviewDate} onChange={e => setNextReviewDate(e.target.value)} required disabled={busy}/></Field>
+        <Field label="Motif *" wide hint="Pourquoi la décision est reportée (4 caractères au moins)."><textarea value={reason} onChange={e => setReason(e.target.value)} required maxLength={4000} disabled={busy}/></Field>
+        </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy || !nextReviewDate || reason.trim().length < 4}>{busy ? 'Enregistrement…' : 'Réexaminer'}</button></footer></form></Modal>;
+}
 export function EventDispositions({ eventId, eventStatus }: {
     eventId: string;
     eventStatus: string;
@@ -617,6 +672,7 @@ export function EventDispositions({ eventId, eventStatus }: {
     const [validateId, setValidateId] = useState<string | null>(null);
     const [executeId, setExecuteId] = useState<string | null>(null);
     const [cancelId, setCancelId] = useState<string | null>(null);
+    const [reexamineId, setReexamineId] = useState<string | null>(null);
     const canPropose = can(me, 'DISPOSITION_PROPOSE', scope);
     const canValidate = can(me, 'DISPOSITION_VALIDATE', scope);
     const canExecute = can(me, 'DISPOSITION_EXECUTE', scope);
@@ -625,49 +681,16 @@ export function EventDispositions({ eventId, eventStatus }: {
     const latest = dispositions[0];
     const showPropose = canPropose && ['ECHEANCE', 'EN_DECISION'].includes(eventStatus) && (!latest || ['REJETEE', 'ANNULEE', 'EXECUTEE'].includes(latest.status));
     return <tr><td colSpan={4}>
-        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : dispositions.length ? <div className="table-scroll"><table><thead><tr><th>Décision</th><th>Statut</th><th>Proposée le</th><th /></tr></thead><tbody>{dispositions.map(d => <tr key={d.id}><td><Badge value={d.decision}/></td><td><Badge value={d.status}/></td><td>{formatDate(d.proposedAt)}</td><td className="table-actions">{d.status === 'PROPOSEE' && canValidate && <button className="btn small secondary" onClick={() => setValidateId(d.id)}>Valider</button>}{d.status === 'VALIDEE' && canExecute && <button className="btn small primary" onClick={() => setExecuteId(d.id)}>Exécuter</button>}{d.status === 'EXECUTEE' && d.decision === 'ELIMINER' && <CertificateButton label="Certificat de destruction" load={signal => retention!.certificateOfAction(d.id, signal)}/>}{['PROPOSEE', 'VALIDEE'].includes(d.status) && canCancel && <button className="btn small danger-outline" onClick={() => setCancelId(d.id)}>Annuler</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune disposition proposée" icon="check"/>}
+        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : dispositions.length ? <div className="table-scroll"><table><thead><tr><th>Décision</th><th>Statut</th><th>Proposée le</th><th /></tr></thead><tbody>{dispositions.map(d => <tr key={d.id}><td><Badge value={d.decision}/></td><td><Badge value={d.status}/></td><td>{formatDate(d.proposedAt)}</td><td className="table-actions">{d.status === 'PROPOSEE' && canValidate && <button className="btn small secondary" onClick={() => setValidateId(d.id)}>Valider</button>}{d.status === 'VALIDEE' && canExecute && (d.decision === 'REEXAMINER'
+            ? <button className="btn small primary" onClick={() => setReexamineId(d.id)}>Réexaminer</button>
+            : <button className="btn small primary" onClick={() => setExecuteId(d.id)}>Exécuter</button>)}{d.status === 'EXECUTEE' && d.decision === 'ELIMINER' && <CertificateButton label="Certificat de destruction" load={signal => retention!.certificateOfAction(d.id, signal)}/>}{['PROPOSEE', 'VALIDEE'].includes(d.status) && canCancel && <button className="btn small danger-outline" onClick={() => setCancelId(d.id)}>Annuler</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune disposition proposée" icon="check"/>}
         {showPropose && <button className="btn small secondary" style={{ marginTop: 8 }} onClick={() => setPropose(true)}>Proposer une décision</button>}
         {propose && <ProposeDispositionDialog eventId={eventId} onClose={() => setPropose(false)} onSuccess={q.refresh}/>}
         {validateId && <ValidateDispositionDialog dispositionId={validateId} decision={dispositions.find(d => d.id === validateId)?.decision} onClose={() => setValidateId(null)} onSuccess={q.refresh}/>}
         {executeId && <ExecuteDispositionDialog dispositionId={executeId} decision={dispositions.find(d => d.id === executeId)?.decision} onClose={() => setExecuteId(null)} onSuccess={q.refresh}/>}
         {cancelId && <CancelDispositionDialog dispositionId={cancelId} onClose={() => setCancelId(null)} onSuccess={q.refresh}/>}
+        {reexamineId && <ReexamineDispositionDialog dispositionId={reexamineId} onClose={() => setReexamineId(null)} onSuccess={q.refresh}/>}
     </td></tr>;
-}
-function OpenHoldDialog({ documentId, institutionId, onClose, onSuccess }: {
-    documentId: string;
-    institutionId: string;
-    onClose: () => void;
-    onSuccess: () => void;
-}) {
-    const { retention } = useSession();
-    const [reference, setReference] = useState('');
-    const [reason, setReason] = useState('');
-    const [authority, setAuthority] = useState('');
-    const [busy, setBusy] = useState(false);
-    const [error, setError] = useState<unknown>(null);
-    const submit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (busy)
-            return;
-        setBusy(true);
-        setError(null);
-        try {
-            await retention!.command('/legal-holds', { reference, reason, authority: authority.trim() || null, institutionId, documentIds: [documentId] }, crypto.randomUUID(), 'POST');
-            onSuccess();
-            onClose();
-        }
-        catch (err) {
-            setError(err);
-        }
-        finally {
-            setBusy(false);
-        }
-    };
-    return <Modal title="Ouvrir un gel légal" subtitle="Bloque toute élimination de ce document tant que le gel reste actif." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
-        <Field label="Référence *"><input value={reference} onChange={e => setReference(e.target.value)} required maxLength={150}/></Field>
-        <Field label="Autorité" hint="Optionnelle."><input value={authority} onChange={e => setAuthority(e.target.value)} maxLength={255}/></Field>
-        <Field label="Motif *" wide><textarea value={reason} onChange={e => setReason(e.target.value)} required maxLength={4000}/></Field>
-        </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn danger" disabled={busy}>{busy ? <span className="spinner"/> : <Icon name="lock" size={17}/>} Ouvrir le gel</button></footer></form></Modal>;
 }
 export function ReleaseHoldDialog({ holdId, onClose, onSuccess }: {
     holdId: string;
@@ -700,7 +723,8 @@ export function ReleaseHoldDialog({ holdId, onClose, onSuccess }: {
         <Field label="Référence de levée *" wide><input value={releaseReference} onChange={e => setReleaseReference(e.target.value)} required maxLength={255}/></Field>
         </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>{busy ? <span className="spinner"/> : <Icon name="check" size={17}/>} Lever</button></footer></form></Modal>;
 }
-function LegalHoldsPanel({ documentId, institutionId }: {
+function LegalHoldsPanel({ documentId, institutionId, departmentId }: {
+    departmentId?: string | null;
     documentId: string;
     institutionId: string;
 }) {
@@ -712,8 +736,8 @@ function LegalHoldsPanel({ documentId, institutionId }: {
     const canManage = can(me, 'LEGAL_HOLD_MANAGE', scope);
     const holds = q.data ?? [];
     return <section className="panel"><div className="section-heading"><h3>Gels légaux</h3>{canManage && <button className="btn small secondary" onClick={() => setOpen(true)}>Ouvrir un gel</button>}</div>
-        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : holds.length ? <div className="table-scroll"><table><thead><tr><th>Référence</th><th>Statut</th><th>Motif</th><th>Ouvert le</th><th /></tr></thead><tbody>{holds.map(h => <tr key={h.id}><td><code>{h.reference}</code></td><td><Badge value={h.status}/></td><td>{h.reason}</td><td>{formatDate(h.openedAt)}</td><td>{h.status === 'ACTIF' && canManage && <button className="btn small danger-outline" onClick={() => setRelease(h.id)}>Lever</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun gel légal sur ce document" icon="shield"/>}
-        {open && <OpenHoldDialog documentId={documentId} institutionId={institutionId} onClose={() => setOpen(false)} onSuccess={q.refresh}/>}
+        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : holds.length ? <div className="table-scroll"><table><thead><tr><th>Référence</th><th>Statut</th><th>Motif</th><th>Ouvert le</th><th /></tr></thead><tbody>{holds.map(h => <tr key={h.id}><td><code>{h.reference}</code></td><td><Badge value={h.status}/></td><td>{h.reason}{h.description && <small className="cell-sub">{h.description}</small>}{h.authority && <small className="cell-sub">Autorité : {h.authority}</small>}</td><td>{formatDate(h.openedAt)}</td><td>{h.status === 'ACTIF' && canManage && <button className="btn small danger-outline" onClick={() => setRelease(h.id)}>Lever</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun gel légal sur ce document" icon="shield"/>}
+        {open && <LegalHoldDialog documentId={documentId} institutionId={institutionId} departmentId={departmentId} onClose={() => setOpen(false)} onSuccess={q.refresh}/>}
         {release && <ReleaseHoldDialog holdId={release} onClose={() => setRelease(null)} onSuccess={q.refresh}/>}
     </section>;
 }
@@ -871,6 +895,7 @@ function PublishDialog({ documentId, onClose, onSuccess }: {
         <Field label="Canal *"><input value={canal} onChange={e => setCanal(e.target.value)} required maxLength={50}/></Field>
         <Field label="Licence" wide hint="Optionnelle."><div className="input-icon"><select value={licenceId} onChange={e => setLicenceId(e.target.value)} disabled={licences.loading}><option value="">Aucune</option>{licences.data?.map(l => <option key={l.id} value={l.id}>{l.libelle}</option>)}</select><button type="button" className="icon-btn" aria-label="Créer une licence" onClick={() => setCreateLicence(true)}><Icon name="plus" size={16}/></button></div></Field>
         </div>{Boolean(error) && <ErrorNotice error={error}/>}<footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy || !files.length}>{busy ? <span className="spinner"/> : <Icon name="arrow" size={17}/>} Publier</button></footer></form>
+        {licenceId && <ResourceDetailsButton resource="licence" id={licenceId} label="Lire la licence" />}
         {createLicence && <CreateLicenceDialog onClose={() => setCreateLicence(false)} onSuccess={l => { licences.refresh(); setLicenceId(l.id); }}/>}
     </Modal>;
 }
@@ -898,7 +923,7 @@ function PublicationPanel({ documentId }: {
     };
     const publications = q.data ?? [];
     return <section className="panel"><div className="section-heading"><h3>Publication</h3>{canManage && <button className="btn small secondary" onClick={() => setPublish(true)}>Publier un fichier</button>}</div>
-        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : publications.length ? <div className="table-scroll"><table><thead><tr><th>Statut</th><th>Visibilité</th><th>Canal</th><th>Publiée le</th><th /></tr></thead><tbody>{publications.map(p => <tr key={p.id}><td><Badge value={p.statut}/></td><td><Badge value={p.visibilite}/></td><td>{p.canal}</td><td>{formatDate(p.datePublication)}</td><td>{p.statut === 'PUBLIEE' && canManage && <button className="btn small danger-outline" onClick={() => withdraw(p.id)} disabled={busy}>Retirer</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune publication" icon="check"/>}
+        {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : publications.length ? <div className="table-scroll"><table><thead><tr><th>Statut</th><th>Visibilité</th><th>Canal</th><th>Publiée le</th><th /></tr></thead><tbody>{publications.map(p => <tr key={p.id}><td><Badge value={p.statut}/><ResourceDetailsButton resource="publication" id={p.id} /></td><td><Badge value={p.visibilite}/></td><td>{p.canal}</td><td>{formatDate(p.datePublication)}</td><td>{p.statut === 'PUBLIEE' && canManage && <button className="btn small danger-outline" onClick={() => withdraw(p.id)} disabled={busy}>Retirer</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune publication" icon="check"/>}
         {Boolean(actionError)&&<ErrorNotice error={actionError}/>}
         {publish && <PublishDialog documentId={documentId} onClose={() => setPublish(false)} onSuccess={q.refresh}/>}
     </section>;
@@ -978,19 +1003,20 @@ export function RecordDetailPage({ kind, id }: {kind: RecordCatalog; id: string;
       {id:'history',label:'Historique',show:allowed('AUDIT_READ',true)}
     ].filter(x=>x.show);
     const current=available.some(x=>x.id===tab)?tab:'description';
-    const fields:[string,unknown][]=[['Référence interne',e.reference],['Institution',institutionName(e.institutionId)],['Département',departmentName(e.departmentId)],['Statut métier',e.businessStatus],...(isDocument?[
-        ['Type documentaire',<DocumentTypeName id={(e as RecordDocument).typeDocumentId}/>],['Dossier',(e as RecordDocument).dossierId?<DossierLink id={(e as RecordDocument).dossierId!}/>:null],['Diffusion',(e as RecordDocument).distributionStatus]
+    const fields:[string,unknown][]=[['Référence interne',e.reference],['Institution',institutionName(e.institutionId)],['Département',departmentName(e.departmentId)],['Statut métier',e.businessStatus],['Classement',<ClassificationName id={e.classificationNodeId} institutionId={e.institutionId}/>],...(isDocument?[
+        ['Type documentaire',<DocumentTypeName id={(e as RecordDocument).typeDocumentId}/>],['Dossier',(e as RecordDocument).dossierId?<DossierLink id={(e as RecordDocument).dossierId!}/>:null],['Diffusion',(e as RecordDocument).distributionStatus],['Origine',({ CREE: 'Créé', RECU: 'Reçu', IMPORTE: 'Importé', NUMERISE: 'Numérisé', VERSE: 'Versé' } as Record<string, string>)[(e as RecordDocument).origin ?? ''] ?? (e as RecordDocument).origin],['Institution détentrice',(e as RecordDocument).holderInstitutionId ? institutionName((e as RecordDocument).holderInstitutionId!) : null],['Transféré le',formatDate((e as RecordDocument).transferredAt)]
       ]:[['Ouvert le',formatDate((e as Dossier).openedOn)],['Clos le',formatDate((e as Dossier).closedOn)]]) as [string,unknown][]];
     return <RecordWorkspaceProvider scope={scope} key={kind+id+epoch}>
       <button className="back-link" onClick={()=>navigate('/app/'+kind)}>← Retour aux {recordMeta[kind].name.toLowerCase()}</button>
       <PageHead eyebrow="ARCHIVES · FICHE DOCUMENTAIRE" title={e.title} description={e.reference}>
+        {!isDocument && <DossierCloseButton dossier={e as Dossier} onChanged={q.refresh} />}
         {isDocument&&allowed('DOCUMENT_CLASSIFY')&&<button className="btn secondary" onClick={()=>setReclassifying(true)}>Reclasser</button>}
       </PageHead>
       <div className="f3-status-summary"><span>Cycle archivistique <Badge value={e.archivalStatus}/></span><span>Confidentialité <Badge value={e.confidentiality}/></span></div>
       <Tabs label="Rubriques de la fiche" items={available} value={current} onChange={setTab}/>
       <section role="tabpanel" id="f3-active-tab-panel" className="f3-tab-panel" aria-label={available.find(x=>x.id===current)?.label}>
       {current==='description'&&<>
-        <section className="panel f3-preview-description"><h3>Description et contexte</h3><dl className="f3-description-list">{fields.map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v===null||v===undefined||v===''?'—':React.isValidElement(v)?v:String(v)}</dd></div>)}</dl><details className="f3-contract-details"><summary>Identifiants techniques</summary><CopyId value={id}/>{isDocument&&<p>Verrou de version : {(e as RecordDocument).versionLock}</p>}</details></section>
+        <section className="panel f3-preview-description"><div className="section-heading"><h3>Description et contexte</h3>{descriptionEditable(e) && allowed(isDocument ? 'DOCUMENT_DESCRIPTION_UPDATE' : 'DOSSIER_DESCRIPTION_UPDATE') && <RecordDescriptionButton kind={kind} id={id} onChanged={q.refresh} />}</div>{e.description && <p style={{ whiteSpace: 'pre-wrap' }}>{e.description}</p>}{!isDocument && (e as Dossier).subject && <p><strong>Objet : </strong>{(e as Dossier).subject}</p>}<dl className="f3-description-list">{fields.map(([k,v])=><div key={k}><dt>{k}</dt><dd>{v===null||v===undefined||v===''?'—':React.isValidElement(v)?v:String(v)}</dd></div>)}</dl><details className="f3-contract-details"><summary>Identifiants techniques</summary><CopyId value={id}/>{isDocument&&<p>Verrou de version : {(e as RecordDocument).versionLock}</p>}</details></section>
         {isDocument&&<DocumentArchivalPanel document={e as RecordDocument} canEdit={allowed('DOCUMENT_DESCRIPTION_UPDATE')} onChanged={q.refresh}/>}
         {isDocument&&<DocumentRelationsPanel document={e as RecordDocument} canEdit={allowed('DOCUMENT_DESCRIPTION_UPDATE')}/>}
         {isDocument&&allowed('DOCUMENT_READ')&&<DocumentFormPanel documentId={id} canEdit={allowed('DOCUMENT_DESCRIPTION_UPDATE')&&!(e as RecordDocument).destroyed}/>}
@@ -1003,7 +1029,7 @@ export function RecordDetailPage({ kind, id }: {kind: RecordCatalog; id: string;
       {current==='files'&&<><VersionsPanel documentId={id} goTo={setTab}/>{isDocument&&allowed('DOCUMENT_READ')&&<SignaturesPanel documentId={id} canEdit={allowed('DOCUMENT_DESCRIPTION_UPDATE')} destroyed={!!(e as RecordDocument).destroyed}/>}</>}
       {current==='workflow'&&<WorkflowPanel documentId={id}/>}
       {current==='rights'&&<>{allowed('RIGHTS_READ',true)&&<RightsPanel documentId={id} institutionId={isDocument?e.institutionId:undefined} destroyed={isDocument&&!!(e as RecordDocument).destroyed}/>} {allowed('PUBLICATION_READ')&&<><Notice>Une publication enregistrée n’implique pas qu’un portail public anonyme soit déployé.</Notice><PublicationPanel documentId={id}/></>}</>}
-      {current==='preservation'&&<>{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentIntermediateNotice documentId={id}/>}{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentTransferNotice documentId={id}/>}{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentSamplingNotice documentId={id}/>}{allowed('RETENTION_REVIEW')&&<RetentionPanel documentId={id} dossierId={isDocument ? (e as RecordDocument).dossierId : null} businessStatus={e.businessStatus} onDocumentChanged={q.refresh}/>}{allowed('LEGAL_HOLD_MANAGE')&&<LegalHoldsPanel documentId={id} institutionId={e.institutionId}/>} {isDocument&&(allowed('DISSEMINATION_READ')||allowed('DISSEMINATION_MANAGE'))&&<ArkPanel objectType="DOCUMENT" objectId={id} institutionId={e.institutionId} canManage={allowed('DISSEMINATION_MANAGE')}/>} {isDocument&&allowed('PRESERVATION_EVENT_READ')&&<DocumentPremisPanel documentId={id} reference={e.reference} canManage={allowed('PRESERVATION_EVENT_MANAGE')} canExport={allowed('PRESERVATION_PACKAGE_EXPORT')}/>} {allowed('HERITAGE_READ',true)&&<HeritagePanel documentId={id}/>}</>}
+      {current==='preservation'&&<>{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentIntermediateNotice documentId={id}/>}{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentTransferNotice documentId={id}/>}{isDocument&&allowed('RETENTION_REVIEW')&&<DocumentSamplingNotice documentId={id}/>}{allowed('RETENTION_REVIEW')&&<RetentionPanel documentId={id} dossierId={isDocument ? (e as RecordDocument).dossierId : null} businessStatus={e.businessStatus} onDocumentChanged={q.refresh}/>}{allowed('LEGAL_HOLD_MANAGE')&&<LegalHoldsPanel documentId={id} institutionId={e.institutionId} departmentId={e.departmentId}/>} {isDocument&&(allowed('DISSEMINATION_READ')||allowed('DISSEMINATION_MANAGE'))&&<ArkPanel objectType="DOCUMENT" objectId={id} institutionId={e.institutionId} canManage={allowed('DISSEMINATION_MANAGE')}/>} {isDocument&&allowed('PRESERVATION_EVENT_READ')&&<DocumentPremisPanel documentId={id} reference={e.reference} canManage={allowed('PRESERVATION_EVENT_MANAGE')} canExport={allowed('PRESERVATION_PACKAGE_EXPORT')}/>} {allowed('HERITAGE_READ',true)&&<HeritagePanel documentId={id}/>}</>}
       {current==='history'&&allowed('AUDIT_READ',true)&&<AuditPanel objectType={isDocument?'DOCUMENT':'DOSSIER'} objectId={id}/>}
       </section>
       {creatingChild&&<RecordForm kind="dossiers" parent={e as Dossier} onClose={()=>setCreatingChild(false)} onCreated={data=>{setCreatingChild(false);navigate('/app/dossiers/'+data.id);}}/>}
