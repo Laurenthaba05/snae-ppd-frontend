@@ -1,3 +1,5 @@
+import { DATE_TYPES, CERTAINTIES, CALENDARS } from '../core/archiveEnrichment';
+import { EXTENT_UNITS } from '../core/archivalDescription';
 import React, { useEffect, useState } from 'react';
 import { navigate, usePath } from '../ui/navigation';
 import { Busy, Empty, ErrorNotice } from '../ui/components';
@@ -75,6 +77,12 @@ export function FindingAidNodePage({ id }: { id: string }) {
                 {n.fields.extent && <div><dt>Importance matérielle</dt><dd>{n.fields.extent}</dd></div>}
                 {n.fields.extentQuantity && <div><dt>Quantité</dt><dd>{n.fields.extentQuantity} {n.fields.extentUnit ?? ''}</dd></div>}
             </dl>
+            {n.enrichment && [n.enrichment.identifiers,n.enrichment.dates,n.enrichment.producers,n.enrichment.extents].some(x=>x.length>0) && <section aria-label="Description complémentaire"><h2>Description complémentaire</h2><dl className="portal-facts">
+                {n.enrichment.identifiers.map((x,i)=><div key={'id'+i}><dt>{x.label||x.type}</dt><dd>{x.value}{x.source?' · '+x.source:''}{x.uri?<p>{x.uri}</p>:null}</dd></div>)}
+                {n.enrichment.dates.map((x,i)=><div key={'date'+i}><dt>{DATE_TYPES[x.type]||x.type}</dt><dd>{x.expression||[x.start,x.end].filter(Boolean).join(' / ')}{x.expression&&(x.start||x.end)?' · '+[x.start,x.end].filter(Boolean).join(' / '):''} · {CERTAINTIES[x.certainty]||x.certainty} · {CALENDARS[x.calendar]||x.calendar}</dd></div>)}
+                {n.enrichment.producers.map((x,i)=><div key={'producer'+i}><dt>{x.role}</dt><dd>{n.producers?.find(p=>p.id===x.authorityId)?.name||'Producteur'}{x.start||x.end?' · '+[x.start,x.end].filter(Boolean).join(' / '):''}</dd></div>)}
+                {n.enrichment.extents.map((x,i)=><div key={'extent'+i}><dt>Volume {i+1}</dt><dd>{x.quantity} {EXTENT_UNITS.find(u=>u.code===x.unit)?.label||x.unit} · {x.portion==='PART'?'Partie':'Ensemble'}{x.medium?' · '+x.medium:''}{x.dimensions?' · '+x.dimensions:''}</dd></div>)}
+            </dl></section>}
             {sections.map(section => <section key={section.title} aria-label={section.title}>
                 <h2>{section.title}</h2>
                 <dl className="portal-facts">{section.rows.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>

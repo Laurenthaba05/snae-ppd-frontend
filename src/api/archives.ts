@@ -1,3 +1,4 @@
+import type { DescriptionEnrichment } from '../core/archiveEnrichment';
 import type { Transport } from '../core/http';
 import { uuid } from '../core/validation';
 import type { RelationInput, RelationView } from '../core/authorityRelations';
@@ -8,7 +9,7 @@ export type ArchiveKind = 'descriptions' | 'authorities';
 export interface DescriptionInput {
     institutionId: string; code: string; title: string; level: ArchiveLevel; parentId: string | null;
     producerId: string | null; confidentiality: string; documentId: string | null; dossierId: string | null;
-    details: Record<string, string>; version?: number;
+    details: Record<string, string>; version?: number; enrichment?: DescriptionEnrichment | null;
 }
 export interface AuthorityInput {
     institutionId: string; code: string; name: string; kind: 'PERSONNE' | 'COLLECTIVITE' | 'FAMILLE';

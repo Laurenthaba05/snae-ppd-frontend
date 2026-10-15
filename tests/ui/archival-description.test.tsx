@@ -156,7 +156,7 @@ it('l’éditeur de description regroupe les éléments ISAD(G) par zone et prop
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
     const dialog = await screen.findByRole('dialog');
-    expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Contexte', 'Contenu et structure', 'Conditions d’accès et d’utilisation', 'Sources complémentaires', 'Notes et contrôle de la description']);
+    expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Contexte', 'Contenu et structure', 'Conditions d’accès et d’utilisation', 'Sources complémentaires', 'Notes et contrôle de la description', 'Description enrichie']);
     for (const label of ['Accroissements', 'Écritures des documents', 'Caractéristiques matérielles', 'Existence et lieu de conservation des originaux', 'Existence et lieu de conservation des copies', 'Unités de description associées', 'Note de publication', 'Note générale', 'Note de l’archiviste', 'Règles ou conventions', 'Nature des dates', 'Support'])
         expect(within(dialog).getByLabelText(new RegExp('^' + label)), label).toBeTruthy();
     expect((within(dialog).getByLabelText(/^Accroissements/) as HTMLTextAreaElement).value).toBe('Versements annuels attendus');
@@ -202,4 +202,29 @@ it('enregistre les éléments ISAD(G) saisis, quantité et unité comprises', as
     const post = session.records.transport.request.mock.calls.find(c => (c[1] as { method?: string })?.method === 'POST')!;
     expect(post[0]).toBe('/archives/descriptions');
     expect((post[1] as { body: { details: Record<string, string> } }).body.details).toMatchObject({ status: 'VALIDEE', extentQuantity: '12,5', extentUnit: 'ML', medium: 'papier', dateKind: 'ACCUMULATION', accruals: 'Versements annuels', dateLabel: 'vers 1960' });
+});
+
+it('enregistre les enrichissements structurés et valide une notice sans champs historiques dupliqués', async () => {
+    const producer=authorityRow(1,'Ministère enrichi'); serveDescriptions([], [producer]); render(<ArchivalDescriptionPage/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Créer une description'})); const dialog=await screen.findByRole('dialog'); const ui=within(dialog);
+    const fill=(label:string,value:string)=>fireEvent.change(ui.getByLabelText(label),{target:{value}});
+    fill('Référence','ENR-UI'); fill('Intitulé','Fonds enrichi');
+    fireEvent.click(ui.getByRole('button',{name:'Ajouter un identifiant'})); fill('Type d’identifiant','ancienne cote'); fill('Valeur de l’identifiant','AA/1'); fill('Système d’origine','Ancien SI'); fill('URI de l’identifiant','urn:archive:1');
+    fireEvent.click(ui.getByRole('button',{name:'Ajouter une date'})); fill('Début structuré','1958'); fill('Fin structurée','1960-10'); fill('Certitude','ESTIMEE');
+    fireEvent.click(ui.getByRole('button',{name:'Ajouter un producteur lié'})); fill('Autorité productrice',producer.id); fill('Début de responsabilité','1958');
+    fireEvent.click(ui.getByRole('button',{name:'Ajouter un volume'})); fill('Quantité du volume','12,5'); fill('Unité du volume','ML'); fill('Support du volume','papier'); fill('Dimensions','30 cm');
+    fireEvent.click(ui.getByRole('button',{name:'Planifier le traitement'})); fill('Plan de traitement','Classer les registres'); fill('Heures prévues','12.5'); fill('Financement du traitement','Budget archives');
+    fireEvent.change(ui.getByLabelText(/^État de rédaction/),{target:{value:'VALIDEE'}});
+    expect(ui.queryByRole('alert')).toBeNull(); fireEvent.click(ui.getByRole('button',{name:'Enregistrer'}));
+    await waitFor(()=>expect(session.records.transport.request.mock.calls.some(c=>(c[1] as {method?:string})?.method==='POST')).toBe(true));
+    const body=session.records.transport.request.mock.calls.find(c=>(c[1] as {method?:string})?.method==='POST')![1].body;
+    expect(body.enrichment).toMatchObject({identifiers:[{type:'ancienne cote',value:'AA/1',source:'Ancien SI',uri:'urn:archive:1'}],dates:[{start:'1958',end:'1960-10',certainty:'ESTIMEE'}],
+        producers:[{authorityId:producer.id,start:'1958'}],extents:[{quantity:'12.5',unit:'ML',medium:'papier',dimensions:'30 cm'}],processing:{plan:'Classer les registres',estimatedHours:12.5,funding:'Budget archives'}});
+});
+it('refuse une date structurée impossible puis permet de retirer une ligne',async()=>{
+    serveDescriptions([]); render(<ArchivalDescriptionPage/>); fireEvent.click(await screen.findByRole('button',{name:'Créer une description'}));
+    const ui=within(await screen.findByRole('dialog')); fireEvent.click(ui.getByRole('button',{name:'Ajouter une date'}));
+    fireEvent.change(ui.getByLabelText('Début structuré'),{target:{value:'2025-02-29'}});
+    expect((ui.getByRole('button',{name:'Enregistrer'}) as HTMLButtonElement).disabled).toBe(true);
+    fireEvent.click(ui.getByRole('button',{name:'Supprimer la date 1'})); expect(ui.queryByRole('alert')).toBeNull();
 });

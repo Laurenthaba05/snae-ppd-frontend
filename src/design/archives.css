@@ -29,3 +29,12 @@
 .fiche-list dd{margin:0;font-size:13.5px}
 .fiche-text{white-space:pre-wrap;overflow-wrap:anywhere}
 @media (max-width:640px){.fiche-list>div{grid-template-columns:1fr;gap:2px}}
+
+/* Repeated descriptive metadata and preservation evidence. */
+.archive-enrichment,.archive-enrichment fieldset{min-inline-size:0;max-width:100%;border:1px solid #dfe7e4;border-radius:8px;padding:14px;margin:0}
+.archive-enrichment{display:grid;gap:14px;overflow-wrap:anywhere}
+.archive-enrichment fieldset{display:grid;gap:12px;background:#fbfdfc}
+.archive-enrichment legend{font-size:13.5px;font-weight:600;color:#294a3e;padding:0 6px}
+.archive-enrichment .form-grid{padding:0}
+.archive-enrichment .btn{justify-self:start;max-width:100%;white-space:normal}
+.archive-enrichment .reference-panel{min-width:0;max-width:100%}

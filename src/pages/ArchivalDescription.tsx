@@ -1,3 +1,6 @@
+import { ArchiveEnrichmentFields } from '../ui/ArchiveEnrichmentFields';
+import { enrichmentProblems, enrichedDetails } from '../core/archiveEnrichment';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
@@ -102,7 +105,7 @@ function ArchiveEditor({ api, institution, kind, row, descriptions, authorities,
     const [draft, setDraft] = useState<DescriptionInput | AuthorityInput>(() => row ? { ...row.input, version: row.version } : isDescription ? { institutionId: institution, code: '', title: '', level: 'FONDS', parentId: null, producerId: null, confidentiality: 'INTERNE', documentId: null, dossierId: null, details: { status: 'BROUILLON' } as Record<string, string> } : { institutionId: institution, code: '', name: '', kind: 'COLLECTIVITE', actorId: null, details: { status: 'BROUILLON' } as Record<string, string> });
     const [busy, setBusy] = useState(false); const [error, setError] = useState<unknown>(); const intention = useRef<ReturnType<typeof commandKey> | null>(null);
     const disabled = busy || readOnly; const d = draft as DescriptionInput; const a = draft as AuthorityInput;
-    const problems = isDescription ? descriptionProblems(d.details, producerKnown(d.producerId, d.parentId, descriptions.map(x => ({ id: x.id, parentId: x.input.parentId, producerId: x.input.producerId })))) : [];
+    const problems = isDescription ? [...enrichmentProblems(d.enrichment), ...descriptionProblems(enrichedDetails(d), producerKnown(d.producerId || d.enrichment?.producers[0]?.authorityId || null, d.parentId, descriptions.map(x => ({ id: x.id, parentId: x.input.parentId, producerId: x.input.producerId || x.input.enrichment?.producers[0]?.authorityId || null }))))] : [];
     const change = (key: string, value: unknown) => setDraft(v => ({ ...v, [key]: value }));
     const submit = async (e: React.FormEvent) => { const signal = cancellation.current.signal; e.preventDefault(); if (readOnly) return; setBusy(true); setError(undefined); intention.current = commandKey(intention.current, draft); try { await api.save(kind, row?.id, draft, intention.current.key, signal); if (!signal.aborted) { onSaved(); onClose(); } } catch (e) { if (!signal.aborted) setError(e); } finally { if (!signal.aborted) setBusy(false); } };
     return <Modal wide title={isDescription ? 'Description archivistique' : 'Notice de producteur'} onClose={onClose} locked={busy}><form id={formId} onSubmit={submit}><div className="form-grid">
@@ -120,6 +123,7 @@ function ArchiveEditor({ api, institution, kind, row, descriptions, authorities,
         {!isDescription && <AuthorityFields details={draft.details} disabled={disabled} onChange={details => change('details', details)} />}
         {isDescription && row && 'createdAt' in row && row.createdAt && <p className="span2 authority-dates">Description créée le {formatDate(row.createdAt)} · dernière révision le {formatDate(row.updatedAt)}</p>}
         {isDescription && <DescriptionFields details={draft.details} disabled={disabled} onChange={details => change('details', details)} />}
+        {isDescription && <ArchiveEnrichmentFields value={d.enrichment} authorities={authorities} institution={institution} disabled={disabled} onChange={v=>change('enrichment',v)} />}
     </div>{problems.length > 0 && !readOnly && <ul className="relation-problems" role="alert">{problems.map(p => <li key={p}>{p}</li>)}</ul>}{error ? <ErrorNotice error={error} /> : null}</form>
         {isDescription && row && <KeywordsPanel kind="NOTICE" objectId={row.id} institutionId={institution} canEdit={!readOnly} />}
         <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>{readOnly ? 'Fermer' : 'Annuler'}</button>{!readOnly && <button type="submit" form={formId} className="btn primary" disabled={busy || problems.length > 0}>Enregistrer</button>}</footer></Modal>;

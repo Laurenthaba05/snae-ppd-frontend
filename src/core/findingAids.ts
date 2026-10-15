@@ -1,3 +1,4 @@
+import type { DescriptionEnrichment } from './archiveEnrichment.js';
 /**
  * Instruments de recherche publiés (inventaires des fonds) : ce que le public voit d'un fonds, et ce que le personnel publie. Une notice n'est visible que si elle est publique et validée,
  * et si chaque niveau au-dessus, jusqu'à la racine publiée, l'est aussi. Le serveur reste seul juge ; ici, l'affichage.
@@ -22,6 +23,7 @@ export interface PublicPathStep { id: string; code: string; title: string; level
 export interface PublicNode {
     id: string; rootId: string; code: string; title: string; level: string; institutionName: string; producerName: string | null; fields: Record<string, string>;
     path: PublicPathStep[]; children: PublicNodeSummary[]; hasMoreChildren: boolean; page: number;
+    enrichment?: DescriptionEnrichment; producers?: {id:string;name:string;kind:string}[];
 }
 
 export const LEVEL_LABELS: Record<string, string> = {
