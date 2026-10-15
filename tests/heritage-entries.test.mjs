@@ -112,7 +112,7 @@ test('Demande de passage : seuls les champs utiles et renseignés partent', () =
 
 test('Fiche d’entrée : mêmes champs que le serveur, tous nommés dans le journal', () => {
     const names = ENTRY_FIELD_GROUPS.flatMap(g => g.fields.map(f => f.name));
-    assert.deepEqual([...names].sort(), ['conditionsProposees', 'conditionsRetenues', 'constatEtat', 'dateReception', 'deposantNom', 'descriptionLot', 'examenProvenance', 'modeReception', 'moyensConservation',
+    assert.deepEqual([...names].sort(), ['deposantActeurId', 'entreeArchivistiqueId', 'conditionsProposees', 'conditionsRetenues', 'constatEtat', 'dateReception', 'deposantNom', 'descriptionLot', 'examenProvenance', 'modeReception', 'moyensConservation',
         'motifReception', 'nombrePieces', 'situationJuridique', 'situationJuridiqueNote'].sort());
     for (const name of names) assert.ok(ENTRY_FIELD_LABELS[name], 'libellé manquant : ' + name);
     assert.equal(ENTRY_FIELD_LABELS.statut, 'Étape');

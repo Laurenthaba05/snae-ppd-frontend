@@ -1,3 +1,6 @@
+import { ArchiveRecordPicker } from './ArchiveRecordPicker';
+import { IntakeLinkPicker } from './IntakeLinkPicker';
+import { uuid } from '../core/validation';
 import React, { useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from './workspace';
@@ -123,6 +126,7 @@ export function fromDraft(fields: FieldDef[], draft: Draft): { values: AssetFiel
         else if (f.type === 'list') values[f.name] = parseList(String(raw ?? ''));
         else if (f.type === 'refs') { const refs = parseRefs(String(raw ?? '')); if (refs === null) return { values, problem: 'Chaque ancienne référence s’écrit « système : valeur », une par ligne.' }; values[f.name] = refs; }
         else if (f.type === 'titles') { const titles = parseTitles(String(raw ?? '')); if (titles === null) return { values, problem: 'Chaque titre alternatif s’écrit « type : titre », un par ligne.' }; values[f.name] = titles; }
+        else if (f.type === 'actor' || f.type === 'intake') { const t = String(raw ?? '').trim(); try { values[f.name] = t ? uuid(t) : null; } catch { return { values, problem: f.label + ' : sélectionnez une référence valide.' }; } }
         else if (f.type === 'number') { const t = String(raw ?? '').trim().replace(',', '.'); values[f.name] = t === '' ? null : t; }
         else values[f.name] = String(raw ?? '').trim() === '' ? null : String(raw).trim();
     }
@@ -145,6 +149,8 @@ export function FieldInput({ f, draft, set, categories, criteres, disabled }: { 
     const value = draft[f.name];
     const text = typeof value === 'string' ? value : '';
     const common = { disabled };
+    if (f.type === 'actor') return <Field label={f.label}><ArchiveRecordPicker kind="actors" institution="" value={text || null} onChange={v => set(f.name, v ?? '')} disabled={disabled} /></Field>;
+    if (f.type === 'intake') return <Field label={f.label}><IntakeLinkPicker value={text} onChange={v => set(f.name, v)} disabled={disabled} /></Field>;
     if (f.type === 'textarea') return <Field label={f.label} wide hint={f.hint}><textarea {...common} value={text} onChange={e => set(f.name, e.target.value)} rows={3} /></Field>;
     if (f.type === 'refs' || f.type === 'titles') return <Field label={f.label} wide hint={f.hint}><textarea {...common} value={text} onChange={e => set(f.name, e.target.value)} rows={2} /></Field>;
     if (f.type === 'select') return <Field label={f.label} hint={f.hint} wide={f.wide}><select {...common} value={text} onChange={e => set(f.name, e.target.value)}>{Object.entries(f.options ?? {}).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></Field>;

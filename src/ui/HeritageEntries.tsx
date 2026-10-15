@@ -1,3 +1,6 @@
+import { ArchiveRecordPicker } from './ArchiveRecordPicker';
+import { IntakeLinkPicker } from './IntakeLinkPicker';
+import { ResourceDetailsButton } from './ResourceDetails';
 import React, { useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from './workspace';
@@ -39,11 +42,11 @@ function Mention({ entry }: { entry: Pick<HeritageEntry, 'statut' | 'mention'> }
 
 // ---------- réception
 
-function ReceptionDialog({ onClose, onCreated }: { onClose: () => void; onCreated: (entry: HeritageEntry) => void }) {
+export function ReceptionDialog({ onClose, onCreated }: { onClose: () => void; onCreated: (entry: HeritageEntry) => void }) {
     const { heritage } = useSession();
     const { scope } = useWorkspace();
     const key = useRef(crypto.randomUUID());
-    const [form, setForm] = useState({ modeReception: 'DON', dateReception: '', deposantNom: '', nombrePieces: '', motifReception: '', descriptionLot: '' });
+    const [form, setForm] = useState({ modeReception: 'DON', dateReception: '', deposantNom: '', deposantActeurId: '', entreeArchivistiqueId: '', nombrePieces: '', motifReception: '', descriptionLot: '' });
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const [problem, setProblem] = useState<string | null>(null);
@@ -66,6 +69,8 @@ function ReceptionDialog({ onClose, onCreated }: { onClose: () => void; onCreate
                 <Field label="Type de réception *"><select value={form.modeReception} onChange={e => set('modeReception', e.target.value)} disabled={busy}>{Object.entries(ENTRY_MODE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></Field>
                 <Field label="Date de réception" hint="Aujourd’hui si elle n’est pas précisée"><input type="date" max={todayIso()} value={form.dateReception} onChange={e => set('dateReception', e.target.value)} disabled={busy} /></Field>
                 <Field label="Déposant ou source" hint="Personne, famille ou organisme qui remet le bien"><input value={form.deposantNom} onChange={e => set('deposantNom', e.target.value)} maxLength={255} disabled={busy} /></Field>
+                <Field label="Déposant du référentiel"><ArchiveRecordPicker kind="actors" institution={scope.institutionId ?? ''} value={form.deposantActeurId || null} onChange={v => set('deposantActeurId', v ?? '')} disabled={busy} /></Field>
+                <Field label="Entrée archivistique associée"><IntakeLinkPicker value={form.entreeArchivistiqueId} onChange={v => set('entreeArchivistiqueId', v)} disabled={busy} /></Field>
                 <Field label="Nombre de pièces"><input inputMode="numeric" value={form.nombrePieces} onChange={e => set('nombrePieces', e.target.value)} disabled={busy} /></Field>
                 <Field label="Motif de la remise" wide><textarea value={form.motifReception} onChange={e => set('motifReception', e.target.value)} rows={2} maxLength={5000} disabled={busy} /></Field>
                 <Field label="Description du lot" wide><textarea value={form.descriptionLot} onChange={e => set('descriptionLot', e.target.value)} rows={3} maxLength={10000} disabled={busy} /></Field>
@@ -551,7 +556,7 @@ function ReprisePanel({ categories, canManage }: { categories: HeritageReference
         <p className="wf-note">Une collection déjà présente depuis longtemps n’entre pas par une réception : elle se reprend depuis son registre d’inventaire. Les anciennes références sont conservées, et ce qui manque est compté plutôt qu’inventé.</p>
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : lots.length ? <div className="table-scroll"><table><thead><tr><th>Lot</th><th>Statut</th><th>Biens</th><th>Sans date</th><th>Sans résumé</th><th>Provenance à établir</th><th>Valeur non évaluée</th><th>Sans original localisé</th><th /></tr></thead>
             <tbody>{lots.map(lot => <tr key={lot.id}>
-                <td>{lot.libelle}{lot.dateReference && <small className="cell-sub">Registre de {isoDay(lot.dateReference)}</small>}</td>
+                <td>{lot.libelle}<ResourceDetailsButton resource="heritageReprise" id={lot.id} title={lot.libelle} />{lot.dateReference && <small className="cell-sub">Registre de {isoDay(lot.dateReference)}</small>}</td>
                 <td><Badge value={lot.statut} /></td><td>{lot.biens}</td><td>{lot.sansDate || '—'}</td><td>{lot.sansResume || '—'}</td><td>{lot.provenanceAEtablir || '—'}</td><td>{lot.valeurNonEvaluee || '—'}</td><td>{lot.sansOriginal || '—'}</td>
                 <td>{canManage && lot.statut === 'OUVERTE' && <span className="table-actions"><button type="button" className="btn small secondary" onClick={() => setImporting(lot)}>Importer un registre</button><button type="button" className="btn small secondary" onClick={() => setClosing(lot)}>Clôturer</button></span>}</td></tr>)}</tbody></table></div>
             : <Empty title="Aucun lot de reprise" description={canManage ? 'Créez un lot pour reprendre un registre d’inventaire existant.' : 'Aucun lot dans votre périmètre.'} />}

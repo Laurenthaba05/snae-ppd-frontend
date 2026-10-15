@@ -1,3 +1,5 @@
+import { HeritageReferenceCatalog } from '../ui/HeritageReferenceCatalog';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
@@ -154,16 +156,17 @@ function HeritageCatalogues() {
     return <>
         <div className="panel">
             <div className="section-heading"><h3>Lieux</h3>{canManage && <button className="btn small secondary" onClick={() => setCreating('place')}>Créer un lieu</button>}</div>
-            {placesQ.loading ? <Busy /> : placesQ.error ? <ErrorNotice error={placesQ.error} onRetry={placesQ.refresh}/> : placesQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Type</th><th>Coordonnées</th></tr></thead><tbody>{placesQ.data.map(p => <tr key={p.id}><td><strong>{p.nom}</strong></td><td>{p.typeLieu ?? '—'}</td><td>{p.latitude && p.longitude ? p.latitude + ', ' + p.longitude : '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun lieu" description="Créez le premier lieu du référentiel."/>}
+            {placesQ.loading ? <Busy /> : placesQ.error ? <ErrorNotice error={placesQ.error} onRetry={placesQ.refresh}/> : placesQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Type</th><th>Coordonnées</th></tr></thead><tbody>{placesQ.data.map(p => <tr key={p.id}><td><strong>{p.nom}</strong><ResourceDetailsButton resource="heritagePlace" id={p.id} title={p.nom} /></td><td>{p.typeLieu ?? '—'}</td><td>{p.latitude && p.longitude ? p.latitude + ', ' + p.longitude : '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun lieu" description="Créez le premier lieu du référentiel."/>}
         </div>
         <div className="panel">
             <div className="section-heading"><h3>Événements historiques</h3>{canManage && <button className="btn small secondary" onClick={() => setCreating('event')}>Créer un événement</button>}</div>
-            {eventsQ.loading ? <Busy /> : eventsQ.error ? <ErrorNotice error={eventsQ.error} onRetry={eventsQ.refresh}/> : eventsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Titre</th><th>Début</th><th>Fin</th></tr></thead><tbody>{eventsQ.data.map(ev => <tr key={ev.id}><td><strong>{ev.titre}</strong></td><td>{ev.dateDebut ?? '—'}</td><td>{ev.dateFin ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun événement historique" description="Créez le premier événement du référentiel."/>}
+            {eventsQ.loading ? <Busy /> : eventsQ.error ? <ErrorNotice error={eventsQ.error} onRetry={eventsQ.refresh}/> : eventsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Titre</th><th>Début</th><th>Fin</th></tr></thead><tbody>{eventsQ.data.map(ev => <tr key={ev.id}><td><strong>{ev.titre}</strong><ResourceDetailsButton resource="heritageEvent" id={ev.id} title={ev.titre} /></td><td>{ev.dateDebut ?? '—'}</td><td>{ev.dateFin ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun événement historique" description="Créez le premier événement du référentiel."/>}
         </div>
         <div className="panel">
             <div className="section-heading"><h3>Sujets</h3>{canManage && <button className="btn small secondary" onClick={() => setCreating('subject')}>Créer un sujet</button>}</div>
-            {subjectsQ.loading ? <Busy /> : subjectsQ.error ? <ErrorNotice error={subjectsQ.error} onRetry={subjectsQ.refresh}/> : subjectsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Terme</th><th>Vocabulaire</th></tr></thead><tbody>{subjectsQ.data.map(s => <tr key={s.id}><td><strong>{s.terme}</strong></td><td>{s.vocabulaire ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun sujet" description="Créez le premier sujet du référentiel."/>}
+            {subjectsQ.loading ? <Busy /> : subjectsQ.error ? <ErrorNotice error={subjectsQ.error} onRetry={subjectsQ.refresh}/> : subjectsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Terme</th><th>Vocabulaire</th></tr></thead><tbody>{subjectsQ.data.map(s => <tr key={s.id}><td><strong>{s.terme}</strong><ResourceDetailsButton resource="heritageSubject" id={s.id} title={s.terme} /></td><td>{s.vocabulaire ?? '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun sujet" description="Créez le premier sujet du référentiel."/>}
         </div>
+        <HeritageReferenceCatalog />
         {creating === 'place' && <CreatePlaceDialog onClose={() => setCreating(null)} onCreated={placesQ.refresh}/>}
         {creating === 'event' && <CreateHistoricalEventDialog onClose={() => setCreating(null)} onCreated={eventsQ.refresh}/>}
         {creating === 'subject' && <CreateSubjectDialog onClose={() => setCreating(null)} onCreated={subjectsQ.refresh}/>}
@@ -369,7 +372,7 @@ export function HeritagePanel({ documentId }: {
             <div><h4>Sujets</h4>{subjects.length ? <ul>{subjects.map(s => <li key={s.id}>{s.terme}</li>)}</ul> : <Empty title="Aucun sujet associé"/>}</div>
         </div>}
         <div className="section-heading"><h4>Textes multilingues</h4>{canManage && <button className="btn small secondary" onClick={() => setAddingText(true)}>Ajouter un texte</button>}</div>
-        {textsQ.loading ? <Busy /> : textsQ.error ? <ErrorNotice error={textsQ.error} onRetry={textsQ.refresh}/> : texts.length ? <div className="table-scroll"><table><thead><tr><th>Langue</th><th>Type</th><th>Original</th><th>Créé le</th></tr></thead><tbody>{texts.map(t => <tr key={t.id}><td>{t.langue}</td><td>{t.typeTexte}</td><td>{t.estOriginal ? 'Oui' : 'Non'}</td><td>{formatDate(t.createdAt)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun texte multilingue" description="Ajoutez une transcription ou une traduction."/>}
+        {textsQ.loading ? <Busy /> : textsQ.error ? <ErrorNotice error={textsQ.error} onRetry={textsQ.refresh}/> : texts.length ? <div className="table-scroll"><table><thead><tr><th>Langue</th><th>Type</th><th>Original</th><th>Créé le</th></tr></thead><tbody>{texts.map(t => <tr key={t.id}><td>{t.langue}<ResourceDetailsButton resource="heritageText" id={t.id} /></td><td>{t.typeTexte}</td><td>{t.estOriginal ? 'Oui' : 'Non'}</td><td>{formatDate(t.createdAt)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun texte multilingue" description="Ajoutez une transcription ou une traduction."/>}
         {tagging && <TagPlaceDialog documentId={documentId} places={allPlacesQ.data ?? []} onClose={() => setTagging(false)} onTagged={placesQ.refresh}/>}
         {taggingEvent && <TagHistoricalEventDialog documentId={documentId} events={allEventsQ.data ?? []} onClose={() => setTaggingEvent(false)} onTagged={eventsQ.refresh}/>}
         {taggingSubject && <TagSubjectDialog documentId={documentId} subjects={allSubjectsQ.data ?? []} onClose={() => setTaggingSubject(false)} onTagged={subjectsQ.refresh}/>}

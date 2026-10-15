@@ -45,7 +45,7 @@ export const DROITS_IMAGE_LABELS: Record<string, string> = {
     NON_RENSEIGNES: 'Non renseignés', DOMAINE_PUBLIC: 'Domaine public', DROITS_DETENUS: 'Droits détenus par l’institution', DROITS_TIERS: 'Droits détenus par un tiers', A_CLARIFIER: 'À clarifier'
 };
 
-export type FieldType = 'text' | 'textarea' | 'select' | 'list' | 'refs' | 'titles' | 'date' | 'number' | 'flag' | 'categorie' | 'criteres';
+export type FieldType = 'actor' | 'intake' | 'text' | 'textarea' | 'select' | 'list' | 'refs' | 'titles' | 'date' | 'number' | 'flag' | 'categorie' | 'criteres';
 export interface FieldDef { name: string; label: string; type: FieldType; options?: Record<string, string>; hint?: string; wide?: boolean }
 export interface FieldGroup { id: 'identification' | 'description' | 'contexte' | 'provenance' | 'valeur'; label: string; fields: FieldDef[] }
 

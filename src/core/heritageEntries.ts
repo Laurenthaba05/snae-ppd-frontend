@@ -1,3 +1,4 @@
+import { uuid } from './validation.js';
 import type { AssetFields, EntryDecisionType, EntryStatus, EntryTransitionOption, HeritageEntry, HeritageReference } from './types.js';
 import { buildXlsx, type Table } from './spreadsheet.js';
 import { JURIDIQUE_LABELS, MOTIF_MIN, motifValide, type FieldDef } from './heritageAssets.js';
@@ -13,7 +14,7 @@ export const DECISION_LABELS: Record<EntryDecisionType, string> = { ACQUISITION:
 export const ENTRY_ROLE_LABELS: Record<string, string> = { JUSTIFICATIF: 'Justificatif', CONSTAT: 'Constat d’état', PHOTO: 'Photographie', CONVENTION: 'Convention', AUTRE: 'Autre' };
 export const ENTRY_JOURNAL_LABELS: Record<string, string> = { CREATION: 'Réception enregistrée', MODIFICATION: 'Modification', TRANSITION: 'Passage', LIEN: 'Lien' };
 export const ENTRY_FIELD_LABELS: Record<string, string> = {
-    modeReception: 'Type de réception', deposantNom: 'Déposant', dateReception: 'Date de réception', motifReception: 'Motif de la remise', nombrePieces: 'Nombre de pièces', descriptionLot: 'Description du lot',
+    deposantActeurId: 'Déposant du référentiel', entreeArchivistiqueId: 'Entrée archivistique associée', modeReception: 'Type de réception', deposantNom: 'Déposant', dateReception: 'Date de réception', motifReception: 'Motif de la remise', nombrePieces: 'Nombre de pièces', descriptionLot: 'Description du lot',
     constatEtat: 'Constat d’état', moyensConservation: 'Moyens de conservation', examenProvenance: 'Examen de la provenance', situationJuridique: 'Situation juridique',
     situationJuridiqueNote: 'Note sur la situation juridique', conditionsProposees: 'Conditions proposées', conditionsRetenues: 'Conditions retenues', statut: 'Étape', bien: 'Bien', ressource: 'Document'
 };
@@ -30,6 +31,8 @@ export const ENTRY_FIELD_GROUPS: EntryFieldGroup[] = [
         { name: 'modeReception', label: 'Type de réception', type: 'select', options: ENTRY_MODE_LABELS, hint: 'La façon dont le bien arrive limite les décisions possibles : un prêt entrant reste un prêt.' },
         { name: 'dateReception', label: 'Date de réception', type: 'date' },
         { name: 'deposantNom', label: 'Déposant ou source', type: 'text', hint: 'Personne, famille ou organisme qui remet le bien' },
+        { name: 'deposantActeurId', label: 'Déposant du référentiel', type: 'actor' },
+        { name: 'entreeArchivistiqueId', label: 'Entrée archivistique associée', type: 'intake' },
         { name: 'nombrePieces', label: 'Nombre de pièces', type: 'number' },
         { name: 'motifReception', label: 'Motif de la remise', type: 'textarea', wide: true },
         { name: 'descriptionLot', label: 'Description du lot', type: 'textarea', wide: true }] },
@@ -137,8 +140,10 @@ export function entryJournalValue(champ: string | null, value: unknown): string 
 }
 
 /** Corps de la création d'une réception : les champs vides sont omis, le nombre de pièces reste un nombre. */
-export function receptionFields(form: { modeReception: string; dateReception: string; deposantNom: string; nombrePieces: string; motifReception: string; descriptionLot: string }): AssetFields {
+export function receptionFields(form: { deposantActeurId?: string; entreeArchivistiqueId?: string; modeReception: string; dateReception: string; deposantNom: string; nombrePieces: string; motifReception: string; descriptionLot: string }): AssetFields {
     const champs: AssetFields = { modeReception: form.modeReception };
+    if (form.deposantActeurId) champs.deposantActeurId = uuid(form.deposantActeurId);
+    if (form.entreeArchivistiqueId) champs.entreeArchivistiqueId = uuid(form.entreeArchivistiqueId);
     if (form.dateReception) champs.dateReception = form.dateReception;
     if (form.deposantNom.trim()) champs.deposantNom = form.deposantNom.trim();
     if (form.nombrePieces.trim()) champs.nombrePieces = form.nombrePieces.trim();
