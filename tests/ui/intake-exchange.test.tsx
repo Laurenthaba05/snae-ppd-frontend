@@ -7,8 +7,8 @@ import type { IntegrationPreview } from '../../src/core/intakeExchange';
 const INST = '97571d20-3f49-497e-a185-dac22208eb3f';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown,
-    archivalIntake: { sedaExport: vi.fn(), importSedaFile: vi.fn(), integrationPreview: vi.fn(), integrate: vi.fn(), integrations: vi.fn() },
-    records: { transport: { request: vi.fn() } }
+    archivalIntake: { sedaExport: vi.fn(), importSedaFile: vi.fn(), integrationPreview: vi.fn(), integrate: vi.fn(), integrations: vi.fn(), depositPackage: vi.fn(), deposits: vi.fn() },
+    records: { transport: { request: vi.fn() }, documentTypes: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/ui/names', () => ({
@@ -28,8 +28,9 @@ const preview = (over: Partial<IntegrationPreview> = {}): IntegrationPreview => 
 
 beforeEach(() => {
     fixture.epoch += 1;
-    for (const fn of [...Object.values(fixture.archivalIntake), fixture.records.transport.request]) fn.mockReset();
+    for (const fn of [...Object.values(fixture.archivalIntake), fixture.records.transport.request, fixture.records.documentTypes]) fn.mockReset();
     fixture.archivalIntake.integrations.mockResolvedValue([]);
+    fixture.archivalIntake.deposits.mockResolvedValue([]);
     fixture.records.transport.request.mockResolvedValue([description('f1', 'FONDS-1', 'Fonds du ministère', 'FONDS'), description('s1', 'SER-1', 'Série comptable', 'SERIE')]);
 });
 
@@ -107,4 +108,64 @@ it('l’historique des intégrations se lit par le code de la notice, pas par un
     expect(await screen.findByText(/2 notices/)).toBeTruthy();
     expect(screen.getByText(/FONDS-1 — Fonds du ministère/)).toBeTruthy();
     expect(screen.getByText(/Agent ab/)).toBeTruthy();
+});
+
+const TYPE = '33333333-3333-4333-8333-333333333333';
+const depositReport = (over: Record<string, unknown> = {}) => ({ entryId: 'e', units: 2, documents: 2, deposited: 3, alreadyDeposited: 0, failed: 0, skipped: [], objects: [], ...over });
+
+it('dépose le contenu d’un paquet pour un versement reçu : type, confidentialité, bilan', async () => {
+    const onChanged = vi.fn();
+    fixture.records.documentTypes.mockResolvedValue([{ id: TYPE, code: 'REG', label: 'Registre', family: null, status: 'ACTIF' }, { id: 'x', code: 'OLD', label: 'Ancien type', family: null, status: 'INACTIF' }]);
+    fixture.archivalIntake.depositPackage.mockResolvedValue(depositReport({ skipped: ['La ligne « REG-3 » n’est pas constatée présente : ses objets ne sont pas déposés.'] }));
+    render(<IntakeExchangePanel intake={intake({ etape: 'RECU' })} canManage editable={false} onChanged={onChanged} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Déposer le contenu du paquet' }));
+    const dialog = await screen.findByRole('dialog');
+    const submit = within(dialog).getByRole('button', { name: 'Déposer' }) as HTMLButtonElement;
+    expect(submit.disabled).toBe(true);
+    const type = await within(dialog).findByLabelText(/Type des documents créés/) as HTMLSelectElement;
+    expect(Array.from(type.options).map(o => o.textContent)).not.toContain('Ancien type');
+    fireEvent.change(type, { target: { value: TYPE } });
+    fireEvent.change(within(dialog).getByLabelText(/Confidentialité/), { target: { value: 'CONFIDENTIEL' } });
+    const file = new File(['PK'], 'paquet.zip', { type: 'application/zip' });
+    fireEvent.change(within(dialog).getByLabelText('Paquet ZIP'), { target: { files: [file] } });
+    await waitFor(() => expect(submit.disabled).toBe(false));
+    fireEvent.click(submit);
+    expect(await within(dialog).findByText(/3 fichiers déposés pour 2 unités/)).toBeTruthy();
+    expect(fixture.archivalIntake.depositPackage).toHaveBeenCalledWith('11111111-1111-4111-8111-111111111111', file, { documentTypeId: TYPE, confidentiality: 'CONFIDENTIEL' });
+    expect(within(dialog).getByText(/REG-3/)).toBeTruthy();
+    expect(onChanged).toHaveBeenCalled();
+});
+
+it('un objet refusé est nommé avec sa cause, et le renvoi du même paquet est proposé', async () => {
+    fixture.records.documentTypes.mockResolvedValue([{ id: TYPE, code: 'REG', label: 'Registre', family: null, status: 'ACTIF' }]);
+    fixture.archivalIntake.depositPackage.mockResolvedValue(depositReport({ deposited: 1, failed: 1,
+        objects: [{ path: 'objets/a.pdf', lineRank: 1, lineReference: 'REG-1', status: 'DEPOSE', documentId: 'd', fileId: 'f', errorCode: null },
+            { path: 'objets/b.pdf', lineRank: 2, lineReference: 'REG-2', status: 'ECHEC', documentId: 'd2', fileId: null, errorCode: 'SCAN_INFECTED' }] }));
+    render(<IntakeExchangePanel intake={intake({ etape: 'RECU' })} canManage editable={false} onChanged={vi.fn()} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Déposer le contenu du paquet' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.change(await within(dialog).findByLabelText(/Type des documents créés/), { target: { value: TYPE } });
+    fireEvent.change(within(dialog).getByLabelText('Paquet ZIP'), { target: { files: [new File(['PK'], 'paquet.zip')] } });
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Déposer' }));
+    expect(await within(dialog).findByText(/1 en échec \(renvoyez le même paquet pour les retenter\)/)).toBeTruthy();
+    expect(within(dialog).getByText(/refusé par l’antivirus/)).toBeTruthy();
+    expect(within(dialog).getByText('objets/b.pdf')).toBeTruthy();
+});
+
+it('le dépôt n’est proposé qu’à un versement reçu et à une personne qui gère', async () => {
+    const { unmount } = render(<IntakeExchangePanel intake={intake({ etape: 'PREPARATION' })} canManage editable onChanged={vi.fn()} />);
+    expect(screen.queryByRole('button', { name: 'Déposer le contenu du paquet' })).toBeNull();
+    unmount();
+    render(<IntakeExchangePanel intake={intake({ etape: 'RECU' })} canManage={false} editable={false} onChanged={vi.fn()} />);
+    expect(screen.queryByRole('button', { name: 'Déposer le contenu du paquet' })).toBeNull();
+});
+
+it('l’historique du dépôt liste chaque fichier avec son document ou sa cause d’échec', async () => {
+    fixture.archivalIntake.deposits.mockResolvedValue([
+        { path: 'objets/a.pdf', lineId: 'l1', lineRank: 1, lineReference: 'REG-1', status: 'DEPOSE', documentId: 'd', documentReference: 'V-2026-001-0001', fileId: 'f', errorCode: null, attempts: 1, updatedAt: '2026-10-12T10:00:00Z' },
+        { path: 'objets/b.pdf', lineId: 'l2', lineRank: 2, lineReference: 'REG-2', status: 'ECHEC', documentId: 'd2', documentReference: 'V-2026-001-0002', fileId: null, errorCode: 'FILE_SIGNATURE_MISMATCH', attempts: 2, updatedAt: '2026-10-12T10:00:00Z' }]);
+    render(<IntakeExchangePanel intake={intake({ etape: 'RECU' })} canManage={false} editable={false} onChanged={vi.fn()} />);
+    expect(await screen.findByText(/Contenu déposé : 1 fichier · 1 en échec/)).toBeTruthy();
+    expect(screen.getByText('V-2026-001-0001')).toBeTruthy();
+    expect(screen.getByText(/le contenu ne correspond pas au type annoncé · 2 tentatives/)).toBeTruthy();
 });

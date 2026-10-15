@@ -5,9 +5,10 @@ import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useR
 import { EntityName } from './names';
 import { useAction } from './ReadingRoomParts';
 import {
-    LEVEL_LABELS, blockerText, exchangeFileKind, integrationProblems, levelsAfter, reportText,
-    type IntegrationPreview, type IntegrationResult, type IntegrationView, type SedaManifest, type SedaPackageReport
+    DEPOSIT_CONFIDENTIALITY, LEVEL_LABELS, blockerText, depositErrorText, depositSummary, exchangeFileKind, integrationProblems, levelsAfter, reportText,
+    type DepositReport, type DepositView, type IntegrationPreview, type IntegrationResult, type IntegrationView, type SedaManifest, type SedaPackageReport
 } from '../core/intakeExchange';
+import type { DocumentType } from '../core/types';
 import type { ArchivalIntake } from '../core/types';
 
 const isReport = (r: SedaManifest | SedaPackageReport): r is SedaPackageReport => 'verified' in r;
@@ -25,11 +26,13 @@ export function IntakeExchangePanel({ intake, canManage, editable, onChanged }: 
     const { archivalIntake, epoch } = useSession();
     const [revision, setRevision] = useState(0);
     const [integrating, setIntegrating] = useState(false);
+    const [depositing, setDepositing] = useState(false);
     const [done, setDone] = useState<string | null>(null);
     const input = useRef<HTMLInputElement>(null);
     const action = useAction();
     const received = intake.etape === 'RECU';
     const history = useResource<IntegrationView[]>(s => received ? archivalIntake!.integrations(intake.id, s) : Promise.resolve([]), `intake-integrations:${intake.id}:${received}:${revision}:${epoch}`);
+    const deposits = useResource<DepositView[]>(s => received ? archivalIntake!.deposits(intake.id, s) : Promise.resolve([]), `intake-deposits:${intake.id}:${received}:${revision}:${epoch}`);
 
     const exportSeda = async () => {
         const blob = await action.run({ export: intake.id }, () => archivalIntake!.sedaExport(intake.id));
@@ -55,21 +58,76 @@ export function IntakeExchangePanel({ intake, canManage, editable, onChanged }: 
                     <button type="button" className="btn small secondary" disabled={action.busy} onClick={() => input.current?.click()}>Reprendre un manifeste ou un paquet SEDA</button>
                     <input ref={input} type="file" accept=".xml,.zip,application/xml,application/zip" className="sr-only" aria-label="Fichier SEDA (XML ou ZIP)" onChange={pick} />
                 </>}
+                {canManage && received && <button type="button" className="btn small secondary" onClick={() => setDepositing(true)}>Déposer le contenu du paquet</button>}
                 {canManage && received && <button type="button" className="btn small primary" onClick={() => setIntegrating(true)}>Intégrer au plan de description</button>}
             </div>
         </div>
         <div className="panel-padding">
             <p><small>Le bordereau s’échange au format de transfert SEDA. Un manifeste ou un paquet repris remplace tout le bordereau ; la quantité et l’unité n’ont pas d’équivalent normalisé et restent à compléter. Le contenu
-                du paquet est contrôlé par empreinte ; il se dépose ensuite par les parcours habituels.</small></p>
+                du paquet est contrôlé par empreinte ; une fois le versement reçu, « Déposer le contenu du paquet » crée un document par unité et verse ses fichiers dans le stockage.</small></p>
             {done && <Notice>{done}</Notice>}
             {action.error ? <ErrorNotice error={action.error} /> : null}
             {received && ((history.data ?? []).length > 0
                 ? <ul className="plain-list">{(history.data ?? []).map(h => <li key={h.id}><strong>{h.lines} notice{h.lines > 1 ? 's' : ''}</strong> ({LEVEL_LABELS[h.level] ?? h.level}) sous {h.parentCode ? `${h.parentCode} — ${h.parentTitle ?? ''}` : 'une notice'},
                     le {formatDate(h.createdAt)}{h.createdById && <> par <EntityName kind="users" id={h.createdById} /></>}.</li>)}</ul>
                 : !history.loading && <p><small>Ce versement n’a pas encore été intégré au plan de description.</small></p>)}
+            {received && (deposits.data ?? []).length > 0 && <DepositHistory items={deposits.data ?? []} />}
         </div>
         {integrating && <IntegrationDialog intake={intake} onClose={() => setIntegrating(false)} onDone={() => { setIntegrating(false); setRevision(n => n + 1); onChanged(); }} />}
+        {depositing && <DepositDialog intake={intake} onClose={() => setDepositing(false)} onDone={() => { setRevision(n => n + 1); onChanged(); }} />}
     </section>;
+}
+
+/** Ce qui a été déposé pour ce versement : un fichier par ligne, avec son document, ou la cause de l'échec. */
+function DepositHistory({ items }: { items: DepositView[] }) {
+    const failed = items.filter(i => i.status === 'ECHEC').length;
+    return <details open={failed > 0}><summary>Contenu déposé : {items.length - failed} fichier{items.length - failed > 1 ? 's' : ''}{failed ? ` · ${failed} en échec` : ''}</summary>
+        <div className="table-scroll"><table><thead><tr><th>Ligne</th><th>Fichier du paquet</th><th>Document</th><th>État</th></tr></thead>
+            <tbody>{items.map(i => <tr key={i.path} className={i.status === 'ECHEC' ? 'is-blocked' : ''}><td>{i.lineRank}<small className="cell-sub">{i.lineReference}</small></td><td><code>{i.path}</code></td>
+                <td>{i.documentReference ?? '—'}</td>
+                <td>{i.status === 'DEPOSE' ? <Badge value="ACTIF" label="Déposé" /> : <><Badge value="REJETE" label="En échec" /> <small>{depositErrorText(i.errorCode)}{i.attempts > 1 ? ` · ${i.attempts} tentatives` : ''}</small></>}</td></tr>)}</tbody></table></div>
+    </details>;
+}
+
+/** Choix du type et de la confidentialité des documents créés, puis envoi du paquet : le serveur dit ce qui est déposé, déjà déposé, écarté ou en échec. */
+function DepositDialog({ intake, onClose, onDone }: { intake: ArchivalIntake; onClose: () => void; onDone: () => void }) {
+    const { records, archivalIntake, epoch } = useSession();
+    const types = useResource<DocumentType[]>(s => records!.documentTypes(s), `intake-deposit-types:${epoch}`);
+    const [documentTypeId, setDocumentTypeId] = useState('');
+    const [confidentiality, setConfidentiality] = useState('INTERNE');
+    const [file, setFile] = useState<File | null>(null);
+    const [report, setReport] = useState<DepositReport | null>(null);
+    const action = useAction();
+    const active = (types.data ?? []).filter(t => t.status === 'ACTIF');
+    const valid = !!documentTypeId && !!file && exchangeFileKind(file.name) === 'zip';
+    const submit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!valid || !file) return;
+        const result = await action.run({ deposit: intake.id, name: file.name, size: file.size, documentTypeId, confidentiality }, () => archivalIntake!.depositPackage(intake.id, file, { documentTypeId, confidentiality }));
+        if (result) { setReport(result); onDone(); }
+    };
+    return <Modal wide title="Déposer le contenu du paquet" subtitle="Un document est créé pour chaque unité d’archives qui porte des objets" onClose={onClose} locked={action.busy}>
+        <form onSubmit={submit}>
+            <Notice>Le paquet doit être celui dont le bordereau a été repris. Les lignes constatées absentes ne sont pas déposées. Renvoyer le même paquet ne redépose rien et retente ce qui a échoué.</Notice>
+            {types.loading && !types.data ? <Busy /> : types.error ? <ErrorNotice error={types.error} onRetry={types.refresh} /> : <div className="form-grid">
+                <Field label="Type des documents créés *"><select value={documentTypeId} onChange={e => setDocumentTypeId(e.target.value)} disabled={action.busy}>
+                    <option value="">Choisir…</option>{active.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}</select></Field>
+                <Field label="Confidentialité *"><select value={confidentiality} onChange={e => setConfidentiality(e.target.value)} disabled={action.busy}>
+                    {DEPOSIT_CONFIDENTIALITY.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}</select></Field>
+                <Field label="Paquet ZIP *" wide hint="Le paquet SEDA : un manifeste XML à la racine et ses objets.">
+                    <input type="file" accept=".zip,application/zip" aria-label="Paquet ZIP" onChange={e => setFile(e.target.files?.[0] ?? null)} disabled={action.busy} /></Field>
+            </div>}
+            {file && exchangeFileKind(file.name) !== 'zip' && <Notice tone="warning">Le fichier choisi n’est pas un paquet ZIP.</Notice>}
+            {action.error ? <ErrorNotice error={action.error} /> : null}
+            {report && <>
+                <Notice tone={report.failed ? 'warning' : 'info'}>{depositSummary(report)}</Notice>
+                {report.skipped.length > 0 && <ul className="plain-list">{report.skipped.slice(0, 10).map(s => <li key={s}><small>{s}</small></li>)}</ul>}
+                {report.failed > 0 && <ul className="plain-list">{report.objects.filter(o => o.status === 'ECHEC').map(o => <li key={o.path}><code>{o.path}</code> : {depositErrorText(o.errorCode)}</li>)}</ul>}
+            </>}
+            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={action.busy}>Fermer</button>
+                <button type="submit" className="btn primary" disabled={action.busy || !valid}>{action.busy ? 'Dépôt en cours…' : 'Déposer'}</button></footer>
+        </form>
+    </Modal>;
 }
 
 function IntegrationDialog({ intake, onClose, onDone }: { intake: ArchivalIntake; onClose: () => void; onDone: () => void }) {

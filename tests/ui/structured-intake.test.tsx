@@ -13,7 +13,7 @@ const session = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['ARCHIVAL_INTAKE_READ', 'ARCHIVAL_INTAKE_MANAGE']),
     archivalIntake: { entries: vi.fn(), cycle: vi.fn(), journal: vi.fn(), bordereau: vi.fn(), replaceBordereau: vi.fn(), addLine: vi.fn(), updateLine: vi.fn(), deleteLine: vi.fn(), controlLine: vi.fn(),
         conformRemaining: vi.fn(), agreements: vi.fn(), saveAgreement: vi.fn(), command: vi.fn(),
-        integrations: vi.fn(), integrationPreview: vi.fn(), integrate: vi.fn(), sedaExport: vi.fn() },
+        integrations: vi.fn(), deposits: vi.fn(), integrationPreview: vi.fn(), integrate: vi.fn(), sedaExport: vi.fn() },
     records: { transport: { request: vi.fn() } }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => session }));
@@ -43,6 +43,7 @@ function serve(entries: unknown[], view: BordereauView | null, agreements: Agree
     session.archivalIntake.bordereau.mockImplementation(async () => view);
     session.archivalIntake.agreements.mockResolvedValue(agreements);
     session.archivalIntake.integrations.mockResolvedValue([]);
+    session.archivalIntake.deposits.mockResolvedValue([]);
     session.archivalIntake.journal.mockResolvedValue([{ id: 'j1', de: null, vers: 'PREPARATION', acteurId: '00000000-0000-4000-8000-0000000000d1', date: '2026-10-01T09:00:00Z', motif: null }]);
     session.records.transport.request.mockImplementation(async (path: string) => { if (path.startsWith('/archives/authorities?')) return [authority]; throw new Error('appel inattendu ' + path); });
 }

@@ -10,6 +10,33 @@ export interface IntegratedLine { lineId: string; rank: number; reference: strin
 export interface IntegrationResult { integrationId: string; lines: IntegratedLine[] }
 export interface IntegrationView { id: string; entryId: string; parentId: string; parentCode: string | null; parentTitle: string | null; level: string; lines: number; createdById: string | null; createdAt: string }
 export interface SedaPackageReport { manifest: string; units: number; objects: number; verified: number; warnings: string[] }
+/** Le dépôt du contenu d'un paquet : un document par unité d'archives qui porte des objets, repris à l'identique si on renvoie le paquet. */
+export type DepositStatus = 'DEPOSE' | 'ECHEC';
+export interface DepositedObject { path: string; lineRank: number; lineReference: string; status: DepositStatus; documentId: string | null; fileId: string | null; errorCode: string | null }
+export interface DepositReport { entryId: string; units: number; documents: number; deposited: number; alreadyDeposited: number; failed: number; skipped: string[]; objects: DepositedObject[] }
+export interface DepositView {
+    path: string; lineId: string; lineRank: number; lineReference: string; status: DepositStatus; documentId: string | null; documentReference: string | null;
+    fileId: string | null; errorCode: string | null; attempts: number; updatedAt: string;
+}
+export const DEPOSIT_CONFIDENTIALITY: Array<{ value: string; label: string }> = [
+    { value: 'PUBLIC', label: 'Public' }, { value: 'INTERNE', label: 'Interne' }, { value: 'CONFIDENTIEL', label: 'Confidentiel' }, { value: 'SECRET', label: 'Secret' }
+];
+export const DEPOSIT_ERRORS: Record<string, string> = {
+    FILE_SIGNATURE_MISMATCH: 'le contenu ne correspond pas au type annoncé',
+    SCAN_INFECTED: 'refusé par l’antivirus',
+    SCAN_FAILED: 'l’antivirus n’a pas pu analyser le fichier',
+    STORAGE_UNAVAILABLE: 'le stockage n’a pas répondu',
+    STORAGE_RETRYABLE: 'le stockage était indisponible',
+    UNSUPPORTED_INGESTION_ROLE: 'rôle de fichier non accepté'
+};
+export const depositErrorText = (code: string | null): string => code ? (DEPOSIT_ERRORS[code] ?? code) : '';
+export function depositSummary(r: Pick<DepositReport, 'units' | 'deposited' | 'alreadyDeposited' | 'failed'>): string {
+    const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
+    const parts = [`${plural(r.deposited, 'fichier déposé', 'fichiers déposés')} pour ${plural(r.units, 'unité', 'unités')}`];
+    if (r.alreadyDeposited) parts.push(`${plural(r.alreadyDeposited, 'déjà déposé', 'déjà déposés')}`);
+    if (r.failed) parts.push(`${plural(r.failed, 'en échec', 'en échec')} (renvoyez le même paquet pour les retenter)`);
+    return parts.join(' ; ') + '.';
+}
 export interface SedaManifest { messageId: string | null; lines: Array<{ reference: string; intitule: string }>; objects: unknown[]; warnings: string[] }
 
 export const LEVEL_LABELS: Record<string, string> = {

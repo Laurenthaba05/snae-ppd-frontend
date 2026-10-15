@@ -2,7 +2,7 @@ import type { Transport, RequestOptions } from '../core/http.js';
 import type { ArchivalIntake } from '../core/types.js';
 import type { BordereauLine, BordereauView, CycleAction, Finding, LineInput, StageEvent } from '../core/structuredIntake.js';
 import type { AgreementBody, AgreementView } from '../core/depositAgreements.js';
-import type { IntegrationPreview, IntegrationResult, IntegrationView, SedaManifest, SedaPackageReport } from '../core/intakeExchange.js';
+import type { DepositReport, DepositView, IntegrationPreview, IntegrationResult, IntegrationView, SedaManifest, SedaPackageReport } from '../core/intakeExchange.js';
 import { uuid } from '../core/validation.js';
 
 export class ArchivalIntakeApi {
@@ -38,6 +38,12 @@ export class ArchivalIntakeApi {
         if (!this.transport.upload) throw new Error('Le téléversement n’est pas disponible.');
         return this.transport.upload(`/archival-intake/entries/${uuid(id)}/bordereau/seda-file`, file, {}, crypto.randomUUID());
     }
+    /** Dépose le contenu d'un paquet SEDA d'un versement reçu : un document par unité, ses fichiers par le parcours habituel. Reprenable. */
+    depositPackage(id: string, file: File, options: { documentTypeId: string; confidentiality: string }): Promise<DepositReport> {
+        if (!this.transport.upload) throw new Error('Le téléversement n’est pas disponible.');
+        return this.transport.upload(`/archival-intake/entries/${uuid(id)}/deposit`, file, { documentTypeId: uuid(options.documentTypeId), confidentiality: options.confidentiality }, crypto.randomUUID());
+    }
+    deposits(id: string, signal?: AbortSignal): Promise<DepositView[]> { return this.transport.request(`/archival-intake/entries/${uuid(id)}/deposits`, { signal }); }
     integrationPreview(id: string, parentId: string | null, level: string | null, signal?: AbortSignal): Promise<IntegrationPreview> {
         const params = new URLSearchParams(); if (parentId) params.set('parentId', parentId); if (level) params.set('level', level);
         const q = params.toString();
