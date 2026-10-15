@@ -1,3 +1,4 @@
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import React, { useRef, useState } from 'react';
 import { useSession } from '../auth/session';
@@ -181,7 +182,7 @@ export function ArchivalIntakePage() {
         <div className="tabs" role="tablist" aria-label="Entrées et accords"><button role="tab" aria-selected={tab === 'entries'} className={tab === 'entries' ? 'active' : ''} onClick={() => setTab('entries')}>Entrées</button><button role="tab" aria-selected={tab === 'agreements'} className={tab === 'agreements' ? 'active' : ''} onClick={() => setTab('agreements')}>Accords de versement</button></div>
         {tab === 'agreements' ? <DepositAgreementsPanel canManage={canManage}/> : <div className="panel">
             <div className="section-heading"><h3>Entrées</h3></div>
-            {entriesQ.loading ? <Busy /> : entriesQ.error ? <ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/> : entries.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>Mode</th><th>Date</th><th>Étape</th><th>Statut</th></tr></thead><tbody>{entries.map(e => <tr key={e.id}><td><button className="record-name" onClick={() => setSelectedId(e.id)}><strong>{e.numero}</strong></button></td><td>{display(e.modeEntree)}</td><td>{formatDate(e.dateEntree)}</td><td>{e.etape ? <Badge value={e.etape} label={STAGE_LABELS[e.etape]}/> : <small>Entrée simple</small>}</td><td><Badge value={e.statut}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune entrée archivistique" description="Créez la première entrée."/>}
+            {entriesQ.loading ? <Busy /> : entriesQ.error ? <ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/> : entries.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>Mode</th><th>Date</th><th>Étape</th><th>Statut</th></tr></thead><tbody>{entries.map(e => <tr key={e.id}><td><button className="record-name" onClick={() => setSelectedId(e.id)}><strong>{e.numero}</strong></button><ResourceDetailsButton resource="intakeEntry" id={e.id} title={e.numero} /></td><td>{display(e.modeEntree)}</td><td>{formatDate(e.dateEntree)}</td><td>{e.etape ? <Badge value={e.etape} label={STAGE_LABELS[e.etape]}/> : <small>Entrée simple</small>}</td><td><Badge value={e.statut}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune entrée archivistique" description="Créez la première entrée."/>}
         </div>}
         {creating && <CreateIntakeDialog onClose={() => setCreating(false)} onCreated={entriesQ.refresh}/>}
         {selected && <IntakeDetailDialog intake={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={entriesQ.refresh}/>}

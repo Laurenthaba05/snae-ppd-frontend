@@ -1,0 +1,5 @@
+.resource-details { display: grid; grid-template-columns: minmax(130px, 1fr) minmax(0, 2fr); gap: 12px 20px; margin: 12px 0 24px; }
+.resource-details dt { color: var(--muted, #556761); font-weight: 600; overflow-wrap: anywhere; }
+.resource-details dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.resource-details dd > .resource-details { grid-template-columns: minmax(0, 1fr); margin-top: 0; }
+@media (max-width: 600px) { .resource-details { grid-template-columns: minmax(0, 1fr); gap: 6px; } .resource-details dd { margin-bottom: 12px; } }

@@ -1,3 +1,4 @@
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { PageHead, Busy, ErrorNotice, Empty, Pagination, useResource, CopyId, formatDate, Modal } from '../ui/components';
@@ -27,7 +28,7 @@ export function AuditDetailDialog({ event, onClose }: {
 }) {
     const userName = useUserNames();
     return <Modal title={event.action} subtitle={event.objectType + (event.objectReference ? ' · ' + event.objectReference : '')} onClose={onClose} wide>
-        <div className="form-grid">
+        <ResourceDetailsButton resource="auditEvent" id={event.id} label="Relire l’événement complet" /><div className="form-grid">
             <dl className="detail-card"><div><dt>Acteur</dt><dd>{actorLabel(event, userName)}</dd></div>
                 <div><dt>Résultat</dt><dd>{label('outcome', event.result)}{event.resultCode ? ' · ' + event.resultCode : ''}</dd></div>
                 <div><dt>Survenu le</dt><dd>{formatDate(event.occurredAt)}</dd></div>

@@ -1,3 +1,4 @@
+import { ResourceDetailsButton } from './ResourceDetails';
 import React, { useMemo, useState } from 'react';
 import { useSession } from '../auth/session';
 import { ArchivesApi, type AuthorityView } from '../api/archives';
@@ -100,7 +101,7 @@ export function DepositAgreementsPanel({ canManage }: { canManage: boolean }) {
                         <td>{volumeText(a) || '—'}</td>
                         <td><Badge value={a.input.statut} label={AGREEMENT_STATUS[a.input.statut]} /></td>
                         <td>{a.versements}</td>
-                        <td className="table-actions"><button className="btn small secondary" onClick={() => setEditing({ view: a })}>{canManage && a.input.statut !== 'CLOS' ? 'Modifier' : 'Consulter'}</button></td>
+                        <td className="table-actions"><ResourceDetailsButton resource="intakeAgreement" id={a.id} title={a.input.reference} /><button className="btn small secondary" onClick={() => setEditing({ view: a })}>{canManage && a.input.statut !== 'CLOS' ? 'Modifier' : 'Consulter'}</button></td>
                     </tr>)}</tbody></table></div>}
         {editing && <AgreementDialog view={editing.view} readOnly={!canManage} onClose={() => setEditing(null)} onSaved={q.refresh} />}
     </div>;

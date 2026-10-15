@@ -1,3 +1,4 @@
+import { ResourceDetailsButton } from './ResourceDetails';
 import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { commandKey } from '../api/archives';
@@ -132,7 +133,7 @@ export function DocumentTriggerEvents({ documentId, onChanged }: { documentId: s
         <ul className="relation-list">{events.map(e => <li key={e.id}>
             <span>{eventSentence(e, d => formatDay(d))}<small className="cell-sub">Constaté le {formatDate(e.declaredAt)} par <EntityName kind="users" id={e.declaredById} />{e.inUse ? ' · une échéance en est partie' : ''}</small></span>
             <span className="table-actions">
-                <button type="button" className="btn small secondary" onClick={() => setScheduling(e)}>Planifier les documents concernés</button>
+                <ResourceDetailsButton resource="triggerEvent" id={e.id} title={e.typeLabel} /><button type="button" className="btn small secondary" onClick={() => setScheduling(e)}>Planifier les documents concernés</button>
                 {!e.inUse && <button type="button" className="btn small danger-outline" onClick={() => setCancelling(e)} aria-label={`Annuler l’événement ${e.typeLabel}`}>Annuler</button>}
             </span></li>)}</ul>
         {cancelling && <CancelDialog event={cancelling} onClose={() => setCancelling(null)} onDone={() => { setCancelling(null); q.refresh(); onChanged?.(); }} />}

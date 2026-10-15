@@ -1,3 +1,4 @@
+import { ResourceDetailsButton } from './ResourceDetails';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { can } from '../core/policy';
@@ -279,7 +280,7 @@ export function ReadersPanel() {
                 <p className="wf-note" role="status">{list.data!.total} lecteur{list.data!.total > 1 ? 's' : ''}</p>
                 <div className="table-scroll"><table><thead><tr><th>Lecteur</th><th>Organisme</th><th>Abonnement</th><th>Dernière connexion</th><th>Compte</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(r => <tr key={r.id}>
-                        <td>{r.prenom} {r.nom}<small className="cell-sub">{r.numero} · {r.email}{!r.emailVerifie && ' · adresse non confirmée'}</small></td>
+                        <td>{r.prenom} {r.nom}<ResourceDetailsButton resource="portalReader" id={r.id} title={r.numero} /><small className="cell-sub">{r.numero} · {r.email}{!r.emailVerifie && ' · adresse non confirmée'}</small></td>
                         <td>{r.organisme ?? '—'}{r.categorie && <small className="cell-sub">{display(r.categorie)}</small>}</td>
                         <td>{r.abonnementEtat ? subscriptionStateLabel(r.abonnementEtat) : 'Aucun'}{r.abonnementFinLe && <small className="cell-sub">jusqu’au {formatDate(r.abonnementFinLe)}</small>}</td>
                         <td>{formatDate(r.derniereConnexionLe)}</td>
