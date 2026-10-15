@@ -1,6 +1,6 @@
 import type { Transport } from '../core/http.js';
 import { query } from '../core/http.js';
-import type { SearchReindexReport, SearchResultPage, SearchStatus, SearchTargetType } from '../core/types.js';
+import type { SearchReindexReport, SearchReindexStatus, SearchResultPage, SearchStatus, SearchTargetType } from '../core/types.js';
 export class SearchApi {
     constructor(readonly transport: Transport) { }
     /** `keywords` : les identifiants des termes qu'un résultat doit tous porter (10 au plus). */
@@ -9,5 +9,10 @@ export class SearchApi {
     }
     /** État du moteur : joignable, index présents, sains et alignés sur la base. */
     status(signal?: AbortSignal): Promise<SearchStatus> { return this.transport.request('/search/status', { signal }); }
-    reindex(key: string): Promise<SearchReindexReport> { return this.transport.request('/search/reindex', { method: 'POST', idempotencyKey: key }); }
+    /** Lance la réindexation en arrière-plan (202) ; `resume` reprend la dernière exécution interrompue ou en échec. L'avancement se lit avec `reindexStatus`. */
+    reindex(key: string, resume = false): Promise<SearchReindexReport> {
+        return this.transport.request('/search/reindex' + query({ resume: resume ? 'true' : undefined }), { method: 'POST', idempotencyKey: key });
+    }
+    /** La dernière exécution et son avancement (détenteur de SEARCH_REINDEX). */
+    reindexStatus(signal?: AbortSignal): Promise<SearchReindexStatus> { return this.transport.request('/search/reindex', { signal }); }
 }

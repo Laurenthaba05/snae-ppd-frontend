@@ -401,10 +401,23 @@ export interface OcrStatus {
     lastCompletedAt: string | null;
     checkedAt: string;
 }
+/** RUNNING : en cours (le serveur travaille en arrière-plan). DONE. FAILED : panne du moteur ou erreur, reprenable. INTERRUPTED : le serveur s'est arrêté, reprenable. */
+export type SearchReindexState = 'RUNNING' | 'DONE' | 'FAILED' | 'INTERRUPTED';
 export interface SearchReindexReport {
     documents: number;
     dossiers: number;
     failures: number;
+    /** Absents d'un bilan synchrone (ancien serveur) : le bilan est alors définitif. */
+    id?: string;
+    state?: SearchReindexState;
+    phase?: 'DOCUMENTS' | 'DOSSIERS';
+    errorCode?: string | null;
+    startedAt?: string;
+    finishedAt?: string | null;
+    resumedFrom?: string | null;
+}
+export interface SearchReindexStatus {
+    run: SearchReindexReport | null;
 }
 export type LicenceStatus = 'ACTIF' | 'INACTIF';
 export type PublicationStatus = 'PUBLIEE' | 'RETIREE';

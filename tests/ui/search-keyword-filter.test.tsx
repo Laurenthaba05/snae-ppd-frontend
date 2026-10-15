@@ -6,7 +6,7 @@ import type { TermPage, Vocabulary, VocabularyTerm } from '../../src/core/vocabu
 const INST = '00000000-0000-4000-8000-0000000000a1';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['SEARCH_READ']),
-    search: { search: vi.fn(), reindex: vi.fn(), status: vi.fn() },
+    search: { search: vi.fn(), reindex: vi.fn(), reindexStatus: vi.fn(), status: vi.fn() },
     vocabulary: { list: vi.fn(), terms: vi.fn() } as { list: ReturnType<typeof vi.fn>; terms: ReturnType<typeof vi.fn> } | null
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
@@ -38,6 +38,7 @@ beforeEach(() => {
     fixture.allowed = new Set(['SEARCH_READ']);
     fixture.search.search.mockReset().mockResolvedValue({ hits: [], page: 0, size: 20, hasMore: false });
     fixture.search.reindex.mockReset();
+    fixture.search.reindexStatus.mockReset().mockResolvedValue({ run: null });
     fixture.search.status.mockReset().mockResolvedValue({ status: 'OK', code: null, indexes: [], checkedAt: '2026-10-12T10:00:00Z' });
     fixture.vocabulary = { list: vi.fn().mockResolvedValue([vocabulary()]), terms: vi.fn().mockResolvedValue(termPage(term(INK, 'Encre'), term(PAPER, 'Papier vergé'))) };
     window.history.replaceState({}, '', '/app/recherche');

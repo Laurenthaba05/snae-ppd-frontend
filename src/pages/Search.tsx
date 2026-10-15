@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { PersistentDocumentLookup } from '../ui/PersistentDocumentLookup';
+import React, { useEffect, useState } from 'react';
 import { useSession } from '../auth/session';
 import { navigate } from '../ui/navigation';
 import { PageHead, Busy, ErrorNotice, Empty, useResource, Notice } from '../ui/components';
@@ -26,6 +27,27 @@ function SearchStatusNotice({ status }: { status: SearchStatus }) {
         {volumes.length > 0 && <> {volumes.map(i => `${indexLabel(i.name)} : ${i.indexed ?? 0} indexé${(i.indexed ?? 0) > 1 ? 's' : ''} sur ${i.expected ?? '—'}`).join(' · ')}.</>}</Notice>;
 }
 
+const reindexErrors: Record<string, string> = {
+    SEARCH_UNAVAILABLE: 'le moteur de recherche ne répondait plus',
+    REINDEX_FAILED: 'une erreur inattendue s’est produite (voir le journal du serveur)',
+    WORKER_INTERRUPTED: 'le serveur s’est arrêté pendant le travail'
+};
+const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
+
+/** La réindexation : en cours (avancement), terminée (bilan) ou arrêtée (reprise possible). Un ancien serveur rend un bilan sans état : il est définitif. */
+function ReindexNotice({ run, busy, onResume }: { run: SearchReindexReport; busy: boolean; onResume: () => void }) {
+    const counts = `${plural(run.documents, 'document', 'documents')} et ${plural(run.dossiers, 'dossier', 'dossiers')}`;
+    if (run.state === 'RUNNING') {
+        return <Notice tone="info">Réindexation en cours ({run.phase === 'DOSSIERS' ? 'dossiers' : 'documents'}) : {counts} traités{run.failures ? ` ; ${run.failures} en échec` : ''}. Le travail continue sur le serveur, vous pouvez quitter cette page.</Notice>;
+    }
+    if (run.state === 'FAILED' || run.state === 'INTERRUPTED') {
+        const cause = reindexErrors[run.errorCode ?? ''] ?? 'la cause est dans le journal du serveur';
+        return <Notice tone="warning">La réindexation s’est arrêtée : {cause}. {counts} sont déjà traités ; la reprise continue là où elle s’est arrêtée.{' '}
+            <button type="button" className="btn small secondary" onClick={onResume} disabled={busy}>Reprendre la réindexation</button></Notice>;
+    }
+    return <Notice tone={run.failures ? 'warning' : 'info'}>Réindexation terminée : {run.documents} document{run.documents > 1 ? 's' : ''} et {run.dossiers} dossier{run.dossiers > 1 ? 's' : ''} traités{run.failures ? ` ; ${run.failures} en échec (voir le journal du serveur), relancez la réindexation.` : '.'}</Notice>;
+}
+
 export function SearchPage() {
     const { me, search, epoch } = useSession();
     const { scope } = useWorkspace();
@@ -44,18 +66,36 @@ export function SearchPage() {
     const q = useResource(s => query ? search!.search(query, type, page, size, s, keywordIds) : Promise.resolve({ hits: [], page: 0, size, hasMore: false }), JSON.stringify(['search', query, type, page, keywordIds, epoch]));
     // l'état ne bloque jamais la page : en cas d'échec de la sonde, la recherche elle-même dira ce qui ne va pas
     const health = useResource(s => search!.status(s).catch(() => null), 'search-status:' + epoch);
+    // la dernière exécution : visible au retour sur la page tant qu'elle tourne ou qu'elle attend une reprise
+    const latest = useResource<SearchReindexReport | null>(s => canReindex ? search!.reindexStatus(s).then(r => r.run).catch(() => null) : Promise.resolve(null), 'search-reindex-latest:' + epoch);
+    const latestRun = latest.data && latest.data.state && latest.data.state !== 'DONE' ? latest.data : null;
+    const current = report ?? latestRun;
+    const running = current?.state === 'RUNNING';
+    useEffect(() => {
+        if (!running) return;
+        let stopped = false;
+        const timer = setInterval(() => {
+            search!.reindexStatus().then(r => {
+                if (stopped || !r.run) return;
+                setReport(r.run);
+                if (r.run.state !== 'RUNNING') { health.refresh(); if (query) q.refresh(); }
+            }).catch(() => { /* la prochaine échéance réessaie */ });
+        }, 2000);
+        return () => { stopped = true; clearInterval(timer); };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [running, search]);
     const submit = (e: React.FormEvent) => { e.preventDefault(); setPage(0); setQuery(input.trim()); };
-    const reindex = () => {
+    const reindex = (resume = false) => {
         setReindexing(true);
         setReindexError(null);
         setReport(null);
-        search!.reindex(crypto.randomUUID()).then(r => { setReport(r); if (query) q.refresh(); }).catch(setReindexError)
+        search!.reindex(crypto.randomUUID(), resume).then(r => { setReport(r); if (!r.state && query) q.refresh(); }).catch(setReindexError)
             .finally(() => { setReindexing(false); health.refresh(); });
     };
     const hits = q.data?.hits ?? [];
-    return <><PageHead eyebrow="MODULE · RECHERCHE" title="Recherche" description="Recherche plein texte sur les documents et dossiers, filtrée par vos habilitations et le niveau de confidentialité.">{canReindex && <button className="btn secondary" onClick={reindex} disabled={reindexing}><Icon name="refresh" size={18}/>{reindexing ? 'Réindexation…' : 'Réindexer'}</button>}</PageHead>
+    return <><PageHead eyebrow="MODULE · RECHERCHE" title="Recherche" description="Recherche plein texte sur les documents et dossiers, filtrée par vos habilitations et le niveau de confidentialité.">{canReindex && <button className="btn secondary" onClick={() => reindex(false)} disabled={reindexing || running}><Icon name="refresh" size={18}/>{reindexing || running ? 'Réindexation…' : 'Réindexer'}</button>}</PageHead><PersistentDocumentLookup />
         {Boolean(reindexError) && <ErrorNotice error={reindexError}/>}
-        {report && <Notice tone={report.failures ? 'warning' : 'info'}>Réindexation terminée : {report.documents} document{report.documents > 1 ? 's' : ''} et {report.dossiers} dossier{report.dossiers > 1 ? 's' : ''} traités{report.failures ? ` ; ${report.failures} en échec (voir le journal du serveur), relancez la réindexation.` : '.'}</Notice>}
+        {current && <ReindexNotice run={current} busy={reindexing} onResume={() => reindex(true)}/>}
         {health.data && <SearchStatusNotice status={health.data}/>}
         <div className="panel"><form onSubmit={submit} className="table-toolbar"><div className="input-icon search-box"><Icon name="search"/><input aria-label="Rechercher" placeholder="Titre, référence, contenu…" value={input} onChange={e => setInput(e.target.value)}/></div><div className="toolbar-right"><select aria-label="Type" value={type} onChange={e => { setType(e.target.value as SearchTargetType); setPage(0); }}><option value="ALL">Tous types</option><option value="DOCUMENT">Documents</option><option value="DOSSIER">Dossiers</option></select><button type="submit" className="btn primary small">Rechercher</button></div></form>
         <div className="panel-padding"><KeywordFilter institutionId={scope.institutionId ?? null} selected={keywords} onChange={next => { setKeywords(next); setPage(0); }} /></div>
