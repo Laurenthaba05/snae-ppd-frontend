@@ -10,6 +10,7 @@ const labels: Record<string, string> = {
     documentId: 'Document', dossierId: 'Dossier', fichierId: 'Fichier', fileId: 'Fichier',
     confidentiality: 'Confidentialité', typeDocumentId: 'Type de document',
     dateDebut: 'Date de début', dateFin: 'Date de fin', from: 'Début', to: 'Fin',
+    sourceAssignmentId: 'Attribution détenue', delegataireId: 'Destinataire',
     roleId: 'Rôle', utilisateurId: 'Utilisateur', permissionIds: 'Permissions',
     comment: 'Commentaire', required: 'Obligatoire', active: 'Actif',
 };

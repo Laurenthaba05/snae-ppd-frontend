@@ -66,7 +66,18 @@ export interface Grant {
     expiresAt: string | null;
     delegationId: string | null;
 }
+export interface ScopedSelfAssignment {
+    roleId: string;
+    roleCode: string;
+    roleName: string;
+    institutionId: string;
+    institutionName: string;
+}
+export type ConservationSelfAssignment = ScopedSelfAssignment;
 export interface Me {
+    extractionSelfAssignment?: ScopedSelfAssignment | null;
+    extractionReviewSelfAssignment?: ScopedSelfAssignment | null;
+    conservationSelfAssignment?: ConservationSelfAssignment | null;
     user: User;
     grants: Grant[];
     truncated: boolean;
