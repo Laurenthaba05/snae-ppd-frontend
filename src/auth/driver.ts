@@ -1,3 +1,4 @@
+import { normalizeLoginEmail, signInError } from '../core/authErrors';
 import { config, configIssue } from './config';
 export interface AuthDriver {
     initialize(): Promise<boolean>;
@@ -16,9 +17,9 @@ export async function createAuthDriver(): Promise<AuthDriver> {
         return {
             async initialize() { return !!(await client.auth.getSession()).data.session; },
             async signIn(email, password) {
-                const { error } = await client.auth.signInWithPassword({ email: email ?? '', password: password ?? '' });
+                const { error } = await client.auth.signInWithPassword({ email: normalizeLoginEmail(email ?? ''), password: password ?? '' });
                 if (error)
-                    throw new Error('Connexion refusée. Vérifiez vos identifiants et l’état de votre compte.');
+                    throw signInError(error);
             },
             async signOut() {
                 const { error } = await client.auth.signOut({ scope: 'local' });
