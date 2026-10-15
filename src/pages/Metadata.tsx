@@ -1,13 +1,15 @@
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { metadataDraft, metadataPayload, type MetadataDraft } from '../core/metadataEditor';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
 import { can } from '../core/policy';
-import { PageHead, Busy, ErrorNotice, Empty, useResource, Modal, Field, Badge } from '../ui/components';
-import type { MetadataSchema, MetadataField, MetadataValueType, MetadataValue, MetadataFieldDefinition } from '../core/types';
+import { PageHead, Busy, ErrorNotice, Empty, Notice, useResource, Modal, Field, Badge } from '../ui/components';
+import type { MetadataSchema, MetadataField, MetadataValueType, MetadataValue, MetadataFieldDefinition, MetadataBinding, DocumentType } from '../core/types';
 import { EntityName } from '../ui/names';
 import { label } from '../core/format';
+import { IntentKey } from '../core/validation';
 
 const valueTypes: MetadataValueType[] = ['TEXTE', 'TEXTE_LONG', 'ENTIER', 'DECIMAL', 'BOOLEEN', 'DATE', 'DATETIME', 'UUID', 'ENUM'];
 
@@ -107,12 +109,16 @@ function AddFieldDialog({ schemaId, onClose, onCreated }: {
     </Modal>;
 }
 
-function BindSchemaDialog({ schemaId, onClose, onCreated }: {
+export function BindSchemaDialog({ schemaId, onClose, onCreated }: {
     schemaId: string;
     onClose: () => void;
     onCreated: () => void;
 }) {
-    const { metadata } = useSession();
+    const { metadata, records, epoch } = useSession();
+    const typesQ = useResource<DocumentType[]>(signal => records!.documentTypes(signal), 'metadata-binding-types:' + epoch);
+    const bindingsQ = useResource<MetadataBinding[]>(signal => metadata!.bindings(schemaId, signal), 'metadata-binding-existing:' + schemaId + ':' + epoch);
+    const choices = (typesQ.data ?? []).filter(type => type.status === 'ACTIF' && !(bindingsQ.data ?? []).some(b => b.typeDocumentId === type.id));
+    const intent = useRef(new IntentKey());
     const [typeDocumentId, setTypeDocumentId] = useState('');
     const [required, setRequired] = useState(false);
     const extra = useOptionalFields('binding');
@@ -120,10 +126,15 @@ function BindSchemaDialog({ schemaId, onClose, onCreated }: {
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (busy) return;
+        if (!choices.some(type => type.id === typeDocumentId) || bindingsQ.loading || bindingsQ.error) { setError(new Error('Choisissez un type de document disponible.')); return; }
         setBusy(true);
         setError(null);
         try {
-            await metadata!.command(`/admin/metadata-schemas/${schemaId}/document-types/${typeDocumentId.trim()}`, { ...extra.payload(), required }, crypto.randomUUID(), 'POST');
+            const path = `/admin/metadata-schemas/${schemaId}/document-types/${typeDocumentId}`;
+            const body = { ...extra.payload(), required };
+            await metadata!.command(path, body, intent.current.forRequest('POST', path, body), 'POST');
+            intent.current.clear();
             onCreated();
             onClose();
         }
@@ -138,42 +149,59 @@ function BindSchemaDialog({ schemaId, onClose, onCreated }: {
         <form onSubmit={submit}>
             <div className="form-grid">
                 
-                <Field label="Identifiant du type de document" wide><input value={typeDocumentId} onChange={e => setTypeDocumentId(e.target.value)} required disabled={busy}/></Field>
+                <Field label="Type de document" wide><select value={typeDocumentId} onChange={e => setTypeDocumentId(e.target.value)} required disabled={busy || typesQ.loading || bindingsQ.loading || !!typesQ.error || !!bindingsQ.error}><option value="">Choisir un type de document</option>{choices.map(type => <option key={type.id} value={type.id}>{type.code} · {type.label}</option>)}</select></Field>
+                {typesQ.error ? <ErrorNotice error={typesQ.error} onRetry={typesQ.refresh}/> : null}
+                {bindingsQ.error ? <ErrorNotice error={bindingsQ.error} onRetry={bindingsQ.refresh}/> : null}
+                {!typesQ.loading && !bindingsQ.loading && !typesQ.error && !bindingsQ.error && !choices.length && <Notice>Aucun type actif restant à rattacher.</Notice>}
                 <Field label="Obligatoire ?"><select value={required ? 'oui' : 'non'} onChange={e => setRequired(e.target.value === 'oui')} disabled={busy}><option value="non">Non</option><option value="oui">Oui</option></select></Field>
             <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
             </div>
             {error ? <ErrorNotice error={error}/> : null}
-            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Lier</button></footer>
+            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy || !typeDocumentId || typesQ.loading || bindingsQ.loading || !!typesQ.error || !!bindingsQ.error}>Lier</button></footer>
         </form>
     </Modal>;
 }
 
-function SchemaDetailDialog({ schema, canManage, onClose, onChanged }: {
+export function SchemaDetailDialog({ schema, canManage, onClose, onChanged }: {
     schema: MetadataSchema;
     canManage: boolean;
     onClose: () => void;
     onChanged: () => void;
 }) {
-    const { metadata, epoch } = useSession();
+    const { metadata, records, epoch } = useSession();
     const [addingField, setAddingField] = useState(false);
     const [binding, setBinding] = useState(false);
     const fieldsQ = useResource<MetadataField[]>(s => metadata!.fields(schema.id, s), 'metadata-fields:' + schema.id + ':' + epoch);
+    const bindingsQ = useResource<MetadataBinding[]>(signal => metadata!.bindings(schema.id, signal), 'metadata-bindings:' + schema.id + ':' + epoch);
+    const typesQ = useResource<DocumentType[]>(signal => records!.documentTypes(signal), 'metadata-types:' + epoch);
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState<unknown>(null);
+    const activationKey = useRef(crypto.randomUUID());
     const activate = async () => {
-        await metadata!.command(`/admin/metadata-schemas/${schema.id}/activate`, {}, crypto.randomUUID(), 'POST');
+        if (busy) return;
+        setBusy(true); setError(null);
+        try {
+        await metadata!.command(`/admin/metadata-schemas/${schema.id}/activate`, {}, activationKey.current, 'POST');
         onChanged();
         onClose();
+        } catch (e) { setError(e); } finally { setBusy(false); }
     };
-    return <Modal title={schema.name} subtitle={schema.code + ' · v' + schema.version} onClose={onClose} wide>
+    return <Modal title={schema.name} subtitle={schema.code + ' · v' + schema.version} onClose={onClose} locked={busy} wide><ResourceDetailsButton resource="metadataSchema" id={schema.id} title={schema.name} />
         <div className="form-grid">
-            {canManage && schema.status === 'BROUILLON' && <div className="table-actions"><button className="btn small secondary" onClick={() => setAddingField(true)}>Ajouter un champ</button><button className="btn small secondary" onClick={() => setBinding(true)}>Lier à un type de document</button><button className="btn small warning" onClick={activate}>Activer le schéma</button></div>}
+            {canManage && schema.status === 'BROUILLON' && <div className="table-actions"><button className="btn small secondary" onClick={() => setAddingField(true)}>Ajouter un champ</button><button className="btn small secondary" onClick={() => setBinding(true)}>Lier à un type de document</button><button className="btn small warning" disabled={busy || fieldsQ.loading || bindingsQ.loading || !!fieldsQ.error || !!bindingsQ.error || !fieldsQ.data?.length || !bindingsQ.data?.length} onClick={activate}>Activer le schéma</button></div>}
             <div>
                 <h4>Champs</h4>
-                {fieldsQ.loading ? <Busy /> : fieldsQ.error ? <ErrorNotice error={fieldsQ.error} onRetry={fieldsQ.refresh}/> : fieldsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Code</th><th>Nom</th><th>Type</th><th>Obligatoire</th><th>Répétable</th></tr></thead><tbody>{fieldsQ.data.map(f => <tr key={f.id}><td>{f.code}</td><td>{f.name}</td><td>{label('metadataType', f.type)}</td><td>{f.required ? 'Oui' : 'Non'}</td><td>{f.repeatable ? 'Oui' : 'Non'}</td></tr>)}</tbody></table></div> : <Empty title="Aucun champ" description="Ajoutez le premier champ de ce schéma."/>}
+                {fieldsQ.loading ? <Busy /> : fieldsQ.error ? <ErrorNotice error={fieldsQ.error} onRetry={fieldsQ.refresh}/> : fieldsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Code</th><th>Nom</th><th>Type</th><th>Obligatoire</th><th>Répétable</th><th>Ordre</th><th>Description et contraintes</th></tr></thead><tbody>{fieldsQ.data.map(f => <tr key={f.id}><td>{f.code}</td><td>{f.name}</td><td>{label('metadataType', f.type)}</td><td>{f.required ? 'Oui' : 'Non'}</td><td>{f.repeatable ? 'Oui' : 'Non'}</td><td>{f.order ?? '—'}</td><td><p>{f.description || 'Aucune description'}</p>{f.vocabulary && <p>Vocabulaire : {f.vocabulary}</p>}{f.configuration && typeof f.configuration === 'object' && Object.keys(f.configuration).length > 0 && <details><summary>Contraintes de {f.name}</summary><pre style={{ whiteSpace: 'pre-wrap', overflowWrap: 'anywhere' }}>{JSON.stringify(f.configuration, null, 2)}</pre></details>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun champ" description="Ajoutez le premier champ de ce schéma."/>}
             </div>
+            <div className="span2"><h4>Types de documents liés</h4>
+                {bindingsQ.loading ? <Busy/> : bindingsQ.error ? <ErrorNotice error={bindingsQ.error} onRetry={bindingsQ.refresh}/> : bindingsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Type de document</th><th>Schéma obligatoire</th><th>Début de validité</th><th>Fin de validité</th></tr></thead><tbody>{bindingsQ.data.map(binding => <tr key={binding.typeDocumentId}><td>{typesQ.data?.find(type => type.id === binding.typeDocumentId)?.label ?? binding.typeDocumentId}</td><td>{binding.required ? 'Oui' : 'Non'}</td><td>{binding.from}</td><td>{binding.to ?? 'Sans date de fin'}</td></tr>)}</tbody></table></div> : <Notice>Ce schéma n’est lié à aucun type de document.</Notice>}
+                {typesQ.error ? <ErrorNotice error={typesQ.error} onRetry={typesQ.refresh}/> : null}
+            </div>
+            {error ? <ErrorNotice error={error}/> : null}
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
         {addingField && <AddFieldDialog schemaId={schema.id} onClose={() => setAddingField(false)} onCreated={fieldsQ.refresh}/>}
-        {binding && <BindSchemaDialog schemaId={schema.id} onClose={() => setBinding(false)} onCreated={() => {}}/>}
+        {binding && <BindSchemaDialog schemaId={schema.id} onClose={() => setBinding(false)} onCreated={bindingsQ.refresh}/>}
     </Modal>;
 }
 
@@ -230,7 +258,7 @@ function FieldInput({ field, value, onChange, disabled }: {
     }
 }
 
-function EditMetadataDialog({ documentId, fields, currentValues, onClose, onSaved }: {
+export function EditMetadataDialog({ documentId, fields, currentValues, onClose, onSaved }: {
     documentId: string;
     fields: MetadataFieldDefinition[];
     currentValues: MetadataValue[];
@@ -240,15 +268,21 @@ function EditMetadataDialog({ documentId, fields, currentValues, onClose, onSave
     const { metadata } = useSession();
     const initial = useMemo(() => metadataDraft(fields, currentValues), [fields, currentValues]);
     const [values, setValues] = useState<MetadataDraft>(initial);
+    const [requireComplete, setRequireComplete] = useState(false);
+    const intent = useRef(new IntentKey());
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (busy) return;
         setBusy(true);
         setError(null);
         try {
             const payload = metadataPayload(fields, currentValues, values);
-            await metadata!.command(`/documents/${documentId}/metadata`, { values: payload, requireComplete: false }, crypto.randomUUID(), 'PUT');
+            const path = `/documents/${documentId}/metadata`;
+            const body = { values: payload, requireComplete };
+            await metadata!.command(path, body, intent.current.forRequest('PUT', path, body), 'PUT');
+            intent.current.clear();
             onSaved();
             onClose();
         }
@@ -263,13 +297,14 @@ function EditMetadataDialog({ documentId, fields, currentValues, onClose, onSave
         <form onSubmit={submit}>
             <div className="form-grid">
                 {fields.length ? fields.map(field => <div key={field.fieldId} className="field span2">
-                    {(values[field.fieldCode] ?? []).map((row,index) => <Field key={row.order} label={field.fieldName + (field.repeatable ? ' · occurrence ' + (index + 1) : '') + (field.required ? ' *' : '')}>
+                    {(values[field.fieldCode] ?? []).map((row,index) => <Field key={row.order} label={field.fieldName + (field.repeatable ? ' · occurrence ' + (index + 1) : '') + (field.required && field.schemaRequired ? ' *' : '')} hint={[field.description, field.vocabulary ? 'Vocabulaire : ' + field.vocabulary : null].filter(Boolean).join(' · ') || undefined}>
                         <FieldInput field={field} value={row.raw} onChange={raw => setValues(prev => ({...prev,[field.fieldCode]:(prev[field.fieldCode] ?? []).map(item => item.order === row.order ? {...item,raw} : item)}))} disabled={busy}/>
                         {field.repeatable && <button type="button" className="btn small secondary" disabled={busy} onClick={() => setValues(prev => ({...prev,[field.fieldCode]:(prev[field.fieldCode] ?? []).filter(item => item.order !== row.order)}))}>Retirer cette occurrence</button>}
                     </Field>)}
                     {field.repeatable && <button type="button" className="btn small secondary" disabled={busy} onClick={() => setValues(prev => ({...prev,[field.fieldCode]:[...(prev[field.fieldCode] ?? []),{order:Math.max(-1,...(prev[field.fieldCode] ?? []).map(row=>row.order))+1,raw:'',initial:''}]}))}>Ajouter une occurrence · {field.fieldName}</button>}
                 </div>) : <p>Aucun schéma de métadonnées n’est applicable à ce document.</p>}
             </div>
+            <Field label="Vérifier tous les champs obligatoires avant l’enregistrement" hint="Si cette option est décochée, vous pouvez enregistrer une saisie partielle."><input type="checkbox" checked={requireComplete} onChange={event => setRequireComplete(event.target.checked)} disabled={busy}/></Field>
             {error ? <ErrorNotice error={error}/> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy || !fields.length}>Enregistrer</button></footer>
         </form>

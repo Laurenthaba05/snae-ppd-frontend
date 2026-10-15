@@ -1,3 +1,5 @@
+import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useMemo, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
@@ -6,7 +8,7 @@ import { PageHead, Busy, ErrorNotice, Empty, useResource, Modal, Field, Badge } 
 import type { ClassificationNode } from '../core/types';
 import { display } from '../core/format';
 
-function CreateNodeDialog({ nodes, onClose, onCreated }: {
+export function CreateNodeDialog({ nodes, onClose, onCreated }: {
     nodes: ClassificationNode[];
     onClose: () => void;
     onCreated: () => void;
@@ -18,6 +20,7 @@ function CreateNodeDialog({ nodes, onClose, onCreated }: {
     const [typeNoeud, setTypeNoeud] = useState('');
     const [description, setDescription] = useState('');
     const [parentId, setParentId] = useState('');
+    const extra = useOptionalFields('classificationDetails');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
@@ -25,7 +28,9 @@ function CreateNodeDialog({ nodes, onClose, onCreated }: {
         setBusy(true);
         setError(null);
         try {
-            await classification!.command('/nodes', { parentId: parentId || null, institutionId: scope.institutionId ?? null, code: code.trim() || null, libelle: libelle.trim(), description: description.trim() || null, typeNoeud: typeNoeud.trim() }, crypto.randomUUID(), 'POST');
+            const details = extra.payload();
+            if (details.dateDebutValidite && details.dateFinValidite && String(details.dateFinValidite) < String(details.dateDebutValidite)) throw new Error('La fin de validité doit suivre le début.');
+            await classification!.command('/nodes', { ...details, parentId: parentId || null, institutionId: scope.institutionId ?? null, code: code.trim() || null, libelle: libelle.trim(), description: description.trim() || null, typeNoeud: typeNoeud.trim() }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -44,6 +49,7 @@ function CreateNodeDialog({ nodes, onClose, onCreated }: {
                 <Field label="Code" hint="Optionnel"><input value={code} onChange={e => setCode(e.target.value)} maxLength={100} disabled={busy}/></Field>
                 <Field label="Nœud parent" wide><select value={parentId} onChange={e => setParentId(e.target.value)} disabled={busy}><option value="">Aucun (racine)</option>{nodes.map(n => <option key={n.id} value={n.id}>{n.code ? n.code + ' · ' : ''}{n.libelle}</option>)}</select></Field>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
+                <OptionalFields form={extra} disabled={busy} />
             </div>
             {error ? <ErrorNotice error={error}/> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Créer</button></footer>
@@ -60,7 +66,7 @@ function NodeRow({ node, depth, children, canManage, onToggle, pending }: {
     pending: boolean;
 }) {
     return <><tr>
-        <td style={{ paddingLeft: 12 + depth * 20 }}><strong>{node.libelle}</strong></td>
+        <td style={{ paddingLeft: 12 + depth * 20 }}><strong>{node.libelle}</strong><ResourceDetailsButton resource="classificationNode" id={node.id} title={node.libelle} /></td>
         <td>{display(node.typeNoeud)}</td>
         <td>{node.code ?? '—'}</td>
         <td><Badge value={node.statut}/></td>

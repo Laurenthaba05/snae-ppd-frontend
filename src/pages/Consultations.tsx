@@ -1,6 +1,10 @@
+import { ArchiveRecordPicker } from '../ui/ArchiveRecordPicker';
+import { CommandDialog } from '../ui/CommandDialog';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
+import { EntityName } from '../ui/names';
 import { can } from '../core/policy';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, PageHead, formatDate, useResource } from '../ui/components';
 import { ReferencePicker } from '../ui/ReferencePicker';
@@ -78,12 +82,33 @@ export function ConsultationsPage() {
     </>;
 }
 
+export function ConsultationRequestDetail({ id, onClose }: { id: string; onClose: () => void }) {
+    const { consultation, epoch } = useSession();
+    const q = useResource(signal => consultation!.request(id, signal), 'consultation-request:' + id + ':' + epoch);
+    const request = q.data;
+    return <Modal title="Détail de la demande de dérogation" onClose={onClose} wide><div className="panel-padding">
+        {q.loading ? <Busy/> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : request && <dl>
+            <dt>Motif de la demande</dt><dd>{request.motif}</dd><dt>Statut</dt><dd><Badge value={request.statut}/></dd>
+            <dt>Document concerné</dt><dd>{request.documentId ?? 'Non renseigné'}</dd>
+            {request.dossierId && <><dt>Dossier concerné</dt><dd>{request.dossierId}</dd></>}
+            <dt>Demandeur</dt><dd><EntityName kind="users" id={request.demandeurId}/></dd>
+            <dt>Instructeur</dt><dd>{request.instructeurId ? <EntityName kind="users" id={request.instructeurId}/> : 'Non attribué'}</dd>
+            <dt>Date de dépôt</dt><dd>{formatDate(request.dateDepot)}</dd>
+            <dt>Motif de la décision</dt><dd>{request.decisionMotif || 'Aucune décision motivée enregistrée'}</dd>
+            <dt>Date de décision</dt><dd>{request.dateDecision ? formatDate(request.dateDecision) : 'En attente'}</dd>
+        </dl>}
+    </div><footer className="modal-footer"><button className="btn secondary" type="button" disabled={q.loading} onClick={q.refresh}>Actualiser la demande</button><button className="btn primary" type="button" onClick={onClose}>Fermer</button></footer></Modal>;
+}
+
 function DerogationsPanel() {
     const { me, consultation, epoch } = useSession();
     const { scope } = useWorkspace();
     const canReview = can(me, 'CONSULTATION_REVIEW', scope);
     const canCreate = can(me, 'CONSULTATION_REQUEST_CREATE', scope);
     const [creating, setCreating] = useState(false);
+    const [detailId, setDetailId] = useState<string | null>(null);
+    const [authorizing, setAuthorizing] = useState<string | null>(null);
+    const [decisionMotif, setDecisionMotif] = useState('');
     const [refusing, setRefusing] = useState<string | null>(null);
     const [busyId, setBusyId] = useState<string | null>(null);
     const [actionError, setActionError] = useState<unknown>(null);
@@ -94,10 +119,6 @@ function DerogationsPanel() {
     const claim = async (id: string) => {
         setBusyId(id); setActionError(null);
         try { await consultation!.claim(id, crypto.randomUUID()); q.refresh(); } catch (e) { setActionError(e); } finally { setBusyId(null); }
-    };
-    const authorize = async (id: string) => {
-        setBusyId(id); setActionError(null);
-        try { await consultation!.authorize(id, null, crypto.randomUUID()); q.refresh(); } catch (e) { setActionError(e); } finally { setBusyId(null); }
     };
     const refuse = async (motif: string) => {
         if (!refusing) return;
@@ -113,23 +134,27 @@ function DerogationsPanel() {
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : q.data?.length ?
             <div className="table-scroll"><table><thead><tr><th>Motif</th><th>Statut</th><th>Déposée le</th><th /></tr></thead><tbody>
                 {q.data.map(r => <tr key={r.id}>
-                    <td>{r.motif}</td>
+                    <td><button type="button" className="record-name" onClick={() => setDetailId(r.id)}>{r.motif}</button></td>
                     <td><Badge value={r.statut} /></td>
                     <td>{formatDate(r.dateDepot)}</td>
                     <td className="table-actions">
                         {canReview && r.statut === 'DEPOSEE' && <button className="btn small secondary" disabled={busyId === r.id} onClick={() => claim(r.id)}>Prendre en charge</button>}
-                        {canReview && r.statut === 'EN_INSTRUCTION' && <><button className="btn small primary" disabled={busyId === r.id} onClick={() => authorize(r.id)}>Autoriser</button><button className="btn small warning" disabled={busyId === r.id} onClick={() => setRefusing(r.id)}>Refuser</button></>}
+                        {canReview && r.statut === 'EN_INSTRUCTION' && <><button className="btn small primary" disabled={busyId === r.id} onClick={() => { setAuthorizing(r.id); setDecisionMotif(''); }}>Autoriser</button><button className="btn small warning" disabled={busyId === r.id} onClick={() => setRefusing(r.id)}>Refuser</button></>}
                     </td>
                 </tr>)}
             </tbody></table></div> : <Empty title="Aucune demande" description="Aucune demande de dérogation dans ce périmètre." />}
+        {detailId && <ConsultationRequestDetail key={detailId} id={detailId} onClose={() => setDetailId(null)}/>}
         {creating && <CreateConsultationRequestDialog onClose={() => setCreating(false)} onSuccess={q.refresh} />}
+        {authorizing && <CommandDialog title="Autoriser la demande" description="Motiver la décision et confirmer la dérogation." api={{ command: async <T,>(_path: string, body: unknown, key: string) => consultation!.authorize(authorizing, (body as { decisionMotif: string | null }).decisionMotif, key) as Promise<T> }} path={'/consultations/requests/' + authorizing + '/authorize'} build={() => ({ decisionMotif: decisionMotif.trim() || null })} onClose={() => setAuthorizing(null)} onSuccess={() => { q.refresh(); setAuthorizing(null); }} label="Autoriser"><Field label="Motif de la décision" wide><textarea aria-label="Motif de la décision" value={decisionMotif} onChange={e => setDecisionMotif(e.target.value)} maxLength={4000}/></Field></CommandDialog>}
         {refusing && <RefuseDialog onClose={() => setRefusing(null)} onConfirm={refuse} />}
     </>;
 }
 
-function CreateCommunicationDialog({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
+export function CreateCommunicationDialog({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
     const { consultation } = useSession();
-    const docs = useDocumentOptions();
+    const { scope } = useWorkspace();
+    const [targetKind, setTargetKind] = useState<'documents' | 'dossiers'>('documents');
+    const [dossierId, setDossierId] = useState('');
     const [documentId, setDocumentId] = useState('');
     const [beneficiaireId, setBeneficiaireId] = useState('');
     const [demandeConsultationId, setDemandeConsultationId] = useState('');
@@ -139,22 +164,19 @@ function CreateCommunicationDialog({ onClose, onSuccess }: { onClose: () => void
     const submit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (busy) return;
-        if (!documentId || !beneficiaireId) { setError(new Error('Document et bénéficiaire requis.')); return; }
+        if (!(targetKind === 'documents' ? documentId : dossierId) || !beneficiaireId) { setError(new Error('Document ou dossier et bénéficiaire requis.')); return; }
         setBusy(true); setError(null);
         try {
-            await consultation!.createCommunication(documentId, null, beneficiaireId, demandeConsultationId || null, lieu.trim() || null, crypto.randomUUID());
+            await consultation!.createCommunication(targetKind === 'documents' ? documentId : null, targetKind === 'dossiers' ? dossierId : null, beneficiaireId, demandeConsultationId || null, lieu.trim() || null, crypto.randomUUID());
             onSuccess(); onClose();
         } catch (err) { setError(err); } finally { setBusy(false); }
     };
     return <Modal title="Enregistrer une communication" subtitle="Registre de remise et de restitution. Si le document est restreint, la dérogation autorisée correspondante est requise." onClose={onClose} locked={busy}>
         <form onSubmit={submit}><div className="form-grid">
-            <Field label="Document *" wide>{docs.loading ? <Busy /> : docs.error ? <ErrorNotice error={docs.error} /> :
-                <select value={documentId} onChange={e => setDocumentId(e.target.value)} required>
-                    <option value="">Choisir un document</option>
-                    {docs.data?.items.map(d => <option key={d.id} value={d.id}>{d.reference} · {d.title}</option>)}
-                </select>}</Field>
+            <Field label="Objet communiqué"><select aria-label="Objet communiqué" value={targetKind} onChange={e => { setTargetKind(e.target.value as 'documents' | 'dossiers'); setDocumentId(''); setDossierId(''); setDemandeConsultationId(''); }} disabled={busy}><option value="documents">Document</option><option value="dossiers">Dossier</option></select></Field>
+            <Field label={targetKind === 'documents' ? 'Document *' : 'Dossier *'} wide><ArchiveRecordPicker kind={targetKind} institution={scope.institutionId ?? ''} department={scope.departmentId} value={(targetKind === 'documents' ? documentId : dossierId) || null} onChange={v => targetKind === 'documents' ? setDocumentId(v ?? '') : setDossierId(v ?? '')} required disabled={busy}/></Field>
             <Field label="Bénéficiaire *" wide><ReferencePicker kind="users" value={beneficiaireId} onChange={setBeneficiaireId} label="Sélectionner : bénéficiaire" /></Field>
-            <Field label="Dérogation associée" hint="Requise uniquement si le document est restreint. Renseignez l'identifiant de la demande autorisée."><input value={demandeConsultationId} onChange={e => setDemandeConsultationId(e.target.value)} placeholder="UUID de la demande autorisée" /></Field>
+            {targetKind === 'documents' && <Field label="Dérogation associée" hint="Requise uniquement si le document est restreint. Renseignez l'identifiant de la demande autorisée."><input value={demandeConsultationId} onChange={e => setDemandeConsultationId(e.target.value)} placeholder="UUID de la demande autorisée" /></Field>}
             <Field label="Lieu" hint="Optionnel."><input value={lieu} onChange={e => setLieu(e.target.value)} maxLength={255} /></Field>
         </div>{Boolean(error) && <ErrorNotice error={error} />}
         <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>{busy ? <span className="spinner" /> : null} Enregistrer</button></footer></form>
@@ -189,7 +211,7 @@ export function CommunicationsPage() {
         {scope.institutionId && (q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : q.data?.length ?
             <div className="table-scroll"><table><thead><tr><th>Statut</th><th>Lieu</th><th>Demandée le</th><th /></tr></thead><tbody>
                 {q.data.map(c => <tr key={c.id}>
-                    <td><Badge value={c.statut} /></td>
+                    <td><Badge value={c.statut} /><ResourceDetailsButton resource="communication" id={c.id} /></td>
                     <td>{c.lieu ?? '—'}</td>
                     <td>{formatDate(c.dateDemande)}</td>
                     <td className="table-actions">
