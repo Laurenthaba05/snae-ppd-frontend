@@ -133,28 +133,31 @@ function DossierChoice({ institutionId, value, onChange, disabled }: { instituti
 }
 
 /** Éliminer un dossier entier : on choisit le dossier, on voit chacun de ses documents et ce qui le bloque ; le bordereau n'est possible que si tous sont prêts. */
-function DossierDialog({ institutionId, onClose, onDone }: { institutionId: string; onClose: () => void; onDone: (b: Bordereau) => void }) {
+function DossierDialog({ institutionId, bordereauId, onClose, onDone }: { institutionId: string; bordereauId?: string; onClose: () => void; onDone: (b: Bordereau) => void }) {
     const { retention, epoch } = useSession();
     const [dossierId, setDossierId] = useState('');
     const [title, setTitle] = useState('');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const intention = useRef<ReturnType<typeof commandKey> | null>(null);
+    const inFlight = useRef(false);
     const plan = useResource<DossierEliminationPlan | null>(signal => dossierId ? retention!.dossierEliminationPlan(institutionId, dossierId, signal) : Promise.resolve(null), `dossier-plan:${institutionId}:${dossierId}:${epoch}`);
     const p = plan.data;
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (busy || !p?.complete) return;
+        if (inFlight.current || !p?.complete || p.dossierId !== dossierId) return;
+        inFlight.current = true;
         setBusy(true); setError(null);
-        intention.current = commandKey(intention.current, { dossierId, title });
-        try { onDone(await retention!.createBordereauFromDossier(institutionId, dossierId, title.trim() || null, null, intention.current.key)); }
-        catch (e) { setError(e); } finally { setBusy(false); }
+        intention.current = commandKey(intention.current, { bordereauId, dossierId, title });
+        try { onDone(bordereauId ? await retention!.addDossierToBordereau(bordereauId, dossierId, intention.current.key)
+            : await retention!.createBordereauFromDossier(institutionId, dossierId, title.trim() || null, null, intention.current.key)); }
+        catch (e) { setError(e); } finally { inFlight.current = false; setBusy(false); }
     };
-    return <Modal wide title="Éliminer un dossier entier" subtitle="Tous les documents du dossier, sous-dossiers compris, ou aucun" onClose={onClose} locked={busy}>
+    return <Modal wide title={bordereauId ? "Ajouter un dossier au bordereau" : "Éliminer un dossier entier"} subtitle="Tous les documents du dossier, sous-dossiers compris, ou aucun" onClose={onClose} locked={busy}>
         <form onSubmit={submit}>
             <div className="form-grid">
                 <DossierChoice institutionId={institutionId} value={dossierId} onChange={setDossierId} disabled={busy} />
-                <Field label="Intitulé du bordereau" wide hint="Facultatif : par défaut « Élimination du dossier » suivi de sa référence."><input value={title} onChange={e => setTitle(e.target.value)} maxLength={300} disabled={busy} /></Field>
+                {!bordereauId && <Field label="Intitulé du bordereau" wide hint="Facultatif : par défaut « Élimination du dossier » suivi de sa référence."><input value={title} onChange={e => setTitle(e.target.value)} maxLength={300} disabled={busy} /></Field>}
             </div>
             {dossierId && (plan.loading && !p ? <Busy label="Analyse du dossier…" /> : plan.error ? <ErrorNotice error={plan.error} onRetry={plan.refresh} />
                 : p && <>
@@ -168,12 +171,12 @@ function DossierDialog({ institutionId, onClose, onDone }: { institutionId: stri
                 </>)}
             {error ? <ErrorNotice error={error} /> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button>
-                <button type="submit" className="btn primary" disabled={busy || !p?.complete}>Constituer le bordereau du dossier</button></footer>
+                <button type="submit" className="btn primary" disabled={busy || !p?.complete}>{bordereauId ? 'Ajouter le dossier au bordereau' : 'Constituer le bordereau du dossier'}</button></footer>
         </form>
     </Modal>;
 }
 
-type Step = null | 'candidates' | 'visa' | 'cancel' | 'execute' | { retire: string };
+type Step = null | 'dossier' | 'candidates' | 'visa' | 'cancel' | 'execute' | { retire: string };
 
 /** Un bordereau : ses lignes, où il en est, et ce que la personne peut faire maintenant selon ses droits. */
 function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }: { id: string; institutionId: string; departmentId: string | null; onClose: () => void; onChanged: () => void }) {
@@ -245,6 +248,7 @@ function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }
             <button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Fermer</button>
             {b && <button type="button" className="btn secondary" onClick={print}>Afficher et imprimer</button>}
             {actions.includes('ADD') && <button type="button" className="btn secondary" disabled={busy} onClick={() => setStep('candidates')}>Ajouter des documents</button>}
+            {actions.includes('ADD') && <button type="button" className="btn secondary" disabled={busy} onClick={() => setStep('dossier')}>Ajouter un dossier</button>}
             {actions.includes('CANCEL') && <button type="button" className="btn danger-outline" disabled={busy} onClick={() => setStep('cancel')}>Annuler le bordereau</button>}
             {actions.includes('SUBMIT') && b && <button type="button" className="btn primary" disabled={busy || b.summary.registered === 0}
                 onClick={() => void run(key => retention!.submitBordereau(id, key), { submit: id, version: b.summary.version })}>Soumettre à l’autorité</button>}
@@ -252,6 +256,7 @@ function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }
             {actions.includes('EXECUTE') && <button type="button" className="btn danger" disabled={busy} onClick={() => setStep('execute')}>Détruire les documents visés</button>}
         </footer>
         {b && step === 'candidates' && <CandidatesDialog institutionId={institutionId} departmentId={departmentId} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
+        {b && step === 'dossier' && <DossierDialog institutionId={institutionId} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {b && step === 'visa' && <VisaDialog bordereau={b} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {b && step === 'cancel' && <ReasonDialog title="Annuler le bordereau" subtitle={b.summary.reference} confirm="Annuler le bordereau" hint="Les propositions et validations en cours sont annulées ; les échéances redeviennent disponibles. Le motif est conservé au journal."
             onClose={() => setStep(null)} onSubmit={(reason, key) => retention!.cancelBordereau(id, reason, key).then(changed)} />}

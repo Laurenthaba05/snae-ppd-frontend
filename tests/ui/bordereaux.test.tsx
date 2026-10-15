@@ -259,3 +259,32 @@ it('un dossier dont un document est bloqué ne se constitue pas, et dit pourquoi
     expect((within(dialog).getByRole('button', { name: 'Constituer le bordereau du dossier' }) as HTMLButtonElement).disabled).toBe(true);
     expect(fixture.retention.createBordereauFromDossier).not.toHaveBeenCalled();
 });
+
+it('ajoute un dossier complet au bordereau existant après contrôle, sans créer ni exécuter un bordereau', async () => {
+    fixture.records.dossiers.mockResolvedValue({ items: [{ id: DOSSIER, reference: 'DOS-1990-001', title: 'Dossier du personnel 1990' }] });
+    fixture.retention.dossierEliminationPlan.mockResolvedValue(plan());
+    fixture.retention.addDossierToBordereau.mockResolvedValue(bordereau('BROUILLON', [line(1), line(2)]));
+    const detail = await opened(bordereau('BROUILLON', []));
+    fireEvent.click(within(detail).getByRole('button', { name: 'Ajouter un dossier' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Ajouter un dossier au bordereau' });
+    await within(dialog).findByRole('option', { name: /DOS-1990-001/ });
+    fireEvent.change(within(dialog).getByRole('combobox', { name: 'Dossier' }), { target: { value: DOSSIER } });
+    await within(dialog).findByText(/Les 2 documents du dossier/);
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Ajouter le dossier au bordereau' }));
+    await waitFor(() => expect(fixture.retention.addDossierToBordereau).toHaveBeenCalledWith(BID, DOSSIER, expect.any(String)));
+    expect(fixture.retention.createBordereauFromDossier).not.toHaveBeenCalled();
+    expect(fixture.retention.executeBordereau).not.toHaveBeenCalled();
+});
+it('bloque l’ajout au bordereau si le dossier contient une pièce sous gel', async () => {
+    fixture.records.dossiers.mockResolvedValue({ items: [{ id: DOSSIER, reference: 'DOS-1990-001', title: 'Dossier du personnel 1990' }] });
+    fixture.retention.dossierEliminationPlan.mockResolvedValue(plan({ complete: false,
+        documents: [{ ...plan().documents[0], blockers: ['ACTIVE_LEGAL_HOLD'], blockerMessages: ['Gel juridique actif.'] }] }));
+    const detail = await opened(bordereau('BROUILLON', []));
+    fireEvent.click(within(detail).getByRole('button', { name: 'Ajouter un dossier' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Ajouter un dossier au bordereau' });
+    await within(dialog).findByRole('option', { name: /DOS-1990-001/ });
+    fireEvent.change(within(dialog).getByRole('combobox', { name: 'Dossier' }), { target: { value: DOSSIER } });
+    await within(dialog).findByText('Gel juridique actif.');
+    expect((within(dialog).getByRole('button', { name: 'Ajouter le dossier au bordereau' }) as HTMLButtonElement).disabled).toBe(true);
+    expect(fixture.retention.addDossierToBordereau).not.toHaveBeenCalled();
+});

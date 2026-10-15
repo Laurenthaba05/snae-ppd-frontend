@@ -7,7 +7,7 @@ const INST = '97571d20-3f49-497e-a185-dac22208eb3f';
 const CID = '11111111-1111-4111-8111-111111111111';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(),
-    retention: { samplingCampaigns: vi.fn(), samplingCampaign: vi.fn(), samplingCandidates: vi.fn(), createSamplingCampaign: vi.fn(), removeSamplingLine: vi.fn(), resetSamplingLine: vi.fn(),
+    retention: { samplingCampaigns: vi.fn(), samplingCampaign: vi.fn(), samplingCandidates: vi.fn(), createSamplingCampaign: vi.fn(), addSamplingLines: vi.fn(), removeSamplingLine: vi.fn(), resetSamplingLine: vi.fn(),
         adjustSamplingLine: vi.fn(), stopSamplingCampaign: vi.fn(), validateSamplingRetained: vi.fn(), executeSamplingRetained: vi.fn(), cancelSamplingCampaign: vi.fn(), documentSampling: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
@@ -156,4 +156,25 @@ it('la fiche d’un document soumis à un tri dit la décision, son origine et o
     expect(screen.getByText(/non retenu \(élimination\) — ajusté à la main/)).toBeTruthy();
     expect(screen.getByText(/Au bordereau d’élimination/)).toBeTruthy();
     expect(screen.getByText('Motif : Doublon d’un registre conservé')).toBeTruthy();
+});
+
+it('ajoute des échéances au brouillon existant et exclut les pièces déjà présentes ou sous gel', async () => {
+    fixture.retention.samplingCandidates.mockResolvedValue([candidate(1), candidate(5), candidate(6, { blockers: ['ACTIVE_LEGAL_HOLD'] })]);
+    fixture.retention.addSamplingLines.mockResolvedValue(campaign());
+    const detail = await opened(campaign());
+    fireEvent.click(within(detail).getByRole('button', { name: 'Ajouter des échéances' }));
+    const dialog = await screen.findByRole('dialog', { name: 'Ajouter des échéances à la campagne' });
+    await within(dialog).findByRole('option', { name: /version 1/ });
+    fireEvent.change(within(dialog).getByLabelText(/^Règle appliquée/), { target: { value: 'v1' } });
+    expect((within(dialog).getByLabelText('Choisir DOC-1') as HTMLInputElement).disabled).toBe(true);
+    expect((within(dialog).getByLabelText('Choisir DOC-6') as HTMLInputElement).disabled).toBe(true);
+    fireEvent.click(within(dialog).getByLabelText('Tout choisir'));
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Ajouter les échéances' }));
+    await waitFor(() => expect(fixture.retention.addSamplingLines).toHaveBeenCalledWith(CID, ['e5'], expect.any(String)));
+    expect(fixture.retention.createSamplingCampaign).not.toHaveBeenCalled();
+    expect(fixture.retention.stopSamplingCampaign).not.toHaveBeenCalled();
+});
+it('une campagne arrêtée ne propose plus d’ajouter des échéances', async () => {
+    const dialog = await opened(campaign({}, { status: 'ARRETEE' }));
+    expect(within(dialog).queryByRole('button', { name: 'Ajouter des échéances' })).toBeNull();
 });

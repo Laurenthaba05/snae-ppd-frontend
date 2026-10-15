@@ -55,17 +55,18 @@ export function SamplingCampaignsPanel({ institutionId, departmentId = null }: {
     </div>;
 }
 
-function CreateCampaignDialog({ institutionId, departmentId, onClose, onDone }: { institutionId: string; departmentId: string | null; onClose: () => void; onDone: (c: Campaign) => void }) {
+function CreateCampaignDialog({ institutionId, departmentId, campaign, onClose, onDone }: { institutionId: string; departmentId: string | null; campaign?: Campaign; onClose: () => void; onDone: (c: Campaign) => void }) {
     const { retention, epoch } = useSession();
     const q = useResource<SamplingCandidate[]>(signal => retention!.samplingCandidates(institutionId, departmentId, signal), `sampling-candidates:${institutionId}:${departmentId ?? ''}:${epoch}`);
     const [version, setVersion] = useState('');
     const [selected, setSelected] = useState<Set<string>>(new Set());
-    const [title, setTitle] = useState('');
+    const [title, setTitle] = useState(campaign?.summary.title ?? '');
     const [observations, setObservations] = useState('');
     const [busy, setBusy] = useState(false);
     const [attempted, setAttempted] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const intention = useRef<ReturnType<typeof commandKey> | null>(null);
+    const inFlight = useRef(false);
     const candidates = q.data ?? [];
     const versions = useMemo(() => {
         const seen = new Map<string, SamplingCandidate>();
@@ -74,22 +75,25 @@ function CreateCampaignDialog({ institutionId, departmentId, onClose, onDone }: 
     }, [candidates]);
     const chosen = versions.find(v => v.ruleVersionId === version) ?? null;
     const visible = candidates.filter(c => c.ruleVersionId === version);
-    const selectable = visible.filter(isSelectable);
+    const selectable = visible.filter(c => isSelectable(c) && !campaign?.lines.some(line => line.eventId === c.eventId));
+    const canChoose = (c: SamplingCandidate) => selectable.some(row => row.eventId === c.eventId);
     const problems = creationProblems(title, version, selected.size);
     const toggle = (id: string) => setSelected(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next; });
     const allSelected = selectable.length > 0 && selectable.every(c => selected.has(c.eventId));
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (busy) return;
+        if (inFlight.current) return;
         if (problems.length) { setAttempted(true); return; }
-        setBusy(true); setError(null);
+        inFlight.current = true; setBusy(true); setError(null);
         const ids = [...selected];
-        intention.current = commandKey(intention.current, { version, title, observations, ids });
-        try { onDone(await retention!.createSamplingCampaign(institutionId, version, title.trim(), observations.trim() || null, ids, intention.current.key)); }
-        catch (e) { setError(e); } finally { setBusy(false); }
+        intention.current = commandKey(intention.current, { campaignId: campaign?.summary.id, version, title, observations, ids });
+        try { onDone(campaign ? await retention!.addSamplingLines(campaign.summary.id, ids, intention.current.key)
+            : await retention!.createSamplingCampaign(institutionId, version, title.trim(), observations.trim() || null, ids, intention.current.key)); }
+        catch (e) { setError(e); } finally { inFlight.current = false; setBusy(false); }
     };
-    return <Modal wide title="Nouvelle campagne de tri" subtitle="Échéances dont la règle prévoit un tri" onClose={onClose} locked={busy}>
+    return <Modal wide title={campaign ? "Ajouter des échéances à la campagne" : "Nouvelle campagne de tri"} subtitle="Échéances dont la règle prévoit un tri" onClose={onClose} locked={busy}>
         <form onSubmit={submit}>
+            {campaign && <Notice>Campagne : {campaign.summary.reference}. Règle : {campaign.summary.ruleLabel ?? "Voir la méthode de la campagne"}. Choisissez la même version de règle ; le serveur refuse les échéances d’une autre règle. L’échantillon du brouillon sera recalculé après cet ajout.</Notice>}
             {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
                 : candidates.length === 0 ? <Empty title="Aucune échéance à trier" description="Aucune échéance dont la règle prévoit un tri n’est arrivée à terme pour ce périmètre." icon="check" />
                     : <>
@@ -101,15 +105,15 @@ function CreateCampaignDialog({ institutionId, departmentId, onClose, onDone }: 
                                 </select></Field>
                             {chosen && <div className="span2"><Notice><strong>Méthode :</strong> {METHOD_LABELS[chosen.sampling.method] ?? chosen.sampling.method}. {describeSampling(chosen.sampling)}
                                 {chosen.sampling.note ? <small className="cell-sub">{chosen.sampling.note}</small> : null}</Notice></div>}
-                            <Field label="Intitulé de la campagne *" wide hint="Ce qui est trié : « Registres d’état civil de 1980 à 1989 »."><input value={title} onChange={e => setTitle(e.target.value)} maxLength={300} disabled={busy} /></Field>
-                            <Field label="Observations" wide><textarea value={observations} onChange={e => setObservations(e.target.value)} rows={2} maxLength={4000} disabled={busy} /></Field>
+                            {!campaign && <><Field label="Intitulé de la campagne *" wide hint="Ce qui est trié : « Registres d’état civil de 1980 à 1989 »."><input value={title} onChange={e => setTitle(e.target.value)} maxLength={300} disabled={busy} /></Field>
+                            <Field label="Observations" wide><textarea value={observations} onChange={e => setObservations(e.target.value)} rows={2} maxLength={4000} disabled={busy} /></Field></>}
                         </div>
                         {version && <div className="table-scroll"><table className="bordereau-candidates"><thead><tr>
                             <th><input type="checkbox" aria-label="Tout choisir" checked={allSelected} disabled={busy || selectable.length === 0}
                                 onChange={() => setSelected(allSelected ? new Set() : new Set(selectable.map(c => c.eventId)))} /></th>
                             <th>Document</th><th>Échéance</th><th>État</th></tr></thead>
                             <tbody>{visible.map(c => <tr key={c.eventId} className={isSelectable(c) ? '' : 'is-blocked'}>
-                                <td><input type="checkbox" aria-label={`Choisir ${c.reference}`} checked={selected.has(c.eventId)} disabled={busy || !isSelectable(c)} onChange={() => toggle(c.eventId)} /></td>
+                                <td><input type="checkbox" aria-label={`Choisir ${c.reference}`} checked={selected.has(c.eventId)} disabled={busy || !canChoose(c)} onChange={() => toggle(c.eventId)} /></td>
                                 <td><strong>{c.reference}</strong><small className="cell-sub">{c.title}</small></td>
                                 <td>{formatDay(c.dueDate)}</td>
                                 <td>{c.blockers.length === 0 ? <span className="finding">{c.essential ? 'Prêt — document essentiel, toujours retenu' : 'Prêt'}</span>
@@ -120,12 +124,12 @@ function CreateCampaignDialog({ institutionId, departmentId, onClose, onDone }: 
             {attempted && problems.length > 0 && <ul className="relation-problems" role="alert">{problems.map(p => <li key={p}>{p}</li>)}</ul>}
             {error ? <ErrorNotice error={error} /> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button>
-                <button type="submit" className="btn primary" disabled={busy || candidates.length === 0}>Constituer la campagne</button></footer>
+                <button type="submit" className="btn primary" disabled={busy || candidates.length === 0}>{campaign ? 'Ajouter les échéances' : 'Constituer la campagne'}</button></footer>
         </form>
     </Modal>;
 }
 
-type Step = null | 'validate' | 'cancel' | 'stop' | { adjust: string };
+type Step = null | 'add' | 'validate' | 'cancel' | 'stop' | { adjust: string };
 
 function CampaignDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
     const { me, retention, epoch } = useSession();
@@ -193,11 +197,13 @@ function CampaignDialog({ id, institutionId, onClose, onChanged }: { id: string;
         </div>
         <footer className="modal-footer">
             <button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Fermer</button>
+            {editable && <button type="button" className="btn secondary" disabled={busy} onClick={() => setStep('add')}>Ajouter des échéances</button>}
             {actions.includes('CANCEL') && <button type="button" className="btn danger-outline" disabled={busy} onClick={() => setStep('cancel')}>Annuler la campagne</button>}
             {actions.includes('STOP') && <button type="button" className="btn primary" disabled={busy} onClick={() => setStep('stop')}>Arrêter la campagne</button>}
             {actions.includes('VALIDATE') && <button type="button" className="btn primary" disabled={busy} onClick={() => setStep('validate')}>Valider la conservation de l’échantillon</button>}
             {actions.includes('EXECUTE') && <button type="button" className="btn primary" disabled={busy} onClick={() => void executeNow()}>Conserver définitivement l’échantillon</button>}
         </footer>
+        {c && step === 'add' && <CreateCampaignDialog institutionId={institutionId} departmentId={null} campaign={c} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {c && step === 'stop' && <StopDialog campaign={c} busy={busy} onClose={() => setStep(null)} onConfirm={() => void call(key => retention!.stopSamplingCampaign(id, key), { stop: id, version: c.summary.version })} />}
         {c && step === 'validate' && <ValidateDialog campaign={c} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {c && step === 'cancel' && <ReasonDialog title="Annuler la campagne de tri" subtitle={c.summary.reference} confirm="Annuler la campagne" hint="Les propositions de conservation en attente sont annulées ; les échéances redeviennent disponibles. Le motif est conservé au journal."

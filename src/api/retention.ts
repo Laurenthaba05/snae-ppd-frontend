@@ -97,6 +97,7 @@ export class RetentionApi {
     createSamplingCampaign(institutionId: string, ruleVersionId: string, title: string, observations: string | null, eventIds: string[], key: string): Promise<Campaign> {
         return this.command('/sampling-campaigns', { institutionId, ruleVersionId, title, observations, eventIds }, key);
     }
+    addSamplingLines(id: string, eventIds: string[], key: string): Promise<Campaign> { return this.command('/sampling-campaigns/' + uuid(id) + '/lines', { eventIds: eventIds.map(uuid) }, key); }
     removeSamplingLine(id: string, lineId: string, key: string): Promise<Campaign> { return this.command('/sampling-campaigns/' + uuid(id) + '/lines/' + uuid(lineId) + '/remove', {}, key); }
     resetSamplingLine(id: string, lineId: string, key: string): Promise<Campaign> { return this.command('/sampling-campaigns/' + uuid(id) + '/lines/' + uuid(lineId) + '/reset', {}, key); }
     adjustSamplingLine(id: string, lineId: string, retained: boolean, reason: string, key: string): Promise<Campaign> {
