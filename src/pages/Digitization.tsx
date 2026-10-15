@@ -1,4 +1,6 @@
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
+import { OcrLayoutDialog } from '../ui/OcrLayoutDialog';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { can } from '../core/policy';
@@ -65,6 +67,7 @@ function CreateElementDialog({ projectId, onClose, onCreated }: {
     onClose: () => void;
     onCreated: () => void;
 }) {
+    const extra = useOptionalFields('elementOrder');
     const { digitization, epoch } = useSession();
     const [archivePhysiqueId, setArchivePhysiqueId] = useState('');
     const [documentId, setDocumentId] = useState('');
@@ -83,7 +86,7 @@ function CreateElementDialog({ projectId, onClose, onCreated }: {
         try {
             const trimmedArchive = archivePhysiqueId.trim();
             const trimmedDocument = documentId.trim();
-            await digitization!.command('/elements', { projetNumerisationId: projectId, archivePhysiqueId: trimmedArchive ? uuid(trimmedArchive) : null, documentId: trimmedDocument ? uuid(trimmedDocument) : null, descriptionSource: descriptionSource.trim() || null, lotId: lotId || null, pagesAttendues: pagesAttendues.trim() ? Number(pagesAttendues) : null, rectoVerso }, crypto.randomUUID(), 'POST');
+            await digitization!.command('/elements', { ...extra.payload(), projetNumerisationId: projectId, archivePhysiqueId: trimmedArchive ? uuid(trimmedArchive) : null, documentId: trimmedDocument ? uuid(trimmedDocument) : null, descriptionSource: descriptionSource.trim() || null, lotId: lotId || null, pagesAttendues: pagesAttendues.trim() ? Number(pagesAttendues) : null, rectoVerso }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -102,6 +105,7 @@ function CreateElementDialog({ projectId, onClose, onCreated }: {
                 <Field label="Description de la source" wide><textarea value={descriptionSource} onChange={e => setDescriptionSource(e.target.value)} disabled={busy}/></Field>
                 <Field label="Lot de numérisation" hint="Optionnel : réglages communs et suivi des pages"><select value={lotId} onChange={e => { setLotId(e.target.value); const lot = openLots.find(l => l.id === e.target.value); if (lot) setRectoVerso(lot.rectoVerso); }} disabled={busy}><option value="">Aucun lot</option>{openLots.map(l => <option key={l.id} value={l.id}>{l.code}{l.nom ? ' · ' + l.nom : ''}</option>)}</select></Field>
                 <Field label="Pages attendues" hint="Optionnel : permet de détecter les pages manquantes"><input type="number" min={1} max={100000} value={pagesAttendues} onChange={e => setPagesAttendues(e.target.value)} disabled={busy}/></Field>
+                <OptionalFields form={extra} disabled={busy} />
                 <Field label="Faces"><select value={rectoVerso ? 'oui' : 'non'} onChange={e => setRectoVerso(e.target.value === 'oui')} disabled={busy}><option value="non">Recto seul</option><option value="oui">Recto-verso</option></select></Field>
             </div>
             {error ? <ErrorNotice error={error}/> : null}
@@ -193,7 +197,7 @@ function CreateQualityControlDialog({ elementId, onClose, onCreated }: {
     </Modal>;
 }
 
-function CreateContributionDialog({ elementId, onClose, onCreated }: {
+export function CreateContributionDialog({ elementId, onClose, onCreated }: {
     elementId: string;
     onClose: () => void;
     onCreated: () => void;
@@ -201,14 +205,20 @@ function CreateContributionDialog({ elementId, onClose, onCreated }: {
     const { digitization } = useSession();
     const [typeContribution, setTypeContribution] = useState('');
     const [contenu, setContenu] = useState('');
+    const [fileId, setFileId] = useState('');
+    const [resultatOcrId, setResultatOcrId] = useState('');
+    const files = useResource(s => digitization!.fileAssets(elementId, s), 'contribution-files:' + elementId);
+    const ocr = useResource(s => fileId ? digitization!.ocrResultsByFile(fileId, s) : Promise.resolve([]), 'contribution-ocr:' + elementId + ':' + fileId);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (busy) return;
+        if (fileId && (!resultatOcrId || ocr.loading || !ocr.data?.some(r => r.id === resultatOcrId && r.fichierId === fileId))) { setError(new Error('Choisissez un résultat OCR du fichier sélectionné.')); return; }
         setBusy(true);
         setError(null);
         try {
-            await digitization!.command(`/elements/${elementId}/contributions`, { typeContribution: typeContribution.trim(), contenu }, crypto.randomUUID(), 'POST');
+            await digitization!.command(`/elements/${elementId}/contributions`, { typeContribution: typeContribution.trim(), contenu, resultatOcrId: resultatOcrId ? uuid(resultatOcrId) : null }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -223,10 +233,12 @@ function CreateContributionDialog({ elementId, onClose, onCreated }: {
         <form onSubmit={submit}>
             <div className="form-grid">
                 <Field label="Type" hint="Ex. TRANSCRIPTION, CORRECTION"><input value={typeContribution} onChange={e => setTypeContribution(e.target.value)} required maxLength={40} disabled={busy}/></Field>
+                <Field label="Fichier OCR" hint="Facultatif : pour corriger un résultat précis.">{files.error ? <ErrorNotice error={files.error} onRetry={files.refresh}/> : <select aria-label="Fichier OCR de la contribution" value={fileId} disabled={busy || files.loading} onChange={e => { setFileId(e.target.value); setResultatOcrId(''); }}><option value="">Contribution générale</option>{files.data?.items.filter((f, i, all) => all.findIndex(x => x.fichierId === f.fichierId) === i).map(f => <option key={f.fichierId} value={f.fichierId}>{f.numeroPage ? 'Page ' + f.numeroPage : 'Fichier'} · {f.mediaType} · {f.role}</option>)}</select>}</Field>
+                {fileId && <Field label="Résultat OCR">{ocr.error ? <ErrorNotice error={ocr.error} onRetry={ocr.refresh}/> : <select aria-label="Résultat OCR de la contribution" value={resultatOcrId} disabled={busy || ocr.loading} required onChange={e => setResultatOcrId(e.target.value)}><option value="">Choisir un résultat</option>{ocr.data?.filter(r => r.fichierId === fileId).map(r => <option key={r.id} value={r.id}>{r.typeReconnaissance} · {r.moteur ?? 'Moteur non précisé'} · {r.statutValidation} · {r.createdAt}</option>)}</select>}</Field>}
                 <Field label="Contenu" wide><textarea value={contenu} onChange={e => setContenu(e.target.value)} required disabled={busy}/></Field>
             </div>
             {error ? <ErrorNotice error={error}/> : null}
-            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Ajouter</button></footer>
+            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy || (!!fileId && (ocr.loading || !!ocr.error || !resultatOcrId))}>Ajouter</button></footer>
         </form>
     </Modal>;
 }
@@ -236,6 +248,7 @@ function OcrSection({ elementId, canManage }: {
     canManage: boolean;
 }) {
     const { digitization, epoch } = useSession();
+    const [layoutItem, setLayoutItem] = useState<OcrResult | null>(null);
     const [fichierId, setFichierId] = useState('');
     const [lookedUp, setLookedUp] = useState('');
     const [creating, setCreating] = useState(false);
@@ -271,6 +284,7 @@ function OcrSection({ elementId, canManage }: {
     };
     return <div>
         <h4>Résultats OCR</h4>
+        {layoutItem && <OcrLayoutDialog resultId={layoutItem.id} pageNumber={layoutItem.numeroPage} layoutPages={layoutItem.layoutPages} onClose={() => setLayoutItem(null)} />}
         <div className="form-grid">
             <Field label="Identifiant du fichier numérisé" wide hint="Renseignez l’identifiant pour consulter ou ajouter des résultats OCR de ce fichier.">
                 <div className="input-icon"><input value={fichierId} onChange={e => setFichierId(e.target.value)} placeholder="Identifiant du fichier"/><button type="button" className="btn small secondary" onClick={() => setLookedUp(fichierId.trim() ? uuid(fichierId.trim()) : '')}>Consulter</button></div>
@@ -278,7 +292,7 @@ function OcrSection({ elementId, canManage }: {
         </div>
         {lookedUp && <>
             {canManage && <button className="btn small secondary" onClick={() => setCreating(true)}>Ajouter un résultat OCR</button>}
-            {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : results.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Langue</th><th>Statut</th><th /></tr></thead><tbody>{results.map(r => <tr key={r.id}><td>{r.typeReconnaissance}</td><td>{r.langue ?? '—'}</td><td><Badge value={r.statutValidation}/></td><td>{canManage && r.statutValidation === 'NON_VALIDE' && <button className="btn small secondary" onClick={() => validate(r)}>Valider</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun résultat OCR pour ce fichier"/>}
+            {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : results.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Langue</th><th>Statut</th><th /></tr></thead><tbody>{results.map(r => <tr key={r.id}><td>{r.typeReconnaissance}<ResourceDetailsButton resource="ocrResult" id={r.id} /></td><td>{r.langue ?? '—'}</td><td><Badge value={r.statutValidation}/></td><td>{r.hasLayout && <button className="btn small secondary" onClick={() => setLayoutItem(r)}>Positions</button>}{canManage && r.statutValidation === 'NON_VALIDE' && <button className="btn small secondary" onClick={() => validate(r)}>Valider</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun résultat OCR pour ce fichier"/>}
         </>}
         {creating && <Modal title="Ajouter un résultat OCR" onClose={() => setCreating(false)} locked={busy}>
             <form onSubmit={submit}>
@@ -303,6 +317,8 @@ function ElementDetailDialog({ element, canManage, onClose, onChanged }: {
 }) {
     const { me, digitization, epoch } = useSession();
     const [linkingFile, setLinkingFile] = useState(false);
+    const [filesRevision, setFilesRevision] = useState(0);
+    const filesChanged = () => { setFilesRevision(value => value + 1); onChanged(); };
     const [creatingQc, setCreatingQc] = useState(false);
     const [creatingContribution, setCreatingContribution] = useState(false);
     const qcQ = useResource<QualityControl[]>(s => digitization!.qualityControlsByElement(element.id, s), 'quality-controls:' + element.id + ':' + epoch);
@@ -314,24 +330,24 @@ function ElementDetailDialog({ element, canManage, onClose, onChanged }: {
     const lotsQ = useResource<ScanLot[]>(s => digitization!.lotsByProject(element.projetNumerisationId, s), 'element-detail-lots:' + element.projetNumerisationId + ':' + epoch);
     return <Modal title="Élément de numérisation" subtitle={element.descriptionSource ?? undefined} onClose={onClose} wide>
         <div className="form-grid">
-            <ElementWorkflowPanel element={element} onChanged={onChanged}/>
+            <ElementWorkflowPanel key={filesRevision} element={element} onChanged={onChanged}/>
             {canManage && isWorkingStage(element.statut) && <div className="table-actions"><button className="btn small secondary" onClick={() => setLinkingFile(true)}>Rattacher un fichier</button></div>}
-            <PagesSection element={element} lots={lotsQ.data ?? []} canManage={canManage || canWith(me, 'DIGITIZATION_SCAN') || canWith(me, 'DIGITIZATION_QC')} onChanged={onChanged}/>
+            <PagesSection element={element} lots={lotsQ.data ?? []} canManage={canManage || canWith(me, 'DIGITIZATION_SCAN') || canWith(me, 'DIGITIZATION_QC')} onChanged={filesChanged}/>
             <div>
                 <div className="section-heading"><h4>Contrôles qualité</h4>{canWith(me, 'DIGITIZATION_QC') && element.statut === 'CONTROLE_QUALITE' && <button className="btn small secondary" onClick={() => setCreatingQc(true)}>Ajouter un contrôle</button>}</div>
-                {qcQ.loading ? <Busy /> : qcQ.error ? <ErrorNotice error={qcQ.error} onRetry={qcQ.refresh}/> : qcQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Date</th><th>DPI</th><th>Conforme</th><th>Décision</th></tr></thead><tbody>{qcQ.data.map(c => <tr key={c.id}><td>{formatDate(c.dateControle)}</td><td>{c.dpi ?? '—'}</td><td>{c.conforme ? 'Oui' : 'Non'}</td><td>{display(c.decision)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun contrôle qualité"/>}
+                {qcQ.loading ? <Busy /> : qcQ.error ? <ErrorNotice error={qcQ.error} onRetry={qcQ.refresh}/> : qcQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Date</th><th>DPI</th><th>Conforme</th><th>Décision</th></tr></thead><tbody>{qcQ.data.map(c => <tr key={c.id}><td>{formatDate(c.dateControle)}<ResourceDetailsButton resource="qualityControl" id={c.id} /></td><td>{c.dpi ?? '—'}</td><td>{c.conforme ? 'Oui' : 'Non'}</td><td>{display(c.decision)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun contrôle qualité"/>}
             </div>
-            <OcrJobsPanel element={element}/>
-            <FileAssetsPanel element={element}/>
-            <AccessPdfPanel element={element}/>
+            <OcrJobsPanel key={filesRevision} element={element}/>
+            <FileAssetsPanel key={filesRevision} element={element}/>
+            <AccessPdfPanel key={filesRevision} element={element}/>
             <OcrSection elementId={element.id} canManage={canWith(me, 'DIGITIZATION_OCR')}/>
             <div>
                 <div className="section-heading"><h4>Contributions</h4>{canManage && <button className="btn small secondary" onClick={() => setCreatingContribution(true)}>Ajouter une contribution</button>}</div>
-                {contributionsQ.loading ? <Busy /> : contributionsQ.error ? <ErrorNotice error={contributionsQ.error} onRetry={contributionsQ.refresh}/> : contributionsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Statut</th><th /></tr></thead><tbody>{contributionsQ.data.map(c => <tr key={c.id}><td>{c.typeContribution}</td><td><Badge value={c.statut}/></td><td>{canManage && c.statut === 'SOUMISE' && <div className="table-actions"><button className="btn small secondary" onClick={() => moderate(c, true)}>Approuver</button><button className="btn small danger-outline" onClick={() => moderate(c, false)}>Rejeter</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune contribution"/>}
+                {contributionsQ.loading ? <Busy /> : contributionsQ.error ? <ErrorNotice error={contributionsQ.error} onRetry={contributionsQ.refresh}/> : contributionsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Statut</th><th /></tr></thead><tbody>{contributionsQ.data.map(c => <tr key={c.id}><td>{c.typeContribution}<ResourceDetailsButton resource="contribution" id={c.id} /></td><td><Badge value={c.statut}/></td><td>{canManage && c.statut === 'SOUMISE' && <div className="table-actions"><button className="btn small secondary" onClick={() => moderate(c, true)}>Approuver</button><button className="btn small danger-outline" onClick={() => moderate(c, false)}>Rejeter</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune contribution"/>}
             </div>
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
-        {linkingFile && <LinkFileDialog elementId={element.id} onClose={() => setLinkingFile(false)} onLinked={onChanged}/>}
+        {linkingFile && <LinkFileDialog elementId={element.id} onClose={() => setLinkingFile(false)} onLinked={filesChanged}/>}
         {creatingQc && <CreateQualityControlDialog elementId={element.id} onClose={() => setCreatingQc(false)} onCreated={qcQ.refresh}/>}
         {creatingContribution && <CreateContributionDialog elementId={element.id} onClose={() => setCreatingContribution(false)} onCreated={contributionsQ.refresh}/>}
     </Modal>;
@@ -368,7 +384,7 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
         <div className="panel panel-padding"><CodeLookup projectId={selectedProjectId} elements={elements} lots={lotsForLookup.data ?? []} onElement={openElement} onLot={openLot}/></div>
         <div className="panel">
             <div className="section-heading"><h3>Projets</h3></div>
-            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Statut</th><th /></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button></td><td>{p.code ?? '—'}</td><td><Badge value={p.statut}/></td><td>{canManage && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
+            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Statut</th><th /></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button><ResourceDetailsButton resource="digitizationProject" id={p.id} title={p.nom} /></td><td>{p.code ?? '—'}</td><td><Badge value={p.statut}/></td><td>{canManage && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
         </div>
         {selectedProjectId && <div className="panel">
             <div className="section-heading"><h3>Éléments</h3><div className="table-actions"><SheetsButton label="Feuilles séparatrices" title="Feuilles séparatrices" build={async () => elements.filter(el => isCaptureStage(el.statut)).map(el => elementSheet(el, selectedProject ? [selectedProject.nom] : []))}/>{canManage && <button className="btn small secondary" onClick={() => setBatching(true)}>Importer un lot de fichiers</button>}{canManage && <button className="btn small primary" onClick={() => setCreatingElement(true)}>Créer un élément</button>}</div></div>
@@ -389,7 +405,7 @@ export function QualityControlListPage() {
     const open = (item: QualityControlListItem) => navigate('/app/numerisation?project=' + encodeURIComponent(item.projetId) + '&element=' + encodeURIComponent(item.elementNumerisationId));
     return <><PageHead eyebrow="MODULE · NUMÉRISATION" title="Contrôle qualité" description="Vue d’ensemble des contrôles qualité consignés sur les éléments de numérisation."/>
         <div className="panel">
-            {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : items.length ? <div className="table-scroll"><table><thead><tr><th>Projet</th><th>Élément</th><th>Conforme</th><th>Décision</th><th>Date</th><th /></tr></thead><tbody>{items.map(item => <tr key={item.id}><td>{item.projetCode ? item.projetCode + ' · ' : ''}{item.projetNom}</td><td>{elementName(item.elementDescription)}</td><td>{item.conforme ? <Icon name="check" size={16}/> : <Icon name="alert" size={16}/>}</td><td>{display(item.decision)}</td><td>{formatDate(item.dateControle)}</td><td><button className="btn small secondary" onClick={() => open(item)}>Ouvrir</button></td></tr>)}</tbody></table></div> : <Empty title="Aucun contrôle qualité" description="Aucun contrôle qualité n'a encore été consigné."/>}
+            {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : items.length ? <div className="table-scroll"><table><thead><tr><th>Projet</th><th>Élément</th><th>Conforme</th><th>Décision</th><th>Date</th><th /></tr></thead><tbody>{items.map(item => <tr key={item.id}><td>{item.projetCode ? item.projetCode + ' · ' : ''}{item.projetNom}<ResourceDetailsButton resource="qualityControl" id={item.id} /></td><td>{elementName(item.elementDescription)}</td><td>{item.conforme ? <Icon name="check" size={16}/> : <Icon name="alert" size={16}/>}</td><td>{display(item.decision)}</td><td>{formatDate(item.dateControle)}</td><td><button className="btn small secondary" onClick={() => open(item)}>Ouvrir</button></td></tr>)}</tbody></table></div> : <Empty title="Aucun contrôle qualité" description="Aucun contrôle qualité n'a encore été consigné."/>}
         </div>
     </>;
 }

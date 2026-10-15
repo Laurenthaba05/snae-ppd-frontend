@@ -4,7 +4,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import type { OcrListItem } from '../../src/core/types';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowManage: true,
-    digitization: { ocrResults: vi.fn(), command: vi.fn() }
+    digitization: { ocrResults: vi.fn(), command: vi.fn() } as Record<string, ReturnType<typeof vi.fn>>
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => code === 'DIGITIZATION_MANAGE' ? fixture.allowManage : true }));
@@ -84,4 +84,50 @@ it('une liste vide ou une erreur serveur ne se déguise pas en « aucun problèm
     render(<OcrListPage />);
     await screen.findByRole('alert');
     expect(screen.queryByText('Aucun résultat OCR')).toBeNull();
+});
+
+it('propose l’export ALTO seulement pour un résultat dont le moteur a donné la position des mots', async () => {
+    const blob = new Blob(['<alto/>'], { type: 'application/xml' });
+    fixture.digitization.ocrAlto = vi.fn().mockResolvedValue(blob);
+    fixture.digitization.ocrResults.mockResolvedValue([item(1, { hasLayout: true }), item(2)]);
+    const created = vi.fn(() => 'blob:alto');
+    Object.assign(URL, { createObjectURL: created, revokeObjectURL: vi.fn() });
+    const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined);
+    render(<OcrListPage />);
+    await screen.findByText('page-1.tif');
+    const buttons = screen.getAllByRole('button', { name: 'ALTO' });
+    expect(buttons).toHaveLength(1);
+    fireEvent.click(buttons[0]);
+    await waitFor(() => expect(fixture.digitization.ocrAlto).toHaveBeenCalledWith(ID + '11', undefined, 1));
+    await waitFor(() => expect(created).toHaveBeenCalled());
+    click.mockRestore();
+});
+
+it('ouvre les positions depuis la liste sans charger les dispositions avant le clic', async () => {
+    fixture.digitization.ocrLayout = vi.fn().mockResolvedValue({ resultId: ID + '11', width: 1000, height: 1500, unit: 'pixel', truncated: false, words: [
+        { text: 'Recette', x: 10, y: 20, width: 100, height: 20, confidence: 92, line: 1 },
+    ] });
+    fixture.digitization.ocrResults.mockResolvedValue([item(1, { hasLayout: true }), item(2)]);
+    render(<OcrListPage />);
+    const buttons = await screen.findAllByRole('button', { name: 'Positions' });
+    expect(buttons).toHaveLength(1);
+    expect(fixture.digitization.ocrLayout).not.toHaveBeenCalled();
+    fireEvent.click(buttons[0]);
+    const dialog = await screen.findByRole('dialog');
+    await within(dialog).findByRole('group', { name: 'Mots reconnus' });
+    expect(fixture.digitization.ocrLayout).toHaveBeenCalledWith(ID + '11', expect.any(AbortSignal), 1);
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Fermer les positions' }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+});
+
+it('demande la page à exporter pour un résultat de plusieurs pages au lieu de télécharger silencieusement la première', async () => {
+    fixture.digitization.ocrAlto = vi.fn();
+    fixture.digitization.ocrLayout = vi.fn().mockResolvedValue({ resultId: ID + '11', pageNumber: 1, width: 1000, height: 1500, unit: 'pixel', truncated: false, words: [] });
+    fixture.digitization.ocrResults.mockResolvedValue([item(1, { hasLayout: true, numeroPage: null, layoutPages: [1, 2, 3] })]);
+    render(<OcrListPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'ALTO' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(within(within(dialog).getByLabelText('Page OCR')).getAllByRole('option').map(option => option.textContent)).toEqual(['Page 1', 'Page 2', 'Page 3']);
+    expect(fixture.digitization.ocrAlto).not.toHaveBeenCalled();
+    await within(dialog).findByText('Aucun mot positionné');
 });

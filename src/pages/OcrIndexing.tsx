@@ -1,9 +1,12 @@
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { can } from '../core/policy';
 import { navigate } from '../ui/navigation';
 import { Badge, Busy, Empty, ErrorNotice, PageHead, formatDate, useResource } from '../ui/components';
 import { Icon } from '../ui/icons';
+import { OcrLayoutDialog } from '../ui/OcrLayoutDialog';
+import { saveBlob } from '../ui/ReadingRoomParts';
 import type { OcrListItem } from '../core/types';
 
 /** Seuil de confiance minimal des règles métier du traitement (« Confiance ≥ 80 % »). */
@@ -22,6 +25,7 @@ export function OcrListPage() {
     const { me, digitization, epoch } = useSession();
     const canManage = can(me, 'DIGITIZATION_MANAGE', {});
     const q = useResource<OcrListItem[]>(s => digitization!.ocrResults(s), 'ocr-all:' + epoch);
+    const [layoutItem, setLayoutItem] = useState<OcrListItem | null>(null);
     const [filter, setFilter] = useState('');
     const [status, setStatus] = useState<'' | 'NON_VALIDE' | 'VALIDE'>('');
     const [lowOnly, setLowOnly] = useState(false);
@@ -37,6 +41,13 @@ export function OcrListPage() {
     const validate = async (item: OcrListItem) => {
         setBusy(item.id); setError(null);
         try { await digitization!.command(`/ocr-results/${item.id}/validate`, {}, crypto.randomUUID(), 'POST'); q.refresh(); }
+        catch (e) { setError(e); } finally { setBusy(null); }
+    };
+    const exportAlto = async (item: OcrListItem) => {
+        if ((item.layoutPages?.length ?? 0) > 1) { setLayoutItem(item); return; }
+        const page = item.layoutPages?.[0] ?? item.numeroPage ?? 1;
+        setBusy(item.id); setError(null);
+        try { saveBlob(await digitization!.ocrAlto(item.id, undefined, page), 'alto-' + item.fichierNom.replace(/\.[^.]+$/, '').replace(/[^A-Za-z0-9._-]+/g, '-') + '-page-' + page + '.xml'); }
         catch (e) { setError(e); } finally { setBusy(null); }
     };
     const open = (item: OcrListItem) => item.projetId && item.elementId
@@ -62,12 +73,13 @@ export function OcrListPage() {
                     <tbody>{rows.map(i => { const c = confidenceOf(i); return <tr key={i.id}>
                         <td><strong>{i.fichierNom}</strong><small className="cell-sub">{i.documentReference} · {i.documentTitre}</small></td>
                         <td>{i.projetNom ? <>{i.projetNom}<small className="cell-sub">{i.elementDescription || '—'}</small></> : <span className="cell-sub">Hors projet</span>}</td>
-                        <td>{i.moteur ?? i.typeReconnaissance}<small className="cell-sub">{i.moteur ? i.typeReconnaissance : ''}</small></td><td>{i.langue ?? '—'}</td><td>{i.numeroPage ?? '—'}</td>
+                        <td>{i.moteur ?? i.typeReconnaissance}<small className="cell-sub">{i.moteur ? i.typeReconnaissance : ''}</small></td><td>{i.langue ?? '—'}</td><td>{i.layoutPages?.length ? i.layoutPages.join(', ') : i.numeroPage ?? '—'}</td>
                         <td>{c === null ? '—' : <span className={'ocr-conf ' + (c < OCR_CONFIDENCE_THRESHOLD ? 'low' : 'ok')} title={Math.round(c * 1000) / 10 + ' %'}><i style={{ width: Math.round(c * 100) + '%' }} /><b>{Math.round(c * 100)} %</b></span>}</td>
                         <td><Badge value={i.statutValidation} /></td><td>{formatDate(i.createdAt)}</td>
-                        <td><div className="table-actions">{canManage && i.statutValidation === 'NON_VALIDE' && <button className="btn small primary" disabled={busy === i.id} onClick={() => void validate(i)}>Valider</button>}<button className="btn small secondary" onClick={() => open(i)}>Ouvrir</button></div></td></tr>; })}</tbody></table></div>
+                        <td><div className="table-actions"><ResourceDetailsButton resource="ocrResult" id={i.id} title={i.fichierNom} label="Lire le texte" />{canManage && i.statutValidation === 'NON_VALIDE' && <button className="btn small primary" disabled={busy === i.id} onClick={() => void validate(i)}>Valider</button>}{i.hasLayout && <button className="btn small secondary" onClick={() => setLayoutItem(i)}>Positions</button>}{i.hasLayout && <button className="btn small secondary" disabled={busy === i.id} onClick={() => void exportAlto(i)} title="Le texte avec la position de chaque mot (ALTO)">ALTO</button>}<button className="btn small secondary" onClick={() => open(i)}>Ouvrir</button></div></td></tr>; })}</tbody></table></div>
                     : <Empty title={items.length ? 'Aucun résultat pour ces filtres' : 'Aucun résultat OCR'} description={items.length ? 'Modifiez le filtre ou l’état de vérification.' : 'Les textes extraits des fichiers numérisés apparaîtront ici dès qu’un résultat OCR est enregistré sur un fichier.'} />}
             </>}
         </div>
-        <p className="page-note"><Icon name="shield" size={15} />Le texte n’est jamais affiché ici : il reste soumis aux droits d’accès et à la confidentialité de chaque document. Les documents confidentiels ou sous restriction n’apparaissent pas.</p></>;
+        {layoutItem && <OcrLayoutDialog resultId={layoutItem.id} fileName={layoutItem.fichierNom} pageNumber={layoutItem.numeroPage} layoutPages={layoutItem.layoutPages} onClose={() => setLayoutItem(null)} />}
+        <p className="page-note"><Icon name="shield"  size={15} />La lecture des positions et du texte reste soumise aux droits d’accès et à la confidentialité de chaque document. Les documents confidentiels ou sous restriction n’apparaissent pas.</p></>;
 }

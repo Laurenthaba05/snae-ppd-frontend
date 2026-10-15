@@ -41,7 +41,7 @@ export function OcrJobsPanel({ element }: { element: DigitizationElement }) {
     const failures = items.filter(i => i.state === 'FAILED' && !i.hasText);
     const noText = items.filter(i => i.state === 'DONE' && !i.hasText);
     return <section className="ocr-jobs" aria-label="OCR automatique">
-        <div className="section-heading"><h4>OCR automatique</h4>
+        <div className="section-heading"><h4>OCR automatique</h4><button type="button" className="btn small secondary" onClick={q.refresh} disabled={q.loading || busy}>Actualiser l’OCR</button>
             {canRun && <button type="button" className="btn small secondary" onClick={() => void run()} disabled={busy}><Icon name="refresh" size={15} />{summary.failed || summary.noText ? 'Relancer l’OCR' : 'Lancer l’OCR'}</button>}</div>
         {!enabled && <small className="wf-note">L’OCR automatique est désactivé sur ce serveur.</small>}
         <ul className="scan-chips ocr-jobs-chips">

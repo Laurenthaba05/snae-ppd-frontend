@@ -1,14 +1,17 @@
 import type { Transport, RequestOptions } from '../core/http.js';
 import { uuid } from '../core/validation.js';
 import type { ConformityReport, ImageTechnical, PdfaDeclaration, ScanProfile } from '../core/scanProfiles.js';
-import type { AccessPdf, DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrResult, Contribution, OcrListItem, Scanner, ScanLot, ScanPage, PageCheck, LotSummary, ElementWorkflow, ElementTransition, PipelineStage, QueueItem, DigitizationElementStatus, OcrJobs, OcrStatus, QualityAnalysis, FileAssets } from '../core/types.js';
+import type { LotAdvance, AccessPdf, DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrLayout, OcrResult, Contribution, OcrListItem, Scanner, ScanLot, ScanPage, PageCheck, LotSummary, ElementWorkflow, ElementTransition, PipelineStage, QueueItem, DigitizationElementStatus, OcrJobs, OcrStatus, QualityAnalysis, FileAssets } from '../core/types.js';
 export class DigitizationApi {
     constructor(readonly transport: Transport) { }
     projects(signal?: AbortSignal): Promise<DigitizationProject[]> { return this.transport.request('/digitization/projects', { signal }); }
     elementsByProject(projectId: string, signal?: AbortSignal): Promise<DigitizationElement[]> { return this.transport.request('/digitization/projects/' + uuid(projectId) + '/elements', { signal }); }
     qualityControls(signal?: AbortSignal): Promise<QualityControlListItem[]> { return this.transport.request('/digitization/quality-controls', { signal }); }
     qualityControlsByElement(elementId: string, signal?: AbortSignal): Promise<QualityControl[]> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/quality-controls', { signal }); }
+    ocrLayout(id: string, signal?: AbortSignal, page?: number): Promise<OcrLayout> { return this.transport.request('/digitization/ocr-results/' + uuid(id) + '/layout' + (page === undefined ? '' : '?page=' + page), { signal }); }
     ocrResults(signal?: AbortSignal): Promise<OcrListItem[]> { return this.transport.request('/digitization/ocr-results', { signal }); }
+    /** Le texte reconnu avec la boîte de chaque mot (ALTO 4). Sans numéro, regroupe toutes les pages OCR disponibles ; avec un numéro, exporte cette seule page. */
+    ocrAlto(id: string, signal?: AbortSignal, page?: number): Promise<Blob> { return this.transport.request('/digitization/ocr-results/' + uuid(id) + '/alto' + (page === undefined ? '' : '?page=' + page), { signal, responseType: 'blob' }); }
     /** État d'ensemble de l'OCR automatique : configuré, moteur présent, file qui avance, pages en échec. */
     ocrStatus(signal?: AbortSignal): Promise<OcrStatus> { return this.transport.request('/digitization/ocr/status', { signal }); }
     ocrResultsByFile(fichierId: string, signal?: AbortSignal): Promise<OcrResult[]> { return this.transport.request('/digitization/files/' + uuid(fichierId) + '/ocr-results', { signal }); }
@@ -17,6 +20,9 @@ export class DigitizationApi {
     lot(id: string, signal?: AbortSignal): Promise<ScanLot> { return this.transport.request('/digitization/lots/' + uuid(id), { signal }); }
     scanners(signal?: AbortSignal): Promise<Scanner[]> { return this.transport.request('/digitization/scanners', { signal }); }
     lotsByProject(projectId: string, signal?: AbortSignal): Promise<ScanLot[]> { return this.transport.request('/digitization/projects/' + uuid(projectId) + '/lots', { signal }); }
+    advanceLot(id: string, body: { de: DigitizationElementStatus; vers: DigitizationElementStatus; motif: string | null }, key: string): Promise<LotAdvance> {
+        return this.transport.request('/digitization/lots/' + uuid(id) + '/advance', { method: 'POST', body, idempotencyKey: key });
+    }
     lotSummary(lotId: string, signal?: AbortSignal): Promise<LotSummary> { return this.transport.request('/digitization/lots/' + uuid(lotId) + '/summary', { signal }); }
     pagesByElement(elementId: string, signal?: AbortSignal): Promise<ScanPage[]> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/pages', { signal }); }
     pageCheck(elementId: string, signal?: AbortSignal): Promise<PageCheck> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/page-check', { signal }); }

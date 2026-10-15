@@ -1042,6 +1042,21 @@ export interface QualityControl {
     defauts: Json | null;
     decision: string | null;
 }
+export interface OcrWord {
+    text: string;
+    x: number; y: number; width: number; height: number;
+    /** Score du moteur de 0 à 100, distinct de la confiance globale de 0 à 1. */
+    confidence: number | null;
+    line: number;
+}
+export interface OcrLayout {
+    pageNumber?: number;
+    resultId: string;
+    width: number; height: number;
+    unit: string;
+    truncated: boolean;
+    words: OcrWord[];
+}
 export interface OcrResult {
     id: string;
     fichierId: string;
@@ -1055,6 +1070,9 @@ export interface OcrResult {
     statutValidation: OcrValidationStatus;
     createdAt: string;
     versionLock: number;
+    /** Le moteur a donné la position de chaque mot : l'export ALTO est possible. */
+    hasLayout?: boolean;
+    layoutPages?: number[];
 }
 export interface Contribution {
     id: string;
@@ -1453,6 +1471,9 @@ export interface OcrListItem {
     statutValidation: OcrValidationStatus;
     caracteres: number;
     createdAt: string;
+    /** Le moteur a donné la position de chaque mot : l'export ALTO est possible. */
+    hasLayout?: boolean;
+    layoutPages?: number[];
 }
 /* ---------- Emplacement des archives physiques : habituel, actuel, dernière présence vérifiée ---------- */
 export type PresenceResult = 'PRESENTE' | 'AUTRE_EMPLACEMENT' | 'ABSENTE';

@@ -4,7 +4,7 @@ import type { DocumentFile } from '../core/types';
 import { checkFileContent, downloadFilename, previewKind } from '../core/file-content';
 import { Busy, ErrorNotice, Modal, Notice, useResource } from './components';
 
-const PdfPreview = lazy(() => import('./PdfPreview'));
+const DocumentPdfPreview = lazy(() => import('./DocumentPdfPreview'));
 
 class PreviewBoundary extends React.Component<{ children: React.ReactNode }, { failed: boolean }> {
     state = { failed: false };
@@ -23,7 +23,7 @@ function Preview({ blob, url, file }: { blob: Blob; url: string; file: DocumentF
     }, [blob, kind]);
     if (error) return <ErrorNotice error={error}/>;
     switch (kind) {
-        case 'pdf': return <Suspense fallback={<Busy label="Ouverture du lecteur PDF…"/>}><PdfPreview blob={blob}/></Suspense>;
+        case 'pdf': return <Suspense fallback={<Busy label="Ouverture du lecteur PDF…"/>}><DocumentPdfPreview key={file.id} blob={blob} fileId={file.id}/></Suspense>;
         case 'image': return <img className="file-preview-image" src={url} alt={file.originalFilename} onError={() => setError(new Error('Cette image ne peut pas être affichée. Vous pouvez télécharger le fichier.'))}/>;
         case 'text': return text === null ? <Busy /> : <pre className="file-preview-text">{text}</pre>;
         case 'audio': return <audio controls src={url} onError={() => setError(new Error('Ce format audio ne peut pas être lu par votre navigateur.'))}/>;

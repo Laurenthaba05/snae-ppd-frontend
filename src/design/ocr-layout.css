@@ -1,0 +1,22 @@
+.modal.wide:has(.ocr-layout) { max-width: 1080px; }
+.ocr-layout { padding: 0 20px 20px; }
+
+.ocr-layout-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr); gap: 20px; align-items: start; }
+.ocr-layout-canvas { max-height: 65vh; overflow: auto; background: #e9edf0; padding: 8px; border: 1px solid #c7d2d9; border-radius: 8px; }
+.ocr-layout-canvas svg { display: block; height: auto; box-shadow: 0 1px 4px #0002; }
+.ocr-layout-word { cursor: pointer; }
+.ocr-layout-word rect { fill: #16735c0a; stroke: #3e8e7c; stroke-width: 1; }
+.ocr-layout-word text { fill: #182e2a; user-select: none; pointer-events: none; }
+.ocr-layout-word.low rect { stroke: #b9600c; fill: #fff0df; }
+.ocr-layout-word.selected rect, .ocr-layout-word:hover rect { stroke: #154fca; stroke-width: 2; fill: #c7dcff; }
+.ocr-layout-word-list { display: flex; flex-direction: column; gap: 6px; max-height: 32vh; overflow-y: auto; padding: 4px; }
+.ocr-layout-word-list .btn { text-align: left; display: flex; justify-content: space-between; gap: 12px; overflow-wrap: anywhere; white-space: normal; }
+.ocr-layout-word-list small { font-weight: 400; flex-shrink: 0; }
+.ocr-layout-word-list [aria-pressed="true"] { border-color: #154fca; background: #e8f0ff; color: #153b80; }
+.ocr-layout-selection { background: #f4f7f8; padding: 12px; border-radius: 8px; margin-bottom: 12px; overflow-wrap: anywhere; }
+.ocr-layout-selection h3 { margin-top: 0; }
+.ocr-layout-selection dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin-bottom: 0; }
+.ocr-layout-selection dd { margin: 0; font-weight: 600; }
+.ocr-layout .table-toolbar { flex-wrap: wrap; align-items: end; }
+.ocr-layout-details .pagination { flex-wrap: wrap; gap: 8px; }
+@media (max-width: 760px) { .ocr-layout-grid { grid-template-columns: minmax(0, 1fr); } .ocr-layout-canvas { max-height: 48vh; } }

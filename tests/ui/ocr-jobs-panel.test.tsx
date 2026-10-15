@@ -36,21 +36,21 @@ it('résume l’état de l’OCR, explique les échecs et propose de relancer', 
     await waitFor(() => expect(fixture.digitization.ocrJobs).toHaveBeenCalledTimes(2));
 });
 
-it('sans habilitation « OCR et indexation », ou quand tout est déjà traité, aucun bouton n’est proposé', async () => {
+it('sans habilitation « OCR et indexation », ou quand tout est déjà traité, aucun lancement n’est proposé', async () => {
     fixture.allowed = new Set(['DIGITIZATION_READ']);
     fixture.digitization.ocrJobs.mockResolvedValue(jobs([job(1, { state: 'FAILED', errorCode: 'EXTRACTION_TIMEOUT' })]));
     const view = render(<OcrJobsPanel element={element()} />);
     await screen.findByText(/délai dépassé/);
-    expect(screen.queryByRole('button', { name: /OCR/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /^(Lancer|Relancer) l’OCR$/ })).toBeNull();
     view.unmount();
     fixture.allowed = new Set(['DIGITIZATION_READ', 'DIGITIZATION_OCR']);
     fixture.digitization.ocrJobs.mockResolvedValue(jobs([job(1, { hasText: true, state: 'DONE' })]));
     render(<OcrJobsPanel element={element()} />);
     await screen.findByText('1 / 1 texte reconnu');
-    expect(screen.queryByRole('button', { name: /OCR/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /^(Lancer|Relancer) l’OCR$/ })).toBeNull();
 });
 
-it('désactivé sur le serveur et sans historique : rien n’est affiché ; avec historique : l’état sans bouton', async () => {
+it('désactivé sur le serveur et sans historique : rien n’est affiché ; avec historique : l’état sans lancement', async () => {
     fixture.digitization.ocrJobs.mockResolvedValue(jobs([job(1)], false));
     const view = render(<OcrJobsPanel element={element()} />);
     await waitFor(() => expect(fixture.digitization.ocrJobs).toHaveBeenCalled());
@@ -59,7 +59,7 @@ it('désactivé sur le serveur et sans historique : rien n’est affiché ; avec
     fixture.digitization.ocrJobs.mockResolvedValue(jobs([job(1, { hasText: true })], false));
     render(<OcrJobsPanel element={element()} />);
     expect(await screen.findByText(/désactivé sur ce serveur/)).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /OCR/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /^(Lancer|Relancer) l’OCR$/ })).toBeNull();
 });
 
 it('une tâche active rafraîchit l’état toutes les huit secondes, puis s’arrête quand tout est terminé', async () => {
@@ -68,11 +68,19 @@ it('une tâche active rafraîchit l’état toutes les huit secondes, puis s’a
     render(<OcrJobsPanel element={element()} />);
     expect(await screen.findByText('1 en cours')).toBeTruthy();
     expect(screen.getByText('1 en attente')).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /OCR/ })).toBeNull();   // rien à lancer tant que tout est pris en charge
+    expect(screen.queryByRole('button', { name: /^(Lancer|Relancer) l’OCR$/ })).toBeNull();   // rien à lancer tant que tout est pris en charge
     fixture.digitization.ocrJobs.mockResolvedValue(jobs([job(1, { state: 'DONE', hasText: true }), job(2, { state: 'DONE', hasText: true })]));
     await act(async () => { await vi.advanceTimersByTimeAsync(8100); });
     expect(await screen.findByText('2 / 2 textes reconnus')).toBeTruthy();
     const calls = fixture.digitization.ocrJobs.mock.calls.length;
     await act(async () => { await vi.advanceTimersByTimeAsync(20000); });
     expect(fixture.digitization.ocrJobs.mock.calls.length).toBe(calls);   // plus de rafraîchissement : plus rien d'actif
+});
+
+it('actualise les compteurs après un import sans lancer une nouvelle reconnaissance', async () => {
+    fixture.digitization.ocrJobs.mockResolvedValueOnce(jobs([])).mockResolvedValueOnce(jobs([job(1, { state: 'DONE', hasText: true })]));
+    render(<OcrJobsPanel element={element()} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Actualiser l’OCR' }));
+    expect(await screen.findByText('1 / 1 texte reconnu')).toBeTruthy();
+    expect(fixture.digitization.command).not.toHaveBeenCalled();
 });
