@@ -13,6 +13,7 @@ const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(),
     api: { get: vi.fn(), list: vi.fn() },
     workflow: { documentWorkflows: vi.fn(), command: vi.fn(), definitions: vi.fn(), steps: vi.fn(), bindings: vi.fn(), taskActions: vi.fn() },
+    archivalIntake: { entries: vi.fn() },
     records: { documentTypes: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
@@ -25,6 +26,7 @@ const instance = (extra: Partial<WorkflowInstance> = {}): WorkflowInstance => ({
 const unhandled: unknown[] = [];
 beforeEach(() => {
     fixture.epoch += 1;
+    fixture.archivalIntake.entries.mockResolvedValue([{ id: TYPE_RAPPORT, numero: 'ENT-TEST' }]);
     fixture.allowed = new Set(['WORKFLOW_START', 'WORKFLOW_TASK_CLAIM', 'WORKFLOW_TASK_COMPLETE', 'WORKFLOW_DEFINITION_MANAGE']);
     for (const fn of [...Object.values(fixture.workflow), ...Object.values(fixture.records), ...Object.values(fixture.api)]) fn.mockReset();
     fixture.workflow.documentWorkflows.mockResolvedValue([]);
@@ -195,4 +197,15 @@ it('si les suites possibles ne se lisent pas, le code de transition se saisit co
     fireEvent.click(within(dialog).getByRole('button', { name: 'Terminer' }));
     await waitFor(() => expect(fixture.workflow.command).toHaveBeenCalledTimes(1));
     expect(fixture.workflow.command.mock.calls[0]![1]).toEqual({ transitionCode: 'VALIDER', comment: null });
+});
+
+it('transmet la définition explicite, le contexte et le lien archivistique au démarrage', async () => {
+ render(<WorkflowPanel documentId={DOC}/>);
+ fireEvent.change(screen.getByLabelText('Définition du circuit'), { target: { value: DEF } });
+ fireEvent.change(screen.getByLabelText('Contexte du circuit (JSON)'), { target: { value: '{"objet":"instruction"}' } });
+ await screen.findByRole('option', { name: 'ENT-TEST' });
+ fireEvent.change(screen.getByLabelText('Entrée archivistique associée'), { target: { value: TYPE_RAPPORT } });
+ fireEvent.click(screen.getByRole('button', { name: 'Démarrer un circuit' }));
+ await waitFor(() => expect(fixture.workflow.command).toHaveBeenCalled());
+ expect(fixture.workflow.command.mock.calls[0][1]).toEqual({ definitionId: DEF, context: { objet: 'instruction' }, entreeArchivistiqueId: TYPE_RAPPORT });
 });

@@ -1,3 +1,5 @@
+import { IntakeLinkPicker } from '../ui/IntakeLinkPicker';
+import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import React, { useRef, useState } from 'react';
 import { IntentKey } from '../core/validation';
@@ -195,7 +197,7 @@ function BindDefinitionDialog({ definitionId, onClose, onCreated }: {
     </Modal>;
 }
 
-function DefinitionDetailDialog({ definition, canManage, onClose, onChanged }: {
+export function DefinitionDetailDialog({ definition, canManage, onClose, onChanged }: {
     definition: WorkflowDefinition;
     canManage: boolean;
     onClose: () => void;
@@ -215,7 +217,7 @@ function DefinitionDetailDialog({ definition, canManage, onClose, onChanged }: {
         onChanged();
         onClose();
     };
-    return <Modal title={definition.name} subtitle={definition.code + ' · v' + definition.version} onClose={onClose} wide>
+    return <Modal title={definition.name} subtitle={definition.code + ' · v' + definition.version} onClose={onClose} wide><ResourceDetailsButton resource="workflowDefinition" id={definition.id} title={definition.name} /><ResourceDetailsButton resource="workflowTransitions" id={definition.id} label="Consulter les transitions" />
         <div className="form-grid">
             {canManage && definition.status === 'BROUILLON' && <div className="table-actions">
                 <button className="btn small secondary" onClick={() => setAddingStep(true)}>Ajouter une étape</button>
@@ -225,12 +227,12 @@ function DefinitionDetailDialog({ definition, canManage, onClose, onChanged }: {
             </div>}
             <div>
                 <h4>Étapes</h4>
-                {stepsQ.loading ? <Busy /> : stepsQ.error ? <ErrorNotice error={stepsQ.error} onRetry={stepsQ.refresh}/> : steps.length ? <div className="table-scroll"><table><thead><tr><th>Code</th><th>Libellé</th><th>Rôle responsable</th><th>Ordre</th><th>Initiale</th><th>Finale</th></tr></thead><tbody>{steps.map(s => <tr key={s.id}><td>{s.code}</td><td>{s.label}</td><td>{s.responsibleRoleId ? <EntityName kind="roles" id={s.responsibleRoleId}/> : <span className="cell-sub">Aucun rôle</span>}</td><td>{s.order}</td><td>{s.initial ? 'Oui' : 'Non'}</td><td>{s.final ? 'Oui' : 'Non'}</td></tr>)}</tbody></table></div> : <Empty title="Aucune étape" description="Ajoutez la première étape de ce circuit."/>}
+                {stepsQ.loading ? <Busy /> : stepsQ.error ? <ErrorNotice error={stepsQ.error} onRetry={stepsQ.refresh}/> : steps.length ? <div className="table-scroll"><table><thead><tr><th>Code</th><th>Libellé</th><th>Rôle responsable</th><th>Ordre</th><th>Délai (minutes)</th><th>Initiale</th><th>Finale</th></tr></thead><tbody>{steps.map(s => <tr key={s.id}><td>{s.code}</td><td>{s.label}</td><td>{s.responsibleRoleId ? <EntityName kind="roles" id={s.responsibleRoleId}/> : <span className="cell-sub">Aucun rôle</span>}</td><td>{s.order}</td><td>{s.delayMinutes ?? 'Sans délai'}</td><td>{s.initial ? 'Oui' : 'Non'}</td><td>{s.final ? 'Oui' : 'Non'}</td></tr>)}</tbody></table></div> : <Empty title="Aucune étape" description="Ajoutez la première étape de ce circuit."/>}
             </div>
             <div>
                 <h4>Types de documents liés</h4>
                 {bindingsQ.loading ? <Busy /> : bindingsQ.error ? <ErrorNotice error={bindingsQ.error} onRetry={bindingsQ.refresh}/> : (bindingsQ.data ?? []).length
-                    ? <div className="table-scroll"><table><thead><tr><th>Type de document</th><th>Obligatoire</th><th>Depuis le</th></tr></thead><tbody>{(bindingsQ.data ?? []).map(b => <tr key={b.id}><td>{typeLabel(b.typeDocumentId)}</td><td>{b.required ? 'Oui' : 'Non'}</td><td>{b.from}</td></tr>)}</tbody></table></div>
+                    ? <div className="table-scroll"><table><thead><tr><th>Type de document</th><th>Obligatoire</th><th>Priorité</th><th>Depuis le</th><th>Fin de validité</th></tr></thead><tbody>{(bindingsQ.data ?? []).map(b => <tr key={b.id}><td>{typeLabel(b.typeDocumentId)}</td><td>{b.required ? 'Oui' : 'Non'}</td><td>{b.priority}</td><td>{b.from}</td><td>{b.to ?? 'Sans date de fin'}</td></tr>)}</tbody></table></div>
                     : <Notice tone="warning">Ce circuit n’est lié à aucun type de document : il ne s’applique à aucun document.{canManage && definition.status === 'BROUILLON' ? ' Utilisez « Lier à un type de document ».' : ''}</Notice>}
             </div>
             {definition.status !== 'BROUILLON' && <p className="wf-note">Un circuit {definition.status === 'ACTIF' ? 'actif' : 'retiré'} ne se modifie plus : étapes, transitions et liens sont figés. Pour le changer, créez un nouveau circuit (brouillon) puis activez-le.</p>}
@@ -263,12 +265,15 @@ export function WorkflowPage() {
         </>;
 }
 
-function CompleteTaskDialog({ task, onClose, onDone }: {
-    task: WorkflowTask;
+export function CompleteTaskDialog({ task, onClose, onDone, requireActions = false }: {
+    task: Pick<WorkflowTask, 'taskId' | 'stepLabel'>;
+    requireActions?: boolean;
     onClose: () => void;
     onDone: () => void;
 }) {
     const { workflow, epoch } = useSession();
+    const completeIntent = useRef(new IntentKey());
+    const submitting = useRef(false);
     const actionsQ = useResource<WorkflowTaskActions>(s => workflow!.taskActions(task.taskId, s), 'task-actions:' + task.taskId + ':' + epoch);
     const actions = actionsQ.data;
     const [transitionCode, setTransitionCode] = useState('');
@@ -277,16 +282,20 @@ function CompleteTaskDialog({ task, onClose, onDone }: {
     const [error, setError] = useState<unknown>(null);
     const [touched, setTouched] = useState(false);
     // Les suites possibles viennent du serveur ; s'il ne les donne pas (droit de lecture absent, serveur plus ancien), le code se saisit comme avant.
-    const manual = !actionsQ.loading && !actions;
+    const manual = !requireActions && !actionsQ.loading && !actions;
     const needsChoice = Boolean(actions && !actions.canCompleteFinal);
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         setTouched(true);
-        if (needsChoice && !transitionCode) return;
+        if (submitting.current || busy || actionsQ.loading || (requireActions && !actions) || (needsChoice && !actions?.options.some(o => o.transitionCode === transitionCode && o.enabled))) return;
+        submitting.current = true;
         setBusy(true);
         setError(null);
         try {
-            await workflow!.command(`/workflow-tasks/${task.taskId}/complete`, { transitionCode: transitionCode.trim() || null, comment: comment.trim() || null }, crypto.randomUUID(), 'POST');
+            const path = '/workflow-tasks/' + task.taskId + '/complete';
+            const body = { transitionCode: transitionCode.trim() || null, comment: comment.trim() || null };
+            await workflow!.command(path, body, completeIntent.current.forRequest('POST', path, body), 'POST');
+            completeIntent.current.clear();
             onDone();
             onClose();
         }
@@ -294,6 +303,7 @@ function CompleteTaskDialog({ task, onClose, onDone }: {
             setError(e);
         }
         finally {
+            submitting.current = false;
             setBusy(false);
         }
     };
@@ -301,6 +311,7 @@ function CompleteTaskDialog({ task, onClose, onDone }: {
         <form onSubmit={submit} noValidate>
             <div className="form-grid">
                 {actionsQ.loading && <Busy />}
+                {requireActions && actionsQ.error ? <ErrorNotice error={actionsQ.error} onRetry={actionsQ.refresh} /> : null}
                 {actions?.canCompleteFinal && <p className="span2">Cette étape est la dernière : la terminer clôture le circuit.</p>}
                 {needsChoice && <Field label="Suite à donner *" wide error={touched && !transitionCode ? 'Choisissez la suite à donner.' : undefined}>
                     <select value={transitionCode} onChange={e => setTransitionCode(e.target.value)} disabled={busy}>
@@ -312,7 +323,7 @@ function CompleteTaskDialog({ task, onClose, onDone }: {
                 <Field label="Commentaire" wide><textarea value={comment} onChange={e => setComment(e.target.value)} disabled={busy}/></Field>
             </div>
             {error ? <ErrorNotice error={error}/> : null}
-            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy || actionsQ.loading}>Terminer</button></footer>
+            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy || actionsQ.loading || (requireActions && !actions)}>Terminer</button></footer>
         </form>
     </Modal>;
 }
@@ -322,12 +333,15 @@ export function WorkflowPanel({ documentId }: {
 }) {
     const { me, workflow, epoch } = useSession();
     const { scope } = useWorkspace();
+    const startFields = useOptionalFields('workflowStart');
+    const [intakeId, setIntakeId] = useState('');
     const startIntent = useRef(new IntentKey());
     const canStart = can(me, 'WORKFLOW_START', scope);
     const canClaim = can(me, 'WORKFLOW_TASK_CLAIM', scope);
     const canComplete = can(me, 'WORKFLOW_TASK_COMPLETE', scope);
     const canCancel = can(me, 'WORKFLOW_CANCEL', scope);
     const [starting, setStarting] = useState(false);
+    const [cancelling, setCancelling] = useState<WorkflowInstance | null>(null);
     const [completing, setCompleting] = useState<WorkflowTask | null>(null);
     const [busy, setBusy] = useState<string | null>(null);
     const [actionError, setActionError] = useState<unknown>(null);
@@ -335,9 +349,11 @@ export function WorkflowPanel({ documentId }: {
     const instances = instancesQ.data ?? [];
     const active = instances.find(i => i.status === 'EN_COURS' || i.status === 'SUSPENDU');
     const start = async () => {
+        if (starting) return;
         setStarting(true); setActionError(null);
         try {
-            await workflow!.command(`/documents/${documentId}/workflow`, {}, startIntent.current.forRequest('POST', `/documents/${documentId}/workflow`, {}), 'POST');
+            const body = { ...startFields.payload(), ...(intakeId ? { entreeArchivistiqueId: intakeId } : {}) };
+            await workflow!.command(`/documents/${documentId}/workflow`, body, startIntent.current.forRequest('POST', `/documents/${documentId}/workflow`, body), 'POST');
             startIntent.current.clear();
             instancesQ.refresh();
         }
@@ -361,30 +377,47 @@ export function WorkflowPanel({ documentId }: {
             setBusy(null);
         }
     };
-    const cancel = async (instance: WorkflowInstance) => {
-        const reason = window.prompt('Motif d’annulation :');
-        if (!reason)
-            return;
-        setActionError(null);
-        try {
-            await workflow!.command(`/workflows/${instance.instanceId}/cancel`, { reason }, crypto.randomUUID(), 'POST');
-            instancesQ.refresh();
-        }
-        catch (e) {
-            setActionError(e);
-        }
-    };
     return <section className="panel">
         <div className="section-heading"><h3>Circuit de validation</h3>{canStart && !active && <button className="btn small secondary" disabled={starting} onClick={start}>Démarrer un circuit</button>}</div>
+        {canStart && !active && <details><summary>Paramètres du nouveau circuit</summary><div className="form-grid"><OptionalFields form={startFields} disabled={starting}/><Field label="Entrée archivistique associée"><IntakeLinkPicker value={intakeId} onChange={setIntakeId} disabled={starting}/></Field></div></details>}
         {actionError !== null && <>
             {actionError instanceof ApiError && actionError.code === 'WORKFLOW_DEFINITION_MISSING'
                 ? <Notice tone="warning"><strong>Aucun circuit ne s’applique à ce type de document.</strong> Un circuit actif doit être lié au type du document (page « Circuits de validation », fiche du circuit, rubrique « Types de documents liés »).</Notice>
                 : <ErrorNotice error={actionError}/>}
         </>}
         {instancesQ.loading ? <Busy /> : instancesQ.error ? <ErrorNotice error={instancesQ.error} onRetry={instancesQ.refresh}/> : instances.length ? <div className="form-grid">{instances.map(instance => <div key={instance.instanceId}>
-                <div className="section-heading"><span><Badge value={instance.status}/> <small>Démarré le {formatDate(instance.startedAt)}</small></span>{canCancel && (instance.status === 'EN_COURS' || instance.status === 'SUSPENDU') && <button className="btn small danger-outline" onClick={() => cancel(instance)}>Annuler le circuit</button>}</div>
+                <div className="section-heading"><span><Badge value={instance.status}/> <small>Démarré le {formatDate(instance.startedAt)}</small></span><ResourceDetailsButton resource="workflow" id={instance.instanceId} />{canCancel && (instance.status === 'EN_COURS' || instance.status === 'SUSPENDU') && <button className="btn small danger-outline" onClick={() => setCancelling(instance)}>Annuler le circuit</button>}</div>
                 <div className="table-scroll"><table><thead><tr><th>Étape</th><th>Statut</th><th /></tr></thead><tbody>{instance.tasks.map(t => <tr key={t.taskId}><td><strong>{t.stepLabel ?? 'Étape'}</strong>{(t.roleName || t.assignedUserName || t.assignedUserId) && <small className="cell-sub">{t.assignedUserName ?? (t.assignedUserId ? <EntityName kind="users" id={t.assignedUserId}/> : t.roleName)}{t.assignedUserName || t.assignedUserId ? (t.roleName ? ' · ' + t.roleName : '') : ''}</small>}</td><td><Badge value={t.status}/></td><td>{t.status === 'OUVERTE' && canClaim && <button className="btn small secondary" disabled={busy === t.taskId} onClick={() => claim(t)}>Prendre en charge</button>}{t.status === 'EN_COURS' && canComplete && <button className="btn small secondary" onClick={() => setCompleting(t)}>Terminer</button>}</td></tr>)}</tbody></table></div>
             </div>)}</div> : <Empty title="Aucun circuit de validation" description="Aucun circuit n’a encore été démarré pour ce document."/>}
+        {cancelling && <CancelWorkflowDialog instanceId={cancelling.instanceId} onClose={() => setCancelling(null)} onDone={instancesQ.refresh} />}
         {completing && <CompleteTaskDialog task={completing} onClose={() => setCompleting(null)} onDone={instancesQ.refresh}/>}
     </section>;
+}
+
+/** Annulation motivée dans l’application, y compris les navigateurs sans window.prompt. */
+export function CancelWorkflowDialog({ instanceId, onClose, onDone }: { instanceId: string; onClose: () => void; onDone: () => void }) {
+    const { workflow } = useSession();
+    const [reason, setReason] = useState('');
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState<unknown>(null);
+    const intent = useRef(new IntentKey());
+    const submitting = useRef(false);
+    const submit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (submitting.current || !reason.trim()) return;
+        submitting.current = true; setBusy(true); setError(null);
+        const path = '/workflows/' + instanceId + '/cancel';
+        const body = { reason: reason.trim() };
+        try {
+            await workflow!.command(path, body, intent.current.forRequest('POST', path, body), 'POST');
+            intent.current.clear(); onDone(); onClose();
+        } catch (e) { setError(e); }
+        finally { submitting.current = false; setBusy(false); }
+    };
+    return <Modal title="Annuler le circuit" subtitle="Les tâches encore ouvertes seront annulées. Le motif reste dans l’historique." onClose={onClose} locked={busy}>
+        <form onSubmit={submit}><div className="form-grid">
+            <Field label="Motif d’annulation" wide><textarea value={reason} onChange={e => setReason(e.target.value)} required maxLength={2000} disabled={busy} /></Field>
+        </div>{error ? <ErrorNotice error={error} /> : null}
+        <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Revenir au circuit</button><button type="submit" className="btn danger" disabled={busy || !reason.trim()}>Confirmer l’annulation</button></footer></form>
+    </Modal>;
 }
