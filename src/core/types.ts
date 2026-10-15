@@ -178,6 +178,7 @@ export type FileRole = 'MAITRE_CONSERVATION' | 'DERIVE_CONSULTATION' | 'DERIVE_P
 export type FileScanStatus = 'PENDING_SCAN' | 'CLEAN' | 'INFECTED' | 'QUARANTINED' | 'FAILED';
 export type FileState = 'PENDING_SCAN' | 'QUARANTINED' | 'VALIDE' | 'REJETE' | 'ARCHIVE';
 export interface DocumentType {
+    description?: string | null;
     id: string;
     code: string;
     label: string;
@@ -185,6 +186,7 @@ export interface DocumentType {
     status: string;
 }
 export interface Dossier {
+    classificationNodeId?: string | null;
     id: string;
     reference: string;
     institutionId: string;
@@ -208,6 +210,7 @@ export interface Dossier {
     extentUnit?: string | null;
 }
 export interface RecordDocument {
+    origin?: string; holderInstitutionId?: string | null; transferredAt?: string | null;
     id: string;
     reference: string;
     institutionId: string;
@@ -240,6 +243,7 @@ export interface RecordDocument {
     essentialReason?: string | null;
 }
 export interface DocumentVersion {
+    comment?: string | null;
     id: string;
     documentId: string;
     number: number;
@@ -284,6 +288,7 @@ export interface PreservationMonitor {
 export type IngestionStatus = 'PROCESSING' | 'RETRYABLE' | 'REJECTED' | 'COMPLETED';
 export type ActorRole = 'AUTEUR' | 'PRODUCTEUR' | 'SIGNATAIRE' | 'DESTINATAIRE' | 'DONATEUR' | 'DEPOSANT' | 'DETENTEUR_ANTERIEUR' | 'CONTRIBUTEUR' | 'AUTRE';
 export interface Actor {
+    birthDate?: string | null; deathDate?: string | null; description?: string | null;
     id: string;
     type: string;
     name: string | null;
@@ -343,6 +348,7 @@ export interface Disposition {
 }
 export type LegalHoldStatus = 'ACTIF' | 'LEVE';
 export interface LegalHold {
+    description?: string | null; authority?: string | null;
     id: string;
     reference: string;
     reason: string;
@@ -1139,6 +1145,9 @@ export interface MetadataSchema {
     effectiveTo: string | null;
 }
 export interface MetadataField {
+    description?: string | null;
+    vocabulary?: string | null;
+    configuration?: Json;
     id: string;
     code: string;
     name: string;
@@ -1155,6 +1164,9 @@ export interface MetadataBinding {
     to: string | null;
 }
 export interface MetadataFieldDefinition {
+    description?: string | null;
+    vocabulary?: string | null;
+    order?: number | null;
     schemaCode: string;
     schemaVersion: number;
     schemaRequired: boolean;
@@ -1330,6 +1342,7 @@ export interface PreservationEventListItem {
     resultat: string;
 }
 export interface PreservationEvent {
+    agentId?: string | null; source?: Record<string, unknown> | null; destination?: Record<string, unknown> | null;
     id: string;
     fichierId: string;
     typeEvenement: 'MIGRATION_FORMAT' | 'RAFRAICHISSEMENT_SUPPORT' | 'VERIFICATION_FIXITE' | 'NORMALISATION' | 'AUTRE';
@@ -1897,6 +1910,7 @@ export interface DossierConvention { reference: string | null; signeeLe: string 
 export interface DossierAssurance { assureur: string | null; police: string | null; du: string | null; au: string | null; exonerationMotif: string | null; devise: string | null }
 export interface DossierTransport { mode: string | null; transporteur: string | null; convoyeur: string | null; allerLe: string | null; retourLe: string | null; emballage: string | null }
 export interface Dossier {
+    classificationNodeId?: string | null;
     id: string; numero: string; nature: DossierNature; institutionId: string; intitule: string; objet: string; lieuNom: string; lieuAdresse: string | null; dateDebut: string; dateFin: string; retourPrevu: string;
     emprunteurNom: string | null; emprunteurContact: string | null; commissaire: string | null; convention: DossierConvention; assurance: DossierAssurance; transport: DossierTransport;
     statut: DossierStatus; etape: DossierStage; creation: MovementStep; decision: MovementStep | null; decisionMotif: string | null; fermeture: MovementStep | null; fermeMotif: string | null;
@@ -1940,12 +1954,14 @@ export interface DocumentLifecycle {
     files: number; validatedFiles: number; validatedMasters: number; sealBlockers: string[]; closeBlockers: string[];
 }
 export interface RetentionRuleVersionSummary {
+    legalDescription?: string | null;
     id: string; number: number; status: 'BROUILLON' | 'ACTIVE' | 'RETIRE' | string; effectiveFrom: string; effectiveTo: string | null; duration: number; unit: string; trigger: string; finalDisposition: string;
     legalReference: string | null; typeDocumentIds: string[]; classificationNodeIds: string[]; currentPhaseDuration?: number | null; currentPhaseUnit?: string | null;
     triggerEventTypeId?: string | null; triggerEventTypeLabel?: string | null; sampling?: SamplingSummary | null;
 }
 export interface SamplingSummary { method: string; step: number | null; rate: number | null; modulo: number | null; remainder: number | null; note: string | null }
 export interface RetentionRuleListItem {
+    description?: string | null;
     id: string; code: string; label: string; scope: 'NATIONAL' | 'INSTITUTION' | string; institutionId: string | null; priority: number; status: string;
     versions: RetentionRuleVersionSummary[]; deletable: boolean;
 }
