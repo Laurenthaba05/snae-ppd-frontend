@@ -396,3 +396,9 @@ button.hm-kpi{cursor:pointer}button.hm-kpi:hover{border-color:#cfdad6;box-shadow
 .risk-counts small { margin-right: 4px; }
 .contact-row, .priority-row { border-top: 1px solid var(--line, #d0d5dd); padding-top: 8px; }
 .modal-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+/* Keep the mobile navigation above its dismissal scrim. */
+@media(max-width:720px){
+  .nx-shell .nav-scrim{z-index:95;inset:0}
+  .nx-shell .nx-sidebar{z-index:100;max-width:90vw}
+}

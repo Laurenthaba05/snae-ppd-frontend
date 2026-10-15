@@ -43,6 +43,7 @@ function OaiStatusPanel({ institutionId }: { institutionId: string }) {
                 <div><dt>Adresse du protocole</dt><dd>{s.endpoint}</dd></div>
                 <div><dt>Notices par page</dt><dd>{s.pageSize}</dd></div>
             </dl>}
+            <p className="table-actions">{s.enabled && s.configured && <a className="btn small secondary" href="/api/v1/portal/oai?verb=Identify" target="_blank" rel="noopener noreferrer">Consulter la réponse OAI-PMH</a>}<a href="/api/v1/portal/sitemap.xml" target="_blank" rel="noopener noreferrer">Plan XML du catalogue public</a><a href="/api/v1/portal/robots.txt" target="_blank" rel="noopener noreferrer">Règles d’indexation publique</a></p>
             <p><small>Le dépôt ne présente que les notices du catalogue public, en Dublin Core simple, avec leur identifiant ARK quand il existe. Sa configuration est celle de l’exploitant.</small></p>
         </div>}
     </section>;
@@ -68,7 +69,7 @@ function ArkRegistryPanel({ institutionId }: { institutionId: string }) {
             : (list.data ?? []).length === 0 ? <Empty title="Aucun identifiant attribué" description="Attribuez un identifiant depuis la fiche d’un document ou d’un bien patrimonial." icon="key" />
                 : <div className="table-scroll"><table><thead><tr><th>Identifiant</th><th>Objet</th><th>Attribué le</th></tr></thead>
                     <tbody>{(list.data ?? []).map(i => <tr key={i.id}>
-                        <td><code>{i.ark}</code></td>
+                        <td><code>{i.ark}</code> <ArkPublicLink identifier={i} /></td>
                         <td><strong>{i.objectTitle ?? 'Objet sans titre'}</strong><small className="cell-sub">{OBJECT_LABELS[i.objectType]}</small></td>
                         <td>{formatDate(i.createdAt)}</td>
                     </tr>)}</tbody></table></div>}
@@ -118,7 +119,7 @@ export function ArkPanel({ objectType, objectId, institutionId, canManage }: { o
         <div className="panel-padding">
             {action.error ? <ErrorNotice error={action.error} /> : null}
             {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
-                : q.data ? <p><code>{q.data.ark}</code> <small>Attribué le {formatDate(q.data.createdAt)}. Il ne change plus.</small></p>
+                : q.data ? <p><code>{q.data.ark}</code> <ArkPublicLink identifier={q.data} /> <small>Attribué le {formatDate(q.data.createdAt)}. Il ne change plus.</small></p>
                     : <>
                         <p><small>Aucun identifiant pérenne n’est attribué à cet objet.</small></p>
                         {canManage && (authority.data
@@ -127,4 +128,9 @@ export function ArkPanel({ objectType, objectId, institutionId, canManage }: { o
                     </>}
         </div>
     </section>;
+}
+
+function ArkPublicLink({ identifier }: { identifier: ArkIdentifier }) {
+    const href = '/api/v1/portal/ark/' + encodeURIComponent(identifier.naan) + '/' + encodeURIComponent(identifier.name);
+    return <a href={href} className="text-link" target="_blank" rel="noopener noreferrer">Résoudre l’identifiant public</a>;
 }
