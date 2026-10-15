@@ -1,6 +1,7 @@
+import { LotAdvanceDialog } from './LotAdvanceDialog';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
-import { isCaptureStage, stageName } from '../core/workflow';
+import { canAdvance, isCaptureStage, stageName } from '../core/workflow';
 import { IntentKey, uuid } from '../core/validation';
 import { readImageInfo, type ImageInfo } from '../core/scanImage';
 import { formatRanges, planPages, remainingGaps, type PlanRow } from '../core/pageNumbering';
@@ -141,11 +142,12 @@ function LotSummaryTable({ lotId }: { lotId: string }) {
 }
 
 export function LotsPanel({ projectId, canManage, focusLotId, projectName }: { projectId: string; canManage: boolean; focusLotId?: string | null; projectName?: string }) {
-    const { digitization, epoch } = useSession();
+    const { me, digitization, epoch } = useSession();
     const q = useResource<ScanLot[]>(s => digitization!.lotsByProject(projectId, s), 'lots:' + projectId + ':' + epoch);
     const scannersQ = useResource<Scanner[]>(s => digitization!.scanners(s), 'lots-scanners:' + epoch);
     const names = Object.fromEntries((scannersQ.data ?? []).map(s => [s.id, s.code + ' · ' + s.nom]));
     const [creating, setCreating] = useState(false);
+    const [advancing, setAdvancing] = useState<ScanLot | null>(null);
     const [closing, setClosing] = useState<ScanLot | null>(null);
     const [open, setOpen] = useState<string | null>(focusLotId ?? null);
     const [importLot, setImportLot] = useState<ScanLot | null>(null);
@@ -161,9 +163,10 @@ export function LotsPanel({ projectId, canManage, focusLotId, projectName }: { p
         <div className="section-heading"><h3>Lots de numérisation</h3>{canManage && <button className="btn small primary" onClick={() => setCreating(true)}>Créer un lot</button>}</div>
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : lots.length ? <div className="table-scroll"><table><thead><tr><th>Lot</th><th>Scanner</th><th>Réglages</th><th>Minimum</th><th>Statut</th><th /></tr></thead>
             <tbody>{lots.flatMap(lot => [<tr key={lot.id}><td><strong>{lot.code}</strong>{lot.nom && <small className="cell-sub">{lot.nom}</small>}</td><td>{lot.scannerId ? names[lot.scannerId] ?? 'Scanner non disponible' : '—'}</td><td>{scannerSettings(lot)}</td><td>{lot.resolutionMinDpi} dpi</td><td><Badge value={lot.statut} /></td>
-                <td className="table-actions"><button className="btn small secondary" aria-expanded={open === lot.id} onClick={() => setOpen(open === lot.id ? null : lot.id)}>{open === lot.id ? 'Masquer le suivi' : 'Suivi des pages'}</button>{lot.statut === 'OUVERT' && <SheetsButton label="Feuilles" title={'Feuilles du lot ' + lot.code} build={() => lotSheets(lot)} />}{canManage && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setImportLot(lot)}><Icon name="upload" size={15} />Importer</button>}{canManage && lot.statut === 'OUVERT' && <button className="btn small warning" onClick={() => setClosing(lot)}>Clore</button>}</td></tr>,
+                <td className="table-actions"><button className="btn small secondary" aria-expanded={open === lot.id} onClick={() => setOpen(open === lot.id ? null : lot.id)}>{open === lot.id ? 'Masquer le suivi' : 'Suivi des pages'}</button>{lot.statut === 'OUVERT' && <SheetsButton label="Feuilles" title={'Feuilles du lot ' + lot.code} build={() => lotSheets(lot)} />}{canManage && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setImportLot(lot)}><Icon name="upload" size={15} />Importer</button>}{(canManage || canAdvance(me)) && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setAdvancing(lot)}>Faire avancer le lot</button>}{canManage && lot.statut === 'OUVERT' && <button className="btn small warning" onClick={() => setClosing(lot)}>Clore</button>}</td></tr>,
                 open === lot.id ? <tr key={lot.id + ':summary'}><td colSpan={6}><LotSummaryTable key={lot.id + ':' + bump} lotId={lot.id} /></td></tr> : null])}</tbody></table></div>
             : <p className="page-note">Aucun lot dans ce projet : créez-en un pour regrouper les éléments scannés avec les mêmes réglages.</p>}
+        {advancing && <LotAdvanceDialog lot={advancing} onClose={() => setAdvancing(null)} onDone={() => { q.refresh(); setBump(b => b + 1); }} />}
         {creating && <LotDialog projectId={projectId} onClose={() => setCreating(false)} onCreated={q.refresh} />}
         {closing && <CloseLotDialog lot={closing} onClose={() => setClosing(null)} onClosed={q.refresh} />}
         {importLot && <BatchImportDialog projectId={projectId} lot={importLot} onClose={() => setImportLot(null)} onDone={() => setBump(b => b + 1)} />}
