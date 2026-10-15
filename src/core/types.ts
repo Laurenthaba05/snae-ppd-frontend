@@ -1205,6 +1205,12 @@ export interface WorkflowBinding {
     from: string;
     to: string | null;
 }
+export type WorkflowInboxBucket = 'MINE' | 'AVAILABLE';
+export interface WorkflowInboxItem {
+    id: string; instanceId: string; stepId: string; stepLabel: string;
+    status: WorkflowTaskStatus; dueAt: string | null;
+    documentId: string; documentReference: string; documentTitle: string;
+}
 export interface WorkflowTask {
     taskId: string;
     stepId: string;

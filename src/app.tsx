@@ -41,6 +41,7 @@ import { VocabularyPage } from './ui/Vocabularies';
 import { NotificationBell, NotificationsPage } from './ui/Notifications';
 import { MetadataPage } from './pages/Metadata';
 import { ArchivalIntakePage } from './pages/ArchivalIntake';
+import { TaskInboxPage } from './pages/TaskInbox';
 import { WorkflowPage } from './pages/Workflow';
 import { RetentionNationalPage } from './pages/RetentionNational';
 import { ConsultationsPage, CommunicationsPage } from './pages/Consultations';
@@ -49,7 +50,7 @@ import type { Catalog, RecordCatalog } from './core/types';
 
 const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
 const recordKeys = ['documents', 'dossiers'];
-const connectedModules = new Set(['acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires']);
+const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires']);
 
 function Shell() {
     const { me, demo, epoch, logout, switchPersona, resetDemo } = useSession();
@@ -81,6 +82,7 @@ function Shell() {
         { path: 'acquisition', label: 'Acquisition & imports', group: 'Collecte', ok: moduleVisible(me, 'acquisition', scope, demo), demo: false },
         { path: 'fonds', label: 'Fonds et producteurs', group: 'Archives', ok: moduleVisible(me, 'fonds', scope, demo), demo: false },
         { path: 'droits', label: 'Motifs et sources juridiques', group: 'Accès', ok: demo || can(me, 'RIGHTS_READ', {}), demo: false },
+        { path: 'taches', label: 'Boîte des tâches', group: 'Traitements', ok: !demo && moduleVisible(me, 'taches', scope), demo: false },
         { path: 'circuits-validation', label: 'Circuits de validation', group: 'Traitements', ok: demo || can(me, 'WORKFLOW_DEFINITION_MANAGE', scope), demo: false },
         { path: 'scanners', label: 'Scanners', group: 'Traitements', ok: demo || can(me, 'DIGITIZATION_READ', {}), demo: false },
         { path: 'traitement', label: 'Suivi du traitement', group: 'Traitements', ok: demo || can(me, 'DIGITIZATION_READ', {}), demo: false },
@@ -181,6 +183,7 @@ function Shell() {
         if (!demo && section === 'vocabulaires') return can(me, 'VOCABULARY_MANAGE', scope) ? <VocabularyPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion des vocabulaires contrôlés pour ce périmètre.</Notice>;
         if (!demo && section === 'metadonnees') return can(me, 'METADATA_SCHEMA_MANAGE', scope) ? <MetadataPage /> : <Notice tone="warning">Cette section exige une habilitation d’administration des schémas de métadonnées.</Notice>;
         if (!demo && section === 'versements') return can(me, 'ARCHIVAL_INTAKE_READ', {}) ? <ArchivalIntakePage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des entrées archivistiques.</Notice>;
+        if (!demo && section === 'taches') return <TaskInboxPage />;
         if (!demo && section === 'circuits-validation') return can(me, 'WORKFLOW_DEFINITION_MANAGE', scope) ? <WorkflowPage /> : <Notice tone="warning">Cette section exige une habilitation d’administration des circuits de validation.</Notice>;
         if (!demo && (section === 'sort-final' || section === 'gel-legal' || section === 'eliminations')) return <RetentionNationalPage />;
         if (!demo && section === 'consultations') return can(me, 'CONSULTATION_READ', scope) ? <ConsultationsPage /> : <Notice tone="warning">Cette section exige une habilitation de lecture des demandes de dérogation pour ce périmètre.</Notice>;

@@ -2,7 +2,8 @@ import { activeGrant, can } from '../core/policy';
 import type { Me, ScopeTarget } from '../core/types';
 /** Visual visibility only. Every API operation must still be authorized on the server. */
 export const modulePermissions: Record<string, { codes: string[]; national?: boolean; anyScope?: boolean }> = {
-  acquisition:{codes:['ACQUISITION_IMPORT_PREVIEW','ACQUISITION_EXTRACT','ACQUISITION_REVIEW'],anyScope:true},
+  scanners:{codes:['DIGITIZATION_READ','FILE_INGEST'],anyScope:true},
+  acquisition:{codes:['FILE_INGEST','ACQUISITION_IMPORT_PREVIEW','ACQUISITION_EXTRACT','ACQUISITION_REVIEW'],anyScope:true},
   documents: {codes:['DOCUMENT_READ']}, dossiers:{codes:['DOSSIER_READ']},
   fonds:{codes:['ARCHIVAL_DESCRIPTION_READ']}, classement:{codes:['CLASSIFICATION_READ']},
   metadonnees:{codes:['METADATA_SCHEMA_MANAGE']}, vocabulaires:{codes:['VOCABULARY_MANAGE']},
@@ -14,6 +15,7 @@ export const modulePermissions: Record<string, { codes: string[]; national?: boo
   'salle-lecture':{codes:['READING_ROOM_READ','READING_ROOM_DESK','READING_ROOM_MANAGE']},
   numerisation:{codes:['DIGITIZATION_READ'],national:true}, ocr:{codes:['DIGITIZATION_READ'],national:true},
   controle:{codes:['DIGITIZATION_READ'],national:true},
+  taches:{codes:['WORKFLOW_TASK_CLAIM','WORKFLOW_TASK_COMPLETE'],anyScope:true},
   'circuits-validation':{codes:['WORKFLOW_DEFINITION_MANAGE']},
   conservation:{codes:['PRESERVATION_EVENT_READ']},
   'sort-final':{codes:['RETENTION_REVIEW']}, 'gel-legal':{codes:['LEGAL_HOLD_MANAGE']},
@@ -45,7 +47,7 @@ export const navIcons: Record<string,string> = {
   institutions:'building', departments:'users', users:'user', roles:'shield', permissions:'key', governance:'scale',
   versements:'inbox', acquisition:'download', documents:'document', dossiers:'folder', classement:'tree', metadonnees:'tag', vocabulaires:'tag', fonds:'landmark',
   recherche:'search', consultations:'eye', communications:'send', droits:'scale', portail:'users', 'salle-lecture':'book',
-  numerisation:'scanner', ocr:'ocr', controle:'checkCircle', 'circuits-validation':'userCheck',
+  numerisation:'scanner', ocr:'ocr', taches:'inbox', controle:'checkCircle', 'circuits-validation':'userCheck',
   conservation:'box', 'sort-final':'hourglass', 'gel-legal':'snow', eliminations:'trash', 'archives-physiques':'archive',
   patrimoine:'landmark', restauration:'wrench', statistiques:'chart', audit:'history',
   scanners:'scanner', notifications:'bell', traitement:'chart', parcours:'tree', profile:'user', help:'help'
