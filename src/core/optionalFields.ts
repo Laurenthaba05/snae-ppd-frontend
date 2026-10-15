@@ -4,6 +4,30 @@ export interface OptionalField {
  hint?: string; min?: number; max?: number; maxLength?: number;
 }
 export const optionalFieldGroups: Record<string, OptionalField[]> = {
+  actorDetails: [
+    { name: 'externalId', label: 'Identifiant externe', type: 'text', maxLength: 255 },
+    { name: 'birthDate', label: 'Date de naissance ou de création', type: 'date' },
+    { name: 'deathDate', label: 'Date de décès ou de dissolution', type: 'date' },
+    { name: 'description', label: 'Description de l’acteur', type: 'textarea', maxLength: 5000 }
+  ],
+  classificationDetails: [
+    { name: 'ordre', label: 'Ordre dans le classement', type: 'integer', min: 0 },
+    { name: 'dateDebutValidite', label: 'Début de validité', type: 'date' },
+    { name: 'dateFinValidite', label: 'Fin de validité', type: 'date' }
+  ],
+  preservationDetails: [
+    { name: 'source', label: 'État source (JSON)', type: 'json', hint: 'Objet décrivant le format, le support ou les propriétés avant intervention.' },
+    { name: 'destination', label: 'État de destination (JSON)', type: 'json', hint: 'Objet décrivant les propriétés après intervention.' }
+  ],
+  dispositionEvidence: [
+    { name: 'evidenceJson', label: 'Pièces complémentaires (JSON)', type: 'json', maxLength: 65536, hint: 'Objet de preuve complémentaire ; l’inventaire de destruction est produit par le serveur.' }
+  ],
+  workflowStart: [
+    { name: 'definitionId', label: 'Définition du circuit', type: 'uuid', hint: 'Identifiant facultatif. Vide : circuit déterminé automatiquement pour le document.' },
+    { name: 'context', label: 'Contexte du circuit (JSON)', type: 'json', hint: 'Objet de paramètres complémentaires du circuit.' }
+  ],
+  elementOrder: [{ name: 'ordre', label: 'Ordre de numérisation', type: 'integer', min: 0 }],
+
   "intake": [
     {
       "name": "sourceActeurId",
