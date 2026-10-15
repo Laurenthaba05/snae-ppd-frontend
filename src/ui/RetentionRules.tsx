@@ -1,3 +1,4 @@
+import { CommandDialog } from './CommandDialog';
 import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from './workspace';
@@ -38,6 +39,7 @@ export function RetentionRulesPanel() {
     const { retention, records, classification, epoch } = useSession();
     const { scope } = useWorkspace();
     const institutionId = scope.institutionId ?? null;
+    const [activating, setActivating] = useState<{ id: string; code: string } | null>(null);
     const [creating, setCreating] = useState(false);
     const [versioning, setVersioning] = useState<RetentionRuleListItem | null>(null);
     const [deleting, setDeleting] = useState<RetentionRuleListItem | null>(null);
@@ -60,19 +62,25 @@ export function RetentionRulesPanel() {
                 const state = ruleState(rule);
                 const targets = v ? targetNames(v, typeNames, nodeNames) : null;
                 return <tr key={rule.id}>
-                    <td><strong>{rule.code}</strong><small className="cell-sub">{rule.label}</small><small className="cell-sub">{rule.scope === 'INSTITUTION' ? 'Institution' : 'Nationale'}</small></td>
-                    <td>{v ? <>{versionSentence(v)}{v.legalReference && <small className="cell-sub">Référence légale : {v.legalReference}</small>}</> : '—'}</td>
+                    <td><strong>{rule.code}</strong><small className="cell-sub">{rule.label}</small>{rule.description && <small className="cell-sub">{rule.description}</small>}<small className="cell-sub">Priorité : {rule.priority}</small><small className="cell-sub">{rule.scope === 'INSTITUTION' ? 'Institution' : 'Nationale'}</small></td>
+                    <td>{v ? <>{versionSentence(v)}{v.legalDescription && <small className="cell-sub">{v.legalDescription}</small>}{v.effectiveTo && <small className="cell-sub">Fin d’effet : {v.effectiveTo}</small>}{v.legalReference && <small className="cell-sub">Référence légale : {v.legalReference}</small>}</> : '—'}</td>
                     <td>{targets ? <>{targets.types.length > 0 && <div><small className="cell-sub">Types de documents</small>{targets.types.join(', ')}</div>}{targets.nodes.length > 0 && <div><small className="cell-sub">Rubriques</small>{targets.nodes.join(', ')}</div>}</> : '—'}</td>
                     <td><Badge value={state.tone === 'ok' ? 'ACTIF' : state.tone === 'bad' ? 'REJETE' : state.tone === 'warn' ? 'SUSPENDU' : 'INACTIF'} label={state.tone === 'ok' ? 'En vigueur' : state.tone === 'bad' ? 'Sans version' : state.tone === 'warn' ? 'À activer' : 'Inactive'} /><small className="cell-sub">{state.text}</small>
                         {rule.versions.length > 1 && <small className="cell-sub">{rule.versions.length} versions au total</small>}</td>
                     <td className="table-actions">
                         {rule.status === 'ACTIF' && <button className="btn small secondary" onClick={() => { setVersioning(rule); setNotice(null); }}>{rule.versions.length ? 'Nouvelle version' : 'Ajouter une version'}</button>}
+                        {rule.status === 'ACTIF' && rule.versions.filter(version => version.status === 'BROUILLON').map(version => {
+                            const today = new Date().toISOString().slice(0, 10);
+                            const eligible = version.effectiveFrom <= today && (!version.effectiveTo || version.effectiveTo >= today);
+                            return <button key={version.id} type="button" className="btn small secondary" disabled={!eligible} title={eligible ? undefined : 'La période d’effet ne couvre pas aujourd’hui.'} onClick={() => setActivating({ id: version.id, code: rule.code })}>Activer le brouillon v{version.number}</button>;
+                        })}
                         {rule.deletable && <button className="btn small danger-outline" onClick={() => { setDeleting(rule); setNotice(null); }}>Supprimer</button>}
                     </td>
                 </tr>;
             })}</tbody></table></div> : <Empty title="Aucune règle de conservation" description="Créez la première règle pour que les documents clos reçoivent une échéance." icon="clock" />}
-        {creating && <ConfigureRetentionRuleDialog onClose={() => setCreating(false)} onSuccess={code => { setNotice(`La règle ${code} est active.`); rulesQ.refresh(); }} />}
-        {versioning && <ConfigureRetentionRuleDialog existing={versioning} onClose={() => setVersioning(null)} onSuccess={code => { setNotice(`La nouvelle version de la règle ${code} est en vigueur.`); rulesQ.refresh(); }} />}
+        {activating && <CommandDialog title={'Activer la règle ' + activating.code} description="Cette version remplacera la version en vigueur pour les prochaines échéances." api={retention!} path={'/versions/' + activating.id + '/activate'} build={() => ({})} onClose={() => setActivating(null)} onSuccess={() => { rulesQ.refresh(); setActivating(null); }} label="Activer"><Notice>Les échéances déjà planifiées conservent leur ancienne version.</Notice></CommandDialog>}
+        {creating && <ConfigureRetentionRuleDialog onClose={() => setCreating(false)} onSuccess={(code, activated) => { setNotice((activated ? `La règle ${code} est active.` : `La règle ${code} est enregistrée en brouillon.`)); rulesQ.refresh(); }} />}
+        {versioning && <ConfigureRetentionRuleDialog existing={versioning} onClose={() => setVersioning(null)} onSuccess={(code, activated) => { setNotice((activated ? `La nouvelle version de la règle ${code} est en vigueur.` : `La nouvelle version de la règle ${code} est enregistrée en brouillon.`)); rulesQ.refresh(); }} />}
         {deleting && <DeleteRuleDialog rule={deleting} onClose={() => setDeleting(null)} onDone={() => { setNotice(`La règle ${deleting.code} est supprimée.`); rulesQ.refresh(); }} />}
     </div>;
 }

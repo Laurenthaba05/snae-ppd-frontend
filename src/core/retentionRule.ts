@@ -13,6 +13,7 @@ export const RULE_PRIORITY = 100;
 
 export type RuleScope = 'NATIONAL' | 'INSTITUTION';
 export interface RuleForm {
+    description?: string; priority?: string; effectiveFrom?: string; effectiveTo?: string; legalDescription?: string;
     code: string; label: string; scope: RuleScope; duration: string; unit: string; trigger: string; finalDisposition: string; legalReference: string;
     typeDocumentIds: string[]; classificationNodeIds: string[];
     /** Durée de la phase courante (avant les archives intermédiaires) : vide si la règle n'a pas de phase intermédiaire. */
@@ -33,6 +34,10 @@ export const effectiveScope = (form: Pick<RuleForm, 'scope'>, institutionId: str
 /** Les contrôles faits avant d'envoyer quoi que ce soit : ce que le serveur refuserait de toute façon, dit en clair et avant qu'une règle vide ne soit créée. */
 export function ruleProblems(form: RuleForm, institutionId: string | null | undefined, ruleAlreadyCreated = false): string[] {
     const problems: string[] = [];
+    if (form.priority !== undefined && (!/^\d+$/.test(form.priority) || Number(form.priority) > 1000000)) problems.push('La priorité est un entier compris entre 0 et 1000000.');
+    for (const value of [form.effectiveFrom, form.effectiveTo]) if (value && (!/^\d{4}-\d{2}-\d{2}$/.test(value) || Number.isNaN(Date.parse(value)) || new Date(value).toISOString().slice(0, 10) !== value)) problems.push('Indiquez une date de validité correcte.');
+    if (form.effectiveTo && form.effectiveTo < (form.effectiveFrom || new Date().toISOString().slice(0, 10))) problems.push('La fin de validité doit suivre le début.');
+    if ((form.description?.length ?? 0) > 4000 || (form.legalDescription?.length ?? 0) > 4000) problems.push('Les descriptions sont limitées à 4000 caractères.');
     if (!ruleAlreadyCreated) {
         if (!form.code.trim()) problems.push('Le code de la règle est obligatoire.');
         if (!form.label.trim()) problems.push('L’intitulé de la règle est obligatoire.');
@@ -67,12 +72,12 @@ export function phaseProblems(form: Pick<RuleForm, 'duration' | 'unit' | 'phaseD
 
 export function ruleBody(form: RuleForm, institutionId: string | null | undefined): Record<string, unknown> {
     const scope = effectiveScope(form, institutionId);
-    return { code: form.code.trim(), label: form.label.trim(), scope, institutionId: scope === 'INSTITUTION' ? institutionId : null, priority: RULE_PRIORITY };
+    return { code: form.code.trim(), label: form.label.trim(), scope, institutionId: scope === 'INSTITUTION' ? institutionId : null, priority: form.priority === undefined ? RULE_PRIORITY : Number(form.priority), ...(form.description?.trim() ? { description: form.description.trim() } : {}) };
 }
 
 export function versionBody(form: RuleForm, today: string): Record<string, unknown> {
     return {
-        effectiveFrom: today, duration: Number(form.duration), unit: form.unit, trigger: form.trigger, finalDisposition: form.finalDisposition,
+        effectiveFrom: form.effectiveFrom || today, ...(form.effectiveTo ? { effectiveTo: form.effectiveTo } : {}), ...(form.legalDescription?.trim() ? { legalDescription: form.legalDescription.trim() } : {}), duration: Number(form.duration), unit: form.unit, trigger: form.trigger, finalDisposition: form.finalDisposition,
         legalReference: form.legalReference.trim() || null, typeDocumentIds: [...form.typeDocumentIds].sort(), classificationNodeIds: [...form.classificationNodeIds].sort(),
         currentPhaseDuration: form.phaseDuration.trim() === '' ? null : Number(form.phaseDuration), currentPhaseUnit: form.phaseDuration.trim() === '' ? null : form.phaseUnit,
         triggerEventTypeId: form.trigger === 'EVENEMENT' ? form.triggerEventTypeId : null,
@@ -91,6 +96,7 @@ export const latestVersion = (rule: Pick<RetentionRuleListItem, 'versions'>): Re
 export function ruleFormOf(rule: RetentionRuleListItem): RuleForm {
     const v = latestVersion(rule);
     return {
+        description: rule.description ?? '', priority: String(rule.priority), effectiveFrom: '', effectiveTo: '', legalDescription: v?.legalDescription ?? '',
         code: rule.code, label: rule.label, scope: rule.scope === 'INSTITUTION' ? 'INSTITUTION' : 'NATIONAL',
         duration: v ? String(v.duration) : '', unit: v?.unit ?? 'ANNEES', trigger: v?.trigger ?? 'DATE_CLOTURE_DOCUMENT', finalDisposition: v?.finalDisposition ?? 'REEXAMINER',
         legalReference: v?.legalReference ?? '', typeDocumentIds: v ? [...v.typeDocumentIds] : [], classificationNodeIds: v ? [...v.classificationNodeIds] : [],

@@ -139,3 +139,30 @@ it('si le plan de classement ne se lit pas, la règle peut viser des types de do
     submit();
     await waitFor(() => expect(fixture.retention.command).toHaveBeenCalledTimes(3));
 });
+
+it('enregistre une règle future en brouillon avec priorité, description et fondement juridique', async () => {
+ const { onSuccess } = setup();
+ await fill('FUTURE-1'); fireEvent.click(await screen.findByLabelText('Rapport'));
+ fireEvent.change(screen.getByLabelText('Description de la règle'), { target: { value: 'Règle pour le prochain exercice' } });
+ fireEvent.change(screen.getByLabelText('Priorité de la règle'), { target: { value: '42' } });
+ fireEvent.change(screen.getByLabelText('Début d’effet'), { target: { value: '2090-01-01' } });
+ fireEvent.change(screen.getByLabelText('Fin d’effet'), { target: { value: '2095-12-31' } });
+ fireEvent.change(screen.getByLabelText('Description juridique'), { target: { value: 'Application du texte de référence' } });
+ submit();
+ expect(await screen.findByText(/ne permet pas une activation aujourd’hui/)).toBeTruthy();
+ expect(fixture.retention.command).not.toHaveBeenCalled();
+ fireEvent.change(screen.getByLabelText('Enregistrement de la règle'), { target: { value: 'draft' } });
+ fireEvent.click(screen.getByRole('button', { name: 'Enregistrer le brouillon' }));
+ await waitFor(() => expect(onSuccess).toHaveBeenCalledWith('FUTURE-1', false));
+ expect(fixture.retention.command.mock.calls).toHaveLength(2);
+ expect(fixture.retention.command.mock.calls[0][1]).toMatchObject({ priority: 42, description: 'Règle pour le prochain exercice' });
+ expect(fixture.retention.command.mock.calls[1][1]).toMatchObject({ effectiveFrom: '2090-01-01', effectiveTo: '2095-12-31', legalDescription: 'Application du texte de référence' });
+});
+it('refuse une période de validité inversée avant toute création', async () => {
+ setup(); await fill(); fireEvent.click(await screen.findByLabelText('Rapport'));
+ fireEvent.change(screen.getByLabelText('Début d’effet'), { target: { value: '2090-01-01' } });
+ fireEvent.change(screen.getByLabelText('Fin d’effet'), { target: { value: '2080-01-01' } });
+ submit();
+ expect(await screen.findByText(/La fin de validité doit suivre le début/)).toBeTruthy();
+ expect(fixture.retention.command).not.toHaveBeenCalled();
+});

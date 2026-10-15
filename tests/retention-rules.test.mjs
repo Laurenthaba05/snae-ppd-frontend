@@ -14,7 +14,7 @@ test('La version qui sert de modèle est celle en vigueur, sinon la plus récent
 
 test('Une nouvelle version part des réglages de la dernière, l’identité de la règle étant figée', () => {
     const form = ruleFormOf(rule({ versions: [version({ legalReference: 'Décret D/2020/114', unit: 'MOIS', duration: 18, finalDisposition: 'ELIMINER' })] }));
-    assert.deepEqual(form, { code: 'CONS-10', label: 'Conservation 10 ans', scope: 'INSTITUTION', duration: '18', unit: 'MOIS', trigger: 'DATE_CLOTURE_DOCUMENT', finalDisposition: 'ELIMINER', legalReference: 'Décret D/2020/114',
+    assert.deepEqual(form, { description: '', priority: '100', effectiveFrom: '', effectiveTo: '', legalDescription: '', code: 'CONS-10', label: 'Conservation 10 ans', scope: 'INSTITUTION', duration: '18', unit: 'MOIS', trigger: 'DATE_CLOTURE_DOCUMENT', finalDisposition: 'ELIMINER', legalReference: 'Décret D/2020/114',
         typeDocumentIds: ['t-rapport', 't-arrete'], classificationNodeIds: ['n-1'], phaseDuration: '', phaseUnit: 'ANNEES', triggerEventTypeId: '',
         sampling: { method: 'SYSTEMATIQUE', step: '', rate: '', modulo: '', remainder: '', note: '' } });
     const empty = ruleFormOf(rule({ scope: 'NATIONAL', versions: [] }));
