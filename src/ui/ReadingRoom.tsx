@@ -218,11 +218,43 @@ function RegistrationDialog({ institutionId, onClose, onDone }: { institutionId:
     </Modal>;
 }
 
+export function ReaderContactDialog({ reader, onClose, onDone }: { reader: Reader; onClose: () => void; onDone: () => void }) {
+    const { readingRoom } = useSession();
+    const [form, setForm] = useState(() => ({
+        address: reader.address ?? '', phone: reader.phone ?? '', email: reader.email ?? '',
+        organization: reader.organization ?? '', researchTopic: reader.researchTopic,
+    }));
+    const action = useAction();
+    const set = (key: keyof typeof form, value: string) => setForm(previous => ({ ...previous, [key]: value }));
+    const valid = form.researchTopic.trim().length >= 5;
+    const submit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!valid || action.busy) return;
+        // Le serveur remplace tous ces champs : transmettre aussi les coordonnées inchangées.
+        const body = { address: form.address.trim() || null, phone: form.phone.trim() || null, email: form.email.trim() || null,
+            organization: form.organization.trim() || null, researchTopic: form.researchTopic.trim() };
+        if (await action.run({ id: reader.id, ...body }, key => readingRoom!.updateReader(reader.id, body, key))) onDone();
+    };
+    return <Modal title="Modifier les coordonnées" subtitle={readerName(reader)} onClose={onClose} locked={action.busy}>
+        <form onSubmit={submit}><div className="form-grid">
+            <Field label="Adresse" wide><input value={form.address} onChange={e => set('address', e.target.value)} maxLength={500} disabled={action.busy} /></Field>
+            <Field label="Téléphone"><input value={form.phone} onChange={e => set('phone', e.target.value)} maxLength={40} disabled={action.busy} /></Field>
+            <Field label="Adresse électronique"><input type="email" value={form.email} onChange={e => set('email', e.target.value)} maxLength={254} disabled={action.busy} /></Field>
+            <Field label="Organisme"><input value={form.organization} onChange={e => set('organization', e.target.value)} maxLength={200} disabled={action.busy} /></Field>
+            <Field label="Objet de la recherche *" wide hint="De 5 à 2000 caractères."><textarea value={form.researchTopic} onChange={e => set('researchTopic', e.target.value)} minLength={5} maxLength={2000} required disabled={action.busy} /></Field>
+        </div>{action.error ? <ErrorNotice error={action.error} /> : null}
+        <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={action.busy}>Annuler</button>
+            <button type="submit" className="btn primary" disabled={action.busy || !valid}>Enregistrer les coordonnées</button></footer></form>
+    </Modal>;
+}
+
 function ReaderDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
     const { me, readingRoom, epoch } = useSession();
     const mayManage = can(me, 'READING_ROOM_MANAGE', { institutionId });
     const [revision, setRevision] = useState(0);
     const [suspending, setSuspending] = useState(false);
+    const mayEdit = can(me, 'READING_ROOM_DESK', { institutionId });
+    const [editing, setEditing] = useState(false);
     const [renewing, setRenewing] = useState(false);
     const [until, setUntil] = useState(addYears(todayIso(), 1));
     const action = useAction();
@@ -252,11 +284,13 @@ function ReaderDialog({ id, institutionId, onClose, onChanged }: { id: string; i
                 <div><dt>Inscrit le</dt><dd>{formatDate(d.reader.registeredAt)}</dd></div>
             </dl>
             {action.error ? <ErrorNotice error={action.error} /> : null}
+            {mayEdit && <button type="button" className="btn secondary" disabled={action.busy} onClick={() => setEditing(true)}>Modifier les coordonnées</button>}
             {mayManage && <footer className="modal-footer">
                 {d.reader.status === 'SUSPENDU' ? <button type="button" className="btn secondary" disabled={action.busy} onClick={reinstate}>Lever la suspension</button>
                     : <button type="button" className="btn danger" disabled={action.busy} onClick={() => setSuspending(true)}>Suspendre la carte</button>}
                 <button type="button" className="btn primary" disabled={action.busy} onClick={() => setRenewing(true)}>Renouveler la carte</button>
             </footer>}
+            {editing && <ReaderContactDialog reader={d.reader} onClose={() => setEditing(false)} onDone={() => { setEditing(false); changed(); }} />}
             {renewing && <Modal title="Renouveler la carte" subtitle={`Validité actuelle : ${formatDay(d.reader.cardValidUntil)}`} onClose={() => setRenewing(false)} locked={action.busy}>
                 <Field label="Nouvelle validité *" hint="Au-delà de la validité actuelle, dix ans au plus."><input type="date" value={until} min={todayIso()} max={addYears(todayIso(), MAX_CARD_YEARS)} onChange={e => setUntil(e.target.value)} /></Field>
                 <footer className="modal-footer"><button type="button" className="btn secondary" onClick={() => setRenewing(false)} disabled={action.busy}>Renoncer</button>

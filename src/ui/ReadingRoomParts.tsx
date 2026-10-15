@@ -9,15 +9,17 @@ export function useAction() {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const intention = useRef<ReturnType<typeof commandKey> | null>(null);
+    const inFlight = useRef(false);
     const run = async <T,>(payload: unknown, call: (key: string) => Promise<T>): Promise<T | undefined> => {
-        if (busy) return undefined;
+        if (inFlight.current) return undefined;
+        inFlight.current = true;
         setBusy(true); setError(null);
         intention.current = commandKey(intention.current, payload);
         try {
             const result = await call(intention.current.key);
             intention.current = null;
             return result;
-        } catch (e) { setError(e); return undefined; } finally { setBusy(false); }
+        } catch (e) { setError(e); return undefined; } finally { inFlight.current = false; setBusy(false); }
     };
     return { busy, error, run, clearError: () => setError(null) };
 }
