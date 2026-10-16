@@ -14,8 +14,9 @@
     "build:demo": "tsc --noEmit && vite build --mode demo",
     "preview": "vite preview --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests scripts --max-warnings 42",
     "test": "npm run test:core && npm run test:ui",
-    "check": "npm run test && npm run build",
+    "check": "npm run lint && npm run test && npm run build",
     "test:ui": "vitest run --config vitest.config.ts",
     "test:core": "tsc -p tsconfig.core.json && node --test tests/*.test.mjs",
     "test:f3": "node --test tests/f3/*.test.mjs",
@@ -32,6 +33,7 @@
     "zxing-wasm": "3.1.4"
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@napi-rs/canvas": "1.0.9",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.7",
@@ -39,8 +41,11 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "axe-core": "4.13.0",
+    "eslint": "10.11.0",
+    "eslint-plugin-react-hooks": "7.1.1",
     "jsdom": "30.1.1",
     "typescript": "5.9.3",
+    "typescript-eslint": "8.71.0",
     "vite": "8.3.1",
     "vitest": "5.0.3"
   },
