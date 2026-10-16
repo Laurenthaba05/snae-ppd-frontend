@@ -12,7 +12,7 @@ import { FindingAidNodePage, FindingAidsPage } from './FindingAids';
 import { AccountPage } from './Account';
 import { ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage, VerifyEmailPage } from './Auth';
 
-export const isPortalPath = (path: string): boolean => path === '/portail' || path.startsWith('/portail/') || path.startsWith('/portail?');
+export { isPortalPath } from './path';
 
 /** Le choix de l'écran selon l'adresse : pur, pour que les routes se testent sans navigateur. */
 export function portalRoute(pathname: string): { screen: string; id?: string } {

@@ -11,42 +11,51 @@ import { LanguageSwitch, LocaleProvider, useLocale } from './ui/i18n';
 import { can, platform, subjectTarget } from './core/policy';
 import { UUID_RE } from './core/validation';
 import { Login } from './pages/Login';
-import { Dashboard } from './pages/Dashboard';
-import { TreatmentDashboard } from './pages/TreatmentDashboard';
-import { ScannersPage } from './pages/Scanners';
-import { OcrListPage } from './pages/OcrIndexing';
-import { CatalogPage } from './pages/Catalog';
-import { DetailPage } from './pages/Detail';
-import { PermissionsPage } from './pages/Permissions';
-import { GovernancePage } from './pages/Governance';
-import { ProfilePage } from './pages/Profile';
-import { HelpPage } from './pages/Help';
-import { DesignPreview } from './pages/DesignPreview';
-import { AcquisitionPage } from './pages/Acquisition';
-import { JourneysPage } from './pages/Journeys';
 import { moduleVisible, navGroups, navIcons } from './design/navigation';
 import { ArchiveModulePage, archiveModules } from './pages/ArchiveModules';
-import { RecordCatalogPage, RecordDetailPage, PreservationEventListPage } from './pages/Records';
-import { SearchPage } from './pages/Search';
-import { AuditPage } from './pages/Audit';
-import { ClassificationPage } from './pages/Classification';
-import { ArchivalDescriptionPage } from './pages/ArchivalDescription';
-import { PhysicalArchivesPage, RestorationListPage } from './pages/PhysicalArchives';
-import { HeritagePage } from './pages/Heritage';
-import { DigitizationPage, QualityControlListPage } from './pages/Digitization';
-import { RightsPage } from './pages/Rights';
-import { PortalAdminPage } from './pages/PortalAdmin';
-import { ReadingRoomPage } from './pages/ReadingRoom';
-import { VocabularyPage } from './ui/Vocabularies';
 import { NotificationBell, NotificationsPage } from './ui/Notifications';
-import { MetadataPage } from './pages/Metadata';
-import { ArchivalIntakePage } from './pages/ArchivalIntake';
-import { TaskInboxPage } from './pages/TaskInbox';
-import { WorkflowPage } from './pages/Workflow';
-import { RetentionNationalPage } from './pages/RetentionNational';
-import { ConsultationsPage, CommunicationsPage } from './pages/Consultations';
-import { PortalApp, isPortalPath } from './portal/PortalApp';
+import { isPortalPath } from './portal/path';
 import type { Catalog, RecordCatalog } from './core/types';
+
+/** Chaque écran est un morceau chargé à la première visite : le premier affichage ne porte que la coque, la connexion et ce qu'elle utilise. */
+const screen = <K extends string>(load: () => Promise<Record<K, React.ComponentType<any>>>, name: K) => React.lazy(() => load().then(module => ({ default: module[name] })));
+const Dashboard = screen(() => import('./pages/Dashboard'), 'Dashboard');
+const TreatmentDashboard = screen(() => import('./pages/TreatmentDashboard'), 'TreatmentDashboard');
+const ScannersPage = screen(() => import('./pages/Scanners'), 'ScannersPage');
+const OcrListPage = screen(() => import('./pages/OcrIndexing'), 'OcrListPage');
+const CatalogPage = screen(() => import('./pages/Catalog'), 'CatalogPage');
+const DetailPage = screen(() => import('./pages/Detail'), 'DetailPage');
+const PermissionsPage = screen(() => import('./pages/Permissions'), 'PermissionsPage');
+const GovernancePage = screen(() => import('./pages/Governance'), 'GovernancePage');
+const ProfilePage = screen(() => import('./pages/Profile'), 'ProfilePage');
+const HelpPage = screen(() => import('./pages/Help'), 'HelpPage');
+const DesignPreview = screen(() => import('./pages/DesignPreview'), 'DesignPreview');
+const AcquisitionPage = screen(() => import('./pages/Acquisition'), 'AcquisitionPage');
+const JourneysPage = screen(() => import('./pages/Journeys'), 'JourneysPage');
+const RecordCatalogPage = screen(() => import('./pages/Records'), 'RecordCatalogPage');
+const RecordDetailPage = screen(() => import('./pages/Records'), 'RecordDetailPage');
+const PreservationEventListPage = screen(() => import('./pages/Records'), 'PreservationEventListPage');
+const SearchPage = screen(() => import('./pages/Search'), 'SearchPage');
+const AuditPage = screen(() => import('./pages/Audit'), 'AuditPage');
+const ClassificationPage = screen(() => import('./pages/Classification'), 'ClassificationPage');
+const ArchivalDescriptionPage = screen(() => import('./pages/ArchivalDescription'), 'ArchivalDescriptionPage');
+const PhysicalArchivesPage = screen(() => import('./pages/PhysicalArchives'), 'PhysicalArchivesPage');
+const RestorationListPage = screen(() => import('./pages/PhysicalArchives'), 'RestorationListPage');
+const HeritagePage = screen(() => import('./pages/Heritage'), 'HeritagePage');
+const DigitizationPage = screen(() => import('./pages/Digitization'), 'DigitizationPage');
+const QualityControlListPage = screen(() => import('./pages/Digitization'), 'QualityControlListPage');
+const RightsPage = screen(() => import('./pages/Rights'), 'RightsPage');
+const PortalAdminPage = screen(() => import('./pages/PortalAdmin'), 'PortalAdminPage');
+const ReadingRoomPage = screen(() => import('./pages/ReadingRoom'), 'ReadingRoomPage');
+const VocabularyPage = screen(() => import('./ui/Vocabularies'), 'VocabularyPage');
+const MetadataPage = screen(() => import('./pages/Metadata'), 'MetadataPage');
+const ArchivalIntakePage = screen(() => import('./pages/ArchivalIntake'), 'ArchivalIntakePage');
+const TaskInboxPage = screen(() => import('./pages/TaskInbox'), 'TaskInboxPage');
+const WorkflowPage = screen(() => import('./pages/Workflow'), 'WorkflowPage');
+const RetentionNationalPage = screen(() => import('./pages/RetentionNational'), 'RetentionNationalPage');
+const ConsultationsPage = screen(() => import('./pages/Consultations'), 'ConsultationsPage');
+const CommunicationsPage = screen(() => import('./pages/Consultations'), 'CommunicationsPage');
+const PortalApp = screen(() => import('./portal/PortalApp'), 'PortalApp');
 
 const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
 const recordKeys = ['documents', 'dossiers'];
@@ -240,7 +249,7 @@ function Shell() {
             {demo && <section className="demo-banner" aria-label="Mode démonstration"><span><b>DÉMONSTRATION</b> <span className="demo-explanation">Données fictives · Aucun appel au serveur</span></span><div><label>Profil <select aria-label="Persona de démonstration" value={me!.user.id.endsWith('001') ? 'a' : me!.user.id.endsWith('002') ? 'b' : 'agent'} onChange={e => void switchPersona(e.target.value as 'a' | 'b' | 'agent')}><option value="a">Administrateur A</option><option value="b">Administrateur B</option><option value="agent">Agent de recette</option></select></label><button onClick={() => { if (confirm('Réinitialiser toutes les données fictives de cet onglet ?')) { sessionStorage.removeItem('snae-f2-demo-records-v1'); sessionStorage.removeItem('snae-f2-demo-audit-v1'); window.dispatchEvent(new Event('snae-f3-demo-reset')); void resetDemo(); } }}>Réinitialiser</button></div></section>}
             {section && <section className="scope-strip" aria-label={tr('Périmètre de travail')}><span><Icon name="building" size={16} /><b>{tr('Périmètre de travail')}</b><span className="scope-selected">{scopeText}</span></span><button className="text-link" onClick={() => setScopeOpen(value => !value)} aria-expanded={scopeOpen} aria-controls="scope-selection">{tr(scopeOpen ? 'Fermer' : 'Changer de périmètre')}<Icon name="chevron" size={14} /></button></section>}
             {scopeOpen && <div id="scope-selection" className="scope-panel"><ReferencePicker kind="institutions" value={scope.institutionId ?? ''} onChange={value => setScope({ institutionId: value || null, departmentId: me!.user.scope === 'DEPARTEMENT' ? me!.user.departmentId : null })} label={tr('Choisir une institution')} scope={can(me, 'IAM_INSTITUTION_READ', {}) ? {} : { institutionId: me!.user.institutionId }} nullable={can(me, 'IAM_INSTITUTION_READ', {})} />{scope.institutionId && <ReferencePicker kind="departments" value={scope.departmentId ?? ''} onChange={value => setScope({ ...scope, departmentId: value || null })} label={tr('Choisir un département')} scope={{ institutionId: scope.institutionId, departmentId: me!.user.scope === 'DEPARTEMENT' ? me!.user.departmentId : undefined }} nullable={me!.user.scope !== 'DEPARTEMENT'} />}</div>}
-            <main id="main-content" tabIndex={-1} className="main-content" key={epoch + ':' + path}>{render()}</main>
+            <main id="main-content" tabIndex={-1} className="main-content" key={epoch + ':' + path}><React.Suspense fallback={<Busy />}>{render()}</React.Suspense></main>
             <footer className="workspace-footer"><span>{tr('SNAE-PPD · Archives et patrimoine documentaire')}</span><span>{tr('Proposition institutionnelle · F3 · Recette')}</span></footer>
         </div>
     </div>;
@@ -263,6 +272,6 @@ class Boundary extends React.Component<{ children: React.ReactNode }, { failed: 
 /** Le portail des lecteurs (/portail) n'utilise pas la session du personnel : il est choisi avant elle. */
 function Root() {
     const path = usePath();
-    return isPortalPath(path) ? <PortalApp /> : <SessionProvider><Gate /></SessionProvider>;
+    return isPortalPath(path) ? <React.Suspense fallback={<Busy />}><PortalApp /></React.Suspense> : <SessionProvider><Gate /></SessionProvider>;
 }
 export function App() { return <Boundary><LocaleProvider><Root /></LocaleProvider></Boundary>; }
