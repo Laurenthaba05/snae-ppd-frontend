@@ -1,6 +1,7 @@
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { metadataDraft, metadataPayload, type MetadataDraft } from '../core/metadataEditor';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
+import { MetadataTemplatesDialog } from '../ui/MetadataTemplates';
 import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
@@ -210,11 +211,13 @@ export function MetadataPage() {
     const { scope } = useWorkspace();
     const canManage = can(me, 'METADATA_SCHEMA_MANAGE', scope);
     const [creating, setCreating] = useState(false);
+    const [fromTemplate, setFromTemplate] = useState(false);
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const schemasQ = useResource<MetadataSchema[]>(s => metadata!.schemas(scope.institutionId, s), 'metadata-schemas:' + scope.institutionId + ':' + epoch);
     const schemas = schemasQ.data ?? [];
     const selected = schemas.find(s => s.id === selectedId) ?? null;
     return <><PageHead eyebrow="MODULE · MÉTADONNÉES" title="Schémas de métadonnées" description="Définir les champs de description documentaire et leur rattachement aux types de documents.">
+        {canManage && <button className="btn secondary" onClick={() => setFromTemplate(true)}>Créer depuis un gabarit</button>}
         {canManage && <button className="btn primary" onClick={() => setCreating(true)}>Créer un schéma</button>}
     </PageHead>
         <div className="panel">
@@ -222,7 +225,8 @@ export function MetadataPage() {
             {schemasQ.loading ? <Busy /> : schemasQ.error ? <ErrorNotice error={schemasQ.error} onRetry={schemasQ.refresh}/> : schemas.length ? <div className="table-scroll"><table><thead><tr><th>Code</th><th>Nom</th><th>Version</th><th>Statut</th></tr></thead><tbody>{schemas.map(s => <tr key={s.id}><td><button className="record-name" onClick={() => setSelectedId(s.id)}><strong>{s.code}</strong></button></td><td>{s.name}</td><td>{s.version}</td><td><Badge value={s.status}/></td></tr>)}</tbody></table></div> : <Empty title="Aucun schéma de métadonnées" description="Créez le premier schéma."/>}
         </div>
         {creating && <CreateSchemaDialog onClose={() => setCreating(false)} onCreated={schemasQ.refresh}/>}
-        {selected && <SchemaDetailDialog schema={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={schemasQ.refresh}/>}
+        {fromTemplate && <MetadataTemplatesDialog institutionId={scope.institutionId} onClose={() => setFromTemplate(false)} onCreated={instance => { schemasQ.refresh(); setSelectedId(instance.schema.id); }}/>}
+        {selected &&<SchemaDetailDialog schema={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={schemasQ.refresh}/>}
         </>;
 }
 
