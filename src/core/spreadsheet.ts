@@ -3,6 +3,7 @@
  * Un .xlsx est une archive ZIP de fichiers XML ; seules les cellules de texte/nombres de la première feuille sont lues.
  * Le fichier vient de l'utilisateur : tailles, nombre d'entrées et taille décompressée sont bornés.
  */
+import { saveBlob } from './download.js';
 export const MAX_FILE_BYTES = 2 * 1024 * 1024;
 const MAX_ENTRY_BYTES = 8 * 1024 * 1024;
 const MAX_ENTRIES = 2000;
@@ -275,9 +276,5 @@ export const XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsh
 
 /** Déclenche le téléchargement d'un fichier généré localement (aucune donnée ne quitte le navigateur). */
 export function downloadBytes(bytes: Uint8Array, filename: string, mime = XLSX_MIME) {
-    const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: mime }));
-    const link = document.createElement('a');
-    link.href = url; link.download = filename; link.rel = 'noopener';
-    document.body.appendChild(link); link.click(); link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    saveBlob(new Blob([bytes as BlobPart], { type: mime }), filename, 10_000);
 }
