@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, useResource } from './components';
 import { Icon } from './icons';
@@ -7,6 +7,7 @@ import { assetErrorText, copyLines, detailsText, formatText, imageCount, summari
 import { canWith, isWorkingStage } from '../core/workflow';
 import type { DigitizationElement, FileAssetItem, FileAssets } from '../core/types';
 import { fileName } from '../core/format';
+import { usePolling } from './polling';
 
 const POLL_MS = 8000;
 
@@ -36,14 +37,8 @@ export function FileAssetsPanel({ element }: { element: DigitizationElement }) {
     const q = useResource<FileAssets>(s => digitization!.fileAssets(element.id, s), 'file-assets:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const items = q.data?.items ?? [];
     const summary = summarizeAssets(items);
-    const refresh = useRef(q.refresh);
-    refresh.current = q.refresh;
     const active = summary.pending > 0;
-    useEffect(() => {
-        if (!active) return;
-        const timer = setInterval(() => refresh.current(), POLL_MS);
-        return () => clearInterval(timer);
-    }, [active]);
+    usePolling(q.refresh, POLL_MS, active);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const [viewing, setViewing] = useState<FileAssetItem | null>(null);

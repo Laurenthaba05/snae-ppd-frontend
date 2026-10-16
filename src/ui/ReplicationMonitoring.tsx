@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useSession } from '../auth/session';
 import { can } from '../core/policy';
 import { formatBytes } from '../core/format';
@@ -6,6 +6,7 @@ import { Badge, Busy, Empty, ErrorNotice, Notice, formatDate, useResource } from
 import {
     HEALTH_LABELS, OBJECT_STATUS_LABELS, cycleText, errorText, postureText, problemTitle, providerLabel, replicaHealth, replicaSummary, type ReplicationStatus
 } from '../core/replication';
+import { usePolling } from './polling';
 
 /** Hébergement et réplicas : où sont les copies, ce qui manque, ce qui est en erreur. Visible avec le droit de surveiller les sauvegardes. */
 export function ReplicationMonitoring() {
@@ -17,11 +18,7 @@ export function ReplicationMonitoring() {
 function ReplicationDetails() {
     const { records } = useSession();
     const q = useResource<ReplicationStatus>(signal => records!.replicationStatus(signal), 'global-replication');
-    const refresh = useRef(q.refresh); refresh.current = q.refresh;
-    useEffect(() => {
-        const timer = window.setInterval(() => { if (document.visibilityState === 'visible') refresh.current(); }, 60000);
-        return () => window.clearInterval(timer);
-    }, []);
+    usePolling(q.refresh, 60000);
     const data = q.data;
     const cycle = data ? cycleText(data, Date.now()) : null;
     return <section className="panel" aria-label="Hébergement et réplicas">

@@ -1,3 +1,4 @@
+import { saveBlob } from './download';
 import React, { useRef, useState } from 'react';
 import { commandKey } from '../api/archives';
 import { useSession } from '../auth/session';
@@ -70,11 +71,5 @@ export function ReaderPicker({ institutionId, value, onChange, disabled = false,
     </Field>;
 }
 
-/** Enregistre un fichier produit par le serveur (tableur) sans passer par une adresse : le contenu reste dans le navigateur. */
-export function saveBlob(blob: Blob, fileName: string): void {
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url; link.download = fileName; link.rel = 'noopener';
-    document.body.appendChild(link); link.click(); link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
+
+export { saveBlob };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, useResource } from './components';
 import { Icon } from './icons';
@@ -7,6 +7,7 @@ import { metricsText, qualityErrorText, sampleToView, suggestedRescan, summarize
 import { canWith, isWorkingStage } from '../core/workflow';
 import type { DigitizationElement, QualityAnalysis, QualityPage } from '../core/types';
 import { fileName } from '../core/format';
+import { usePolling } from './polling';
 
 const POLL_MS = 8000;
 
@@ -19,14 +20,8 @@ export function QualityPanel({ element, onSendBack }: { element: DigitizationEle
     const q = useResource<QualityAnalysis>(s => digitization!.qualityAnalysis(element.id, s), 'quality-analysis:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const pages = q.data?.pages ?? [];
     const summary = summarizeQuality({ pages });
-    const refresh = useRef(q.refresh);
-    refresh.current = q.refresh;
     const active = summary.pending > 0;
-    useEffect(() => {
-        if (!active) return;
-        const timer = setInterval(() => refresh.current(), POLL_MS);
-        return () => clearInterval(timer);
-    }, [active]);
+    usePolling(q.refresh, POLL_MS, active);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const [viewing, setViewing] = useState<QualityPage | null>(null);

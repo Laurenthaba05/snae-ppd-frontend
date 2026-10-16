@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import type { PreservationFileState } from '../core/types';
 import { useWorkspace } from './workspace';
 import { Busy, Empty, ErrorNotice, Notice, Pagination, formatDate, useResource } from './components';
 import { navigate } from './navigation';
+import { usePolling } from './polling';
 
 const labels: Record<PreservationFileState, string> = {
     BLOCKED: 'Intégrité compromise — bloqué', UNAVAILABLE: 'Stockage indisponible — nouvel essai prévu',
@@ -22,13 +23,7 @@ function ScopedMonitoring() {
     const [attentionOnly, setAttentionOnly] = useState(false);
     const q = useResource(signal => demo ? Promise.resolve(null) : records!.preservationMonitor(scope.institutionId, scope.departmentId, page, attentionOnly, signal),
         JSON.stringify([scope, page, attentionOnly, demo]));
-    const refresh = useRef(q.refresh);
-    refresh.current = q.refresh;
-    useEffect(() => {
-        if (demo) return;
-        const timer = window.setInterval(() => { if (document.visibilityState === 'visible') refresh.current(); }, 60000);
-        return () => window.clearInterval(timer);
-    }, [demo]);
+    usePolling(q.refresh, 60000, !demo);
     if (demo) return <Notice>Le suivi automatique de conservation est disponible en mode connecté.</Notice>;
     const data = q.data;
     const lastActivity = data?.worker.lastHeartbeatAt;

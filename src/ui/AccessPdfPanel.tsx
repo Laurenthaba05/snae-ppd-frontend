@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, formatDate, useResource } from './components';
 import { Icon } from './icons';
 import { accessPdfErrorText, accessPdfState, canGenerate, generateLabel, missingText, volumeFileName, volumeLabel } from '../core/accessPdf';
 import { canWith } from '../core/workflow';
 import type { AccessPdf, AccessPdfPart, DigitizationElement } from '../core/types';
+import { usePolling } from './polling';
 
 const POLL_MS = 8000;
 
@@ -27,14 +28,8 @@ function openBlob(blob: Blob, fileName: string) {
 export function AccessPdfPanel({ element }: { element: DigitizationElement }) {
     const { me, digitization, epoch } = useSession();
     const q = useResource<AccessPdf>(s => digitization!.accessPdf(element.id, s), 'access-pdf:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
-    const refresh = useRef(q.refresh);
-    refresh.current = q.refresh;
     const running = q.data?.tache?.state === 'QUEUED' || q.data?.tache?.state === 'RUNNING';
-    useEffect(() => {
-        if (!running) return;
-        const timer = setInterval(() => refresh.current(), POLL_MS);
-        return () => clearInterval(timer);
-    }, [running]);
+    usePolling(q.refresh, POLL_MS, running);
     const [busy, setBusy] = useState<string | null>(null);
     const [error, setError] = useState<unknown>(null);
     if (q.loading && !q.data) return <Busy label="Lecture du PDF d’accès…" />;

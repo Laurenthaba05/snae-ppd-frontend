@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useSession } from '../auth/session';
 import { can } from '../core/policy';
 import { Busy, Empty, ErrorNotice, Notice, formatDate, useResource } from './components';
+import { usePolling } from './polling';
 
 const errors: Record<string, string> = {
     BACKUP_FAILED: 'La copie a échoué. La prochaine tentative est prévue dans une heure.',
@@ -18,11 +19,7 @@ export function BackupMonitoring() {
 function BackupDetails() {
     const { records } = useSession();
     const q = useResource(signal => records!.backupMonitor(signal), 'global-backups');
-    const refresh = useRef(q.refresh); refresh.current = q.refresh;
-    useEffect(() => {
-        const timer = window.setInterval(() => { if (document.visibilityState === 'visible') refresh.current(); }, 60000);
-        return () => window.clearInterval(timer);
-    }, []);
+    usePolling(q.refresh, 60000);
     const data = q.data;
     const late = !!(data?.enabled && !data.running && Date.parse(data.nextRunAt) < Date.now() - 5 * 60000);
     return <section className="panel" aria-label="Sauvegardes et restaurations">

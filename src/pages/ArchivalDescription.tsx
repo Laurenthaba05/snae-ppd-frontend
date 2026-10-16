@@ -15,6 +15,7 @@ import type { RelationView } from '../core/authorityRelations';
 import { DATE_KIND_LABELS, DESCRIPTION_GROUPS, EXTENT_UNITS, STATUS_LABELS, descriptionProblems, isadCompleteness, producerKnown } from '../core/archivalDescription';
 import { ArchivesApi, archiveLevels, commandKey, flattenDescriptions, type ArchiveKind, type DescriptionView, type DescriptionInput, type AuthorityView, type AuthorityInput, type CsvPreview } from '../api/archives';
 import { label } from '../core/format';
+import { saveBlob } from '../ui/download';
 
 const levelLabels: Record<string, string> = { FONDS: 'Fonds', SOUS_FONDS: 'Sous-fonds', SERIE: 'Série', SOUS_SERIE: 'Sous-série', DOSSIER: 'Dossier', PIECE: 'Pièce' };
 const authorityLabels: Record<string, string> = {
@@ -47,9 +48,6 @@ function AuthorityFields({ details, disabled, onChange }: { details: Record<stri
 }
 const relationCountLabel = (n: number) => n === 0 ? 'Relations' : n === 1 ? '1 relation' : n + ' relations';
 function useAbort() { const ref = useRef(new AbortController()); useEffect(() => { const controller = new AbortController(); ref.current = controller; return () => controller.abort(); }, []); return ref; }
-function saveBlob(blob: Blob, name: string) {
-    const url = URL.createObjectURL(blob); const link = document.createElement('a'); link.href = url; link.download = name; document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export function ArchivalDescriptionPage() {
     const { scope } = useWorkspace(); const { epoch, me, demo } = useSession();

@@ -10,16 +10,9 @@ import {
 } from '../core/intakeExchange';
 import type { DocumentType } from '../core/types';
 import type { ArchivalIntake } from '../core/types';
+import { saveBlob } from './download';
 
 const isReport = (r: SedaManifest | SedaPackageReport): r is SedaPackageReport => 'verified' in r;
-
-function saveBlob(blob: Blob, fileName: string) {
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url; link.download = fileName; link.rel = 'noopener';
-    document.body.appendChild(link); link.click(); link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 /** Les échanges d'un versement : bordereau de transfert SEDA (export, reprise d'un manifeste ou d'un paquet) et intégration d'un versement reçu au plan de description. */
 export function IntakeExchangePanel({ intake, canManage, editable, onChanged }: { intake: ArchivalIntake; canManage: boolean; editable: boolean; onChanged: () => void }) {

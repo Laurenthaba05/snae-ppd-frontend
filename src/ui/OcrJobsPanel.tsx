@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, useResource } from './components';
 import { Icon } from './icons';
@@ -6,6 +6,7 @@ import { ocrErrorText, summarizeOcrJobs } from '../core/ocrJobs';
 import { canWith, isWorkingStage } from '../core/workflow';
 import type { DigitizationElement, OcrJobs } from '../core/types';
 import { fileName } from '../core/format';
+import { usePolling } from './polling';
 
 const POLL_MS = 8000;
 
@@ -18,13 +19,7 @@ export function OcrJobsPanel({ element }: { element: DigitizationElement }) {
     const q = useResource<OcrJobs>(s => digitization!.ocrJobs(element.id, s), 'ocr-jobs:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const items = q.data?.items ?? [];
     const summary = summarizeOcrJobs(items);
-    const refresh = useRef(q.refresh);
-    refresh.current = q.refresh;
-    useEffect(() => {
-        if (!summary.active) return;
-        const timer = setInterval(() => refresh.current(), POLL_MS);
-        return () => clearInterval(timer);
-    }, [summary.active]);
+    usePolling(q.refresh, POLL_MS, summary.active);
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     if (q.loading && !q.data) return <Busy label="Lecture de l’état de l’OCR…" />;
