@@ -1,5 +1,6 @@
 import { DECISION_LABELS, COPYRIGHT_LABELS } from '../core/preservationPlanning';
 import { RightEvidenceFields, RightDetailsView } from './RightEvidenceFields';
+import { manifestFileName } from '../core/iiifViewer';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
@@ -251,12 +252,16 @@ function AgentDialog({ institutionId, onClose, onDone }: { institutionId: string
 
 /** Sur la fiche d'un document : les relations entre ses fichiers, les droits PREMIS et l'export de sa description PREMIS (XML). */
 export function DocumentPremisPanel({ documentId, reference, canManage, canExport = false }: { documentId: string; reference: string; canManage: boolean; canExport?: boolean }) {
-    const { preservationPlanning, epoch } = useSession();
+    const { preservationPlanning, records, epoch } = useSession();
     const [revision, setRevision] = useState(0);
     const [relating, setRelating] = useState(false);
     const [granting, setGranting] = useState(false);
     const [retiring, setRetiring] = useState<PreservationRight | null>(null);
     const action = useAction();
+    const exportManifest = async () => {
+        const blob = await action.run({ manifest: documentId }, () => records!.iiifManifest(documentId));
+        if (blob) saveBlob(blob, manifestFileName(reference));
+    };
     const relations = useResource<FileRelation[]>(s => preservationPlanning!.relations(documentId, s), `premis-relations:${documentId}:${revision}:${epoch}`);
     const rights = useResource<PreservationRight[]>(s => preservationPlanning!.rights(documentId, s), `premis-rights:${documentId}:${revision}:${epoch}`);
     const exportPremis = async () => {
@@ -270,7 +275,9 @@ export function DocumentPremisPanel({ documentId, reference, canManage, canExpor
     };
     return <section className="panel" aria-label="Description PREMIS">
         <div className="section-heading"><h3>Description PREMIS</h3>
-            <button type="button" className="btn small secondary" disabled={action.busy} onClick={exportPremis}>Exporter en XML</button></div>
+            <span className="heading-actions">
+                <button type="button" className="btn small secondary" disabled={action.busy} onClick={exportManifest}>Manifeste IIIF</button>
+                <button type="button" className="btn small secondary" disabled={action.busy} onClick={exportPremis}>Exporter en XML</button></span></div>
         {action.error ? <ErrorNotice error={action.error} /> : null}
         <div className="panel-padding">
             <h4>Relations entre fichiers</h4>

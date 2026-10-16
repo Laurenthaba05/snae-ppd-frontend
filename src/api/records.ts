@@ -2,6 +2,7 @@ import type { Transport, RequestOptions } from '../core/http.js';
 import { query } from '../core/http.js';
 import { parsePage } from '../core/contracts.js';
 import { uuid } from '../core/validation.js';
+import { identifier } from '../core/iiifViewer.js';
 import type { PreservationMonitor, BackupMonitor } from '../core/types.js';
 import type { Volumetry, DocumentRelation, DocumentRelations, RelationType } from '../core/recordInfo.js';
 import type { DocumentSignature } from '../core/signatures.js';
@@ -22,6 +23,17 @@ export class RecordsApi {
     files(versionId: string, signal?: AbortSignal): Promise<DocumentFile[]> { return this.transport.request('/versions/' + uuid(versionId) + '/files', { signal }); }
     /** Copie de consultation (JPEG d'affichage ou vignette) d'un fichier maître : consultable avant la validation du maître. */
     fileDerivative(fileId: string, kind: 'consultation' | 'thumbnail', signal?: AbortSignal, frame = 1): Promise<Blob> { return this.transport.request('/files/' + uuid(fileId) + '/derivatives/' + kind + (frame > 1 ? '?frame=' + Math.trunc(frame) : ''), { signal, responseType: 'blob' }); }
+    // ---- images IIIF des copies de consultation (API d'images 3.0) : dimensions, régions, texte reconnu, manifeste d'un document
+    iiifInfo(fileId: string, frame: number, signal?: AbortSignal): Promise<{ width: number; height: number }> {
+        return this.transport.request('/iiif/' + identifier(uuid(fileId), frame) + '/info.json', { signal });
+    }
+    /** Une image : région et taille de l'API d'images (par exemple `full` et `!1400,1400`), en JPEG de qualité par défaut, sans rotation. */
+    iiifImage(id: string, region: string, size: string, signal?: AbortSignal, rotation = '0', quality = 'default.jpg'): Promise<Blob> {
+        return this.transport.request('/iiif/' + id + '/' + region + '/' + size + '/' + rotation + '/' + quality, { signal, responseType: 'blob' });
+    }
+    iiifOcr(fileId: string, frame: number, signal?: AbortSignal): Promise<unknown> { return this.transport.request('/iiif/' + identifier(uuid(fileId), frame) + '/annotations/ocr', { signal }); }
+    /** Le manifeste IIIF (présentation 3.0) du document, en fichier JSON : pour un visualiseur compatible, avec le même jeton d'accès. */
+    iiifManifest(documentId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/documents/' + uuid(documentId) + '/iiif/manifest', { signal, responseType: 'blob' }); }
     fileContent(fileId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/files/' + uuid(fileId) + '/content', { signal, responseType: 'blob' }); }
     async dossiers(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Dossier>> { return parsePage<Dossier>(await this.transport.request('/dossiers' + query(params), { signal })); }
     dossier(id: string, signal?: AbortSignal): Promise<Dossier> { return this.transport.request('/dossiers/' + uuid(id), { signal }); }

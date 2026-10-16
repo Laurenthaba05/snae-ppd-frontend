@@ -6,7 +6,7 @@ import type { DigitizationElement, FileAssetItem, FileAssets, QualityAnalysis } 
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['DIGITIZATION_READ', 'DIGITIZATION_QC']),
     digitization: { fileAssets: vi.fn(), command: vi.fn(), qualityAnalysis: vi.fn() },
-    records: { fileDerivative: vi.fn() }
+    records: { fileDerivative: vi.fn(), iiifInfo: vi.fn(), iiifImage: vi.fn(), iiifOcr: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
@@ -26,6 +26,8 @@ beforeEach(() => {
     fixture.digitization.command.mockReset().mockResolvedValue({ files: 3, identification: 2, derivatives: 2 });
     fixture.digitization.fileAssets.mockReset();
     fixture.records.fileDerivative.mockReset();
+    // le service d'images IIIF n'est pas servi : la visionneuse retombe sur l'image entière, ce que ces tests vérifient
+    fixture.records.iiifInfo.mockReset().mockRejectedValue(new ApiError(404, 'IIIF_DISABLED', 'Le service d’images IIIF n’est pas activé sur ce serveur.'));
     fixture.digitization.qualityAnalysis.mockReset();
     (URL as unknown as { createObjectURL: unknown }).createObjectURL = vi.fn(() => 'blob:copie');
     (URL as unknown as { revokeObjectURL: unknown }).revokeObjectURL = vi.fn();

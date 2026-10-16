@@ -36,3 +36,19 @@
 .document-ocr-preview > .scan-toggle { margin-bottom: 1rem; }
 .document-ocr-preview .field { margin: .75rem 0; }
 .ocr-overlay-selection { font-size: 13px; overflow-wrap: anywhere; }
+
+/* Visionneuse d'image (API d'images IIIF) */
+.iiif-viewer-wrap { display: grid; gap: 8px; }
+.iiif-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.iiif-zoom { min-width: 52px; text-align: center; font-variant-numeric: tabular-nums; }
+.iiif-search { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; }
+.iiif-search span { font-size: 13px; color: #5d7176; }
+.iiif-search input { min-height: 34px; padding: 4px 10px; border: 1px solid #c9d6d2; border-radius: 6px; }
+.iiif-hint { color: #5d7176; }
+.iiif-viewer { position: relative; height: min(68vh, 700px); overflow: hidden; background: #243033; border-radius: 8px; touch-action: none; cursor: grab; outline-offset: 2px; }
+.iiif-viewer:active { cursor: grabbing; }
+.iiif-world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.iiif-world img { position: absolute; display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
+.iiif-word { position: absolute; border: 2px solid #f0b400; background: rgba(240, 180, 0, .28); box-sizing: border-box; pointer-events: none; }
+.iiif-wait { position: absolute; left: 20px; top: 20px; color: #fff; }
+.heading-actions { display: inline-flex; flex-wrap: wrap; gap: 8px; }
