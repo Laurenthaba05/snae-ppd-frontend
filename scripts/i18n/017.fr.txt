@@ -1,0 +1,220 @@
+1	L’événement qui déclenche le délai n’a pas encore été constaté pour ce document ni pour son dossier.
+2	L’examen est écrit (30 caractères au moins) et fait par une autre personne que celle qui a proposé la sortie.
+3	L’examen établit la provenance, la situation juridique et les conditions de la prise en charge. Il précède toujours la décision.
+4	L’examen juridique et de provenance se rédige en 30 caractères au moins.
+5	L’exécution d’une destruction ou d’un transfert n’est pas raccordée dans le backend fourni. La lecture des décisions et de leurs blocages reste distincte.
+6	L’exécution des migrations n’est pas activée sur ce serveur : une campagne se prépare, mais ne peut pas être validée tant que l’administration ne l’a pas activée.
+7	L’extension est composée de lettres et de chiffres.
+8	L’extraction automatique est désactivée sur ce serveur. Le dépôt du PDF reste disponible.
+9	L’extraction automatique n’est pas active sur ce serveur.
+10	L’habilitation de dépôt de fichiers est nécessaire dans cette institution.
+11	L’horodatage qualifié n’est pas activé sur ce serveur : il exige une autorité d’horodatage, ses certificats de confiance et sa liste de révocation. Ce n’est pas nécessaire pour clore le document ni planifier sa conservation.
+12	L’identifiant du dépôt doit avoir la forme d’un nom de domaine (par exemple archives.exemple.gn).
+13	L’identification des formats et les copies sont désactivées sur ce serveur : les résultats déjà obtenus restent affichés.
+14	L’identification est activée, mais l’exécutable de l’outil n’est pas valide sur ce serveur : vérifiez son chemin.
+15	L’identification par signature n’est pas activée sur ce serveur : l’outil (Siegfried) n’est pas livré avec l’application, l’administration doit l’installer et l’activer.
+16	L’identité vient du fournisseur SSO ; les habilitations viennent du backend SNAE-PPD.
+17	L’import est désactivé sur ce serveur. Activation opérateur et antivirus fonctionnel requis.
+18	L’import est tout ou rien :
+19	L’import remplace tout le bordereau actuel (
+20	L’index n’est pas aligné sur la base : certains documents ou dossiers ne sont pas trouvables. Une réindexation le remet à jour.
+21	L’institution n’a pas déclaré son autorité ARK. Le NAAN lui est donné par l’organisme qui les attribue ; tant qu’il n’est pas déclaré, aucun identifiant ne s’attribue.
+22	L’institution n’a pas encore publié ses formules d’abonnement. Revenez plus tard.
+23	L’interface n’a pas pu afficher cet écran.
+24	L’intitulé de l’accord est obligatoire.
+25	L’intitulé de la campagne est obligatoire.
+26	L’intitulé de la catégorie est obligatoire.
+27	L’intitulé de la règle est obligatoire.
+28	L’intitulé du bordereau de versement est obligatoire.
+29	L’intitulé du bordereau est obligatoire.
+30	L’intitulé du traitement est obligatoire.
+31	L’intitulé est limité à 255 caractères.
+32	L’intitulé est limité à 300 caractères.
+33	l’intitulé est limité à 500 caractères.
+34	l’intitulé est obligatoire.
+35	L’intitulé nomme le prêt ou l’exposition : 3 caractères au moins.
+36	L’inventaire des scanners est disponible en mode connecté.
+37	L’inventaire devient consultable par le public
+38	L’objet de la recherche est obligatoire (5 caractères au moins).
+39	L’objet dit pourquoi les originaux sortent : au moins {n} caractères.
+40	L’objet est introuvable dans le stockage.
+41	L’OCR automatique est désactivé sur ce serveur.
+42	l’opérateur
+43	L’opérateur et le témoin doivent être deux personnes.
+44	L’opération a échoué sur le réplica.
+45	L’organisme est limité à 300 caractères.
+46	L’original est chez son destinataire : il doit rentrer avant le jour prévu.
+47	L’original est remis : la sortie s’inscrit alors à l’historique des mouvements.
+48	L’original est rentré ; l’atelier termine la validation et le scellement de la numérisation.
+49	L’original est rentré : le mouvement est clos.
+50	L’origine de l’ancienne cote suppose une ancienne cote.
+51	l’outil d’identification a échoué
+52	l’outil d’identification n’a pas répondu à temps
+53	l’outil d’identification n’est pas configuré sur le serveur
+54	L’URI doit utiliser http, https ou urn, sans identifiants de connexion.
+55	La base légale du délai est obligatoire : le texte qui le fixe.
+56	La base légale est limitée à 1000 caractères.
+57	La campagne doit être validée par une autre personne que celle qui l’a préparée.
+58	la capacité du stockage est atteinte
+59	La capacité est comprise entre 1 et 500 places.
+60	La carte est expirée depuis le
+61	La carte ne peut pas être valable avant aujourd’hui.
+62	La catégorie «
+63	la cause est dans le journal du serveur
+64	La chaîne de confiance du certificat n’est pas évaluée : l’émetteur n’est pas comparé à une liste d’autorités reconnues.
+65	La clé publique Supabase Auth est absente.
+66	La clôture change uniquement l’état de l’entrée. Elle ne certifie pas l’admission, l’intégration ou le scellement des documents.
+67	la clôture du document
+68	la clôture du dossier
+69	La clôture est définitive : plus aucun constat ne pourra être ajouté à cette campagne. Les écarts constatés restent à régulariser.
+70	La commande crée le document qui recevra la numérisation et dépose la demande de sortie de l’original : elle sera autorisée par une autre personne que vous. L’atelier prend ensuite la commande en charge, numérise, puis une autre personne réceptionne la représentation. Il vous faut le droit de créer des documents de l’institution.
+71	La commande impose une résolution minimale de {n} dpi : choisissez un lot dont la résolution minimale la respecte, il la fera contrôler page par page.
+72	La configuration du dépôt est incomplète.
+73	La configuration du fournisseur d’identité a été refusée. Contactez votre administrateur.
+74	La confirmation de votre adresse e-mail est nécessaire avant la connexion.
+75	La conformité compare les en-têtes du fichier aux exigences du profil. Elle ne mesure ni la netteté ni l’exactitude des couleurs : ce n’est pas une certification FADGI ou Metamorfoze.
+76	La connexion à ce compte est suspendue. Contactez votre administrateur.
+77	La connexion chiffrée au serveur de courrier a échoué (certificat ou version de chiffrement non acceptés).
+78	La consultation intégrée est disponible pour les PDF, images, textes et certains fichiers audio ou vidéo de moins de 50 Mo (1 Mo pour le texte). Téléchargez ce fichier pour le consulter avec une application adaptée.
+79	La convention ne peut pas être signée dans le futur.
+80	La conversion ne perd aucune donnée décodée ; elle ne restaure pas ce qu’une compression avec perte a déjà détruit. Les métadonnées incorporées restent dans l’original.
+81	La conversion peut perdre des données.
+82	La copie a disparu du réplica : elle sera refaite.
+83	La copie a échoué. La prochaine tentative est prévue dans une heure.
+84	La copie du réplica ne correspond plus à l’empreinte attendue : elle sera refaite.
+85	La copie écrite ne correspond pas à l’empreinte lors de sa relecture.
+86	La copie et sa restauration ont réussi, mais le rangement des anciennes copies a échoué.
+87	La copie existe, mais sa restauration de contrôle a échoué. Une intervention est nécessaire.
+88	La cote ou le numéro d’ordre du producteur, unique dans le bordereau
+89	La cote sous un ancien plan de classement : on retrouve le document par elle.
+90	La couverture de l’assurance finit après son début.
+91	La création du compte et la récupération du mot de passe relèvent de votre fournisseur d’identité. Ce portail ne crée pas de mot de passe local. La fermeture de l’onglet n’assure pas la déconnexion du fournisseur SSO.
+92	La création et la récupération des comptes se font auprès du fournisseur d’identité. La session locale reste en mémoire : un rechargement complet de la page peut demander une nouvelle connexion.
+93	La date à laquelle il est survenu, pas celle de la saisie.
+94	la date d’archivage
+95	La date d’où court le délai n’existe pas pour ce document.
+96	La date de début
+97	la date de début dépasse la date de fin.
+98	La date de début dépasse la date de fin.
+99	La date de début est obligatoire.
+100	La date de départ du délai est dans le futur : la conservation se planifie une fois cette date atteinte.
+101	La date de départ du délai n’est pas connue.
+102	La date de départ du délai n’existe pas encore pour ce document.
+103	La date de destruction ne peut pas être dans le futur.
+104	La date de détermination ne peut pas être future.
+105	La date de fin
+106	La date de fin de la convention doit suivre sa date de début.
+107	La date de fin doit suivre la date de début.
+108	La date de fin doit suivre la naissance ou création.
+109	La date de fin du contenu précède sa date de début.
+110	La date de fin est obligatoire.
+111	La date de fin précède la date de début.
+112	La date de fin prévue doit suivre la date de début prévue.
+113	La date de l’acte ne peut pas être dans le futur.
+114	la date de l’événement
+115	La date de l’événement est invalide.
+116	La date de l’événement est obligatoire.
+117	La date de l’événement n’est pas une date valide.
+118	La date de l’exercice ou de l’incident ne peut pas être dans le futur.
+119	La date de la restitution ne peut pas être dans le futur.
+120	La date de libre communicabilité se calcule ; la restriction d’accès est posée jusque-là
+121	La date de naissance est dans le futur.
+122	La date de signature est dans le futur.
+123	La date de signature n’est pas une date valide.
+124	La date de sortie ne peut pas être dans le futur.
+125	La date du constat ne peut pas être dans le futur.
+126	la date du document
+127	La date du visa est obligatoire pour accepter des lignes.
+128	La date du visa ne peut pas être dans le futur.
+129	La date ne peut pas être dans le futur.
+130	La décision de la commission ou de l’autorité qui approuve l’échantillon.
+131	La décision est figée :
+132	La décision est prise : ces champs ne se modifient plus. Le journal garde l’état de la réception.
+133	La décision est prise par une autre personne que celle qui a enregistré la réception. Elle n’est jamais déduite : l’acquisition, le dépôt et le prêt entrant sont trois décisions distinctes.
+134	La décision est prise par une personne qui n’a ni proposé ni examiné la sortie, avec la référence et la date de l’acte.
+135	La décision n’est pas encore validée.
+136	La décision reste conservée dans l’historique. Les droits seront revérifiés par le backend.
+137	La décision se fonde sur un acte : citez-le
+138	La demande, sa version, son délai et les droits des intervenants seront revérifiés par le serveur.
+139	La démonstration utilise des règles simplifiées et des données fictives : elle ne teste ni PostgreSQL, ni les transactions, ni la sécurité du vrai serveur.
+140	La description a changé ou ce code est déjà pris : rechargez-la.
+141	La description est limitée à 2000 caractères.
+142	La description est limitée à 4000 caractères.
+143	La description n’a aucun manque connu.
+144	La destruction ne peut pas précéder le visa.
+145	La devise
+146	La devise est un code de trois lettres (GNF, EUR…).
+147	La devise est un code de trois lettres.
+148	La devise s’écrit avec son code à trois lettres (ISO 4217).
+149	La directive, la norme ou la décision dont vient ce profil.
+150	La durée
+151	la durée d’utilité administrative va de 0 à 150 ans.
+152	La durée de la phase courante est un nombre entier, de 0 à {n}.
+153	La durée est un nombre entier, de 0 à {n}.
+154	La durée est un nombre entier, de 0 à 1000.
+155	La durée se donne de 1 à 120 mois.
+156	La façon dont le bien arrive limite les décisions possibles : un prêt entrant reste un prêt.
+157	La fermeture ne précède pas l’ouverture.
+158	La fermeture recule, et le retour des originaux avec elle (le délai de démontage est conservé).
+159	La feuille de lot « {n} » désigne un autre lot que {n} : vérifiez que ces fichiers appartiennent bien à ce lot.
+160	La feuille de lot « {n} » ne correspond à aucun lot de ce projet.
+161	La fin de période précède le début.
+162	La fin de validité doit suivre le début.
+163	La fin doit être future et postérieure au début.
+164	La fin ne peut pas dépasser cinq ans.
+165	La fin précède le début.
+166	La forme a été modifiée entre-temps : rechargez la fiche.
+167	La forme autorisée du nom est obligatoire.
+168	La formule prévoit le téléchargement (non offert par le portail actuel : lecture à l’écran)
+169	La juridiction doit être un code pays de deux lettres (ex. GN).
+170	La justification (acte, procès-verbal ou référence qui atteste l’événement) est obligatoire : 5 caractères au moins.
+171	La justification est limitée à {n} caractères.
+172	La justification est obligatoire (10 caractères au moins).
+173	la langue
+174	La lecture de fichiers nécessite une requête GET.
+175	La lecture des positions et du texte reste soumise aux droits d’accès et à la confidentialité de chaque document. Les documents confidentiels ou sous restriction n’apparaissent pas.
+176	La ligne
+177	La limite de cette session est atteinte. Terminez les dépôts avant de redémarrer le connecteur.
+178	La liste des éléments se fige au lancement :
+179	La liste est limitée aux 20 premiers documents.
+180	La liste sélectionnée remplace la liste complète. Les délégations existantes devront être réinstruites après un changement approuvé.
+181	La même demande ne peut pas être relancée avec des réglages différents.
+182	La mémoire
+183	la méthode de destruction
+184	La nature des données personnelles n’a de sens que si elles sont présentes.
+185	La notice de rattachement est introuvable ou n’appartient pas au service d’archives du versement.
+186	La notice décrit le document. Le fichier, sa version, son contrôle antivirus et le sort final ont des états distincts.
+187	La notice est visible
+188	La notice patrimoniale ne publie rien et ne change aucune confidentialité : la diffusion se décide séparément, bien par bien.
+189	La nouvelle fin doit suivre la fin actuelle ({n}).
+190	La nouvelle fin est aussi la nouvelle date de retour de chaque original. L’assurance doit couvrir cette date : prolongez-la d’abord si besoin.
+191	La nouvelle version
+192	La nouvelle version de la règle {n} est en vigueur.
+193	La nouvelle version de la règle {n} est enregistrée en brouillon.
+194	La numérisation a échoué. Vérifiez le scanner et son profil NAPS2.
+195	La numérisation d’un original se commande : la sortie est autorisée par une autre personne, l’atelier numérise dans le suivi du traitement, l’original ne rentre qu’après le contrôle qualité des pages, puis une autre personne réceptionne la représentation numérique, qui reste reliée au bien.
+196	La page {n} existe déjà : marquez-la « à rescanner » avant de la remplacer.
+197	La page n’a pas pu être chargée. Vous avez peut-être atteint la limite de lecture par heure, ou votre session a pris fin.
+198	La page restera en attente d’un nouveau fichier ; l’élément ne pourra pas être terminé sans justification.
+199	la page signalée
+200	La période d’effet ne couvre pas aujourd’hui.
+201	La période dépasse celle de votre attribution.
+202	La personne qui détruit.
+203	La phase courante n’est pas terminée.
+204	La phase courante ne peut pas durer plus que la conservation totale.
+205	La place de la fonction dans un plan de classement ou un cadre de référence.
+206	La portée doit correspondre aux rattachements institution / département.
+207	La posture est déclarée par la configuration : le serveur ne peut pas constater l’emplacement physique d’un stockage. Elle ne remplace pas un plan de reprise testé.
+208	La précision est limitée à 500 caractères.
+209	La première ligne doit nommer une colonne « libelle ».
+210	La première sauvegarde est en attente.
+211	La preuve reçue de l’autorité d’horodatage n’a pas pu être vérifiée (signature ou certificat). Elle n’est pas enregistrée.
+212	La priorité est un entier compris entre 0 et 1000000.
+213	La prise en charge de chaque bien suit l’entrée : elle reflète la décision, jamais l’inverse.
+214	La probabilité et la gravité se changent par une réévaluation
+215	la procédure d’alerte
+216	la procédure d’évacuation
+217	la procédure de sauvetage
+218	La prochaine mise à jour est passée : elle ne dit plus la situation actuelle, seulement celle de son émission.
+219	La profondeur minimale est de 1, 8 ou 16 bits par composante.
+220	La proposition ou l’acceptation de ce document est annulée ; son échéance redevient disponible. Le motif est conservé au journal.

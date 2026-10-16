@@ -1,0 +1,220 @@
+1	Caractéristiques de l’image
+2	Caractéristiques matérielles
+3	Caractéristiques matérielles et contraintes techniques
+4	Carte
+5	Carte d’identité
+6	Carte expirée
+7	Carte suspendue :
+8	Carte valable jusqu’au
+9	Carte valable jusqu’au *
+10	Cartographie du parcours par rôle utilisateur
+11	Catalogue
+12	Catalogue des permissions
+13	Catalogue national — droits spécifiques requis.
+14	Catalogue supérieur à 1 000 permissions : chargement incomplet, modification désactivée.
+15	catégorie
+16	Catégorie
+17	Catégorie (ex. RETENTION, RECORDS, PUBLICATION…)
+18	Catégorie *
+19	Catégorie de lecteur (facultatif)
+20	Catégorie documentaire
+21	Catégorie inconnue « {n} » : utilisez une catégorie de la liste du modèle.
+22	Catégorie manquante.
+23	catégories
+24	Catégories
+25	Catégories de biens
+26	Catégories de lecteurs
+27	Catégories qui visent ce type de document :
+28	Cause
+29	CC-BY-4.0
+30	Ce bien est déjà rangé à cet emplacement.
+31	Ce bien est déjà sorti de la collection.
+32	Ce bien est sorti de la collection : lui et ses originaux ne se modifient plus et ne bougent plus.
+33	Ce bien est sorti de la collection. Sa fiche et ses originaux ne se modifient plus ; son historique est conservé.
+34	Ce bien n’a fait l’objet d’aucun dossier de sortie.
+35	Ce bien n’a pas d’original physique relié.
+36	Ce bien n’est pas dans un état qui permette sa sortie : il doit être pris en charge, de l’institution.
+37	Ce bien ne figure à aucun dossier de prêt sortant ou d’exposition.
+38	Ce certificat couvre le stockage de l’application. Les sauvegardes et réplicas éventuels de l’hébergeur ne sont pas couverts.
+39	Ce certificat est expiré : il ne fait de chaîne que pour des signatures datées de sa période de validité.
+40	Ce certificat est trop volumineux.
+41	Ce circuit n’est lié à aucun type de document : il ne s’applique à aucun document.
+42	Ce code est déjà pris, parfois par une tentative précédente restée sans version. Choisissez un autre code.
+43	Ce code existe déjà dans l’institution : ligne ignorée.
+44	Ce danger est retiré du référentiel : choisissez-en un autre.
+45	Ce dépôt a été annulé. Aucun fichier n’a été ajouté.
+46	Ce dépôt interrompu sera annulé. Pour déposer le fichier ensuite, il faudra effectuer un nouveau téléversement.
+47	ce document
+48	Ce document
+49	Ce document a été détruit.
+50	Ce document compte trop d’objets pour une seule destruction : demandez à l’administrateur de la découper.
+51	Ce document en remplace un autre (nouvelle version d’un texte, abrogation).
+52	Ce document est conservé définitivement par
+53	Ce document est une annexe d’un autre.
+54	Ce document n’a aucun contenu stocké : seule sa notice demeure.
+55	Ce document n’a aucun fichier à signature vérifiable (PDF, .p7m, XML, ou .p7s avec son fichier). Déclarez les autres.
+56	Ce document n’a pas de page communicable pour le moment.
+57	Ce document n’a pas de page numérisée lisible : il n’y a rien à occulter. L’occultation s’applique aux pages lues sur le portail.
+58	Ce document n’est pas en lecture libre. L’institution examine chaque demande ; l’accès accordé est limité dans le temps.
+59	Ce document porte des données personnelles et n’a aucun délai de communicabilité : il n’est donc soumis à aucune restriction calculée.
+60	Ce document seulement
+61	Ce document…
+62	Ce dossier a été modifié entre-temps : rechargez-le avant d’agir.
+63	Ce dossier est clos : il ne se modifie plus.
+64	Ce dossier est vide.
+65	Ce dossier ne contient aucun document à éliminer.
+66	Ce dossier ne peut pas être clos par votre compte dans son état actuel.
+67	ce fichier
+68	Ce fichier a été rejeté par les contrôles de sécurité. Sélectionnez un autre fichier.
+69	Ce fichier n’est pas un classeur Excel (.xlsx) valide.
+70	Ce fichier ne porte aucune signature électronique.
+71	Ce fichier peut devenir une page
+72	Ce format audio ne peut pas être lu par votre navigateur.
+73	Ce format vidéo ne peut pas être lu par votre navigateur.
+74	ce jour n’existe pas.
+75	Ce journal est uniquement une trace locale de démonstration, modifiable ou effaçable depuis le navigateur. Il n’a aucune valeur de preuve.
+76	Ce lecteur n’a pas d’abonnement en cours : l’accès accordé ne s’ouvrira que lorsqu’il en aura un.
+77	Ce lot est clôturé : plus aucun bien ne peut y être ajouté.
+78	Ce lot n’appartient pas au projet choisi.
+79	Ce lot ne contient aucun élément à une étape de travail.
+80	ce mois
+81	Ce mot de passe est trop courant.
+82	Ce mot de passe répète trop les mêmes caractères.
+83	Ce motif est inconnu ou retiré du référentiel.
+84	Ce n’est pas un code SNAE (SNAE:E:… pour un élément, SNAE:L:… pour un lot).
+85	Ce navigateur ne sait pas décompresser les fichiers Excel. Utilisez un navigateur récent ou le format CSV.
+86	Ce passage demande l’habilitation «
+87	Ce PDF ne peut pas être affiché. Il peut être endommagé ou protégé par un mot de passe. Vous pouvez télécharger l’original.
+88	Ce plan a été modifié entre-temps : rechargez-le avant de l’enregistrer.
+89	Ce procès-verbal est clos : il ne se modifie plus.
+90	Ce qu’elle dit
+91	Ce qu’elle vise
+92	Ce que couvre le plan : bâtiments, salles, fonds.
+93	Ce que l’autorité a décidé et sur quel fondement.
+94	Ce que l’on fait pour réduire le risque
+95	Ce que l’on peut faire de l’objet
+96	Ce que l’on sauve, avec quels moyens, qui y est autorisé et à quelles conditions.
+97	Ce que la base juridique permet ou interdit de faire du document
+98	Ce que la campagne a établi : écarts constatés, éléments reportés, suites à donner. Conservé avec le procès-verbal.
+99	Ce que la campagne vérifie et pourquoi
+100	Ce que la personne verra : « Réception définitive du marché ».
+101	Ce que la quantité ne dit pas : dont 3 boîtes de plans, registres reliés…
+102	Ce que le registre dit de l’origine du bien. La provenance reste « partiellement connue » : elle est à établir, jamais présumée complète.
+103	Ce que le service collecte et auprès de qui
+104	Ce que les règles de conservation peuvent attendre
+105	Ce que vous avez constaté *
+106	Ce que vous pouvez faire
+107	Ce qui a été fait, ou pourquoi on y renonce (5 caractères au moins).
+108	Ce qui a été vu : où, quelle étendue, depuis quand si on le sait
+109	Ce qui a fonctionné, ce qui n’a pas fonctionné.
+110	Ce qui est trié : « Registres d’état civil de 1980 à 1989 ».
+111	Ce qui fonde l’évaluation : document, décision, date. Elle est conservée, jamais effacée.
+112	Ce qui ne va pas
+113	Ce qui peut arriver, où, et ce que cela menace (10 caractères au moins).
+114	Ce qui retient la sortie :
+115	Ce qui s’est passé *
+116	Ce qui sera fait, avec quels matériaux ou quelle méthode
+117	Ce qui sera versé : « Registres d’état civil de 1950 à 1960 ».
+118	Ce qui sera visé : « Registres de paie de 1985 à 1990 ».
+119	Ce reçu est annulé
+120	Ce réplica n’est plus configuré : ses copies ne sont plus suivies.
+121	Ce résultat ne contient aucune position de mot.
+122	Ce retrait est définitif
+123	Ce risque a été modifié entre-temps : rechargez-le avant de l’enregistrer.
+124	Ce rôle est utilisé. Une autre personne habilitée devra approuver la demande.
+125	Ce rôle n’est pas attribué : configuration directe autorisée selon le serveur.
+126	Ce scan a expiré ou a été effacé du poste.
+127	Ce scanner ne dépasse pas {n} dpi.
+128	Ce scanner ne gère pas le recto-verso.
+129	Ce schéma n’est lié à aucun type de document.
+130	Ce terme est obsolète ou son vocabulaire est retiré : choisissez un terme actif.
+131	Ce terme existe déjà dans le vocabulaire.
+132	Ce terme générique formerait une boucle dans la hiérarchie.
+133	Ce terme obsolète n’a pas de remplaçant déclaré : on ne sait pas par quoi le remplacer.
+134	Ce texte contient une clé privée : ne la déposez jamais. Fournissez la liste seule.
+135	Ce texte contient une clé privée : ne la déposez jamais. Fournissez le certificat seul.
+136	Ce texte n’est pas une liste de révocation : il commence par « -----BEGIN X509 CRL----- ».
+137	Ce transfert n’a pas été accepté par l’institution destinataire : il se traite depuis son bordereau de versement.
+138	Ce transfert n’a pas été accepté par l’institution destinataire.
+139	Ce type d’événement appartient à une autre institution.
+140	Ce type d’événement est retiré.
+141	Ce versement n’a pas encore été intégré au plan de description.
+142	Ce vocabulaire appartient à une autre institution.
+143	Ce vocabulaire est retiré : il n’accepte plus de terme.
+144	Ce vocabulaire est retiré : ses termes restent lisibles et les mots-clés déjà posés demeurent, mais il n’accepte plus de terme ni de nouvelle indexation.
+145	Ce vocabulaire ne compte encore aucun terme.
+146	Celle qui accepte ou refuse chaque document et délivre l’accusé de réception.
+147	Celui qui vise ne peut pas être celui qui a soumis.
+148	Certains délais de conservation ne partent ni d’une date du document, ni de sa clôture, mais d’un
+149	Certains documents ne se lisent qu’après l’accord de l’institution qui les conserve.
+150	Certains fichiers sont conservés chez un autre fournisseur de stockage que celui configuré.
+151	Certificat
+152	Certificat *
+153	certificat de destruction
+154	Certificat de destruction
+155	Certificat du sceau
+156	Certificat du signataire
+157	Certificat employé
+158	Certificat non révoqué
+159	Certificat révoqué
+160	Certificats de destruction
+161	Certitude
+162	Ces
+163	Ces chiffres représentent les notices fictives visibles dans cet onglet. Ils ne sont pas des indicateurs nationaux.
+164	Ces chiffres sont comptés depuis les registres de l’institution pour l’année civile choisie. Le volume du fonds numérique est un instantané à la date d’établissement ; seules les entrées structurées sont rattachées à une institution d’archives.
+165	Ces dépôts seront annulés ; ils n’empêcheront plus de sceller la version. Un fichier déjà déposé et validé n’est pas touché.
+166	ces fichiers
+167	Ces parcours utilisent le backend V13.1. Le mode démonstration n’effectue ni import, ni numérisation, ni extraction. Connectez un compte habilité pour les exécuter.
+168	Ces réglages ne sont pas autorisés pour ce profil de scanner.
+169	Ces valeurs sont lues dans les en-têtes du fichier ; une valeur absente est dite « non renseignée », jamais supposée.
+170	Cet acte n’est pas encore achevé : il n’y a rien à sceller.
+171	Cet acte n’est pas encore scellé. Le scellement automatique n’a pas couvert cet acte : il peut être scellé maintenant.
+172	Cet élément a quitté l’étape de numérisation : ses pages ne peuvent plus changer.
+173	Cet élément apparaît déjà plus haut dans le lot : une seule feuille séparatrice par élément.
+174	Cet élément n’est lié à aucun document : indiquez-le dans son plan de numérisation.
+175	Cet élément n’est lié à aucun document : les images sont stockées dans une version de document.
+176	Cet élément n’est pas rattaché au lot sélectionné.
+177	Cet emplacement est désactivé : on n’y enregistre plus de risque, de plan ni d’exercice.
+178	Cet enregistrement ne se modifie pas : un constat plus récent le complète.
+179	Cet événement est déjà constaté : annulez-le d’abord, avec un motif, pour le corriger.
+180	Cet instrument est déjà publié.
+181	Cet original est en réserve. Pour le consulter, le numériser, l’exposer ou le prêter, déposez une demande : elle sera autorisée par une autre personne.
+182	Cet original n’a pas de numérisation en cours. Pour en produire une représentation numérique, commandez sa numérisation : la sortie sera autorisée par une autre personne et la représentation réceptionnée par une autre personne.
+183	Cette action est prête à être confirmée.
+184	Cette adresse n’est pas valide.
+185	Cette année
+186	Cette archive n’a jamais quitté son unité de stockage.
+187	Cette archive ne peut pas être éliminée : elle est dehors, rattachée à un bien patrimonial, ou son document est essentiel ou sous gel juridique.
+188	Cette archive physique est détruite : elle ne se modifie ni ne bouge plus.
+189	Cette auto-attribution n’est pas disponible. Revérifiez vos droits.
+190	Cette autorisation concerne uniquement ce rôle et cette institution. Le motif sera conservé dans le journal.
+191	Cette campagne ne contient aucun élément.
+192	Cette catégorie court d’une date d’événement : saisissez-la.
+193	Cette décision appartient à un bordereau de versement : elle se traite depuis ce bordereau.
+194	Cette décision engage l’institution et est conservée avec son auteur, sa date et son motif. Elle est prise par une autre personne que celle qui a enregistré la réception.
+195	Cette décision est définitive ; un nouveau traitement pourra ensuite être proposé.
+196	Cette décision est définitive ; une nouvelle demande pourra ensuite être déposée.
+197	Cette décision est définitive.
+198	Cette décision est un réexamen : utilisez l’opération de réexamen.
+199	Cette déclaration est définitive
+200	Cette demande a déjà été traitée et sa copie a expiré ou été effacée. Actualisez les scans du poste.
+201	Cette demande retire toutes les permissions du rôle.
+202	Cette description est en relecture : la modifier la renvoie en rédaction.
+203	Cette description est validée : une correction exige un motif écrit d’au moins 10 caractères.
+204	Cette étape est la dernière : la terminer clôture le circuit.
+205	Cette fonction est introuvable ou n’est pas accessible.
+206	Cette fonction n’est reliée à aucune autre fonction, aucun producteur ni aucun fonds.
+207	Cette formule est accordée sur décision de l’institution. Présentez-vous au guichet en indiquant la référence {n} : votre abonnement s’ouvre dès qu’un agent l’accorde.
+208	Cette image ne peut pas être affichée. Vous pouvez télécharger le fichier.
+209	Cette institution
+210	Cette institution compte trop de départements pour être vérifiée avant l’import.
+211	Cette intégration est bloquée.
+212	Cette interface reprend les couleurs nationales et un en-tête républicain. Elle ne constitue pas une charte graphique officielle homologuée. Aucun sceau, armoirie ou logo de ministère non fourni n’a été inventé. Le symbole d’archives est propre au projet ; son adoption doit être validée institutionnellement.
+213	Cette ligne n’a pas d’unité : la quantité constatée n’a pas de sens.
+214	Cette liste est trop volumineuse (5 Mo au plus).
+215	Cette liste n’indique pas de prochaine mise à jour.
+216	Cette mesure est close : elle ne se modifie plus.
+217	cette notice
+218	Cette notice est verrouillée ou sa version n’est pas disponible. La correction directe est désactivée.
+219	Cette opération est irréversible.
+220	Cette opération n’est pas possible dans l’état actuel du dossier.

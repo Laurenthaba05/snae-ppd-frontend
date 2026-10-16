@@ -1,0 +1,220 @@
+1	Reason for the hold
+2	Reader’s reason
+3	Reason for the attachment *
+4	Reason for the refusal
+5	Reason for the refusal *
+6	Reason for the refusal of {1}
+7	Reason for the rejection:
+8	Reason for the withdrawal *
+9	Reason and competent authority
+10	reason not provided
+11	Reason.
+12	Selection reasons
+13	Withdrawal reasons
+14	Give the reason for the decision and confirm the waiver.
+15	Recognized words
+16	Keywords
+17	Movements
+18	Movements of
+19	Movements of the originals
+20	Means of preservation
+21	Necessary means of preservation
+22	writes nothing. A term already present is left as is.
+23	Only carry out the withdrawal once the item has actually been handed over (or the disappearance recorded). The operation is final: it cannot be undone.
+24	No.
+25	Inventory no.
+26	NAAN
+27	NAAN *
+28	Birth or creation:
+29	NATIONAL
+30	National (shared by all institutions)
+31	National
+32	National (all institutions)
+33	Nature
+34	Nature *
+35	Nature of the original
+36	Nature of the takeover
+37	Nature of the takeover *
+38	Nature of the relation *
+39	Nature of the dates
+40	Nature of the data
+41	Nature of the personal data
+42	Nature of the link
+43	Nature of the treatment *
+44	Nature and reason
+45	Portal navigation
+46	Only record the destruction once the archives have actually been destroyed, in the presence of a witness. An archive marked as destroyed can no longer be changed.
+47	Do not abandon
+48	can no longer be changed: steps, transitions and links are frozen. To change it, create a new circuit (draft) then activate it.
+49	Necessary for the institution’s continuity (title deeds, civil registry…). It cannot be eliminated.
+50	Negligible
+51	sharpness
+52	Sharpness
+53	Level
+54	Level:
+55	Level of description
+56	Level of detail
+57	Restriction level
+58	Risk level *
+59	Level of the records created *
+60	grayscale
+61	Grayscale
+62	grayscale with transparency
+63	Classification node
+64	Parent node
+65	black and white
+66	Black and white
+67	Black and white (1 bit)
+68	Name
+69	Name *
+70	institution name
+71	Series name
+72	Field name
+73	department name
+74	Fonds name
+75	Batch name
+76	Register name: it qualifies the former references kept (e.g. “1978 inventory register”).
+77	Treatment name
+78	Name and role of the person who has custody of it.
+79	Name or company name required.
+80	Name used
+81	Name, first name or number…
+82	Number of pages
+83	Expected number of pages
+84	Number of pages of the source document
+85	Number of items
+86	Number of items: {1}
+87	Number of revisions
+88	Decimal number
+89	Non-finite JSON number.
+90	Name the recipient of the item.
+91	Ambiguous file names: choose a single file per name.
+92	No
+93	No (front only)
+94	Not enabled
+95	Not analyzable
+96	Not assigned
+97	Not authorized within the selected scope
+98	Not compared
+99	uncompressed
+100	Uncompressed or not determined
+101	Not confirmed
+102	Non-compliant
+103	Non-compliant with profile “{1}”
+104	Non-compliant
+105	Not created: the parent “{1}” (line {2}) was not created.
+106	undated
+107	Not designated
+108	Not determined
+109	Not assessed
+110	Not examined
+111	Not executable:
+112	Not honored
+113	Not imposed
+114	Not located
+115	Not measured
+116	Not modified
+117	Not digitized
+118	Not scheduled
+119	Not specified
+120	Not specified
+121	not specified
+122	Not published
+123	Not filled in
+124	not filled in
+125	Not filled in
+126	Not filled in in the file
+127	Not filled in
+128	not retained (elimination)
+129	not flagged
+130	not processed
+131	Not processed
+132	not processed
+133	Not processed
+134	Not validated
+135	not validated: no PDF/A validator is connected
+136	Not verified
+137	Normalization
+138	Normalized to
+139	Normalize the fields
+140	Note
+141	Note (optional)
+142	Archivist’s note
+143	Publication note
+144	Receipt note
+145	Return note
+146	Review note
+147	Service note, decision…
+148	General note
+149	Note on the legal situation
+150	Note on the return
+151	Note on the sampling
+152	Note on image rights
+153	Note on publications
+154	Update notes
+155	Notes and description control
+156	Record the findings (at least 10 characters).
+157	record
+158	Record
+159	Record created
+160	Record created on
+161	Demonstration record
+162	Demonstration record added to this list. It will disappear on reload or on reset of the demo.
+163	Producer record
+164	Attachment record *
+165	Record saved.
+166	Fictitious record not found.
+167	Fictitious record, with no real historical document.
+168	Fictitious record, with no file uploaded.
+169	Record does not exist in this demonstration scope.
+170	Linked record
+171	Linked record *
+172	Record not readable
+173	record(s) checked,
+174	records created. The attachments remain to be uploaded separately.
+175	Description records
+176	fictitious records · local filter
+177	Records per page
+178	Notifications, {1} unread
+179	Notifications, {1} unread
+180	Notifications, none unread
+181	Our future
+182	Our history
+183	New item
+184	New heritage item
+185	New schedule
+186	New elimination schedule
+187	New accession schedule
+188	New slip
+189	New communication slip
+190	New condition report
+191	New batch
+192	New inventory takeover batch
+193	New processing batch
+194	New password
+195	New elimination report
+196	New status
+197	New rate
+198	New reproduction rate
+199	New event type
+200	New accession
+201	New vocabulary
+202	New agreement
+203	New accession agreement
+204	New actor
+205	New agent
+206	New preservation agent
+207	New usual location *
+208	New state *
+209	New campaign
+210	New inventory-check campaign
+211	New sampling campaign
+212	New category
+213	New communicability category
+214	New order
+215	New reproduction order
+216	New end *
+217	New plan
+218	New record ·
+219	New digitization
+220	New receipt

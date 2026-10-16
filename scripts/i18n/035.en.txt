@@ -1,0 +1,63 @@
+1	{1} copy on {2} distinct medium, of which {3} off site
+2	{1} copy on {2} distinct media, of which {3} off site
+3	{1} verified copy ({2})
+4	{1} copies on {2} distinct medium, of which {3} off site
+5	{1} copies on {2} distinct media, of which {3} off site
+6	{1} verified copies ({2})
+7	{1} already uploaded
+8	{1} already uploaded
+9	{1} document accepted, {2} refused.
+10	{1} document accepted, {2} refused.
+11	{1} document destroyed, each with its destruction certificate.
+12	{1} document destroyed.
+13	{1} document and {2} file
+14	{1} document and {2} files
+15	{1} document handed over to {2}, kept permanently.
+16	{1} documents accepted, {2} refused.
+17	{1} documents accepted, {2} refused.
+18	{1} documents destroyed, each with its destruction certificate.
+19	{1} documents destroyed.
+20	{1} documents and {2} file
+21	{1} documents and {2} files
+22	{1} documents handed over to {2}, kept permanently.
+23	{1} failure (see below)
+24	{1} failures (see below)
+25	{1} failed (resend the same package to retry them)
+26	{1} file uploaded for {2} unit
+27	{1} file uploaded for {2} units
+28	{1} file validated, of which {2} preservation master.
+29	{1} file validated, of which {2} preservation masters.
+30	{1} files uploaded for {2} unit
+31	{1} files uploaded for {2} units
+32	{1} files validated, of which {2} preservation master.
+33	{1} files validated, of which {2} preservation masters.
+34	{1} line awaits receipt of {2}.
+35	{1} line awaits the authority’s visa. Nothing can be destroyed before its visa.
+36	{1} line is not decided: accept or refuse it.
+37	{1} lines await receipt of {2}.
+38	{1} lines await the authority’s visa. Nothing can be destroyed before its visa.
+39	{1} lines are not decided: accept or refuse each.
+40	{1} refusal must be justified.
+41	{1} refusals must be justified.
+42	{1} remains to be destroyed
+43	{1} remain to be destroyed
+44	{1} derived text to empty
+45	{1} derived texts to empty
+46	{1} unit taken over in the schedule; {2} object declared, of which {3} verified by fingerprint.
+47	{1} unit taken over in the schedule; {2} object declared, of which {3} verified by fingerprint.
+48	{1} unit taken over in the schedule; {2} objects declared, of which {3} verified by fingerprint.
+49	{1} unit taken over in the schedule; {2} objects declared, of which {3} verified by fingerprint.
+50	{1} units taken over in the schedule; {2} object declared, of which {3} verified by fingerprint.
+51	{1} units taken over in the schedule; {2} object declared, of which {3} verified by fingerprint.
+52	{1} units taken over in the schedule; {2} objects declared, of which {3} verified by fingerprint.
+53	{1} units taken over in the schedule; {2} objects declared, of which {3} verified by fingerprint.
+54	{1} redacted area on {2} page: the portal reader never sees it.
+55	{1} redacted area on {2} pages: the portal reader never sees it.
+56	{1} redacted areas on {2} page: the portal reader never sees them.
+57	{1} redacted areas on {2} pages: the portal reader never sees them.
+58	in {1} day
+59	in {1} days
+60	There is {1} file but no validated master. Upload the master (role “Preservation master”) and validate it; the other files must also be validated.
+61	There are {1} files but no validated master. Upload the master (role “Preservation master”) and validate it; the other files must also be validated.
+62	I confirm the final destruction of {1} object of this document.
+63	I confirm the final destruction of {1} objects of this document.

@@ -1,0 +1,220 @@
+1	À préparer
+2	À prévoir avant le départ
+3	à qualifier
+4	À quoi la règle s’applique *
+5	À réceptionner
+6	à régénérer : les pages ont changé
+7	à régulariser
+8	À relire
+9	À renseigner avant de diffuser une reproduction ; « non renseignés » n’est pas une réponse.
+10	À reporter ou à vérifier au retour
+11	à rescanner
+12	À rescanner
+13	À restaurer
+14	À revoir
+15	À revoir avant le *
+16	À sauver
+17	À savoir
+18	à sceller
+19	À son emplacement habituel
+20	À son emplacement habituel, présence vérifiée
+21	à suivre
+22	À surveiller
+23	À traiter
+24	à un autre emplacement :
+25	À valider
+26	À venir
+27	à vérifier
+28	À vérifier
+29	à vérifier. La campagne ne se modifiera plus, et sa clôture sera faite par une autre personne que vous.
+30	AAAA, AAAA-MM ou AAAA-MM-JJ
+31	AAAA, AAAA-MM ou AAAA-MM-JJ ; facultatif
+32	AAAA, AAAA-MM ou AAAA-MM-JJ (le format JJ/MM/AAAA est aussi accepté). Pour soumettre le bordereau, au moins une des deux dates est exigée.
+33	AAAA, AAAA-MM ou AAAA-MM-JJ.
+34	Abandonné
+35	Abandonnée
+36	Abandonner
+37	Abandonner {n} dépôts
+38	Abandonner ce dépôt
+39	Abandonner le brouillon
+40	Abandonner le dépôt «
+41	Abandonner les
+42	abonnement
+43	Abonnement
+44	Abonnements
+45	Abonnements en cours
+46	absente
+47	accepté
+48	Accepté
+49	Accepté par une autre personne
+50	Accepté, à remettre
+51	acceptée
+52	Acceptée
+53	Accepter
+54	Accepter la prise en charge
+55	Accepter la qualité
+56	Accepter le bordereau
+57	Accepter le dossier
+58	Accepter le risque
+59	Accepter le risque résiduel
+60	Acceptez les conditions d’utilisation pour vous inscrire.
+61	ACCÈS
+62	ACCÈS / DÉMONSTRATION
+63	Accès & diffusion
+64	Accès accordé
+65	Accès accordé jusqu’au
+66	Accès accordé jusqu’au (inclus)
+67	Accès des lecteurs du portail public aux documents que l'institution ne met pas en lecture libre.
+68	Accès des personnes à mobilité réduite, transports, conditions d’entrée
+69	Accès en cours
+70	Accès et services
+71	Accès refusé.
+72	Accès révoqué
+73	Accessibilité
+74	Accord
+75	Accord de versement
+76	Accordé par l’institution, sans paiement.
+77	accordée
+78	Accordée
+79	Accorder
+80	Accorder l’accès
+81	Accorder par exonération
+82	Accords de versement
+83	Accueil
+84	Accueil de la salle de lecture
+85	Accusé de réception
+86	accusé de réception du transfert
+87	accusé de réception du versement
+88	Acquisition validée
+89	Acte
+90	Acte «
+91	Acte *
+92	Acte de versement
+93	Acte ou convention
+94	Acte scellé : la signature est valide et les constats sont ceux qui ont été scellés.
+95	Actes
+96	Actes scellés avec cette clé
+97	Acteur
+98	Acteur *
+99	Acteur du référentiel
+100	Acteur existant
+101	Acteur non disponible
+102	Acteur sans nom
+103	Acteurs
+104	Acteurs du document
+105	Actifs
+106	Action
+107	Action à effectuer
+108	Action de conservation
+109	Action de relecture
+110	Action définitive, conforme à la décision validée.
+111	Actions
+112	Actions rapides
+113	Activer
+114	Activer la règle
+115	Activer le brouillon v
+116	Activer le circuit
+117	Activer le schéma
+118	Actives
+119	Activité
+120	Activité documentaire
+121	Actualiser
+122	Actualiser l’auto-diagnostic
+123	Actualiser l’hébergement
+124	Actualiser l’OCR
+125	Actualiser la demande
+126	Actualiser la fiche
+127	Actualiser la liste
+128	Actualiser le dépôt
+129	Actualiser le diagnostic
+130	Actualiser le statut
+131	Actualiser les contrôles
+132	Actualiser les courriers
+133	Actualiser les échéances
+134	Actualiser les fichiers
+135	Actualiser les références
+136	Actualiser les sauvegardes
+137	Actualiser les scans du poste
+138	Administrateur A
+139	Administrateur B
+140	Administration générale
+141	Adresse
+142	Adresse complète en http:// ou https://
+143	Adresse du connecteur
+144	Adresse du protocole
+145	Adresse e-mail ou mot de passe incorrect. Saisissez le mot de passe de ce compte SNAE-PPD, puis réessayez.
+146	Adresse électronique
+147	Adresse non renseignée
+148	Affichage de la page…
+149	affiché
+150	Afficher
+151	Afficher aussi les inscriptions retirées
+152	Afficher aussi les tarifs retirés
+153	Afficher et imprimer
+154	Afficher le mot de passe
+155	Afficher le texte de cette page
+156	Afficher les autorités retirées
+157	Afficher les données sous forme de tableau
+158	Afficher les instruments retirés
+159	Afficher les listes retirées
+160	Afficher les positions OCR validées
+161	Afficher les profils retirés
+162	Afficher les vocabulaires retirés
+163	Afficher seulement les fichiers à examiner
+164	Affinez la recherche :
+165	Agent
+166	Agent :
+167	Agent de démonstration · La traçabilité réelle est lue depuis l’API d’audit.
+168	Agent de numérisation
+169	Agent de préservation
+170	Agent de recette
+171	Agents de conservation
+172	Agrandir
+173	Ajouté
+174	Ajouter
+175	Ajouter (
+176	Ajouter au bordereau
+177	Ajouter au dossier
+178	Ajouter au versement
+179	Ajouter des archives
+180	Ajouter des documents
+181	Ajouter des documents au bordereau
+182	Ajouter des documents au versement
+183	Ajouter des échéances
+184	Ajouter des échéances à la campagne
+185	Ajouter des mots-clés
+186	Ajouter en masse, numériser et préparer les métadonnées sans modifier les originaux.
+187	Ajouter l’exemple local
+188	Ajouter la mesure
+189	Ajouter le danger
+190	Ajouter le dossier au bordereau
+191	Ajouter le lien
+192	Ajouter le terme
+193	Ajouter les échéances
+194	Ajouter un champ
+195	Ajouter un contact
+196	Ajouter un contrôle
+197	Ajouter un danger
+198	Ajouter un document
+199	Ajouter un dossier
+200	Ajouter un dossier au bordereau
+201	Ajouter un identifiant
+202	Ajouter un intervenant
+203	Ajouter un justificatif
+204	Ajouter un lien
+205	Ajouter un original
+206	Ajouter un producteur lié
+207	Ajouter un résultat OCR
+208	Ajouter un risque
+209	Ajouter un scanner
+210	Ajouter un statut
+211	Ajouter un statut juridique
+212	Ajouter un terme
+213	Ajouter un texte
+214	Ajouter un texte multilingue
+215	Ajouter un volume
+216	Ajouter une contribution
+217	Ajouter une date
+218	Ajouter une étape
+219	Ajouter une ligne
+220	Ajouter une ligne au bordereau

@@ -1,0 +1,220 @@
+1	Le tri chronologique garde les années dont le reste de la division par un nombre de 2 à 100 est celui indiqué.
+2	Le tri qualitatif décrit ses critères : la note est obligatoire.
+3	Le tri systématique garde un document sur N, avec N de 2 à 1000.
+4	Le Turtle n’est pas lu : exportez le thésaurus en JSON-LD ou en RDF/XML.
+5	Le type {n} ne figure pas au registre des formats : inscrivez-le, avec son format cible, avant de préparer une migration.
+6	Le type de média n’a pas la forme attendue (par exemple application/pdf).
+7	Le type de média vers lequel migrer.
+8	le validateur a échoué
+9	le validateur n’a pas répondu à temps
+10	le validateur PDF/A n’est pas configuré sur le serveur
+11	Le versement est reçu et l’accusé de réception est délivré ; le circuit est terminé.
+12	Le versement est rejeté ; le circuit est terminé.
+13	Le versement n’a pas de service d’archives destinataire.
+14	Le versement n’est pas reçu : seul un versement reçu s’intègre au plan de description.
+15	Le versement passe en contrôle.
+16	Le visa exige que chaque ligne soit décidée, au moins une acceptée, avec l’autorité, la référence, la date et le procès-verbal du visa.
+17	Le vocabulaire n’acceptera plus de terme et ne servira plus à indexer. Ses termes et les mots-clés déjà posés restent lisibles.
+18	Le volume annoncé ({n} {n}) dépasse le volume prévu par l’accord ({n} {n}).
+19	Le volume prévu est un nombre positif (12 ou 12,5).
+20	lecteur
+21	Lecteur
+22	Lecteur interne seulement
+23	Lecteur interne, puis ZXing si rien n’est trouvé
+24	Lecteurs
+25	Lecteurs de la salle
+26	Lecteurs inscrits
+27	lecture
+28	Lecture à l’écran, pages marquées à votre nom
+29	Lecture de l’analyse des images…
+30	Lecture de l’état de l’OCR…
+31	Lecture de la fiche du service d’archives…
+32	Lecture de la fiche…
+33	Lecture des codes
+34	Lecture des codes :
+35	Lecture des départements existants…
+36	Lecture des documents communicables, pendant
+37	Lecture des fichiers impossible.
+38	Lecture des fichiers…
+39	Lecture des formats et des copies…
+40	Lecture du bilan…
+41	Lecture du fichier impossible.
+42	Lecture du PDF d’accès…
+43	Lecture seule
+44	les
+45	Les {n} document du dossier (sous-dossiers compris) peuvent être éliminés ensemble.
+46	Les {n} documents du dossier (sous-dossiers compris) peuvent être éliminés ensemble.
+47	Les {n} fichiers conservés sont dans des formats évalués, sans risque marqué.
+48	Les {n} notices sont visibles
+49	Les 50 premières lignes sont affichées ; toutes sont intégrées.
+50	Les actions métier, leurs issues et les limites du contrat actuel.
+51	Les anciens tokens seront refusés après le seuil enregistré par le serveur.
+52	Les années dont le reste de la division est celui-ci (0 pour les années en 0 et en 5).
+53	Les archives de l’État.
+54	Les archives qui s’écartent de ce que l’on attend, les plus graves d’abord : introuvables, trouvées ailleurs, sorties en retard, jamais ou plus vérifiées. Une présence vérifiée ne vaut plus une fois l’archive déplacée.
+55	Les archives redeviennent disponibles
+56	Les attributions et délégations non échues doivent être révoquées au préalable. Le changement révoque les anciens tokens.
+57	Les boutons et menus facilitent l’utilisation ; ils n’accordent aucun droit. Le backend reste responsable des contrôles, y compris après révocation. Les faiblesses constatées par l’audit intermodules doivent être corrigées avant une ouverture aux archives réelles. Un déploiement institutionnel exige aussi CSP, HTTPS, recette SSO, tests de non-régression et supervision.
+58	Les catégories qui visent le type du document sont proposées en premier.
+59	Les comptes de connexion, les secrets et la configuration des services nécessitent une procédure de reprise séparée. Le contrôle de restauration vérifie les données et les fichiers ; il ne confirme pas le redémarrage complet de la plateforme.
+60	Les comptes lecteurs sont distincts des comptes du personnel. Vous ne voyez jamais un mot de passe. Un compte suspendu ne peut plus ouvrir de session.
+61	Les conditions d’utilisation doivent être acceptées.
+62	les conditions de
+63	Les conditions de présentation sont limitées à 4000 caractères.
+64	Les contrôles périodiques sont désactivés. Leur activation doit être effectuée par l’administrateur du serveur.
+65	Les copies de sécurité de l’index ne sont pas placées : la recherche fonctionne, mais sans redondance.
+66	Les copies s’exécutent quand le backend fonctionne ; une échéance manquée est reprise à son redémarrage. Une copie sur le disque des originaux ne protège pas contre la panne de ce disque.
+67	Les corrections descriptives et les reclassements doivent suivre les actions autorisées.
+68	Les critères ou la référence du tableau de tri ; repris sur chaque campagne.
+69	Les dates de création ne sont pas fournies par le serveur : redémarrez le backend avec la version à jour pour afficher cette courbe.
+70	Les départements sont toujours consultés dans un périmètre explicite.
+71	Les descriptions restent internes à l’espace professionnel. Les exports incluent uniquement les notices auxquelles vous avez accès ; ils n’autorisent pas leur publication.
+72	Les descriptions sont limitées à 4000 caractères.
+73	Les diagrammes s’affichent avec les données de numérisation du serveur (habilitation de lecture de la numérisation requise).
+74	Les dimensions de cette page OCR sont invalides.
+75	Les dimensions OCR ne correspondent pas à cette page. Les cadres ne sont pas superposés.
+76	Les documents des années dont le reste de la division par {n} est {n}.
+77	Les documents deviennent semi-actifs et ne reviennent plus en phase courante. Le passage est enregistré avec son lieu et son responsable, et ne se modifie plus.
+78	Les documents et dossiers touchés sont réindexés pour la recherche.
+79	Les documents préparés seront libérés.
+80	Les documents qui répondent aux critères de la note, retenus un à un.
+81	Les données ont changé ou cette opération est en conflit.
+82	les données personnelles
+83	Les dossiers et branches exigent la portée institutionnelle.
+84	Les dossiers regroupant des pièces, tels qu’enregistrés par le backend.
+85	les droits de la personne qui a importé la page ont été retirés
+86	Les droits de lecture des fichiers, de modification des notices et d’enregistrement du texte OCR restent contrôlés séparément.
+87	Les échéances déjà planifiées conservent leur ancienne version.
+88	Les écrans métier connectés sont conservés dans le projet. Cet espace de démonstration présente les parcours sans simuler de décisions serveur.
+89	Les enrichissements dépassent 10 000 caractères.
+90	Les essais restent dans cet onglet et s’effacent à sa fermeture ou après réinitialisation.
+91	Les états Rejeté/Reprise nécessaire ne sont pas des succès. Utilisez la fiche documentaire pour corriger ou reprendre une ingestion.
+92	Les exigences ne se modifient plus une fois le profil défini
+93	Les fichiers conservés sont comparés au registre des formats. Un format absent du registre est « non évalué » : ce n’est pas un format sans risque.
+94	Les fichiers n’existent que dans le stockage principal.
+95	Les fichiers ont changé depuis la validation : annulez cette action et proposez-la de nouveau.
+96	Les fichiers pas encore migrés sont abandonnés ; les copies déjà produites restent, vérifiées et tracées.
+97	Les filtres d’affichage ne remplacent jamais les autorisations du backend.
+98	Les filtres portent uniquement sur les éléments chargés. Passez à la page suivante ou retirez les filtres.
+99	Les heures sont positives, avec au plus deux décimales.
+100	Les images sont ajoutées comme maîtres de conservation
+101	Les indicateurs « mesurés » viennent des registres du système ; les indicateurs « déclarés » sont attestés par une personne habilitée, avec sa justification. Cet auto-diagnostic prépare une évaluation selon la norme ISO 16363 ; il ne vaut pas certification.
+102	Les informations ci-dessous complètent les champs principaux. Les bornes de dates acceptent une année, un mois ou un jour ; une date incertaine peut garder son expression originale.
+103	Les inventaires des fonds d’archives publiés par les institutions : on y parcourt chaque fonds, ses séries et ses dossiers. Seules les notices validées et ouvertes au public sont présentées.
+104	Les lignes « à qualifier » seront reprises avec ce que le registre dit, sans précision inventée : le manque restera signalé sur chaque bien.
+105	Les lignes en erreur seront ignorées, ainsi que les départements qui en dépendent. Corrigez-les dans le fichier et réimportez-le pour les ajouter.
+106	Les lignes en erreur seront ignorées. Corrigez-les dans le fichier et réimportez-le pour les ajouter.
+107	Les lignes invalides sont signalées avant l’import et ignorées, ainsi que les départements qui dépendent d’une ligne ignorée. Un code déjà utilisé dans l’institution est refusé sans modifier le département existant.
+108	Les lignes invalides sont signalées avant l’import et ignorées. Un code déjà existant est refusé par le serveur sans modifier l’institution existante.
+109	Les lignes invalides sont signalées avant l’import et l’import est refusé tant qu’il en reste : un bordereau ne se charge qu’entier.
+110	Les messages du portail (vérification de l’adresse, réinitialisation du mot de passe, accès accordé) sont déposés dans une boîte d’envoi, puis envoyés par le serveur de courrier de l’institution. Un lien de vérification ou de réinitialisation n’est jamais montré ici.
+111	Les motifs sont ceux du référentiel de l’institution.
+112	Les notices documentaires connues du backend, avec leur cote et leur statut réels.
+113	Les notices du service d’archives destinataire.
+114	Les notices sont ouvertes à tous. La lecture des pages d’un document demande un compte et un abonnement.
+115	Les numérisations commandées par le patrimoine : celles que l’atelier doit prendre en charge d’abord, puis celles en cours, puis les closes. Chaque commande relie la sortie de l’original, l’élément du suivi du traitement et la représentation du bien.
+116	Les observations disent ce qui a été vu : au moins {n} caractères.
+117	Les observations sont limitées à 4000 caractères.
+118	les observations sont limitées à 5000 caractères.
+119	Les originaux ne partent qu’avec la convention de prêt (référence et date de signature), une assurance (police qui couvre du départ au retour, ou absence d’assurance motivée par écrit) et un mode de transport. Ces informations se complètent jusqu’à la remise.
+120	Les originaux ne rentrent pas avant la fermeture : le retour prévu suit la fin de l’exposition.
+121	Les originaux physiques des biens de l’institution rangés dans cette localisation et ses sous-localisations. Vide : toute l’institution.
+122	Les originaux qui demandent de l’attention, les plus graves d’abord : à traiter, traitements à valider ou à démarrer, en cours, fragiles, constats anciens ou jamais faits. L’état matériel se constate à des dates successives, il ne se saisit pas.
+123	Les pages consultées portent le nom du lecteur et sont tracées.
+124	Les pages en dessous sont signalées
+125	les pages ont changé pendant l’assemblage : relancez la génération
+126	les pages sont réparties sur plusieurs versions du document
+127	Les passages constatés apparaissent ici, avec leur lieu et leur responsable.
+128	Les PDF ne sont pas acceptés comme page : fournissez une image par page (TIFF, JPEG ou PNG).
+129	Les personnes qui tiennent ce rôle traitent l’étape.
+130	Les positions de cette page sont partielles.
+131	Les positions OCR ne sont pas accessibles. L’aperçu du fichier reste disponible.
+132	Les prix sont ceux des tarifs en vigueur ; ils sont figés à la commande
+133	Les propositions de conservation en attente sont annulées ; les échéances redeviennent disponibles. Le motif est conservé au journal.
+134	Les propositions et validations en cours sont annulées ; les échéances redeviennent disponibles. Le motif est conservé au journal.
+135	Les repères essentiels pour utiliser votre espace professionnel.
+136	Les réservations à venir de ce lecteur seront annulées.
+137	Les ressources apparaîtront après une création autorisée côté backend.
+138	Les ressources apparaîtront après une création autorisée.
+139	Les sauvegardes automatiques sont désactivées.
+140	Les scans temporaires expirent après 30 minutes et sont nettoyés à la prochaine requête. Le connecteur les efface à son arrêt normal. Les reçus de dépôt restent consultables dans la fiche documentaire.
+141	Les sceaux déjà posés portent leur certificat : changer de clé n’en modifie aucun. Ils restent « de confiance » tant que leur autorité est déclarée parmi les autorités de confiance. La clé se change par la configuration du serveur et un redémarrage.
+142	Les signatures électroniques ne sont « de confiance » que si le certificat du signataire remonte à une autorité que vous avez déclarée ici. Aucune n’est livrée avec l’application : déclarer une autorité est une décision qui engage la valeur de toutes les vérifications. La révocation des certificats se juge à part, sur les listes de révocation déposées ci-dessous.
+143	Les sorties de réserve : celles qui attendent une décision, une remise ou un retour, les sorties en retard d’abord. Chaque sortie est demandée, autorisée par une autre personne, remise, confirmée à la réception, puis rendue.
+144	Les sorties demandées pour ce dossier sont annulées avec lui.
+145	Les sous-dossiers visibles sont clos. Le serveur revérifie tous les sous-dossiers et vos droits au moment de la clôture.
+146	Les statuts de fichiers ne figurent pas dans la liste des statuts du document ; conservez cet identifiant.
+147	Les suites possibles de cette étape n’ont pas pu être lues : saisissez le code de la transition.
+148	Les tâches encore ouvertes seront annulées. Le motif reste dans l’historique.
+149	Les tâches sont classées par échéance, puis par ancienneté.
+150	Les tarifs et durées sont ceux que l’institution décide : aucune valeur n’est imposée.
+151	Les tarifs sont fixés par l’institution : créez-les avant d’enregistrer des commandes.
+152	Les textes extraits des fichiers numérisés apparaîtront ici dès qu’un résultat OCR est enregistré sur un fichier.
+153	Les transitions sont définies par le circuit actif. Une validation, un retour et un rejet sont des branches alternatives, pas une suite de boutons à cliquer.
+154	Les vérifications suivantes ne s'appuieront plus sur ce certificat.
+155	Les vérifications suivantes ne s'appuieront plus sur cette liste.
+156	Les zones occultées apparaissent ici, avec leur motif.
+157	Lettres majuscules, chiffres et souligné ; par exemple THEMES_ETAT_CIVIL.
+158	Lettres, chiffres et tirets bas ; unique.
+159	Lettres, chiffres et tirets bas, de 2 à 40 caractères.
+160	levé
+161	Levé
+162	levée
+163	Levée
+164	Lever
+165	Lever la restriction
+166	Lever la suspension
+167	Lever le gel légal
+168	libelle
+169	Libellé
+170	Libellé *
+171	Libellé de l’identifiant
+172	Libellé du danger
+173	Libellé du lot *
+174	Libellé ou synonyme…
+175	Libellé préféré *
+176	Libellé…
+177	Libérer la copie temporaire du poste
+178	Libre le
+179	Librement communicable depuis le {n}.
+180	Licence
+181	Licence de diffusion
+182	Liée au signataire et détectant toute modification, mais pas forcément par un prestataire qualifié.
+183	Lien vers la source
+184	Liens
+185	Liens de la fonction
+186	Liens utiles
+187	Lier
+188	Lier à un type de document
+189	Lier le schéma à un type de document
+190	Lieu
+191	Lieu *
+192	Lieu de conservation
+193	Lieu de l’exposition *
+194	Lieu de production
+195	Lieu des archives intermédiaires *
+196	Lieu évoqué
+197	Lieu représenté
+198	Lieux
+199	Lieux (un par ligne)
+200	Lieux, événements et sujets
+201	ligne
+202	Ligne
+203	Ligne de données
+204	Ligne du fichier
+205	ligne n’est pas décidée
+206	lignes
+207	lignes de plus (
+208	lignes et 2 Mo maximum). Vous pourrez tout vérifier avant la création.
+209	lignes ne sont pas décidées
+210	lignes par lot.
+211	Limite de lecture atteinte
+212	Limitée
+213	Lire
+214	Lire la licence
+215	Lire le texte
+216	Lire uniquement les volumes des notices fictives de cet onglet.
+217	Liste
+218	Liste (PEM ou base64) *
+219	Liste de choix
+220	Liste disponible

@@ -1,0 +1,220 @@
+1	A refusal is justified (at least 10 characters) and decided by someone other than the person who proposed the withdrawal.
+2	A postponement requires a written reason of at least {1} characters (archive taken out, room inaccessible…).
+3	A postponement is not a verification: the element is counted separately in the progress and in the minutes, with its reason. It can be verified later, as long as the campaign is in progress.
+4	An accepted risk is not reassessed: reopen it first.
+5	A residual risk is accepted by someone other than the person who recorded it.
+6	a role
+7	An ACTIVE status does not by itself guarantee effective rights: dates, role, revision and organization remain checked server-side.
+8	A rate cannot be modified: remove it and create another
+9	A term has {1} alternative labels at most.
+10	A thesaurus
+11	A title, a place, a subject…
+12	A treatment ends with a report and a condition report of the object after treatment: this report becomes the last known condition.
+13	A transfer to the archives institution is proposed from an accession schedule.
+14	An accession has been submitted and awaits a check.
+15	An accession you submitted is accepted, rejected, to be corrected or received.
+16	A structured accession is closed once received or rejected.
+17	A vocabulary in this scope already has this code.
+18	a volume exceeds the storage limit (snae.storage.max-bytes)
+19	An acquisition requires a clear legal situation: choose deposit, or leave the situation to be clarified.
+20	An acquisition requires a clear legal situation.
+21	An acquisition has no due date.
+22	An anomaly is found: it is described and the original’s condition is recorded.
+23	a physical archive
+24	An authority declared here makes its certificates “trusted” chains for all the signature checks in the scope. Check the certificate’s fingerprint with its issuer before declaring it.
+25	Someone other than the person who put the file together accepts or refuses it. The file can still be modified, originals added or removed.
+26	Someone other than the person who recorded it
+27	Someone other than the person who proposed it validates or refuses the treatment.
+28	Someone other than the requester authorizes the original’s withdrawal (“Movements” tab).
+29	Someone other than the requester receives the digital representation.
+30	Someone other than the requester authorizes or refuses the withdrawal.
+31	Another person, present.
+32	A campaign applies the method of a single rule version.
+33	A campaign applies a converter to files for which the format register designates a target format. It is prepared by one person and validated by another; the original is always kept, the migrated copy is verified then stored alongside and traced in the PREMIS description.
+34	A campaign has {1} documents at most.
+35	A campaign has {1} files at most.
+36	A category sets a period and its legal basis. Applying it to a document computes the free communicability date and sets the access restriction until then; it lapses by itself. The periods are reference data: none is set by the software.
+37	A Supabase secret key must never be exposed in the frontend.
+38	A collection that has long been present does not come in through a receipt: it is taken over from its inventory register. Former references are kept, and what is missing is counted rather than invented.
+39	An order has {1} lines at most.
+40	An order has only one currency: separate the orders.
+41	A copy of another document.
+42	a consultation copy has changed in the storage: its fingerprint no longer matches
+43	a consultation copy is unreadable or does not match its record
+44	A correction to make?
+45	A correction is requested; the schedule can be modified again then submitted.
+46	an event date
+47	One of these archives is already on a report in progress, or already destroyed.
+48	A revised or validated description carries its description.
+49	A validated description cites its sources.
+50	A validated description requires: {1}.
+51	A validated description requires dates, physical extent and producer
+52	A destruction has already been started for this action (
+53	A retention due date has already started from this event: it can no longer be cancelled.
+54	A due date is already scheduled for this document.
+55	A due date is created when the document is closed and an active rule applies to it.
+56	An executed elimination establishes its certificate here.
+57	An elimination is recorded by a report: proposed,
+58	An entry of type “{1}” cannot be accepted as {2}.
+59	A write or read error occurred on the replica.
+60	An error occurred: a technical intervention is necessary.
+61	an unexpected error occurred (see the server log)
+62	A step of a validation circuit is waiting for a person with your role.
+63	An exhibition groups the originals the institution shows in a venue, with its dates. It is accepted by someone other than you; each original then leaves through a movement request, with a condition report at departure and at return.
+64	Once the area is removed, the portal reader will see again what the page contains at this spot.
+65	Once a retention due date has started from this event, it can no longer be cancelled: check the date.
+66	A function says
+67	An “other” form must be specified.
+68	A permission to read this institution’s fonds is required.
+69	an identity
+70	an institution
+71	A required intervention says which: state the recommended treatment (at least {1} characters).
+72	A letter that responds to another.
+73	An invalid line blocks the creation of the whole batch. Redo the preview after correction. A network error requires rereading the state, not a new batch.
+74	A line has not yet been checked.
+75	One line per unit to transfer (box, register, file, batch of files…). Save as .xlsx then import the file in the accession record.
+76	One line per unit to transfer.
+77	a refused line
+78	A measure that is done or abandoned is closed and does not reopen
+79	A measure that is done or abandoned carries a report of at least 5 characters.
+80	a record
+81	An authority record of the institution: the service that produced these documents.
+82	An authority record of the archives service
+83	A new digitization adds a representation to the same item; it does not create a second item.
+84	A digitization is already in progress on the workstation. Resume it from the list above.
+85	A digitization is already in progress. Refresh the workstation’s scans to find it.
+86	A page missing from the source document or deliberately blank: it will no longer be counted as forgotten.
+87	a page is too large for a volume (setting access-pdf-max-part-bytes)
+88	One per line: the name in another language.
+89	One per line: system : value
+90	One per line: system : value (e.g. Inventory 1978 : A-12)
+91	One per line.
+92	A person who configures the room must first create one (“Rooms” tab).
+93	A piece of a documentary set.
+94	One place per slot, within the capacity
+95	An insurance policy
+96	A salvage priority designates a place or an archive of the plan’s site.
+97	A proposal is created from the role record, in Configure permissions.
+98	A recorded publication does not imply that an anonymous public portal is deployed.
+99	A receipt is first to be examined; an inventory takeover keeps the former references.
+100	A reference to another document.
+101	A payment reference is written PAY- followed by eight letters or digits.
+102	A removed reference remains readable on existing records. Only the modified fields will be sent.
+103	A rule says how long to keep, from when, and what happens afterwards; it applies to the document types and classification plan headings it targets.
+104	A rule that eliminates requires its legal reference: the text that authorizes the elimination.
+105	A rule that samples requires its legal reference: the sampling table or the text that authorizes the elimination of the rest.
+106	A rule targets {1} targets at most.
+107	A relation concerns a document you do not have the right to read.
+108	A relation concerns a record that is no longer readable for you.
+109	A takeover keeps the former references: give the inventory number or the call number.
+110	An inventory takeover keeps the former references: give the inventory number or at least one former reference.
+111	An access restriction is set until the free communicability date; it lapses by itself.
+112	A backup and its restore check are in progress.
+113	A single copy: the loss of the primary storage would lose the files. Configure at least one replica.
+114	A declared signature is information entered: the server does not check it. For an electronically signed file (PDF, .p7m, .p7s, XML), use verification instead.
+115	A scanned handwritten signature, a typed name: it identifies little.
+116	A withdrawal always has a due date
+117	A withdrawal always has a due date (five years at most)
+118	A final withdrawal of an item has been proposed: its legal examination falls to someone other than the person who proposed it.
+119	A final withdrawal of an item is decided: its execution falls to a person other than the one who decided.
+120	A final withdrawal of an item is examined: the decision falls to a person who neither proposed nor examined the withdrawal.
+121	A withdrawal is already open for this item: finish it or cancel it first.
+122	A translation of another document.
+123	A missing unit has no recorded quantity.
+124	One value per line.
+125	A version with its master file
+126	A version does not mix a master without a page number and paginated masters.
+127	Only necessary for a document under active access restriction.
+128	unit
+129	Unit
+130	Unit “{1}” unknown.
+131	Unit *
+132	Destination unit
+133	Current phase unit
+134	Quantity unit
+135	unite de mesure
+136	unite de quantite
+137	Quantity unit
+138	Storage unit
+139	Volume unit
+140	unknown unit.
+141	unit taken over
+142	units
+143	Associated description units
+144	Storage units
+145	units taken over
+146	Urgency
+147	Identifier URI
+148	Supporting document URI
+149	URL
+150	Human user
+151	Use “Link to a document type”.
+152	Use the UTF-8 template with comma separator. Maximum 1,000 records and 2 MB. The import creates new records; existing references are refused. Import producers before the descriptions that cite them.
+153	UUID of the authorized request
+154	Valid until
+155	Value
+156	Value / context
+157	Insured value
+158	Insured value:
+159	Total insured value
+160	Value between 0 and 1.
+161	Identifier value
+162	Value provided by the server
+163	value not evaluated
+164	Value not evaluated
+165	Value not serializable.
+166	Market value
+167	Allowed values
+168	Example values: the schema created is a draft to be reviewed
+169	Format validation
+170	Document validation
+171	PDF/A validation
+172	Validation required
+173	Pending validations
+174	Valid
+175	validated
+176	Validated
+177	Validated on
+178	Validated by
+179	validated
+180	Validated
+181	Validated by
+182	Validated, in progress
+183	Validate
+184	Validate: ready for accession
+185	Validate as master
+186	Validate the campaign
+187	Validate the preservation
+188	Validate the sample’s preservation
+189	Validate the disposition
+190	Validate the file
+191	Validate the batch
+192	Validate the treatment
+193	Validate the ticked choices
+194	Validate the remaining PDFs
+195	Validating seals the document’s version: each page becomes a preservation master, in page order, and can no longer be modified.
+196	Validated
+197	Validity
+198	Current validity: {1}
+199	Enhance
+200	verification
+201	Verification
+202	Old verification
+203	Fixity check
+204	Checking your session…
+205	Verifying and retrieving the file…
+206	Verification impossible
+207	Legal and provenance verification
+208	Verifying…
+209	verified
+210	Verified
+211	Checks the conformity of the files and of the content
+212	verified
+213	Verified by the server
+214	check
+215	Check
+216	Check again
+217	Check outside the system
+218	Check the image
+219	Check integrity
+220	Check the collection item by item: each original receives a presence finding or a justified postponement, and the campaign is closed with minutes, by someone other than the person who launched it.

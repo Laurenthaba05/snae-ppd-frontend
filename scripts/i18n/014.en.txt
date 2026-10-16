@@ -1,0 +1,220 @@
+1	E.g. MASTER, DERIVATIVE
+2	E.g. SCAN-01 (letters, digits, _ . -)
+3	E.g. TESSERACT
+4	E.g. TRANSCRIPTION, CORRECTION
+5	E.g. TRANSCRIPTION, TRANSLATION
+6	Exactly the amount due.
+7	Examination
+8	Examination *
+9	Provenance examination
+10	Examination of provenance and conditions
+11	Examination recorded
+12	Examination and conditions
+13	Independent examination
+14	examined
+15	Examined
+16	Examine
+17	Examine the withdrawal
+18	Examine the batch
+19	Review the restrictions and the preservation holds.
+20	Review, accept or reject the extraction results: ACQUISITION_REVIEW.
+21	Excel (.xlsx) or CSV
+22	Carried out
+23	Carried out on
+24	Carried out by
+25	carried out
+26	Carried out
+27	Carried out: the item has left the collection.
+28	Carried out by
+29	Carry out
+30	Carry out the destruction
+31	Carry out the disposition
+32	Run the recognition
+33	Carry out the withdrawal
+34	Execution
+35	Example definition.
+36	Example series.
+37	Example with no digitized images.
+38	Exercises supervision over
+39	Exercised by
+40	exercises
+41	Exercises and incidents
+42	Exercises and incidents of the location
+43	Required when the loan is covered by a policy
+44	Required for a validated description.
+45	Requirement
+46	Requirements
+47	Existence and location of the copies
+48	Existence and location of the originals
+49	Shipment
+50	expired
+51	Expired
+52	expired
+53	Expired
+54	Explain the discrepancy or absence found.
+55	Explore the demonstration records of the current scope.
+56	Explore the interface with fictitious identities. No document or State service is consulted.
+57	Exported on
+58	Export ALTO · all pages (
+59	Export this record and its public sub-levels:
+60	Export EAC-CPF
+61	Export EAD
+62	Export to Excel
+63	Export as MIX (XML)
+64	Export as SKOS
+65	Export as spreadsheet (CSV)
+66	Export as XML
+67	Export the schedule (SEDA)
+68	Export the visible records (CSV)
+69	Export a preservation package
+70	Export a dissemination package
+71	Original expression
+72	Extension
+73	Extraction
+74	Extraction requested:
+75	Manufacturer
+76	Side
+77	Sides
+78	Optional
+79	Optional; defaults to {1}.
+80	Optional: 8 characters at most, digits and consonants.
+81	Optional: what attests that the event occurred.
+82	Optional: how long the document stays in current use, before moving to intermediate archives until the due date. Empty: no intermediate phase.
+83	Optional: keep, destroy or appraise.
+84	Optional: where the list comes from (standard, original thesaurus…).
+85	Optional: course, incidents, lessons learned
+86	Optional: administrative retention period proposed by the producer, from 0 to 150 years.
+87	Optional: explains the content or the reason for this version.
+88	Optional: gloves, support, no photocopying…
+89	Optional: immediately. Dates in local time.
+90	Optional: the workshop will choose a batch that respects it
+91	Optional: the decision or document that grounds the accession.
+92	Optional: pages checked, reservations…
+93	Optional: paper, photograph, microfilm, digital files…
+94	Optional: defaults to “Destruction of the file” followed by its reference.
+95	Optional: to correct a specific result.
+96	Optional: why this category applies to this document.
+97	Optional: precautions, formats, pages to photograph separately…
+98	Optional: specifies the relation (annex 1, 2019 version…).
+99	Optional: carried into each application.
+100	Optional: if provided, the status targets this file rather than the document.
+101	Optional (50 characters max). Example: Directorate, Service, Office.
+102	Optional (50 characters max). Example: MEF
+103	Optional at this stage
+104	Optional if the inventory number is provided. Kept as the former reference of the original register.
+105	Optional. The code of the department this one depends on: a department already recorded in the institution, or another line of the file (the order of the lines does not matter). Leave empty for a top-level department.
+106	Optional. The active agreements in force. It sets the producer and the archives service.
+107	Optional; the sub-file may inherit from the parent.
+108	Optional: what the term covers, or the rule for its use.
+109	Optional: it exists only on this file.
+110	Advance
+111	Advance the batch
+112	Move to intermediate archives
+113	is part of
+114	Family
+115	closed
+116	closed
+117	Closed
+118	Close and reread
+119	Close the help
+120	Close the examination
+121	Close the record
+122	Close the positions
+123	Close my local session
+124	Closing *
+125	BATCH SHEET
+126	Batch sheet recognized: {1}.
+127	Separator sheet
+128	SEPARATOR SHEET — ELEMENT
+129	Sheets
+130	Batch sheets
+131	Separator sheets
+132	separator sheets included
+133	February
+134	Full record
+135	Actor record
+136	REFERENCE SHEET
+137	Withdrawal sheet — exhibition
+138	Transport sheet — outgoing loan
+139	Document record
+140	Archives service record
+141	Record saved.
+142	Empty record
+143	file
+144	File
+145	File *
+146	File / document
+147	File missing from the selection
+148	File blocked
+149	File concerned
+150	CSV file
+151	CSV or Excel (.xlsx) file
+152	Destination file *
+153	Preservation file
+154	Source file *
+155	List file (.crl)
+156	Signature file (.p7s)
+157	deposited file
+158	Schedule file
+159	Certificate file (PEM)
+160	Package file
+161	discarded file
+162	Duplicate file in the selection.
+163	Unusable file
+164	OCR file
+165	Contribution OCR file
+166	file larger than the server’s processing limit (snae.storage.max-bytes)
+167	File rejected
+168	file without page number
+169	File without page number
+170	SEDA file (XML or ZIP)
+171	Signed file
+172	Signed file: fingerprint
+173	Signed file *
+174	File signed by the detached signature
+175	SKOS file
+176	file too large or modified
+177	validated file
+178	Validated file
+179	File, document, project, engine…
+180	file(s)…
+181	Files
+182	Files to migrate (
+183	Files copied
+184	Preservation files (
+185	Version files
+186	deposited files
+187	discarded files
+188	digital files
+189	Digitized files
+190	files can become, in the order of the selection, the pages
+191	Files produced by the scanner (one image per page)
+192	selected files
+193	Tracked files
+194	validated files
+195	Breadcrumb
+196	Lineage
+197	Keyword filter
+198	Filter
+199	Filter this list
+200	Filter this page
+201	Filter this page by code or domain
+202	Filter the catalog
+203	Filter the 20 elements of this page
+204	Filter the elements of this page…
+205	Filter the fictitious records
+206	Filter the payments
+207	Filter the permissions
+208	Filter the displayed permissions
+209	Filter the OCR results
+210	Filter my permissions
+211	Filter by category
+212	Filter by keyword
+213	Filter by permission or role
+214	End
+215	End of effect
+216	End of effect:
+217	Agreement end
+218	Agreement end *
+219	Delegation end *
+220	Restriction end

@@ -1,0 +1,214 @@
+1	Le contrat actuel sert le même contenu à la lecture et au téléchargement ; séparation de droits à développer.
+2	Le fournisseur SSO ne crée pas automatiquement le compte métier
+3	Le gel bloque le devenir mais n’est pas une restriction de consultation
+4	Le maître de conservation ne se publie pas comme un dérivé
+5	Le reçu technique, l’antivirus et la validation archivistique restent des états distincts.
+6	Le retour visuel ne doit jamais afficher une réussite inventée ; généraliser à tous les formulaires.
+7	Le rôle a changé.
+8	Lecteur habilité
+9	Lecture auditée ; l’audit statique ne prouve pas une inaltérabilité certifiée.
+10	Lecture contrôlée des documents.
+11	Levée ≠ suppression ni exécution automatique
+12	Lever avec justification
+13	Lever avec référence de décision
+14	Liens enregistrés ; inventaire paginé et contrôles de lot restent à ajouter côté backend.
+15	Lier les types documentaires
+16	Lire l’avertissement de clôture
+17	Lire l’état du service
+18	Lire la cause et l’échéance
+19	Lire les blocages readiness
+20	Lire les fichiers et leur contrôle
+21	Lire les versions existantes
+22	Lire PROCESSING, RETRYABLE, REJECTED ou COMPLETED
+23	Localisation et mouvements gérés avec leurs objets dédiés.
+24	Localiser et déplacer une archive physique
+25	Lot partiellement admis : politique à décider
+26	Magasinier ou archiviste habilité
+27	Ministère de démonstration A
+28	Motiver le retour
+29	Ne pas afficher un total de pièces non renvoyé
+30	Ne pas créer une version supplémentaire pour contourner une réponse incomplète
+31	Ne pas exposer les compteurs d’objets interdits
+32	NON_VALIDE puis VALIDE ; pas de bouton « Lancer l’OCR » sans service d’exécution.
+33	Notice de travail, distincte d’une archive définitive.
+34	Nouvelle tentative identique : conserver la clé d’intention
+35	Numériser avec l’équipement externe
+36	Numéro déjà utilisé : corriger
+37	Objet inexistant : pas de rattachement
+38	Obtenir le modèle
+39	Opérateur habilité
+40	Opérateur puis contrôleur habilité
+41	Opération documentaire contrôlée.
+42	Original manquant : signalement et traçabilité
+43	Ouvrir l’échéance
+44	Ouvrir l’élément et les fichiers
+45	Ouvrir l’entrée
+46	Ouvrir la connexion
+47	Ouvrir la fiche
+48	Ouvrir la ressource autorisée
+49	Ouvrir la restriction
+50	Ouvrir le circuit du document
+51	Ouvrir le compte
+52	Ouvrir le détail
+53	Ouvrir le fichier concerné
+54	Ouvrir le périmètre autorisé
+55	Ouvrir les champs applicables au document
+56	Ouvrir puis lever un gel
+57	Ouvrir une entrée
+58	Ouvrir une notice
+59	Parcourir les événements paginés
+60	Parcourir les résultats autorisés
+61	Parcours cible. Lien entrée/workflow existant, mais admission du lot et bordereau non exposés dans cette archive.
+62	Parent incompatible ou cycle : refuser
+63	Parent invalide ou cycle : refus
+64	Pas d’approbation fictive sans habilitation
+65	Pas d’invitation par email inventée
+66	Pas de statut automatique À corriger si aucun objet backend correspondant
+67	Périmètre trop large : refus
+68	Permission refusée : aucune création
+69	Photos et pièces probantes selon les objets disponibles
+70	Planificateur désactivé : l’indiquer, pas un faux statut vert
+71	Planifier l’échéance
+72	Prendre en charge et terminer une validation
+73	Prendre une tâche ouverte
+74	Préparation des dossiers dans l’institution de recette.
+75	Préparer les lignes
+76	Préparer un lot
+77	Présenter la décision
+78	Préserver l’intention de commande lorsque supportée
+79	Prévisualisation périmée : recommencer
+80	Prévisualiser
+81	Prévisualiser et contrôler les anomalies
+82	Produire le reçu lié à l’inventaire
+83	Proposant, validateur et exécutant distincts
+84	Proposer la différence de permissions
+85	Proposer une disposition
+86	Provisionner un utilisateur SSO
+87	Publication métier ≠ portail public anonyme
+88	Publication PUBLIEE ou RETIREE ; portail public séparé absent du périmètre livré.
+89	Publier un dérivé autorisé et le retirer
+90	Rattacher le contenu d’une entrée
+91	Rattacher le statut au document
+92	Rattacher les notices à la création
+93	Recevoir une alerte serveur
+94	Recevoir une notification exploitable
+95	Rechercher une institution existante
+96	Reclasser un document autorisé
+97	Référence existante : relire
+98	Référencer la demande si nécessaire
+99	Référencer les originaux et les éléments
+100	Règle absente ou ambiguë : blocage explicite
+101	REJECTED : ne pas relancer le même fichier sans correction
+102	Relier à l’opération métier
+103	Relier les notices
+104	Relier lieux, événements et sujets
+105	Relire la synthèse d’accès
+106	Relire le journal
+107	Relire le nouvel état
+108	Relire le prochain état
+109	Relire le résultat
+110	Relire le serveur
+111	Relire le statut serveur
+112	Remplacement complet : préserver les valeurs non modifiées
+113	Renseigner code interne, nom et type
+114	Renseigner la fiche de contrôle
+115	Renseigner langue, moteur et confiance
+116	Renseigner le département
+117	Renseigner le sujet SSO et le profil
+118	Renseigner les textes contextuels
+119	Renseigner numéro et date réelle
+120	Renseigner provenance et responsable disponibles
+121	Renseigner référence et motif
+122	Réorganisation : examiner les comptes et droits dépendants
+123	Réponse incertaine : même intention, jamais une nouvelle écriture aveugle
+124	Reprendre après un incident sans doublon
+125	Reprendre selon le graphe
+126	Résoudre le compte avec /iam/me
+127	Responsable de préservation habilité
+128	Responsable de publication habilité
+129	Responsable habilité
+130	Restauration de sauvegarde : pas de commande UI inventée
+131	Restriction documentée et tracée ; sources à valider par les responsables compétents.
+132	Résultat enregistré ≠ moteur OCR exécuté
+133	Résultats filtrés par le serveur ; aucune fuite de titre ou d’extrait non autorisé.
+134	Retirer si nécessaire
+135	Retour impossible sans transition configurée
+136	Retrouver une archive autorisée
+137	Revalidation des restrictions au serveur
+138	Révoquer les accès concernés
+139	Rôle introuvable.
+140	Rôle réservé.
+141	Rôle réservé. Non modifiable.
+142	Rubrique inactive : ne pas proposer
+143	S’authentifier via le fournisseur configuré
+144	Saisir des mots-clés
+145	Scellement technique et reçu d’horodatage éventuel ; aucune homologation juridique revendiquée.
+146	Se connecter et retrouver son périmètre
+147	Sélectionner la version non scellée
+148	Sélectionner le bénéficiaire et l’objet
+149	Sélectionner le fichier et son usage
+150	Sélectionner le rôle
+151	Sélectionner un document, dossier ou original physique existant
+152	Sélectionner un fichier admissible
+153	Service de numérisation
+154	Service des archives de démonstration
+155	Session changée : révoquer l’URL locale
+156	Session expirée : annuler les requêtes et revenir à la connexion
+157	Session nominative et droits reçus du serveur ; pas de rôle déduit du poste.
+158	Soumettre la demande
+159	Stockage échoué : ne pas annoncer intégré
+160	Structure organisationnelle rattachée ; ne pas réécrire la provenance historique.
+161	Structurer les départements
+162	Suivi et rattachement disponibles ; capture scanner à intégrer séparément.
+163	Suivre l’arrivée à échéance
+164	Suivre l’échéance de retour
+165	Suivre le reçu d’ingestion
+166	Suivre un dépôt et traiter la quarantaine
+167	Suivre un projet de numérisation
+168	Surveiller intégrité et sauvegardes
+169	Suspendre le compte et révoquer les anciens jetons
+170	Suspension et annulation sont des décisions distinctes
+171	Tâche déjà prise : conflit
+172	Télécharger seulement selon le contrat actuel
+173	Terminer et restituer à la conservation
+174	Tous les utilisateurs
+175	TRANSFERER : bordereau de versement obligatoire (TRANSFER_REQUIRED), exécution refusée sans réception (TRANSFER_NOT_ACCEPTED)
+176	Type, champ requis ou enum invalide : erreur au champ
+177	Un circuit paramétré, pas une séquence figée commune à tous les documents.
+178	Un contrôle déclaré ne prouve pas une analyse automatique
+179	Un fichier numérisé ne remplace pas automatiquement l’original
+180	Un projet peut être annulé
+181	Une autorisation de demande n’accorde pas implicitement un droit de téléchargement
+182	Une autre autorité doit modifier votre compte.
+183	Une autre personne habilitée doit intervenir.
+184	Une erreur de lecture n’est pas un journal vide
+185	Une notification n’est pas une preuve de traitement
+186	Une restriction de lecture n’est pas un gel de conservation
+187	Une version scellée ne se modifie pas
+188	Utilisateur concerné
+189	Utilisateur habilité
+190	Valeur patrimoniale ≠ accès public automatique
+191	Validateur et agent documentaliste
+192	Validateur habilité
+193	Valider et activer le graphe
+194	Valider et enregistrer les valeurs
+195	Valider le fichier maître admissible
+196	Valider le maître et sceller une version
+197	Valider le texte
+198	Vérifier attributions et délégations
+199	Vérifier droits et version
+200	Vérifier l’accès serveur
+201	Vérifier l’état renvoyé
+202	Vérifier l’identité dans le fournisseur
+203	Vérifier l’impact sur les échéances
+204	Vérifier l’intégrité ou consigner l’intervention
+205	Vérifier le hash et l’état
+206	Vérifier le rattachement
+207	Vérifier les attributions et sources
+208	Vérifier les informations
+209	Vérifier les résultats
+210	Version de rôle périmée.
+211	Version dépassée : relire l’impact
+212	Version scellée : pas de remplacement
+213	Voir uniquement les tâches autorisées
+214	Vue exhaustive des documents du dossier à compléter par contrat dédié

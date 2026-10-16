@@ -1,0 +1,220 @@
+1	This operation is not possible in the plan’s current state.
+2	This operation is not possible in the minutes’ current state.
+3	This page requires a direct national assignment of the central administration role. The backend remains the decision authority.
+4	This page does not exist.
+5	This page cannot be displayed. You can try another page or download the original.
+6	This page carries your reader number; every page read is logged. Reproduction is subject to the institution’s terms of use.
+7	This period does not allow activation today. Choose to save as a draft.
+8	This rule has no
+9	This relation does not apply to these two record types.
+10	This room is closed: no new reservation or arrival.
+11	This section requires a permission to administer validation workflows.
+12	This section requires a permission to administer metadata schemas.
+13	This section requires a permission to manage legal holds for this scope.
+14	This section requires a permission to manage controlled vocabularies for this scope.
+15	This section requires a reading room permission for this scope.
+16	This section requires a reading room permission for this institution.
+17	This section requires a permission to read waiver requests for this scope.
+18	This section requires a permission to read the preservation log for this scope.
+19	This section requires a permission to read the classification scheme for this scope.
+20	This section requires a permission to read the communications register for this scope.
+21	This section requires a retention review permission for this scope.
+22	This section requires a national permission to read physical archives.
+23	This section requires a national permission to read rights.
+24	This section requires a national permission to read archival entries.
+25	This section requires a national permission to read restoration interventions.
+26	This section requires a national permission to read the audit log.
+27	This section requires a national permission to read heritage.
+28	This section requires a national readers portal permission.
+29	This signature was entered by a person: the server did not check it.
+30	This withdrawal is linked to the digitization order
+31	This withdrawal is part of the file
+32	This deletion only concerns the connector’s file. Make sure you have finished the deposit or saved a copy if you want to keep it.
+33	This version will replace the version in force for upcoming due dates.
+34	Chain of trust established
+35	Chain invalid at the signature date
+36	Chain invalid at the seal date
+37	Chain not assessed
+38	Field
+39	Proposed field
+40	Fields
+41	Change
+42	Change the location
+43	Change the usual location
+44	Change the selection
+45	Change the password
+46	Change the attachment
+47	Change the status
+48	Each former reference is written “system: value”, one per line.
+49	Each assessment is added to the history
+50	Each file in the main storage (
+51	Each identifier requires a type and a value.
+52	Each supporting document requires a type, a reference and a valid URI if provided.
+53	Each line found compliant or with a discrepancy becomes a record, as a draft
+54	Each line is accepted or refused. The acknowledgement of receipt is issued at recording; an accepted line will be handed over by a third person, a refused line becomes available again at the transferring service. The person who receives is not the one who submitted.
+55	Each line is accepted or refused. An accepted line will be destroyed by a third person; a refused line becomes available again. The person who approves is not the one who submitted.
+56	Each PDF is judged against the profile it declares; a PDF that declares nothing is judged against PDF/A-{1} (it then says whether it could be compliant with it).
+57	Each item received becomes an item to examine. The condition report and at least one item are required before the examination.
+58	Each producer requires an authority and a role.
+59	Each quantity is a whole number from 1 to 10000.
+60	Each withdrawal is authorized by another person, then the original is handed over; handover requires the agreement, the insurance and a recent departure condition report (“Movements” tab or “Open the withdrawal”).
+61	Each alternative title is written “type: title”, one per line.
+62	Each volume requires a positive quantity (3 decimals at most) and a unit.
+63	Loading the hosting…
+64	Loading the record…
+65	Loading the page…
+66	Loading the mail…
+67	Loading the plans…
+68	Loading the indicators…
+69	Loading the inventories…
+70	Loading the word positions…
+71	Loading the backups…
+72	Loading the schedule…
+73	Loading the store…
+74	Loading the preservation tracking…
+75	Loading…
+76	Connector path forbidden.
+77	Search
+78	Search eligible files
+79	Search an item
+80	Search an item (at least 2 characters)
+81	Search a document by call number
+82	Search a file
+83	Search a location
+84	Search a reader
+85	Search a word
+86	Search a term
+87	Search a term or a synonym…
+88	Search an archive
+89	Search by call number or description; {1} documents at most.
+90	Search by label or by synonym.
+91	Search by last name, first name or card number.
+92	Search by reference or title; a closed file is destroyed as a whole with its sub-files.
+93	encrypted (STARTTLS)
+94	encrypted (TLS)
+95	Digits, spaces and + ( ) . / -
+96	chosen
+97	Choose
+98	Choose other files
+99	Choose from the catalog
+100	Choose the supervising institution
+101	Choose the signature file
+102	Choose the source file
+103	Choose the images
+104	Choose the batch images
+105	Choose an actor
+106	Choose another element
+107	Choose another file
+108	Choose a hazard…
+109	Choose a document
+110	Choose a file…
+111	Choose an event
+112	Choose a file
+113	Choose a reader…
+114	Choose a place
+115	Choose a parent
+116	Choose a pass
+117	Choose a producer
+118	Choose a profile
+119	Choose a result
+120	Choose a role to examine
+121	Choose a subject
+122	Choose a type
+123	Choose a document type
+124	Choose a type…
+125	Choose a vocabulary…
+126	Choose a category
+127	Choose an institution…
+128	Choose a record
+129	Choose a record…
+130	Choose a rule…
+131	Choose a unit
+132	Choose a version
+133	Choose an unsealed version
+134	Choose…
+135	Choose at least one document.
+136	Choose at least one file.
+137	Choose at least one document type or one classification-scheme heading: the rule applies to what is chosen.
+138	Choose at least one archive.
+139	First choose the archives service
+140	First choose an institution
+141	First choose an institution in the work context, or take the national scope.
+142	Choose distinct contributors.
+143	Choose active terms from a vocabulary
+144	Choose the act concerned.
+145	Choose the location whose risks and emergency plan you want to manage
+146	Choose the assessment.
+147	Choose the institution
+148	Choose the institution in the application, fill in the “Departments” sheet (one department per line), save as .xlsx then import the file.
+149	Choose the unit.
+150	Choose the legal basis.
+151	Choose the category to apply.
+152	Choose the document form.
+153	Choose the revocation list (.crl file) or paste it in PEM format.
+154	Choose the appraisal method.
+155	Choose the nature of the relation.
+156	Choose the nature of the withdrawal.
+157	Choose the record under which to integrate the accession.
+158	Choose the rule whose appraisal method applies.
+159	Choose the room.
+160	Choose the follow-up.
+161	Choose the time slot.
+162	Choose the hazard.
+163	Choose the related document.
+164	Choose the destination file.
+165	Choose the source file.
+166	Choose the file this signature covers.
+167	Choose the format to migrate.
+168	Choose the day.
+169	Choose the reader.
+170	Choose the reason from the reference list.
+171	Choose the level of the records to create.
+172	Choose the producer.
+173	Choose the digitization project that takes the order over.
+174	Choose the role responsible for this step.
+175	Choose the receiving archives service.
+176	Choose the agent type.
+177	Choose the event type that triggers the period.
+178	Choose the event type.
+179	Choose the document type.
+180	Choose the type of document presented.
+181	Choose the relation type.
+182	Choose the physical archives to destroy
+183	Choose the document types and/or classification-scheme headings targeted (at most
+184	Choose an actor.
+185	Choose a converter.
+186	Choose a document.
+187	Choose an OCR result of the selected file.
+188	Choose a rate for each line.
+189	Choose a term: only the results that carry it remain displayed
+190	Choose an available document type.
+191	Choose another person.
+192	Choose an institution
+193	Choose an institution in the work context to consult and manage its communications register.
+194	Choose an institution in the work scope: the reading room is that of an archives institution.
+195	Choose an institution in the work scope to display the retention due dates and legal holds.
+196	Choose an institution in the work scope.
+197	Choose an institution and hold the hold permission
+198	Choose an institution and hold the review permission
+199	Choose an operation to see the corresponding steps, decisions and contracts.
+200	Illustrative chronology
+201	Chronological: certain years
+202	Chronological (certain years)
+203	Target
+204	target(s) selected
+205	Available targets
+206	Five years at most
+207	Circumstances *
+208	Validation workflow
+209	Accession workflow
+210	Mandatory workflow?
+211	Workflows
+212	Overdue validation workflows
+213	classified
+214	classified under these headings. To target more widely, tick only one of the two.
+215	Excel workbook refused: XML content not allowed.
+216	Classification
+217	Current key
+218	Act sealing key
+219	Invalid Supabase public key.
+220	Close

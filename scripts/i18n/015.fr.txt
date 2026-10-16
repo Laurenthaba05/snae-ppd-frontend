@@ -1,0 +1,220 @@
+1	Fin de phase courante
+2	Fin de responsabilité
+3	Fin de validité
+4	Fin prévue
+5	Fin structurée
+6	Fin UTC
+7	Finale
+8	Financement du traitement
+9	Flou, coupée, de travers, résolution insuffisante…
+10	Foire aux questions
+11	Fonction
+12	Fonction créée.
+13	Fonction enregistrée.
+14	Fonction mère
+15	Fonction supprimée.
+16	Fonctions (ISDF)
+17	Fonctions et activités
+18	Fonctions et activités (ISDF)
+19	Fondement et observations
+20	Fonds & producteurs
+21	Fonds et descriptions
+22	Fonds et producteur
+23	Fonds numérique
+24	Fonds ou description
+25	Fonds ou niveau à publier *
+26	Forcer l’OCR sur images/PDF
+27	formalisée
+28	Formalisée
+29	Formaliser par un acte
+30	format
+31	Format
+32	Format à migrer *
+33	Format cible
+34	Format cible d’une migration
+35	format d’image non pris en charge (JPEG, PNG ou TIFF)
+36	format de fichier non pris en charge
+37	Format de page
+38	Format Excel ancien (.xls) non pris en charge : enregistrez le fichier au format .xlsx.
+39	Format non reconnu (TIFF, JPEG ou PNG attendus).
+40	Format produit :
+41	Format reconnu
+42	Formats acceptés
+43	Formats autorisés
+44	Formats et copies de consultation
+45	Forme *
+46	Forme autorisée du nom *
+47	Forme du document
+48	Formes normalisées selon d’autres règles (une par ligne)
+49	Formes parallèles du nom
+50	Formes parallèles du nom (une par ligne)
+51	Formule
+52	Formule accordée sur décision de l’institution : un agent examine votre demande et l’ouvre s’il l’accepte.
+53	Formule proposée au public
+54	Formules d’abonnement
+55	Français
+56	Français et anglais
+57	Fréquentation
+58	Gabarit
+59	Garantie de l’État, décision ou convention : le motif s’écrit.
+60	Garde de la clé
+61	Garder
+62	Garder la zone
+63	Gel légal
+64	Gels légaux
+65	général
+66	générale
+67	génération en cours…
+68	Généré le
+69	Générer le PDF d’accès
+70	Gérer les abonnements, la caisse et les comptes des lecteurs du portail public.
+71	Gérer les dangers
+72	Gérer les emplacements, unités de stockage, cotes physiques et mouvements de sortie/retour.
+73	gestion de la numérisation
+74	Gestion des données
+75	GOUVERNANCE DES HABILITATIONS
+76	Graine du tirage
+77	Gravité
+78	Gravité *
+79	Grégorien
+80	groupe(s) bloqué(s)
+81	Guide de conception · aucun acte métier exécuté ici
+82	GUIDE DU PREMIER LOT
+83	GUIDE OPÉRATIONNEL
+84	GUINÉE
+85	Habilitation de gestion des gels requise dans cette portée.
+86	Hébergement et réplicas
+87	Hégirien
+88	Hériter du parent
+89	Heures prévues
+90	Heures réalisées
+91	heures. Conservation :
+92	Histoire administrative ou biographie
+93	Histoire du service
+94	Historique
+95	Historique d’événements
+96	Historique de conservation
+97	Historique de la conservation
+98	Historique de provenance
+99	Historique des constats et mouvements
+100	Horaires
+101	Horaires :
+102	Horizon
+103	Horodatage RFC 3161
+104	Hors espèces, indiquez la pièce de l’encaissement (référence du virement ou de l’opération), au moins 3 caractères.
+105	hors ligne
+106	Hors projet
+107	Identifiant
+108	Identifiant de connexion
+109	Identifiant de l’archive physique
+110	Identifiant de l’extraction
+111	Identifiant de rôle invalide.
+112	Identifiant du circuit
+113	Identifiant du document
+114	Identifiant du document qui recevra les images (obligatoire pour importer des fichiers)
+115	Identifiant du document, optionnel
+116	Identifiant du fichier
+117	Identifiant du fichier numérisé
+118	Identifiant du lot
+119	Identifiant du sujet
+120	Identifiant externe :
+121	Identifiant facultatif. Vide : circuit déterminé automatiquement pour le document.
+122	Identifiant invalide : un UUID est attendu.
+123	Identifiant pérenne
+124	Identifiant pérenne (ARK)
+125	Identifiant pérenne du document
+126	Identifiant PRONOM
+127	Identifiant PRONOM : correspondance interne à confirmer avec Siegfried ou DROID
+128	Identifiant SSO (sub) *
+129	Identifiant technique
+130	Identifiant utilisateur invalide.
+131	Identifiant, optionnel si archive renseignée
+132	Identifiant, optionnel si document renseigné
+133	Identifiants et version
+134	Identifiants multiples
+135	Identifiants officiels (un par ligne, « SCHÉMA : valeur »)
+136	Identifiants pérennes
+137	Identifiants pérennes (ARK)
+138	Identifiants techniques
+139	Identification
+140	Identification des formats
+141	identification en cours…
+142	Identification minimale : le reste se complète progressivement
+143	Identification par signature
+144	identifié
+145	Identifié
+146	Identifier et copier
+147	Identifier les fichiers restants
+148	identité
+149	Identité
+150	IDENTITÉ & ACCÈS
+151	Identité de cette proposition
+152	Identité sans nom
+153	Identité serveur invalide.
+154	Identité SSO liée
+155	Identité vérifiée auprès du fournisseur. Aucun compte SSO ni mot de passe n’est créé par cette action.
+156	ignoré
+157	ignorée
+158	Ignorée (invalide)
+159	Il faut détenir les habilitations « valider un fichier maître » et « sceller une version » sur le document.
+160	Il n’y a pas d’original physique à déplacer.
+161	Il n’y a pas d’original physique à localiser.
+162	Il n’y a pas d’original physique à numériser.
+163	Il n’y a pas d’original physique dont constater l’état.
+164	Il redevient ouvert et se réévalue
+165	Image
+166	Image précédente
+167	Image suivante
+168	image trop grande pour le moteur
+169	Images du fichier
+170	Impact & demandes de changement
+171	Impact du département
+172	Import de départements
+173	Import interrompu : les lignes restantes n’ont pas été traitées.
+174	Import interrompu : les pages restantes n’ont pas été traitées.
+175	Import réalisé
+176	Import sans feuille séparatrice : les {n} fichier(s), dans l’ordre de la sélection, deviennent les pages de l’élément choisi. Vérifiez l’ordre avant d’importer.
+177	importance matérielle
+178	Importance matérielle
+179	Importance matérielle : indiquez la quantité ET l’unité, ou aucune des deux.
+180	Importance matérielle : la quantité est un nombre, avec au plus trois décimales.
+181	Importance matérielle : précisions
+182	Importance matérielle : quantité
+183	Importance matérielle : unité
+184	Importé
+185	importée
+186	Importée
+187	importée(s)
+188	Importer
+189	Importer ce scan
+190	Importer depuis Excel
+191	Importer des départements depuis Excel
+192	Importer des descriptions
+193	Importer des institutions depuis Excel
+194	Importer des pages
+195	Importer des pages numérisées
+196	Importer des producteurs
+197	Importer des termes
+198	Importer sans feuille séparatrice
+199	Importer un bordereau
+200	Importer un CSV
+201	Importer un fichier
+202	Importer un fichier CSV
+203	Importer un lot
+204	Importer un lot de fichiers
+205	Importer un registre
+206	Importer un thésaurus SKOS
+207	Importez le fichier
+208	Impossible de charger les indicateurs de l’accueil.
+209	Impossible de charger les indicateurs de traitement.
+210	Imprimer
+211	Imprimer la fiche de sortie
+212	Imprimer la fiche de transport
+213	Imprimer la fiche du plan
+214	Imprimer le procès-verbal
+215	Imprimer le reçu
+216	Inactifs
+217	Incommunicable : le délai est perpétuel.
+218	Inconnu (déclaré)
+219	Inconnue (déclarée)
+220	Indéterminée

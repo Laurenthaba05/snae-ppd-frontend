@@ -1,0 +1,136 @@
+1	Vérifier la confiance
+2	Vérifier la présence
+3	Vérifier les signatures d’un fichier
+4	Vérifier tous les champs obligatoires avant l’enregistrement
+5	Vérifiés
+6	Vérifiez les informations avant de confirmer.
+7	Vérifiez les informations et les conséquences de cette action avant de confirmer.
+8	Vérifiez vos droits et votre périmètre. Certains refus sont volontairement masqués en 404.
+9	Vérifiez votre courrier
+10	Vérifiez votre profil et votre périmètre de travail.
+11	Verrou de version :
+12	vers
+13	Vers
+14	Versant
+15	Versé
+16	Versement
+17	Versement des délibérations
+18	Versement structuré
+19	Versements aux archives
+20	Versements complémentaires attendus ou non
+21	Versements en attente
+22	Versements et entrées
+23	version
+24	Version
+25	Version 1 · Maître de conservation · Exemple sans fichier joint
+26	Version de demande :
+27	Version de l’outil
+28	Version de modification
+29	Version de rôle attendue :
+30	Version documentaire
+31	Version du document
+32	Version du moteur
+33	Version du PDF
+34	Version du règlement accepté *
+35	Version introuvable pour ce document.
+36	Version scellée
+37	Version serveur manquante ou invalide.
+38	Versions
+39	versions au total
+40	Vide : attribution immédiate.
+41	Vide : attribution permanente, si votre autorité le permet.
+42	Vide : déduite des documents.
+43	Vide : heure du serveur. Saisie dans votre fuseau, envoyée en UTC.
+44	Vide : portée institutionnelle. Changer de portée efface les cibles sélectionnées.
+45	Vide : sans date de fin.
+46	Vide : sans échéance
+47	Vide pour retirer le classement.
+48	VIE-PRIVEE-50
+49	Virgule
+50	Visa
+51	Visa de la validation
+52	Visé
+53	visé ligne par ligne par une autre personne
+54	Visé par
+55	Visé, à détruire
+56	Visent ce type de document
+57	Viser
+58	Viser le bordereau
+59	Viser le procès-verbal
+60	Visibilité
+61	Visibilité *
+62	Visible pour le public
+63	Visionneuse : {n}. Glisser pour déplacer, molette ou boutons pour zoomer.
+64	Visites
+65	Visualisez les actions de chaque acteur tout au long du processus de traitement.
+66	Vocabulaire
+67	Vocabulaire :
+68	Vocabulaires
+69	Voir
+70	Voir ce qui manque ci-dessus.
+71	Voir la méthode de la campagne
+72	Voir la notice
+73	Voir la page
+74	Voir la référence à donner
+75	Voir le certificat de destruction
+76	Voir le circuit
+77	Voir le parcours
+78	Voir le parcours cible
+79	Voir le reçu
+80	Voir les abonnements
+81	Voir les actions
+82	Voir les actions de cette démonstration locale.
+83	Voir les fichiers
+84	Voir les formules
+85	Voir ma demande
+86	Voir tous
+87	Voir tout
+88	Volume
+89	Volume de stockage non exposé par l’API actuelle
+90	Volume local privé
+91	Volume prévu
+92	Volume total
+93	Volumes et supports multiples
+94	Volumétrie
+95	vont être détruits, un par un, chacun avec son certificat de destruction. Cette opération ne peut pas être annulée.
+96	vont être remis à
+97	Votre accès a été révoqué
+98	Votre accès a expiré le
+99	Votre administrateur vous accompagne
+100	votre compte
+101	Votre compte ne dispose pas d’une habilitation de traitement des tâches.
+102	Votre compte ne possède pas l’habilitation d’extraction dans ce périmètre. Le dépôt du PDF reste disponible.
+103	Votre demande d’abonnement attend le paiement au guichet.
+104	Votre demande est déposée. L’institution qui conserve ce document vous répondra par courriel ; vous suivez l’avancement dans
+105	Votre demande précédente attend encore son règlement.
+106	Votre dernière demande a été refusée
+107	Votre rôle ne comporte pas d’habilitation de sortie : vous consultez les dossiers.
+108	Votre session a expiré. Reconnectez-vous.
+109	Vous avez déjà proposé ou validé cette décision : l’exécution revient à une troisième personne.
+110	Vous avez un abonnement en cours. Une nouvelle formule choisie ici démarrera à la fin de l’abonnement actuel.
+111	Vous connecter, vérifier /me, parcourir les institutions, départements, utilisateurs et rôles, enregistrer ou modifier leurs fiches, attribuer et révoquer un rôle, révoquer les anciens tokens, examiner les permissions et le parcours d’approbation indépendante.
+112	Vous consultez cet élément : faire avancer une étape demande l’habilitation correspondante.
+113	Vous êtes
+114	Vous êtes (facultatif)
+115	Vous êtes à l’origine de cette demande. Une autre autorité centrale doit l’approuver ou la rejeter.
+116	Vous n’avez pas d’abonnement en cours : la lecture des documents est fermée.
+117	Vous n’avez pas l’habilitation pour ce périmètre. Aucun titre ni extrait n’est affiché.
+118	Vous n’avez pas le droit de faire passer ce document (revue de la conservation et proposition de décision).
+119	Vous pouvez lire les documents communicables.
+120	Vous serez redirigé vers votre fournisseur d’identité.
+121	Vous validez la conservation définitive de
+122	Vue d’ensemble
+123	Vue d’ensemble des contrôles qualité consignés sur les éléments de numérisation.
+124	Vue d’ensemble des entrées
+125	Vue d'ensemble des interventions de restauration déclarées sur les archives physiques.
+126	Vue nationale des échéances de conservation et des gels légaux, pour l’institution du périmètre de travail courant.
+127	Vue nationale des échéances de conservation et des gels légaux.
+128	Zone
+129	Zone choisie : {n} de large sur {n} de haut, à {n} du bord gauche et {n} du haut.
+130	zone occultée
+131	zones occultées
+132	zones occultées est atteint pour ce document.
+133	Zones retirées (
+134	Zoom
+135	Zoom de l’image
+136	Zoom de la page

@@ -1,0 +1,214 @@
+1	The current contract serves the same content for reading and downloading; separation of rights to be developed.
+2	The SSO provider does not automatically create the business account
+3	A hold blocks the outcome but is not a consultation restriction
+4	The preservation master is not published as a derivative
+5	The technical receipt, the antivirus and the archival validation remain distinct states.
+6	Visual feedback must never display an invented success; generalize to all forms.
+7	The role has changed.
+8	Authorized reader
+9	Audited reading; the static audit does not prove certified immutability.
+10	Controlled reading of documents.
+11	Lifted ≠ deletion nor automatic execution
+12	Lift with justification
+13	Lift with decision reference
+14	Links recorded; paginated inventory and batch checks remain to be added backend-side.
+15	Link the document types
+16	Read the closing warning
+17	Read the service state
+18	Read the cause and the due date
+19	Read the readiness blockers
+20	Read the files and their check
+21	Read the existing versions
+22	Read PROCESSING, RETRYABLE, REJECTED or COMPLETED
+23	Location and movements managed with their dedicated objects.
+24	Locate and move a physical archive
+25	Partially admitted batch: policy to be decided
+26	Authorized storekeeper or archivist
+27	Demonstration ministry A
+28	Justify the return
+29	Do not display a total of items that was not returned
+30	Do not create an extra version to work around an incomplete response
+31	Do not expose the counters of forbidden objects
+32	NON_VALIDE then VALIDE; no “Launch OCR” button without an execution service.
+33	Working record, distinct from a final archive.
+34	Identical retry: keep the intent key
+35	Digitize with the external equipment
+36	Number already used: correct
+37	Object does not exist: no attachment
+38	Get the template
+39	Authorized operator
+40	Operator then authorized controller
+41	Controlled documentary operation.
+42	Original missing: flag and traceability
+43	Open the due date
+44	Open the element and the files
+45	Open the entry
+46	Open the sign-in
+47	Open the record
+48	Open the authorized resource
+49	Open the restriction
+50	Open the document’s circuit
+51	Open the account
+52	Open the detail
+53	Open the file concerned
+54	Open the authorized scope
+55	Open the fields applicable to the document
+56	Open then lift a hold
+57	Open an entry
+58	Open a record
+59	Browse the paginated events
+60	Browse the authorized results
+61	Target journey. Entry/workflow link exists, but batch admission and schedule are not exposed in this archive.
+62	Incompatible parent or cycle: refuse
+63	Invalid parent or cycle: refusal
+64	No fictitious approval without permission
+65	No invented e-mail invitation
+66	No automatic To correct status if no matching backend object
+67	Scope too wide: refusal
+68	Permission denied: no creation
+69	Photographs and supporting items according to the objects available
+70	Scheduler disabled: say so, not a false green status
+71	Schedule the due date
+72	Take over and finish a validation
+73	Take an open task
+74	Preparation of the files in the acceptance-test institution.
+75	Prepare the lines
+76	Prepare a batch
+77	Present the decision
+78	Preserve the order intent when supported
+79	Preview outdated: start again
+80	Preview
+81	Preview and check the anomalies
+82	Produce the receipt linked to the inventory
+83	Distinct proposer, validator and executor
+84	Propose the permission difference
+85	Propose a disposition
+86	Provision an SSO user
+87	Business publication ≠ anonymous public portal
+88	Publication PUBLIEE or RETIREE; separate public portal absent from the delivered scope.
+89	Publish an authorized derivative and withdraw it
+90	Attach the content of an entry
+91	Attach the status to the document
+92	Attach the records at creation
+93	Receive a server alert
+94	Receive a usable notification
+95	Search for an existing institution
+96	Reclassify an authorized document
+97	Existing reference: reread
+98	Reference the request if necessary
+99	Reference the originals and the elements
+100	Rule missing or ambiguous: explicit blocking
+101	REJECTED: do not resend the same file without correction
+102	Link to the business operation
+103	Link the records
+104	Link places, events and subjects
+105	Reread the access summary
+106	Reread the log
+107	Reread the new state
+108	Reread the next state
+109	Reread the result
+110	Reread the server
+111	Reread the server status
+112	Full replacement: preserve unmodified values
+113	Fill in internal code, name and type
+114	Fill in the check sheet
+115	Fill in language, engine and confidence
+116	Fill in the department
+117	Fill in the SSO subject and the profile
+118	Fill in the contextual texts
+119	Fill in the actual number and date
+120	Fill in the available provenance and person in charge
+121	Fill in reference and reason
+122	Reorganization: examine the dependent accounts and rights
+123	Uncertain response: same intent, never a new blind write
+124	Resume after an incident without duplicates
+125	Resume according to the graph
+126	Resolve the account with /iam/me
+127	Authorized preservation manager
+128	Authorized publication manager
+129	Authorized manager
+130	Backup restore: no invented UI command
+131	Restriction documented and traced; sources to be validated by the competent managers.
+132	Result recorded ≠ OCR engine executed
+133	Results filtered by the server; no leak of unauthorized title or excerpt.
+134	Remove if necessary
+135	Return impossible without a configured transition
+136	Find an authorized archive
+137	Revalidation of restrictions at the server
+138	Revoke the accesses concerned
+139	Role not found.
+140	Reserved role.
+141	Reserved role. Cannot be modified.
+142	Inactive heading: do not offer
+143	Authenticate via the configured provider
+144	Enter keywords
+145	Technical sealing and any timestamp receipt; no legal approval claimed.
+146	Sign in and find your scope
+147	Select the unsealed version
+148	Select the beneficiary and the object
+149	Select the file and its use
+150	Select the role
+151	Select an existing document, file or physical original
+152	Select an admissible file
+153	Digitization service
+154	Demonstration archives service
+155	Session changed: revoke the local URL
+156	Session expired: cancel the requests and return to sign-in
+157	Named session and rights received from the server; no role deduced from the workstation.
+158	Submit the request
+159	Storage failed: do not announce integrated
+160	Attached organizational structure; do not rewrite historical provenance.
+161	Structure the departments
+162	Tracking and attachment available; scanner capture to be integrated separately.
+163	Follow the approaching due date
+164	Follow the return due date
+165	Follow the ingestion receipt
+166	Follow an upload and handle quarantine
+167	Follow a digitization project
+168	Monitor integrity and backups
+169	Suspend the account and revoke the old tokens
+170	Suspension and cancellation are distinct decisions
+171	Task already taken: conflict
+172	Download only according to the current contract
+173	Finish and return to preservation
+174	All users
+175	TRANSFERER: accession schedule required (TRANSFER_REQUIRED), execution refused without receipt (TRANSFER_NOT_ACCEPTED)
+176	Invalid type, required field or enum: error on the field
+177	A parameterized circuit, not a fixed sequence common to all documents.
+178	A declared check does not prove an automatic analysis
+179	A digitized file does not automatically replace the original
+180	A project can be cancelled
+181	A request authorization does not implicitly grant a download right
+182	Another authority must modify your account.
+183	Another authorized person must act.
+184	A read error is not an empty log
+185	A notification is not proof of processing
+186	A read restriction is not a preservation hold
+187	A sealed version cannot be modified
+188	User concerned
+189	Authorized user
+190	Heritage value ≠ automatic public access
+191	Validator and documentation agent
+192	Authorized validator
+193	Validate and activate the graph
+194	Validate and save the values
+195	Validate the admissible master file
+196	Validate the master and seal a version
+197	Validate the text
+198	Check assignments and delegations
+199	Check rights and version
+200	Check server access
+201	Check the returned state
+202	Check the identity with the provider
+203	Check the impact on due dates
+204	Check integrity or record the intervention
+205	Check the hash and the state
+206	Check the attachment
+207	Check the assignments and sources
+208	Check the information
+209	Check the results
+210	Role version outdated.
+211	Version outdated: reread the impact
+212	Sealed version: no replacement
+213	See only the authorized tasks
+214	Exhaustive view of the file’s documents to be completed by a dedicated contract

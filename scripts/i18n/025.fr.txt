@@ -1,0 +1,220 @@
+1	Précision de la date
+2	Précision des dates
+3	Préfixe
+4	Premier
+5	Première feuille : Donnees. Dates au format texte AAAA-MM-JJ. Aucune formule ni macro.
+6	Première page importée
+7	Prendre en charge
+8	Prendre en charge le contrôle
+9	Prendre la commande en charge crée l’élément de numérisation (avec l’original et le document de la commande), relie la représentation au bien et permet la remise de l’original.
+10	Prénom
+11	Prénom *
+12	prenom.nom@institution.gn
+13	Préparation de la version…
+14	Préparation impossible.
+15	Préparation…
+16	Préparé
+17	Prépare et numérise les documents
+18	Préparée
+19	Préparée par
+20	Préparer
+21	Préparer et suivre le transfert des documents vers les archives.
+22	Préparer l’import
+23	Préparer la campagne
+24	Préparer le scanner — à faire une seule fois
+25	Préparer le versement
+26	Préparer les bordereaux sans détruire de données dans la démonstration.
+27	Préparer les lots à numériser et contrôler leur qualité.
+28	Préparer les règles de conservation et les décisions associées.
+29	Préparer un autre scan
+30	Préparer une entrée
+31	Préparer une migration
+32	Préparer une migration de formats
+33	Préparer une notice
+34	Préparer une notice de démonstration
+35	Préparer une nouvelle version
+36	Présence non vérifiée
+37	Présent
+38	Présent dans la salle «
+39	Présentation du contenu
+40	Présente
+41	Présente à son emplacement habituel
+42	présentes
+43	Présentes
+44	Présents à leur place
+45	Présents dans la salle
+46	Prestation
+47	Présumée à son emplacement habituel : sa présence n’a jamais été vérifiée.
+48	Présumée à son emplacement habituel : sa présence n’a pas été vérifiée depuis son dernier déplacement.
+49	prêt
+50	Prêt
+51	Prêt — document essentiel, toujours retenu
+52	Prêt entrant
+53	Prêt pour versement
+54	prêt sortant
+55	Prêt sortant
+56	prête
+57	Prête
+58	Prête à être exécutée.
+59	Prêts et expositions
+60	Prêts sortants et expositions
+61	prévu
+62	prévue
+63	priorité
+64	Priorité
+65	Priorité :
+66	Priorité {n} : dites pourquoi (5 caractères au moins).
+67	Priorité {n} : indiquez ce qu’il faut sauver.
+68	Priorité de la règle
+69	Priorité du traitement
+70	Priorités de sauvetage
+71	Priorités de sauvetage, dans l’ordre
+72	Prise en charge
+73	Prise en charge par l’atelier
+74	Prix unitaire
+75	Prix unitaire *
+76	probabilité
+77	Probabilité *
+78	Probabilité × gravité
+79	Procès-verbal
+80	Procès-verbal *
+81	Procès-verbal d’élimination
+82	Procès-verbal de la décision
+83	Procès-verbal de réception
+84	Procès-verbal de recrutement
+85	Procès-verbal de remise, acte de cession, déclaration de perte ou de vol…
+86	Procès-verbal du refus *
+87	Procès-verbal du visa
+88	Procès-verbal du visa *
+89	Prochain contrôle
+90	Prochaine date de revue *
+91	Prochaine étape :
+92	Prochaine mise à jour :
+93	Prochaine revue
+94	Prochaine revue *
+95	Prochaine tentative
+96	Producteur
+97	Producteur :
+98	Producteur (notice d’autorité)
+99	Producteur (notice non lisible)
+100	Producteur non renseigné
+101	Producteurs et autorités
+102	Producteurs multiples
+103	Produite par
+104	Profil
+105	Profil colorimétrique ICC embarqué
+106	Profil de numérisation
+107	Profil de scanner
+108	Profil enregistré.
+109	Profil jugé
+110	profil(s)
+111	Profils de numérisation
+112	Profondeur minimale *
+113	Programme de formation des agents
+114	Programmée
+115	Projet
+116	Projet · élément
+117	Projet de numérisation
+118	Projet de numérisation *
+119	Projets
+120	Projets de numérisation
+121	Projets de numérisation, éléments numérisés et contrôles qualité.
+122	Projets par statut
+123	Prolongé
+124	Prolongé une fois
+125	Prolonger
+126	Prolonger le prêt
+127	PRONOM
+128	propose
+129	Proposé
+130	Proposé le
+131	Proposée
+132	Proposée à douze mois : choisissez l’échéance qui convient.
+133	Proposée le
+134	Proposée par
+135	Proposée par le producteur
+136	Proposer
+137	Proposer comme date
+138	Proposer comme titre
+139	Proposer de nouvelles permissions
+140	Proposer la sortie
+141	Proposer la sortie du bien
+142	Proposer le traitement
+143	Proposer un traitement
+144	Proposer un traitement de conservation.
+145	Proposer une décision
+146	Proposez une modification et faites-la approuver par un deuxième administrateur central.
+147	Proposez, examinez et approuvez les évolutions des rôles déjà utilisés.
+148	Proposition d’interface institutionnelle · Environnement de recette
+149	Propositions à examiner
+150	Propriétaire
+151	Propriétaire identifié
+152	Protégé
+153	Provenance
+154	provenance à établir
+155	Provenance à établir
+156	Provenance et droits
+157	Provenance et responsabilité
+158	Public
+159	Publication
+160	Publications fondées sur ces documents
+161	publié
+162	Publié
+163	publiée
+164	Publiée
+165	Publiée le
+166	Publier
+167	Publier sur le portail
+168	Publier un fichier
+169	Publier un fonds met son inventaire à la disposition du public sur le portail. Le public ne voit que les notices
+170	Publier un instrument de recherche
+171	Publiez un fonds pour que son inventaire soit consultable par le public.
+172	publique
+173	publiques et validées
+174	Qualifiée
+175	Qualitatif : critères décrits, retenus un à un
+176	Qualitatif (critères décrits)
+177	Qualité
+178	Quand la phase courante d’un document est terminée, on constate son passage en archives intermédiaires, avec le lieu et le responsable. Le document devient semi-actif ; il reste conservé jusqu’à son échéance, où le sort final s’applique.
+179	Quand la règle d’une série prévoit un
+180	Quantité
+181	Quantité constatée
+182	Quantité du volume
+183	Quantité et unité
+184	quantité trop grande.
+185	Quatre scans temporaires sont conservés. Libérez une copie dont vous n’avez plus besoin.
+186	Quel événement *
+187	Quel plan, quelle année.
+188	Quelles données : noms et adresses d’agents, dossiers médicaux…
+189	Qui a signé, en quelle qualité, sur quel fichier
+190	Qui alerter, dans quel ordre, comment.
+191	Qui le reçoit
+192	Qui le reçoit *
+193	qui sont aussi
+194	Racine (auto-signé)
+195	Racine du fonds
+196	Rafraîchissement de support
+197	Raison sociale
+198	Rapport annuel d’activité — 2025
+199	Rapport de contrôle
+200	Rapport des erreurs
+201	Rapports et décisions administratives
+202	Rattachement
+203	Rattachement réservé à une autre autorité centrale.
+204	Rattachements et délégations
+205	Rattacher
+206	Rattacher documents, dossiers ou archives physiques
+207	Rattacher un bien déjà enregistré
+208	Rattacher un document
+209	Rattacher un dossier
+210	Rattacher un fichier
+211	Rattacher un fichier numérisé
+212	Rattacher une archive physique
+213	Réactiver
+214	Réalisé par
+215	Réalisé par *
+216	Réalisée
+217	réception
+218	Réception
+219	Réception confirmée
+220	Réception du lot

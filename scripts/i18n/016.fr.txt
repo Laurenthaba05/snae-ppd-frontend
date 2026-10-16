@@ -1,0 +1,220 @@
+1	Indexés par « {n} »
+2	Indicateur
+3	Indicateur non exposé par l’API actuelle
+4	Indicateurs clés
+5	Indicateurs de traitement
+6	Indicateurs de traitement en diagrammes
+7	Indicateurs du traitement
+8	Indice de confiance
+9	Indiquer le document dans le plan de numérisation
+10	Indiquez ce que l’on peut faire de l’objet : manipulation libre, avec précautions ou interdite.
+11	Indiquez ce que vous avez constaté : présente, trouvée ailleurs ou introuvable.
+12	Indiquez dans quelles circonstances l’état est constaté.
+13	Indiquez jusqu’à quand l’accès est accordé.
+14	Indiquez l’adresse de votre compte : si elle existe, un lien pour choisir un nouveau mot de passe y sera envoyé.
+15	Indiquez l’autorité qui vise.
+16	Indiquez l’emplacement où l’archive a été trouvée.
+17	Indiquez l’état constaté : stable, fragile ou intervention requise.
+18	Indiquez la date d’ouverture de l’exposition.
+19	Indiquez la date de début du prêt.
+20	Indiquez la date de fermeture de l’exposition.
+21	Indiquez la date de l’acte.
+22	Indiquez la date de la destruction.
+23	Indiquez la date de la prochaine revue, à venir.
+24	Indiquez la date de la restitution.
+25	Indiquez la date de la sortie.
+26	Indiquez la date de retour prévue : c’est la fin du prêt.
+27	Indiquez la date de retour prévue : une sortie a toujours une échéance.
+28	Indiquez la date de retour prévue des originaux.
+29	Indiquez la date du visa.
+30	Indiquez la date.
+31	Indiquez la nature de la prise en charge : acquisition, dépôt ou prêt entrant.
+32	Indiquez la nature du traitement.
+33	Indiquez la nouvelle date de fin.
+34	indiquez la quantité ET l’unité, ou aucune des deux.
+35	Indiquez la référence de l’acte de sortie (procès-verbal de remise, acte de cession…).
+36	Indiquez la référence de l’acte ou de la convention qui formalise la prise en charge.
+37	Indiquez la référence de l’acte qui fonde la décision.
+38	Indiquez la référence du visa.
+39	Indiquez la version du règlement de la salle présentée au lecteur.
+40	Indiquez le lieu de l’exposition.
+41	Indiquez le mode d’encaissement.
+42	Indiquez le montant encaissé.
+43	Indiquez le nouvel emplacement habituel.
+44	Indiquez le type du document qui recevra la numérisation.
+45	Indiquez le volume prévu ET son unité, ou aucun des deux.
+46	Indiquez où l’original ira (atelier de numérisation…).
+47	Indiquez où l’original ira (salle de lecture, atelier, musée…).
+48	Indiquez où les originaux seront conservés et présentés chez l’emprunteur.
+49	Indiquez pour quoi l’original sort : consultation, restauration, expertise, transfert.
+50	Indiquez qui a repris les biens.
+51	Indiquez qui le reçoit (personne ou organisme).
+52	Indiquez qui réalise le traitement (atelier, restaurateur, agent).
+53	Indiquez si l’original est rendu dans l’état où il est parti.
+54	Indiquez un nom ou une raison sociale.
+55	Indiquez une date de validité correcte.
+56	Informations
+57	Informations complémentaires
+58	Informations d’archivage
+59	Informations de travail internes au service des archives.
+60	Informations techniques et provenance
+61	Initiale
+62	Inscription des lecteurs, réservations, présence, bulletins de communication jusqu’à la restitution, reproductions avec encaissement enregistré et statistiques annuelles.
+63	Inscriptions et marques
+64	Inscrire
+65	Inscrire les lecteurs, réserver, communiquer les originaux et suivre les reproductions et les statistiques de la salle.
+66	Inscrire un droit
+67	Inscrire un format
+68	Inscrire un lecteur
+69	Inscrit le
+70	Inscrivez d’abord le format cible au registre, puis préparez une campagne.
+71	Inscrivez les formats que l’institution conserve, avec leur niveau de risque.
+72	institution
+73	Institution
+74	INSTITUTION
+75	Institution :
+76	Institution *
+77	institution à sélectionner dans l’en-tête
+78	Institution courante
+79	Institution d’archives destinataire *
+80	Institution de démonstration
+81	Institution de rattachement
+82	Institution destinataire
+83	Institution détentrice
+84	Institution du périmètre de travail
+85	Institution non disponible
+86	Institution sélectionnée
+87	Instructeur
+88	Instruction
+89	Instrument
+90	Instrument d’entrée
+91	Instruments de recherche
+92	Instruments de recherche publiés
+93	Intégrer
+94	Intégrer au plan de description
+95	Intégrité
+96	Intégrité compromise — bloqué
+97	Intégrité confirmée
+98	intégrité du fichier non confirmée
+99	Intégrité vérifiée
+100	Interne
+101	Interrompre
+102	Intervention
+103	Intervention *
+104	Intervention nécessaire
+105	Intitulé
+106	Intitulé *
+107	intitule de l institution
+108	Intitulé de la campagne *
+109	Intitulé du bordereau
+110	Intitulé du bordereau *
+111	intitule du departement
+112	Intitulé du dossier
+113	Intitulé du prêt *
+114	Intitulé du versement
+115	Intitulé manquant.
+116	Intitulé trop long (255 caractères max).
+117	Intitulé trop long (500 caractères au plus).
+118	Intitulé, identifiant, numéro d’inventaire, résumé
+119	Intitulé, numéro d’inventaire ou identifiant
+120	introuvable
+121	Inv.
+122	Inventaire des biens patrimoniaux, entrées et provenance, localisation, description scientifique et valeur ; référentiels des lieux, événements et sujets.
+123	Inventaire du contenu…
+124	Inventaire du matériel de numérisation. Les réglages utilisés sont portés par chaque lot.
+125	Inventaires
+126	Inventorié
+127	Inventorier les fonds patrimoniaux et leurs conditions de conservation.
+128	ISAD(G)
+129	Issues, point de rassemblement, décompte des personnes.
+130	J’ai pris connaissance des conditions d’utilisation du portail
+131	J’ai relu le texte et autorise son enregistrement comme résultat OCR validé
+132	J’ai vérifié la lisibilité, le nombre et l’ordre des pages.
+133	J’ai vérifié le type, le périmètre et les valeurs. Je confirme la création du lot entier.
+134	Jamais constaté
+135	Jamais vérifiée
+136	Je confirme la destruction définitive de
+137	Je confirme la destruction définitive de ce document.
+138	Je confirme la remise de
+139	Je constate la présence de l’archive à ce nouvel emplacement
+140	Je n’ai plus besoin de la copie locale de ce scan.
+141	Joindre un document
+142	Jour
+143	Jour *
+144	Journal
+145	Journal d’audit
+146	Journal de préservation
+147	Journal des étapes
+148	Journal inviolable, à chaîne de hachage, de toutes les actions métier du système.
+149	Journée entière
+150	Jours
+151	jours. Dernier passage du service :
+152	JPEG avec perte
+153	Juridiction
+154	Jusqu’à
+155	jusqu’à {n}
+156	Jusqu’à 500 fichiers · les TIFF ne sont pas lisibles par le navigateur
+157	jusqu’au
+158	Justificatif
+159	Justificatifs du droit
+160	Justificatifs et pièces
+161	Justification
+162	Justification *
+163	Justification de la demande de dérogation.
+164	Justifiez la sortie en 30 caractères au moins.
+165	Kit sinistre, emplacement du matériel, fournisseurs.
+166	Kpèllè
+167	L’abonnement lié se ferme. L’annulation est validée par une autre personne que celle qui a encaissé, et conservée au journal.
+168	L’abonnement s’ouvre dès l’enregistrement. Une erreur se corrige ensuite par une annulation motivée, validée par une autre personne.
+169	L’abonnement s’ouvre sans paiement. L’exonération engage l’institution : le motif (décision, convention, qualité du lecteur) est conservé.
+170	L’acceptation engage l’institution : elle est conservée avec son auteur et sa date. Elle est donnée par une autre personne que celle qui a monté le dossier ; les originaux sont jugés de nouveau à la remise.
+171	L’accès a expiré le
+172	L’accès est accordé jusqu’à un jour à venir.
+173	L’accusé de réception sera délivré ; le constat de chaque ligne devient définitif.
+174	L’acte, le procès-verbal ou la référence qui atteste l’événement ({n} caractères au plus).
+175	L’adresse du contact du dépôt est absente ou invalide.
+176	L’adresse du destinataire est invalide.
+177	L’adresse du fournisseur d’identité doit être une URL HTTPS sans identifiants.
+178	L’adresse électronique n’a pas la forme attendue.
+179	L’adresse électronique n’est pas valide.
+180	L’adresse publique du portail est absente, invalide ou se termine par une barre.
+181	L’analyse antivirus n’a pas pu se terminer. Le fichier n’a pas été validé.
+182	L’analyse automatique est désactivée sur ce serveur : les mesures déjà faites restent affichées.
+183	L’annulation est définitive. Les constats déjà faits restent au journal de présence des archives.
+184	L’antivirus a détecté une menace. Ce fichier a été rejeté ; sélectionnez un autre fichier.
+185	l’antivirus n’a pas pu analyser le fichier
+186	L’archivage est terminal. Une suspension peut être levée par une autorité habilitée.
+187	L’archive est conservée
+188	L’archive est là où elle doit être.
+189	L’archive existe mais n’est pas à son emplacement habituel : indiquez où elle a été trouvée.
+190	L’archive n’a été trouvée nulle part : indiquez où elle a été cherchée.
+191	L’assurance prend fin le {n}, avant la nouvelle date de retour : prolongez l’assurance d’abord.
+192	L’atelier de numérisation prend la commande en charge : il choisit le projet et le lot, et crée l’élément de numérisation.
+193	L’atelier numérise, indexe et fait contrôler les pages dans le suivi du traitement.
+194	L’autorisation engage l’institution : elle est conservée avec son auteur et sa date. Elle est donnée par une autre personne que celle qui a demandé la sortie, et l’original sera jugé de nouveau à la remise.
+195	L’autorité a refusé toutes les lignes : aucun document n’est détruit, leurs échéances sont de nouveau disponibles.
+196	L’autorité ARK de l’institution doit d’abord être déclarée (page Conservation).
+197	L’autorité d’horodatage a refusé la demande. Réessayez plus tard ou prévenez l’administration.
+198	L’autorité d’horodatage a répondu dans un format inattendu. Prévenez l’administration.
+199	L’autorité d’horodatage n’a pas répondu. Réessayez plus tard ; le reste du parcours n’en dépend pas.
+200	L'autorité et la date d'émission, par exemple.
+201	L’autorité qui vise est obligatoire.
+202	L’échéance du document n’est plus ouverte : une décision est en cours ou close.
+203	L’échéance n’est pas arrivée, ou une décision est déjà en cours.
+204	L’échéance n’est pas dans le passé.
+205	L’échéance n’est plus en cours de décision.
+206	L’échéance relève d’une autre version de règle.
+207	L’élimination d’un dossier entier se traite document par document.
+208	L’émetteur du certificat ne remonte à aucune autorité de confiance déclarée : l’identité du signataire n’est garantie par personne que vous reconnaissiez.
+209	L’emplacement est limité à 255 caractères.
+210	L’empreinte du fichier est conservée avec la signature.
+211	L’entrée est en cours d’examen : la décision viendra après l’examen de la provenance et des conditions.
+212	L’envoi a échoué de façon inattendue.
+213	L’envoi est en pause après un refus du serveur de courrier : il reprendra de lui-même.
+214	L’État
+215	L’état de cet original n’a jamais été constaté.
+216	L’état matériel d’un original se constate, à des dates successives : il ne se saisit pas. L’état matériel du bien est le plus préoccupant des derniers constats de ses originaux.
+217	l’étendue
+218	l’événement « {n} »
+219	l’événement déclencheur
+220	L’événement ne peut pas être daté dans le futur : constatez-le quand il est survenu.

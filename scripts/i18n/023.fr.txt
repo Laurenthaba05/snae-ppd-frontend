@@ -1,0 +1,220 @@
+1	Nouvelle règle
+2	Nouvelle réservation
+3	Nouvelle salle
+4	Nouvelle tentative
+5	Nouvelle validité *
+6	Nouvelle version de la règle {n}
+7	Numérique
+8	Numérique natif
+9	numérisation
+10	Numérisation complète : aucune page manquante, aucune anomalie.
+11	Numérisation de
+12	Numérisation des biens
+13	Numérisation en cours
+14	Numérisation et OCR
+15	Numérisation recto-verso
+16	Numérisation validée et scellée
+17	numérisé
+18	Numérisé
+19	Numériser et vérifier
+20	Numériser les documents
+21	Numériser un document
+22	Numériser un document, vérifier le résultat et le déposer dans les archives.
+23	Numériser un document, vérifier le résultat et le déposer dans les archives. Le parc et les profils de qualité restent accessibles ici.
+24	Numériser un lot
+25	Numéro
+26	Numéro d’identification fiscale, registre du commerce, code officiel de l’organisme
+27	Numéro d’inventaire
+28	Numéro d’inventaire (ou Cote ou ancienne référence)
+29	Numéro d’inventaire *
+30	Numéro d’inventaire déjà utilisé à la ligne {n}.
+31	Numéro d’inventaire trop long (150 caractères au plus).
+32	Numéro de la pièce *
+33	Numéro de page
+34	Numéro de page *
+35	Numéro de page supérieur à 100 000.
+36	Numéro de police
+37	Numéro de série
+38	Numéro, cote ou bien
+39	Numéro, cote, bien ou destinataire
+40	Numéro, déposant, motif
+41	Numéro, intitulé, lieu, cote ou bien
+42	Numéro, lecteur ou document
+43	Numéro, libellé ou objet
+44	Numéro, nom ou adresse
+45	Numéro, référence, lecteur ou adresse
+46	objet
+47	Objet
+48	Objet :
+49	Objet * (au moins 10 caractères)
+50	Objet avec setContext, removeContext ou requireMetadataComplete. Vide : aucune action.
+51	Objet communiqué
+52	Objet de la communication
+53	Objet de la demande
+54	Objet de la mesure
+55	Objet de la recherche
+56	Objet de la recherche *
+57	Objet de paramètres complémentaires du circuit.
+58	Objet de preuve complémentaire ; l’inventaire de destruction est produit par le serveur.
+59	Objet de règle : metadata, context, document, all, any ou not. Vide : sans condition.
+60	objet déclaré
+61	Objet décrivant le format, le support ou les propriétés avant intervention.
+62	Objet décrivant les conditions : température, humidité, précautions…
+63	Objet décrivant les propriétés après intervention.
+64	Objet du dossier
+65	Objet facultatif : maxLength, pattern, min, max. Les valeurs de liste se renseignent séparément.
+66	Objet sans titre
+67	Objets
+68	objets déclarés
+69	Obligatoire
+70	Obligatoire : une valeur de la liste déroulante.
+71	Obligatoire ?
+72	Obligatoire (255 caractères max). Exemple : Direction administrative et financière
+73	Obligatoire (255 caractères max). Exemple : Ministère de l’Économie et des Finances
+74	Obligatoire (500 caractères au plus).
+75	Obligatoire (500 caractères max) : ce que contient l’unité. Exemple : Registres de paie 1960-1965
+76	Obligatoire avant l’examen : il fixe l’état dans lequel le bien est arrivé.
+77	Obligatoire avant la décision.
+78	Obligatoire dès que le format est à risque, à surveiller ou obsolète.
+79	Obligatoire pour accepter des lignes ; repris dans le dossier de preuve de chaque document.
+80	Obligatoire pour accepter des lignes.
+81	Obligatoire pour éliminer ou trier.
+82	Obligatoire pour une date estimée
+83	Obligatoire pour une élimination : la référence du visa de l’autorité.
+84	Obligatoire pour une élimination. L’inventaire exact des fichiers est joint à la preuve : l’exécution refusera s’ils changent.
+85	Obligatoire, unique dans l’institution. Commence par une lettre ; lettres, chiffres, _ et - uniquement (50 caractères max). Converti en majuscules. Exemple : DAF
+86	Obligatoire, unique dans le bordereau : la cote ou le numéro d’ordre du producteur. Exemple : DAF/1960/001
+87	Obligatoire, unique. Commence par une lettre ; lettres, chiffres, _ et - uniquement (50 caractères max). Converti en majuscules. Exemple : MEF
+88	Observation :
+89	Observations
+90	Observations * (au moins 10 caractères)
+91	Obsolète
+92	Occultation
+93	Occultation de zones
+94	Occulter cette zone
+95	OCR automatique
+96	On constate, on ne devine pas : l’emplacement habituel est celui où l’archive est rangée ; l’emplacement actuel et la dernière présence vérifiée ne se savent que par un constat ou un mouvement enregistré.
+97	On ne réserve pas pour un jour passé.
+98	On ne sait pas : à renseigner si on l’apprend.
+99	On réserve au plus {n} jours à l’avance.
+100	OpenSSL contrôle la signature ; la confiance accordée au certificat du sceau se juge auprès de l’institution. La révocation du certificat n’est pas vérifiée par ce système.
+101	Opérateur *
+102	Opérateur OCR
+103	Opération en cours…
+104	Opérationnel
+105	Optionnel
+106	Optionnel : permet de détecter les pages manquantes
+107	Optionnel : réglages communs et suivi des pages
+108	Optionnel, limité aux dossiers de l’institution choisie.
+109	Optionnel.
+110	Optionnel. Vous pourrez aussi le téléverser plus tard depuis la fiche du document.
+111	Optionnelle
+112	Optionnelle, si transfert
+113	Optionnelle.
+114	Optionnelle. À défaut, la référence du certificat de destruction.
+115	Ordre
+116	Ordre d’affichage
+117	Ordre dans le classement
+118	Ordre de numérisation
+119	Organigramme, services rattachés, branches d’une famille
+120	Organisation des services — décision
+121	Organiser les séries et catégories documentaires du périmètre courant.
+122	Organiser les séries et les catégories documentaires.
+123	Organisez les directions et services, sans perdre leur rattachement.
+124	Organisme
+125	Organisme (facultatif)
+126	Organisme ou personne
+127	Original
+128	Original ?
+129	Original à remettre
+130	Original à rendre
+131	Original ajouté
+132	Original modifié
+133	Original remis à l’atelier
+134	Original rentré en réserve
+135	Original retiré
+136	Original, copie, extrait…
+137	Originaux
+138	Originaux (
+139	Originaux choisis
+140	Originaux concernés
+141	Originaux du dossier
+142	Originaux physiques
+143	Originaux qui sortent (
+144	Originaux rentrés avec leur constat
+145	Originaux sortis de réserve
+146	Origine
+147	Origine de l’ancienne cote
+148	Origine de l’enregistrement
+149	Ôter
+150	Ôter {n}
+151	ou
+152	Où elle a été cherchée * (au moins 10 caractères)
+153	Où en est-il
+154	Où l’original ira
+155	Où l’original ira *
+156	ou le déposer ici
+157	Où se trouve l’original est une information sensible : elle exige l’habilitation de lecture des archives physiques. La disponibilité du bien reste visible dans ses états.
+158	Où se trouve le registre, qui l’a tenu, dans quel état
+159	Oui
+160	Oui (deux faces en un passage)
+161	Oui / non
+162	Outil
+163	Outil :
+164	Ouvert le
+165	Ouverte le
+166	Ouverture
+167	Ouverture de la visionneuse…
+168	Ouverture du document…
+169	Ouverture du lecteur PDF…
+170	Ouvrir dans le suivi du traitement
+171	Ouvrir l’écran
+172	Ouvrir la campagne {n}
+173	Ouvrir la commande
+174	Ouvrir la demande
+175	Ouvrir la fiche du bien
+176	Ouvrir la notice
+177	Ouvrir la sortie
+178	Ouvrir le document
+179	Ouvrir le gel
+180	Ouvrir le rôle
+181	Ouvrir le suivi des dépôts
+182	Ouvrir les parcours
+183	Ouvrir par identifiant pérenne
+184	Ouvrir un gel
+185	Ouvrir un gel légal
+186	Ouvrir une restriction
+187	Ouvrir une restriction d’accès
+188	PAdES (signature intégrée au PDF)
+189	page
+190	Page
+191	Page {n} · image {n} sur {n}
+192	Page {n} sur {n}
+193	Page {n}, image {n} sur {n}
+194	Page à occulter
+195	Page blanche (verso vide, intercalaire)
+196	Page de
+197	Page manquante dans le document source
+198	Page OCR
+199	Page OCR, zone de défilement
+200	Page précédente
+201	Page suivante
+202	page(s)
+203	page(s) à importer
+204	page(s) numérisée(s)
+205	Pages
+206	Pages 12 à 21…
+207	Pages à rescanner :
+208	Pages à rescanner : {n}
+209	Pages à rescanner (facultatif)
+210	Pages attendues
+211	pages de PDF
+212	Pages du document
+213	Pages numérisées
+214	Pages numérisées et contrôlées
+215	pages signalées
+216	Pages, feuillets, pièces…
+217	Pagination
+218	Pagination / durée
+219	Pagination ou durée
+220	paiement

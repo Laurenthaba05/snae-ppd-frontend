@@ -1,0 +1,220 @@
+1	The event that triggers the period has not yet been recorded for this document or for its file.
+2	The examination is written (at least 30 characters) and done by someone other than the person who proposed the withdrawal.
+3	The examination establishes the provenance, the legal situation and the conditions of the takeover. It always precedes the decision.
+4	The legal and provenance examination is written in at least 30 characters.
+5	The execution of a destruction or a transfer is not connected in the supplied backend. The reading of decisions and of their blockers remains separate.
+6	Migration execution is not enabled on this server: a campaign can be prepared, but cannot be validated until the administration has enabled it.
+7	The extension is made of letters and digits.
+8	Automatic extraction is disabled on this server. The PDF upload remains available.
+9	Automatic extraction is not active on this server.
+10	The file deposit authorization is required in this institution.
+11	Qualified timestamping is not enabled on this server: it requires a timestamping authority, its trust certificates and its revocation list. It is not necessary to close the document or to schedule its preservation.
+12	The repository identifier must have the form of a domain name (for example archives.example.gn).
+13	Format identification and copies are disabled on this server: the results already obtained remain displayed.
+14	Identification is enabled, but the tool’s executable is not valid on this server: check its path.
+15	Identification by signature is not enabled on this server: the tool (Siegfried) is not shipped with the application, the administration must install and enable it.
+16	The identity comes from the SSO provider; the permissions come from the SNAE-PPD backend.
+17	Import is disabled on this server. Operator activation and a working antivirus are required.
+18	The import is all or nothing:
+19	The import replaces the entire current schedule (
+20	The index is not aligned with the database: some documents or files cannot be found. A reindexing brings it up to date.
+21	The institution has not declared its ARK authority. The NAAN is given to it by the body that assigns them; until it is declared, no identifier is assigned.
+22	The institution has not yet published its subscription plans. Come back later.
+23	The interface could not display this screen.
+24	The agreement title is required.
+25	The campaign title is required.
+26	The category title is required.
+27	The rule title is required.
+28	The accession schedule title is required.
+29	The schedule title is required.
+30	The treatment title is required.
+31	The title is limited to 255 characters.
+32	The title is limited to 300 characters.
+33	the title is limited to 500 characters.
+34	the title is required.
+35	The title names the loan or the exhibition: at least 3 characters.
+36	The scanner inventory is available in connected mode.
+37	The inventory becomes viewable by the public
+38	The purpose of the search is required (at least 5 characters).
+39	The purpose states why the originals leave: at least {1} characters.
+40	The object cannot be found in the storage.
+41	Automatic OCR is disabled on this server.
+42	the operator
+43	The operator and the witness must be two different people.
+44	The operation failed on the replica.
+45	The organization is limited to 300 characters.
+46	The original is with its recipient: it must come back before the planned day.
+47	The original is handed over: the departure is then entered in the movement history.
+48	The original has come back; the workshop completes the validation and sealing of the digitization.
+49	The original has come back: the movement is closed.
+50	The origin of the former call number assumes a former call number.
+51	the identification tool failed
+52	the identification tool did not respond in time
+53	the identification tool is not configured on the server
+54	The URI must use http, https or urn, without login credentials.
+55	The legal basis of the period is required: the text that sets it.
+56	The legal basis is limited to 1000 characters.
+57	The campaign must be validated by someone other than the person who prepared it.
+58	the storage capacity is reached
+59	The capacity is between 1 and 500 places.
+60	The card has been expired since
+61	The card cannot be valid before today.
+62	The category “
+63	the cause is in the server log
+64	The certificate’s trust chain is not evaluated: the issuer is not compared with a list of recognized authorities.
+65	The Supabase Auth public key is missing.
+66	Closing only changes the state of the entry. It does not certify the admission, integration or sealing of the documents.
+67	the closing of the document
+68	the closing of the file
+69	Closing is final: no further finding can be added to this campaign. The discrepancies found remain to be regularized.
+70	The order creates the document that will receive the digitization and files the request to take the original out: it will be authorized by someone other than you. The workshop then takes the order over, digitizes, and another person receives the representation. You need the right to create documents in the institution.
+71	The order requires a minimum resolution of {1} dpi: choose a batch whose minimum resolution meets it; it will have it checked page by page.
+72	The repository configuration is incomplete.
+73	The identity provider configuration was refused. Contact your administrator.
+74	Confirmation of your e-mail address is required before signing in.
+75	Compliance compares the file’s headers with the profile’s requirements. It measures neither sharpness nor color accuracy: it is not a FADGI or Metamorfoze certification.
+76	Sign-in to this account is suspended. Contact your administrator.
+77	The encrypted connection to the mail server failed (certificate or encryption version not accepted).
+78	Integrated viewing is available for PDFs, images, texts and some audio or video files under 50 MB (1 MB for text). Download this file to view it with a suitable application.
+79	The agreement cannot be signed in the future.
+80	The conversion loses no decoded data; it does not restore what lossy compression has already destroyed. Embedded metadata remains in the original.
+81	The conversion may lose data.
+82	The copy has disappeared from the replica: it will be redone.
+83	The copy failed. The next attempt is scheduled in one hour.
+84	The replica copy no longer matches the expected fingerprint: it will be redone.
+85	The written copy does not match the fingerprint when read back.
+86	The copy and its restoration succeeded, but the cleanup of the old copies failed.
+87	The copy exists, but its verification restore failed. An intervention is required.
+88	The producer’s call number or sequence number, unique within the schedule
+89	The call number under a former classification plan: the document can be found by it.
+90	The insurance coverage must end after its start.
+91	Account creation and password recovery are handled by your identity provider. This portal does not create a local password. Closing the tab does not log you out of the SSO provider.
+92	Account creation and recovery are done with the identity provider. The local session stays in memory: a full page reload may ask for a new sign-in.
+93	The date on which it occurred, not the date of entry.
+94	the archiving date
+95	The date from which the period runs does not exist for this document.
+96	The start date
+97	the start date is after the end date.
+98	The start date is after the end date.
+99	The start date is required.
+100	The date the period starts is in the future: preservation is scheduled once this date is reached.
+101	The date the period starts is not known.
+102	The date the period starts does not yet exist for this document.
+103	The destruction date cannot be in the future.
+104	The determination date cannot be in the future.
+105	The end date
+106	The agreement’s end date must follow its start date.
+107	The end date must follow the start date.
+108	The end date must follow the birth or creation.
+109	The content’s end date precedes its start date.
+110	The end date is required.
+111	The end date precedes the start date.
+112	The planned end date must follow the planned start date.
+113	The act’s date cannot be in the future.
+114	the event date
+115	The event date is invalid.
+116	The event date is required.
+117	The event date is not a valid date.
+118	The date of the exercise or incident cannot be in the future.
+119	The return date cannot be in the future.
+120	The date of free communicability is computed; the access restriction is applied until then
+121	The date of birth is in the future.
+122	The signature date is in the future.
+123	The signature date is not a valid date.
+124	The departure date cannot be in the future.
+125	The finding date cannot be in the future.
+126	the document date
+127	The visa date is required to accept lines.
+128	The visa date cannot be in the future.
+129	The date cannot be in the future.
+130	The decision of the commission or authority approving the sample.
+131	The decision is frozen:
+132	The decision is made: these fields can no longer be changed. The log keeps the state of the receipt.
+133	The decision is made by someone other than the person who recorded the receipt. It is never inferred: acquisition, deposit and incoming loan are three distinct decisions.
+134	The decision is made by a person who neither proposed nor examined the withdrawal, with the reference and date of the act.
+135	The decision is not yet validated.
+136	The decision remains kept in the history. The rights will be re-verified by the backend.
+137	The decision is based on an act: cite it
+138	The request, its version, its period and the participants’ rights will be re-verified by the server.
+139	The demonstration uses simplified rules and fictitious data: it tests neither PostgreSQL, nor transactions, nor the security of the real server.
+140	The description has changed or this code is already taken: reload it.
+141	The description is limited to 2000 characters.
+142	The description is limited to 4000 characters.
+143	The description has no known gap.
+144	Destruction cannot precede the visa.
+145	The currency
+146	The currency is a three-letter code (GNF, EUR…).
+147	The currency is a three-letter code.
+148	The currency is written with its three-letter code (ISO 4217).
+149	The directive, standard or decision this profile comes from.
+150	The duration
+151	the administrative utility period ranges from 0 to 150 years.
+152	The duration of the current phase is a whole number, from 0 to {1}.
+153	The duration is a whole number, from 0 to {1}.
+154	The duration is a whole number, from 0 to 1000.
+155	The duration is given from 1 to 120 months.
+156	The way the item arrives limits the possible decisions: an incoming loan stays a loan.
+157	The closing does not precede the opening.
+158	The closing moves back, and the return of the originals with it (the dismantling period is kept).
+159	The batch sheet “{1}” designates a batch other than {2}: check that these files really belong to this batch.
+160	The batch sheet “{1}” does not match any batch of this project.
+161	The end of the period precedes the start.
+162	The end of validity must follow the start.
+163	The end must be in the future and after the start.
+164	The end cannot exceed five years.
+165	The end precedes the start.
+166	The form was modified in the meantime: reload the record.
+167	The authorized form of the name is required.
+168	The plan includes download (not offered by the current portal: on-screen reading)
+169	The jurisdiction must be a two-letter country code (e.g. GN).
+170	The justification (act, minutes or reference attesting the event) is required: at least 5 characters.
+171	The justification is limited to {1} characters.
+172	The justification is required (at least 10 characters).
+173	the language
+174	Reading files requires a GET request.
+175	Reading positions and text remains subject to each document’s access rights and confidentiality. Confidential or restricted documents do not appear.
+176	The line
+177	This session’s limit is reached. Finish the deposits before restarting the connector.
+178	The list of elements is frozen at launch:
+179	The list is limited to the first 20 documents.
+180	The selected list replaces the complete list. Existing delegations will have to be reviewed again after an approved change.
+181	The same request cannot be relaunched with different settings.
+182	The memory
+183	the destruction method
+184	The nature of personal data only makes sense if they are present.
+185	The attachment record cannot be found or does not belong to the accession’s archives service.
+186	The record describes the document. The file, its version, its antivirus check and the final disposition have distinct states.
+187	The record is visible
+188	The heritage record publishes nothing and changes no confidentiality: dissemination is decided separately, item by item.
+189	The new end must follow the current end ({1}).
+190	The new end is also the new return date of each original. The insurance must cover this date: extend it first if needed.
+191	The new version
+192	The new version of rule {1} is in force.
+193	The new version of rule {1} is saved as a draft.
+194	Digitization failed. Check the scanner and its NAPS2 profile.
+195	The digitization of an original is ordered: the departure is authorized by another person, the workshop digitizes in the processing tracking, the original only comes back after the pages’ quality control, then another person receives the digital representation, which stays linked to the item.
+196	Page {1} already exists: mark it “to rescan” before replacing it.
+197	The page could not be loaded. You may have reached the hourly reading limit, or your session has ended.
+198	The page will remain waiting for a new file; the element cannot be completed without justification.
+199	the flagged page
+200	The period of effect does not cover today.
+201	The period exceeds that of your assignment.
+202	The person who destroys.
+203	The current phase is not finished.
+204	The current phase cannot last longer than the total retention.
+205	The place of the function in a classification plan or a reference framework.
+206	The scope must match the institution / department attachments.
+207	The posture is declared by the configuration: the server cannot verify the physical location of a storage. It does not replace a tested recovery plan.
+208	The clarification is limited to 500 characters.
+209	The first line must name a column “libelle”.
+210	The first backup is pending.
+211	The proof received from the timestamping authority could not be verified (signature or certificate). It is not recorded.
+212	The priority is an integer between 0 and 1000000.
+213	The takeover of each item follows the entry: it reflects the decision, never the reverse.
+214	The probability and the severity are changed by a reassessment
+215	the alert procedure
+216	the evacuation procedure
+217	the rescue procedure
+218	The next update has passed: it no longer states the current situation, only that of its issue.
+219	The minimum depth is 1, 8 or 16 bits per component.
+220	The proposal or acceptance of this document is cancelled; its due date becomes available again. The reason is kept in the log.

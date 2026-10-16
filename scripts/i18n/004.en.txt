@@ -1,0 +1,220 @@
+1	No item in your scope.
+2	No item of the institution matches.
+3	No item recorded yet.
+4	No item recorded
+5	No item is published in the catalog yet.
+6	No item matches these criteria.
+7	No heritage item
+8	No schedule
+9	No slip
+10	No communication slip matches this filter.
+11	No certificate in the chain is revoked at the date taken for the signature.
+12	No field
+13	No validation workflow
+14	No workflow has been started for this document yet.
+15	No workflow applies to this document type.
+16	No classification
+17	None ticked: any image format is accepted.
+18	None ticked: any mode is accepted.
+19	No finding or movement recorded.
+20	No contact.
+21	No stored content: only the record remains.
+22	No check recorded on the
+23	No quality control
+24	No quality control has been recorded yet.
+25	No failed mail
+26	No cycle is finished yet.
+27	No finished cycle
+28	No communicability period is applied to this document.
+29	No department exists yet in this institution.
+30	No interrupted deposit, no workflow in progress.
+31	No deposit or workflow in progress
+32	No deposit on this page
+33	no document
+34	No document
+35	No document to destroy
+36	No document to transfer
+37	No document chosen.
+38	No closed document holds personal data without a communicability period.
+39	No document concerned
+40	No document in this scope.
+41	No document in this view
+42	No document was kept.
+43	No document becomes freely communicable in this period.
+44	No digitized document is communicable for now.
+45	No planned document has an upcoming or to-be-recorded intermediate phase.
+46	No document that you can see directly in this file.
+47	No file
+48	No withdrawal file
+49	No file matches these criteria.
+50	No right recorded for this document.
+51	No discrepancy
+52	No element
+53	No element at this step
+54	No element to advance
+55	No element in the processing journey for now.
+56	No element of this project accepts pages for now: an element at the digitization step, linked to a document, is needed.
+57	No element of this project matches the separator sheet code.
+58	No element is attached to this batch.
+59	No element matches these criteria.
+60	No element matches.
+61	No element carried over.
+62	No verified element was found elsewhere or declared missing.
+63	No location
+64	No active location matches.
+65	No tracked location
+66	No event
+67	No associated event
+68	No preservation event
+69	No preservation event recorded in this scope.
+70	No historical event
+71	No logged event
+72	No exercise or incident
+73	No file
+74	No file: deposit it with the role “Preservation master”, then click “Validate as master”.
+75	No file to examine
+76	No file kept in this scope.
+77	No file of this document has been identified by signature yet.
+78	No eligible file: it must be validated, sound, verified in storage, of this format, and not already migrated or planned in another campaign.
+79	No file recorded for this version
+80	No file could be processed.
+81	No file or data will be sent. Example form, not an admission.
+82	No real file is included in this mockup. In connected mode, only content authorized and validated by the server can be opened.
+83	No tracked file
+84	No file uploaded to this document.
+85	No validated file to identify in this scope.
+86	no filter
+87	No format identified
+88	No format registered
+89	No legal hold
+90	No active or past legal hold for this scope.
+91	No legal hold on this document
+92	No identifier assigned
+93	No persistent identifier is assigned to this object.
+94	No finding aid is open to the public yet.
+95	No published finding aid
+96	No active contributor found.
+97	No published inventory
+98	No supporting document
+99	No supporting document provided.
+100	No reader
+101	No reader matches these criteria.
+102	No reader matches this search.
+103	No place
+104	No associated place
+105	No batch
+106	No batch in this project: create one to group the scanned elements with the same settings.
+107	No batch in your scope.
+108	No recovery batch
+109	No word matches.
+110	No positioned word
+111	No word for these filters
+112	No keyword. Keywords are terms from the institution’s or the national level’s controlled vocabularies.
+113	No movement
+114	No classification node
+115	No readable object
+116	No object you can read is indexed by this term.
+117	No stored object
+118	No original matches these criteria.
+119	No original needs attention in your scope.
+120	No linked original
+121	No payment
+122	No payment matches these criteria.
+123	No package has been exported for this document.
+124	No pass
+125	No PDF of this document has been validated yet.
+126	No validated PDF
+127	No validated PDF to check in this scope.
+128	No plan
+129	No emergency plan
+130	No emergency plan in force
+131	No emergency plan is drafted for {1}.
+132	No loan or exhibition is open in your scope.
+133	No loan or exhibition
+134	No destruction record
+135	No producer
+136	No profile
+137	No profile (unreadable file)
+138	No digitization profile
+139	No profile defined
+140	No usable profile. Configure and test a NAPS2 profile on this workstation.
+141	No digitization project
+142	No digitization project or quality control recorded for now.
+143	No project in progress with elements to follow.
+144	No replica configured
+145	No replica is configured.
+146	No OCR result
+147	No OCR result or overview unavailable
+148	No OCR result for this file
+149	No result for these filters
+150	No result on this page
+151	No risk recorded
+152	No risk, emergency plan or exercise is recorded yet.
+153	No role
+154	No temporary scan.
+155	No scanner in service: add some from “Scanners”
+156	No scanner recorded. Add the workshop equipment to be able to associate it with the digitization batches.
+157	No metadata schema
+158	No metadata schema has been applied to this document yet.
+159	No metadata schema is applicable to this document.
+160	No mail server is configured: the portal’s mail stays pending. An authorized agent can verify an address by hand.
+161	No mail server is configured: mail stays pending.
+162	No sub-file.
+163	No legal status
+164	No subject
+165	No associated subject
+166	No rate
+167	No rate is defined: the person who configures the room must first create some.
+168	No term
+169	No active term to apply with this search.
+170	No term matches this search.
+171	No term matches.
+172	No multilingual text
+173	No text recognized:
+174	No text recognized for this image.
+175	No token or password is stored in localStorage. Closing the tab clears the frontend session. The SSO provider may keep its own session.
+176	No active type left to attach.
+177	No event type
+178	No event type is defined: create one in “Triggering events”, Preservation page.
+179	No type is defined: rules cannot start from an event yet.
+180	No accession
+181	No vocabulary
+182	No active vocabulary is available: a vocabulary manager must first build one.
+183	No vocabulary is available in this scope.
+184	No vocabulary is shipped with the application: the institution builds its own, or reuses those of the national level.
+185	None.
+186	None
+187	None (top-level function)
+188	No action logged for this filter.
+189	No local action
+190	No action is possible for your profile on this subscription in its current state.
+191	No action is possible for your profile on this request in its current state.
+192	No anomaly found on return.
+193	No destroyable archive matches.
+194	No archive matches these criteria.
+195	No archive matches.
+196	No physical archive
+197	No trust authority
+198	No other record of this type exists yet in this institution.
+199	No campaign in your scope.
+200	No migration campaign
+201	No inventory-check campaign
+202	No appraisal campaign
+203	No campaign matches these criteria.
+204	No category
+205	No target on this page.
+206	No order
+207	No reproduction order matches this filter.
+208	No order matches these criteria.
+209	No open order
+210	No communication
+211	No communication recorded in this scope.
+212	No contribution
+213	No consultation copy is available for this page. It is generated after the import, or on request from the element’s record.
+214	No migrated copy: this document’s files are kept in their original format.
+215	No decision
+216	No reasoned decision recorded
+217	no declaration
+218	No progressive deterioration: the object is kept as is.
+219	No request
+220	No access request matches these criteria in this scope.

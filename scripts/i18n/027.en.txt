@@ -1,0 +1,220 @@
+1	Reread the scan request
+2	Reread the upload
+3	Reread the information
+4	Reread the relations
+5	Reread the record. A key reused with different content or an outdated version is not a new decision.
+6	Reread the account version.
+7	Hand over
+8	Hand over to the reader
+9	Hand over the accepted documents
+10	Handed over to the archives.
+11	Handed over on
+12	Handed over by
+13	Handed over by: {1}
+14	Handover:
+15	Final handover:
+16	Replaced
+17	replaces the version in force
+18	Replaced by
+19	Replace with another category
+20	Replace everywhere
+21	Replaced
+22	Fill in the “Institutions” sheet (one institution per line), save as .xlsx then import the file.
+23	Return {1} to the method
+24	Return to the method
+25	Make obsolete
+26	Make “{1}” obsolete
+27	Returned in the condition in which it left
+28	Returned in another condition
+29	Give up
+30	Renew
+31	Renew the card
+32	Fill in the record
+33	Fill in the form
+34	Fill in at least one allowed value.
+35	Enter the identifier to view or add OCR results for this file.
+36	Fill in the information below.
+37	Enter a date or its expression.
+38	Returned with its condition report.
+39	Returned, with no condition report.
+40	refers to
+41	Resend
+42	Send back to drafting
+43	Resend the confirmation e-mail
+44	Reorganization of the storeroom, regularization of a finding…
+45	Distribution of documents
+46	Distribution of elements
+47	Distribution by type
+48	Repeatable
+49	Repeatable?
+50	Replica
+51	responds to
+52	Server response unreadable.
+53	Server response unreadable.
+54	Postponed
+55	Postponed:
+56	Postponed
+57	Postpone
+58	Postpone the verification
+59	Postponed
+60	Resume
+61	Resume this scan
+62	Resume the destruction
+63	Resume the reindexing
+64	Resume the same upload
+65	Resume a known import after an interruption
+66	Resume a SEDA manifest or package
+67	Take over an inventory register
+68	Resume a known extraction
+69	Digital representation
+70	Representation received
+71	Digital representations, supporting documents, transcriptions, reports: each document is kept once and referenced here.
+72	Carried into the evidence file of each accepted document.
+73	Carried into the evidence file of each kept document.
+74	Taken over by
+75	Taken over by *
+76	takeover
+77	Takeover
+78	Resumption needed
+79	Inventory takeovers
+80	Reproductions made
+81	REPUBLIC OF GUINEA
+82	Required to close the intervention.
+83	Required only if the document is restricted. Enter the identifier of the authorized request.
+84	Reservations
+85	Reservations of
+86	Reserved
+87	Reserved for the category “
+88	Reserve
+89	Resolution
+90	Resolution (dpi)
+91	Resolution of at least {1} dpi
+92	Digitization resolution (dpi)
+93	Insufficient resolution: {1} dpi (minimum {2}).
+94	Max. resolution
+95	Maximum resolution (dpi)
+96	Minimum resolution
+97	Minimum resolution (dpi)
+98	Minimum resolution (dpi) *
+99	Required minimum resolution (dpi) *
+100	Resolution not readable in the file.
+101	resolution not specified
+102	Resolution not verified (unknown): {1}
+103	Resolution if absent from the file (dpi)
+104	Resolve the public identifier
+105	Person in charge
+106	Person in charge *
+107	exhibition manager
+108	Follow-up manager
+109	Resource unavailable or not authorized.
+110	Resource rejected by the server’s checks.
+111	Resources and links
+112	Resources and equipment
+113	Linked resources
+114	Remaining to check
+115	remaining)
+116	Remains kept *
+117	returned
+118	Returned
+119	returned
+120	Returned
+121	Return
+122	Return:
+123	Returned on
+124	Restriction
+125	Access restriction
+126	Access restrictions
+127	result
+128	Result
+129	Result *
+130	Expected result
+131	engine result unreadable
+132	Result limited to the files visible within your scope.
+133	OCR result
+134	OCR result to display
+135	OCR result of the contribution
+136	OCR results
+137	Summary
+138	Summary, Medium, Dimensions
+139	Restore
+140	Keep in the sample
+141	retained
+142	Retained in the sample
+143	retained in the sample (permanent preservation)
+144	withdrawn
+145	Withdrawn
+146	withdrawn
+147	Withdrawn
+148	Remove
+149	Remove this document from the schedule
+150	Remove this document from the accession
+151	Remove this occurrence
+152	Remove this signature?
+153	Remove from the schedule
+154	Remove from the file
+155	Remove from the fleet
+156	Remove from the portal
+157	Remove from the accession
+158	Remove the authority
+159	Remove the list
+160	Remove the scheduling
+161	Remove the priority
+162	Remove the area
+163	Remove the area on page {1}
+164	Remove the contact
+165	Remove the period
+166	Remove the communicability period
+167	Remove the right
+168	Remove the filter {1}
+169	Remove the supporting document
+170	Remove the link
+171	Remove the keyword {1}
+172	Remove the profile
+173	Remove the vocabulary
+174	Remove a redacted area
+175	return
+176	Return
+177	Back to home
+178	Back to sign-in
+179	Back to the list
+180	Back to the catalog
+181	Back to the register
+182	Planned return of the originals *
+183	Planned return of the originals on
+184	Return to storage
+185	Planned return
+186	Planned return *
+187	Planned return * (end of the loan)
+188	Planned return on
+189	Return, put away at
+190	returned
+191	Find a subscription by its reference
+192	Find the receipt in the document record to deal with the cause.
+193	Find the uploads made for this version, including after the upload window was closed.
+194	Find documents, their context and the accessible files.
+195	Find the validation tasks of your documents, take them over and choose what happens next.
+196	Succeeded
+197	Go back
+198	Back to sign-in
+199	Back to the circuit
+200	Back to the form
+201	Recheck
+202	Recheck the rights
+203	Recheck its presence.
+204	Revised
+205	Permission review:
+206	Revisions
+207	Revocation
+208	Revocation undetermined
+209	Revocation not verified
+210	Review and validate
+211	Review the report
+212	revoked
+213	Revoked
+214	revoked
+215	Revoked
+216	Revoke
+217	Revoke this permission
+218	Revoke access
+219	Revoke the old tokens
+220	Review

@@ -1,0 +1,220 @@
+1	Sorti de réserve.
+2	Sortie
+3	Sortie à autoriser
+4	Sortie à demander
+5	Sortie autorisée
+6	Sortie de collection
+7	Sortie de l’étape
+8	Sortie de l’original
+9	Sortie de réserve
+10	Sortie du
+11	Sorties de collection
+12	Sorties de collection à décider
+13	Sorties de collection à examiner
+14	Sorties de collection à exécuter
+15	Sorties demandées
+16	Sorties demandées et autorisées
+17	Sorties en retard
+18	Sortir l’archive
+19	Soumettre à l’autorité
+20	Soumettre à l’institution d’archives
+21	Soumettre à la relecture
+22	Soumettre à nouveau
+23	Soumettre à validation
+24	Soumettre la proposition
+25	Soumettre le bordereau
+26	Soumis à l’autorité
+27	Soumis à un tri.
+28	Soumis au visa
+29	Soumis le
+30	Soumis par
+31	Soumission, correction, admission, intégration confirmée et bordereau doivent être conçus et implémentés avant activation.
+32	Source
+33	Source :
+34	Source de l’attribution
+35	Source de l’exigence
+36	Source de la date
+37	Source et révision contrôlées
+38	Source juridique
+39	Sources
+40	Sources complémentaires
+41	Sources consultées, personnes qui ont décrit
+42	Sources de l’appréciation
+43	Sources de la notice
+44	Sources juridiques
+45	Sous :
+46	sous 30 jours
+47	sous la résolution minimale
+48	Sous la tutelle de
+49	Sous le seuil
+50	sous le seuil de
+51	Sous restriction — dérogation :
+52	Sous-dossier de
+53	Sous-dossiers
+54	Sous-série
+55	Stabilisation et suites
+56	Statistiques annuelles
+57	Statut
+58	Statut archivistique
+59	Statut du droit d’auteur
+60	Statut du système
+61	Statut enregistré
+62	Statut juridique (un par ligne)
+63	Statut juridique enregistré
+64	Statut métier
+65	Statut sur la page
+66	Statuts juridiques
+67	Stockage distant privé
+68	Stockage indisponible
+69	Stockage indisponible — nouvel essai prévu
+70	stockage non configuré
+71	Structure du dossier
+72	Structure interne ou généalogie
+73	Succède à
+74	succès
+75	Succès
+76	Suite à donner *
+77	Suites :
+78	Suites à donner
+79	Suivi de l’intégrité des fichiers et des 200 derniers événements de préservation visibles dans votre périmètre.
+80	Suivi de mes dépôts
+81	Suivi des pages
+82	Suivre l’extraction et la vérification des textes.
+83	Suivre le constat d’état et les interventions patrimoniales.
+84	Suivre les demandes de consultation et leur instruction.
+85	Suivre les projets de numérisation, leurs éléments, les contrôles qualité, la reconnaissance de texte et les contributions.
+86	Suivre les versements, dons, dépôts et autres entrées de fonds, et leur rattachement aux documents, dossiers et archives physiques.
+87	Suivre ma demande
+88	Suivre un emplacement
+89	Sujet
+90	Sujets
+91	Support
+92	Support du volume
+93	Suppression des objets du stockage privé, avec vérification de leur absence
+94	Supprimé
+95	Supprimer
+96	Supprimer cette ligne ?
+97	Supprimer cette relation ?
+98	Supprimer la date
+99	Supprimer la règle
+100	Supprimer la règle {n}
+101	Supprimer le producteur
+102	Supprimer le volume
+103	sur
+104	Sur {n} fichier
+105	Sur {n} fichiers
+106	Sur {n} PDF
+107	sur cette page · page
+108	Sur demande
+109	sur exonération
+110	Sur exonération
+111	Sur quoi porte l’événement
+112	Sur site
+113	Survenu le
+114	Suspendre
+115	Suspendre l’élément
+116	Suspendre la carte
+117	Suspendues
+118	Suspendus
+119	Synonymes
+120	Synonymes :
+121	Synthèse des accès
+122	Synthèse indisponible.
+123	Systématique : un document sur N
+124	Systématique (un sur N)
+125	Système
+126	Système d’origine
+127	Système national d’archivage électronique
+128	Tableau, défilement horizontal possible
+129	Tabulation
+130	Tâche
+131	Tâches
+132	Tâches et alertes
+133	Taille
+134	Taille (px)
+135	Taille réelle
+136	Tant qu'aucune n'est déclarée, la chaîne des signatures n'est pas évaluée.
+137	Tapez une recherche pour explorer les documents et dossiers accessibles dans votre périmètre.
+138	Tarif
+139	Tarifs de reproduction
+140	Taux de reconnaissance OCR
+141	Technique de fabrication
+142	Téléchargement prévu par la formule
+143	Télécharger
+144	Télécharger la copie migrée de {n}
+145	Télécharger la signature (.p7s)
+146	Télécharger le contenu signé
+147	Télécharger le fichier
+148	Télécharger le modèle CSV
+149	Télécharger le modèle Excel
+150	Télécharger le PDF pour le vérifier
+151	Télécharger le rapport
+152	Téléchargez le modèle
+153	Téléphone
+154	Téléphone : chiffres, espaces et + ( ) . / - seulement (3 à 60 caractères).
+155	Téléverser
+156	Téléverser le maître
+157	Téléverser un fichier
+158	Témoin *
+159	tentative
+160	terme
+161	Terme
+162	Terme générique
+163	Terme obsolète, remplacé par « {n} ».
+164	Terme obsolète, sans remplaçant.
+165	Terme remplaçant
+166	Termes
+167	Termes de {n}
+168	Termes disponibles
+169	Termes obsolètes
+170	terminé
+171	Terminé le
+172	terminée
+173	Terminée
+174	Terminée le
+175	Terminer
+176	Terminer la numérisation
+177	Terminer la tâche
+178	Terminer le traitement
+179	Terminer le traitement avec un compte rendu et un constat d’état après traitement.
+180	Terminés
+181	Tester un état
+182	texte
+183	texte dérivé
+184	texte dérivé vidé
+185	Texte et index
+186	Texte extrait complet — corrections à relire
+187	Texte natif d’abord, OCR si nécessaire. Les propriétés de fichier ne sont pas une preuve de date administrative ni d’identité du signataire. Aucun champ métier n’est appliqué sans décision explicite.
+188	Texte natif uniquement
+189	Texte qui fonde la relation (décret, arrêté), motif, précision
+190	Texte reconnu
+191	Texte reconnu et cadres des mots
+192	Texte requis, au maximum {n} caractères.
+193	Texte trop long pour un code QR de version 10.
+194	Textes de référence
+195	textes dérivés
+196	textes dérivés vidés
+197	Textes et mandats (un par ligne)
+198	Textes extraits des fichiers numérisés : confiance de la reconnaissance et vérification. Seul un texte validé alimente la recherche plein texte.
+199	Textes multilingues
+200	Textes qui l’instituent
+201	Thésaurus et listes d’autorité de l’institution ou du niveau national : des termes choisis, avec leurs synonymes et leur terme générique, pour indexer les documents et les dossiers de façon homogène.
+202	Tirez un rectangle sur la page pour désigner la zone à cacher.
+203	Titre
+204	Titre *
+205	Titre / nom
+206	Titre de l’exposition *
+207	Titre de propriété, attestation du déposant, photographies du constat, convention : chaque document est conservé une fois et référencé ici.
+208	Titre de propriété, clauses de dépôt ou de donation, accords, restrictions : ce qui a été vérifié et ce que l’on en conclut (30 caractères au moins).
+209	Titre du document
+210	Titre relu
+211	Titre, cote ou référence
+212	Titre, cote, état…
+213	Titre, cote, producteur…
+214	Titre, référence, contenu…
+215	Titulaire
+216	Total
+217	Total :
+218	Tous
+219	Tous les accès
+220	Tous les bulletins

@@ -1,0 +1,220 @@
+1	New rule
+2	New reservation
+3	New room
+4	New attempt
+5	New validity *
+6	New version of rule {1}
+7	Digital
+8	Born-digital
+9	digitization
+10	Complete digitization: no missing page, no anomaly.
+11	Digitization of
+12	Digitization of items
+13	Digitization in progress
+14	Digitization and OCR
+15	Double-sided digitization
+16	Digitization validated and sealed
+17	digitized
+18	Digitized
+19	Digitize and check
+20	Digitize documents
+21	Digitize a document
+22	Digitize a document, check the result and deposit it in the archives.
+23	Digitize a document, check the result and deposit it in the archives. The fleet and the quality profiles remain accessible here.
+24	Digitize a batch
+25	Number
+26	Tax identification number, trade register, the organization’s official code
+27	Inventory number
+28	Inventory number (or call number or former reference)
+29	Inventory number *
+30	Inventory number already used on line {1}.
+31	Inventory number too long (150 characters at most).
+32	ID document number *
+33	Page number
+34	Page number *
+35	Page number above 100,000.
+36	Policy number
+37	Serial number
+38	Number, call number or item
+39	Number, call number, item or recipient
+40	Number, depositor, reason
+41	Number, title, place, call number or item
+42	Number, reader or document
+43	Number, label or subject
+44	Number, name or address
+45	Number, reference, reader or address
+46	subject
+47	Subject
+48	Subject:
+49	Subject * (at least 10 characters)
+50	Object with setContext, removeContext or requireMetadataComplete. Empty: no action.
+51	Item communicated
+52	Purpose of the communication
+53	Purpose of the request
+54	Purpose of the measure
+55	Purpose of the search
+56	Purpose of the search *
+57	Object of additional circuit parameters.
+58	Additional evidence object; the destruction inventory is produced by the server.
+59	Rule object: metadata, context, document, all, any or not. Empty: no condition.
+60	declared object
+61	Object describing the format, medium or properties before intervention.
+62	Object describing the conditions: temperature, humidity, precautions…
+63	Object describing the properties after intervention.
+64	Subject of the file
+65	Optional object: maxLength, pattern, min, max. List values are entered separately.
+66	Untitled object
+67	Objects
+68	declared objects
+69	Required
+70	Required: a value from the drop-down list.
+71	Required?
+72	Required (255 characters max). Example: Administrative and Financial Directorate
+73	Required (255 characters max). Example: Ministry of Economy and Finance
+74	Required (500 characters at most).
+75	Required (500 characters max): what the unit contains. Example: Payroll registers 1960-1965
+76	Required before the examination: it fixes the condition in which the item arrived.
+77	Required before the decision.
+78	Required as soon as the format is at risk, to be monitored or obsolete.
+79	Required to accept lines; carried into each document’s evidence file.
+80	Required to accept lines.
+81	Required to eliminate or sample.
+82	Required for an estimated date
+83	Required for an elimination: the reference of the authority’s visa.
+84	Required for an elimination. The exact inventory of files is attached to the evidence: the execution will refuse if they change.
+85	Required, unique within the institution. Starts with a letter; letters, digits, _ and - only (50 characters max). Converted to uppercase. Example: DAF
+86	Required, unique within the schedule: the producer’s call number or sequence number. Example: DAF/1960/001
+87	Required, unique. Starts with a letter; letters, digits, _ and - only (50 characters max). Converted to uppercase. Example: MEF
+88	Observation:
+89	Observations
+90	Observations * (at least 10 characters)
+91	Obsolete
+92	Redaction
+93	Redaction of areas
+94	Redact this area
+95	Automatic OCR
+96	We record, we do not guess: the usual location is where the archive is kept; the current location and the last verified presence are only known through a recorded finding or movement.
+97	You cannot reserve for a past day.
+98	Not known: to be filled in if it is learned.
+99	You can reserve at most {1} days in advance.
+100	OpenSSL checks the signature; the trust granted to the seal’s certificate is judged with the institution. The certificate’s revocation is not verified by this system.
+101	Operator *
+102	OCR operator
+103	Operation in progress…
+104	Operational
+105	Optional
+106	Optional: allows missing pages to be detected
+107	Optional: shared settings and page tracking
+108	Optional, limited to the files of the chosen institution.
+109	Optional.
+110	Optional. You can also upload it later from the document record.
+111	Optional
+112	Optional, if transfer
+113	Optional.
+114	Optional. Failing that, the reference of the destruction certificate.
+115	Order
+116	Display order
+117	Order in the classification
+118	Digitization order
+119	Organization chart, attached services, branches of a family
+120	Organization of the services — decision
+121	Organize the series and document categories of the current scope.
+122	Organize the series and document categories.
+123	Organize the directorates and services, without losing their attachment.
+124	Organization
+125	Organization (optional)
+126	Organization or person
+127	Original
+128	Original?
+129	Original to hand over
+130	Original to return
+131	Original added
+132	Original modified
+133	Original handed over to the workshop
+134	Original returned to storage
+135	Original withdrawn
+136	Original, copy, extract…
+137	Originals
+138	Originals (
+139	Originals chosen
+140	Originals concerned
+141	Originals of the file
+142	Physical originals
+143	Originals leaving (
+144	Originals returned with their report
+145	Originals taken out of storage
+146	Origin
+147	Origin of the former call number
+148	Origin of the record
+149	Remove
+150	Remove {1}
+151	or
+152	Where it was searched * (at least 10 characters)
+153	Where it stands
+154	Where the original will go
+155	Where the original will go *
+156	or drop it here
+157	Where the original is located is sensitive information: it requires the physical archives read permission. The item’s availability remains visible in its states.
+158	Where the register is, who kept it, in what condition
+159	Yes
+160	Yes (both sides in one pass)
+161	Yes / no
+162	Tool
+163	Tool:
+164	Opened on
+165	Opened on
+166	Opening
+167	Opening the viewer…
+168	Opening the document…
+169	Opening the PDF reader…
+170	Open in the processing tracking
+171	Open the screen
+172	Open campaign {1}
+173	Open the order
+174	Open the request
+175	Open the item record
+176	Open the record
+177	Open the withdrawal
+178	Open the document
+179	Open the hold
+180	Open the role
+181	Open the upload tracking
+182	Open the journeys
+183	Open by persistent identifier
+184	Open a hold
+185	Open a legal hold
+186	Open a restriction
+187	Open an access restriction
+188	PAdES (signature embedded in the PDF)
+189	page
+190	Page
+191	Page {1} · image {2} of {3}
+192	Page {1} of {2}
+193	Page {1}, image {2} of {3}
+194	Page to redact
+195	Blank page (empty back, divider)
+196	Page of
+197	Page missing from the source document
+198	OCR page
+199	OCR page, scroll area
+200	Previous page
+201	Next page
+202	page(s)
+203	page(s) to import
+204	digitized page(s)
+205	Pages
+206	Pages 12 to 21…
+207	Pages to rescan:
+208	Pages to rescan: {1}
+209	Pages to rescan (optional)
+210	Expected pages
+211	PDF pages
+212	Document pages
+213	Digitized pages
+214	Digitized and checked pages
+215	flagged pages
+216	Pages, leaves, items…
+217	Pagination
+218	Pagination / duration
+219	Pagination or duration
+220	payment

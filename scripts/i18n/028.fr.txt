@@ -1,0 +1,220 @@
+1	Revue de risque dépassée
+2	Revue du plan d’urgence
+3	Revue du plan dépassée
+4	RiC-O (JSON-LD)
+5	Rien à classer
+6	Rien à identifier : tous les fichiers l’ont été.
+7	Rien à intégrer
+8	Rien à migrer
+9	Rien à signaler
+10	Rien à suivre
+11	Rien à valider : tous les PDF l’ont été.
+12	Rien n’attend à cette étape pour le moment.
+13	Risque
+14	Risque élevé
+15	Risque élevé sans mesure
+16	Risques de l’emplacement
+17	Risques et plan d’urgence
+18	Risques et plans d’urgence
+19	Risques ouverts
+20	Risques, plan d’urgence et exercices de l’emplacement
+21	rôle
+22	Rôle
+23	Rôle *
+24	Rôle / source
+25	rôle de fichier non accepté
+26	Rôle détenu :
+27	Rôle du document
+28	Rôle du justificatif
+29	Rôle du lieu
+30	Rôle du producteur
+31	Rôle non disponible
+32	Rôle responsable
+33	Rôle responsable *
+34	Rouvrir
+35	Rouvrir la description
+36	Rouvrir le risque
+37	Rubrique du plan de classement
+38	Rubrique non disponible
+39	Rubriques
+40	Rubriques de l’emplacement
+41	Rubriques de la fiche
+42	Rubriques du plan de classement
+43	rubriques sont cochés : la règle ne s’applique qu’aux documents de ces types
+44	S’abonner pour demander l’accès
+45	S’abonner pour lire
+46	Saisi pour vérification, jamais conservé en entier.
+47	saisie
+48	Saisie, signalée comme telle
+49	Saisissez un terme de recherche
+50	Saisissez votre mot de passe
+51	Salle
+52	Salle *
+53	Salle de lecture, atelier de numérisation, musée…
+54	Salle de lecture, reprographie, aide à la recherche
+55	Salle, vitrine…
+56	Salles
+57	Salles de lecture
+58	Sans accord
+59	sans copie de consultation
+60	Sans cote
+61	Sans date
+62	Sans date de fin
+63	Sans délai
+64	Sans écart
+65	sans échéance
+66	Sans échéance
+67	Sans liste, la révocation des certificats reste indéterminée.
+68	Sans lot
+69	sans niveau (partie 4)
+70	Sans objet
+71	sans original localisé
+72	Sans original localisé
+73	Sans original physique
+74	Sans police
+75	Sans police :
+76	Sans résumé
+77	Sans suite
+78	sans texte
+79	Sans titre
+80	Sans traitement, l’objet se dégrade : une intervention de conservation est nécessaire.
+81	Sans version
+82	Santé, opinions, origine, condamnations… Suppose des données personnelles présentes.
+83	Sauvegarde des données applicatives et des fichiers stockés localement. Fréquence : toutes les
+84	Sauvegardes et restaurations
+85	Sauvetage *
+86	Scanner
+87	Scanner non disponible
+88	Scanner ou saisir un code (SNAE:E:…)
+89	Scans conservés sur ce poste
+90	Sceau du {n}
+91	Sceau électronique
+92	Scellé le
+93	scellée
+94	Scellée
+95	Sceller la version
+96	Sceller maintenant
+97	Schéma
+98	Schéma de métadonnées
+99	Schéma obligatoire
+100	Schémas
+101	Schémas de métadonnées
+102	Se connecter pour demander
+103	Se connecter pour demander l’accès
+104	Se connecter pour lire
+105	Secret
+106	Secrétariat général
+107	Sections de l’entrée
+108	Sections de la campagne
+109	Sections de la fiche
+110	Sections de la salle de lecture
+111	Sections du patrimoine
+112	Sections du portail
+113	Sécurité
+114	Sécurité et limites
+115	Sélection manuelle
+116	sélectionné
+117	Sélectionné :
+118	sélectionnée
+119	sélectionnées
+120	Sélectionner
+121	Sélectionner :
+122	Sélectionner : bénéficiaire
+123	Sélectionner les PDF et images
+124	Sélectionner un département
+125	Sélectionner un parent
+126	Sélectionner un rôle
+127	Sélectionner une institution
+128	Sélectionnez au plus {n} fichiers à la fois.
+129	Sélectionnez au plus 500 fichiers à la fois.
+130	Sélectionnez entre 1 et 500 cibles.
+131	Sélectionnez un mot pour voir ses coordonnées.
+132	Sélectionnez une institution dans l’en-tête pour choisir le document destinataire.
+133	Sélectionnez une institution dans le contexte de travail pour créer une règle au niveau institution.
+134	Sélectionnez une institution dans le filtre de l’espace de travail pour consulter ses fonds et ses producteurs.
+135	sensibles
+136	Séparateur CSV
+137	Séparées par des virgules
+138	série
+139	Série
+140	Série parente
+141	Sert à fixer les délais de communication et les occultations.
+142	Service
+143	SERVICE
+144	Service d’archives
+145	Service d’archives destinataire
+146	Service de la formation
+147	Service de stockage
+148	Service des archives
+149	Service indisponible
+150	Service producteur
+151	Service versant
+152	Services aux chercheurs
+153	Session expirée : reconnectez-vous puis réessayez les lignes restantes.
+154	Session expirée : reconnectez-vous puis réessayez.
+155	Session locale en mémoire
+156	Seul le certificat est déposé, jamais une clé privée
+157	Seul le titulaire direct habilité peut déléguer un rôle métier actif.
+158	Seul un terme obsolète se remplace : rendez-le d’abord obsolète en nommant son remplaçant.
+159	Seule la liste est déposée, jamais une clé privée
+160	Seule une clé publique anon/publishable est autorisée.
+161	Seulement si des données personnelles sont présentes.
+162	Seules les lignes acceptées seront détruites
+163	Seules les notices publiques et validées, non encore publiées, sont proposées.
+164	Seuls les objets que vous avez le droit de lire sont listés.
+165	Seuls les scanners en service sont proposés
+166	SHA-256 :
+167	SHA-256 avec ECDSA
+168	SHA-256 avec RSA
+169	Si ce document se lit sur demande, vérifiez que votre accès est encore valable dans
+170	Si cette option est décochée, vous pouvez enregistrer une saisie partielle.
+171	Si l’acte est interdit ou sous conditions, précisez le motif ou les conditions.
+172	Si le plan doit changer, préparez plutôt une nouvelle version.
+173	Si oui, un document de ce type ne peut pas être scellé tant que son circuit n’est pas terminé.
+174	Si un document est sous restriction, indiquez la référence de la dérogation écrite.
+175	Si vide, le serveur utilise 100.
+176	siècle
+177	Siècle
+178	Siècle non précisé
+179	Sigle
+180	Sigle trop long (50 caractères max).
+181	signalé : un PDF/A ne se chiffre pas
+182	signalée
+183	Signalement
+184	Signaler une situation à clarifier
+185	Signataire
+186	Signataire *
+187	Signataire de l’emprunteur
+188	Signature
+189	Signature détachée (.p7s) d’un autre fichier
+190	Signature intégrée au fichier (PDF, .p7m, XML)
+191	Signatures électroniques
+192	Signatures, cachets, filigranes, marques de propriété, légendes.
+193	signée le
+194	Signée le
+195	Simuler l’étape suivante :
+196	Site web : adresse en http:// ou https:// attendue.
+197	Situation
+198	Situation à clarifier
+199	Situation de la conservation
+200	situation juridique à clarifier
+201	SKOS
+202	SNAE
+203	SNAE - PPD
+204	snae-…
+205	SNAE-PPD
+206	SNAE-PPD ·
+207	Son code ne changera plus
+208	Son contenu n’existe plus ; seule sa notice demeure, comme tombeau, avec le certificat de destruction.
+209	Son impact et ses demandes apparaîtront ici.
+210	Son niveau de risque et sa pérennité guident les migrations
+211	sont déjà traités ; la reprise continue là où elle s’est arrêtée.
+212	Sort final « {n} » inconnu (conserver, éliminer ou trier).
+213	Sort final *
+214	sort final inconnu (conserver, éliminer ou trier).
+215	Sort final proposé
+216	sort proposé
+217	Sort proposé
+218	Sorti de la collection
+219	Sorti de réserve
+220	Sorti de réserve, en retard.

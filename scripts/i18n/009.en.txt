@@ -1,0 +1,220 @@
+1	record the receipt
+2	Record the receipt
+3	Record the pass
+4	Record each archive by going to see it: the finding is dated, signed and joins the archive’s presence log. An archive that is out is postponed with its reason.
+5	Findings
+6	Findings *
+7	Established
+8	Established by
+9	Established
+10	Established by
+11	Establish (
+12	Set up the campaign
+13	Set up the schedule
+14	Set up the file’s schedule
+15	Build the thesauri and authority lists used as keywords for documents and files.
+16	Set up a schedule from the documents whose destruction due date has arrived.
+17	Set up a schedule from the documents whose due date provides for transfer to the archives.
+18	Set up a campaign from the due dates whose rule provides for appraisal.
+19	Reading a report
+20	Consult
+21	Consult securely
+22	Check the service status
+23	View the department’s impact
+24	View the OAI-PMH response
+25	View the access summary
+26	View the file
+27	Consult the documents.
+28	Consult the preservation events and export PREMIS.
+29	View the transitions
+30	See “To take over” to start an available task.
+31	See the atlas to identify the actions and their limits.
+32	See the related section for this detail.
+33	Contact {1}: state the role.
+34	Contact {1}: state the name.
+35	Contact {1}: a telephone number or an e-mail is required.
+36	Content
+37	Content concerned:
+38	Content deposited:
+39	Content destroyed
+40	Content and structure
+41	Content modified
+42	Content that would be destroyed
+43	Context
+44	Workflow context (JSON)
+45	General context
+46	Contains:
+47	Continue despite the discrepancies
+48	Advanced constraints
+49	Constraints of
+50	Agreement present
+51	Contributor
+52	General contribution
+53	Contributions
+54	check
+55	Check
+56	Check:
+57	Control & accountability
+58	Check to perform
+59	Automatic check not scheduled
+60	Description check
+61	Record check
+62	Check with anomaly
+63	Check in progress
+64	Periodic check
+65	Check planned every
+66	quality control
+67	check(s)
+68	Checked
+69	Check
+70	Check the line
+71	Check the quality
+72	Check the file
+73	Check the OCR text
+74	Checks
+75	Automatic integrity checks
+76	Checks in progress
+77	Checks in progress ·
+78	Checks per month
+79	Quality controls
+80	Quality controls (latest per element)
+81	Quality controls per month
+82	Quality controls on
+83	Quality controller
+84	Agreement
+85	Technical cooperation agreement
+86	Loan agreement
+87	Agreement, insurance and transport
+88	Agreement, insurance or transport completed
+89	Agreement, insurance, transport
+90	Converted to uppercase; unique among all rules.
+91	Converter *
+92	Courier
+93	Contact details
+94	Borrower’s contact details
+95	copy
+96	Copy to redo
+97	Certified copy
+98	Copy of
+99	Consultation copy
+100	copy in progress…
+101	Local copy available until
+102	Migrated copy
+103	verified copy
+104	Verified copy
+105	Copy the text
+106	Copies
+107	Migrated copies
+108	verified copies
+109	Correction requested:
+110	Correlation
+111	Match with the backend
+112	Exact match with “file_name”. No path on the disk is read from the table. A record may exist even if its file is rejected.
+113	Correct the file then choose it again: a schedule is only loaded as a whole.
+114	Call number
+115	Call number concerned
+116	Archive call number
+117	Requested call number
+118	Document call number
+119	Call number and title
+120	Call number and title
+121	call number or former reference
+122	Call number or former reference
+123	Call number or description…
+124	Call number or batch
+125	Call number or reference
+126	Call number or reference *
+127	Call number too long (150 characters at most).
+128	Item call number, identifier or title
+129	colour with transparency
+130	Indexed colours (palette)
+131	E-mail
+132	Mail
+133	Outgoing mail
+134	Short and stable: ROOM-1.
+135	Coverage at
+136	Coverage of
+137	Creation
+138	Creation:
+139	Creation ({1})
+140	Creation within the authorized scope, with no implicit right.
+141	Creating…
+142	created
+143	Created
+144	Created on
+145	created
+146	Created
+147	Create
+148	Create in the demonstration
+149	Create from a template
+150	Create and activate
+151	Create the entry with a supplied number
+152	Create the category
+153	Create the plan
+154	Create the version
+155	Create the item
+156	Create the batch
+157	Create the schema as a draft
+158	Create the rate
+159	Create the type
+160	Create the vocabulary
+161	Create the
+162	Create my account
+163	Create a workflow
+164	Create a validation workflow
+165	Create an account
+166	Create a reader account
+167	Create a document
+168	Create a file
+169	Create an element
+170	Create an element to digitize
+171	Create a location
+172	Create an event
+173	Create a historical event
+174	Create a place
+175	Create a batch
+176	Create a digitization batch
+177	Create a node
+178	Create a classification node
+179	Create a producer
+180	Create a NAPS2 profile and test a page. Declare only the sources and resolutions actually supported in the SNAE connector.
+181	Create a project
+182	Create a digitization project
+183	Create a schema
+184	Create a schema from a template
+185	Create a metadata schema
+186	Create a sub-file
+187	Create a subject
+188	Create a document type
+189	Create an archive
+190	Create a physical archive
+191	Create a delegation
+192	Create a description
+193	Create an entry
+194	Create an archival entry
+195	Create a function
+196	Create a licence
+197	Create a record: {1}
+198	Create a fictitious record
+199	Create a source
+200	Create a legal source
+201	Create a unit
+202	Create a storage unit
+203	Create the first archive for this storage unit.
+204	Create the first entry.
+205	Create the first plan with the rate and duration decided by the institution: the public will not be able to subscribe before.
+206	Create the first rule so that closed documents receive a due date.
+207	Create the first source of the reference list.
+208	Create the first storage unit for this location.
+209	Create the institution’s reading room: its name, capacity and opening hours.
+210	Create the first item: a minimal identification is enough, the rest is completed afterwards.
+211	Create the first workflow.
+212	Create the first element to digitize for this project.
+213	Create the first preservation location.
+214	Create the first event of the reference list.
+215	Create the first place of the reference list.
+216	Create the first node for this scope.
+217	Create the first project.
+218	Create the first schema.
+219	Create the first subject of the reference list.
+220	Create the period categories provided for by the applicable texts (privacy, medical secrecy, defence…).

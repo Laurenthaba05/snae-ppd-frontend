@@ -1,0 +1,136 @@
+1	Check trust
+2	Check presence
+3	Check a file’s signatures
+4	Check all required fields before saving
+5	Verified
+6	Check the information before confirming.
+7	Check the information and the consequences of this action before confirming.
+8	Check your rights and scope. Some refusals are deliberately masked as 404.
+9	Check your e-mail
+10	Check your profile and your work scope.
+11	Version lock:
+12	to
+13	To
+14	Transferor
+15	Transferred
+16	Accession
+17	Accession of the deliberations
+18	Structured accession
+19	Accessions to the archives
+20	Supplementary accessions expected or not
+21	Pending accessions
+22	Accessions and entries
+23	version
+24	Version
+25	Version 1 · Preservation master · Example without attached file
+26	Request version:
+27	Tool version
+28	Modification version
+29	Expected role version:
+30	Documentary version
+31	Document version
+32	Engine version
+33	PDF version
+34	Version of the rules accepted *
+35	Version not found for this document.
+36	Sealed version
+37	Server version missing or invalid.
+38	Versions
+39	versions in total
+40	Empty: immediate assignment.
+41	Empty: permanent assignment, if your authority allows it.
+42	Empty: deduced from the documents.
+43	Empty: server time. Entered in your time zone, sent in UTC.
+44	Empty: institutional scope. Changing scope clears the selected targets.
+45	Empty: no end date.
+46	Empty: no due date
+47	Empty to remove the classification.
+48	VIE-PRIVEE-50
+49	Comma
+50	Visa
+51	Validation visa
+52	Visa granted
+53	visa granted line by line by another person
+54	Visa granted by
+55	Visa granted, to destroy
+56	Target this document type
+57	Grant the visa
+58	Grant the visa to the schedule
+59	Grant the visa to the minutes
+60	Visibility
+61	Visibility *
+62	Visible to the public
+63	Viewer: {1}. Drag to move, wheel or buttons to zoom.
+64	Visits
+65	View each actor’s actions throughout the processing.
+66	Vocabulary
+67	Vocabulary:
+68	Vocabularies
+69	View
+70	See what is missing above.
+71	See the campaign’s method
+72	View the record
+73	View the page
+74	See the reference to give
+75	View the destruction certificate
+76	View the circuit
+77	View the journey
+78	View the target journey
+79	View the receipt
+80	View the subscriptions
+81	View the actions
+82	View the actions of this local demonstration.
+83	View the files
+84	View the plans
+85	View my request
+86	View all
+87	View everything
+88	Volume
+89	Storage volume not exposed by the current API
+90	Private local volume
+91	Planned volume
+92	Total volume
+93	Multiple volumes and media
+94	Volumetrics
+95	are going to be destroyed, one by one, each with its destruction certificate. This operation cannot be undone.
+96	are going to be handed over to
+97	Your access has been revoked
+98	Your access expired on
+99	Your administrator is supporting you
+100	your account
+101	Your account does not have a task processing permission.
+102	Your account does not have the extraction permission in this scope. The PDF upload remains available.
+103	Your subscription request is awaiting payment at the counter.
+104	Your request is filed. The institution that keeps this document will reply by e-mail; you can follow progress in
+105	Your previous request is still awaiting its payment.
+106	Your last request was refused
+107	Your role has no withdrawal permission: you are viewing the files.
+108	Your session has expired. Sign in again.
+109	You have already proposed or validated this decision: the execution falls to a third person.
+110	You have a current subscription. A new plan chosen here will start at the end of the current subscription.
+111	Sign in, check /me, browse institutions, departments, users and roles, record or modify their records, assign and revoke a role, revoke the old tokens, examine the permissions and the independent approval journey.
+112	You are viewing this element: advancing a step requires the corresponding permission.
+113	You are
+114	You are (optional)
+115	You are the origin of this request. Another central authority must approve or reject it.
+116	You have no current subscription: reading documents is closed.
+117	You do not have the permission for this scope. No title or excerpt is displayed.
+118	You do not have the right to move this document on (preservation review and proposal of a decision).
+119	You can read the communicable documents.
+120	You will be redirected to your identity provider.
+121	You are validating the permanent preservation of
+122	Overview
+123	Overview of the quality controls recorded on the digitization elements.
+124	Overview of entries
+125	Overview of the restoration interventions declared on the physical archives.
+126	National view of retention due dates and legal holds, for the institution of the current work scope.
+127	National view of retention due dates and legal holds.
+128	Area
+129	Area chosen: {1} wide by {2} high, {3} from the left edge and {4} from the top.
+130	redacted area
+131	redacted areas
+132	redacted areas is reached for this document.
+133	Areas removed (
+134	Zoom
+135	Image zoom
+136	Page zoom

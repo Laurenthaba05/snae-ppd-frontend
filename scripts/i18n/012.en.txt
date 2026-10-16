@@ -1,0 +1,220 @@
+1	Destroyed document
+2	Essential document
+3	Essential document: first remove the mention, with its reason.
+4	Linked document
+5	Document not available
+6	Document or file and beneficiary required.
+7	Original_document.pdf
+8	Document, finding or publication that justifies the correction
+9	Documented by
+10	Documents to classify
+11	Documents to check
+12	Documents to correct
+13	accepted documents
+14	accepted documents remain
+15	Documents added
+16	Documents chosen
+17	requested documents
+18	Requested documents *
+19	destroyed documents
+20	Documents whose destruction due date has arrived
+21	Documents whose due date provides for transfer to the archives
+22	File documents
+23	Documents indexed by {1}
+24	most recent documents
+25	most recent documents.
+26	Digitized documents
+27	Documents under hold
+28	Domain
+29	Donor
+30	Data not available (permission, scope or API)
+31	data
+32	Demonstration data in this tab. The steps and records below illustrate the journey; no business rule, audit evidence or server authorization is executed.
+33	Fictitious data · No call to the server
+34	Personal data
+35	Personal data:
+36	Personal data without a period
+37	Sensitive data
+38	Give a title of at least 3 characters.
+39	Give a label (200 characters at most): for example the issuing authority and its date.
+40	Give a label (200 characters at most): for example the authority’s name.
+41	Give the profile a name (200 characters at most).
+42	file
+43	File
+44	File *
+45	File cancelled.
+46	File closed: all originals have come back.
+47	File concerned
+48	Demonstration file
+49	Loan or exhibition file
+50	Attachment file
+51	Linked file
+52	File modified
+53	File put together
+54	File not readable
+55	File extended
+56	File extended: return planned on
+57	File refused.
+58	Closed files
+59	Open files
+60	dpi
+61	DPI
+62	dpi minimum)
+63	dpi.
+64	Flag of Guinea
+65	Rights
+66	Rights shown by /me
+67	Image and reproduction rights
+68	Effective delegated rights
+69	Rights held by the institution
+70	Rights held by a third party
+71	Effective direct rights
+72	Rights and legal sources
+73	Insufficient rights: import stopped.
+74	Insufficient rights to create departments in this institution: import stopped.
+75	Insufficient rights to create institutions: import stopped.
+76	Insufficient rights to inventory items: import stopped.
+77	of
+78	From
+79	from {1} to {2}
+80	From {1} to {2}
+81	from the left edge,
+82	From draft to preservation
+83	of document {1}
+84	of the PDF document
+85	from the top
+86	ARP (years)
+87	ARP and final disposition
+88	Dublin Core (XML)
+89	Duration
+90	Duration (months)
+91	Duration *
+92	Administrative retention period (years)
+93	perpetual duration
+94	Proposed duration
+95	Periods, final disposition and legal holds
+96	discrepancy
+97	Discrepancy
+98	Discrepancy still open
+99	Discard
+100	Discard {1}
+101	Discard from the sample
+102	Discrepancies
+103	Discrepancies found
+104	Discrepancies found (
+105	Exchanges
+106	Accession exchanges
+107	Sample
+108	Sample to check visually (
+109	due date
+110	Due date
+111	Retention due date
+112	Overdue
+113	Due date UTC
+114	Retention due dates
+115	Due dates whose rule provides for appraisal
+116	failure
+117	Failure
+118	failure (
+119	Failed on the last attempt ({1} try): {2}
+120	Failed on the last attempt ({1} tries): {2}
+121	assembly failure
+122	Digitization failure
+123	Scheduling failure
+124	unexpected failure (operations log)
+125	failure with no detail
+126	consecutive failure(s)
+127	failures
+128	failed
+129	Journey screen available for visual acceptance testing. The module’s contracts and authorizations must be connected and verified before any use with real archives. No write is sent to the server.
+130	Screen not available in this batch.
+131	Written to the file and kept in the log.
+132	Written to the file, kept in the log and communicated to the reader.
+133	Writes
+134	Document writes
+135	Write the message that will be communicated to the reader (at least {1} characters).
+136	Erase the temporary copy on the workstation
+137	Erase the rectangle
+138	Erase the Gregorian bounds
+139	element
+140	Element
+141	Element cancelled: it no longer advances and its pages are frozen.
+142	checked element
+143	Digitization element
+144	Batch element
+145	Element no. {1}
+146	Element open.
+147	Element that receives the pages
+148	Element without description
+149	Selected element
+150	Element suspended: it will resume at the step “
+151	element(s)
+152	element(s) at this step. The server checks each element and leaves blocked elements at their step. The result indicates which were processed.
+153	element(s) recognized
+154	element(s) completed
+155	element(s) processed,
+156	elements
+157	Elements
+158	Elements at this step
+159	Elements to create
+160	Elements to check
+161	checked elements
+162	ISAD(G) standard elements filled in; a level does not have to fill them all
+163	Elements whose latest quality control is non-compliant
+164	Digitized elements
+165	Elements carried over (
+166	Elements checked
+167	High
+168	destruction
+169	Destruction approved
+170	Destruction of physical archives
+171	Destruction refused
+172	Destruction approved
+173	Destructions to validate
+174	Destroyed
+175	destroy
+176	Destroy
+177	Destroy a whole file
+178	it is waiting to be taken over
+179	It opens as soon as your payment is recorded at the counter.
+180	They are numbered in the natural order of names (scan2 before scan10)
+181	Packaging
+182	Embedded
+183	Issuer
+184	Issuer not recognized
+185	Issued by
+186	Issued by {1}
+187	Issued on
+188	Location
+189	Current location
+190	Location of
+191	Archive location
+192	Usual location
+193	Location not visible with your permissions.
+194	Location where it was found *
+195	Parent location
+196	Locations
+197	Uses
+198	Fingerprint
+199	Decision fingerprint
+200	Fingerprint of the object list:
+201	Fingerprint of the destruction certificates:
+202	Certificate fingerprint
+203	Signed content fingerprint
+204	Minutes fingerprint
+205	Previous fingerprint
+206	SHA-256 fingerprint
+207	Borrower *
+208	borrower or courier
+209	In intermediate archives since {1}: {2}, in the custody of {3}. Kept until the due date of {4}, when the final disposition applies.
+210	pending
+211	Pending
+212	Pending a legal and provenance examination, by someone other than the person who proposed the withdrawal.
+213	pending decision: accept or refuse each archive before approving.
+214	Pending the decision of the authority, who neither proposed nor examined the withdrawal.
+215	Pending payment
+216	Pending receipt
+217	Pending approval
+218	pending for more than 30 days
+219	Pending the period
+220	Under check

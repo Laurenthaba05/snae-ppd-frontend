@@ -1,0 +1,220 @@
+1	To prepare
+2	To plan before departure
+3	to qualify
+4	What the rule applies to *
+5	To receive
+6	to regenerate: the pages have changed
+7	to regularize
+8	To review
+9	To complete before releasing a reproduction; “not provided” is not an answer.
+10	To carry over or to check on return
+11	to rescan
+12	To rescan
+13	To restore
+14	To review
+15	To review before *
+16	To rescue
+17	Good to know
+18	to seal
+19	At its usual location
+20	At its usual location, presence verified
+21	to follow up
+22	To monitor
+23	To process
+24	at another location:
+25	To validate
+26	Upcoming
+27	to check
+28	To check
+29	to check. The campaign will no longer be modified, and it will be closed by someone other than you.
+30	YYYY, YYYY-MM or YYYY-MM-DD
+31	YYYY, YYYY-MM or YYYY-MM-DD; optional
+32	YYYY, YYYY-MM or YYYY-MM-DD (the DD/MM/YYYY format is also accepted). To submit the schedule, at least one of the two dates is required.
+33	YYYY, YYYY-MM or YYYY-MM-DD.
+34	Abandoned
+35	Abandoned
+36	Abandon
+37	Abandon {1} deposits
+38	Abandon this deposit
+39	Abandon the draft
+40	Abandon the deposit “
+41	Abandon the
+42	subscription
+43	Subscription
+44	Subscriptions
+45	Current subscriptions
+46	absent
+47	accepted
+48	Accepted
+49	Accepted by another person
+50	Accepted, to hand over
+51	accepted
+52	Accepted
+53	Accept
+54	Accept the takeover
+55	Accept the quality
+56	Accept the schedule
+57	Accept the file
+58	Accept the risk
+59	Accept the residual risk
+60	Accept the terms of use to register.
+61	ACCESS
+62	ACCESS / DEMONSTRATION
+63	Access & dissemination
+64	Access granted
+65	Access granted until
+66	Access granted until (inclusive)
+67	Access of public portal readers to the documents the institution does not make freely available.
+68	Access for people with reduced mobility, transport, entry conditions
+69	Access in progress
+70	Access and services
+71	Access denied.
+72	Access revoked
+73	Accessibility
+74	Agreement
+75	Accession agreement
+76	Granted by the institution, without payment.
+77	granted
+78	Granted
+79	Grant
+80	Grant access
+81	Grant by exemption
+82	Accession agreements
+83	Home
+84	Reading room home
+85	Acknowledgement of receipt
+86	transfer acknowledgement of receipt
+87	accession acknowledgement of receipt
+88	Acquisition validated
+89	Act
+90	Act “
+91	Act *
+92	Accession act
+93	Act or agreement
+94	Sealed act: the signature is valid and the findings are those that were sealed.
+95	Acts
+96	Acts sealed with this key
+97	Actor
+98	Actor *
+99	Authority-file actor
+100	Existing actor
+101	Actor not available
+102	Unnamed actor
+103	Actors
+104	Document actors
+105	Active
+106	Action
+107	Action to take
+108	Preservation action
+109	Review action
+110	Final action, in accordance with the validated decision.
+111	Actions
+112	Quick actions
+113	Activate
+114	Activate the rule
+115	Activate draft v
+116	Activate the workflow
+117	Activate the schema
+118	Active
+119	Activity
+120	Documentary activity
+121	Refresh
+122	Refresh the self-assessment
+123	Refresh the hosting
+124	Refresh the OCR
+125	Refresh the request
+126	Refresh the record
+127	Refresh the list
+128	Refresh the deposit
+129	Refresh the diagnosis
+130	Refresh the status
+131	Refresh the checks
+132	Refresh the mail
+133	Refresh the due dates
+134	Refresh the files
+135	Refresh the references
+136	Refresh the backups
+137	Refresh the workstation scans
+138	Administrator A
+139	Administrator B
+140	General administration
+141	Address
+142	Full address starting with http:// or https://
+143	Connector address
+144	Protocol address
+145	E-mail address or password incorrect. Enter the password of this SNAE-PPD account, then try again.
+146	E-mail address
+147	Address not provided
+148	Displaying the page…
+149	displayed
+150	Show
+151	Also show withdrawn registrations
+152	Also show withdrawn rates
+153	Display and print
+154	Show the password
+155	Show the text of this page
+156	Show withdrawn authorities
+157	Show the data as a table
+158	Show withdrawn finding aids
+159	Show withdrawn lists
+160	Show the validated OCR positions
+161	Show withdrawn profiles
+162	Show withdrawn vocabularies
+163	Show only the files to examine
+164	Refine the search:
+165	Agent
+166	Agent:
+167	Demonstration agent · The real traceability is read from the audit API.
+168	Digitization agent
+169	Preservation agent
+170	Acceptance-testing agent
+171	Preservation agents
+172	Enlarge
+173	Added
+174	Add
+175	Add (
+176	Add to the schedule
+177	Add to the file
+178	Add to the accession
+179	Add archives
+180	Add documents
+181	Add documents to the schedule
+182	Add documents to the accession
+183	Add due dates
+184	Add due dates to the campaign
+185	Add keywords
+186	Add in bulk, digitize and prepare the metadata without modifying the originals.
+187	Add the local example
+188	Add the measure
+189	Add the hazard
+190	Add the file to the schedule
+191	Add the link
+192	Add the term
+193	Add the due dates
+194	Add a field
+195	Add a contact
+196	Add a check
+197	Add a hazard
+198	Add a document
+199	Add a file
+200	Add a file to the schedule
+201	Add an identifier
+202	Add a contributor
+203	Add a supporting document
+204	Add a link
+205	Add an original
+206	Add a related producer
+207	Add an OCR result
+208	Add a risk
+209	Add a scanner
+210	Add a status
+211	Add a legal status
+212	Add a term
+213	Add a text
+214	Add a multilingual text
+215	Add a volume
+216	Add a contribution
+217	Add a date
+218	Add a step
+219	Add a line
+220	Add a line to the schedule

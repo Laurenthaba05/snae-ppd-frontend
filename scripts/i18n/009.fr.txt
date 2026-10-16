@@ -1,0 +1,220 @@
+1	constater la réception
+2	Constater la réception
+3	Constater le passage
+4	Constatez chaque archive en allant la voir : le constat est daté, signé et rejoint le journal de présence de l’archive. Une archive sortie se reporte avec son motif.
+5	Constats
+6	Constats *
+7	Constitué
+8	Constitué par
+9	Constituée
+10	Constituée par
+11	Constituer (
+12	Constituer la campagne
+13	Constituer le bordereau
+14	Constituer le bordereau du dossier
+15	Constituer les thésaurus et listes d’autorité qui servent de mots-clés aux documents et aux dossiers.
+16	Constituez un bordereau à partir des documents dont l’échéance d’élimination est arrivée.
+17	Constituez un bordereau à partir des documents dont l’échéance prévoit le transfert aux archives.
+18	Constituez une campagne à partir des échéances dont la règle prévoit un tri.
+19	Consultation d’un rapport
+20	Consulter
+21	Consulter en toute sécurité
+22	Consulter l’état du service
+23	Consulter l’impact du département
+24	Consulter la réponse OAI-PMH
+25	Consulter la synthèse d’accès
+26	Consulter le fichier
+27	Consulter les documents.
+28	Consulter les événements de conservation et exporter PREMIS.
+29	Consulter les transitions
+30	Consultez « À prendre en charge » pour commencer une tâche disponible.
+31	Consultez l’atlas pour identifier les actions et leurs limites.
+32	Consultez la rubrique associée pour ce détail.
+33	Contact {n} : indiquez la fonction.
+34	Contact {n} : indiquez le nom.
+35	Contact {n} : un téléphone ou un courriel est nécessaire.
+36	Contenu
+37	Contenu concerné :
+38	Contenu déposé :
+39	Contenu détruit
+40	Contenu et structure
+41	Contenu modifié
+42	Contenu qui serait détruit
+43	Contexte
+44	Contexte du circuit (JSON)
+45	Contexte général
+46	Contient :
+47	Continuer malgré les écarts
+48	Contraintes avancées
+49	Contraintes de
+50	Contrat présent
+51	Contributeur
+52	Contribution générale
+53	Contributions
+54	contrôle
+55	Contrôle
+56	Contrôle :
+57	Contrôle & responsabilité
+58	Contrôle à effectuer
+59	Contrôle automatique non planifié
+60	Contrôle de la description
+61	Contrôle de la notice
+62	Contrôle en anomalie
+63	Contrôle en cours
+64	Contrôle périodique
+65	Contrôle prévu tous les
+66	contrôle qualité
+67	contrôle(s)
+68	Contrôlée
+69	Contrôler
+70	Contrôler la ligne
+71	Contrôler la qualité
+72	Contrôler le fichier
+73	Contrôler le texte OCR
+74	Contrôles
+75	Contrôles automatiques d’intégrité
+76	Contrôles en cours
+77	Contrôles en cours ·
+78	Contrôles par mois
+79	Contrôles qualité
+80	Contrôles qualité (dernier par élément)
+81	Contrôles qualité par mois
+82	Contrôles qualité sur
+83	Contrôleur qualité
+84	Convention
+85	Convention de coopération technique
+86	Convention de prêt
+87	Convention, assurance et transport
+88	Convention, assurance ou transport complétés
+89	Convention, assurance, transport
+90	Converti en majuscules ; unique parmi toutes les règles.
+91	Convertisseur *
+92	Convoyeur
+93	Coordonnées
+94	Coordonnées de l’emprunteur
+95	copie
+96	Copie à refaire
+97	Copie certifiée conforme
+98	Copie de
+99	Copie de consultation
+100	copie en cours…
+101	Copie locale disponible jusqu’à
+102	Copie migrée
+103	copie vérifiée
+104	Copie vérifiée
+105	Copier le texte
+106	Copies
+107	Copies migrées
+108	copies vérifiées
+109	Correction demandée :
+110	Corrélation
+111	Correspondance avec le backend
+112	Correspondance exacte avec « nom_fichier ». Aucun chemin du disque n’est lu depuis le tableau. Une notice peut exister même si son fichier est rejeté.
+113	Corrigez le fichier puis choisissez-le de nouveau : un bordereau ne se charge qu’entier.
+114	Cote
+115	Cote concernée
+116	Cote de l’archive
+117	Cote demandée
+118	Cote du document
+119	Cote et intitulé
+120	Cote et titre
+121	cote ou ancienne reference
+122	Cote ou ancienne référence
+123	Cote ou description…
+124	Cote ou lot
+125	Cote ou référence
+126	Cote ou référence *
+127	Cote trop longue (150 caractères au plus).
+128	Cote, identifiant ou intitulé du bien
+129	couleur avec transparence
+130	Couleurs indexées (palette)
+131	Courriel
+132	Courrier
+133	Courriers sortants
+134	Court et stable : SALLE-1.
+135	Couverture au
+136	Couverture du
+137	Création
+138	Création :
+139	Création ({n})
+140	Création dans le périmètre autorisé, sans droit implicite.
+141	Création…
+142	créé
+143	Créé
+144	Créé le
+145	créée
+146	Créée
+147	Créer
+148	Créer dans la démonstration
+149	Créer depuis un gabarit
+150	Créer et activer
+151	Créer l’entrée avec un numéro fourni
+152	Créer la catégorie
+153	Créer la formule
+154	Créer la version
+155	Créer le bien
+156	Créer le lot
+157	Créer le schéma en brouillon
+158	Créer le tarif
+159	Créer le type
+160	Créer le vocabulaire
+161	Créer les
+162	Créer mon compte
+163	Créer un circuit
+164	Créer un circuit de validation
+165	Créer un compte
+166	Créer un compte lecteur
+167	Créer un document
+168	Créer un dossier
+169	Créer un élément
+170	Créer un élément à numériser
+171	Créer un emplacement
+172	Créer un événement
+173	Créer un événement historique
+174	Créer un lieu
+175	Créer un lot
+176	Créer un lot de numérisation
+177	Créer un nœud
+178	Créer un nœud de classement
+179	Créer un producteur
+180	Créer un profil NAPS2 et tester une page. Déclarer uniquement les sources et résolutions réellement prises en charge dans le connecteur SNAE.
+181	Créer un projet
+182	Créer un projet de numérisation
+183	Créer un schéma
+184	Créer un schéma à partir d’un gabarit
+185	Créer un schéma de métadonnées
+186	Créer un sous-dossier
+187	Créer un sujet
+188	Créer un type de document
+189	Créer une archive
+190	Créer une archive physique
+191	Créer une délégation
+192	Créer une description
+193	Créer une entrée
+194	Créer une entrée archivistique
+195	Créer une fonction
+196	Créer une licence
+197	Créer une notice : {n}
+198	Créer une notice fictive
+199	Créer une source
+200	Créer une source juridique
+201	Créer une unité
+202	Créer une unité de stockage
+203	Créez la première archive pour cette unité de stockage.
+204	Créez la première entrée.
+205	Créez la première formule avec le tarif et la durée décidés par l’institution : le public ne pourra pas s’abonner avant.
+206	Créez la première règle pour que les documents clos reçoivent une échéance.
+207	Créez la première source du référentiel.
+208	Créez la première unité de stockage pour cet emplacement.
+209	Créez la salle de lecture de l’institution : son nom, sa capacité et ses horaires.
+210	Créez le premier bien : une identification minimale suffit, le reste se complète ensuite.
+211	Créez le premier circuit.
+212	Créez le premier élément à numériser pour ce projet.
+213	Créez le premier emplacement de conservation.
+214	Créez le premier événement du référentiel.
+215	Créez le premier lieu du référentiel.
+216	Créez le premier nœud pour ce périmètre.
+217	Créez le premier projet.
+218	Créez le premier schéma.
+219	Créez le premier sujet du référentiel.
+220	Créez les catégories de délais prévues par les textes applicables (vie privée, secret médical, défense…).

@@ -1,0 +1,220 @@
+1	Indexed by “{1}”
+2	Indicator
+3	Indicator not exposed by the current API
+4	Key indicators
+5	Processing indicators
+6	Processing indicators in charts
+7	Processing indicators
+8	Confidence index
+9	State the document in the digitization plan
+10	State what can be done with the object: free handling, with precautions or forbidden.
+11	State what you found: present, found elsewhere or missing.
+12	State the circumstances in which the condition is recorded.
+13	State until when the access is granted.
+14	Enter your account’s address: if it exists, a link to choose a new password will be sent to it.
+15	State the approving authority.
+16	State the location where the archive was found.
+17	State the condition found: stable, fragile or intervention required.
+18	State the exhibition’s opening date.
+19	State the loan’s start date.
+20	State the exhibition’s closing date.
+21	State the date of the act.
+22	State the date of the destruction.
+23	State the date of the next review, in the future.
+24	State the date of the return.
+25	State the date of the withdrawal.
+26	State the planned return date: this is the end of the loan.
+27	State the planned return date: a withdrawal always has a due date.
+28	State the planned return date of the originals.
+29	State the approval date.
+30	State the date.
+31	State the nature of the takeover: acquisition, deposit or incoming loan.
+32	State the nature of the treatment.
+33	State the new end date.
+34	state the quantity AND the unit, or neither.
+35	State the reference of the withdrawal act (handover minutes, transfer deed…).
+36	State the reference of the act or agreement that formalizes the takeover.
+37	State the reference of the act that grounds the decision.
+38	State the approval reference.
+39	State the version of the room rules shown to the reader.
+40	State the exhibition venue.
+41	State the payment method.
+42	State the amount collected.
+43	State the new usual location.
+44	State the type of the document that will receive the digitization.
+45	State the planned volume AND its unit, or neither.
+46	State where the original will go (digitization workshop…).
+47	State where the original will go (reading room, workshop, museum…).
+48	State where the originals will be kept and displayed at the borrower’s.
+49	State why the original leaves: consultation, restoration, expert appraisal, transfer.
+50	State who took the items back.
+51	State who receives it (person or organization).
+52	State who carries out the treatment (workshop, restorer, agent).
+53	State whether the original is returned in the condition in which it left.
+54	Enter a name or a company name.
+55	Enter a correct validity date.
+56	Information
+57	Additional information
+58	Archiving information
+59	Internal working information of the archives service.
+60	Technical information and provenance
+61	Initial
+62	Reader registration, reservations, attendance, communication slips through to return, reproductions with recorded payment and annual statistics.
+63	Inscriptions and marks
+64	Register
+65	Register readers, reserve, communicate originals and follow reproductions and room statistics.
+66	Record a right
+67	Register a format
+68	Register a reader
+69	Registered on
+70	First register the target format, then prepare a campaign.
+71	Register the formats the institution keeps, with their risk level.
+72	institution
+73	Institution
+74	INSTITUTION
+75	Institution:
+76	Institution *
+77	institution to select in the header
+78	Current institution
+79	Receiving archives institution *
+80	Demonstration institution
+81	Parent institution
+82	Receiving institution
+83	Holding institution
+84	Institution of the work scope
+85	Institution not available
+86	Selected institution
+87	Reviewer
+88	Review
+89	Instrument
+90	Entry instrument
+91	Finding aids
+92	Published finding aids
+93	Integrate
+94	Integrate into the description plan
+95	Integrity
+96	Integrity compromised — blocked
+97	Integrity confirmed
+98	file integrity not confirmed
+99	Integrity verified
+100	Internal
+101	Interrupt
+102	Intervention
+103	Intervention *
+104	Intervention required
+105	Title
+106	Title *
+107	institution title
+108	Campaign title *
+109	Schedule title
+110	Schedule title *
+111	department title
+112	File title
+113	Loan title *
+114	Accession title
+115	Title missing.
+116	Title too long (255 characters max).
+117	Title too long (500 characters at most).
+118	Title, identifier, inventory number, summary
+119	Title, inventory number or identifier
+120	missing
+121	Inv.
+122	Inventory of heritage items, entries and provenance, location, scientific description and value; reference lists of places, events and subjects.
+123	Inventory of the content…
+124	Inventory of the digitization equipment. The settings used are carried by each batch.
+125	Inventories
+126	Inventoried
+127	Inventory the heritage fonds and their preservation conditions.
+128	ISAD(G)
+129	Exits, assembly point, headcount.
+130	I have read the portal’s terms of use
+131	I have reread the text and authorize its recording as a validated OCR result
+132	I have checked the legibility, the number and the order of the pages.
+133	I have checked the type, the scope and the values. I confirm the creation of the whole batch.
+134	Never recorded
+135	Never verified
+136	I confirm the final destruction of
+137	I confirm the final destruction of this document.
+138	I confirm the handover of
+139	I confirm the presence of the archive at this new location
+140	I no longer need the local copy of this scan.
+141	Attach a document
+142	Day
+143	Day *
+144	Log
+145	Audit log
+146	Preservation log
+147	Steps log
+148	Tamper-evident, hash-chained log of all the system’s business actions.
+149	Whole day
+150	Days
+151	days. Latest pass of the service:
+152	Lossy JPEG
+153	Jurisdiction
+154	Up to
+155	up to {1}
+156	Up to 500 files · TIFFs cannot be read by the browser
+157	until
+158	Supporting document
+159	Supporting documents for the right
+160	Supporting documents and items
+161	Justification
+162	Justification *
+163	Justification of the waiver request.
+164	Justify the withdrawal in at least 30 characters.
+165	Disaster kit, equipment location, suppliers.
+166	Kpelle
+167	The linked subscription closes. The cancellation is validated by someone other than the person who collected the payment, and kept in the log.
+168	The subscription opens as soon as it is recorded. An error is then corrected by a reasoned cancellation, validated by another person.
+169	The subscription opens without payment. The exemption binds the institution: the reason (decision, agreement, reader’s status) is kept.
+170	The acceptance binds the institution: it is kept with its author and date. It is given by someone other than the person who put the file together; the originals are assessed again at handover.
+171	Access expired on
+172	Access is granted until a future day.
+173	The acknowledgement of receipt will be issued; the finding of each line becomes final.
+174	The act, the minutes or the reference that attests the event ({1} characters at most).
+175	The deposit contact address is missing or invalid.
+176	The recipient’s address is invalid.
+177	The identity provider’s address must be an HTTPS URL without credentials.
+178	The e-mail address does not have the expected form.
+179	The e-mail address is not valid.
+180	The portal’s public address is missing, invalid or ends with a slash.
+181	The antivirus analysis could not finish. The file was not validated.
+182	Automatic analysis is disabled on this server: the measurements already made remain displayed.
+183	The cancellation is final. The findings already made remain in the archives’ presence log.
+184	The antivirus detected a threat. This file was rejected; select another file.
+185	the antivirus could not analyse the file
+186	Archiving is terminal. A suspension can be lifted by an authorized authority.
+187	The archive is kept
+188	The archive is where it should be.
+189	The archive exists but is not at its usual location: state where it was found.
+190	The archive was found nowhere: state where it was searched.
+191	The insurance ends on {1}, before the new return date: extend the insurance first.
+192	The digitization workshop takes the order over: it chooses the project and the batch, and creates the digitization element.
+193	The workshop digitizes, indexes and has the pages checked in the processing tracking.
+194	The authorization binds the institution: it is kept with its author and date. It is given by someone other than the person who requested the withdrawal, and the original will be assessed again at handover.
+195	The authority refused all the lines: no document is destroyed, their due dates are available again.
+196	The institution’s ARK authority must be declared first (Preservation page).
+197	The timestamping authority refused the request. Try again later or notify the administration.
+198	The timestamping authority answered in an unexpected format. Notify the administration.
+199	The timestamping authority did not answer. Try again later; the rest of the journey does not depend on it.
+200	The authority and the issue date, for example.
+201	The approving authority is required.
+202	The document’s due date is no longer open: a decision is in progress or closed.
+203	The due date has not arrived, or a decision is already in progress.
+204	The due date is not in the past.
+205	The due date is no longer pending a decision.
+206	The due date belongs to another rule version.
+207	Destroying a whole file is handled document by document.
+208	The certificate’s issuer does not lead to any declared trust authority: no one you recognize vouches for the signer’s identity.
+209	The location is limited to 255 characters.
+210	The file’s fingerprint is kept with the signature.
+211	The entry is under examination: the decision will come after the examination of provenance and conditions.
+212	Sending failed unexpectedly.
+213	Sending is paused after a refusal from the mail server: it will resume by itself.
+214	The State
+215	The condition of this original has never been recorded.
+216	An original’s material condition is recorded on successive dates: it is not entered. An item’s material condition is the most worrying of the latest findings of its originals.
+217	the extent
+218	the event “{1}”
+219	the triggering event
+220	The event cannot be dated in the future: record it when it occurred.

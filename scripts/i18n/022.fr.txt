@@ -1,0 +1,220 @@
+1	Motif du gel
+2	Motif du lecteur
+3	Motif du rattachement *
+4	Motif du refus
+5	Motif du refus *
+6	Motif du refus de {n}
+7	Motif du rejet :
+8	Motif du retrait *
+9	Motif et autorité compétente
+10	motif non renseigné
+11	Motif.
+12	Motifs de sélection
+13	Motifs de sortie
+14	Motiver la décision et confirmer la dérogation.
+15	Mots reconnus
+16	Mots-clés
+17	Mouvements
+18	Mouvements de
+19	Mouvements des originaux
+20	Moyens de conservation
+21	Moyens de conservation nécessaires
+22	n’écrit rien. Un terme déjà présent est laissé tel quel.
+23	N’exécutez la sortie qu’une fois le bien réellement remis (ou la disparition constatée). L’opération est définitive : elle ne s’annule pas.
+24	N°
+25	N° d’inventaire
+26	NAAN
+27	NAAN *
+28	Naissance ou création :
+29	NATIONAL
+30	National (partagé par toutes les institutions)
+31	Nationale
+32	Nationale (toutes les institutions)
+33	Nature
+34	Nature *
+35	Nature de l’original
+36	Nature de la prise en charge
+37	Nature de la prise en charge *
+38	Nature de la relation *
+39	Nature des dates
+40	Nature des données
+41	Nature des données personnelles
+42	Nature du lien
+43	Nature du traitement *
+44	Nature et motif
+45	Navigation du portail
+46	Ne constatez la destruction qu’une fois les archives réellement détruites, en présence d’un témoin. Une archive marquée détruite ne se modifie plus.
+47	Ne pas abandonner
+48	ne se modifie plus : étapes, transitions et liens sont figés. Pour le changer, créez un nouveau circuit (brouillon) puis activez-le.
+49	Nécessaire à la continuité de l’institution (titre de propriété, état civil…). Il ne pourra pas être éliminé.
+50	Négligeable
+51	netteté
+52	Netteté
+53	Niveau
+54	Niveau :
+55	Niveau de description
+56	Niveau de détail
+57	Niveau de la restriction
+58	Niveau de risque *
+59	Niveau des notices créées *
+60	niveaux de gris
+61	Niveaux de gris
+62	niveaux de gris avec transparence
+63	Nœud de classement
+64	Nœud parent
+65	noir et blanc
+66	Noir et blanc
+67	Noir et blanc (1 bit)
+68	Nom
+69	Nom *
+70	nom de l institution
+71	Nom de la série
+72	Nom du champ
+73	nom du departement
+74	Nom du fonds
+75	Nom du lot
+76	Nom du registre : il qualifie les anciennes références conservées (ex. « Registre d’inventaire de 1978 »).
+77	Nom du traitement
+78	Nom et fonction de la personne qui en a la garde.
+79	Nom ou raison sociale requis.
+80	Nom retenu
+81	Nom, prénom ou numéro…
+82	Nombre de pages
+83	Nombre de pages attendu
+84	Nombre de pages du document source
+85	Nombre de pièces
+86	Nombre de pièces : {n}
+87	Nombre de révisions
+88	Nombre décimal
+89	Nombre JSON non fini.
+90	Nommez le destinataire du bien.
+91	Noms de fichiers ambigus : choisissez un seul fichier par nom.
+92	Non
+93	Non (recto seul)
+94	Non activée
+95	Non analysable
+96	Non attribué
+97	Non autorisé dans le périmètre sélectionné
+98	Non comparé
+99	non compressé
+100	Non compressé ou non déterminée
+101	Non confirmée
+102	Non conforme
+103	Non conforme au profil « {n} »
+104	Non conformes
+105	Non créé : le parent « {n} » (ligne {n}) n’a pas été créé.
+106	non datée
+107	Non désigné
+108	Non déterminée
+109	Non évalué
+110	Non examinée
+111	Non exécutable :
+112	Non honorée
+113	Non imposée
+114	Non localisé
+115	Non mesuré
+116	Non modifié
+117	Non numérisé
+118	Non planifiés
+119	Non précisé
+120	Non précisée
+121	non précisées
+122	Non publié
+123	Non renseigné
+124	non renseignée
+125	Non renseignée
+126	Non renseignée dans le fichier
+127	Non renseignés
+128	non retenu (élimination)
+129	non signalé
+130	non traité
+131	Non traité
+132	non traitée
+133	Non traitée
+134	Non validé
+135	non validée : aucun validateur PDF/A n’est raccordé
+136	Non vérifiée
+137	Normalisation
+138	Normalisé en
+139	Normaliser les champs
+140	Note
+141	Note (facultatif)
+142	Note de l’archiviste
+143	Note de publication
+144	Note de réception
+145	Note de restitution
+146	Note de revue
+147	Note de service, décision…
+148	Note générale
+149	Note sur la situation juridique
+150	Note sur le retour
+151	Note sur le tri
+152	Note sur les droits d’image
+153	Note sur les publications
+154	Notes de mise à jour
+155	Notes et contrôle de la description
+156	Notez les constats (10 caractères au moins).
+157	notice
+158	Notice
+159	Notice créée
+160	Notice créée le
+161	Notice de démonstration
+162	Notice de démonstration ajoutée à cette liste. Elle disparaîtra au rechargement ou à la réinitialisation de la démo.
+163	Notice de producteur
+164	Notice de rattachement *
+165	Notice enregistrée.
+166	Notice fictive introuvable.
+167	Notice fictive, sans document historique réel.
+168	Notice fictive, sans fichier déposé.
+169	Notice inexistante dans ce périmètre de démonstration.
+170	Notice liée
+171	Notice liée *
+172	Notice non lisible
+173	notice(s) contrôlée(s),
+174	notices créées. Les pièces jointes restent à déposer séparément.
+175	Notices de description
+176	notices fictives · filtre local
+177	Notices par page
+178	Notifications, {n} non lue
+179	Notifications, {n} non lues
+180	Notifications, aucune non lue
+181	Notre avenir
+182	Notre histoire
+183	Nouveau bien
+184	Nouveau bien patrimonial
+185	Nouveau bordereau
+186	Nouveau bordereau d’élimination
+187	Nouveau bordereau de versement
+188	Nouveau bulletin
+189	Nouveau bulletin de communication
+190	Nouveau constat d’état
+191	Nouveau lot
+192	Nouveau lot de reprise d’inventaire
+193	Nouveau lot de traitement
+194	Nouveau mot de passe
+195	Nouveau procès-verbal d’élimination
+196	Nouveau statut
+197	Nouveau tarif
+198	Nouveau tarif de reproduction
+199	Nouveau type d’événement
+200	Nouveau versement
+201	Nouveau vocabulaire
+202	Nouvel accord
+203	Nouvel accord de versement
+204	Nouvel acteur
+205	Nouvel agent
+206	Nouvel agent de conservation
+207	Nouvel emplacement habituel *
+208	Nouvel état *
+209	Nouvelle campagne
+210	Nouvelle campagne de récolement
+211	Nouvelle campagne de tri
+212	Nouvelle catégorie
+213	Nouvelle catégorie de communicabilité
+214	Nouvelle commande
+215	Nouvelle commande de reproduction
+216	Nouvelle fin *
+217	Nouvelle formule
+218	Nouvelle notice ·
+219	Nouvelle numérisation
+220	Nouvelle réception

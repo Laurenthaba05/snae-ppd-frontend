@@ -1,0 +1,220 @@
+1	Taken out of storage.
+2	Withdrawal
+3	Withdrawal to authorize
+4	Withdrawal to request
+5	Withdrawal authorized
+6	Collection withdrawal
+7	Exit from the step
+8	Withdrawal of the original
+9	Storage withdrawal
+10	Withdrawal of
+11	Collection withdrawals
+12	Collection withdrawals to decide
+13	Collection withdrawals to examine
+14	Collection withdrawals to carry out
+15	Withdrawals requested
+16	Withdrawals requested and authorized
+17	Overdue withdrawals
+18	Take the archive out
+19	Submit to the authority
+20	Submit to the archives institution
+21	Submit for proofreading
+22	Submit again
+23	Submit for validation
+24	Submit the proposal
+25	Submit the schedule
+26	Submitted to the authority
+27	Subject to sampling.
+28	Submitted for visa
+29	Submitted on
+30	Submitted by
+31	Submission, correction, admission, confirmed integration and schedule must be designed and implemented before activation.
+32	Source
+33	Source:
+34	Source of the assignment
+35	Source of the requirement
+36	Source of the date
+37	Controlled source and revision
+38	Legal source
+39	Sources
+40	Additional sources
+41	Sources consulted, people who described
+42	Sources of the assessment
+43	Sources of the record
+44	Legal sources
+45	Under:
+46	within 30 days
+47	below the minimum resolution
+48	Under the supervision of
+49	Below the threshold
+50	below the threshold of
+51	Under restriction — waiver:
+52	Sub-file of
+53	Sub-files
+54	Sub-series
+55	Stabilization and next steps
+56	Annual statistics
+57	Status
+58	Archival status
+59	Copyright status
+60	System status
+61	Recorded status
+62	Legal status (one per line)
+63	Recorded legal status
+64	Business status
+65	Status on the page
+66	Legal statuses
+67	Private remote storage
+68	Storage unavailable
+69	Storage unavailable — new attempt scheduled
+70	storage not configured
+71	File structure
+72	Internal structure or genealogy
+73	Succeeds
+74	success
+75	Success
+76	Follow-up *
+77	Follow-ups:
+78	Follow-ups
+79	Tracking of file integrity and of the 200 latest preservation events visible within your scope.
+80	Tracking of my uploads
+81	Page tracking
+82	Follow the extraction and checking of texts.
+83	Follow the condition reports and heritage interventions.
+84	Follow consultation requests and their processing.
+85	Follow digitization projects, their elements, quality controls, text recognition and contributions.
+86	Follow accessions, gifts, deposits and other fonds entries, and their attachment to documents, files and physical archives.
+87	Follow my request
+88	Follow a location
+89	Subject
+90	Subjects
+91	Medium
+92	Volume medium
+93	Deletion of the objects from private storage, with verification of their absence
+94	Deleted
+95	Delete
+96	Delete this line?
+97	Delete this relation?
+98	Delete the date
+99	Delete the rule
+100	Delete rule {1}
+101	Delete the producer
+102	Delete the volume
+103	on
+104	On {1} file
+105	On {1} files
+106	On {1} PDF
+107	on this page · page
+108	On request
+109	by exemption
+110	By exemption
+111	What the event concerns
+112	On site
+113	Occurred on
+114	Suspend
+115	Suspend the element
+116	Suspend the card
+117	Suspended
+118	Suspended
+119	Synonyms
+120	Synonyms:
+121	Access summary
+122	Summary unavailable.
+123	Systematic: one document in N
+124	Systematic (one in N)
+125	System
+126	Originating system
+127	National electronic archiving system
+128	Table, horizontal scrolling possible
+129	Tab
+130	Task
+131	Tasks
+132	Tasks and alerts
+133	Size
+134	Size (px)
+135	Actual size
+136	As long as none is declared, the signature chain is not evaluated.
+137	Type a search to explore the documents and files accessible within your scope.
+138	Rate
+139	Reproduction rates
+140	OCR recognition rate
+141	Manufacturing technique
+142	Download provided by the plan
+143	Download
+144	Download the migrated copy of {1}
+145	Download the signature (.p7s)
+146	Download the signed content
+147	Download the file
+148	Download the CSV template
+149	Download the Excel template
+150	Download the PDF to check it
+151	Download the report
+152	Download the template
+153	Phone
+154	Phone: digits, spaces and + ( ) . / - only (3 to 60 characters).
+155	Upload
+156	Upload the master
+157	Upload a file
+158	Witness *
+159	attempt
+160	term
+161	Term
+162	Broader term
+163	Obsolete term, replaced by “{1}”.
+164	Obsolete term, with no replacement.
+165	Replacement term
+166	Terms
+167	Terms of {1}
+168	Available terms
+169	Obsolete terms
+170	finished
+171	Finished on
+172	finished
+173	Finished
+174	Finished on
+175	Finish
+176	Finish the digitization
+177	Finish the task
+178	Finish the treatment
+179	Finish the treatment with a report and a condition report after treatment.
+180	Finished
+181	Test a state
+182	text
+183	derived text
+184	derived text emptied
+185	Text and index
+186	Complete extracted text — corrections to review
+187	Native text first, OCR if necessary. File properties are not proof of an administrative date or of the signer’s identity. No business field is applied without an explicit decision.
+188	Native text only
+189	Text that grounds the relation (decree, order), reason, clarification
+190	Recognized text
+191	Recognized text and word frames
+192	Text required, {1} characters at most.
+193	Text too long for a version 10 QR code.
+194	Reference texts
+195	derived texts
+196	derived texts emptied
+197	Texts and mandates (one per line)
+198	Texts extracted from digitized files: recognition confidence and verification. Only a validated text feeds full-text search.
+199	Multilingual texts
+200	Texts that establish it
+201	Thesaurus and authority lists of the institution or national level: selected terms, with their synonyms and their broader term, to index documents and files consistently.
+202	Draw a rectangle on the page to mark the area to hide.
+203	Title
+204	Title *
+205	Title / name
+206	Exhibition title *
+207	Title deed, depositor’s attestation, photographs of the report, agreement: each document is kept once and referenced here.
+208	Title deed, deposit or donation clauses, agreements, restrictions: what was verified and what is concluded from it (at least 30 characters).
+209	Document title
+210	Reread title
+211	Title, call number or reference
+212	Title, call number, state…
+213	Title, call number, producer…
+214	Title, reference, content…
+215	Holder
+216	Total
+217	Total:
+218	All
+219	All accesses
+220	All slips

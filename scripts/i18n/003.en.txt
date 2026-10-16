@@ -1,0 +1,220 @@
+1	Add a measure
+2	Add an occurrence ·
+3	Add a priority
+4	Add a relation
+5	Add a transition
+6	Add a version
+7	Add at least one line.
+8	Add the first step of this workflow.
+9	Add the first field of this schema.
+10	Add several departments to an institution in a single operation.
+11	Add several institutions in a single operation.
+12	Add its supervising body, the record it replaces or the one that replaces it.
+13	Add a person, a corporate body or a family, then link it to the fonds it produced.
+14	Add a transcription or a translation.
+15	Adjusted: {1}
+16	Fit
+17	Random: a randomly drawn percentage
+18	Random (percentage)
+19	Alert *
+20	Algorithm
+21	Alias:
+22	Round trip
+23	Go to preservation
+24	Go to the page
+25	Go and see the archive and record its presence.
+26	Go and see the archive, then say what you found. The finding is dated, signed and cannot be modified: it is replaced by a more recent finding.
+27	Deterioration
+28	Deterioration:
+29	Deterioration found *
+30	alternative
+31	ALTO
+32	Analysis
+33	Automatic image analysis
+34	Analysing the formats…
+35	Analysing the file…
+36	Analysing the accession…
+37	Analysis in progress. Refresh the status to see the result.
+38	analysed
+39	Analyse the file
+40	Analyse the images
+41	Former key
+42	Former call number
+43	Former references
+44	Former tokens revoked before
+45	English
+46	year
+47	Year
+48	start year
+49	end year
+50	Year not specified
+51	years
+52	Years
+53	Years divided by *
+54	Announced on the schedule:
+55	Cancellation
+56	cancelled
+57	Cancelled
+58	Cancelled:
+59	Cancelled at your request
+60	Cancelled by the institution
+61	cancelled
+62	Cancelled
+63	Cancelled: the item stays in the collection.
+64	Cancelled on
+65	Cancel
+66	Cancel this batch
+67	Cancel the subscription
+68	Cancel the element
+69	Cancel the event
+70	Cancel the event {1}
+71	Cancel the campaign
+72	Cancel the appraisal campaign
+73	Cancel the order
+74	Cancelling the order cancels the request to take the original out. The document created for digitization stays as a draft in the documents. This decision is final.
+75	Cancel the request
+76	Cancel the disposition
+77	Cancel the reading
+78	Cancel the reservation
+79	Cancel the schedule
+80	Cancel the slip
+81	Cancel the workflow
+82	Cancel the file
+83	Cancel the withdrawal file
+84	Cancel the payment
+85	Cancel the minutes
+86	Cancel the processing
+87	Cancel the accession
+88	Cancel my request
+89	Cancelled
+90	Anomaly found
+91	Anomaly found * (at least 10 characters)
+92	August
+93	Preview with OCR positions
+94	Preview of the digitized document
+95	Relative same-origin API required.
+96	Applied
+97	Apply
+98	Apply to
+99	Apply to the batch
+100	Apply this title to the open record
+101	Apply this date to the open record
+102	Apply the permissions
+103	Apply a period
+104	Apply a communicability period
+105	Assessment
+106	Internal assessment: it is neither a legal protection nor an external recognition, and it produces no “listed” or “protected” badge.
+107	Scientific assessment
+108	Approved
+109	Approved on
+110	Approves the batch for accession
+111	approved by someone other than its author, and the log of its
+112	Approved
+113	Approve
+114	Approve the withdrawal
+115	Approve the change
+116	Approve the plan
+117	Approve the emergency plan
+118	Approve or reject
+119	after
+120	After
+121	After this import, the pages will still be missing:
+122	After the document is closed.
+123	After closing, no more items can be added to this batch. The
+124	After the version is created and the master deposited.
+125	After the last version is sealed.
+126	After the steps above.
+127	After a movement
+128	After a treatment
+129	Afternoon
+130	archive
+131	Archive
+132	archived
+133	Archived
+134	Permanent archive
+135	Excel archive not supported.
+136	Physical archive
+137	Archive out: to postpone, or to check on its return
+138	Archive out: record its return before changing its location
+139	Archive out: record its return before verifying its presence
+140	Archive out: postpone the check, or wait for its return
+141	Archive out, room inaccessible, item under restoration…
+142	Archived
+143	Archived
+144	ARCHIVES · DESCRIPTION
+145	ARCHIVES · DOCUMENT WORKSPACE
+146	ARCHIVES · DOCUMENT RECORD
+147	Destroyable archives
+148	Archives and documentary heritage
+149	Intermediate archives
+150	Intermediate archives.
+151	Demonstration archivist · Visual example, with no server event.
+152	Stopped
+153	Stopped by
+154	Stop the campaign
+155	Arrived
+156	Arrived at
+157	Arrival
+158	Arrival without reservation
+159	Article
+160	Sign-in help
+161	Associated
+162	Associated with
+163	Associate
+164	Associate the batch files
+165	Associate an event
+166	Associate a historical event
+167	Associate a place
+168	Associate a subject
+169	Insurance
+170	Ensure consistency
+171	Insurer
+172	Insurer, policy number and coverage period.
+173	Digitization workshop
+174	Restoration workshop, restorer, preservation officer
+175	Workshop, room…
+176	Attach
+177	Attach an actor
+178	expected
+179	Attention
+180	Assigned on
+181	Assigned once and for all: it never changes, even if the call number changes.
+182	Assign a persistent identifier
+183	Assign a role
+184	Assign an identifier from a document’s or a heritage item’s record.
+185	Role assignment
+186	Assignment held
+187	Assignments
+188	Current or future assignments
+189	to
+190	To
+191	To the destruction schedule
+192	In PEM format: -----BEGIN CERTIFICATE----- … -----END CERTIFICATE-----
+193	In PEM format: -----BEGIN X509 CRL----- … -----END X509 CRL-----
+194	At most 250 permissions.
+195	At least {1} bit per component
+196	At least {1} bits per component
+197	At least {1} characters.
+198	At least 10 characters.
+199	At least 5 characters.
+200	At least until the planned return (
+201	at least one contact to notify
+202	at least one rescue priority
+203	At most {1} years.
+204	At most {1} days: beyond that, a new request is filed.
+205	to the public.
+206	In the register
+207	Beyond the current validity, ten years at most.
+208	Beyond the {1} expected pages: first correct the number of expected pages.
+209	None
+210	None (root)
+211	No subscription
+212	No current subscription
+213	No subscription matches these criteria.
+214	No subscription for now.
+215	No agreement
+216	No accession agreement
+217	No agreement in force: the accession is made without an agreement.
+218	No actor attached
+219	No actor recorded yet — use “New actor”.
+220	No agent

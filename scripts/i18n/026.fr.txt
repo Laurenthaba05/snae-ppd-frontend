@@ -1,0 +1,220 @@
+1	Réception enregistrée
+2	réceptionnée
+3	Réceptionnée
+4	Réceptionner la représentation
+5	Recette visuelle · données fictives · aucun appel au backend
+6	Recevoir le versement
+7	Recevoir un bien ne vaut ni acquisition, ni dépôt, ni prêt : chaque entrée suit un examen, puis une décision prise par une autre personne que celle qui a enregistré la réception.
+8	Recevoir un bien ne vaut ni acquisition, ni dépôt, ni prêt. L’institution décide après l’examen de la provenance et des conditions, et la décision est prise par une autre personne que celle qui enregistre la réception.
+9	Recherche avancée
+10	Recherche des positions OCR…
+11	Recherche en cours…
+12	Recherche plein texte sur les documents et dossiers, filtrée par vos habilitations et le niveau de confidentialité.
+13	Recherche…
+14	Rechercher
+15	Rechercher dans le catalogue
+16	Rechercher dans les archives
+17	Rechercher dans les notices fictives
+18	Rechercher les cibles du gel
+19	Rechercher par code
+20	Rechercher par titre ou référence
+21	Rechercher parmi les intervenants
+22	Rechercher un abonnement
+23	Rechercher un bien
+24	Rechercher un dossier
+25	Rechercher un élément
+26	Rechercher un lecteur
+27	Rechercher un mot
+28	Rechercher un mot OCR
+29	Rechercher un original
+30	Rechercher un parcours
+31	Rechercher un titre, une référence…
+32	Rechercher une archive à régulariser
+33	Rechercher une campagne
+34	Rechercher une commande de numérisation
+35	Rechercher une demande d’accès
+36	Rechercher une demande de mouvement
+37	Rechercher une entrée
+38	Reclasser
+39	Reclasser le document
+40	récolement
+41	Récolements
+42	Recommandé
+43	Reconnaissance
+44	Reconnectez-vous. Aucun token ne doit être envoyé dans une URL.
+45	reconnu
+46	Reconstitution du texte aux positions reconnues sur la page. Sélectionnez un mot dans la page ou dans la liste pour consulter sa position.
+47	Recopiez le registre existant, une ligne par bien. Rien n’est deviné : une information absente reste absente et sera signalée comme à compléter.
+48	Recto seul
+49	Recto-verso
+50	Recto-verso (impair = recto, pair = verso)
+51	reçu
+52	Reçu
+53	Reçu de réception
+54	Reçu de réception {n}
+55	reçu le
+56	Reçu le
+57	Reçu par
+58	reçue
+59	Reçue
+60	reçue à sa demande. Retrouvez sa demande, vérifiez le montant dû et enregistrez ce que vous avez encaissé : l’abonnement s’ouvre aussitôt et le reçu s’imprime.
+61	Reçue le
+62	Récupération de l’image…
+63	Récupération de la copie…
+64	Rédaction
+65	Rédaction du plan
+66	Rédiger un plan d’urgence
+67	Réduire
+68	Réessayer
+69	Réessayer la simulation
+70	Réessayer les pages restantes
+71	Réévaluer
+72	Réévaluer le risque
+73	réexamen
+74	réexaminer
+75	Réexaminer
+76	Réexaminer le document
+77	référence
+78	Référence
+79	Référence *
+80	Référence / code
+81	Référence à donner
+82	Référence active
+83	Référence d’exécution
+84	Référence de l’accord
+85	Référence de l’acte *
+86	Référence de l’acte de sortie *
+87	Référence de l’acte de versement
+88	Référence de l’acte ou de la convention *
+89	Référence de l’approbation
+90	Référence de l’encaissement
+91	Référence de la convention
+92	Référence de la décision *
+93	Référence de la dérogation (si restriction)
+94	Référence de la pièce
+95	Référence de levée
+96	Référence de levée *
+97	Référence de paiement
+98	Référence de preuve
+99	Référence de visa
+100	Référence de visa *
+101	Référence déjà utilisée à la ligne {n}.
+102	Référence des archives
+103	Référence donnée par le lecteur
+104	Référence du bordereau
+105	Référence du gel
+106	Référence du justificatif
+107	Référence du versement
+108	Référence du virement ou de l’opération.
+109	Référence du visa
+110	Référence du visa *
+111	Référence et intitulé
+112	Référence indisponible
+113	Référence interne
+114	Référence interne *
+115	Référence légale
+116	Référence légale :
+117	Référence légale *
+118	Référence ou intitulé…
+119	Référence possible
+120	références
+121	Référentiel
+122	RÉFÉRENTIEL
+123	Référentiel national des sources juridiques utilisées pour motiver les statuts et restrictions d’accès.
+124	Référentiels administrables
+125	Refus
+126	refus doit être motivé
+127	refus doivent être motivés
+128	refusé
+129	Refusé
+130	Refusé : {n}
+131	refusé par l’antivirus
+132	refusée
+133	Refusée
+134	Refusée : le bien reste dans la collection.
+135	Refuser
+136	Refuser l’élimination
+137	Refuser la commande
+138	Refuser la demande
+139	Refuser la prise en charge
+140	Refuser la sortie
+141	Refuser le document
+142	Refuser le dossier
+143	Refuser le procès-verbal
+144	Refuser le traitement
+145	refusés
+146	Régénérer le PDF d’accès
+147	Registre
+148	Registre administratif — numérisation
+149	Registre de
+150	Registre de démonstration
+151	Registre de remise et de restitution des documents consultés.
+152	Registre de remise et de restitution. Si le document est restreint, la dérogation autorisée correspondante est requise.
+153	Registre des formats
+154	registre des risques
+155	Réglages
+156	Réglages du lot :
+157	règle
+158	Règle
+159	Règle 3-2-1 respectée : {n}.
+160	Règle applicable :
+161	Règle appliquée *
+162	Règle de saisie
+163	Règle inactive
+164	Règlement
+165	Règlement accepté
+166	Règles
+167	Règles d’indexation publique
+168	Règles de conservation
+169	Règles les plus souvent échouées
+170	Règles métier
+171	Règles ou conventions appliquées
+172	Réglez {n} au guichet de l’institution, ou par virement, en indiquant la référence {n}. Votre abonnement s’ouvre dès que le caissier enregistre votre paiement.
+173	Regrouper les pièces et suivre leur cycle de vie.
+174	Régularisé
+175	Régularisé depuis
+176	Réindexation en cours (
+177	Réindexation terminée :
+178	Réindexation…
+179	Réindexer
+180	Réinitialiser
+181	Réinitialiser toutes les données fictives de cet onglet ?
+182	Réinstruction après changement de droits
+183	Réintégrer
+184	rejeté
+185	Rejeté
+186	rejetée
+187	Rejetée
+188	Rejeter
+189	Rejeter le changement
+190	Rejeter le résultat
+191	Rejeter le versement
+192	Relancer
+193	Relancer la ligne {n}
+194	Relancer la personne qui l’a sortie, puis enregistrer son retour.
+195	Relancer le PDF d’accès
+196	Relancer les échecs
+197	Relation *
+198	Relation enregistrée.
+199	Relation modifiée.
+200	Relation supprimée.
+201	Relations
+202	Relations avec d’autres documents
+203	Relations de la notice
+204	Relations du producteur
+205	Relations entre fichiers
+206	relié
+207	Relier
+208	Relier à
+209	Relier deux fichiers
+210	Relier l’archive physique permet de localiser le bien.
+211	Relier un document
+212	Relier un original
+213	Relier une archive physique
+214	Reliez l’archive physique dans l’onglet « Ressources et liens » pour constater son état.
+215	Reliez l’archive physique dans l’onglet « Ressources et liens » pour localiser le bien.
+216	Reliez l’archive physique dans l’onglet « Ressources et liens » pour pouvoir en commander la numérisation.
+217	Reliez l’archive physique dans l’onglet « Ressources et liens » pour pouvoir en demander la sortie.
+218	Relire l’état
+219	Relire l’état / aperçu
+220	Relire l’événement complet

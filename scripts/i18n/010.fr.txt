@@ -1,0 +1,220 @@
+1	Créez un lot pour reprendre un registre d’inventaire existant.
+2	Créez une institution de recette, puis son département.
+3	Créez une notice fictive pour explorer ce parcours.
+4	Créneau
+5	Créneau *
+6	Critères de valeur
+7	Critères du tri *
+8	Cycle archivistique
+9	d’un seul élément du projet. Chaque page est contrôlée comme d’habitude (résolution, doublons, numérotation) avant l’envoi.
+10	Danger
+11	Danger *
+12	Dangers
+13	dans environ {n} ans
+14	dans environ {n} mois
+15	dans le parcours. Choisissez une étape pour voir ce qui l’attend.
+16	dans le périmètre actuel.
+17	Dans le registre connecté, le filtre porte sur la page chargée. La recherche plein texte dispose de son écran dédié et de ses autorisations.
+18	Dans son contexte
+19	dans votre espace
+20	Date
+21	Date *
+22	Date administrative relue
+23	date attendue au format AAAA, AAAA-MM ou AAAA-MM-JJ.
+24	Date d’archivage
+25	Date d’entrée
+26	Date de base
+27	date de creation
+28	date de debut
+29	date de début
+30	Date de début
+31	Date de début du contenu
+32	Date de décès ou de dissolution
+33	Date de décision
+34	Date de départ
+35	Date de dépôt
+36	Date de détermination
+37	date de fin
+38	Date de fin
+39	Date de fin du contenu
+40	Date de fin prévue
+41	Date de l’acte *
+42	Date de l’évaluation
+43	Date de l’évaluation d’assurance
+44	Date de l’événement
+45	Date de l’événement *
+46	Date de l’inventaire d’origine
+47	Date de la destruction *
+48	Date de la restitution *
+49	Date de la sortie *
+50	Date de la source
+51	Date de naissance
+52	Date de naissance de la personne, de décès, fin du marché…
+53	Date de naissance ou de création
+54	Date de production
+55	Date de publication
+56	Date de réception
+57	Date de réception : {n}
+58	Date de réexamen
+59	Date de référence
+60	Date de retrait
+61	Date de signature
+62	Date du constat
+63	Date du contrôle
+64	Date du document
+65	Date du visa
+66	Date du visa *
+67	Date estimée
+68	Date estimée : citez la source de l’appréciation avant la validation.
+69	Date et heure
+70	Date extrême de début
+71	Date extrême de fin
+72	Date invalide : utilisez AAAA, AAAA-MM ou AAAA-MM-JJ.
+73	Date mentionnée
+74	Date non interprétée : elle est conservée telle quelle et reste à qualifier.
+75	Date non renseignée
+76	Date prévue
+77	Date repère
+78	Date trop longue (255 caractères au plus).
+79	Dates
+80	Dates de création des documents, ou dates d’accumulation par le producteur
+81	Dates extrêmes
+82	Dates non fixées
+83	Dates prévues
+84	Dates structurées
+85	Dates telles que décrites (si approximatives)
+86	de
+87	de {n} à {n}
+88	De 0 à 1000000.
+89	De 1 à 99.
+90	De 2 à 1000.
+91	De 5 à 2000 caractères.
+92	de ce bordereau.
+93	de ce projet ne correspond à ce code.
+94	de ce versement.
+95	de consultation
+96	de fichiers
+97	de la Nation.
+98	De la numérisation au versement, un processus maîtrisé pour des archives fiables et pérennes.
+99	Début
+100	Début *
+101	Début d’effet
+102	Début de la convention
+103	Début de la délégation
+104	Début de la restriction
+105	Début de responsabilité
+106	Début de validité
+107	Début du prêt *
+108	Début prévu
+109	Début structuré
+110	décembre
+111	Décennie
+112	Décennie non précisée
+113	Décès ou dissolution :
+114	Décidé
+115	décidée
+116	Décidée : en attente de son exécution, par une personne autre que celle qui a décidé.
+117	décimal
+118	décision
+119	Décision
+120	Décision :
+121	Décision *
+122	Décision enregistrée.
+123	Décision pour
+124	Décision prise le
+125	Décision, arrêté, délibération… qui fonde la sortie.
+126	Déclaration PDF/A
+127	Déclaration PDF/A du fichier
+128	Déclare
+129	Déclaré
+130	déclarée
+131	Déclarée
+132	Déclarée introuvable
+133	Déclarée, non vérifiée
+134	Déclarer
+135	Déclarer conformes les lignes restantes
+136	Déclarer l’autorité
+137	Déclarer l’autorité ARK
+138	Déclarer une autorité de confiance
+139	Déclarer une intervention
+140	Déclarer une intervention de restauration
+141	Déclarer une page sans image
+142	Déclarer une signature
+143	Déclarez la signature d’un acte signé sur papier, ou faites vérifier celles d’un PDF, d’un fichier .p7m ou d’un XML signés électroniquement.
+144	Déclarez les logiciels et services qui produisent les événements de conservation.
+145	Déclencheur *
+146	Déconnecter
+147	Déconnexion distante non confirmée. Fermez cet onglet.
+148	Découpage par feuilles séparatrices (codes QR / Code 128)
+149	Décret, loi ou arrêté qui crée ou régit la collectivité
+150	Décrets, lois et arrêtés qui fondent le service
+151	Décrire les archives dans leur contexte et échanger des notices contrôlées.
+152	Décrire, classer et consulter les notices documentaires.
+153	Décrivez ce qui s’est passé (10 caractères au moins).
+154	Décrivez l’anomalie constatée au retour (au moins {n} caractères).
+155	Décrivez le risque en 10 caractères au moins.
+156	Défauts constatés
+157	Définir la règle et sa première version, puis choisir son activation ou son enregistrement en brouillon.
+158	Définir le profil
+159	Définir les champs de description documentaire et leur rattachement aux types de documents.
+160	Définir les champs de description et leur usage.
+161	Définir les étapes, transitions et rattachements des circuits de validation documentaire.
+162	Définir un profil
+163	Définir un profil de numérisation
+164	Définissez les exigences de vos numérisations pour pouvoir contrôler les images.
+165	Définissez les responsabilités et contrôlez leur périmètre d’application.
+166	définitif
+167	definition
+168	Définition
+169	Définition du circuit
+170	définitive
+171	définitivement
+172	Déjà absent
+173	Déjà choisi
+174	Déjà conservé définitivement
+175	Déjà dans la campagne {n}.
+176	déjà déposé
+177	déjà déposés
+178	Déjà inscrit ?
+179	Déjà inscrit au bordereau {n}.
+180	Déjà inscrit au versement {n}.
+181	Déjà planifié
+182	Déjà présents :
+183	déjà repris restent ouverts à la description et à l’examen.
+184	Délai
+185	Délai (minutes)
+186	Délai de
+187	Délai de communicabilité
+188	Délai de traitement (minutes)
+189	délai dépassé
+190	Délai expiré
+191	Délai perpétuel
+192	Délais de communicabilité
+193	Délégation
+194	Délégation future ou immédiate, limitée à 90 jours.
+195	Délégations
+196	Délégations à réinstruire
+197	Délégations enregistrées
+198	Déléguer ce rôle
+199	Délivrée par un prestataire qualifié : la plus forte.
+200	demande
+201	Demande
+202	Demandé
+203	Demande {n} déposée le {n} : elle attend d’être prise en charge.
+204	Demande {n} déposée le {n} : l’institution l’instruit.
+205	Demande annulée par le lecteur
+206	Demande close : elle a été annulée.
+207	Demande close : la sortie a été refusée.
+208	Demande d’accès
+209	Demande de communication
+210	Demande de mouvement
+211	Demande de recette.
+212	Demande déposée
+213	Demandé le
+214	Demande modifiée
+215	Demande refusée
+216	Demande refusée par les contrôles du serveur.
+217	demande. La modification ne s’applique qu’aux demandes à venir.
+218	demandée
+219	Demandée
+220	Demandée le

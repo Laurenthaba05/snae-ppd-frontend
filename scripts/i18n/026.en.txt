@@ -1,0 +1,220 @@
+1	Receipt recorded
+2	received
+3	Received
+4	Receive the representation
+5	Visual acceptance test · fictitious data · no call to the backend
+6	Receive the accession
+7	Receiving an item amounts to neither acquisition, nor deposit, nor loan: each entry follows an examination, then a decision made by someone other than the person who recorded the receipt.
+8	Receiving an item amounts to neither acquisition, nor deposit, nor loan. The institution decides after examining the provenance and conditions, and the decision is made by someone other than the person who records the receipt.
+9	Advanced search
+10	Searching OCR positions…
+11	Search in progress…
+12	Full-text search across documents and files, filtered by your permissions and the confidentiality level.
+13	Searching…
+14	Search
+15	Search the catalog
+16	Search the archives
+17	Search the fictitious records
+18	Search the hold targets
+19	Search by code
+20	Search by title or reference
+21	Search among the participants
+22	Search a subscription
+23	Search an item
+24	Search a file
+25	Search an element
+26	Search a reader
+27	Search a word
+28	Search an OCR word
+29	Search an original
+30	Search a journey
+31	Search a title, a reference…
+32	Search an archive to regularize
+33	Search a campaign
+34	Search a digitization order
+35	Search an access request
+36	Search a movement request
+37	Search an entry
+38	Reclassify
+39	Reclassify the document
+40	inventory check
+41	Inventory checks
+42	Recommended
+43	Recognition
+44	Sign in again. No token should be sent in a URL.
+45	recognized
+46	Reconstruction of the text at the positions recognized on the page. Select a word in the page or in the list to see its position.
+47	Copy the existing register, one line per item. Nothing is guessed: missing information stays missing and will be flagged as to be completed.
+48	Front only
+49	Double-sided
+50	Double-sided (odd = front, even = back)
+51	received
+52	Received
+53	Receipt
+54	Receipt {1}
+55	received on
+56	Received on
+57	Received by
+58	received
+59	Received
+60	received at their request. Find their request, check the amount due and record what you collected: the subscription opens immediately and the receipt is printed.
+61	Received on
+62	Retrieving the image…
+63	Retrieving the copy…
+64	Drafting
+65	Drafting the plan
+66	Draft an emergency plan
+67	Collapse
+68	Retry
+69	Retry the simulation
+70	Retry the remaining pages
+71	Reassess
+72	Reassess the risk
+73	reexamination
+74	reexamine
+75	Reexamine
+76	Reexamine the document
+77	reference
+78	Reference
+79	Reference *
+80	Reference / code
+81	Reference to give
+82	Active reference
+83	Execution reference
+84	Agreement reference
+85	Act reference *
+86	Withdrawal act reference *
+87	Accession act reference
+88	Act or agreement reference *
+89	Approval reference
+90	Payment collection reference
+91	Agreement reference
+92	Decision reference *
+93	Waiver reference (if restriction)
+94	Document reference
+95	Lifting reference
+96	Lifting reference *
+97	Payment reference
+98	Evidence reference
+99	Visa reference
+100	Visa reference *
+101	Reference already used on line {1}.
+102	Archives reference
+103	Reference given by the reader
+104	Schedule reference
+105	Hold reference
+106	Supporting document reference
+107	Accession reference
+108	Transfer or operation reference.
+109	Visa reference
+110	Visa reference *
+111	Reference and title
+112	Reference unavailable
+113	Internal reference
+114	Internal reference *
+115	Legal reference
+116	Legal reference:
+117	Legal reference *
+118	Reference or title…
+119	Possible reference
+120	references
+121	Reference list
+122	REFERENCE LIST
+123	National reference list of the legal sources used to justify statuses and access restrictions.
+124	Manageable reference lists
+125	Refusal
+126	refusal must be justified
+127	refusals must be justified
+128	refused
+129	Refused
+130	Refused: {1}
+131	refused by the antivirus
+132	refused
+133	Refused
+134	Refused: the item stays in the collection.
+135	Refuse
+136	Refuse the elimination
+137	Refuse the order
+138	Refuse the request
+139	Refuse the takeover
+140	Refuse the withdrawal
+141	Refuse the document
+142	Refuse the file
+143	Refuse the minutes
+144	Refuse the treatment
+145	refused
+146	Regenerate the access PDF
+147	Register
+148	Administrative register — digitization
+149	Register of
+150	Demonstration register
+151	Register of handover and return of the documents consulted.
+152	Register of handover and return. If the document is restricted, the corresponding authorized waiver is required.
+153	Format register
+154	risk register
+155	Settings
+156	Batch settings:
+157	rule
+158	Rule
+159	3-2-1 rule met: {1}.
+160	Applicable rule:
+161	Rule applied *
+162	Input rule
+163	Inactive rule
+164	Rules
+165	Rules accepted
+166	Rules
+167	Public indexing rules
+168	Retention rules
+169	Most often failed rules
+170	Business rules
+171	Rules or conventions applied
+172	Pay {1} at the institution’s counter, or by transfer, quoting reference {2}. Your subscription opens as soon as the cashier records your payment.
+173	Group the items and follow their life cycle.
+174	Regularized
+175	Regularized since
+176	Reindexing in progress (
+177	Reindexing finished:
+178	Reindexing…
+179	Reindex
+180	Reset
+181	Reset all the fictitious data in this tab?
+182	Re-examination after a change of rights
+183	Reinstate
+184	rejected
+185	Rejected
+186	rejected
+187	Rejected
+188	Reject
+189	Reject the change
+190	Reject the result
+191	Reject the accession
+192	Relaunch
+193	Relaunch line {1}
+194	Chase the person who took it out, then record its return.
+195	Relaunch the access PDF
+196	Relaunch the failures
+197	Relation *
+198	Relation saved.
+199	Relation modified.
+200	Relation deleted.
+201	Relations
+202	Relations with other documents
+203	Record relations
+204	Producer relations
+205	Relations between files
+206	linked
+207	Link
+208	Link to
+209	Link two files
+210	Linking the physical archive makes it possible to locate the item.
+211	Link a document
+212	Link an original
+213	Link a physical archive
+214	Link the physical archive in the “Resources and links” tab to record its condition.
+215	Link the physical archive in the “Resources and links” tab to locate the item.
+216	Link the physical archive in the “Resources and links” tab to be able to order its digitization.
+217	Link the physical archive in the “Resources and links” tab to be able to request its withdrawal.
+218	Reread the state
+219	Reread the state / preview
+220	Reread the complete event

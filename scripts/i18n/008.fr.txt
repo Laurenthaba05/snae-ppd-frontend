@@ -1,0 +1,220 @@
+1	Clore l’intervention
+2	Clore le document
+3	Clore le dossier
+4	Clore le lot
+5	Clos le
+6	clôture
+7	Clôture
+8	clôturé
+9	Clôture du document
+10	Clôture du dossier
+11	Clôture en cours…
+12	Clôturée
+13	Clôturée le
+14	Clôturer
+15	Clôturer l’entrée
+16	Clôturer la campagne
+17	Clôturer le lot
+18	Clôturer le traitement
+19	Clôturez d’abord les sous-dossiers encore ouverts :
+20	Code
+21	Code *
+22	Code 128 : caractère non pris en charge (ASCII imprimable uniquement).
+23	Code à rechercher
+24	Code à trois lettres : GNF, EUR, USD…
+25	Code à trois lettres (ISO 4217).
+26	Code à trois lettres, par exemple GNF
+27	Code à trois lettres.
+28	Code court : ouvrez d’abord le projet concerné.
+29	Code court ambigu dans ce projet : utilisez le code QR complet.
+30	Code de classement
+31	Code de jumelage expiré ou incorrect. Vérifiez aussi l’origine autorisée dans le connecteur.
+32	Code de jumelage invalide.
+33	Code de jumelage temporaire
+34	Code de langue : fra, eng, fuf (pular)… Les suggestions couvrent les langues les plus courantes.
+35	Code de règle
+36	Code de transition
+37	Code de trois lettres : GNF, EUR…
+38	Code déjà utilisé à la ligne {n}.
+39	Code du danger
+40	code du departement
+41	code du departement parent
+42	Code du lot *
+43	code du parent
+44	Code du parent
+45	Code du parent invalide : une lettre en premier, puis lettres, chiffres, _ ou - (50 caractères max).
+46	Code du schéma
+47	Code et nom
+48	Code invalide : une lettre en premier, puis lettres, chiffres, _ ou - (50 caractères max).
+49	Code ISO, ex. fr, en
+50	Code pays ISO, par exemple GN pour la Guinée.
+51	Codes : fr, fr+en.
+52	COLLECTE · ENTRÉES ARCHIVISTIQUES
+53	Collection historique de démonstration
+54	COLLECTIVITE
+55	collectivité
+56	Collectivité
+57	Collez le thésaurus ou choisissez un fichier.
+58	Collez ou choisissez le certificat, au format PEM.
+59	Colonnes : Numéro d’inventaire, Intitulé, Catégorie, Date, Résumé, Support, Dimensions, Cote, Provenance connue
+60	Colonnes attendues : Code, Intitulé, Code du parent, Type d’unité
+61	Colonnes attendues : Code, Intitulé, Sigle, Type
+62	Colonnes obligatoires introuvables en première ligne : {n}. Utilisez le modèle Excel fourni.
+63	Colonnes reconnues :
+64	commande
+65	Commande
+66	Commande close : elle a été annulée.
+67	Commande de numérisation
+68	Commande déposée
+69	Commandée
+70	Commander la numérisation
+71	Commander une numérisation
+72	Commandes closes
+73	Commandes de reproduction
+74	Commencer la rédaction
+75	Commencer une recette
+76	Commencez par décrire un fonds, puis ses séries, dossiers et pièces.
+77	Commencez par les grandes fonctions du service, puis leurs activités.
+78	Commencez par un rôle
+79	Comment l'échantillon conservé est choisi parmi les documents arrivés à échéance.
+80	Comment la valeur a été établie *
+81	Commentaire
+82	Commentaire de clôture
+83	Commentaire de la nouvelle version
+84	Commentaire de la relation
+85	Commissaire
+86	Communicabilité
+87	Communicable le {n}, {n}.
+88	Communiqué
+89	Comparaison
+90	Compare l’image aux exigences du profil choisi : résolution, profondeur, mode, format, compression, profil ICC.
+91	complément
+92	Complément requis
+93	Complet
+94	Compléter les métadonnées
+95	Composant de
+96	composant Python manquant sur le serveur
+97	Comprendre la correction
+98	Comprendre les réponses
+99	Compression sans perte
+100	Compte
+101	Compte rendu
+102	Compte rendu :
+103	Compte rendu *
+104	Compte rendu du traitement
+105	Compte sans nom
+106	Compte seulement ce que vous avez le droit de voir.
+107	Compte technique
+108	Compte technique : portée SERVICE et rattachements cohérents requis.
+109	Comptes des lecteurs, formules d’abonnement, caisse et abonnements. Le catalogue public reste ouvert à tous ; la lecture des pages exige un abonnement.
+110	Concerne des données personnelles
+111	Conclusion
+112	Conclusion de la campagne
+113	Condition de passage
+114	Conditions d’accès
+115	Conditions d’accès et d’utilisation
+116	Conditions de conservation
+117	Conditions de manipulation
+118	Conditions de présentation
+119	Conditions de reproduction
+120	Conditions et engagements
+121	Conditions non remplies
+122	Conditions proposées
+123	Conditions proposées par le déposant
+124	Conditions retenues par l’institution
+125	Confiance
+126	Confiance inférieure à 80 %
+127	Confiance moyenne :
+128	Confiance moyenne des textes extraits
+129	Confidentialité
+130	Confidentialité *
+131	Confidentiel
+132	Configurer les permissions
+133	Configurer une règle
+134	Configurer une règle de conservation
+135	Configurez un rôle non attribué, puis accordez-le à une autre personne.
+136	Confirmer
+137	Confirmer l’adresse
+138	Confirmer l’annulation
+139	Confirmer l’import
+140	Confirmer la clôture
+141	Confirmer la clôture de l’entrée
+142	Confirmer la conformité
+143	Confirmer la décision
+144	Confirmer la délégation
+145	Confirmer la réception
+146	Confirmer le rattachement
+147	Confirmer mon adresse
+148	Confirmer mon attribution
+149	Confirmez que cette adresse est bien la vôtre pour activer votre compte.
+150	conforme
+151	Conforme
+152	Conforme ?
+153	Conforme au profil « {n} »
+154	Conforme au registre (institution) : {n} → {n}.
+155	Conforme au registre (national) : {n} → {n}.
+156	Conforme au type déclaré
+157	Conforme aux contrôles de l’aperçu
+158	Conformes
+159	conformes ·
+160	Connecter
+161	Connecter le poste
+162	Connecteur inaccessible. Vérifiez son démarrage, son adresse, le certificat, l’origine autorisée et la permission réseau local du navigateur.
+163	Connecteur local 127.0.0.1 avec port requis.
+164	Connecteur local connecté ·
+165	Connectez-vous pour continuer.
+166	Connexion
+167	Connexion au backend nécessaire.
+168	Connexion impossible. Réessayez dans un moment.
+169	Connexion impossible. Vérifiez le backend.
+170	Connexion non aboutie. Réessayez ou utilisez l’assistance de connexion.
+171	Connexion SSO non aboutie. Vérifiez la configuration et recommencez.
+172	CONSERVATION
+173	Conservation de
+174	Conservation définitive
+175	Conservation et restrictions
+176	Conservation exécutée par
+177	Conservation proposée
+178	Conservation validée
+179	Conservation validée par
+180	Conservé
+181	Conservé au journal.
+182	Conservé au journal. 5 caractères au moins.
+183	Conservé dans le journal : pourquoi on précise ou corrige ces informations.
+184	Conservé dans le journal de l’entrée
+185	Conservé dans le journal de la campagne.
+186	Conservé dans le journal des étapes et dans l’audit
+187	Conservé dans le journal du bien
+188	Conservé définitivement
+189	Conserver
+190	conserver définitivement
+191	Conserver définitivement l’échantillon
+192	Conserver le dépôt
+193	Conservez cet identifiant pour relire l’état après interruption. Expiration de l’aperçu :
+194	Conservez cette sélection. En cas de réponse perdue, « Reprendre le même dépôt » utilise la même demande et ne crée pas de doublon.
+195	Consigner l’événement
+196	Consigner les anomalies et leur résolution.
+197	Consignes pour l’atelier
+198	Constat
+199	Constat d’état
+200	Constat d’état à la réception
+201	Constat d’état de départ
+202	Constat d’état de départ du
+203	Constat d’état de départ enregistré
+204	Constat d’état et conservation
+205	Constat de départ
+206	Constat de présence
+207	Constat et intervention envisagée
+208	Constat et intervention envisagée *
+209	constaté
+210	Constaté
+211	Constaté le
+212	Constaté par
+213	constaté plus tard : fin d’un marché, décès, fin d’un mandat… Définissez ici les types d’événements que vos règles peuvent attendre ; la personne habilitée constate ensuite l’événement sur le document ou sur son dossier.
+214	Constatée
+215	Constatée à un autre emplacement
+216	Constater de nouveau l’état de l’objet.
+217	Constater l’état
+218	Constater l’état de l’objet.
+219	Constater l’événement
+220	Constater la destruction

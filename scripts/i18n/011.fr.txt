@@ -1,0 +1,220 @@
+1	Demandée par
+2	Demander / reprendre l’extraction
+3	Demander et consulter ses extractions de texte et OCR : ACQUISITION_EXTRACT.
+4	Demander l’accès
+5	Demander l’extraction
+6	Demander l’extraction après chaque dépôt terminé
+7	Demander l’extraction après le dépôt terminé
+8	Demander la sortie de l’original
+9	Demander les sorties (
+10	Demander un abonnement
+11	Demander un complément
+12	Demander un mouvement
+13	Demander un nouveau lien
+14	Demander une correction
+15	Demandes closes
+16	Demandes d’accès
+17	Demandes d’accès en attente
+18	Demandes de changement
+19	Demandes de dérogation
+20	Demandes de dérogation pour les documents sous restriction d’accès active.
+21	Demandes déposées ou en instruction
+22	Demandes des lecteurs du portail
+23	Demandes non expirées
+24	Demandeur
+25	Démarrage
+26	Démarré le
+27	démarrer
+28	Démarrer la numérisation
+29	Démarrer le traitement
+30	Démarrer le traitement en indiquant qui le réalise.
+31	Démarrer un circuit
+32	DÉMONSTRATION
+33	Départ du délai
+34	départ le
+35	DEPARTEMENT
+36	département
+37	Département
+38	Département *
+39	Département de rattachement
+40	Département du gel
+41	Département non disponible
+42	Département parent
+43	département sélectionné
+44	dépassée
+45	Déposant
+46	Déposant du référentiel
+47	Déposant ou source
+48	déposé
+49	Déposé
+50	Déposé le
+51	déposée
+52	Déposée
+53	Déposée le
+54	Déposer
+55	Déposer / relire les reçus
+56	Déposer et suivre
+57	Déposer la demande
+58	Déposer la liste
+59	Déposer le contenu du paquet
+60	Déposer un fichier : contrôles et reprise
+61	Déposer une demande
+62	Déposer une demande de dérogation
+63	Déposer une liste de révocation
+64	Déposer, valider, consulter…
+65	Déposez dans l’ordre toutes les images du lot,
+66	Déposez la liste publiée par l’autorité qui a émis les certificats (fichier .crl, au format DER ou PEM). Une liste signée par une autre clé que celle de l’émetteur est ignorée.
+67	Déposez un seul certificat à la fois.
+68	Déposez une seule liste à la fois.
+69	dépôt
+70	Dépôt
+71	Dépôt en cours…
+72	Dépôt indisponible.
+73	Dépôt OAI-PMH
+74	Dépôt proposé
+75	Dépôt terminé
+76	Dépôt terminé ; extraction non confirmée. Ouvrez l’onglet Extraction.
+77	Dépôt terminé :
+78	Dépôt terminé · extraction
+79	dépôts interrompus
+80	dépôts interrompus de cette page
+81	Depuis
+82	depuis le
+83	Depuis le
+84	depuis moins d’une heure
+85	depuis sa fiche, puis elle est
+86	Dérivé de
+87	Dernier
+88	Dernier constat
+89	Dernier contrôle automatique
+90	Dernier contrôle par élément
+91	Dernier cycle terminé le
+92	Dernier envoi
+93	Dernier exercice
+94	Dernière connexion
+95	Dernière copie restaurée avec succès
+96	Dernière destruction
+97	Dernière exécution
+98	Dernière génération en échec :
+99	Dernière intégrité confirmée
+100	Dernière le
+101	Dernière mise à jour
+102	Dernière mise à jour le
+103	Dernière modification
+104	Dernière présence vérifiée
+105	Dernière vérification
+106	dernières copies restaurées avec succès.
+107	Derniers documents ajoutés
+108	derniers mois.
+109	Dérogation :
+110	Dérogation associée
+111	Dérogation possible avec un motif écrit.
+112	Dérogation pour {n}
+113	Déroulé de la numérisation
+114	Déroulé du dossier
+115	Des altérations fragilisent l’objet : il demande des précautions.
+116	Des archives fiables pour un État plus moderne
+117	des archives sont produites : elle se range sous une fonction plus haute (fonction, sous-fonction, activité, tâche), se relie à la notice du producteur qui l’exerce et aux fonds qui la documentent.
+118	Des décisions à deux regards.
+119	Des dépôts de cette version sont encore en cours ou interrompus : terminez-les ou abandonnez ceux qui ne servent plus.
+120	Des dépôts de cette version sont encore en cours ou interrompus et empêchent de la sceller. Ouvrez le suivi des dépôts : terminez-les ou abandonnez ceux qui ne servent plus.
+121	des descriptions
+122	Des données sensibles supposent que des données personnelles soient présentes.
+123	Des échéances de conservation de votre institution arrivent à terme ou sont dépassées (une fois par jour au plus).
+124	Des fichiers présentent une anomalie d’intégrité et restent bloqués. Leur récupération doit être examinée à partir d’une copie saine.
+125	Des identités nominatives, des rattachements explicites et des accès maîtrisés.
+126	Des octets ont été ajoutés après cette signature (autre signature ou mise à jour du PDF) : elle ne couvre pas la fin du fichier.
+127	Des originaux sont sortis de réserve : chacun doit rentrer, avec un constat d’état au retour, avant le jour prévu.
+128	des pages n’ont pas de copie de consultation
+129	des producteurs
+130	Des revues de risques, des mesures ou des plans d’urgence des emplacements de conservation arrivent à échéance ou sont en retard (une fois par jour au plus).
+131	dès son activation, pour les prochaines échéances. Les échéances déjà planifiées gardent la version avec laquelle elles ont été calculées.
+132	Des versements s’appuient sur cet accord : le producteur et le service d’archives ne peuvent plus changer.
+133	désacidification
+134	Désacidification
+135	Désactiver
+136	Descendre la priorité
+137	Description
+138	Description (facultatif)
+139	Description *
+140	Description complémentaire
+141	Description créée le
+142	Description de l’acteur
+143	Description de la règle
+144	Description de la source
+145	Description du gel
+146	Description du lot
+147	Description du type
+148	Description enrichie
+149	Description et contexte
+150	Description et contraintes
+151	Description juridique
+152	Description PREMIS
+153	Description validée : chaque correction conserve l’ancienne valeur, la nouvelle, son auteur, son motif et sa source.
+154	Description vérifiée
+155	Désignation *
+156	Désignez le producteur du versement.
+157	Désignez le service d’archives destinataire.
+158	Dessinez la zone à cacher sur la page : tirez un rectangle.
+159	Destinataire
+160	Destinataire *
+161	Destinataire de la délégation
+162	Destination
+163	Destruction
+164	Destruction définitive :
+165	Destruction définitive du contenu : le certificat en sera la preuve.
+166	Destruction en cours :
+167	Détacher
+168	Détail
+169	Détail de la demande de dérogation
+170	Détails
+171	Détails du droit
+172	Détails structurés des anomalies constatées.
+173	Détecter les doublons
+174	Détenteur antérieur
+175	Détruire
+176	Détruire les documents visés
+177	détruit
+178	Détruit
+179	Détruit · certificat {n}
+180	Détruite
+181	Détruite le {n}
+182	Devise
+183	Devise *
+184	Devise de la valeur d’assurance
+185	Devise des valeurs assurées
+186	Diagnostic
+187	Diagnostic * (au moins 10 caractères)
+188	Diagnostic des formats
+189	Différent du type déclaré
+190	Dimensions
+191	Dimensions (largeur × hauteur)
+192	Dire qu’une archive est introuvable engage : décrivez les recherches faites.
+193	Dire qu’une archive est introuvable engage : indiquez où elle a été cherchée (au moins {n} caractères).
+194	Directeur général, ordonnateur…
+195	Direction des études
+196	Direction des ressources humaines
+197	Direction générale
+198	DIRECTION_GENERALE
+199	Disparition constatée
+200	Disponibilité
+201	Disposition des mots sur la page
+202	Dites ce qui le rend maîtrisé
+203	Dites comment la valeur vénale a été établie.
+204	Dites pourquoi : absence prévenue, doublon, erreur de saisie…
+205	Dites pourquoi : décision remplacée, accord reçu, erreur de saisie…
+206	Dites pourquoi : document trop fragile, hors périmètre…
+207	Dites pourquoi : original introuvable, trop fragile, hors périmètre…
+208	Dites pourquoi : renoncement du lecteur, erreur de saisie…
+209	Dites pourquoi cette archive ne doit pas être détruite.
+210	Dites pourquoi vous avez besoin de ce document (recherche, projet, droit à faire valoir…) : au moins {n} caractères.
+211	document
+212	Document
+213	Document *
+214	document accepté
+215	document accepté reste
+216	Document concerné
+217	Document de destination
+218	Document de la représentation
+219	document demandé
+220	document détruit

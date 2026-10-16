@@ -1,0 +1,220 @@
+1	{n} dépôt abandonné.
+2	{n} dépôt abandonnés avant l’erreur.
+3	{n} dépôt abandonnés.
+4	{n} dépôts abandonné avant l’erreur.
+5	{n} dépôts abandonné.
+6	{n} dépôts abandonnés avant l’erreur.
+7	{n} dépôts abandonnés.
+8	{n} différent
+9	{n} différents
+10	{n} document sur {n} prêt : un dossier ne s’élimine qu’en entier, aucun bordereau n’est possible tant que chacun n’est pas prêt.
+11	{n} document sur {n} prêts : un dossier ne s’élimine qu’en entier, aucun bordereau n’est possible tant que chacun n’est pas prêt.
+12	{n} document{n} à lire
+13	{n} documents n’ont pas pu l’être
+14	{n} documents ont été conservés définitivement.
+15	{n} documents sur {n} prêt : un dossier ne s’élimine qu’en entier, aucun bordereau n’est possible tant que chacun n’est pas prêt.
+16	{n} documents sur {n} prêts : un dossier ne s’élimine qu’en entier, aucun bordereau n’est possible tant que chacun n’est pas prêt.
+17	{n} échéance arrivée à terme ; il en reste, relancez l’actualisation.
+18	{n} échéance arrivée à terme.
+19	{n} échéance arrivées à terme ; il en reste, relancez l’actualisation.
+20	{n} échéance arrivées à terme.
+21	{n} échéances
+22	{n} échéances arrivée à terme ; il en reste, relancez l’actualisation.
+23	{n} échéances arrivée à terme.
+24	{n} échéances arrivées à terme ; il en reste, relancez l’actualisation.
+25	{n} échéances arrivées à terme.
+26	{n} échéances ont été planifiées.
+27	{n} éléments non disponibles
+28	{n} en échec
+29	{n} fichier ({n}) dans un format à risque ou obsolète : à migrer
+30	{n} fichier dans un format non évalué
+31	{n} fichier traité : {n}
+32	{n} fichier traités : {n}
+33	{n} fichiers ({n}) dans un format à risque ou obsolète : à migrer
+34	{n} fichiers dans un format non évalué
+35	{n} fichiers traité : {n}
+36	{n} fichiers traités : {n}
+37	{n} identifié
+38	{n} identifiés
+39	{n} indéterminée
+40	{n} indéterminées
+41	{n} indicateur évalué sur {n} : {n}, {n} à évaluer.
+42	{n} indicateur évalués sur {n} : {n}, {n} à évaluer.
+43	{n} indicateurs évalué sur {n} : {n}, {n} à évaluer.
+44	{n} indicateurs évalués sur {n} : {n}, {n} à évaluer.
+45	{n} institutions par fichier, 2 Mo maximum. Supprimez les lignes d’exemple : toute ligne remplie sera importée.
+46	{n} Ko à importer.
+47	{n} La révocation du certificat n’est pas vérifiée.
+48	{n} ligne, sans quantité.
+49	{n} ligne(s) à importer.
+50	{n} lignes n’ont pas encore été contrôlées.
+51	{n} lignes ont échoué
+52	{n} lignes par fichier, 2 Mo maximum. Supprimez les lignes d’exemple : toute ligne remplie sera importée. L’import remplace tout le bordereau actuel.
+53	{n} lignes, sans quantité.
+54	{n} migré
+55	{n} migrés
+56	{n} mot surligné.
+57	{n} mot surlignés.
+58	{n} mots surligné.
+59	{n} mots surlignés.
+60	{n} n’est pas actif ({n}).
+61	{n} ne commence que le {n}.
+62	{n} non analysable
+63	{n} non analysables
+64	{n} non conforme
+65	{n} non conformes
+66	{n} notice non publique restent masquée.
+67	{n} notice non publique restent masquées.
+68	{n} notice non publiques restent masquée.
+69	{n} notice non publiques restent masquées.
+70	{n} notice non validée restent masquée.
+71	{n} notice non validée restent masquées.
+72	{n} notice non validées restent masquée.
+73	{n} notice non validées restent masquées.
+74	{n} notice visible sur {n}
+75	{n} notice visibles sur {n}
+76	{n} notice(s) importée(s).
+77	{n} notices non publique restent masquée.
+78	{n} notices non publique restent masquées.
+79	{n} notices non publiques restent masquée.
+80	{n} notices non publiques restent masquées.
+81	{n} notices non validée restent masquée.
+82	{n} notices non validée restent masquées.
+83	{n} notices non validées restent masquée.
+84	{n} notices non validées restent masquées.
+85	{n} notices visible sur {n}
+86	{n} notices visibles sur {n}
+87	{n} objet porte encore le terme obsolète : la base refuse de les modifier (document détruit, description fermée, bien sorti).
+88	{n} objets portent encore le terme obsolète : la base refuse de les modifier (document détruit, description fermée, bien sorti).
+89	{n} ont un type déclaré différent du format reconnu.
+90	{n} relations concernent des documents que vous n’avez pas le droit de lire.
+91	{n} relations concernent des notices qui ne sont plus lisibles pour vous.
+92	{n} répétable
+93	{n} répétables
+94	{n} reste à identifier.
+95	{n} reste à valider.
+96	{n} restent à identifier.
+97	{n} restent à valider.
+98	{n} restitué sur {n} communiqué
+99	{n} restitué sur {n} communiqués
+100	{n} restitués sur {n} communiqué
+101	{n} restitués sur {n} communiqués
+102	{n} s’écrit AAAA, AAAA-MM ou AAAA-MM-JJ.
+103	{n} sans objet
+104	{n} se terminant par {n}
+105	{n} sélectionné
+106	{n} sur demande
+107	{n} sur un contenu modifié
+108	{n} texte dérivé vidé
+109	{n} textes dérivés vidés
+110	{n} trop long ({n} caractères au plus).
+111	{n} vérifié sur {n} ({n} %), {n} reporté, {n} à vérifier
+112	{n} vérifié sur {n} ({n} %), {n} reportés, {n} à vérifier
+113	{n} vérifiés sur {n} ({n} %), {n} reporté, {n} à vérifier
+114	{n} vérifiés sur {n} ({n} %), {n} reportés, {n} à vérifier
+115	{n} versions de règle
+116	{n} zone renseignée sur {n}.
+117	{n} zone renseignées sur {n}.
+118	{n} zones renseignée sur {n}.
+119	{n} zones renseignées sur {n}.
+120	{n}, du {n}
+121	{n}, le {n}
+122	{n}, le {n} — {n}{n}
+123	{n}, le {n} ({n})
+124	{n}, police {n}, du {n} au {n}
+125	{n}. La campagne n’est pas encore arrêtée : la décision peut encore changer.
+126	{n}. La décision est figée.
+127	{n}{n} — {n} contrôle
+128	{n}{n} — {n} contrôles
+129	{n}{n} a refusé toutes les lignes : aucun document n’est remis, leurs échéances sont de nouveau disponibles.
+130	* (au moins 10 caractères)
+131	&nbsp;
+132	% des pages, au moins
+133	% vérifié
+134	← Retour
+135	← Retour à
+136	← Retour au catalogue
+137	← Retour aux
+138	← Retour aux documents
+139	<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Reçu {n}</title><style> body{font:14px/1.5 system-ui,sans-serif;margin:32px;color:#16251f}h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 6px}p.inst{margin:0 0 18px;color:#46605a} table{border-collapse:collapse;width:100%}th{text-align:left;width:200px;font-weight:600;padding:4px 8px 4px 0;vertical-align:top}td{padding:4px 0}ul{margin:0;padding-left:20px} .mention{margin-top:24px;padding:12px 14px;border:2px solid #16251f;font-weight:600}.sign{display:flex;gap:40px;margin-top:48px}.sign div{flex:1;border-top:1px solid #16251f;padding-top:6px;font-size:12px} </style></head><body><h1>Reçu de réception {n}</h1><p class="inst">{n}</p><table> {n}{n}{n}{n}{n}</table> <h2>Biens reçus</h2>{n}<p class="mention">{n}</p> <div class="sign"><div>Pour l’institution</div><div>Remis par</div></div></body></html>
+140	<dt>Valeur assurée totale</dt><dd>{n}</dd>
+141	<h2>Procès-verbal de la décision</h2><p>{n}</p>
+142	<h2>Procès-verbal de réception</h2><p>{n}</p>
+143	<p class="void">REÇU ANNULÉ le {n} — {n}</p>
+144	<p><em>Non renseigné.</em></p>
+145	<p>Aucun bien encore enregistré.</p>
+146	<p>Aucun écart constaté.</p>
+147	<p>Aucun élément reporté.</p>
+148	<p>Empreinte des certificats de destruction : <span class="hash">{n}</span></p>
+149	<td>Écart encore ouvert</td></tr>
+150	<td>Régularisé depuis</td></tr>
+151	0 pour une formule accordée sur exonération.
+152	01.02 · Activités des services
+153	1 · Connecter le poste
+154	1 · Importer un tableau
+155	1 an
+156	1 document a été conservé définitivement.
+157	1 document n’a pas pu l’être
+158	1 échéance
+159	1 échéance a été planifiée.
+160	1 élément non disponible
+161	1 ligne a échoué
+162	1 version de règle
+163	10 caractères au moins, avec trois sortes parmi : minuscules, majuscules, chiffres, signes.
+164	10 caractères au moins.
+165	12 derniers mois
+166	128 caractères au plus.
+167	2 · Numériser et vérifier
+168	2 · Scanner un document
+169	2 à 40 caractères, sans espace.
+170	3 · Déposer et suivre
+171	3 · Extraire et relire
+172	3 ans
+173	3 entrées fictives · aucun bordereau officiel généré
+174	401 — session absente ou expirée
+175	403 / 404 — accès ou ressource indisponible
+176	409 — conflit
+177	422 — règle métier
+178	90 jours
+179	A — conformité complète, structure logique et texte
+180	À activer
+181	À autoriser
+182	À ce jour
+183	À clarifier
+184	À classer
+185	À classer pour {n}
+186	À clore
+187	À compléter
+188	À compléter :
+189	À confirmer
+190	à contrôler
+191	À contrôler
+192	À copier
+193	à corriger
+194	À corriger
+195	À corriger avant d’envoyer
+196	À décider
+197	À déposer
+198	À échéance
+199	À éliminer
+200	à éliminer. Les propositions de conservation sont créées ; les éliminations passent ensuite par un bordereau d’élimination.
+201	À encaisser
+202	À établir
+203	À évaluer
+204	À faire
+205	à intégrer
+206	À inventorier
+207	à jour
+208	À jour
+209	à l’instant
+210	À la réception
+211	à laquelle les départements du fichier seront rattachés.
+212	À partir du {n}
+213	À planifier
+214	À plat
+215	a pour annexe
+216	a pour copie
+217	a pour réponse
+218	A pour successeur
+219	a pour traduction
+220	À prendre en charge

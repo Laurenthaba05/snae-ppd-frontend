@@ -1,0 +1,220 @@
+1	— to request again
+2	— to review before {1}
+3	— adjusted by hand
+4	— approved on {1}
+5	— overdue
+6	— last pass on {1}
+7	— including the pages flagged above
+8	— fingerprint
+9	— by
+10	— by the method
+11	— ref.
+12	— replaced by “{1}”
+13	— repeatable
+14	— returned on {1}
+15	— withdrawn
+16	— withdrawn on
+17	— review overdue
+18	— uncalibrated score
+19	— uploaded to version 1 right after creation.
+20	— version
+21	, {1} failed ({2})
+22	, acknowledgement of receipt {1}
+23	, act “
+24	, recorded on
+25	, in journey order (location, then call number)
+26	, declares {1}
+27	, of
+28	, on
+29	, on {1}
+30	, list truncated
+31	, declares no profile
+32	, prefix “{1}”
+33	, then carried out with the destruction recorded by two people. The destroyed archive is not deleted: it is marked and frozen.
+34	, return planned on
+35	, signed on
+36	, against the lists deposited here and those embedded by the signature: the server opens no address from the certificate. Without a list, revocation is reported as undetermined. A list is only taken into account if it is signed by the issuer of the certificate being assessed.
+37	, a campaign applies its method (one document in N, random percentage, chosen years…) to the due dates reached, in a reproducible way. Retained documents are kept permanently; the others are destroyed through a destruction schedule, with the authority’s approval.
+38	; {1} failed
+39	; {1} failed (see the server log), restart the reindexing.
+40	; last failure:
+41	; the due date would be
+42	; a record that is no longer one disappears immediately, without having to touch the publication again.
+43	: it must be renewed before any reservation.
+44	: it applies to no document. Deleting it frees its code; the operation is recorded in the audit log.
+45	: it cannot be modified or cancelled on its own, and the original only comes back after the pages’ quality control. See the “Digitization” tab of the item.
+46	: it stays in the same institution and the same department, and is never less confidential than it.
+47	: the free-communicability date is calculated and the restriction is applied.
+48	: HTTP or HTTPS link required.
+49	: select a valid reference.
+50	: output
+51	: an object is required.
+52	? No reopening is exposed by the current API.
+53	. These counters are not a national access right.
+54	. This identifier allows the review to be resumed in Acquisition.
+55	. Choose the same rule version; the server refuses the due dates of another rule. The draft sample will be recalculated after this addition.
+56	. Reading copy without a text layer: the master and the pages are not modified.
+57	. Fix the cause, then create a new request explicitly.
+58	. It no longer changes: its NAAN appears in every identifier.
+59	. It no longer changes.
+60	. Closing is neither a probative admission nor proof of integration into the SAE.
+61	. The closing date will be recorded; the file will no longer receive new items or sub-files.
+62	. The person who validates is not the one who stopped the campaign; a third person will carry it out.
+63	. Run the copies first.
+64	. The work continues on the server, you can leave this page.
+65	. Orange frames indicate a confidence below 80%.
+66	. Objects already deleted are recognized on resumption; the action can no longer be cancelled.
+67	. Administration roles cannot be delegated.
+68	. Operator:
+69	. Coordinate origin: top-left corner.
+70	. Blank page, photograph or illegible writing: quality control will decide.
+71	. No more files to identify.
+72	. No more PDFs to validate.
+73	. Rule:
+74	. Select a frame to read its coordinates.
+75	. Witness:
+76	. A successful connection to the connector does not prove that the scanner is plugged in.
+77	. A separator sheet is a QR code or Code 128 printed from the project, batch or element, then scanned with the pages: a screenshot or a photo without a code is not one. Add it to the selection, or import the files without a separator sheet below.
+78	. See the “Movements” tab.
+79	. You can import them later or declare them missing.
+80	… and
+81	· {1} absent, set aside
+82	· {1} absent, set aside
+83	· {1} absent, set aside
+84	· {1} absent, set aside
+85	· {1} already integrated
+86	· {1} already integrated
+87	· {1} failed
+88	· to review before
+89	· to review before {1}
+90	· absence verified
+91	· address not confirmed
+92	· applied by
+93	· ordered on
+94	· confidential
+95	· recorded:
+96	· Created on
+97	· split by separator sheets
+98	· requested on
+99	· requested on
+100	· deposited on
+101	· last revised on
+102	· last reviewed on {1} by {2}
+103	· Dimensions:
+104	· Sides:
+105	· current end on
+106	· minimal identification, the rest is completed after the examination
+107	· indexed
+108	· reader
+109	· minimum
+110	· Minimum
+111	· no longer valid: the archive has been moved since
+112	· new digitization
+113	· page
+114	· Expected pages:
+115	· by
+116	· next before
+117	· proposed on
+118	· shelved at
+119	· received
+120	· sealed
+121	· signed on
+122	· a due date has left it
+123	· valid until
+124	· verified on
+125	· to
+126	· announced volume:
+127	“Documents processed today, a lasting memory tomorrow.”
+128	“Rigorous processing
+129	“Unknown” is a valid answer; “not provided” is not.
+130	“Archives are the living memory of nations.”
+131	“Organize
+132	“Preserving memory today, building the future tomorrow.”
+133	“around 1930”, “between 1925 and 1935”
+134	” has been taken over. It appears in “My tasks”.
+135	” of
+136	” is replaced: its restriction is cancelled and replaced by that of the new category.
+137	”. What the database refuses (destroyed document, closed item description or item that has left) is left as is and counted. The operation cannot be undone in one step.
+138	(.xlsx or .csv,
+139	({1} accepted)
+140	({1} accepted)
+141	({1} destroyed)
+142	({1} destroyed)
+143	(acknowledgement {1})
+144	(cancelled)
+145	(lossy)
+146	(capacity
+147	(card expired)
+148	(confidentiality “public”) and
+149	(permanent preservation),
+150	(danger, probability, severity, measures), its
+151	(including {1} adjusted by hand)
+152	(including {1} adjusted by hand)
+153	(including {1} destroyed)
+154	(including {1} destroyed)
+155	(including {1} in the current phase, then in intermediate archives)
+156	(errors)
+157	(drafting state “validated”).
+158	(optional)
+159	(ignored)
+160	(printed from the project or the batch). Each sheet opens an element; the images that follow it become its pages. The sheets are not kept.
+161	(unavailable: condition not met)
+162	(JPEG or PNG)
+163	(the same batch and the same seed give the same sample)
+164	(label of a term placed higher in the file or already present),
+165	(mandatory),
+166	(obsolete)
+167	(ref. {1})
+168	(uncertain result: try again, no duplicate will be created)
+169	(withdrawn)
+170	(lossless)
+171	(separated by “|”). Separator: semicolon or comma.
+172	(TIFF, JPEG or PNG, one per page)
+173	(inactive unit)
+174	(version
+175	): it cannot be modified or cancelled on its own. Handover requires the agreement, the insurance and a recent departure condition report; return requires a condition report. See the “Loans and exhibitions” tab of the item.
+176	) × severity
+177	) can be copied to one or more replication storages, for example a volume hosted in Guinea or another site. Each copy is read back and compared with the file’s fingerprint; an altered or lost copy is redone.
+178	) under
+179	), return planned on
+180	). Then validate the file in the list to allow its consultation.
+181	{1} — within the limit of free places
+182	{1} — rotation to prepare (threshold: {2} days)
+183	{1}: {2} indexed out of {3}
+184	{1}: {2} indexed out of {3}
+185	{1}: 10,000 characters at most.
+186	{1}: YYYY, YYYY-MM or YYYY-MM-DD.
+187	{1}: this day does not exist.
+188	{1}: indicate at least one date.
+189	{1}: the quantity and the unit are required to submit.
+190	{1}: the 3-2-1 rule (three copies, two media, one off-site) is not met.
+191	{1}: a written text of at least {2} characters is required.
+192	{1} · step “{2}” · {3}
+193	{1} · image {2} of {3}
+194	{1} · record created · {2}
+195	{1} / DEMONSTRATION
+196	{1}% of the documents, drawn at random (reproducible draw).
+197	{1} to copy
+198	{1} expired on {2}.
+199	{1} to redo
+200	{1} to delete
+201	{1} has a declared type different from the recognized format.
+202	{1} abandoned
+203	{1} abandoned
+204	{1} act sealed
+205	{1} acts sealed
+206	{1} acts sealed
+207	{1} acts sealed
+208	{1} after {2}
+209	{1} items per file, 2 MB maximum. Invalid lines are flagged before the import and ignored.
+210	{1} bit per component
+211	{1} bits per component
+212	{1} concerns another producer.
+213	{1} concerns another archives service.
+214	{1} recorded ·
+215	{1} declared
+216	{1} declared
+217	{1} department already exists: they can serve as parent.
+218	{1} departments already exist: they can serve as parent.
+219	{1} departments per file, 2 MB maximum. Remove the example lines: every filled line will be imported.
+220	{1} deposit abandoned before the error.

@@ -1,0 +1,220 @@
+1	List truncated by the server at 500 rights.
+2	Empty list
+3	Revocation lists
+4	Certificate revocation lists
+5	Delivered
+6	local, unencrypted (development)
+7	Location and checks
+8	PREMIS software, equipment or organization responsible for this intervention.
+9	Laws, decrees, orders.
+10	During an inventory check
+11	Batch
+12	Batch:
+13	Batch displayed.
+14	Demonstration batch.
+15	Digitization batch
+16	Batch saved
+17	Batch validated
+18	Batch, number of expected pages and sides: the check for missing pages relies on this information.
+19	Digitization batches
+20	Batches being processed
+21	read
+22	Read on
+23	Read on
+24	Itself (self-signed certificate)
+25	Light, humidity, display case, handling…
+26	brightness
+27	Assign me the extraction role
+28	Assign me the preservation role
+29	Assign me the proofreading role
+30	preservation master
+31	Preservation master
+32	preservation masters
+33	Control
+34	Controlled
+35	Controlling or accepting a risk requires a reason of at least 10 characters.
+36	Uppercase; unique.
+37	Uppercase letters, digits and underscore: for example NUM_ARCHIVES_400.
+38	Mandate and founding texts
+39	IIIF manifest
+40	Handling
+41	Handling *
+42	Handle with care; consider preventive treatment.
+43	missing
+44	Missing
+45	Gaps
+46	Gaps that block the review or the validation
+47	Mark to rescan
+48	Mark the risk as controlled
+49	Mark as controlled
+50	Mark as handed over
+51	Mark as returned
+52	Hide the steps log
+53	Hide the password
+54	Hide the tracking
+55	Hide the findings
+56	Hide the files
+57	Materials
+58	Equipment
+59	Morning {1}/{2} · Afternoon {3}/{4} · {5} present
+60	Morning {1}/{2} · Afternoon {3}/{4} · {5} present
+61	Maximum 50 lines per list.
+62	Mix at least three kinds of characters: lowercase, uppercase, digits, symbols.
+63	Memory & administration
+64	Navigation menu
+65	My subscriptions
+66	My assignments and delegations
+67	My orders
+68	My requests
+69	My access requests
+70	My files
+71	My payment collections
+72	My information
+73	My tasks
+74	Message to the reader
+75	Message to the reader (optional)
+76	Message from the institution:
+77	Measure
+78	Measured
+79	Measuring the indicators…
+80	Measures
+81	Existing measures
+82	Planned measures
+83	metadata
+84	metadata
+85	Enriched metadata
+86	XMP metadata
+87	Method
+88	Method:
+89	Method *
+90	Compression method not supported.
+91	Sampling method *
+92	linear metres
+93	Update the local connector to benefit from scan resumption (protocol 2).
+94	Format migration
+95	Migration of formats
+96	Migrated
+97	Migrated on {1}
+98	Migrated to
+99	Minimum
+100	MINISTRY
+101	ministry
+102	Ministry
+103	Updating…
+104	Entry arrangements
+105	Transfer arrangements, deadlines, access restrictions requested by the producer…
+106	Mode
+107	Colorimetric mode
+108	Color mode
+109	Payment collection method
+110	Entry mode
+111	Filing mode
+112	Mode of transport
+113	Demonstration mode
+114	Template
+115	Template: {1}
+116	CSV template
+117	Moderate
+118	Accepted colorimetric modes
+119	Editing is unavailable for your account, this resource or its state.
+120	Modified
+121	Modified
+122	Edit
+123	Edit the campaign
+124	Edit the request
+125	Edit the description
+126	Edit the record
+127	Edit the form
+128	Edit the plan
+129	Edit the line
+130	Edit the proposal
+131	Edit the relation
+132	Edit the room
+133	Edit the file
+134	Edit the risk
+135	Edit the scanner
+136	Edit the status
+137	Edit the contact details
+138	Edit the metadata
+139	Edit a reference
+140	Change the filter or the verification state.
+141	Change the filter or prepare a first demonstration record.
+142	Change the searched text or the trust filter.
+143	Edit the information and state the reason for the change.
+144	MODULE · ACCESS
+145	MODULE · ARCHIVES
+146	MODULE · PHYSICAL ARCHIVES
+147	MODULE · CLASSIFICATION
+148	MODULE · DOCUMENTS AND FILES
+149	MODULE · RIGHTS
+150	MODULE · ARCHIVAL ENTRIES
+151	MODULE · METADATA
+152	MODULE · DIGITIZATION
+153	MODULE · HERITAGE
+154	MODULE · SEARCH
+155	MODULE · RETENTION
+156	MODULE · TRACEABILITY
+157	MODULE · TREATMENTS
+158	MODULE · WORKFLOW
+159	MODULE 01 · IDENTITY & ORGANIZATION
+160	Hardware module (PKCS#11)
+161	Scanners module
+162	Month
+163	My account
+164	My profile and permissions
+165	Amount
+166	Amount declared to the insurer: distinct from the scientific appraisal above.
+167	Amount due
+168	Amount collected ({1})
+169	Set up
+170	Raise the priority
+171	Set up the loan
+172	Set up a loan
+173	Set up a loan with this item
+174	Set up an outgoing loan
+175	Set up an exhibition
+176	Set up an exhibition with this item
+177	Set one up with the buttons above.
+178	word
+179	Password:
+180	Current password
+181	Forgot password
+182	word(s) displayed out of
+183	Engine
+184	Search engine
+185	Recognition engine
+186	engine interrupted during recognition
+187	engine interrupted during processing
+188	Engine not specified
+189	Reason
+190	Reason:
+191	Reason: a written text of at least {1} characters is required.
+192	Reason (at least {1} characters) *
+193	Reason *
+194	Reason * (at least 10 characters)
+195	Common reason (10 characters minimum)
+196	Reason for cancellation
+197	Reason for abandonment *
+198	Reason for the absence of insurance * (at least 10 characters)
+199	Reason for the cancellation
+200	Reason for the discrepancy
+201	Reason for the discrepancy or absence
+202	Reason for the exemption
+203	Reason for the redaction *
+204	Reason for the correction
+205	Reason for the correction * (at least 10 characters)
+206	Reason for the decision
+207	Reason for the decision (10 characters minimum)
+208	Reason for the delegation *
+209	Reason for the request
+210	Reason for the “essential” mention
+211	Reason for the migration *
+212	Reason for the change *
+213	Reason for the handover
+214	Reason for the revocation
+215	Reason for the suspension
+216	Reason for the change *
+217	Reason for my assignment *
+218	Reason for revocation *
+219	Reason for your decision *
+220	Reason for the classification

@@ -1,0 +1,220 @@
+1	Relire la demande de scan
+2	Relire le dépôt
+3	Relire les informations
+4	Relire les relations
+5	Relisez la fiche. Une clé réutilisée avec un autre contenu ou une version périmée n’est pas une nouvelle décision.
+6	Relisez la version du compte.
+7	Remettre
+8	Remettre au lecteur
+9	Remettre les documents acceptés
+10	Remis aux archives.
+11	Remis le
+12	Remis par
+13	Remis par : {n}
+14	Remise :
+15	Remise définitive :
+16	Remplacé
+17	remplace la version en vigueur
+18	Remplacée par
+19	Remplacer par une autre catégorie
+20	Remplacer partout
+21	Remplacés
+22	Remplissez la feuille « Institutions » (une institution par ligne), enregistrez au format .xlsx puis importez le fichier.
+23	Rendre {n} à la méthode
+24	Rendre à la méthode
+25	Rendre obsolète
+26	Rendre obsolète « {n} »
+27	Rendu dans l’état où il est parti
+28	Rendu dans un autre état
+29	Renoncer
+30	Renouveler
+31	Renouveler la carte
+32	Renseigner la fiche
+33	Renseigner la forme
+34	Renseignez au moins une valeur autorisée.
+35	Renseignez l’identifiant pour consulter ou ajouter des résultats OCR de ce fichier.
+36	Renseignez les informations ci-dessous.
+37	Renseignez une date ou son expression.
+38	Rentré avec son constat d’état.
+39	Rentré, sans constat d’état.
+40	renvoie à
+41	Renvoyer
+42	Renvoyer en rédaction
+43	Renvoyer le courrier de confirmation
+44	Réorganisation du magasin, régularisation d’un constat…
+45	Répartition des documents
+46	Répartition des éléments
+47	Répartition par type
+48	Répétable
+49	Répétable ?
+50	Réplica
+51	répond à
+52	Réponse du serveur illisible.
+53	Réponse serveur illisible.
+54	Reporté
+55	Reporté :
+56	Reportées
+57	Reporter
+58	Reporter la vérification
+59	Reportés
+60	Reprendre
+61	Reprendre ce scan
+62	Reprendre la destruction
+63	Reprendre la réindexation
+64	Reprendre le même dépôt
+65	Reprendre un import connu après interruption
+66	Reprendre un manifeste ou un paquet SEDA
+67	Reprendre un registre d’inventaire
+68	Reprendre une extraction connue
+69	Représentation numérique
+70	Représentation réceptionnée
+71	Représentations numériques, justificatifs, transcriptions, rapports : chaque document est conservé une fois et référencé ici.
+72	Repris dans le dossier de preuve de chaque document accepté.
+73	Repris dans le dossier de preuve de chaque document conservé.
+74	Repris par
+75	Repris par *
+76	reprise
+77	Reprise
+78	Reprise nécessaire
+79	Reprises d’inventaire
+80	Reproductions réalisées
+81	RÉPUBLIQUE DE GUINÉE
+82	Requis pour clore l’intervention.
+83	Requise uniquement si le document est restreint. Renseignez l'identifiant de la demande autorisée.
+84	Réservations
+85	Réservations du
+86	Réservée
+87	Réservée à la catégorie «
+88	Réserver
+89	Résolution
+90	Résolution (dpi)
+91	Résolution d’au moins {n} ppp
+92	Résolution de numérisation (dpi)
+93	Résolution insuffisante : {n} dpi (minimum {n}).
+94	Résolution max.
+95	Résolution maximale (dpi)
+96	Résolution minimale
+97	Résolution minimale (dpi)
+98	Résolution minimale (ppp) *
+99	Résolution minimale exigée (dpi) *
+100	Résolution non lisible dans le fichier.
+101	résolution non précisée
+102	Résolution non vérifiée (inconnue) : {n}
+103	Résolution si absente du fichier (dpi)
+104	Résoudre l’identifiant public
+105	Responsable
+106	Responsable *
+107	responsable de l’exposition
+108	Responsable du suivi
+109	Ressource indisponible ou non autorisée.
+110	Ressource rejetée par les contrôles du serveur.
+111	Ressources et liens
+112	Ressources et matériels
+113	Ressources liées
+114	Restant à vérifier
+115	restantes)
+116	Reste conservé *
+117	restitué
+118	Restitué
+119	restituée
+120	Restituée
+121	Restituer
+122	Restitution :
+123	Restitution le
+124	Restriction
+125	Restriction d’accès
+126	Restrictions d’accès
+127	résultat
+128	Résultat
+129	Résultat *
+130	Résultat attendu
+131	résultat du moteur illisible
+132	Résultat limité aux fichiers visibles dans votre périmètre.
+133	Résultat OCR
+134	Résultat OCR à afficher
+135	Résultat OCR de la contribution
+136	Résultats OCR
+137	Résumé
+138	Résumé, Support, Dimensions
+139	Rétablir
+140	Retenir dans l’échantillon
+141	retenu
+142	Retenu dans l’échantillon
+143	retenu dans l’échantillon (conservation définitive)
+144	retiré
+145	Retiré
+146	retirée
+147	Retirée
+148	Retirer
+149	Retirer ce document du bordereau
+150	Retirer ce document du versement
+151	Retirer cette occurrence
+152	Retirer cette signature ?
+153	Retirer du bordereau
+154	Retirer du dossier
+155	Retirer du parc
+156	Retirer du portail
+157	Retirer du versement
+158	Retirer l’autorité
+159	Retirer la liste
+160	Retirer la planification
+161	Retirer la priorité
+162	Retirer la zone
+163	Retirer la zone de la page {n}
+164	Retirer le contact
+165	Retirer le délai
+166	Retirer le délai de communicabilité
+167	Retirer le droit
+168	Retirer le filtre {n}
+169	Retirer le justificatif
+170	Retirer le lien
+171	Retirer le mot-clé {n}
+172	Retirer le profil
+173	Retirer le vocabulaire
+174	Retirer une zone occultée
+175	retour
+176	Retour
+177	Retour à l’accueil
+178	Retour à la connexion
+179	Retour à la liste
+180	Retour au catalogue
+181	Retour au registre
+182	Retour des originaux prévu *
+183	Retour des originaux prévu le
+184	Retour en réserve
+185	Retour prévu
+186	Retour prévu *
+187	Retour prévu * (fin du prêt)
+188	Retour prévu le
+189	Retour, rangée à
+190	retournée
+191	Retrouver un abonnement par sa référence
+192	Retrouvez le reçu dans la fiche documentaire pour traiter la cause.
+193	Retrouvez les dépôts effectués pour cette version, y compris après la fermeture de la fenêtre de téléversement.
+194	Retrouvez les documents, leur contexte et les fichiers accessibles.
+195	Retrouvez les tâches de validation de vos documents, prenez-les en charge et choisissez la suite à donner.
+196	Réussie
+197	Revenir
+198	Revenir à la connexion
+199	Revenir au circuit
+200	Revenir au formulaire
+201	Revérifier
+202	Revérifier les droits
+203	Revérifier sa présence.
+204	Révisée
+205	Révision des permissions :
+206	Révisions
+207	Révocation
+208	Révocation indéterminée
+209	Révocation non vérifiée
+210	Revoir et valider
+211	Revoir le constat
+212	révoqué
+213	Révoqué
+214	révoquée
+215	Révoquée
+216	Révoquer
+217	Révoquer cette habilitation
+218	Révoquer l’accès
+219	Révoquer les anciens tokens
+220	Revue

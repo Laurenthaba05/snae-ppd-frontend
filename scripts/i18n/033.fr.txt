@@ -1,0 +1,220 @@
+1	403/404 masqué : ne pas divulguer l’objet
+2	409 : version ou état périmé
+3	422 : corriger les champs
+4	503/réseau : succès non confirmé
+5	Accepter, refuser ou demander correction
+6	Accès AUDIT_READ national requis dans le code courant
+7	Accès refusé : fermer l’aperçu
+8	Accès retirés sans effacer l’identité des événements historiques.
+9	ACTIF → LEVE ; décisions de conservation réexaminées ensuite selon le serveur.
+10	Activer la rubrique
+11	Actualiser les indicateurs agrégés
+12	Admettre un versement complet avec bordereau
+13	Administrateur fonctionnel habilité
+14	Administrateur habilité
+15	Administration du périmètre autorisé.
+16	Administrer le plan de classement
+17	Afficher la cause et la référence technique
+18	Affiner la recherche
+19	Agent documentaire habilité
+20	Agent ou archiviste habilité
+21	Annulation backend présente ; commande UI à compléter
+22	Anomalie d’intégrité : bloquer l’usage concerné
+23	API des transitions disponibles par acteur à ajouter
+24	Appliquer une règle de conservation
+25	Appliquer, rejeter ou annuler
+26	Approuver un changement sensible de permissions
+27	Archiviste de démonstration
+28	Archiviste habilité
+29	Archiviste ou responsable habilité
+30	Archiviste puis agent habilité
+31	Associer les types documentaires
+32	Attribuer ou révoquer
+33	Attribuer ou révoquer des habilitations
+34	Aucun bouton de notification avec compteur fictif dans le mode connecté.
+35	Aucun catalogue d’objets secrets n’est exposé pour demander l’accès
+36	Aucun code de transition inventé par le frontend
+37	Aucun délai juridique national inventé par le frontend
+38	Aucun effacement du journal depuis le frontend
+39	Aucun fournisseur configuré : connexion indisponible
+40	Aucun pilotage TWAIN/WIA exposé
+41	Aucun résultat ne prouve pas l’absence de document
+42	Aucun total national calculé à partir d’une page
+43	Aucune transition inventée dans le mode connecté
+44	Auditeur national habilité
+45	Autoriser et démarrer l’intervention
+46	Autoriser ou refuser avec motif
+47	Branche dépendante de la définition active ; libellé métier à fournir avec les transitions serveur.
+48	Ce code est déjà utilisé.
+49	Ce parcours n’est pas simulé dans cette démonstration.
+50	Ce rôle est attribué : une proposition indépendante est nécessaire.
+51	Cet archivage est définitif.
+52	Cette ressource a changé. Relisez-la.
+53	Changement appliqué après contrôle indépendant, ou demande clôturée sans effet.
+54	Changement d’un schéma actif à cadrer
+55	Chaque métier dans son périmètre
+56	Choisir bénéficiaire, portée et période
+57	Choisir canal et licence
+58	Choisir catégorie ou objet
+59	Choisir document, dossier ou tous
+60	Choisir institution et département
+61	Choisir la portée
+62	Choisir la transition de correction configurée
+63	Choisir le fichier de diffusion
+64	Choisir le mode d’entrée
+65	Choisir une transition autorisée
+66	Choisir une unité parente admissible
+67	Choisir une version et un fichier lisible
+68	Choisir une vue Mes tâches
+69	Choisissez le périmètre autorisé.
+70	Cible prioritaire : endpoints agrégés, filtrage serveur et compteur par périmètre à ajouter.
+71	Classement actif et rattachement documentaire ; provenance inchangée.
+72	Clé requise.
+73	Clore le document selon ses prérequis
+74	Clore le dossier autorisé
+75	Clôture distincte de validation, scellement et conservation
+76	Clôture du dossier distincte de la conservation définitive des pièces
+77	Clôturer le registre d’entrée
+78	Communication physique et téléchargement ne sont pas interchangeables
+79	Communiquer une pièce et enregistrer son retour
+80	COMPLETED ne signifie pas admission définitive
+81	Compte non provisionné : rester sur une erreur explicite
+82	Compte rattaché à une identité existante ; automatisation d’invitation hors contrat observé.
+83	Conduire une restauration physique
+84	Confiance 0–1 descriptive, pas garantie d’exactitude
+85	Configurer un circuit de validation
+86	Confirmer avec le hash de prévisualisation
+87	Confirmer et ouvrir la fiche
+88	Confirmer l’intégration
+89	Conflit de version : relire
+90	Conservateur et intervenant habilités
+91	Conservateur habilité
+92	Conservation de l’original obligatoire dans le design
+93	Conserver les traces de responsabilité des anciennes actions
+94	Consigner la décision
+95	Consigner les actes et le résultat
+96	Consigner un contrôle qualité
+97	Consigner une sortie ou un mouvement
+98	Constat tracé ; formulaires visuels à préférer au JSON de défauts.
+99	Constater la remise
+100	Constater la restitution
+101	Consulter le contexte
+102	Consulter les sauvegardes
+103	Consulter ou télécharger un fichier
+104	Contrôler et terminer le projet
+105	Contrôler l’inventaire et les fichiers
+106	Contrôler la synthèse
+107	Contrôleur habilité
+108	Corriger et contrôler à nouveau si nécessaire
+109	Corriger l’objet autorisé
+110	Créer et clore un dossier
+111	Créer l’entrée ouverte
+112	Créer la fiche
+113	Créer la notice avec institution, type et référence
+114	Créer la référence juridique vérifiée
+115	Créer le compte applicatif
+116	Créer le diagnostic
+117	Créer le projet
+118	Créer un dossier contextualisé
+119	Créer un nœud et son parent
+120	Créer un schéma et ses champs
+121	Créer une autorité ou un producteur
+122	Créer une définition
+123	Créer une demande sur une référence connue et admissible
+124	Créer une notice et préparer ses fichiers
+125	Date de base absente : ne pas inventer une échéance
+126	Date et règle calculées côté serveur, pas une durée arbitraire dans la fiche.
+127	Date incertaine : conserver la précision déclarée
+128	Décider le sort final sans fausse destruction
+129	Déclencher le scellement
+130	Décrire les niveaux fonds, série, dossier ou pièce
+131	Décrire un fonds et ses producteurs
+132	Définir et activer la règle applicable
+133	Définir étapes et rôles
+134	Définir les lieux et unités de rangement
+135	Définir les transitions
+136	Définir puis renseigner les métadonnées
+137	Délégation expirée : ne pas proposer de commande
+138	Demande autorisée distincte de pièce remise
+139	Demande expirée.
+140	DEMANDEE → REMISE → RESTITUEE ; contrôles serveur conservés.
+141	Demander et instruire une consultation
+142	Demander une correction et reprendre le circuit
+143	Demandeur puis instructeur habilités
+144	Démonstration : cet agent ne dispose pas de droits de modification.
+145	Déplacement des branches et versionnement complet à étendre
+146	DEPOSEE → EN_INSTRUCTION → AUTORISEE ou REFUSEE, deux fins alternatives.
+147	Déposer le fichier
+148	Déposer puis lier les fichiers
+149	Dépôt interrompu : suivre le reçu
+150	Des formulaires métier typés, sans exposer le JSON aux utilisateurs ordinaires.
+151	Description hiérarchique et provenance conservées, sans les confondre avec l’organigramme courant.
+152	Description patrimoniale enrichie sans modifier le contenu original.
+153	Deux administrateurs indépendants
+154	DIAGNOSTIC → A_VALIDER → EN_COURS → TERMINEE selon les transitions serveur.
+155	Direction des archives et de la documentation
+156	Disposer d’une corbeille de tâches et d’indicateurs
+157	Dossier décrit ; ne pas fabriquer une liste complète à partir d’une seule page documentaire.
+158	Échappement CSV nécessaire à l’export
+159	Échec d’écriture : état inconnu à relire
+160	Échec ou intervention partielle à documenter
+161	Échec réseau : relire avant de recommencer
+162	Élément incomplet : ne pas afficher terminé
+163	Email, centre de notifications et accusé de lecture non exposés dans les contrôleurs examinés
+164	Emplacement incompatible ou inactif : refus
+165	Endpoint global Mes tâches absent
+166	Enregistrer la communication
+167	Enregistrer puis valider un résultat OCR
+168	Enregistrer une institution
+169	Enrichir un document patrimonial
+170	Entrée déjà clôturée : conflit
+171	Entrée OUVERTE. Le numéro est saisi, pas généré par le backend fourni.
+172	Envoyer le contenu
+173	Étape initiale/finale incohérente : refus
+174	État CLOTUREE, pas une preuve autonome d’admission probante.
+175	État réellement renvoyé par le serveur ; disponibilité d’exploitation non prouvée par l’audit statique.
+176	Examiner acteur, date, avant et après
+177	Examiner analyse et état du fichier
+178	Examiner l’événement calculé
+179	Examiner l’impact du rôle
+180	Examiner la tâche
+181	Examiner la traçabilité
+182	Examiner la version
+183	Examiner les permissions
+184	Examiner les pièces
+185	Examiner lisibilité et complétude
+186	Exécuter la conservation définitive ou le réexamen supporté
+187	Exporter les formats disponibles
+188	Exports EAD/EAC à valider avec les outils d’échange destinataires
+189	Faire examiner par un autre approbateur
+190	Faire valider indépendamment
+191	Fichier altéré, trop volumineux ou non pris en charge : état explicite
+192	Fichier infecté ou maître absent : refus
+193	Filtrer les anomalies
+194	Filtrer retards et actions
+195	Filtres date et institution absents du contrat de recherche fourni
+196	Gel actif : suspendre le traitement concerné
+197	Gel ou acteur non indépendant : refus
+198	Gérer les sources et restrictions d’accès
+199	Gérer un départ et fermer les accès
+200	Gestionnaire des communications
+201	Gestionnaire national habilité
+202	Habilitation explicite ; écrans dédiés de création des délégations et changement de portée à compléter.
+203	Horodatage qualifié : disponibilité à confirmer en recette
+204	Horodater si le service est configuré
+205	Identifier document ou dossier
+206	Identifier lecture ou écriture
+207	Import contrôlé ; pas d’écriture à partir d’un fichier non prévisualisé.
+208	Importer des descriptions en CSV
+209	Importer le texte produit par un moteur externe
+210	Impossible de s’octroyer des droits implicitement
+211	Index indisponible : afficher une erreur, pas zéro résultat
+212	Instance EN_COURS puis TERMINE ; terminer le circuit n’est pas automatiquement admettre un lot.
+213	Institution créée ; le code applicatif n’est pas un numéro légal de création.
+214	Institution de démonstration C
+215	Inventaire des 21 contrôleurs fournis
+216	Inventaire du contenu lié non fourni par ces GET
+217	La clé a déjà été utilisée avec un contenu différent.
+218	La déconnexion du navigateur seule ne révoque pas les droits
+219	La demande a changé.
+220	La destruction physique et le transfert final sont volontairement bloqués par le backend actuel.

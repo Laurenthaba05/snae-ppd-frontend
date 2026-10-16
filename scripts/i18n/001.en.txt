@@ -1,0 +1,212 @@
+1	{1} deposit abandoned.
+2	{1} deposit abandoned before the error.
+3	{1} deposits abandoned.
+4	{1} deposit abandoned before the error.
+5	{1} deposits abandoned.
+6	{1} deposits abandoned before the error.
+7	{1} deposits abandoned.
+8	{1} different
+9	{1} different
+10	{1} document out of {2} ready: a file can only be destroyed as a whole, no schedule is possible until each one is ready.
+11	{1} document out of {2} ready: a file can only be destroyed as a whole, no schedule is possible until each one is ready.
+12	{1} document{2} to read
+13	{1} documents could not be
+14	{1} documents were kept permanently.
+15	{1} documents out of {2} ready: a file can only be destroyed as a whole, no schedule is possible until each one is ready.
+16	{1} documents out of {2} ready: a file can only be destroyed as a whole, no schedule is possible until each one is ready.
+17	{1} due date reached; some remain, run the update again.
+18	{1} due date reached.
+19	{1} due dates reached; some remain, run the update again.
+20	{1} due dates reached.
+21	{1} due dates
+22	{1} due dates reached; some remain, run the update again.
+23	{1} due dates reached.
+24	{1} due dates reached; some remain, run the update again.
+25	{1} due dates reached.
+26	{1} due dates have been scheduled.
+27	{1} items not available
+28	{1} failed
+29	{1} file ({2}) in an at-risk or obsolete format: to migrate
+30	{1} file in an unassessed format
+31	{1} file processed: {2}
+32	{1} files processed: {2}
+33	{1} files ({2}) in an at-risk or obsolete format: to migrate
+34	{1} files in an unassessed format
+35	{1} file processed: {2}
+36	{1} files processed: {2}
+37	{1} identified
+38	{1} identified
+39	{1} undetermined
+40	{1} undetermined
+41	{1} indicator assessed out of {2}: {3}, {4} to assess.
+42	{1} indicators assessed out of {2}: {3}, {4} to assess.
+43	{1} indicator assessed out of {2}: {3}, {4} to assess.
+44	{1} indicators assessed out of {2}: {3}, {4} to assess.
+45	{1} institutions per file, 2 MB maximum. Remove the example lines: every filled line will be imported.
+46	{1} KB to import.
+47	{1} The revocation of the certificate is not verified.
+48	{1} line, without quantity.
+49	{1} line(s) to import.
+50	{1} lines have not been checked yet.
+51	{1} lines failed
+52	{1} lines per file, 2 MB maximum. Remove the example lines: every filled line will be imported. The import replaces the whole current schedule.
+53	{1} lines, without quantity.
+54	{1} migrated
+55	{1} migrated
+56	{1} word highlighted.
+57	{1} words highlighted.
+58	{1} word highlighted.
+59	{1} words highlighted.
+60	{1} is not active ({2}).
+61	{1} only starts on {2}.
+62	{1} cannot be analysed
+63	{1} cannot be analysed
+64	{1} non-compliant
+65	{1} non-compliant
+66	{1} non-public record remains hidden.
+67	{1} non-public records remain hidden.
+68	{1} non-public record remains hidden.
+69	{1} non-public records remain hidden.
+70	{1} unvalidated record remains hidden.
+71	{1} unvalidated records remain hidden.
+72	{1} unvalidated record remains hidden.
+73	{1} unvalidated records remain hidden.
+74	{1} record visible out of {2}
+75	{1} records visible out of {2}
+76	{1} record(s) imported.
+77	{1} non-public records remain hidden.
+78	{1} non-public records remain hidden.
+79	{1} non-public records remain hidden.
+80	{1} non-public records remain hidden.
+81	{1} unvalidated records remain hidden.
+82	{1} unvalidated records remain hidden.
+83	{1} unvalidated records remain hidden.
+84	{1} unvalidated records remain hidden.
+85	{1} records visible out of {2}
+86	{1} records visible out of {2}
+87	{1} object still carries the obsolete term: the database refuses to modify them (destroyed document, closed description, item that has left).
+88	{1} objects still carry the obsolete term: the database refuses to modify them (destroyed document, closed description, item that has left).
+89	{1} have a declared type different from the recognized format.
+90	{1} relations concern documents you are not allowed to read.
+91	{1} relations concern records that are no longer readable for you.
+92	{1} repeatable
+93	{1} repeatable
+94	{1} remains to be identified.
+95	{1} remains to be validated.
+96	{1} remain to be identified.
+97	{1} remain to be validated.
+98	{1} returned out of {2} communicated
+99	{1} returned out of {2} communicated
+100	{1} returned out of {2} communicated
+101	{1} returned out of {2} communicated
+102	{1} is written YYYY, YYYY-MM or YYYY-MM-DD.
+103	{1} not applicable
+104	{1} ending with {2}
+105	{1} selected
+106	{1} on request
+107	{1} on modified content
+108	{1} derived text emptied
+109	{1} derived texts emptied
+110	{1} too long ({2} characters at most).
+111	{1} verified out of {2} ({3}%), {4} postponed, {5} to verify
+112	{1} verified out of {2} ({3}%), {4} postponed, {5} to verify
+113	{1} verified out of {2} ({3}%), {4} postponed, {5} to verify
+114	{1} verified out of {2} ({3}%), {4} postponed, {5} to verify
+115	{1} rule versions
+116	{1} area filled in out of {2}.
+117	{1} areas filled in out of {2}.
+118	{1} area filled in out of {2}.
+119	{1} areas filled in out of {2}.
+120	{1}, from {2}
+121	{1}, on {2}
+122	{1}, on {2} — {3}{4}
+123	{1}, on {2} ({3})
+124	{1}, font {2}, from {3} to {4}
+125	{1}. The campaign is not stopped yet: the decision may still change.
+126	{1}. The decision is final.
+127	{1}{2} — {3} check
+128	{1}{2} — {3} checks
+129	{1}{2} refused all the lines: no document is handed over, their due dates are available again.
+130	* (at least 10 characters)
+132	% of pages, at least
+133	% verified
+134	← Back
+135	← Back to
+136	← Back to the catalog
+137	← Back to
+138	← Back to documents
+140	<dt>Total insured value</dt><dd>{1}</dd>
+144	<p><em>Not provided.</em></p>
+145	<p>No item recorded yet.</p>
+146	<p>No discrepancy found.</p>
+147	<p>No item carried over.</p>
+151	0 for a formula granted on exemption.
+152	01.02 · Departments’ activities
+153	1 · Connect the workstation
+154	1 · Import a spreadsheet
+155	1 year
+156	1 document was kept permanently.
+157	1 document could not be
+158	1 due date
+159	1 due date has been scheduled.
+160	1 item not available
+161	1 line failed
+162	1 rule version
+163	At least 10 characters, with three kinds among: lowercase, uppercase, digits, symbols.
+164	At least 10 characters.
+165	Last 12 months
+166	128 characters at most.
+167	2 · Digitize and verify
+168	2 · Scan a document
+169	2 to 40 characters, no spaces.
+170	3 · Deposit and follow
+171	3 · Extract and review
+172	3 years
+173	3 fictitious entries · no official schedule generated
+174	401 — session missing or expired
+175	403 / 404 — access or resource unavailable
+176	409 — conflict
+177	422 — business rule
+178	90 days
+179	A — full conformance, logical structure and text
+180	To activate
+181	To authorize
+182	To date
+183	To clarify
+184	To classify
+185	To classify for {1}
+186	To close
+187	To complete
+188	To complete:
+189	To confirm
+190	to check
+191	To check
+192	To copy
+193	to correct
+194	To correct
+195	To correct before sending
+196	To decide
+197	To deposit
+198	Due
+199	To destroy
+200	to destroy. The retention proposals are created; destructions then go through a destruction schedule.
+201	To collect
+202	To establish
+203	To assess
+204	To do
+205	to integrate
+206	To inventory
+207	up to date
+208	Up to date
+209	just now
+210	On receipt
+211	to which the file’s departments will be attached.
+212	From {1}
+213	To schedule
+214	Flat
+215	has as annex
+216	has as copy
+217	has as reply
+218	Has as successor
+219	has as translation
+220	To take over

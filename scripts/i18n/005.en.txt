@@ -1,0 +1,220 @@
+1	No waiver request in this scope.
+2	No request matches these criteria.
+3	No open request
+4	No request for this role
+5	No request for now.
+6	No description
+7	No destruction
+8	No disposition proposed
+9	No legal period is preselected in this mockup.
+10	No due date to appraise
+11	No destruction due date has been reached for this scope.
+12	No retention due date
+13	No transfer due date has been reached for this scope.
+14	No due date whose rule provides for appraisal has been reached for this scope.
+15	No due date has been scheduled.
+16	No due date is scheduled yet for this document.
+17	No new due date: all those whose date has passed are already up to date.
+18	No scheduled due date
+19	No scheduled due date for this scope.
+20	No destruction of physical archives has been proposed.
+21	No entry
+22	No archival entry
+23	No entry in your scope.
+24	No entry matches these criteria.
+25	No step
+26	No sheet to print.
+27	No worksheet found in this workbook.
+28	No separator sheet was recognized in
+29	No function described
+30	No plan
+31	No plan is defined. An authorized person must create one.
+32	No published plan
+33	No permission recorded
+34	No intervention
+35	No restoration intervention declared for this archive.
+36	No restoration intervention has been declared yet.
+37	No recorded line is waiting for integration.
+38	No revocation list
+39	No measure: a high risk without a measure is flagged at the location.
+40	No metadata provided
+41	No change to save.
+42	No change to the reference, producer, classification, confidentiality or retention. A record changed since the extraction causes a conflict.
+43	No record
+44	No record in this scope
+45	No record can be published: a record must be
+46	No record found
+47	No digitization is ordered or in progress in your scope. Orders are placed from an item’s record, “Digitization” tab.
+48	No page to read
+49	No page recorded for this element.
+50	No page recorded out of {1} expected.
+51	No page recorded.
+52	No page follows this separator sheet.
+53	no digitized page
+54	No digitized page to send back.
+55	No permission assigned
+56	No permission changed.
+57	No attachment (ten at most).
+58	No actual item.
+59	No validated OCR position for this page.
+60	No detail
+61	No priority.
+62	No publication
+63	no quantity
+64	No reference
+65	No rule
+66	No active rule applies to this document. A rule applies when the document’s type is among its targeted types and, if it also targets classification-scheme headings, when the document is classified under one of them: both conditions at once when both are ticked.
+67	No applicable rule
+68	No retention rule
+69	No relation
+70	No relation declared between this document’s files.
+71	No relation recorded for this record.
+72	No reservation today
+73	No resource in this scope
+74	No linked resource
+75	No access restriction
+76	No restriction is needed: the period has elapsed.
+77	No business success should be inferred from this incident. Reread the data after reloading.
+78	No room
+79	No reading room
+80	No signature
+81	No signature recorded.
+82	No withdrawal
+83	No collection withdrawal is open in your scope.
+84	No withdrawal is requested or in progress in your scope. Requests are filed from an item’s record, “Movements” tab.
+85	No withdrawal can be proposed for this item today.
+86	No legal source
+87	No statistics
+88	No task to take over
+89	No task available for your permissions and this scope.
+90	No task in progress
+91	No storage unit
+92	No urgency
+93	no version
+94	No version: the rule applies to nothing
+95	No version in force (draft or withdrawn)
+96	No version recorded
+97	No area
+98	No redacted area: public reading shows the pages in full.
+99	No area provided.
+100	today; the others have been regularized since the finding.
+101	Today if not specified
+102	Today if empty.
+103	Author
+104	Declared author
+105	Authentication not configured.
+106	Digital preservation self-assessment
+107	automatic
+108	Automatic: text then OCR
+109	Authorized
+110	Authorized
+111	Authorize
+112	Authorize the request
+113	Authorize the withdrawal
+114	Allow waivable discrepancies with a common reason
+115	Allow this site’s windows to display the acknowledgement of receipt.
+116	Allow this site’s windows to display the schedule.
+117	Allow this site’s windows to display the certificate.
+118	Allow this site’s windows to display the pass.
+119	Authority
+120	Authority:
+121	Authority *
+122	Institution’s ARK authority:
+123	Authority on which the service depends; the supervision chain cannot form a loop.
+124	Hold authority
+125	Producing authority
+126	Approving authority
+127	Approving authority *
+128	Trust authorities
+129	Signature trust authorities
+130	other
+131	Other
+132	OTHER
+133	Other item
+134	other discrepancy(ies) not listed: filter the journey by finding.
+135	other element(s).
+136	others
+137	Other categories
+138	Other requirements
+139	other files are not listed here; the certificate will detail them all.
+140	Other fonds or series linked by provenance or subject
+141	Other forms of the name
+142	Other forms of the name (one per line)
+143	other lines in error are not listed.
+144	Advanced
+145	Progress
+146	Progress of elements by step
+147	Progress of ongoing projects
+148	Progress by step
+149	Before
+150	Before recording receipt
+151	Before submitting
+152	Before the review.
+153	Before validation.
+154	Before departure
+155	Before a movement
+156	Before a treatment
+157	with finding
+158	With the two downloaded files (the content and the detached signature, in CMS/CAdES format), any CMS verification tool can check the seal. For example with OpenSSL:
+159	With precautions
+160	B — basic conformance, visual rendering
+161	Base
+162	Database
+163	Legal basis *
+164	Legal basis
+165	Legal basis *
+166	Beneficiary
+167	Beneficiary *
+168	item
+169	Item
+170	Born-digital item
+171	Heritage item
+172	Items
+173	Heritage items
+174	Items received
+175	Items received ({1})
+176	Items found
+177	Soon freely communicable
+178	Welcome,
+179	Blocked
+180	Blocked:
+181	blocked
+182	Blocked
+183	Task inbox
+184	boxes
+185	boolean
+186	Schedule
+187	Schedule cancelled: no destruction took place.
+188	Schedule cancelled: nothing was handed over.
+189	Destruction schedule
+190	Transfer schedule
+191	Line-by-line schedule, step-by-step control, volumetrics, acknowledgement of receipt. To choose for an accession from a producing service.
+192	Destruction schedules
+193	Hierarchical loop: this department is its own ancestor in the file.
+194	Plug in the device and install its driver, then NAPS2.
+195	Classification branches
+196	Draft of {1} to transfer to {2}. It is not submitted yet.
+197	Draft of {1}. It is not yet submitted to the authority.
+198	Slip
+199	Communication slips
+200	This is the usual location: choose “present”.
+201	Social, cultural, economic or political setting in which the record sits
+202	Computing the preview…
+203	Computed on the
+204	computed
+205	Computed on reading from the actual objects: nothing is stored
+206	Computed from the documents’ dates
+207	Calendar
+208	Campaign
+209	Campaign:
+210	Campaign cancelled: nothing was decided.
+211	Campaign created
+212	Migration campaign
+213	Inventory-check campaign
+214	Appraisal campaign
+215	Appraisal campaigns
+216	Channel
+217	Channel *
+218	Capacity
+219	Capacity (seats) *
+220	Characteristics

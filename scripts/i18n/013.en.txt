@@ -1,0 +1,220 @@
+1	in progress
+2	In progress
+3	Catching up
+4	in progress or pending:
+5	Pending decision
+6	failed
+7	Failed
+8	in JSON-LD or RDF/XML. Read: concepts, their preferred label (French first), their alternative labels, their definition and their broader concept. A concept with several broader concepts, a broader concept missing from the file, a loop or two identical labels make the file refused, with the concept at fault.
+9	Being prepared
+10	Being drafted
+11	In reserve
+12	late
+13	Late
+14	One day late
+15	{1} days late
+16	Late.
+17	Learn more
+18	In force: version {1} since {2}
+19	Collected by
+20	Payment collection
+21	Payment recorded:
+22	Payment not recorded.
+23	Collect a subscription payment
+24	still open
+25	Iron gall ink, woodcut, weaving…
+26	Recorded
+27	Recorded with the return: see the “Preservation” tab of the item.
+28	Records a publication according to the chosen channel. No anonymous public portal is provided by this contract.
+29	Registration
+30	Rule registration
+31	Save
+32	Save as a draft
+33	Save and activate the version
+34	Save and activate now
+35	Record the arrival
+36	Record the payment
+37	Record the assessment
+38	Record the examination
+39	Record the order
+40	Save the correction
+41	Save the description
+42	Record the receipt
+43	Save the reference
+44	Save the relation
+45	Record the handover of an item or batch, before any examination
+46	Record the return
+47	Record the review
+48	Save the item
+49	Save the draft
+50	Record the finding
+51	Record the departure
+52	Save the file
+53	Register the batch in the system
+54	Record the payment
+55	Record the return
+56	Record the risk
+57	Record the approval
+58	Save the contact details
+59	Record the preservation events and detailed rights.
+60	Save the result references
+61	Record a received item
+62	Record a quality control
+63	Record an exercise or an incident
+64	Record a payment
+65	Record a communication
+66	Record a provenance, attach items and close the entry.
+67	Record a review
+68	Recorded
+69	Record the payment made at the counter before handing over the reproductions.
+70	Record the first receipt: a handover of an item always starts here.
+71	Save the draft before approving it.
+72	Register an existing SSO identity: its sub must not be invented.
+73	Enrich the metadata
+74	Metadata enrichment
+75	Whole
+76	Both or neither; required to submit, because the accession’s volumetrics are deduced from them. Choose the unit from the list (linear metres, boxes, gigabytes…). Three decimals at most.
+77	In the reader’s hands
+78	entry
+79	Entry
+80	Archival entry
+81	Associated archival entry
+82	Associated entry not available
+83	Entry into the archives
+84	Heritage entry
+85	Simple entry
+86	Entries
+87	Archival entries
+88	Open archival entries
+89	Entries and agreements
+90	Entries and provenance
+91	Sent with the decision.
+92	Send to quality control
+93	Send the request
+94	Send the link
+95	Sent
+96	Network error on a write
+97	error(s).
+98	Errors, refusals and resumptions
+99	BUSINESS WORKSPACE · F3 DESIGN
+100	cash
+101	Cash
+102	test
+103	Tests
+104	Try other words or another category.
+105	Try other keywords, or check that the index has been fed (reindexing).
+106	Essential
+107	Is associated with
+108	is cited by
+109	is created; its first version still has to be saved and activated. Fix what is flagged then run again: the rule will not be created a second time.
+110	Is related by kinship to
+111	Is placed under the supervision of
+112	is replaced by
+113	is an annex of
+114	is a copy of
+115	is a translation of
+116	Estimated
+117	Estimated (“circa”)
+118	and
+119	and kept permanently. The holder of each document is recorded; the operation cannot be undone.
+120	and preservation of documentary heritage
+121	and incidents. What is missing is flagged at the top.
+122	and I accept them.
+123	AND the unit
+124	and copy the register, one line per item. What is not known stays empty: nothing is guessed.
+125	and fill in one department per line; the “Parent code” attaches a department to another.
+126	and fill in one institution per line.
+127	Established on
+128	Established by
+129	Issue the slip
+130	establishment
+131	Public establishment
+132	PUBLIC_ESTABLISHMENT
+133	step
+134	Step
+135	Current step
+136	Starting step
+137	Processing step
+138	Destination step
+139	Accession step
+140	Final step?
+141	Initial step?
+142	Source step
+143	Next step
+144	Steps
+145	Digitization steps
+146	Processing steps
+147	state
+148	State
+149	State at handover
+150	State at handover of {1}
+151	State at return
+152	State at return of {1}
+153	Current state returned by the backend. Each new decision is checked.
+154	State on return
+155	State found *
+156	Destination state (JSON)
+157	Object state after treatment
+158	State of the original on return *
+159	State of the original found on return
+160	Card state
+161	Order state
+162	Drafting state
+163	Verification state
+164	Terms state
+165	Slip state
+166	Service state
+167	Processing state
+168	Unknown state
+169	Material condition
+170	Item’s material condition:
+171	Material condition and context
+172	Physical condition
+173	Physical condition, formats that require equipment
+174	Source state
+175	Source state (JSON)
+176	states
+177	Item states
+178	been served
+179	Extent
+180	Extent: give the quantity AND the unit, or neither.
+181	Extent: the quantity is a number (12 or 12.5).
+182	Extent: the quantity cannot be negative.
+183	Extent: quantity
+184	Extent: three decimals at most.
+185	Extent: unit
+186	Extent: unknown unit.
+187	Evacuation
+188	Evacuation *
+189	Assessment
+190	Assessment *
+191	Assessment and destructions
+192	Assessments
+193	Assessed on
+194	Assess
+195	Assess…
+196	Rate the severity from 1 to 5.
+197	Rate the probability from 1 to 5.
+198	Assess the hazards of this location: fire, water, humidity, pests, theft…
+199	event
+200	Event
+201	Event recorded (end of contract, death…)
+202	Triggering event
+203	Log event
+204	Historical event
+205	events
+206	Triggering events
+207	Triggering events recorded
+208	Historical events
+209	Technical events recorded on this file (format migration, media refresh, fixity check…).
+210	Enhancement to develop
+211	Module evolution
+212	EX-DEFAULT-10YEARS
+213	E.g. BUILDING, STOREROOM, SHELVING
+214	E.g. BOX, SHELF, CABINET
+215	E.g. CONSULTATION, TRANSFER
+216	E.g. COPYRIGHT, PUBLIC_DOMAIN
+217	E.g. FONDS, SERIES, SUB-SERIES
+218	E.g. PLACE_OF_PRODUCTION, PLACE_OF_EVENT
+219	E.g. LAW, DECREE, CIRCULAR
+220	E.g. LOT-2026-001

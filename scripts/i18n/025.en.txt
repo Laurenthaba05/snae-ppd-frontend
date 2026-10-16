@@ -1,0 +1,220 @@
+1	Date precision
+2	Date precision
+3	Prefix
+4	First
+5	First sheet: Donnees. Dates in text format YYYY-MM-DD. No formulas or macros.
+6	First page imported
+7	Take over
+8	Take over the check
+9	Taking over the order creates the digitization element (with the original and the order’s document), links the representation to the item and allows the original to be handed over.
+10	First name
+11	First name *
+12	first.last@institution.gn
+13	Preparing the version…
+14	Preparation impossible.
+15	Preparing…
+16	Prepared
+17	Prepares and digitizes documents
+18	Prepared
+19	Prepared by
+20	Prepare
+21	Prepare and follow the transfer of documents to the archives.
+22	Prepare the import
+23	Prepare the campaign
+24	Set up the scanner — to be done only once
+25	Prepare the accession
+26	Prepare schedules without destroying data in the demonstration.
+27	Prepare the batches to digitize and check their quality.
+28	Prepare retention rules and the associated decisions.
+29	Prepare another scan
+30	Prepare an entry
+31	Prepare a migration
+32	Prepare a format migration
+33	Prepare a record
+34	Prepare a demonstration record
+35	Prepare a new version
+36	Presence not verified
+37	Present
+38	Present in the room “
+39	Presentation of the content
+40	Present
+41	Present at its usual location
+42	present
+43	Present
+44	Present in their place
+45	Present in the room
+46	Service
+47	Presumed to be at its usual location: its presence has never been verified.
+48	Presumed to be at its usual location: its presence has not been verified since its last move.
+49	loan
+50	Loan
+51	Loan — essential document, always withheld
+52	Incoming loan
+53	Ready for accession
+54	outgoing loan
+55	Outgoing loan
+56	ready
+57	Ready
+58	Ready to be carried out.
+59	Loans and exhibitions
+60	Outgoing loans and exhibitions
+61	planned
+62	planned
+63	priority
+64	Priority
+65	Priority:
+66	Priority {1}: say why (at least 5 characters).
+67	Priority {1}: state what must be saved.
+68	Rule priority
+69	Treatment priority
+70	Salvage priorities
+71	Salvage priorities, in order
+72	Takeover
+73	Takeover by the workshop
+74	Unit price
+75	Unit price *
+76	probability
+77	Probability *
+78	Probability × severity
+79	Minutes
+80	Minutes *
+81	Elimination minutes
+82	Minutes of the decision
+83	Receipt minutes
+84	Recruitment minutes
+85	Handover minutes, deed of transfer, declaration of loss or theft…
+86	Minutes of the refusal *
+87	Minutes of the visa
+88	Minutes of the visa *
+89	Next check
+90	Next review date *
+91	Next step:
+92	Next update:
+93	Next review
+94	Next review *
+95	Next attempt
+96	Producer
+97	Producer:
+98	Producer (authority record)
+99	Producer (record not readable)
+100	Producer not filled in
+101	Producers and authorities
+102	Multiple producers
+103	Produced by
+104	Profile
+105	Embedded ICC color profile
+106	Digitization profile
+107	Scanner profile
+108	Profile saved.
+109	Profile assessed
+110	profile(s)
+111	Digitization profiles
+112	Minimum depth *
+113	Staff training program
+114	Scheduled
+115	Project
+116	Project · element
+117	Digitization project
+118	Digitization project *
+119	Projects
+120	Digitization projects
+121	Digitization projects, digitized elements and quality controls.
+122	Projects by status
+123	Extended
+124	Extended once
+125	Extend
+126	Extend the loan
+127	PRONOM
+128	proposes
+129	Proposed
+130	Proposed on
+131	Proposed
+132	Proposed at twelve months: choose the due date that suits.
+133	Proposed on
+134	Proposed by
+135	Proposed by the producer
+136	Propose
+137	Propose as date
+138	Propose as title
+139	Propose new permissions
+140	Propose the withdrawal
+141	Propose the withdrawal of the item
+142	Propose the treatment
+143	Propose a treatment
+144	Propose a preservation treatment.
+145	Propose a decision
+146	Propose a change and have it approved by a second central administrator.
+147	Propose, examine and approve changes to roles already in use.
+148	Institutional interface proposal · Acceptance-test environment
+149	Proposals to examine
+150	Owner
+151	Owner identified
+152	Protected
+153	Provenance
+154	provenance to be established
+155	Provenance to be established
+156	Provenance and rights
+157	Provenance and responsibility
+158	Public
+159	Publication
+160	Publications based on these documents
+161	published
+162	Published
+163	published
+164	Published
+165	Published on
+166	Publish
+167	Publish on the portal
+168	Publish a file
+169	Publishing a fonds makes its inventory available to the public on the portal. The public only sees the records
+170	Publish a finding aid
+171	Publish a fonds so that its inventory can be consulted by the public.
+172	public
+173	public and validated
+174	Qualified
+175	Qualitative: criteria described, selected one by one
+176	Qualitative (criteria described)
+177	Quality
+178	When a document’s current phase is over, its passage to intermediate archives is recorded, with the location and the person in charge. The document becomes semi-active; it is kept until its due date, when the final disposition applies.
+179	When a series’ rule provides for an
+180	Quantity
+181	Quantity recorded
+182	Volume quantity
+183	Quantity and unit
+184	quantity too large.
+185	Four temporary scans are kept. Release a copy you no longer need.
+186	Which event *
+187	Which plan, which year.
+188	Which data: names and addresses of agents, medical records…
+189	Who signed, in what capacity, on which file
+190	Whom to alert, in what order, how.
+191	Who receives it
+192	Who receives it *
+193	which are also
+194	Root (self-signed)
+195	Fonds root
+196	Media refresh
+197	Company name
+198	Annual activity report — 2025
+199	Check report
+200	Error report
+201	Reports and administrative decisions
+202	Attachment
+203	Attachment reserved for another central authority.
+204	Attachments and delegations
+205	Attach
+206	Attach documents, files or physical archives
+207	Attach an already registered item
+208	Attach a document
+209	Attach a file
+210	Attach a file
+211	Attach a digitized file
+212	Attach a physical archive
+213	Reactivate
+214	Carried out by
+215	Carried out by *
+216	Carried out
+217	receipt
+218	Receipt
+219	Receipt confirmed
+220	Batch receipt

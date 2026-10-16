@@ -1,0 +1,220 @@
+1	Paiement
+2	Paiements enregistrés
+3	papier, photographie, fichiers numériques…
+4	Papier, photographie, microfilm, fichiers numériques…
+5	Paquet
+6	Paquet de diffusion (DIP)
+7	Paquet ZIP
+8	Paquet ZIP *
+9	Paquets exportés
+10	par
+11	Par
+12	Par « {n} »
+13	par an
+14	par composante
+15	Par cote ou description. Ne sont proposées que les archives éliminables : ni dehors, ni patrimoniales, ni essentielles, ni sous gel.
+16	par des personnes distinctes.
+17	Par exemple : année, mois, date exacte ou approximative.
+18	Par exemple : broyage, incinération.
+19	Par exemple « vers 1960 » ou « 1958-1984 (lacunes) »
+20	Par exemple 5 pour les années en 0 et en 5.
+21	Par exemple application/pdf ou image/tiff.
+22	Par exemple l’autorité qui a certifié la copie.
+23	Par exonération
+24	Par la méthode
+25	par mois
+26	Par paiement
+27	par semestre
+28	par trimestre
+29	par un réplica depuis le démarrage du serveur : le stockage principal était indisponible pour
+30	Par une autre personne que son auteur ; il remplace le plan en vigueur
+31	Par versement ou par période, selon la périodicité
+32	Paramètres du nouveau circuit
+33	Parc et profils de qualité
+34	Parcourir le catalogue
+35	Parcourir le patrimoine documentaire
+36	Parcours à compléter
+37	Parcours d’acquisition
+38	Parcours de consultation
+39	Parcours de l’entrée
+40	parcours de référence
+41	Parcours de traitement
+42	Parcours disponible dans le code
+43	Parcours disponibles
+44	Parcours transverse
+45	Parcours utilisateur — Module Traitement
+46	parent
+47	Parent
+48	Parent introuvable : « {n} » n’existe ni dans l’institution ni dans le fichier.
+49	Parenté avec
+50	Participants
+51	Partie
+52	Partiel
+53	Pas d’assurance
+54	Pas de contrat complet exposé pour cette expérience. Les routes futures ne sont pas inventées ici.
+55	Pas encore clos : clôturez-le d’abord
+56	Pas encore de constat d’état de départ.
+57	pas encore généré
+58	Pas encore possible : voir « Du brouillon à la conservation » ci-dessus.
+59	Passage
+60	Passage à appliquer
+61	Passage effectué
+62	Passage en archives intermédiaires
+63	Passage prévu le {n}.
+64	Passages constatés
+65	Passée le
+66	Passer sans OCR
+67	Patrimoine historique et documentaire
+68	PAY-…
+69	PAY-AB12CD34
+70	PDF d’accès
+71	PDF d’accès ·
+72	PDF non conformes
+73	PDF prêt à vérifier
+74	PDF protégé par un mot de passe
+75	PDF/A
+76	Pendant le traitement
+77	Pendant le traitement, l’objet n’est plus manipulable et le bien est « en restauration ».
+78	Pérennité
+79	Pérennité *
+80	Périmètre
+81	Périmètre :
+82	Périmètre national : cette liste affiche uniquement vos propres demandes. Choisissez une institution pour instruire les demandes déposées auprès d'elle.
+83	Périmètre sélectionné dans l’en-tête.
+84	Période
+85	Période du prêt
+86	Période ou culture
+87	Période UTC
+88	Périodicité
+89	périodique
+90	Permis de conduire
+91	Permission
+92	Permissions demandées
+93	Permissions du rôle
+94	Permissions du rôle modifiées
+95	Permissions exécutables définies par le backend. Ce catalogue n’est pas modifiable ici.
+96	Permissions précédentes
+97	Perpétuelle : jamais librement communicable
+98	Persona de démonstration
+99	Personne
+100	Personne dans la salle
+101	Personne morale
+102	Personne non disponible
+103	Personne ou organisme
+104	Personne ou organisme lié à ce document (auteur, producteur, signataire…).
+105	Personne physique
+106	Personne, famille ou organisme qui remet le bien
+107	Personnes à prévenir
+108	Pertinence
+109	Peut être planifié
+110	Peut passer
+111	Phase courante
+112	Phase courante terminée le {n}.
+113	Phase courante terminée ou à venir
+114	Photographie du backend
+115	Photographies et pièces
+116	pièce
+117	Pièce
+118	Pièce de l’encaissement
+119	Pièce jointe
+120	Pièce présentée
+121	Pièce présentée *
+122	pièces
+123	Pièces :
+124	Pièces complémentaires (JSON)
+125	pièces, volumes, mètres linéaires…
+126	PILOTAGE / DÉMONSTRATION
+127	pixels · Confiance :
+128	places
+129	places)
+130	Placez cette feuille en tête du lot : elle permet de vérifier que les fichiers importés appartiennent bien à ce lot. Elle ne sera pas conservée comme page.
+131	Placez cette feuille juste avant le premier document de l’élément, puis numérisez le tout d’un seul passage. Cette feuille ne sera pas conservée comme page.
+132	Plan abandonné :
+133	Plan d’événements
+134	plan d’urgence
+135	Plan d’urgence
+136	Plan de numérisation
+137	Plan de traitement
+138	Plan jamais éprouvé par un exercice
+139	plan version
+140	Plan XML du catalogue public
+141	planétaire
+142	Planétaire (livres reliés)
+143	Planification de la préservation
+144	Planification du traitement
+145	planifié
+146	Planifié
+147	Planifié à l’instant
+148	planifiée
+149	Planifier
+150	Planifier la campagne
+151	Planifier la conservation
+152	Planifier la préservation et les vérifications d’intégrité.
+153	Planifier le traitement
+154	Planifier les documents concernés
+155	Planifiez la première campagne : elle fige un périmètre, puis chaque original est constaté.
+156	Plans d’urgence de l’emplacement
+157	Plus ancien en attente
+158	Plus ancien manque depuis le
+159	Plus anciens
+160	Plus récents
+161	Plus rien n’est en cours sur cette version.
+162	Plusieurs règles s’appliquent avec la même précision et la même priorité : il faut en préciser ou en désactiver une.
+163	Point d’attention
+164	Point de montage introuvable.
+165	Point-virgule
+166	Portaient déjà le remplaçant
+167	Portée
+168	Portée :
+169	Portée *
+170	Portée / rattachement
+171	Portée de l’attribution
+172	Portée de rôle invalide.
+173	Portée du compte
+174	Portion décrite
+175	Posée par
+176	Position :
+177	Position (x, y)
+178	Positions
+179	Positions des mots disponibles
+180	Positions des mots sur le document
+181	Positions non disponibles
+182	Positions OCR
+183	Positions partielles : le moteur a limité ou écarté une partie des mots. Cette vue ne représente pas tout le texte.
+184	Postérieure à aujourd’hui.
+185	pour
+186	pour des archives de confiance. »
+187	Pour être approuvé, le plan doit comporter : {n}.
+188	pour les générations futures. »
+189	Pour les versements numériques : PDF/A, TIFF, XML…
+190	Pour quoi
+191	Pour quoi *
+192	Pour sceller, la version doit avoir un fichier « Maître de conservation » validé, et tous ses autres fichiers (hors fichiers rejetés) doivent être validés. Déposez le maître avec ce rôle puis cliquez sur « Valider comme maître ».
+193	Pour un autre calendrier, utilisez uniquement l’expression originale.
+194	Pour un dossier papier : mètres linéaires, boîtes…
+195	Pourcentage conservé *
+196	pourquoi
+197	Pourquoi
+198	Pourquoi (10 caractères au moins).
+199	Pourquoi (au moins 10 caractères).
+200	Pourquoi avez-vous besoin de ce document ?
+201	Pourquoi ce risque est tolérable en l’état (au moins 10 caractères).
+202	Pourquoi l’original doit sortir de réserve
+203	Pourquoi la décision est reportée (4 caractères au moins).
+204	Pourquoi la sortie est refusée (10 caractères au moins).
+205	Pourquoi le bien sort de la collection (30 caractères au moins).
+206	Pourquoi le rouvrir (au moins 10 caractères).
+207	Pourquoi les originaux sortent
+208	Pourquoi migrer ce format maintenant (10 caractères au moins).
+209	Pourquoi numériser
+210	Pourquoi numériser * (au moins 10 caractères)
+211	Pourquoi traiter : ce que le constat montre
+212	Pourquoi vous décidez autrement que la méthode ; conservé au journal.
+213	Poursuivre les recherches ; si elle est retrouvée, constater sa présence.
+214	PPD
+215	ppp
+216	ppp ·
+217	précautions
+218	Précisez le motif d’interdiction ou les conditions à respecter.
+219	Précision
+220	Précision *

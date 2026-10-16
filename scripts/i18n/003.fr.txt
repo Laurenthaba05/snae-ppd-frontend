@@ -1,0 +1,220 @@
+1	Ajouter une mesure
+2	Ajouter une occurrence ·
+3	Ajouter une priorité
+4	Ajouter une relation
+5	Ajouter une transition
+6	Ajouter une version
+7	Ajoutez au moins une ligne.
+8	Ajoutez la première étape de ce circuit.
+9	Ajoutez le premier champ de ce schéma.
+10	Ajoutez plusieurs départements à une institution en une seule opération.
+11	Ajoutez plusieurs institutions en une seule opération.
+12	Ajoutez sa tutelle, la notice qu’elle remplace ou celle qui la remplace.
+13	Ajoutez une personne, une collectivité ou une famille, puis reliez-la aux fonds qu’elle a produits.
+14	Ajoutez une transcription ou une traduction.
+15	Ajusté : {n}
+16	Ajuster
+17	Aléatoire : un pourcentage tiré au hasard
+18	Aléatoire (pourcentage)
+19	Alerte *
+20	Algorithme
+21	Alias :
+22	Aller / retour
+23	Aller à la conservation
+24	Aller à la page
+25	Aller voir l’archive et constater sa présence.
+26	Allez voir l’archive, puis dites ce que vous avez constaté. Le constat est daté, signé et ne se modifie pas : il se remplace par un constat plus récent.
+27	Altérations
+28	Altérations :
+29	Altérations constatées *
+30	alternatifs
+31	ALTO
+32	Analyse
+33	Analyse automatique des images
+34	Analyse des formats…
+35	Analyse du dossier…
+36	Analyse du versement…
+37	Analyse en cours. Actualisez le statut pour connaître le résultat.
+38	analysée
+39	Analyser le fichier
+40	Analyser les images
+41	Ancienne clé
+42	Ancienne cote
+43	Anciennes références
+44	Anciens tokens révoqués avant
+45	Anglais
+46	année
+47	Année
+48	annee de debut
+49	annee de fin
+50	Année non précisée
+51	années
+52	Années
+53	Années divisées par *
+54	Annoncé au bordereau :
+55	Annulation
+56	annulé
+57	Annulé
+58	Annulé :
+59	Annulé à votre demande
+60	Annulé par l’institution
+61	annulée
+62	Annulée
+63	Annulée : le bien reste dans la collection.
+64	Annulée le
+65	Annuler
+66	Annuler ce lot
+67	Annuler l’abonnement
+68	Annuler l’élément
+69	Annuler l’événement
+70	Annuler l’événement {n}
+71	Annuler la campagne
+72	Annuler la campagne de tri
+73	Annuler la commande
+74	Annuler la commande annule la demande de sortie de l’original. Le document créé pour la numérisation reste en brouillon dans les documents. Cette décision est définitive.
+75	Annuler la demande
+76	Annuler la disposition
+77	Annuler la lecture
+78	Annuler la réservation
+79	Annuler le bordereau
+80	Annuler le bulletin
+81	Annuler le circuit
+82	Annuler le dossier
+83	Annuler le dossier de sortie
+84	Annuler le paiement
+85	Annuler le procès-verbal
+86	Annuler le traitement
+87	Annuler le versement
+88	Annuler ma demande
+89	Annulés
+90	Anomalie constatée
+91	Anomalie constatée * (au moins 10 caractères)
+92	août
+93	Aperçu avec positions OCR
+94	Aperçu du document numérisé
+95	API relative de même origine requise.
+96	Appliquée
+97	Appliquer
+98	Appliquer à
+99	Appliquer au lot
+100	Appliquer ce titre à la notice ouverte
+101	Appliquer cette date à la notice ouverte
+102	Appliquer les permissions
+103	Appliquer un délai
+104	Appliquer un délai de communicabilité
+105	Appréciation
+106	Appréciation interne : ce n’est ni une protection juridique ni une reconnaissance externe, et elle ne produit aucun badge « classé » ou « protégé ».
+107	Appréciation scientifique
+108	Approuvé
+109	Approuvé le
+110	Approuve le lot pour versement
+111	approuvé par une autre personne que son auteur, et le journal de ses
+112	Approuvée
+113	Approuver
+114	Approuver la sortie
+115	Approuver le changement
+116	Approuver le plan
+117	Approuver le plan d’urgence
+118	Approuver ou rejeter
+119	après
+120	Après
+121	Après cet import, il manquera encore les pages :
+122	Après la clôture du document.
+123	Après la clôture, plus aucun bien ne peut être ajouté à ce lot. Les
+124	Après la création de la version et le dépôt du maître.
+125	Après le scellement de la dernière version.
+126	Après les étapes ci-dessus.
+127	Après un mouvement
+128	Après un traitement
+129	Après-midi
+130	archive
+131	Archive
+132	archivé
+133	Archivé
+134	Archive définitive
+135	Archive Excel non prise en charge.
+136	Archive physique
+137	Archive sortie : à reporter, ou à vérifier à son retour
+138	Archive sortie : enregistrez son retour avant de changer son emplacement
+139	Archive sortie : enregistrez son retour avant de vérifier sa présence
+140	Archive sortie : reportez la vérification, ou attendez son retour
+141	Archive sortie, local inaccessible, pièce en cours de restauration…
+142	Archivées
+143	Archivés
+144	ARCHIVES · DESCRIPTION
+145	ARCHIVES · ESPACE DOCUMENTAIRE
+146	ARCHIVES · FICHE DOCUMENTAIRE
+147	Archives éliminables
+148	Archives et patrimoine documentaire
+149	Archives intermédiaires
+150	Archives intermédiaires.
+151	Archiviste de démonstration · Exemple visuel, sans événement serveur.
+152	Arrêtée
+153	Arrêtée par
+154	Arrêter la campagne
+155	Arrivé
+156	Arrivé à
+157	Arrivée
+158	Arrivée sans réservation
+159	Article
+160	Assistance à la connexion
+161	Associée
+162	Associée à
+163	Associer
+164	Associer les fichiers du lot
+165	Associer un événement
+166	Associer un événement historique
+167	Associer un lieu
+168	Associer un sujet
+169	Assurance
+170	Assurer la cohérence
+171	Assureur
+172	Assureur, numéro de police et période de couverture.
+173	Atelier de numérisation
+174	Atelier de restauration, restaurateur, agent de conservation
+175	Atelier, salle…
+176	Attacher
+177	Attacher un acteur
+178	attendu
+179	Attention
+180	Attribué le
+181	Attribué une fois pour toutes : il ne change jamais, même si la cote change.
+182	Attribuer un identifiant pérenne
+183	Attribuer un rôle
+184	Attribuez un identifiant depuis la fiche d’un document ou d’un bien patrimonial.
+185	Attribution de rôle
+186	Attribution détenue
+187	Attributions
+188	Attributions actuelles ou futures
+189	au
+190	Au
+191	Au bordereau d’élimination
+192	Au format PEM : -----BEGIN CERTIFICATE----- … -----END CERTIFICATE-----
+193	Au format PEM : -----BEGIN X509 CRL----- … -----END X509 CRL-----
+194	Au maximum 250 permissions.
+195	Au moins {n} bit par composante
+196	Au moins {n} bits par composante
+197	Au moins {n} caractères.
+198	Au moins 10 caractères.
+199	Au moins 5 caractères.
+200	Au moins jusqu’au retour prévu (
+201	au moins un contact à prévenir
+202	au moins une priorité de sauvetage
+203	Au plus {n} ans.
+204	Au plus {n} jours : au-delà, une nouvelle demande est déposée.
+205	au public.
+206	Au registre
+207	Au-delà de la validité actuelle, dix ans au plus.
+208	Au-delà des {n} pages attendues : corrigez d’abord le nombre de pages attendues.
+209	Aucun
+210	Aucun (racine)
+211	Aucun abonnement
+212	Aucun abonnement en cours
+213	Aucun abonnement ne correspond à ces critères.
+214	Aucun abonnement pour le moment.
+215	Aucun accord
+216	Aucun accord de versement
+217	Aucun accord en vigueur : le versement se fait sans accord.
+218	Aucun acteur attaché
+219	Aucun acteur enregistré pour l’instant — utilisez « Nouvel acteur ».
+220	Aucun agent

@@ -1,0 +1,220 @@
+1	en cours
+2	En cours
+3	En cours de rattrapage
+4	en cours ou en attente :
+5	En décision
+6	en échec
+7	En échec
+8	en JSON-LD ou en RDF/XML. Sont lus : les concepts, leur libellé préféré (français d’abord), leurs libellés alternatifs, leur définition et leur générique. Un concept à plusieurs génériques, un générique absent du fichier, une boucle ou deux libellés identiques font refuser le fichier, avec le concept en cause.
+9	En préparation
+10	En rédaction
+11	En réserve
+12	en retard
+13	En retard
+14	En retard d’un jour
+15	En retard de {n} jours
+16	En retard.
+17	En savoir plus
+18	En vigueur : version {n} depuis le {n}
+19	Encaissé par
+20	Encaissement
+21	Encaissement enregistré :
+22	Encaissement non enregistré.
+23	Encaisser un abonnement
+24	encore ouvert
+25	Encre ferro-gallique, gravure sur bois, tissage…
+26	Enregistré
+27	Enregistré avec le retour : voir l’onglet « Conservation » du bien.
+28	Enregistre une publication selon le canal choisi. Aucun portail public anonyme n’est fourni par ce contrat.
+29	Enregistrement
+30	Enregistrement de la règle
+31	Enregistrer
+32	Enregistrer en brouillon
+33	Enregistrer et activer la version
+34	Enregistrer et activer maintenant
+35	Enregistrer l’arrivée
+36	Enregistrer l’encaissement
+37	Enregistrer l’évaluation
+38	Enregistrer l’examen
+39	Enregistrer la commande
+40	Enregistrer la correction
+41	Enregistrer la description
+42	Enregistrer la réception
+43	Enregistrer la référence
+44	Enregistrer la relation
+45	Enregistrer la remise d’un bien ou d’un lot, avant tout examen
+46	Enregistrer la restitution
+47	Enregistrer la revue
+48	Enregistrer le bien
+49	Enregistrer le brouillon
+50	Enregistrer le constat
+51	Enregistrer le départ
+52	Enregistrer le fichier
+53	Enregistrer le lot dans le système
+54	Enregistrer le paiement
+55	Enregistrer le retour
+56	Enregistrer le risque
+57	Enregistrer le visa
+58	Enregistrer les coordonnées
+59	Enregistrer les événements et les droits détaillés de conservation.
+60	Enregistrer les références du résultat
+61	Enregistrer un bien reçu
+62	Enregistrer un contrôle qualité
+63	Enregistrer un exercice ou un incident
+64	Enregistrer un paiement
+65	Enregistrer une communication
+66	Enregistrer une provenance, rattacher des pièces et clôturer l’entrée.
+67	Enregistrer une revue
+68	Enregistrés
+69	Enregistrez l’encaissement fait au guichet avant de remettre les reproductions.
+70	Enregistrez la première réception : une remise de bien commence toujours ici.
+71	Enregistrez le brouillon avant de l’approuver.
+72	Enregistrez une identité SSO existante : son sub ne doit pas être inventé.
+73	Enrichir les métadonnées
+74	Enrichissement des métadonnées
+75	Ensemble
+76	Ensemble ou aucune des deux ; exigées pour soumettre, car la volumétrie du versement s’en déduit. Choisissez l’unité dans la liste (mètres linéaires, boîtes, gigaoctets…). Trois décimales au plus.
+77	Entre les mains du lecteur
+78	entrée
+79	Entrée
+80	Entrée archivistique
+81	Entrée archivistique associée
+82	Entrée associée non disponible
+83	Entrée aux archives
+84	Entrée patrimoniale
+85	Entrée simple
+86	Entrées
+87	Entrées archivistiques
+88	Entrées archivistiques ouvertes
+89	Entrées et accords
+90	Entrées et provenance
+91	Envoyé avec la décision.
+92	Envoyer au contrôle qualité
+93	Envoyer la demande
+94	Envoyer le lien
+95	Envoyés
+96	Erreur réseau sur une écriture
+97	erreur(s).
+98	Erreurs, refus et reprises
+99	ESPACE MÉTIER · CONCEPTION F3
+100	espèces
+101	Espèces
+102	essai
+103	Essais
+104	Essayez d’autres mots ou une autre catégorie.
+105	Essayez d’autres mots-clés, ou vérifiez que l’index a été alimenté (réindexation).
+106	Essentiel
+107	Est associée à
+108	est cité par
+109	est créée ; il reste à enregistrer et activer sa première version. Corrigez ce qui est signalé puis relancez : la règle ne sera pas créée une seconde fois.
+110	Est liée par la parenté à
+111	Est placée sous la tutelle de
+112	est remplacé par
+113	est une annexe de
+114	est une copie de
+115	est une traduction de
+116	Estimée
+117	Estimée (« vers »)
+118	et
+119	et conservés définitivement. Le détenteur de chaque document est constaté ; l’opération ne peut pas être annulée.
+120	et de préservation du patrimoine documentaire
+121	et incidents. Ce qui manque est signalé en tête.
+122	et je les accepte.
+123	ET l’unité
+124	et recopiez le registre, une ligne par bien. Ce qui n’est pas connu reste vide : rien n’est deviné.
+125	et remplissez un département par ligne ; le « Code du parent » rattache un département à un autre.
+126	et remplissez une institution par ligne.
+127	Établi le
+128	Établi par
+129	Établir le bulletin
+130	établissement
+131	Établissement public
+132	ETABLISSEMENT_PUBLIC
+133	étape
+134	Étape
+135	Étape courante
+136	Étape de départ
+137	Étape de traitement
+138	Étape destination
+139	Étape du versement
+140	Étape finale ?
+141	Étape initiale ?
+142	Étape source
+143	Étape suivante
+144	Étapes
+145	Étapes de numérisation
+146	Étapes du traitement
+147	état
+148	État
+149	État à la remise
+150	État à la remise de {n}
+151	État à la restitution
+152	État à la restitution de {n}
+153	État actuel renvoyé par le backend. Chaque nouvelle décision est contrôlée.
+154	État au retour
+155	État constaté *
+156	État de destination (JSON)
+157	État de l’objet après le traitement
+158	État de l’original au retour *
+159	État de l’original constaté au retour
+160	État de la carte
+161	État de la commande
+162	État de rédaction
+163	État de vérification
+164	État des termes
+165	État du bulletin
+166	État du service
+167	État du traitement
+168	État inconnu
+169	État matériel
+170	État matériel du bien :
+171	État matériel et contexte
+172	État physique
+173	État physique, formats qui demandent un équipement
+174	État source
+175	État source (JSON)
+176	états
+177	États du bien
+178	été servie
+179	Étendue
+180	Étendue : indiquez la quantité ET l’unité, ou aucune des deux.
+181	Étendue : la quantité est un nombre (12 ou 12,5).
+182	Étendue : la quantité ne peut pas être négative.
+183	Étendue : quantité
+184	Étendue : trois décimales au plus.
+185	Étendue : unité
+186	Étendue : unité inconnue.
+187	Évacuation
+188	Évacuation *
+189	Évaluation
+190	Évaluation *
+191	Évaluation et éliminations
+192	Évaluations
+193	Évalué le
+194	Évaluer
+195	Évaluer…
+196	Évaluez la gravité de 1 à 5.
+197	Évaluez la probabilité de 1 à 5.
+198	Évaluez les dangers de cet emplacement : incendie, eau, humidité, nuisibles, vol…
+199	événement
+200	Événement
+201	Événement constaté (fin de marché, décès…)
+202	Événement déclencheur
+203	Événement du journal
+204	Événement historique
+205	événements
+206	Événements déclencheurs
+207	Événements déclencheurs constatés
+208	Événements historiques
+209	Événements techniques consignés sur ce fichier (migration de format, rafraîchissement de support, vérification de fixité…).
+210	Évolution à développer
+211	Évolution du module
+212	EX-DEFAUT-10ANS
+213	Ex. BATIMENT, MAGASIN, RAYONNAGE
+214	Ex. BOITE, ETAGERE, ARMOIRE
+215	Ex. CONSULTATION, TRANSFERT
+216	Ex. DROIT_AUTEUR, DOMAINE_PUBLIC
+217	Ex. FONDS, SERIE, SOUS-SERIE
+218	Ex. LIEU_PRODUCTION, LIEU_EVENEMENT
+219	Ex. LOI, DECRET, CIRCULAIRE
+220	Ex. LOT-2026-001

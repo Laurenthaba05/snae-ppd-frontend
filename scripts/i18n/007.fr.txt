@@ -1,0 +1,220 @@
+1	Cette opération n’est pas possible dans l’état actuel du plan.
+2	Cette opération n’est pas possible dans l’état actuel du procès-verbal.
+3	Cette page exige une attribution nationale directe du rôle d’administration centrale. Le backend reste l’autorité de décision.
+4	Cette page n’existe pas.
+5	Cette page ne peut pas être affichée. Vous pouvez essayer une autre page ou télécharger l’original.
+6	Cette page porte votre numéro de lecteur ; chaque page lue est tracée. La reproduction est soumise aux conditions d’utilisation de l’institution.
+7	Cette période ne permet pas une activation aujourd’hui. Choisissez l’enregistrement en brouillon.
+8	Cette règle n’a
+9	Cette relation ne s’applique pas à ces deux types de notices.
+10	Cette salle est fermée : aucune nouvelle réservation ni arrivée.
+11	Cette section exige une habilitation d’administration des circuits de validation.
+12	Cette section exige une habilitation d’administration des schémas de métadonnées.
+13	Cette section exige une habilitation de gestion des gels légaux pour ce périmètre.
+14	Cette section exige une habilitation de gestion des vocabulaires contrôlés pour ce périmètre.
+15	Cette section exige une habilitation de la salle de lecture pour ce périmètre.
+16	Cette section exige une habilitation de la salle de lecture pour cette institution.
+17	Cette section exige une habilitation de lecture des demandes de dérogation pour ce périmètre.
+18	Cette section exige une habilitation de lecture du journal de préservation pour ce périmètre.
+19	Cette section exige une habilitation de lecture du plan de classement pour ce périmètre.
+20	Cette section exige une habilitation de lecture du registre des communications pour ce périmètre.
+21	Cette section exige une habilitation de revue de rétention pour ce périmètre.
+22	Cette section exige une habilitation nationale de lecture des archives physiques.
+23	Cette section exige une habilitation nationale de lecture des droits.
+24	Cette section exige une habilitation nationale de lecture des entrées archivistiques.
+25	Cette section exige une habilitation nationale de lecture des interventions de restauration.
+26	Cette section exige une habilitation nationale de lecture du journal d’audit.
+27	Cette section exige une habilitation nationale de lecture du patrimoine.
+28	Cette section exige une habilitation nationale du portail des lecteurs.
+29	Cette signature a été saisie par une personne : le serveur ne l’a pas contrôlée.
+30	Cette sortie est liée à la commande de numérisation
+31	Cette sortie fait partie du dossier
+32	Cette suppression concerne uniquement le fichier du connecteur. Vérifiez que vous avez terminé le dépôt ou enregistré une copie si vous souhaitez la conserver.
+33	Cette version remplacera la version en vigueur pour les prochaines échéances.
+34	Chaîne de confiance établie
+35	Chaîne invalide à la date de signature
+36	Chaîne invalide à la date du sceau
+37	Chaîne non évaluée
+38	Champ
+39	Champ proposé
+40	Champs
+41	Changer
+42	Changer l’emplacement
+43	Changer l’emplacement habituel
+44	Changer la sélection
+45	Changer le mot de passe
+46	Changer le rattachement
+47	Changer le statut
+48	Chaque ancienne référence s’écrit « système : valeur », une par ligne.
+49	Chaque évaluation s’ajoute à l’historique
+50	Chaque fichier du stockage principal (
+51	Chaque identifiant nécessite un type et une valeur.
+52	Chaque justificatif nécessite un type, une référence et une URI valide si renseignée.
+53	Chaque ligne constatée conforme ou en écart devient une notice, en brouillon
+54	Chaque ligne est acceptée ou refusée. L’accusé de réception est délivré à l’enregistrement ; une ligne acceptée sera remise par une troisième personne, une ligne refusée redevient disponible chez le service versant. La personne qui reçoit n’est pas celle qui a soumis.
+55	Chaque ligne est acceptée ou refusée. Une ligne acceptée sera détruite par une troisième personne ; une ligne refusée redevient disponible. La personne qui vise n’est pas celle qui a soumis.
+56	Chaque PDF est jugé contre le profil qu’il déclare ; un PDF qui ne déclare rien est jugé contre PDF/A-{n} (il dit alors s’il pourrait y être conforme).
+57	Chaque pièce reçue devient un bien à examiner. Le constat d’état et au moins un bien sont requis avant l’examen.
+58	Chaque producteur nécessite une autorité et un rôle.
+59	Chaque quantité est un nombre entier de 1 à 10000.
+60	Chaque sortie est autorisée par une autre personne, puis l’original est remis ; la remise exige la convention, l’assurance et un constat d’état de départ récent (onglet « Mouvements » ou « Ouvrir la sortie »).
+61	Chaque titre alternatif s’écrit « type : titre », un par ligne.
+62	Chaque volume nécessite une quantité positive (3 décimales au plus) et une unité.
+63	Chargement de l’hébergement…
+64	Chargement de la notice…
+65	Chargement de la page…
+66	Chargement des courriers…
+67	Chargement des formules…
+68	Chargement des indicateurs…
+69	Chargement des inventaires…
+70	Chargement des positions des mots…
+71	Chargement des sauvegardes…
+72	Chargement du bordereau…
+73	Chargement du magasin…
+74	Chargement du suivi de conservation…
+75	Chargement…
+76	Chemin du connecteur interdit.
+77	Chercher
+78	Chercher les fichiers éligibles
+79	Chercher un bien
+80	Chercher un bien (au moins 2 caractères)
+81	Chercher un document par cote
+82	Chercher un dossier
+83	Chercher un emplacement
+84	Chercher un lecteur
+85	Chercher un mot
+86	Chercher un terme
+87	Chercher un terme ou un synonyme…
+88	Chercher une archive
+89	Cherchez par cote ou description ; {n} documents au plus.
+90	Cherchez par libellé ou par synonyme.
+91	Cherchez par nom, prénom ou numéro de carte.
+92	Cherchez par référence ou par intitulé ; un dossier clos s'élimine en entier avec ses sous-dossiers.
+93	chiffrée (STARTTLS)
+94	chiffrée (TLS)
+95	Chiffres, espaces et + ( ) . / -
+96	choisi
+97	Choisir
+98	Choisir d’autres fichiers
+99	Choisir dans le catalogue
+100	Choisir l’institution de tutelle
+101	Choisir le fichier de signature
+102	Choisir le fichier source
+103	Choisir les images
+104	Choisir les images du lot
+105	Choisir un acteur
+106	Choisir un autre élément
+107	Choisir un autre fichier
+108	Choisir un danger…
+109	Choisir un document
+110	Choisir un dossier…
+111	Choisir un événement
+112	Choisir un fichier
+113	Choisir un lecteur…
+114	Choisir un lieu
+115	Choisir un parent
+116	Choisir un passage
+117	Choisir un producteur
+118	Choisir un profil
+119	Choisir un résultat
+120	Choisir un rôle à examiner
+121	Choisir un sujet
+122	Choisir un type
+123	Choisir un type de document
+124	Choisir un type…
+125	Choisir un vocabulaire…
+126	Choisir une catégorie
+127	Choisir une institution…
+128	Choisir une notice
+129	Choisir une notice…
+130	Choisir une règle…
+131	Choisir une unité
+132	Choisir une version
+133	Choisir une version non scellée
+134	Choisir…
+135	Choisissez au moins un document.
+136	Choisissez au moins un fichier.
+137	Choisissez au moins un type de document ou une rubrique du plan de classement : la règle s’applique à ce qui est choisi.
+138	Choisissez au moins une archive.
+139	Choisissez d’abord le service d’archives
+140	Choisissez d’abord une institution
+141	Choisissez d’abord une institution dans le contexte de travail, ou prenez la portée nationale.
+142	Choisissez des intervenants distincts.
+143	Choisissez des termes actifs d’un vocabulaire
+144	Choisissez l’acte concerné.
+145	Choisissez l’emplacement dont vous voulez tenir les risques et le plan d’urgence
+146	Choisissez l’évaluation.
+147	Choisissez l’institution
+148	Choisissez l’institution dans l’application, remplissez la feuille « Départements » (un département par ligne), enregistrez au format .xlsx puis importez le fichier.
+149	Choisissez l’unité.
+150	Choisissez la base juridique.
+151	Choisissez la catégorie à appliquer.
+152	Choisissez la forme du document.
+153	Choisissez la liste de révocation (fichier .crl) ou collez-la au format PEM.
+154	Choisissez la méthode de tri.
+155	Choisissez la nature de la relation.
+156	Choisissez la nature de la sortie.
+157	Choisissez la notice sous laquelle intégrer le versement.
+158	Choisissez la règle dont la méthode de tri s’applique.
+159	Choisissez la salle.
+160	Choisissez la suite à donner.
+161	Choisissez le créneau.
+162	Choisissez le danger.
+163	Choisissez le document en relation.
+164	Choisissez le fichier d’arrivée.
+165	Choisissez le fichier de départ.
+166	Choisissez le fichier que cette signature couvre.
+167	Choisissez le format à migrer.
+168	Choisissez le jour.
+169	Choisissez le lecteur.
+170	Choisissez le motif dans le référentiel.
+171	Choisissez le niveau des notices à créer.
+172	Choisissez le producteur.
+173	Choisissez le projet de numérisation qui prend la commande en charge.
+174	Choisissez le rôle responsable de cette étape.
+175	Choisissez le service d’archives destinataire.
+176	Choisissez le type d’agent.
+177	Choisissez le type d’événement qui déclenche le délai.
+178	Choisissez le type d’événement.
+179	Choisissez le type de document.
+180	Choisissez le type de pièce présentée.
+181	Choisissez le type de relation.
+182	Choisissez les archives physiques à éliminer
+183	Choisissez les types de documents et/ou les rubriques du plan de classement visés (au plus
+184	Choisissez un acteur.
+185	Choisissez un convertisseur.
+186	Choisissez un document.
+187	Choisissez un résultat OCR du fichier sélectionné.
+188	Choisissez un tarif pour chaque ligne.
+189	Choisissez un terme : seuls les résultats qui le portent restent affichés
+190	Choisissez un type de document disponible.
+191	Choisissez une autre personne.
+192	Choisissez une institution
+193	Choisissez une institution dans le contexte de travail pour consulter et gérer son registre de communications.
+194	Choisissez une institution dans le périmètre de travail : la salle de lecture est celle d’une institution d’archives.
+195	Choisissez une institution dans le périmètre de travail pour afficher les échéances et les gels légaux de rétention.
+196	Choisissez une institution dans le périmètre de travail.
+197	Choisissez une institution et disposez de l’habilitation de gel
+198	Choisissez une institution et disposez de l’habilitation de revue
+199	Choisissez une opération pour voir les étapes, les décisions et les contrats correspondants.
+200	Chronologie illustrative
+201	Chronologique : certaines années
+202	Chronologique (certaines années)
+203	Cible
+204	cible(s) sélectionnée(s)
+205	Cibles disponibles
+206	Cinq ans au plus
+207	Circonstances *
+208	Circuit de validation
+209	Circuit du versement
+210	Circuit obligatoire ?
+211	Circuits
+212	Circuits de validation en retard
+213	classé
+214	classés dans ces rubriques. Pour viser plus large, ne cochez que l’un des deux.
+215	Classeur Excel refusé : contenu XML non autorisé.
+216	Classification
+217	Clé actuelle
+218	Clé de scellement des actes
+219	Clé publique Supabase invalide.
+220	Clore

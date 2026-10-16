@@ -1,0 +1,220 @@
+1	End of current phase
+2	End of responsibility
+3	End of validity
+4	Planned end
+5	Structured end
+6	End UTC
+7	Final
+8	Treatment funding
+9	Blurred, cropped, crooked, insufficient resolution…
+10	Frequently asked questions
+11	Function
+12	Function created.
+13	Function saved.
+14	Parent function
+15	Function deleted.
+16	Functions (ISDF)
+17	Functions and activities
+18	Functions and activities (ISDF)
+19	Basis and remarks
+20	Fonds & producers
+21	Fonds and descriptions
+22	Fonds and producer
+23	Digital fonds
+24	Fonds or description
+25	Fonds or level to publish *
+26	Force OCR on images/PDFs
+27	formalized
+28	Formalized
+29	Formalize by an act
+30	format
+31	Format
+32	Format to migrate *
+33	Target format
+34	Target format of a migration
+35	unsupported image format (JPEG, PNG or TIFF)
+36	unsupported file format
+37	Page format
+38	Old Excel format (.xls) not supported: save the file in .xlsx format.
+39	Format not recognized (TIFF, JPEG or PNG expected).
+40	Format produced:
+41	Recognized format
+42	Accepted formats
+43	Allowed formats
+44	Formats and consultation copies
+45	Form *
+46	Authorized form of the name *
+47	Document form
+48	Standardized forms according to other rules (one per line)
+49	Parallel forms of the name
+50	Parallel forms of the name (one per line)
+51	Plan
+52	Plan granted on the institution’s decision: an agent reviews your request and opens it if accepted.
+53	Plan offered to the public
+54	Subscription plans
+55	French
+56	French and English
+57	Attendance
+58	Template
+59	State guarantee, decision or agreement: the reason is written out.
+60	Key custody
+61	Keep
+62	Keep the area
+63	Legal hold
+64	Legal holds
+65	general
+66	general
+67	generation in progress…
+68	Generated on
+69	Generate the access PDF
+70	Manage the subscriptions, the cash desk and the accounts of the public portal’s readers.
+71	Manage the hazards
+72	Manage locations, storage units, physical call numbers and outgoing/return movements.
+73	digitization management
+74	Data management
+75	PERMISSION GOVERNANCE
+76	Draw seed
+77	Severity
+78	Severity *
+79	Gregorian
+80	blocked group(s)
+81	Design guide · no business act is executed here
+82	FIRST BATCH GUIDE
+83	OPERATIONAL GUIDE
+84	GUINEA
+85	Hold management permission required in this scope.
+86	Hosting and replicas
+87	Hijri
+88	Inherit from the parent
+89	Planned hours
+90	Hours worked
+91	hours. Retention:
+92	Administrative history or biography
+93	Service history
+94	History
+95	Event history
+96	Preservation history
+97	Retention history
+98	Provenance history
+99	History of findings and movements
+100	Opening hours
+101	Opening hours:
+102	Horizon
+103	RFC 3161 timestamp
+104	Other than cash, state the payment document (transfer or operation reference), at least 3 characters.
+105	offline
+106	Outside a project
+107	Identifier
+108	Sign-in identifier
+109	Physical archive identifier
+110	Extraction identifier
+111	Invalid role identifier.
+112	Workflow identifier
+113	Document identifier
+114	Identifier of the document that will receive the images (required to import files)
+115	Document identifier, optional
+116	File identifier
+117	Digitized file identifier
+118	Batch identifier
+119	Subject identifier
+120	External identifier:
+121	Optional identifier. Empty: workflow determined automatically for the document.
+122	Invalid identifier: a UUID is expected.
+123	Persistent identifier
+124	Persistent identifier (ARK)
+125	Document persistent identifier
+126	PRONOM identifier
+127	PRONOM identifier: internal match to confirm with Siegfried or DROID
+128	SSO identifier (sub) *
+129	Technical identifier
+130	Invalid user identifier.
+131	Identifier, optional if archive provided
+132	Identifier, optional if document provided
+133	Identifiers and version
+134	Multiple identifiers
+135	Official identifiers (one per line, “SCHEME: value”)
+136	Persistent identifiers
+137	Persistent identifiers (ARK)
+138	Technical identifiers
+139	Identification
+140	Format identification
+141	identification in progress…
+142	Minimal identification: the rest is completed progressively
+143	Identification by signature
+144	identified
+145	Identified
+146	Identify and copy
+147	Identify the remaining files
+148	identity
+149	Identity
+150	IDENTITY & ACCESS
+151	Identity of this proposal
+152	Unnamed identity
+153	Invalid server identity.
+154	Linked SSO identity
+155	Identity verified with the provider. No SSO account or password is created by this action.
+156	ignored
+157	ignored
+158	Ignored (invalid)
+159	The permissions “validate a master file” and “seal a version” are required on the document.
+160	There is no physical original to move.
+161	There is no physical original to locate.
+162	There is no physical original to digitize.
+163	There is no physical original whose condition can be recorded.
+164	It becomes open again and is reassessed
+165	Image
+166	Previous image
+167	Next image
+168	image too large for the engine
+169	File images
+170	Impact & change requests
+171	Department impact
+172	Department import
+173	Import interrupted: the remaining lines were not processed.
+174	Import interrupted: the remaining pages were not processed.
+175	Import done
+176	Import without a separator sheet: the {1} file(s), in the order of the selection, become the pages of the chosen element. Check the order before importing.
+177	physical extent
+178	Physical extent
+179	Physical extent: give the quantity AND the unit, or neither.
+180	Physical extent: the quantity is a number, with three decimals at most.
+181	Physical extent: details
+182	Physical extent: quantity
+183	Physical extent: unit
+184	Imported
+185	imported
+186	Imported
+187	imported
+188	Import
+189	Import this scan
+190	Import from Excel
+191	Import departments from Excel
+192	Import descriptions
+193	Import institutions from Excel
+194	Import pages
+195	Import digitized pages
+196	Import producers
+197	Import terms
+198	Import without a separator sheet
+199	Import a schedule
+200	Import a CSV
+201	Import a file
+202	Import a CSV file
+203	Import a batch
+204	Import a batch of files
+205	Import a register
+206	Import a SKOS thesaurus
+207	Import the file
+208	Unable to load the home indicators.
+209	Unable to load the processing indicators.
+210	Print
+211	Print the withdrawal sheet
+212	Print the transport sheet
+213	Print the plan sheet
+214	Print the minutes
+215	Print the receipt
+216	Inactive
+217	Not communicable: the period is perpetual.
+218	Unknown (declared)
+219	Unknown (declared)
+220	Undetermined

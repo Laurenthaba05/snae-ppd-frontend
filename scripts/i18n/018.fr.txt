@@ -1,0 +1,220 @@
+1	La proposition ou la validation de ce document est annulée ; son échéance redevient disponible. Le motif est conservé au journal.
+2	La qualité est limitée à 300 caractères.
+3	La quantité constatée : trois décimales au plus.
+4	La quantité constatée est un nombre.
+5	La quantité constatée ne peut pas être négative.
+6	la quantité est un nombre (12 ou 12,5).
+7	la quantité ne peut pas être négative.
+8	La quittance remise au lecteur au guichet.
+9	La raison qui justifie de cacher cette zone : donnée personnelle, secret protégé…
+10	La ranger à son emplacement habituel puis constater sa présence, ou faire de cet emplacement son emplacement habituel.
+11	La réception confirme que la représentation numérique correspond à l’original et reste reliée au bien. Elle est faite par une autre personne que celle qui a commandé la numérisation.
+12	La recherche porte sur les notices locales de démonstration.
+13	La référence « {n} » apparaît plusieurs fois dans le bordereau.
+14	La référence de l’accord est obligatoire.
+15	La référence de l’acte de versement est limitée à 255 caractères.
+16	La référence de la décision est obligatoire.
+17	La référence du règlement de la salle que le lecteur a lu.
+18	La référence du versement est limitée à 255 caractères.
+19	La référence du visa est limitée à 255 caractères.
+20	La référence du visa est obligatoire pour accepter des lignes.
+21	la référence est limitée à 150 caractères.
+22	La référence est limitée à 150 caractères.
+23	la référence est obligatoire.
+24	La règle
+25	La règle {n} est active.
+26	La règle {n} est active. Elle s’applique aux documents qui correspondent à ses types et rubriques ; la situation de ce document est mise à jour ci-dessus.
+27	La règle {n} est enregistrée en brouillon.
+28	La règle {n} est supprimée.
+29	La règle applicable n’attend pas cet événement
+30	La règle de conservation ne prévoit pas de phase intermédiaire pour ce document.
+31	La règle part de la clôture du dossier : le document doit être rangé dans un dossier.
+32	La réindexation s’est arrêtée :
+33	La réplication est configurée mais désactivée : aucune copie n’est refaite ni vérifiée.
+34	La réponse au lancement est incertaine. Retrouvez le scan dans la liste du poste ou relisez la même demande.
+35	la réponse de l’outil est illisible
+36	la réponse du validateur est illisible
+37	La réponse n’est pas confirmée : vérifiez votre compte avant de recommencer.
+38	La réponse n’est pas confirmée. Vérifiez la ressource ; un rejeu identique conservera la même clé.
+39	La représentation numérique est réceptionnée : elle est reliée au bien.
+40	La résolution de numérisation ({n} dpi) est inférieure au minimum exigé ({n} dpi).
+41	La résolution minimale du lot ({n} dpi) est inférieure à la consigne du patrimoine ({n} dpi).
+42	La résolution minimale du lot doit respecter la consigne
+43	La résolution minimale est un nombre entier compris entre 50 et 9600 points par pouce.
+44	La résolution minimale se donne entre 50 et 9600 dpi.
+45	La restriction posée par cette catégorie est annulée : le document n’est plus soumis à ce délai. Une restriction posée à la main reste en vigueur.
+46	La révocation d’un certificat de signature se juge
+47	La révocation est indéterminée : aucune liste de révocation ne permet de conclure.
+48	La saisie n’est pas valide.
+49	La sauvegarde a dépassé le délai autorisé.
+50	La sauvegarde a été interrompue. Une nouvelle tentative a été planifiée.
+51	La sauvegarde prévue est en retard. Vérifiez que le service fonctionne.
+52	La seconde année précède la première.
+53	La sélection par emplacement reste à développer.
+54	La session n’est plus disponible.
+55	La signature du sceau ne correspond plus à son contenu : ne vous y fiez pas.
+56	La signature est valide, mais les constats de l’acte ne sont plus ceux qui ont été scellés.
+57	La situation juridique du bien est à clarifier : on ne propose pas sa sortie avant de savoir à qui il appartient.
+58	La sortie définitive d’un bien se
+59	La sortie est exécutée par une autre personne que celle qui a décidé, avec la date de sortie et la référence de l’acte de sortie.
+60	La sortie est une décision grave : elle est examinée et décidée par d’autres personnes que vous, puis exécutée par une personne autre que celle qui décide. Rien n’est supprimé.
+61	La sortie ne peut pas précéder la date de l’acte de décision.
+62	La source est limitée à 500 caractères.
+63	La tâche «
+64	La tâche a été terminée. La boîte a été actualisée.
+65	La valeur assurée est positive ou nulle, avec deux décimales au plus.
+66	La valeur vénale est un montant positif, à deux décimales au plus.
+67	La validation des résultats requiert une habilitation distincte. Ce rôle n’ajoute aucun droit de lecture de fichiers.
+68	La validation devra être faite par une autre personne avant toute exécution.
+69	La validation doit être faite par une personne différente de celle qui a proposé la décision.
+70	La validation engage l’institution : elle est conservée avec son auteur et sa date. Elle est faite par une autre personne que celle qui a proposé le traitement.
+71	La validation est activée, mais le lanceur du validateur n’est pas valide sur ce serveur : vérifiez son chemin.
+72	La validation exige l’habilitation de validation des migrations.
+73	La validation ne comporte pas l’inventaire des fichiers : annulez cette action et proposez-la de nouveau.
+74	La validation PDF/A n’est pas activée sur ce serveur : le validateur (veraPDF) n’est pas livré avec l’application, l’administration doit l’installer et l’activer.
+75	La validité de la carte est limitée à {n} ans.
+76	La validité de la carte est obligatoire.
+77	La version {n} est prête : le scellement fige son contenu et son empreinte.
+78	La version {n} est scellée : son contenu est figé.
+79	La version est enregistrée. Ses champs sont figés ; vous pouvez reprendre son activation ou conserver le brouillon.
+80	La version est scellée : le document peut être clos (onglet « Conservation »).
+81	laissé(s) à leur étape.
+82	Laisser vide si l’étape est finale
+83	Laisser vide si la relation continue
+84	Laissés en l’état
+85	Laissez vide : la quantité annoncée est retenue
+86	Laissez vide ou 0
+87	Laissez vide si elle n’est pas connue. Formes lues : 1930 · 1925-1935 · vers 1930 · années 1930 · XIXe siècle · 12/03/1952 · inconnue. Tout autre texte est conservé tel quel et reste à qualifier.
+88	Lancée le
+89	Lancer le connecteur sur ce PC et saisir ci-dessous son code temporaire. Le code reste uniquement en mémoire dans cet écran.
+90	Lancer le récolement
+91	Lancer le scanner
+92	Lancez un passage une fois l’outil installé et activé.
+93	Lancez un passage une fois le validateur installé et activé.
+94	Langue : code attendu (fra, eng, fr-GN…), sans espace ni accent.
+95	Langue des documents
+96	Langue du contenu
+97	Langue OCR
+98	Langues et écritures de la notice
+99	le
+100	Le backend expose les demandes par rôle, pas de boîte globale.
+101	Le backend expose les tâches d’un document. Une corbeille globale de tâches et les libellés d’actions autorisées restent à compléter.
+102	Le bien est marqué sorti : lui et ses originaux ne se modifient plus et ne bougent plus
+103	Le bien n’est pas pris en charge : sa sortie ne se propose que pour un bien dont l’entrée est décidée.
+104	Le bien n’est plus entre les mains de l’institution : perte, vol ou destruction constatée.
+105	Le bien ne peut pas sortir tant que des opérations le concernant sont en cours.
+106	Le bien reste dans la collection
+107	Le bien reste dans la collection ; un autre dossier pourra être ouvert
+108	Le bien reste enregistré mais n’appartient plus à cette entrée
+109	Le bien retourne à son propriétaire ou à celui qui l’avait déposé.
+110	Le bordereau dépasse {n} lignes.
+111	Le bordereau devient définitif ; il restera à contrôler les archives à leur arrivée.
+112	Le bordereau est accepté. À l’arrivée des archives, contrôlez chaque ligne puis constatez la réception.
+113	Le bordereau est en cours de saisie ; il peut être modifié librement.
+114	Le bordereau est rendu pour correction.
+115	Le bordereau est soumis ; le service d’archives n’a pas encore commencé son contrôle.
+116	Le bordereau est vide : ajoutez au moins une ligne.
+117	Le bordereau est vide.
+118	Le bordereau ne pourra plus être modifié tant qu’une correction n’est pas demandée.
+119	Le bordereau ou la décision interne qui l’accompagne.
+120	Le bordereau s’échange au format de transfert SEDA. Un manifeste ou un paquet repris remplace tout le bordereau ; la quantité et l’unité n’ont pas d’équivalent normalisé et restent à compléter. Le contenu du paquet est contrôlé par empreinte ; une fois le versement reçu, « Déposer le contenu du paquet » crée un document par unité et verse ses fichiers dans le stockage.
+121	Le brouillon est clos ; le plan en vigueur reste en vigueur
+122	Le bulletin liste les originaux demandés par un lecteur présent dans la salle, par cote de magasin. Un original n’est jamais entre les mains de deux lecteurs ; un document sous restriction n’est communiqué que sur dérogation écrite, donnée par la personne qui configure la salle.
+123	Le certificat doit être au format PEM : il commence par « -----BEGIN CERTIFICATE----- ».
+124	Le certificat du signataire était révoqué à la date de la signature
+125	Le certificat est auto-signé : personne d’autre ne garantit l’identité du signataire.
+126	Le certificat n’était pas valide à la date de signature.
+127	Le circuit de validation obligatoire pour ce type de document doit être terminé avant de sceller la version.
+128	Le circuit de validation obligatoire pour ce type de document n’est pas terminé.
+129	Le classeur est protégé par un mot de passe : enregistrez-en une copie sans protection.
+130	Le client OIDC public doit être configuré.
+131	Le code
+132	Le code compte 2 à 40 caractères : lettres, chiffres, tirets et soulignés.
+133	Le code compte de 2 à 60 caractères : lettres majuscules, chiffres et souligné, la première étant une lettre.
+134	Le code court correspond à plusieurs éléments : imprimez à nouveau la feuille (code QR complet).
+135	Le code de jumelage est distinct de votre mot de passe. Les copies temporaires peuvent être retrouvées après reconnexion, pendant 30 minutes.
+136	Le code de la règle est obligatoire.
+137	Le code doit commencer par une lettre : lettres, chiffres, _ et - uniquement.
+138	Le code est de 2 à 40 caractères : lettres, chiffres, tiret ou souligné.
+139	Le code est en majuscules, chiffres, point, tiret ou soulignement (60 caractères au plus).
+140	Le code est limité à 100 caractères.
+141	Le code est obligatoire.
+142	Le code ne contient que lettres, chiffres, point, tiret, barre oblique et tiret bas.
+143	Le code se compose de 3 à 60 lettres, chiffres ou tirets bas.
+144	Le commentaire dépasse 10 000 caractères.
+145	Le commentaire est limité à 2000 caractères.
+146	Le compte sert à lire les documents et à suivre vos abonnements. Il est distinct des comptes des agents de l’institution.
+147	Le compte, le périmètre et les permissions sont contrôlés au moment de chaque action.
+148	Le connecteur doit autoriser l’origine
+149	Le connecteur doit utiliser HTTPS hors développement local HTTP.
+150	Le connecteur n’a pas renvoyé un PDF valide de 50 Mio maximum.
+151	Le connecteur ne répond plus. Actualisez les scans du poste avant de relancer une demande.
+152	Le constat est daté, signé et ne se modifie pas : un constat plus récent le remplace, et l’historique garde tous les états successifs. L’état matériel du bien suit le plus préoccupant des derniers constats de ses originaux.
+153	Le constat se fait juste avant le départ. Il devient le dernier état connu de l’original : s’il interdit la manipulation, l’original ne sortira pas.
+154	Le contenu a été modifié depuis la signature
+155	Le contenu n’a pas été modifié depuis la signature
+156	Le contenu n’a pas été modifié depuis la signature, mais le signataire n’était plus garanti.
+157	le contenu ne correspond pas au type annoncé
+158	le contenu relu ne correspond plus à l’empreinte enregistrée
+159	Le contrat actuel expose
+160	Le contrôle antivirus n’est pas configuré sur le serveur. Un administrateur doit l’activer avant que le fichier puisse être validé.
+161	Le contrôle est réussi. Toutes les notices seront enregistrées ensemble. Le serveur vérifiera à nouveau les données lors de la confirmation.
+162	Le contrôle qualité est passé : l’original peut rentrer en réserve (retour à enregistrer dans l’onglet « Mouvements »).
+163	Le courrier contient un lien de confirmation. Une fois l’adresse confirmée, vous pourrez vous connecter.
+164	Le courrier est trop ancien pour être encore envoyé.
+165	Le cycle de sauvegarde a échoué. Une intervention technique est nécessaire.
+166	Le début ne peut pas être dans le passé.
+167	Le délai court d’une date d’événement : à saisir document par document.
+168	Le délai court de cette date.
+169	Le délai court depuis
+170	Le délai de traitement est dépassé. Vous pouvez réessayer avec le même fichier dans la fenêtre de dépôt, ou abandonner ce dépôt depuis le suivi avant un nouveau téléversement.
+171	Le délai part de {n}, et cette date n’existe pas encore pour ce document.
+172	Le délai part de l’événement « {n} », qui n’a pas encore été constaté pour ce document ni pour son dossier.
+173	Le délai part de la date à laquelle cet événement est constaté sur le document ou son dossier.
+174	Le délai part du
+175	Le demandeur confirme qu’il a bien reçu l’original ; le retour s’enregistre quand l’original rentre.
+176	Le dépôt est terminé. Un agent habilité doit valider le fichier depuis la fiche documentaire avant l’extraction. Une fois cette validation faite, relisez le dépôt ou reprenez l’extraction.
+177	Le dépôt ne présente que les notices du catalogue public, en Dublin Core simple, avec leur identifiant ARK quand il existe. Sa configuration est celle de l’exploitant.
+178	Le dépôt nécessite une intervention.
+179	Le dépôt OAI-PMH est activé mais sa configuration est incomplète : il reste fermé au moissonnage.
+180	Le dépôt OAI-PMH est ouvert : les notices publiques sont moissonnables en Dublin Core.
+181	Le dépôt OAI-PMH n’est pas ouvert : l’exploitant ne l’a pas activé.
+182	Le dépôt, le magasin, la salle ou le serveur où les documents sont gardés.
+183	Le dernier constat d’état demande des précautions : dites lesquelles
+184	Le dernier constat d’état demande des précautions : écrivez les conditions de manipulation à respecter (au moins {n} caractères).
+185	Le dernier cycle d’envoi a échoué : une intervention technique est nécessaire.
+186	Le dernier cycle de réplication a échoué : une intervention technique est nécessaire.
+187	Le dernier cycle est ancien : vérifiez que le service fonctionne.
+188	Le dernier cycle s’est terminé normalement.
+189	Le diagnostic dit pourquoi traiter : au moins {n} caractères.
+190	Le document a déjà été remis à une institution d’archives.
+191	Le document de cet élément n’a aucune version en brouillon : créez une nouvelle version depuis la fiche du document avant d’importer.
+192	Le document de cet élément n’a aucune version en brouillon.
+193	Le document de la représentation numérique
+194	Le document doit être clos et non détruit.
+195	Le document doit être clos et une règle de conservation applicable doit exister.
+196	Le document est clos : il n’accepte plus de modification.
+197	Le document est clos : l’onglet « Conservation » dit quelle règle s’applique et permet de planifier l’échéance.
+198	Le document est clos.
+199	Le document est conservé définitivement.
+200	Le document est déjà conservé définitivement : sa conservation ne se replanifie pas.
+201	Le document est déjà détruit.
+202	Le document est détruit.
+203	Le document figure déjà dans une autre campagne de tri en cours.
+204	Le document figure déjà sur un autre bordereau de versement en cours.
+205	Le document figure déjà sur un autre bordereau en cours.
+206	Le document n’a encore aucune version : créez-la, puis déposez le fichier maître.
+207	Le document n’est ni conservé ni éliminé : son échéance est repoussée à la date de la prochaine revue.
+208	Le document n’est pas clos.
+209	Le document n’est pas encore clos : clôturez-le pour planifier sa conservation.
+210	Le document n’est plus en phase courante : il est déjà passé en archives intermédiaires ou conservé définitivement.
+211	Le document ne devient jamais librement communicable.
+212	Le document passerait en archives intermédiaires le
+213	Le domaine du destinataire n’est pas dans la liste autorisée de cet environnement.
+214	Le dossier de preuve a changé : la décision doit être validée de nouveau.
+215	Le dossier du document
+216	Le dossier du document n’est pas encore clos.
+217	Le dossier est accepté : demandez la sortie de chaque original (« Demander les sorties »), puis complétez la convention, l’assurance, le transport et les constats d’état de départ.
+218	Le dossier n’est pas clos : il ne peut pas être éliminé.
+219	le fichier
+220	le fichier a changé pendant l’analyse

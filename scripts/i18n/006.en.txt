@@ -1,0 +1,220 @@
+1	Image characteristics
+2	Physical characteristics
+3	Physical characteristics and technical constraints
+4	Card
+5	Identity card
+6	Card expired
+7	Card suspended:
+8	Card valid until
+9	Card valid until *
+10	Journey map by user role
+11	Catalog
+12	Permission catalog
+13	National catalog — specific rights required.
+14	Catalog of more than 1,000 permissions: incomplete loading, editing disabled.
+15	category
+16	Category
+17	Category (e.g. RETENTION, RECORDS, PUBLICATION…)
+18	Category *
+19	Reader category (optional)
+20	Document category
+21	Unknown category “{1}”: use a category from the template’s list.
+22	Category missing.
+23	categories
+24	Categories
+25	Item categories
+26	Reader categories
+27	Categories that target this document type:
+28	Cause
+29	CC-BY-4.0
+30	This item is already shelved at this location.
+31	This item has already left the collection.
+32	This item has left the collection: it and its originals can no longer be modified or moved.
+33	This item has left the collection. Its record and its originals can no longer be modified; its history is kept.
+34	This item has been the subject of no withdrawal file.
+35	This item has no linked physical original.
+36	This item is not in a state that allows its withdrawal: it must be taken over, by the institution.
+37	This item appears in no outgoing loan or exhibition file.
+38	This certificate covers the application’s storage. Any backups and replicas of the host are not covered.
+39	This certificate has expired: it only forms a chain for signatures dated within its validity period.
+40	This certificate is too large.
+41	This workflow is linked to no document type: it applies to no document.
+42	This code is already taken, sometimes by a previous attempt left without a version. Choose another code.
+43	This code already exists in the institution: line ignored.
+44	This hazard is withdrawn from the reference list: choose another.
+45	This deposit has been cancelled. No file was added.
+46	This interrupted deposit will be cancelled. To deposit the file afterwards, a new upload will be needed.
+47	this document
+48	This document
+49	This document has been destroyed.
+50	This document has too many objects for a single destruction: ask the administrator to split it.
+51	This document replaces another (new version of a text, repeal).
+52	This document is kept permanently by
+53	This document is an annex to another.
+54	This document has no stored content: only its record remains.
+55	This document has no file with a verifiable signature (PDF, .p7m, XML, or .p7s with its file). Declare the others.
+56	This document has no communicable page for now.
+57	This document has no readable digitized page: there is nothing to redact. Redaction applies to the pages read on the portal.
+58	This document is not freely readable. The institution reviews each request; the access granted is limited in time.
+59	This document holds personal data and has no communicability period: it is therefore subject to no calculated restriction.
+60	This document only
+61	This document…
+62	This file was modified in the meantime: reload it before acting.
+63	This file is closed: it can no longer be modified.
+64	This file is empty.
+65	This file contains no document to destroy.
+66	This file cannot be closed by your account in its current state.
+67	this file
+68	This file was rejected by the security checks. Select another file.
+69	This file is not a valid Excel workbook (.xlsx).
+70	This file carries no electronic signature.
+71	This file can become a page
+72	This audio format cannot be played by your browser.
+73	This video format cannot be played by your browser.
+74	this day does not exist.
+75	This log is only a local demonstration trace, editable or erasable from the browser. It has no evidential value.
+76	This reader has no current subscription: the granted access will only open once they have one.
+77	This batch is closed: no more items can be added to it.
+78	This batch does not belong to the chosen project.
+79	This batch contains no element at a work step.
+80	this month
+81	This password is too common.
+82	This password repeats the same characters too much.
+83	This reason is unknown or withdrawn from the reference list.
+84	This is not a SNAE code (SNAE:E:… for an element, SNAE:L:… for a batch).
+85	This browser cannot decompress Excel files. Use a recent browser or the CSV format.
+86	This step requires the permission “
+87	This PDF cannot be displayed. It may be damaged or password-protected. You can download the original.
+88	This plan was modified in the meantime: reload it before saving.
+89	These minutes are closed: they can no longer be modified.
+90	What it says
+91	What it targets
+92	What the plan covers: buildings, rooms, fonds.
+93	What the authority decided and on what basis.
+94	What is done to reduce the risk
+95	What can be done with the object
+96	What is rescued, with what means, who is authorized to do so and under what conditions.
+97	What the legal basis allows or forbids doing with the document
+98	What the campaign established: discrepancies found, elements carried over, follow-up. Kept with the minutes.
+99	What the campaign verifies and why
+100	What the person will see: “Final acceptance of the contract”.
+101	What the quantity does not say: including 3 boxes of plans, bound registers…
+102	What the register says about the item’s origin. Provenance stays “partially known”: it is to be established, never presumed complete.
+103	What the service collects and from whom
+104	What the retention rules may wait for
+105	What you found *
+106	What you can do
+107	What was done, or why it is given up (at least 5 characters).
+108	What was seen: where, how far, since when if known
+109	What worked, what did not.
+110	What is appraised: “Civil registers from 1980 to 1989”.
+111	What the assessment is based on: document, decision, date. It is kept, never erased.
+112	What is wrong
+113	What may happen, where, and what it threatens (at least 10 characters).
+114	What holds back the withdrawal:
+115	What happened *
+116	What will be done, with which materials or which method
+117	What will be transferred: “Civil registers from 1950 to 1960”.
+118	What will be targeted: “Payroll registers from 1985 to 1990”.
+119	This receipt is cancelled
+120	This replica is no longer configured: its copies are no longer tracked.
+121	This result contains no word position.
+122	This withdrawal is final
+123	This risk was modified in the meantime: reload it before saving.
+124	This role is in use. Another authorized person will have to approve the request.
+125	This role is not assigned: direct configuration allowed according to the server.
+126	This scan has expired or was erased from the workstation.
+127	This scanner does not exceed {1} dpi.
+128	This scanner does not handle double-sided scanning.
+129	This schema is linked to no document type.
+130	This term is obsolete or its vocabulary is withdrawn: choose an active term.
+131	This term already exists in the vocabulary.
+132	This broader term would form a loop in the hierarchy.
+133	This obsolete term has no declared replacement: it is not known what to replace it with.
+134	This text contains a private key: never deposit it. Provide the list alone.
+135	This text contains a private key: never deposit it. Provide the certificate alone.
+136	This text is not a revocation list: it starts with “-----BEGIN X509 CRL-----”.
+137	This transfer was not accepted by the receiving institution: it is handled from its transfer schedule.
+138	This transfer was not accepted by the receiving institution.
+139	This event type belongs to another institution.
+140	This event type is withdrawn.
+141	This accession has not yet been integrated into the description plan.
+142	This vocabulary belongs to another institution.
+143	This vocabulary is withdrawn: it no longer accepts terms.
+144	This vocabulary is withdrawn: its terms remain readable and the keywords already applied remain, but it no longer accepts terms or new indexing.
+145	This vocabulary has no term yet.
+146	The one that accepts or refuses each document and issues the acknowledgement of receipt.
+147	The approver cannot be the person who submitted.
+148	Some retention periods start neither from a document date nor from its closing, but from a
+149	Some documents can only be read after agreement of the institution that keeps them.
+150	Some files are kept with a storage provider other than the one configured.
+151	Certificate
+152	Certificate *
+153	destruction certificate
+154	Destruction certificate
+155	Seal certificate
+156	Signer’s certificate
+157	Certificate used
+158	Certificate not revoked
+159	Certificate revoked
+160	Destruction certificates
+161	Certainty
+162	These
+163	These figures represent the fictitious records visible in this tab. They are not national indicators.
+164	These figures are counted from the institution’s registers for the chosen calendar year. The volume of the digital fonds is a snapshot at the date of preparation; only structured entries are attached to an archives institution.
+165	These deposits will be cancelled; they will no longer prevent sealing the version. A file already deposited and validated is not affected.
+166	these files
+167	These journeys use the V13.1 backend. Demonstration mode performs no import, digitization or extraction. Connect an authorized account to run them.
+168	These settings are not allowed for this scanner profile.
+169	These values are read from the file headers; a missing value is reported as “not provided”, never assumed.
+170	This act is not yet complete: there is nothing to seal.
+171	This act is not yet sealed. Automatic sealing did not cover this act: it can be sealed now.
+172	This element has left the digitization step: its pages can no longer change.
+173	This element already appears higher up in the batch: only one separator sheet per element.
+174	This element is linked to no document: state it in its digitization plan.
+175	This element is linked to no document: the images are stored in a document version.
+176	This element is not attached to the selected batch.
+177	This location is disabled: no more risks, plans or exercises are recorded there.
+178	This record cannot be modified: a more recent finding completes it.
+179	This event has already been recorded: cancel it first, with a reason, to correct it.
+180	This finding aid is already published.
+181	This original is in reserve. To consult, digitize, exhibit or lend it, file a request: it will be authorized by another person.
+182	This original has no digitization in progress. To produce a digital representation, order its digitization: the withdrawal will be authorized by another person and the representation received by another person.
+183	This action is ready to be confirmed.
+184	This address is not valid.
+185	This year
+186	This archive has never left its storage unit.
+187	This archive cannot be destroyed: it is out, attached to a heritage item, or its document is essential or under legal hold.
+188	This physical archive is destroyed: it can no longer be modified or moved.
+189	This self-assignment is not available. Check your rights again.
+190	This authorization concerns only this role and this institution. The reason will be kept in the log.
+191	This campaign contains no element.
+192	This category runs from an event date: enter it.
+193	This decision belongs to a transfer schedule: it is handled from that schedule.
+194	This decision binds the institution and is kept with its author, date and reason. It is taken by someone other than the person who recorded the receipt.
+195	This decision is final; a new treatment may then be proposed.
+196	This decision is final; a new request may then be filed.
+197	This decision is final.
+198	This decision is a re-examination: use the re-examination operation.
+199	This declaration is final
+200	This request has already been processed and its copy has expired or been erased. Refresh the workstation scans.
+201	This request removes all of the role’s permissions.
+202	This description is under review: modifying it sends it back to drafting.
+203	This description is validated: a correction requires a written reason of at least 10 characters.
+204	This step is the last: completing it closes the workflow.
+205	This function cannot be found or is not accessible.
+206	This function is linked to no other function, no producer and no fonds.
+207	This plan is granted on the institution’s decision. Go to the counter quoting reference {1}: your subscription opens as soon as an agent grants it.
+208	This image cannot be displayed. You can download the file.
+209	This institution
+210	This institution has too many departments to be checked before the import.
+211	This integration is blocked.
+212	This interface uses the national colours and a republican header. It is not an officially approved graphic charter. No seal, coat of arms or ministry logo that was not provided has been invented. The archives symbol belongs to the project; its adoption must be validated institutionally.
+213	This line has no unit: the recorded quantity has no meaning.
+214	This list is too large (5 MB at most).
+215	This list does not indicate a next update.
+216	This measure is closed: it can no longer be modified.
+217	this record
+218	This record is locked or its version is not available. Direct correction is disabled.
+219	This operation is irreversible.
+220	This operation is not possible in the file’s current state.

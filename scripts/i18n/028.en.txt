@@ -1,0 +1,220 @@
+1	Risk review overdue
+2	Emergency plan review
+3	Plan review overdue
+4	RiC-O (JSON-LD)
+5	Nothing to classify
+6	Nothing to identify: all the files have been.
+7	Nothing to integrate
+8	Nothing to migrate
+9	Nothing to report
+10	Nothing to track
+11	Nothing to validate: all the PDFs have been.
+12	Nothing is waiting at this step for now.
+13	Risk
+14	High risk
+15	High risk with no measure
+16	Location risks
+17	Risks and emergency plan
+18	Risks and emergency plans
+19	Open risks
+20	Risks, emergency plan and exercises of the location
+21	role
+22	Role
+23	Role *
+24	Role / source
+25	file role not accepted
+26	Role held:
+27	Document role
+28	Supporting document role
+29	Role of the place
+30	Producer’s role
+31	Role not available
+32	Responsible role
+33	Responsible role *
+34	Reopen
+35	Reopen the description
+36	Reopen the risk
+37	Classification plan heading
+38	Heading not available
+39	Headings
+40	Location headings
+41	Record headings
+42	Classification plan headings
+43	headings are ticked: the rule only applies to documents of these types
+44	Subscribe to request access
+45	Subscribe to read
+46	Entered for verification, never kept in full.
+47	entered
+48	Entered, flagged as such
+49	Enter a search term
+50	Enter your password
+51	Room
+52	Room *
+53	Reading room, digitization workshop, museum…
+54	Reading room, reprography, research assistance
+55	Room, display case…
+56	Rooms
+57	Reading rooms
+58	No agreement
+59	without consultation copy
+60	No call number
+61	Undated
+62	No end date
+63	No period
+64	No discrepancy
+65	no due date
+66	No due date
+67	Without a list, certificate revocation remains undetermined.
+68	No batch
+69	no level (part 4)
+70	Not applicable
+71	no original located
+72	No original located
+73	No physical original
+74	No policy
+75	No policy:
+76	No summary
+77	No further action
+78	no text
+79	Untitled
+80	Without treatment, the object deteriorates: a preservation intervention is necessary.
+81	No version
+82	Health, opinions, origin, convictions… Assumes personal data are present.
+83	Backup of application data and locally stored files. Frequency: every
+84	Backups and restores
+85	Salvage *
+86	Scanner
+87	Scanner not available
+88	Scan or enter a code (SNAE:E:…)
+89	Scans kept on this workstation
+90	Seal of {1}
+91	Electronic seal
+92	Sealed on
+93	sealed
+94	Sealed
+95	Seal the version
+96	Seal now
+97	Schema
+98	Metadata schema
+99	Mandatory schema
+100	Schemas
+101	Metadata schemas
+102	Sign in to request
+103	Sign in to request access
+104	Sign in to read
+105	Secret
+106	General Secretariat
+107	Entry sections
+108	Campaign sections
+109	Record sections
+110	Reading room sections
+111	Heritage sections
+112	Portal sections
+113	Security
+114	Security and limits
+115	Manual selection
+116	selected
+117	Selected:
+118	selected
+119	selected
+120	Select
+121	Select:
+122	Select: beneficiary
+123	Select PDFs and images
+124	Select a department
+125	Select a parent
+126	Select a role
+127	Select an institution
+128	Select at most {1} files at a time.
+129	Select at most 500 files at a time.
+130	Select between 1 and 500 targets.
+131	Select a word to see its coordinates.
+132	Select an institution in the header to choose the recipient document.
+133	Select an institution in the work context to create an institution-level rule.
+134	Select an institution in the workspace filter to view its fonds and producers.
+135	sensitive
+136	CSV separator
+137	Separated by commas
+138	series
+139	Series
+140	Parent series
+141	Used to set communication periods and redactions.
+142	Service
+143	SERVICE
+144	Archives service
+145	Recipient archives service
+146	Training service
+147	Storage service
+148	Archives service
+149	Service unavailable
+150	Producing service
+151	Transferring service
+152	Researcher services
+153	Session expired: sign in again then retry the remaining lines.
+154	Session expired: sign in again then retry.
+155	Local session in memory
+156	Only the certificate is deposited, never a private key
+157	Only the authorized direct holder can delegate an active business role.
+158	Only an obsolete term can be replaced: first make it obsolete by naming its replacement.
+159	Only the list is deposited, never a private key
+160	Only an anon/publishable public key is allowed.
+161	Only if personal data are present.
+162	Only the accepted lines will be destroyed
+163	Only public and validated records, not yet published, are offered.
+164	Only the objects you have the right to read are listed.
+165	Only scanners in service are offered
+166	SHA-256:
+167	SHA-256 with ECDSA
+168	SHA-256 with RSA
+169	If this document is read on request, check that your access is still valid in
+170	If this option is unchecked, you can save a partial entry.
+171	If the act is forbidden or conditional, state the reason or the conditions.
+172	If the plan must change, prepare a new version instead.
+173	If yes, a document of this type cannot be sealed until its circuit is finished.
+174	If a document is under restriction, give the reference of the written waiver.
+175	If empty, the server uses 100.
+176	century
+177	Century
+178	Century not specified
+179	Acronym
+180	Acronym too long (50 characters max).
+181	flagged: a PDF/A cannot be encrypted
+182	flagged
+183	Flag
+184	Flag a situation to be clarified
+185	Signatory
+186	Signatory *
+187	Borrower’s signatory
+188	Signature
+189	Detached signature (.p7s) of another file
+190	Signature embedded in the file (PDF, .p7m, XML)
+191	Electronic signatures
+192	Signatures, stamps, watermarks, ownership marks, captions.
+193	signed on
+194	Signed on
+195	Simulate the next step:
+196	Website: an address starting with http:// or https:// is expected.
+197	Situation
+198	Situation to be clarified
+199	Preservation situation
+200	legal situation to be clarified
+201	SKOS
+202	SNAE
+203	SNAE - PPD
+204	snae-…
+205	SNAE-PPD
+206	SNAE-PPD ·
+207	Its code will no longer change
+208	Its content no longer exists; only its record remains, as a tombstone, with the destruction certificate.
+209	Its impact and its requests will appear here.
+210	Its risk level and its permanence guide the migrations
+211	are already processed; the resumption continues where it stopped.
+212	Final disposition “{1}” unknown (keep, eliminate or sample).
+213	Final disposition *
+214	final disposition unknown (keep, eliminate or sample).
+215	Proposed final disposition
+216	proposed disposition
+217	Proposed disposition
+218	Left the collection
+219	Taken out of storage
+220	Taken out of storage, overdue.

@@ -1,0 +1,220 @@
+1	Ex. MAITRE, DERIVE
+2	Ex. SCAN-01 (lettres, chiffres, _ . -)
+3	Ex. TESSERACT
+4	Ex. TRANSCRIPTION, CORRECTION
+5	Ex. TRANSCRIPTION, TRADUCTION
+6	Exactement le montant dû.
+7	Examen
+8	Examen *
+9	Examen de la provenance
+10	Examen de la provenance et des conditions
+11	Examen enregistré
+12	Examen et conditions
+13	Examen indépendant
+14	examinée
+15	Examinée
+16	Examiner
+17	Examiner la sortie
+18	Examiner le lot
+19	Examiner les restrictions et les gels de conservation.
+20	Examiner, accepter ou rejeter les résultats d’extraction : ACQUISITION_REVIEW.
+21	Excel (.xlsx) ou CSV
+22	Exécuté
+23	Exécuté le
+24	Exécuté par
+25	exécutée
+26	Exécutée
+27	Exécutée : le bien est sorti de la collection.
+28	Exécutée par
+29	Exécuter
+30	Exécuter l’élimination
+31	Exécuter la disposition
+32	Exécuter la reconnaissance
+33	Exécuter la sortie
+34	Exécution
+35	Exemple de définition.
+36	Exemple de série.
+37	Exemple sans images numérisées.
+38	Exerce la tutelle sur
+39	Exercée par
+40	exercices
+41	Exercices et incidents
+42	Exercices et incidents de l’emplacement
+43	Exigée quand le prêt est assuré par une police
+44	Exigées pour une description validée.
+45	Exigence
+46	Exigences
+47	Existence et lieu de conservation des copies
+48	Existence et lieu de conservation des originaux
+49	Expédition
+50	expiré
+51	Expiré
+52	expirée
+53	Expirée
+54	Expliquez l’écart ou l’absence constaté.
+55	Explorer les notices de démonstration du périmètre courant.
+56	Explorez l’interface avec des identités fictives. Aucun document ni service de l’État n’est consulté.
+57	Exporté le
+58	Exporter ALTO · toutes les pages (
+59	Exporter cette notice et ses sous-niveaux publics :
+60	Exporter EAC-CPF
+61	Exporter EAD
+62	Exporter en Excel
+63	Exporter en MIX (XML)
+64	Exporter en SKOS
+65	Exporter en tableur (CSV)
+66	Exporter en XML
+67	Exporter le bordereau (SEDA)
+68	Exporter les notices visibles (CSV)
+69	Exporter un paquet d’archivage
+70	Exporter un paquet de diffusion
+71	Expression originale
+72	Extension
+73	Extraction
+74	Extraction demandée :
+75	Fabricant
+76	Face
+77	Faces
+78	Facultatif
+79	Facultatif ; par défaut {n}.
+80	Facultatif : 8 caractères au plus, chiffres et consonnes.
+81	Facultatif : ce qui atteste que l’événement est survenu.
+82	Facultatif : combien de temps le document reste en usage courant, avant de passer en archives intermédiaires jusqu'à l'échéance. Vide : pas de phase intermédiaire.
+83	Facultatif : conserver, éliminer ou trier.
+84	Facultatif : d’où vient la liste (norme, thésaurus d’origine…).
+85	Facultatif : déroulement, incidents, enseignements
+86	Facultatif : durée d’utilité administrative proposée par le producteur, de 0 à 150 ans.
+87	Facultatif : explique le contenu ou le motif de cette version.
+88	Facultatif : gants, support, interdiction de photocopier…
+89	Facultatif : immédiatement. Dates en heure locale.
+90	Facultatif : l’atelier choisira un lot qui la respecte
+91	Facultatif : la décision ou le document qui fonde le versement.
+92	Facultatif : pages contrôlées, réserves…
+93	Facultatif : papier, photographie, microfilm, fichiers numériques…
+94	Facultatif : par défaut « Élimination du dossier » suivi de sa référence.
+95	Facultatif : pour corriger un résultat précis.
+96	Facultatif : pourquoi cette catégorie s'applique à ce document.
+97	Facultatif : précautions, formats, pages à photographier à part…
+98	Facultatif : précise la relation (annexe 1, version de 2019…).
+99	Facultatif : repris dans chaque application.
+100	Facultatif : si renseigné, le statut vise ce fichier plutôt que le document.
+101	Facultatif (50 caractères max). Exemple : Direction, Service, Bureau.
+102	Facultatif (50 caractères max). Exemple : MEF
+103	Facultatif à ce stade
+104	Facultatif si le numéro d’inventaire est renseigné. Conservée comme ancienne référence du registre d’origine.
+105	Facultatif. Le code du département dont celui-ci dépend : un département déjà enregistré dans l’institution, ou une autre ligne du fichier (peu importe l’ordre des lignes). Laissez vide pour un département de premier niveau.
+106	Facultatif. Les accords actifs et en vigueur. Il fixe le producteur et le service d’archives.
+107	Facultative ; le sous-dossier peut hériter du parent.
+108	Facultative : ce que le terme recouvre, ou la règle de son emploi.
+109	Facultative : elle n’existe que sur ce dossier.
+110	Faire avancer
+111	Faire avancer le lot
+112	Faire passer en archives intermédiaires
+113	fait partie de
+114	Famille
+115	fermé
+116	fermée
+117	Fermée
+118	Fermer et relire
+119	Fermer l’aide
+120	Fermer l’examen
+121	Fermer la fiche
+122	Fermer les positions
+123	Fermer ma session locale
+124	Fermeture *
+125	FEUILLE DE LOT
+126	Feuille de lot reconnue : {n}.
+127	Feuille séparatrice
+128	FEUILLE SÉPARATRICE — ÉLÉMENT
+129	Feuilles
+130	Feuilles du lot
+131	Feuilles séparatrices
+132	feuilles séparatrices comprises
+133	février
+134	Fiche complète
+135	Fiche de l’acteur
+136	FICHE DE RÉFÉRENCE
+137	Fiche de sortie — exposition
+138	Fiche de transport — prêt sortant
+139	Fiche documentaire
+140	Fiche du service d’archives
+141	Fiche enregistrée.
+142	Fiche vide
+143	fichier
+144	Fichier
+145	Fichier *
+146	Fichier / document
+147	Fichier absent de la sélection
+148	Fichier bloqué
+149	Fichier concerné
+150	Fichier CSV
+151	Fichier CSV ou Excel (.xlsx)
+152	Fichier d’arrivée *
+153	Fichier de conservation
+154	Fichier de départ *
+155	Fichier de la liste (.crl)
+156	Fichier de signature (.p7s)
+157	fichier déposé
+158	Fichier du bordereau
+159	Fichier du certificat (PEM)
+160	Fichier du paquet
+161	fichier écarté
+162	Fichier en double dans la sélection.
+163	Fichier non utilisable
+164	Fichier OCR
+165	Fichier OCR de la contribution
+166	fichier plus grand que la limite de traitement du serveur (snae.storage.max-bytes)
+167	Fichier rejeté
+168	fichier sans numéro de page
+169	Fichier sans numéro de page
+170	Fichier SEDA (XML ou ZIP)
+171	Fichier signé
+172	Fichier signé : empreinte
+173	Fichier signé *
+174	Fichier signé par la signature détachée
+175	Fichier SKOS
+176	fichier trop volumineux ou modifié
+177	fichier validé
+178	Fichier validé
+179	Fichier, document, projet, moteur…
+180	fichier(s)…
+181	Fichiers
+182	Fichiers à migrer (
+183	Fichiers copiés
+184	Fichiers de conservation (
+185	Fichiers de la version
+186	fichiers déposés
+187	fichiers écartés
+188	fichiers numériques
+189	Fichiers numérisés
+190	fichiers peuvent devenir, dans l’ordre de la sélection, les pages
+191	Fichiers produits par le scanner (une image par page)
+192	fichiers sélectionnés
+193	Fichiers suivis
+194	fichiers validés
+195	Fil d’Ariane
+196	Filiation
+197	Filtre par mot-clé
+198	Filtrer
+199	Filtrer cette liste
+200	Filtrer cette page
+201	Filtrer cette page par code ou domaine
+202	Filtrer le catalogue
+203	Filtrer les 20 éléments de cette page
+204	Filtrer les éléments de cette page…
+205	Filtrer les notices fictives
+206	Filtrer les paiements
+207	Filtrer les permissions
+208	Filtrer les permissions affichées
+209	Filtrer les résultats OCR
+210	Filtrer mes permissions
+211	Filtrer par catégorie
+212	Filtrer par mot-clé
+213	Filtrer par permission ou rôle
+214	Fin
+215	Fin d’effet
+216	Fin d’effet :
+217	Fin de la convention
+218	Fin de la convention *
+219	Fin de la délégation *
+220	Fin de la restriction

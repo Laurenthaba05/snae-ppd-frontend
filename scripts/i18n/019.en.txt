@@ -1,0 +1,220 @@
+1	the file changed during recognition
+2	The chosen file is not a ZIP package.
+3	The file contains {1} lines: the import is limited to {2} departments at a time.
+4	The file contains {1} lines: the import is limited to {2} institutions at a time.
+5	The file contains {1} lines: the takeover is limited to {2} items at a time.
+6	The file contains {1} lines: a schedule has {2} at most.
+7	The file contains more than {1} lines.
+8	The arrival file is derived from the departure file
+9	The file exceeds 2 MB.
+10	The file exceeds the size the copy can handle.
+11	The file must have been validated. Each new check replaces the previous one.
+12	The file must be SKOS in JSON-LD or RDF/XML.
+13	The file must be UTF-8 encoded.
+14	The primary storage file no longer matches its fingerprint: it was not copied. It must be restored from another copy.
+15	The file is analyzed and checked by the server before being associated with this version.
+16	The file cannot be found in the primary storage or in the other verified copies.
+17	The file is ready to be saved on your device.
+18	The file is too large once decompressed.
+19	The file is empty.
+20	the file has not been validated (antivirus analysis pending or failed)
+21	The file could not be read.
+22	The file could not be validated. You can try again with the same file when the service is available.
+23	The file is no longer the one the signer signed, or the signature does not match its certificate.
+24	The file contains no item (only the header line).
+25	The file contains no department (only the header line).
+26	The file contains no institution (only the header line).
+27	The file contains no line (only the header line).
+28	The file does not declare PDF/A conformance.
+29	The received file does not match the information displayed. Refresh the list before trying again.
+30	The file declares itself {1}.
+31	the selected file
+32	The filter only applies to the elements already loaded. Go to the next page or remove the filter.
+33	The target format must differ from the described format.
+34	The target format is the one the register designates
+35	The target format does not have the expected form.
+36	A file’s format used to be only its declared media type. An identification tool compares the content with the PRONOM database; what it does not recognize is “unknown”, never presumed safe.
+37	The connected form also requires the institution and the document type. Its contract is described in journey P12.
+38	The identity provider is not yet configured. See the sign-in guide or launch the separate demonstration.
+39	The storage provider refused the operation.
+40	Freezing a file or a branch also covers the documents attached to it. The server checks the targets and your rights.
+41	The hold prevents the elimination of the targets and stays active until it is lifted.
+42	The launch freezes the scope:
+43	The reader has read the room rules and accepts them.
+44	The reader must accept the room rules.
+45	The reader must be present in the room
+46	The reader gives the reference
+47	The viewer could not start. Download the file or close then reopen this window.
+48	The reader can no longer open a session and their current sessions are closed. The reason is kept.
+49	The reader loses reading access. The cancellation is justified and kept.
+50	The label
+51	The campaign label is required.
+52	The label is limited to 200 characters.
+53	The label is required ({1} characters at most).
+54	The label is required.
+55	The preferred label no longer changes: keywords cite it.
+56	The link is incomplete. Open it from the e-mail received, or request a new e-mail from the sign-in page.
+57	The link is incomplete. Open it from the e-mail received, or request a new link.
+58	the place
+59	The location of the intermediate archives is required.
+60	The location is limited to 300 characters.
+61	The storekeeper hands the original to the workshop (“Movements” tab); no page is recorded before that.
+62	The maximum of
+63	the language model is not installed on the server
+64	The Fonds and producers module requires a connection to the server.
+65	The amount
+66	The amount collected must be exactly that of the requested plan: {1}.
+67	The amount is positive or zero, with two decimals at most (0 for an exemption plan).
+68	The password must not contain your address.
+69	The search engine needs to be checked.
+70	The search engine is unreachable: searches will fail until it responds.
+71	The search engine is not enabled on this server: no search can succeed.
+72	the search engine was no longer responding
+73	The engine did not record the word positions for this result.
+74	The reason for a refusal is limited to 4000 characters.
+75	The reason for the absence of insurance is written in at least {1} characters (State guarantee, decision, agreement…).
+76	The reason for the redaction is required (personal data, protected secret…).
+77	The reason for the migration is required (at least 10 characters).
+78	The reason states why the original leaves: at least {1} characters.
+79	The reason states why to digitize: at least {1} characters.
+80	The reason is limited to 2000 characters.
+81	The reason is limited to 4000 characters.
+82	The reason is limited to 500 characters.
+83	The reason is limited to 5000 characters.
+84	The reason is required: at least {1} characters.
+85	The reason is required (at least {1} characters).
+86	The reason applies to all the elements concerned and can authorize waivable discrepancies. Mandatory blockers remain applied.
+87	The NAAN is a number of 5 to 9 digits, given by the body that assigns NAANs.
+88	The browser blocked the print window: allow pop-ups for this site.
+89	The chosen level must follow that of the attachment record.
+90	The agent’s name is required.
+91	The authority’s name is limited to 300 characters.
+92	The authority’s name, as your agents will recognize it.
+93	The room’s name is required.
+94	The repository’s name is not filled in.
+95	The format name is required.
+96	The manager’s name is limited to 300 characters.
+97	The signer’s name is limited to 500 characters.
+98	The signer’s name is required.
+99	The name is required (200 characters at most).
+100	The name is required.
+101	The number of expected pages is given between 1 and 100000.
+102	The number of items is a positive integer.
+103	The ID document’s number is never kept in full: only its last four characters are
+104	The number of the ID document presented is required (at least 4 characters).
+105	The number given to the institution by the body that assigns NAANs (5 to 9 digits).
+106	The number entered in the register (150 characters at most), unique within the institution. Otherwise, fill in the call number.
+107	The package must be the one whose schedule was resumed. Lines found absent are not deposited. Sending the same package again deposits nothing again and retries what failed.
+108	The SEDA package: an XML manifest at the root and its objects.
+109	The fleet describes the devices. The quality profiles define the preservation requirements. The local NAPS2 profile drives the device.
+110	The parent “{1}” (line {2}) is ignored: this department cannot be created.
+111	The heritage guideline requires a minimum resolution of
+112	the written PDF is incomplete
+113	The PDF is assembled from the consultation copies: missing are those of
+114	The PDF is empty or exceeds the 50 MiB limit. Reduce the number of pages.
+115	The PDF will be added as an attachment. The upload applies the backend’s permissions, antivirus and integrity checks.
+116	The scope is decided before launch: afterwards the list of elements is frozen
+117	The driver did not finish the scan. Check the cable or the network, the paper and the NAPS2 profile.
+118	The classification plan could not be read: the rule can only target document types.
+119	The plan is reread and stays in force with no change of content
+120	The oldest:
+121	The portal only offers active plans. The prices, durations and reader categories are set by the institution: nothing is pre-recorded. A modified plan does not change the subscriptions already requested.
+122	The prefix has 8 characters at most, among the digits and the consonants b c d f g h j k m n p q r s t v w x z.
+123	The service’s first pass is pending. No automatic check is confirmed yet.
+124	The first name is required.
+125	The price of each line is that of the rate on the day of the order. Payment is collected at the counter: its reference (receipt) is recorded here, the system executes no payment. Reproductions are only handed over once the payment is recorded.
+126	The price is a positive or zero amount, with two decimals at most.
+127	The minutes of the decision are required to accept lines.
+128	The receipt minutes are required to accept lines.
+129	The minutes detail where the archives are: they require the inventory-check permission of this institution.
+130	The minutes of the visa are required (at least 10 characters).
+131	The minutes are limited to 15000 characters.
+132	The minutes are required.
+133	The profile can no longer be used to assess new images.
+134	The owner or depositor, or the new holder.
+135	The public will no longer see it; you can publish it again.
+136	The putting away changes the usual location and is entered in the movement history. It does not move the archive: it is the record of what was done.
+137	The document’s attachment changed since the proposal.
+138	The attachment is changed from a user’s record by another central authority. A delegation is created from your direct assignments, in My profile: the role must be a business role, its scope is kept and the period is limited to 90 days. These actions remain subject to the server’s checks.
+139	The reference list of the hazards in the risk registers: example values, to be adapted to the institution
+140	The reference list of institutions and preservation bodies.
+141	The register designates {1} as the target format of {2}; this converter produces {3}.
+142	The register is institution data (or national-level data): no format is supplied ready-made. The institution’s entry takes precedence over the national entry.
+143	The register could not be loaded. No replacement data is presented as real.
+144	The register gives no target format for {1}: a migration is not decided without it.
+145	The register or the watch that grounds the assessment.
+146	The rejection is final: the accession cannot be resumed.
+147	The replacement is itself obsolete or its vocabulary is withdrawn: choose another replacement.
+148	The replica refused the deletion: it will be retried.
+149	The replica already contains an object at this location.
+150	The replica does not respond: the check will be retried.
+151	The person in charge of the intermediate archives is required.
+152	The result may be uncertain. The same form keeps its key for an exact replay; do not change your intent without checking.
+153	The planned return cannot exceed five years: beyond that, it is a transfer to be decided otherwise.
+154	The planned return cannot exceed five years.
+155	The planned return cannot be in the past.
+156	The planned return does not precede the start.
+157	The risk is already in this state.
+158	The business role is passed on within its current scope for 90 days at most. The server checks the recipient, the rights and the period.
+159	The scanner is available in connected mode. No device is driven in demonstration.
+160	The scanner did not produce a valid PDF.
+161	The scanner did not finish within three minutes. Check the device before a new attempt.
+162	The seal could not be verified.
+163	Act sealing is not enabled: no key is configured for this installation. The act is not sealed.
+164	Act sealing is not enabled on this server: no key is configured, acts bear no seal.
+165	The server sent a truncated list of rights. Some access may not appear.
+166	The mail server deferred reception for this recipient.
+167	The mail server deferred the message.
+168	The mail server refused the recipient’s address.
+169	The mail server refused the configured identifier or password.
+170	The mail server refused the connection.
+171	The mail server refused the server greeting.
+172	The mail server refused the message.
+173	The mail server is configured but sending is disabled: mails remain pending.
+174	The mail server is unreachable.
+175	The mail server did not respond in time.
+176	The mail server does not offer STARTTLS encryption: nothing is sent in clear.
+177	The mail server refuses the configured sender address.
+178	The server forbids cycles and incompatible attachments.
+179	The server did not return the complete file.
+180	The server cannot process this request.
+181	The server cannot process this request.
+182	The server is not responding correctly: import stopped. Try again later.
+183	The server refuses the journey. Example: you cannot approve your own request.
+184	The server rereads the file, checks each signature and evaluates the trust chain
+185	the server stopped during the work
+186	The server checks the scope, the periods, the duplicates and the absence of privilege escalation.
+187	The antivirus service is unreachable. Try again when the service is available.
+188	The archives service checks the schedule: it can accept it, request a correction or reject it.
+189	The archives service or the commission that gives the visa.
+190	The authentication service is temporarily unreachable. Check your network connection, then try again.
+191	The check service encountered an error. A technical intervention is required.
+192	The check service no longer gives news. Check that it is working.
+193	The service is temporarily unavailable.
+194	The rule’s final disposition is not elimination.
+195	The rule’s final disposition is not transfer.
+196	The rule’s final disposition is not sampling.
+197	The status has been recorded for
+198	the storage is unavailable
+199	the storage was unavailable
+200	the storage did not respond
+201	The storage does not allow deleting the content: no destruction is possible until it is connected.
+202	The storage does not respond.
+203	The SSO sub must not contain a space.
+204	Automatic preservation tracking is available in connected mode.
+205	The subject for which the reader comes to consult the documents.
+206	the medium is limited to 100 characters.
+207	The table creates records; it does not contain the PDF or image files. Existing attachments are kept and no record is overwritten. Up to
+208	The upload is not confirmed. Check the status before trying again.
+209	Upload is not available.
+210	the witness
+211	The obsolete term is no longer applied anywhere.
+212	The obsolete term will be removed from each object that carries it and replaced by “
+213	The term remains readable on already indexed documents; it is no longer applied.
+214	The text with the position of each word (ALTO)
+215	The text that sets the period: law, article.
+216	The recognized text is not available for this image.
+217	The treatment starts from the last condition report. It will be validated or refused by someone other than you; until it is validated, you can still modify it.
+218	The planned treatment says what will be done: at least {1} characters.
+219	The return transport does not precede the outbound transport.
+220	Random sampling keeps a percentage between 1 and 99.

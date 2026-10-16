@@ -1,0 +1,220 @@
+1	The proposal or validation of this document is cancelled; its due date becomes available again. The reason is kept in the log.
+2	The role is limited to 300 characters.
+3	The recorded quantity: three decimals at most.
+4	The recorded quantity is a number.
+5	The recorded quantity cannot be negative.
+6	the quantity is a number (12 or 12.5).
+7	the quantity cannot be negative.
+8	The receipt given to the reader at the counter.
+9	The reason for hiding this area: personal data, protected secret…
+10	Put it back in its usual location then record its presence, or make this location its usual location.
+11	The receipt confirms that the digital representation matches the original and stays linked to the item. It is done by someone other than the person who ordered the digitization.
+12	The search covers the local demonstration records.
+13	The reference “{1}” appears several times in the schedule.
+14	The agreement reference is required.
+15	The accession act reference is limited to 255 characters.
+16	The decision reference is required.
+17	The reference of the room rules the reader has read.
+18	The accession reference is limited to 255 characters.
+19	The visa reference is limited to 255 characters.
+20	The visa reference is required to accept lines.
+21	the reference is limited to 150 characters.
+22	The reference is limited to 150 characters.
+23	the reference is required.
+24	The rule
+25	Rule {1} is active.
+26	Rule {1} is active. It applies to documents that match its types and headings; the situation of this document is updated above.
+27	Rule {1} is saved as a draft.
+28	Rule {1} is deleted.
+29	The applicable rule does not wait for this event
+30	The retention rule provides no intermediate phase for this document.
+31	The rule starts from the file’s closing: the document must be filed in a file.
+32	Reindexing stopped:
+33	Replication is configured but disabled: no copy is redone or verified.
+34	The response to the launch is uncertain. Find the scan in the workstation’s list or resend the same request.
+35	the tool’s response is unreadable
+36	the validator’s response is unreadable
+37	The response is not confirmed: check your account before trying again.
+38	The response is not confirmed. Check the resource; an identical replay will keep the same key.
+39	The digital representation is received: it is linked to the item.
+40	The digitization resolution ({1} dpi) is below the required minimum ({2} dpi).
+41	The batch’s minimum resolution ({1} dpi) is below the heritage guideline ({2} dpi).
+42	The batch’s minimum resolution must meet the guideline
+43	The minimum resolution is a whole number between 50 and 9600 dots per inch.
+44	The minimum resolution is given between 50 and 9600 dpi.
+45	The restriction set by this category is cancelled: the document is no longer subject to this period. A manually set restriction remains in force.
+46	The revocation of a signing certificate is judged
+47	Revocation is undetermined: no revocation list allows a conclusion.
+48	The input is not valid.
+49	The backup exceeded the allowed time.
+50	The backup was interrupted. A new attempt has been scheduled.
+51	The scheduled backup is late. Check that the service is running.
+52	The second year precedes the first.
+53	Selection by location remains to be developed.
+54	The session is no longer available.
+55	The seal’s signature no longer matches its content: do not rely on it.
+56	The signature is valid, but the act’s findings are no longer those that were sealed.
+57	The item’s legal situation needs clarifying: its withdrawal is not proposed before knowing who it belongs to.
+58	The final withdrawal of an item is
+59	The withdrawal is carried out by someone other than the person who decided, with the withdrawal date and the reference of the withdrawal act.
+60	Withdrawal is a serious decision: it is examined and decided by people other than you, then carried out by a person other than the one who decides. Nothing is deleted.
+61	The withdrawal cannot precede the date of the decision act.
+62	The source is limited to 500 characters.
+63	The task “
+64	The task has been completed. The inbox has been refreshed.
+65	The insured value is positive or zero, with two decimals at most.
+66	The market value is a positive amount, with two decimals at most.
+67	Validating the results requires a distinct permission. This role adds no right to read files.
+68	The validation will have to be done by another person before any execution.
+69	The validation must be done by a person different from the one who proposed the decision.
+70	The validation binds the institution: it is kept with its author and date. It is done by someone other than the person who proposed the treatment.
+71	Validation is enabled, but the validator’s launcher is not valid on this server: check its path.
+72	Validation requires the migration validation permission.
+73	The validation does not include the file inventory: cancel this action and propose it again.
+74	PDF/A validation is not enabled on this server: the validator (veraPDF) is not shipped with the application, the administration must install and enable it.
+75	The card’s validity is limited to {1} years.
+76	The card’s validity is required.
+77	Version {1} is ready: sealing freezes its content and its fingerprint.
+78	Version {1} is sealed: its content is frozen.
+79	The version is saved. Its fields are frozen; you can resume its activation or keep the draft.
+80	The version is sealed: the document can be closed (“Preservation” tab).
+81	left at their step.
+82	Leave empty if the step is final
+83	Leave empty if the relation continues
+84	Left as they are
+85	Leave empty: the announced quantity is kept
+86	Leave empty or 0
+87	Leave empty if it is not known. Recognized forms: 1930 · 1925-1935 · circa 1930 · 1930s · 19th century · 12/03/1952 · unknown. Any other text is kept as is and remains to be qualified.
+88	Launched on
+89	Launch the connector on this PC and enter its temporary code below. The code stays only in memory on this screen.
+90	Start the inventory check
+91	Start the scanner
+92	Run a pass once the tool is installed and enabled.
+93	Run a pass once the validator is installed and enabled.
+94	Language: expected code (fra, eng, fr-GN…), with no space or accent.
+95	Language of the documents
+96	Language of the content
+97	OCR language
+98	Languages and scripts of the record
+99	on
+100	The backend exposes requests by role, not a global inbox.
+101	The backend exposes a document’s tasks. A global task inbox and the labels of authorized actions remain to be completed.
+102	The item is marked withdrawn: it and its originals can no longer be changed or moved
+103	The item is not taken over: its withdrawal is only proposed for an item whose entry has been decided.
+104	The item is no longer in the institution’s hands: loss, theft or destruction recorded.
+105	The item cannot leave while operations concerning it are in progress.
+106	The item stays in the collection
+107	The item stays in the collection; another file can be opened
+108	The item stays recorded but no longer belongs to this entry
+109	The item goes back to its owner or to the person who had deposited it.
+110	The schedule exceeds {1} lines.
+111	The schedule becomes final; the archives will still have to be checked on arrival.
+112	The schedule is accepted. When the archives arrive, check each line then record the receipt.
+113	The schedule is being entered; it can be freely modified.
+114	The schedule is returned for correction.
+115	The schedule is submitted; the archives service has not yet started its check.
+116	The schedule is empty: add at least one line.
+117	The schedule is empty.
+118	The schedule can no longer be modified until a correction is requested.
+119	The schedule or the internal decision that accompanies it.
+120	The schedule is exchanged in the SEDA transfer format. A manifest or a resumed package replaces the whole schedule; the quantity and the unit have no standardized equivalent and remain to be completed. The package content is checked by fingerprint; once the accession is received, “Deposit the package content” creates one document per unit and puts its files in the storage.
+121	The draft is closed; the plan in force remains in force
+122	The slip lists the originals requested by a reader present in the room, by storage call number. An original is never in the hands of two readers; a document under restriction is only communicated under a written waiver, given by the person who configures the room.
+123	The certificate must be in PEM format: it starts with “-----BEGIN CERTIFICATE-----”.
+124	The signer’s certificate was revoked at the date of the signature
+125	The certificate is self-signed: no one else vouches for the signer’s identity.
+126	The certificate was not valid at the signature date.
+127	The mandatory validation circuit for this document type must be completed before sealing the version.
+128	The mandatory validation circuit for this document type is not completed.
+129	The workbook is protected by a password: save a copy without protection.
+130	The public OIDC client must be configured.
+131	The code
+132	The code is 2 to 40 characters: letters, digits, hyphens and underscores.
+133	The code is 2 to 60 characters: uppercase letters, digits and underscores, the first being a letter.
+134	The short code matches several elements: print the sheet again (full QR code).
+135	The pairing code is distinct from your password. Temporary copies can be found again after reconnection, for 30 minutes.
+136	The rule code is required.
+137	The code must start with a letter: letters, digits, _ and - only.
+138	The code is 2 to 40 characters: letters, digits, hyphen or underscore.
+139	The code is in uppercase letters, digits, dot, hyphen or underscore (60 characters at most).
+140	The code is limited to 100 characters.
+141	The code is required.
+142	The code only contains letters, digits, dot, hyphen, slash and underscore.
+143	The code is made of 3 to 60 letters, digits or underscores.
+144	The comment exceeds 10,000 characters.
+145	The comment is limited to 2000 characters.
+146	The account is used to read documents and follow your subscriptions. It is distinct from the accounts of the institution’s staff.
+147	The account, the scope and the permissions are checked at the time of each action.
+148	The connector must allow the origin
+149	The connector must use HTTPS outside local HTTP development.
+150	The connector did not return a valid PDF of 50 MiB maximum.
+151	The connector no longer responds. Refresh the workstation’s scans before resending a request.
+152	The finding is dated, signed and cannot be modified: a more recent finding replaces it, and the history keeps all the successive states. The item’s material condition follows the most worrying of the latest findings of its originals.
+153	The finding is made just before departure. It becomes the last known condition of the original: if it forbids handling, the original will not leave.
+154	The content has been modified since the signature
+155	The content has not been modified since the signature
+156	The content has not been modified since the signature, but the signer was no longer vouched for.
+157	the content does not match the announced type
+158	the re-read content no longer matches the recorded fingerprint
+159	The current contract exposes
+160	The antivirus check is not configured on the server. An administrator must enable it before the file can be validated.
+161	The check succeeded. All the records will be saved together. The server will check the data again at confirmation.
+162	Quality control has passed: the original can go back to storage (return to be recorded in the “Movements” tab).
+163	The e-mail contains a confirmation link. Once the address is confirmed, you will be able to sign in.
+164	The e-mail is too old to still be sent.
+165	The backup cycle failed. A technical intervention is required.
+166	The start cannot be in the past.
+167	The period runs from an event date: to be entered document by document.
+168	The period runs from this date.
+169	The period runs from
+170	The processing time was exceeded. You can try again with the same file in the upload window, or abandon this upload from the tracking before a new upload.
+171	The period starts from {1}, and this date does not yet exist for this document.
+172	The period starts from the event “{1}”, which has not yet been recorded for this document or for its file.
+173	The period starts from the date on which this event is recorded on the document or its file.
+174	The period starts from
+175	The requester confirms having received the original; the return is recorded when the original comes back.
+176	The upload is finished. An authorized agent must validate the file from the document record before extraction. Once this validation is done, reread the upload or resume the extraction.
+177	The repository only presents the public catalog records, in simple Dublin Core, with their ARK identifier when it exists. Its configuration is the operator’s.
+178	The upload requires an intervention.
+179	The OAI-PMH repository is enabled but its configuration is incomplete: it remains closed to harvesting.
+180	The OAI-PMH repository is open: public records can be harvested in Dublin Core.
+181	The OAI-PMH repository is not open: the operator has not enabled it.
+182	The repository, storeroom, room or server where the documents are kept.
+183	The last condition report requires precautions: state which
+184	The last condition report requires precautions: write the handling conditions to follow (at least {1} characters).
+185	The last sending cycle failed: a technical intervention is required.
+186	The last replication cycle failed: a technical intervention is required.
+187	The last cycle is old: check that the service is running.
+188	The last cycle ended normally.
+189	The diagnosis says why to treat: at least {1} characters.
+190	The document has already been handed over to an archives institution.
+191	This element’s document has no draft version: create a new version from the document record before importing.
+192	This element’s document has no draft version.
+193	The digital representation’s document
+194	The document must be closed and not destroyed.
+195	The document must be closed and an applicable retention rule must exist.
+196	The document is closed: it no longer accepts changes.
+197	The document is closed: the “Preservation” tab says which rule applies and lets you schedule the due date.
+198	The document is closed.
+199	The document is kept permanently.
+200	The document is already kept permanently: its preservation is not rescheduled.
+201	The document is already destroyed.
+202	The document is destroyed.
+203	The document is already in another sampling campaign in progress.
+204	The document is already on another accession schedule in progress.
+205	The document is already on another schedule in progress.
+206	The document has no version yet: create it, then upload the master file.
+207	The document is neither kept nor eliminated: its due date is pushed back to the date of the next review.
+208	The document is not closed.
+209	The document is not closed yet: close it to schedule its preservation.
+210	The document is no longer in the current phase: it has already moved to intermediate archives or been kept permanently.
+211	The document never becomes freely communicable.
+212	The document would move to intermediate archives on
+213	The recipient’s domain is not in this environment’s allowed list.
+214	The evidence file has changed: the decision must be validated again.
+215	The document’s file
+216	The document’s file is not closed yet.
+217	The file is accepted: request the withdrawal of each original (“Request withdrawals”), then complete the agreement, the insurance, the transport and the departure condition reports.
+218	The file is not closed: it cannot be eliminated.
+219	the file
+220	the file changed during the analysis

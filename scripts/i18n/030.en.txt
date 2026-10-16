@@ -1,0 +1,220 @@
+1	All the deposited e-mails have been processed.
+2	All closed documents of this type already have a communicability period.
+3	All the documents in this file are already destroyed.
+4	All the documents of the file, sub-files included, or none
+5	All the targeted documents have been destroyed: the schedule is executed.
+6	All discrepancies
+7	All states
+8	All the originals have come back with their condition report: the file is closed and can no longer be changed.
+9	All the originals have come back with their condition report: the file can be closed.
+10	All PDFs are judged against the same profile, set by the configuration: {1}.
+11	All the scopes you have access to.
+12	All the statuses of the page
+13	All terms
+14	All my scopes
+15	all repeatable
+16	All types
+17	Select all
+18	Uncheck all
+19	Everything is ready: you can schedule the preservation.
+20	Everything is ready for departure: each original can be handed over once its withdrawal is authorized.
+21	The whole institution
+22	All
+23	All actions are logged
+24	All the archives are in their known, verified place.
+25	All cards
+26	All orders
+27	All the steps are done.
+28	all the images of the file together are too large for the engine (600 million pixels at most)
+29	All the pending lines are refused
+30	All the normalized values to examine
+31	Traceability
+32	Trace the making available and the return of items.
+33	Processes the text and indexes
+34	Treatment
+35	Treatment to start
+36	Treatment to validate
+37	Preservation treatment
+38	Treatment in progress: the object must not be handled.
+39	Treatment expired
+40	Planned treatment
+41	Planned treatment * (at least 10 characters)
+42	Recommended treatment
+43	Recommended treatment:
+44	Recommended treatment * (at least 10 characters)
+45	Treatment finished: the element is ready for accession and can no longer be modified.
+46	processed
+47	Processed (verified or postponed)
+48	Transferred on
+49	transfer
+50	Transfer
+51	Transfer to another holder
+52	Circuit transitions
+53	Transport
+54	Outbound transport on
+55	Return transport on
+56	Carrier
+57	Very unlikely
+58	sampling
+59	Sampling
+60	sample (sample kept, rest eliminated)
+61	Sample (sample kept, rest eliminated)
+62	three decimals at most.
+63	Too many requests: try again in a moment.
+64	too many pages in the file
+65	too many pages for an access PDF
+66	Too many sign-in attempts. Wait a few minutes before trying again.
+67	too many volumes
+68	Found at another location
+69	Found elsewhere
+70	Found elsewhere
+71	Found elsewhere
+72	Supervision
+73	Current supervision:
+74	Type
+75	Type *
+76	Authority type
+77	Event type
+78	Event type *
+79	Identifier type
+80	Institution type *
+81	Unit type
+82	Unit type too long (50 characters max).
+83	Target type
+84	Hold target type
+85	Account type
+86	Unknown account type.
+87	Date type
+88	document type
+89	Document type
+90	Document type *
+91	Data type
+92	Unknown record type.
+93	Supporting document type
+94	Place type
+95	Media type
+96	Media type *
+97	Movement type
+98	Node type
+99	Record type
+100	Receipt type
+101	Receipt type: {1}
+102	Receipt type *
+103	Recognition type
+104	Signature type
+105	Withdrawal type
+106	Source type
+107	Status type
+108	medium type
+109	Declared type
+110	Declared type differs from the recognized format
+111	Type of the documents created *
+112	Document type *
+113	Type not available
+114	Types
+115	Request types
+116	Document types
+117	Linked document types
+118	Targeted document types
+119	U — basic conformance, Unicode text
+120	A subscription gives access, for its duration, to reading publicly communicable documents. The catalog stays open to everyone. The first payment is made at the institution’s counter or by transfer; an authorized agent records it and the subscription starts immediately.
+121	A current subscription is required
+122	A current subscription is required to read this document.
+123	Access is granted for one year at most.
+124	A closed agreement can no longer change.
+125	An agreement starts as a draft; activate it afterwards
+126	An agreement sets what a producer undertakes to transfer, over what period and for what volume. Accessions are attached to it.
+127	An agent is a person, an organization, software or hardware acting on files (PREMIS). A preservation event can cite it: the tool and its version follow from it.
+128	Another holder receives the item: transfer, exchange or assignment.
+129	An item whose legal situation is to be clarified is never disseminated.
+130	A deposited or loaned item does not belong to the institution: it can only go back to the person who entrusted it.
+131	An item leaves on loan or for an exhibition through a file: the agreement, the insurance and the departure and return condition reports are checked there, and each original leaves through a movement request authorized by another person.
+132	A schedule has {1} documents at most.
+133	An elimination schedule has been submitted and awaits the authority’s visa.
+134	An elimination schedule has received its visa: the destruction falls to a third person.
+135	An elimination schedule you submitted has received its visa or been refused.
+136	An accession schedule has been submitted to your institution and awaits its receipt.
+137	An accession schedule is received: the handover falls to a third person.
+138	An accession schedule you submitted is received or refused by the recipient institution.
+139	An accession schedule groups documents whose due date provides for transfer. It is submitted to the recipient archives institution, which accepts or refuses each line and issues its acknowledgement of receipt; the accepted documents are then handed over by a third person and kept permanently.
+140	A schedule groups documents whose elimination due date has arrived. It is submitted to the authority, which grants its visa line by line; only the documents given a visa are destroyed, by a third person, each with its destruction certificate.
+141	A plan draft is already open for this location: finish it or abandon it.
+142	A slip has {1} documents at most.
+143	A certificate in the chain appears on a revocation list, before the signature date.
+144	A certificate in the chain was not valid at the signature date: the chain is not trusted.
+145	A circuit
+146	An active circuit must be linked to the document’s type (“Validation circuits” page, circuit record, “Linked document types” section).
+147	A processing circuit is always active on the document.
+148	A document validation circuit is still active.
+149	A validation circuit is in progress on this document: finish it or cancel it.
+150	A validation circuit is in progress on this document. Finish it (or cancel it) before sealing the version.
+151	a refused concept
+152	A compliant finding carries the announced quantity; otherwise, declare a discrepancy.
+153	A non-compliance finding is not a file defect to be fixed automatically: it informs the choice of a migration to PDF/A from the original, which remains kept.
+154	A hazard, what it threatens, and what is already being done
+155	A period that runs from an event date must say which event (birth, death, end of the contract…).
+156	A period, its legal basis, what it targets
+157	a department
+158	A department cannot be its own parent.
+159	A deposit or incoming loan has a due date: give the agreement’s end date.
+160	A deposit or incoming loan has a due date.
+161	A finished upload must still be validated in the file list before it can be viewed or downloaded.
+162	a document
+163	A document has {1} redacted areas at most.
+164	An essential document requires its reason.
+165	An essential document cannot be eliminated until this mention is removed, with its reason.
+166	A document is created for each archival unit that carries objects
+167	A document cannot be related to itself.
+168	A document can replace another, be its annex, respond to it, be its translation or its copy.
+169	A document under restriction requires the waiver of the person who configures the room.
+170	One document in {1}, in chronological order.
+171	One document in *
+172	a file
+173	A discrepancy is not an error in itself: it invites you to check the file and its declared type before deciding on a migration.
+174	A location has its
+175	A record can no longer be modified: a more recent finding completes it
+176	A fragile or to-be-treated condition is recorded with at least one alteration.
+177	An event recorded on the file applies to all the documents of the file and its sub-files.
+178	A validated master file
+179	a file is not a PDF
+180	a file is no longer validated, sound and verified in the storage
+181	A file cannot be linked to itself.
+182	A SKOS file is 2 MB at most.
+183	A format at risk, to be monitored or obsolete must be justified (at least 10 characters).
+184	An active legal hold blocks the document.
+185	An active legal hold blocks the operation.
+186	An identifier is repeated.
+187	A valid UUID identifier is required.
+188	A search index is missing: restart the server to recreate it, then reindex.
+189	A search index is damaged: some results may be missing.
+190	A subscribed reader can request access to a document that is not freely readable. The grant is time-limited; the reader is notified of the decision.
+191	A portal reader requests access to a document of your institution.
+192	An alternative label exceeds {1} characters.
+193	A closed batch is frozen: it no longer accepts elements or new settings.
+194	A batch groups elements scanned together with the same settings.
+195	A batch groups the items of the same inventory register
+196	A written reason of at least {1} characters is required (reorganization, regularization of a finding…).
+197	A written reason of at least {1} characters is required.
+198	A level is placed under a higher level.
+199	A number, three decimals at most
+200	An object whose condition requires an intervention is not freely handleable.
+201	An original does not leave storage just because you have the right to manage the archives: the withdrawal is requested, authorized by another person, handed over, confirmed by the person who receives it, then returned.
+202	An original does not leave without a request: it is authorized by someone other than you, then the original is handed over and the withdrawal is entered in the movement history. You can modify the request as long as it is not authorized.
+203	An original returned in a condition other than the one in which it left is recorded: the report is saved with the return and becomes the original’s last known condition.
+204	An original comes back from a loan or exhibition with a return condition report, even if it is returned in the condition in which it left: it becomes the original’s last known condition.
+205	A BagIt package (ZIP) groups the validated files, their fingerprints and the PREMIS description. Archiving takes all the files; dissemination, only the consultation copies.
+206	One per line: type : title (e.g. Former title : Register of birth declarations)
+207	One per line (20 at most). They serve to find the term, not to index.
+208	A passage has {1} documents at most.
+209	A PDF can call itself PDF/A in its metadata without being one. A validator (veraPDF) judges the content; what it cannot read is “not analyzable”, never presumed compliant. The application never modifies an original to make it compliant.
+210	An approved plan includes at least one contact to notify.
+211	An approved plan includes at least one salvage priority.
+212	An approved plan describes the alert, the evacuation and the salvage (at least 10 characters each), and it is approved by someone other than its author.
+213	An approved plan can no longer be modified: create a new version.
+214	An emergency plan is only worth something if it has been tested: record the exercises and incidents.
+215	An incoming loan stays a loan; a proposed gift or deposit can be accepted as an acquisition or as a deposit.
+216	A loan names its borrower (organization or person).
+217	A loan or exhibition groups the originals that leave, the agreement, the insurance, the transport and the condition reports. The file is accepted by someone other than the person who put it together; each original only leaves with its conditions met and only comes back with a condition report.
+218	A loan groups the originals that go to a borrower, the agreement, the insurance and the transport. It is accepted by someone other than you; you then complete the agreement, the insurance and the transport, before the originals are handed over.
+219	A report has {1} archives at most.
+220	A profile says what the institution requires of a digitized image. No profile is shipped with the application. A profile’s requirements are not modified: it is withdrawn and another is defined, so that past assessments remain readable.

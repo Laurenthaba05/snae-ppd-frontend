@@ -1,0 +1,220 @@
+1	Un refus est motivé (10 caractères au moins) et décidé par une autre personne que celle qui a proposé la sortie.
+2	Un report exige un motif écrit d’au moins {n} caractères (archive sortie, local inaccessible…).
+3	Un report n’est pas une vérification : l’élément reste compté à part dans l’avancement et dans le procès-verbal, avec son motif. Il pourra être vérifié plus tard, tant que la campagne est en cours.
+4	Un risque accepté ne se réévalue pas : rouvrez-le d’abord.
+5	Un risque résiduel est accepté par une autre personne que celle qui l’a enregistré.
+6	un rôle
+7	Un statut ACTIF ne garantit pas à lui seul des droits effectifs : dates, rôle, révision et organisation restent contrôlés côté serveur.
+8	Un tarif ne se modifie pas : retirez-le et créez-en un autre
+9	Un terme compte {n} libellés alternatifs au plus.
+10	Un thésaurus
+11	Un titre, un lieu, un sujet…
+12	Un traitement se termine avec un compte rendu et un constat de l’état de l’objet après le traitement : ce constat devient le dernier état connu.
+13	Un transfert vers l’institution d’archives se propose depuis un bordereau de versement.
+14	Un versement a été soumis et attend un contrôle.
+15	Un versement que vous avez soumis est accepté, rejeté, à corriger ou reçu.
+16	Un versement structuré se clôture une fois reçu ou rejeté.
+17	Un vocabulaire de ce périmètre porte déjà ce code.
+18	un volume dépasse la limite du stockage (snae.storage.max-bytes)
+19	Une acquisition exige une situation juridique claire : choisissez le dépôt, ou laissez la situation à clarifier.
+20	Une acquisition exige une situation juridique claire.
+21	Une acquisition n’a pas d’échéance.
+22	Une anomalie est constatée : elle se décrit et l’état de l’original se constate.
+23	une archive physique
+24	Une autorité déclarée ici fait de ses certificats des chaînes « de confiance » pour toutes les vérifications de signatures du périmètre. Vérifiez l’empreinte du certificat auprès de son émetteur avant de le déclarer.
+25	Une autre personne que celle qui a monté le dossier l’accepte ou le refuse. On peut encore modifier le dossier, ajouter ou retirer des originaux.
+26	Une autre personne que celle qui l’a enregistré
+27	Une autre personne que celle qui l’a proposé valide ou refuse le traitement.
+28	Une autre personne que le commanditaire autorise la sortie de l’original (onglet « Mouvements »).
+29	Une autre personne que le commanditaire réceptionne la représentation numérique.
+30	Une autre personne que le demandeur autorise ou refuse la sortie.
+31	Une autre personne, présente.
+32	Une campagne applique la méthode d’une seule version de règle.
+33	Une campagne applique un convertisseur à des fichiers dont le registre des formats désigne un format cible. Elle est préparée par une personne et validée par une autre ; l’original est toujours conservé, la copie migrée est vérifiée puis rangée à côté et tracée dans la description PREMIS.
+34	Une campagne compte {n} documents au plus.
+35	Une campagne compte {n} fichiers au plus.
+36	Une catégorie fixe un délai et sa base légale. L’appliquer à un document calcule la date de libre communicabilité et pose la restriction d’accès jusque-là ; elle s’éteint d’elle-même. Les délais sont des données de référence : aucun n’est fixé par le logiciel.
+37	Une clé secrète Supabase ne doit jamais être exposée dans le frontend.
+38	Une collection déjà présente depuis longtemps n’entre pas par une réception : elle se reprend depuis son registre d’inventaire. Les anciennes références sont conservées, et ce qui manque est compté plutôt qu’inventé.
+39	Une commande compte {n} lignes au plus.
+40	Une commande n’a qu’une seule devise : séparez les commandes.
+41	Une copie d’un autre document.
+42	une copie de consultation a changé dans le stockage : son empreinte ne correspond plus
+43	une copie de consultation est illisible ou ne correspond pas à son enregistrement
+44	Une correction à apporter ?
+45	Une correction est demandée ; le bordereau peut de nouveau être modifié puis soumis.
+46	une date d’événement
+47	Une de ces archives est déjà inscrite sur un procès-verbal en cours, ou déjà détruite.
+48	Une description révisée ou validée porte sa description.
+49	Une description validée cite ses sources.
+50	Une description validée exige : {n}.
+51	Une description validée exige dates, importance matérielle et producteur
+52	Une destruction a déjà été commencée pour cette action (
+53	Une échéance de conservation est déjà partie de cet événement : il ne peut plus être annulé.
+54	Une échéance est déjà planifiée pour ce document.
+55	Une échéance se crée quand le document est clos et qu’une règle active s’applique à lui.
+56	Une élimination exécutée établit ici son certificat.
+57	Une élimination se constate par un procès-verbal : proposé,
+58	Une entrée de type « {n} » ne peut pas être acceptée comme {n}.
+59	Une erreur d’écriture ou de lecture est survenue sur le réplica.
+60	Une erreur est survenue : une intervention technique est nécessaire.
+61	une erreur inattendue s’est produite (voir le journal du serveur)
+62	Une étape d’un circuit de validation attend une personne de votre rôle.
+63	Une exposition réunit les originaux que l’institution montre dans un lieu, avec ses dates. Elle est acceptée par une autre personne que vous ; chaque original sort ensuite par une demande de mouvement, avec un constat d’état au départ et au retour.
+64	Une fois la zone retirée, le lecteur du portail verra de nouveau ce que la page contient à cet endroit.
+65	Une fois qu’une échéance de conservation est partie de cet événement, il ne peut plus être annulé : vérifiez la date.
+66	Une fonction dit
+67	Une forme « autre » se précise.
+68	Une habilitation de lecture des fonds de cette institution est nécessaire.
+69	une identité
+70	une institution
+71	Une intervention requise dit laquelle : indiquez le traitement recommandé (au moins {n} caractères).
+72	Une lettre qui répond à une autre.
+73	Une ligne invalide bloque la création de tout le lot. Refaites l’aperçu après correction. Une erreur de réseau exige une relecture de l’état, pas un nouveau lot.
+74	Une ligne n’a pas encore été contrôlée.
+75	Une ligne par unité à verser (boîte, registre, dossier, lot de fichiers…). Enregistrez au format .xlsx puis importez le fichier dans la fiche du versement.
+76	Une ligne par unité à verser.
+77	une ligne refusée
+78	Une mesure faite ou abandonnée est close et ne se rouvre pas
+79	Une mesure faite ou abandonnée porte un compte rendu d’au moins 5 caractères.
+80	une notice
+81	Une notice d’autorité de l’institution : le service qui a produit ces documents.
+82	Une notice d’autorité du service d’archives
+83	Une nouvelle numérisation ajoute une représentation au même bien ; elle ne crée pas un second bien.
+84	Une numérisation est déjà en cours sur le poste. Reprenez-la dans la liste ci-dessus.
+85	Une numérisation est déjà en cours. Actualisez les scans du poste pour la retrouver.
+86	Une page absente du document source ou volontairement blanche : elle ne sera plus comptée comme oubliée.
+87	une page est trop volumineuse pour un volume (réglage access-pdf-max-part-bytes)
+88	Une par ligne : le nom dans une autre langue.
+89	Une par ligne : système : valeur
+90	Une par ligne : système : valeur (ex. Inventaire 1978 : A-12)
+91	Une par ligne.
+92	Une personne qui configure la salle doit d’abord en créer une (onglet « Salles »).
+93	Une pièce d’un ensemble documentaire.
+94	Une place par créneau, dans la limite de la capacité
+95	Une police d’assurance
+96	Une priorité de sauvetage désigne un lieu ou une archive du site du plan.
+97	Une proposition se crée depuis la fiche du rôle, dans Configurer les permissions.
+98	Une publication enregistrée n’implique pas qu’un portail public anonyme soit déployé.
+99	Une réception est d’abord à examiner ; une reprise d’inventaire garde les anciennes références.
+100	Une référence à un autre document.
+101	Une référence de paiement s’écrit PAY- suivi de huit lettres ou chiffres.
+102	Une référence retirée reste lisible sur les fiches existantes. Seuls les champs modifiés seront envoyés.
+103	Une règle dit combien de temps conserver, à partir de quand, et ce qu’il advient ensuite ; elle s’applique aux types de documents et aux rubriques du plan de classement qu’elle vise.
+104	Une règle qui élimine exige sa référence légale : le texte qui autorise l’élimination.
+105	Une règle qui trie exige sa référence légale : le tableau de tri ou le texte qui autorise l’élimination du reste.
+106	Une règle vise {n} cibles au plus.
+107	Une relation concerne un document que vous n’avez pas le droit de lire.
+108	Une relation concerne une notice qui n’est plus lisible pour vous.
+109	Une reprise conserve les anciennes références : indiquez le numéro d’inventaire ou la cote.
+110	Une reprise d’inventaire conserve les anciennes références : indiquez le numéro d’inventaire ou au moins une ancienne référence.
+111	Une restriction d’accès est posée jusqu’à la date de libre communicabilité ; elle s’éteint d’elle-même.
+112	Une sauvegarde et son contrôle de restauration sont en cours.
+113	Une seule copie : la perte du stockage principal ferait perdre les fichiers. Configurez au moins un réplica.
+114	Une signature déclarée est une information saisie : le serveur ne la contrôle pas. Pour un fichier signé électroniquement (PDF, .p7m, .p7s, XML), utilisez plutôt la vérification.
+115	Une signature manuscrite scannée, un nom saisi : elle identifie peu.
+116	Une sortie a toujours une échéance
+117	Une sortie a toujours une échéance (cinq ans au plus)
+118	Une sortie définitive d’un bien a été proposée : son examen juridique revient à une autre personne que celle qui l’a proposée.
+119	Une sortie définitive d’un bien est décidée : son exécution revient à une personne autre que celle qui a décidé.
+120	Une sortie définitive d’un bien est examinée : la décision revient à une personne qui n’a ni proposé ni examiné la sortie.
+121	Une sortie est déjà ouverte pour ce bien : terminez-la ou annulez-la d’abord.
+122	Une traduction d’un autre document.
+123	Une unité absente n’a pas de quantité constatée.
+124	Une valeur par ligne.
+125	Une version avec son fichier maître
+126	Une version ne mélange pas un maître sans numéro de page et des maîtres paginés.
+127	Uniquement nécessaire pour un document sous restriction d’accès active.
+128	unité
+129	Unité
+130	Unité « {n} » inconnue.
+131	Unité *
+132	Unité de destination
+133	Unité de la phase courante
+134	Unité de la quantité
+135	unite de mesure
+136	unite de quantite
+137	Unité de quantité
+138	Unité de rangement
+139	Unité du volume
+140	unité inconnue.
+141	unité reprise
+142	unités
+143	Unités de description associées
+144	Unités de stockage
+145	unités reprises
+146	Urgence
+147	URI de l’identifiant
+148	URI du justificatif
+149	URL
+150	Utilisateur humain
+151	Utilisez « Lier à un type de document ».
+152	Utilisez le modèle UTF-8 avec séparateur virgule. Maximum 1 000 notices et 2 Mo. L’import crée de nouvelles notices ; les références existantes sont refusées. Importez les producteurs avant les descriptions qui les citent.
+153	UUID de la demande autorisée
+154	Valable jusqu’au
+155	Valeur
+156	Valeur / contexte
+157	Valeur assurée
+158	Valeur assurée :
+159	Valeur assurée totale
+160	Valeur comprise entre 0 et 1.
+161	Valeur de l’identifiant
+162	Valeur fournie par le serveur
+163	valeur non évaluée
+164	Valeur non évaluée
+165	Valeur non sérialisable.
+166	Valeur vénale
+167	Valeurs autorisées
+168	Valeurs d’exemple : le schéma créé est un brouillon à relire
+169	Validation de format
+170	Validation documentaire
+171	Validation PDF/A
+172	Validation requise
+173	Validations en attente
+174	Valide
+175	validé
+176	Validé
+177	Validé le
+178	Validé par
+179	validée
+180	Validée
+181	Validée par
+182	Validée, en cours
+183	Valider
+184	Valider : prêt pour versement
+185	Valider comme maître
+186	Valider la campagne
+187	Valider la conservation
+188	Valider la conservation de l’échantillon
+189	Valider la disposition
+190	Valider le fichier
+191	Valider le lot
+192	Valider le traitement
+193	Valider les choix cochés
+194	Valider les PDF restants
+195	Valider scelle la version du document : chaque page devient un maître de conservation, dans l’ordre des pages, et ne pourra plus être modifiée.
+196	Validés
+197	Validité
+198	Validité actuelle : {n}
+199	Valoriser
+200	vérification
+201	Vérification
+202	Vérification ancienne
+203	Vérification de fixité
+204	Vérification de votre session…
+205	Vérification et récupération du fichier…
+206	Vérification impossible
+207	Vérification juridique et de provenance
+208	Vérification…
+209	vérifié
+210	Vérifié
+211	Vérifie la conformité des fichiers et du contenu
+212	vérifiée
+213	Vérifiée par le serveur
+214	vérifier
+215	Vérifier
+216	Vérifier de nouveau
+217	Vérifier hors du système
+218	Vérifier l’image
+219	Vérifier l’intégrité
+220	Vérifier la collection pièce par pièce : chaque original reçoit un constat de présence ou un report motivé, et la campagne se clôture avec un procès-verbal, par une autre personne que celle qui l’a lancée.

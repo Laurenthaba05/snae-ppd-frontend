@@ -1,0 +1,220 @@
+1	Payment
+2	Payments recorded
+3	paper, photograph, digital files…
+4	Paper, photograph, microfilm, digital files…
+5	Package
+6	Dissemination package (DIP)
+7	ZIP package
+8	ZIP package *
+9	Packages exported
+10	by
+11	By
+12	By “{1}”
+13	per year
+14	per component
+15	By call number or description. Only archives that can be eliminated are offered: not out, not heritage, not essential, not under hold.
+16	by distinct people.
+17	For example: year, month, exact or approximate date.
+18	For example: shredding, incineration.
+19	For example “circa 1960” or “1958-1984 (gaps)”
+20	For example 5 for years ending in 0 and 5.
+21	For example application/pdf or image/tiff.
+22	For example the authority that certified the copy.
+23	By exemption
+24	By the method
+25	per month
+26	By payment
+27	per half-year
+28	per quarter
+29	by a replica since the server started: the primary storage was unavailable for
+30	By someone other than its author; it replaces the plan in force
+31	Per accession or per period, depending on the periodicity
+32	Settings of the new circuit
+33	Fleet and quality profiles
+34	Browse the catalog
+35	Browse the documentary heritage
+36	Journeys to complete
+37	Acquisition journey
+38	Consultation journey
+39	Entry journey
+40	reference journey
+41	Processing journey
+42	Journey available in the code
+43	Available journeys
+44	Cross-cutting journey
+45	User journey — Processing module
+46	parent
+47	Parent
+48	Parent not found: “{1}” exists neither in the institution nor in the file.
+49	Kinship with
+50	Participants
+51	Part
+52	Partial
+53	No insurance
+54	No complete contract exposed for this experience. Future routes are not invented here.
+55	Not yet closed: close it first
+56	No departure condition report yet.
+57	not yet generated
+58	Not yet possible: see “From draft to preservation” above.
+59	Passage
+60	Passage to apply
+61	Passage made
+62	Passage to intermediate archives
+63	Passage planned on {1}.
+64	Passages recorded
+65	Passed on
+66	Skip OCR
+67	Historical and documentary heritage
+68	PAY-…
+69	PAY-AB12CD34
+70	Access PDF
+71	Access PDF ·
+72	Non-compliant PDFs
+73	PDF ready to check
+74	Password-protected PDF
+75	PDF/A
+76	During the treatment
+77	During the treatment, the object can no longer be handled and the item is “under restoration”.
+78	Permanence
+79	Permanence *
+80	Scope
+81	Scope:
+82	National scope: this list only shows your own requests. Choose an institution to process the requests submitted to it.
+83	Scope selected in the header.
+84	Period
+85	Loan period
+86	Period or culture
+87	UTC period
+88	Periodicity
+89	periodic
+90	Driver’s license
+91	Permission
+92	Requested permissions
+93	Role permissions
+94	Role permissions modified
+95	Executable permissions defined by the backend. This catalog cannot be modified here.
+96	Previous permissions
+97	Perpetual: never freely communicable
+98	Demonstration persona
+99	Person
+100	Person in the room
+101	Legal entity
+102	Person not available
+103	Person or organization
+104	Person or organization linked to this document (author, producer, signatory…).
+105	Natural person
+106	Person, family or organization handing over the item
+107	People to notify
+108	Relevance
+109	Can be scheduled
+110	Can pass
+111	Current phase
+112	Current phase ended on {1}.
+113	Current phase ended or upcoming
+114	Snapshot of the backend
+115	Photographs and items
+116	item
+117	Item
+118	Payment document
+119	Attachment
+120	Document presented
+121	Document presented *
+122	items
+123	Items:
+124	Additional supporting items (JSON)
+125	items, volumes, linear metres…
+126	STEERING / DEMONSTRATION
+127	pixels · Confidence:
+128	places
+129	places)
+130	Place this sheet at the head of the batch: it lets you check that the imported files really belong to this batch. It will not be kept as a page.
+131	Place this sheet just before the first document of the element, then digitize everything in a single pass. This sheet will not be kept as a page.
+132	Plan abandoned:
+133	Events plan
+134	emergency plan
+135	Emergency plan
+136	Digitization plan
+137	Treatment plan
+138	Plan never tested by an exercise
+139	plan version
+140	Public catalog XML sitemap
+141	planetary
+142	Planetary (bound books)
+143	Preservation planning
+144	Treatment planning
+145	scheduled
+146	Scheduled
+147	Scheduled just now
+148	scheduled
+149	Schedule
+150	Schedule the campaign
+151	Schedule the preservation
+152	Schedule preservation and integrity checks.
+153	Schedule the treatment
+154	Schedule the documents concerned
+155	Schedule the first campaign: it freezes a scope, then each original is checked.
+156	Emergency plans of the location
+157	Oldest pending
+158	Oldest missing since
+159	Oldest
+160	Most recent
+161	Nothing is in progress any more on this version.
+162	Several rules apply with the same precision and the same priority: one must be made more precise or deactivated.
+163	Point of attention
+164	Mount point not found.
+165	Semicolon
+166	Already carried the replacement
+167	Scope
+168	Scope:
+169	Scope *
+170	Scope / attachment
+171	Scope of the assignment
+172	Invalid role scope.
+173	Account scope
+174	Portion described
+175	Applied by
+176	Position:
+177	Position (x, y)
+178	Positions
+179	Word positions available
+180	Word positions on the document
+181	Positions not available
+182	OCR positions
+183	Partial positions: the engine limited or discarded part of the words. This view does not represent the whole text.
+184	After today.
+185	for
+186	for trusted archives.”
+187	To be approved, the plan must include: {1}.
+188	for future generations.”
+189	For digital accessions: PDF/A, TIFF, XML…
+190	For what
+191	For what *
+192	To seal, the version must have a validated “Preservation master” file, and all its other files (except rejected files) must be validated. Upload the master with this role then click “Validate as master”.
+193	For another calendar, use the original expression only.
+194	For a paper file: linear metres, boxes…
+195	Percentage kept *
+196	why
+197	Why
+198	Why (at least 10 characters).
+199	Why (at least 10 characters).
+200	Why do you need this document?
+201	Why this risk is tolerable as it stands (at least 10 characters).
+202	Why the original must leave storage
+203	Why the decision is postponed (at least 4 characters).
+204	Why the withdrawal is refused (at least 10 characters).
+205	Why the item leaves the collection (at least 30 characters).
+206	Why reopen it (at least 10 characters).
+207	Why the originals leave
+208	Why migrate this format now (at least 10 characters).
+209	Why digitize
+210	Why digitize * (at least 10 characters)
+211	Why treat: what the report shows
+212	Why you decide differently from the method; kept in the log.
+213	Continue the search; if it is found, record its presence.
+214	PPD
+215	dpi
+216	dpi ·
+217	precautions
+218	State the reason for the prohibition or the conditions to follow.
+219	Clarification
+220	Clarification *

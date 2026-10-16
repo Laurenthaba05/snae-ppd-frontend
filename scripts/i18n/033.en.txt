@@ -1,0 +1,220 @@
+1	403/404 masked: do not disclose the object
+2	409: outdated version or state
+3	422: fix the fields
+4	503/network: success not confirmed
+5	Accept, refuse or request correction
+6	National AUDIT_READ access required in the current code
+7	Access denied: close the preview
+8	Access removed without erasing the identity from historical events.
+9	ACTIF → LEVE; retention decisions then reexamined according to the server.
+10	Activate the heading
+11	Refresh the aggregated indicators
+12	Admit a complete accession with schedule
+13	Authorized functional administrator
+14	Authorized administrator
+15	Administration of the authorized scope.
+16	Administer the classification plan
+17	Show the cause and the technical reference
+18	Refine the search
+19	Authorized documentary agent
+20	Authorized agent or archivist
+21	Backend cancellation present; UI command to be completed
+22	Integrity anomaly: block the use concerned
+23	Per-actor available transitions API to be added
+24	Apply a retention rule
+25	Apply, reject or cancel
+26	Approve a sensitive permission change
+27	Demonstration archivist
+28	Authorized archivist
+29	Authorized archivist or manager
+30	Archivist then authorized agent
+31	Associate the document types
+32	Assign or revoke
+33	Assign or revoke permissions
+34	No notification button with a fictitious counter in connected mode.
+35	No catalog of secret objects is exposed to request access
+36	No transition code invented by the frontend
+37	No national legal period invented by the frontend
+38	No log erasure from the frontend
+39	No provider configured: sign-in unavailable
+40	No TWAIN/WIA control exposed
+41	No result does not prove the absence of a document
+42	No national total computed from a single page
+43	No transition invented in connected mode
+44	Authorized national auditor
+45	Authorize and start the intervention
+46	Authorize or refuse with a reason
+47	Branch depends on the active definition; business label to be supplied with the server transitions.
+48	This code is already in use.
+49	This journey is not simulated in this demonstration.
+50	This role is assigned: an independent proposal is necessary.
+51	This archiving is final.
+52	This resource has changed. Reread it.
+53	Change applied after independent check, or request closed with no effect.
+54	Change of an active schema to be scoped
+55	Each profession within its scope
+56	Choose beneficiary, scope and period
+57	Choose channel and license
+58	Choose category or object
+59	Choose document, file or all
+60	Choose institution and department
+61	Choose the scope
+62	Choose the configured correction transition
+63	Choose the dissemination file
+64	Choose the entry mode
+65	Choose an authorized transition
+66	Choose an eligible parent unit
+67	Choose a version and a readable file
+68	Choose a My tasks view
+69	Choose the authorized scope.
+70	Priority target: aggregated endpoints, server filtering and per-scope counter to be added.
+71	Active classification and documentary attachment; provenance unchanged.
+72	Key required.
+73	Close the document according to its prerequisites
+74	Close the authorized file
+75	Closing distinct from validation, sealing and preservation
+76	File closing distinct from the permanent preservation of the items
+77	Close the entry register
+78	Physical communication and download are not interchangeable
+79	Communicate an item and record its return
+80	COMPLETED does not mean final admission
+81	Account not provisioned: stay on an explicit error
+82	Account attached to an existing identity; invitation automation outside the observed contract.
+83	Carry out a physical restoration
+84	Confidence 0–1 descriptive, not a guarantee of accuracy
+85	Configure a validation circuit
+86	Confirm with the preview hash
+87	Confirm and open the record
+88	Confirm the integration
+89	Version conflict: reread
+90	Authorized conservator and practitioner
+91	Authorized conservator
+92	Preservation of the original mandatory in the design
+93	Keep the responsibility traces of past actions
+94	Record the decision
+95	Record the acts and the result
+96	Record a quality control
+97	Record a withdrawal or a movement
+98	Finding recorded; visual forms preferred over defect JSON.
+99	Record the handover
+100	Record the return
+101	View the context
+102	View the backups
+103	View or download a file
+104	Check and finish the project
+105	Check the inventory and the files
+106	Check the summary
+107	Authorized controller
+108	Correct and check again if necessary
+109	Correct the authorized object
+110	Create and close a file
+111	Create the open entry
+112	Create the record
+113	Create the record with institution, type and reference
+114	Create the verified legal reference
+115	Create the application account
+116	Create the diagnosis
+117	Create the project
+118	Create a contextualized file
+119	Create a node and its parent
+120	Create a schema and its fields
+121	Create an authority or a producer
+122	Create a definition
+123	Create a request on a known, admissible reference
+124	Create a record and prepare its files
+125	Base date missing: do not invent a due date
+126	Date and rule computed server-side, not an arbitrary duration in the record.
+127	Uncertain date: keep the declared precision
+128	Decide the final disposition without a false destruction
+129	Trigger the sealing
+130	Describe the fonds, series, file or item levels
+131	Describe a fonds and its producers
+132	Define and activate the applicable rule
+133	Define steps and roles
+134	Define storage locations and units
+135	Define the transitions
+136	Define then fill in the metadata
+137	Delegation expired: do not offer a command
+138	Authorized request distinct from item handed over
+139	Request expired.
+140	DEMANDEE → REMISE → RESTITUEE; server checks kept.
+141	Request and process a consultation
+142	Request a correction and resume the circuit
+143	Authorized requester then reviewer
+144	Demonstration: this agent has no modification rights.
+145	Moving branches and full versioning to be extended
+146	DEPOSEE → EN_INSTRUCTION → AUTORISEE or REFUSEE, two alternative endings.
+147	Upload the file
+148	Upload then link the files
+149	Upload interrupted: follow the receipt
+150	Typed business forms, without exposing JSON to ordinary users.
+151	Hierarchical description and provenance kept, without confusing them with the current organization chart.
+152	Heritage description enriched without modifying the original content.
+153	Two independent administrators
+154	DIAGNOSTIC → A_VALIDER → EN_COURS → TERMINEE according to the server transitions.
+155	Archives and Documentation Directorate
+156	Have a task inbox and indicators
+157	File described; do not fabricate a complete list from a single document page.
+158	CSV escaping required for export
+159	Write failure: unknown state to reread
+160	Failure or partial intervention to document
+161	Network failure: reread before starting again
+162	Incomplete element: do not display as finished
+163	E-mail, notification center and read receipt not exposed in the controllers examined
+164	Incompatible or inactive location: refusal
+165	Global My tasks endpoint missing
+166	Record the communication
+167	Record then validate an OCR result
+168	Record an institution
+169	Enrich a heritage document
+170	Entry already closed: conflict
+171	Entry OUVERTE. The number is entered, not generated by the supplied backend.
+172	Send the content
+173	Inconsistent initial/final step: refusal
+174	CLOTUREE state, not standalone proof of probative admission.
+175	State actually returned by the server; operational availability not proven by the static audit.
+176	Examine actor, date, before and after
+177	Examine the analysis and state of the file
+178	Examine the computed event
+179	Examine the role’s impact
+180	Examine the task
+181	Examine the traceability
+182	Examine the version
+183	Examine the permissions
+184	Examine the items
+185	Examine legibility and completeness
+186	Execute the permanent preservation or the supported reexamination
+187	Export the available formats
+188	EAD/EAC exports to validate with the recipient exchange tools
+189	Have another approver examine
+190	Have independently validated
+191	File altered, too large or unsupported: explicit state
+192	Infected file or missing master: refusal
+193	Filter the anomalies
+194	Filter delays and actions
+195	Date and institution filters absent from the supplied search contract
+196	Active hold: suspend the processing concerned
+197	Hold or non-independent actor: refusal
+198	Manage legal sources and access restrictions
+199	Manage a departure and close the accesses
+200	Communications manager
+201	Authorized national manager
+202	Explicit permission; dedicated screens for creating delegations and changing scope to be completed.
+203	Qualified timestamping: availability to be confirmed in acceptance testing
+204	Timestamp if the service is configured
+205	Identify document or file
+206	Identify read or write
+207	Controlled import; no write from a file that has not been previewed.
+208	Import descriptions from CSV
+209	Import the text produced by an external engine
+210	Impossible to grant oneself rights implicitly
+211	Index unavailable: display an error, not zero results
+212	Instance EN_COURS then TERMINE; finishing the circuit does not automatically admit a batch.
+213	Institution created; the application code is not a legal creation number.
+214	Demonstration institution C
+215	Inventory of the 21 controllers supplied
+216	Inventory of linked content not supplied by these GETs
+217	The key has already been used with different content.
+218	Signing out of the browser alone does not revoke rights
+219	The request has changed.
+220	Physical destruction and final transfer are deliberately blocked by the current backend.

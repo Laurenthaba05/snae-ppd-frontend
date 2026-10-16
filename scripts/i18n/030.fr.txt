@@ -1,0 +1,220 @@
+1	Tous les courriers déposés ont été traités.
+2	Tous les documents clos de ce type ont déjà un délai de communicabilité.
+3	Tous les documents de ce dossier sont déjà détruits.
+4	Tous les documents du dossier, sous-dossiers compris, ou aucun
+5	Tous les documents visés ont été détruits : le bordereau est exécuté.
+6	Tous les écarts
+7	Tous les états
+8	Tous les originaux sont rentrés avec leur constat d’état : le dossier est clos et ne se modifie plus.
+9	Tous les originaux sont rentrés avec leur constat d’état : le dossier peut être clos.
+10	Tous les PDF sont jugés contre le même profil, imposé par la configuration : {n}.
+11	Tous les périmètres auxquels vous avez accès.
+12	Tous les statuts de la page
+13	Tous les termes
+14	Tous mes périmètres
+15	tous répétables
+16	Tous types
+17	Tout choisir
+18	Tout décocher
+19	Tout est prêt : vous pouvez planifier la conservation.
+20	Tout est prêt pour le départ : la remise de chaque original peut avoir lieu une fois sa sortie autorisée.
+21	Toute l’institution
+22	Toutes
+23	Toutes les actions sont journalisées
+24	Toutes les archives sont à leur place connue et vérifiée.
+25	Toutes les cartes
+26	Toutes les commandes
+27	Toutes les étapes sont faites.
+28	toutes les images du fichier ensemble sont trop grandes pour le moteur (600 millions de pixels au plus)
+29	Toutes les lignes en attente sont refusées
+30	Toutes les valeurs normalisées à examiner
+31	Traçabilité
+32	Tracer la mise à disposition et la restitution des pièces.
+33	Traite le texte et indexe
+34	Traitement
+35	Traitement à démarrer
+36	Traitement à valider
+37	Traitement de conservation
+38	Traitement en cours : l’objet ne se manipule pas.
+39	Traitement expiré
+40	Traitement prévu
+41	Traitement prévu * (au moins 10 caractères)
+42	Traitement recommandé
+43	Traitement recommandé :
+44	Traitement recommandé * (au moins 10 caractères)
+45	Traitement terminé : l’élément est prêt pour versement et n’est plus modifiable.
+46	traités
+47	Traités (vérifiés ou reportés)
+48	Transféré le
+49	transférer
+50	Transférer
+51	Transfert à un autre détenteur
+52	Transitions du circuit
+53	Transport
+54	Transport aller le
+55	Transport retour le
+56	Transporteur
+57	Très improbable
+58	tri
+59	Tri par échantillonnage
+60	trier (échantillon conservé, reste éliminé)
+61	Trier (échantillon conservé, reste éliminé)
+62	trois décimales au plus.
+63	Trop de demandes : réessayez dans un moment.
+64	trop de pages dans le fichier
+65	trop de pages pour un PDF d’accès
+66	Trop de tentatives de connexion. Patientez quelques minutes avant de réessayer.
+67	trop de volumes
+68	Trouvée à un autre emplacement
+69	Trouvée ailleurs
+70	Trouvées ailleurs
+71	Trouvés ailleurs
+72	Tutelle
+73	Tutelle actuelle :
+74	Type
+75	Type *
+76	Type d’autorité
+77	Type d’événement
+78	Type d’événement *
+79	Type d’identifiant
+80	Type d’institution *
+81	Type d’unité
+82	Type d’unité trop long (50 caractères max).
+83	Type de cible
+84	Type de cible du gel
+85	Type de compte
+86	Type de compte inconnu.
+87	Type de date
+88	type de document
+89	Type de document
+90	Type de document *
+91	Type de données
+92	Type de fiche inconnu.
+93	Type de justificatif
+94	Type de lieu
+95	Type de média
+96	Type de média *
+97	Type de mouvement
+98	Type de nœud
+99	Type de notices
+100	Type de réception
+101	Type de réception : {n}
+102	Type de réception *
+103	Type de reconnaissance
+104	Type de signature
+105	Type de sortie
+106	Type de source
+107	Type de statut
+108	type de support
+109	Type déclaré
+110	Type déclaré différent du format reconnu
+111	Type des documents créés *
+112	Type du document *
+113	Type non disponible
+114	Types
+115	Types de demandes
+116	Types de documents
+117	Types de documents liés
+118	Types de documents visés
+119	U — conformité de base, texte en Unicode
+120	Un abonnement donne accès, pour sa durée, à la lecture des documents communicables au public. Le catalogue reste ouvert à tous. Le premier paiement se fait au guichet de l’institution ou par virement ; un agent habilité l’enregistre et l’abonnement démarre aussitôt.
+121	Un abonnement en cours est nécessaire
+122	Un abonnement en cours est nécessaire pour lire ce document.
+123	Un accès s’accorde pour un an au plus.
+124	Un accord clos ne peut plus changer.
+125	Un accord commence en projet ; activez-le ensuite
+126	Un accord fixe ce qu’un producteur s’engage à verser, sur quelle période et pour quel volume. Les versements s’y rattachent.
+127	Un agent est une personne, une organisation, un logiciel ou un matériel qui agit sur les fichiers (PREMIS). Un événement de conservation peut le citer : l’outil et sa version s’en déduisent.
+128	Un autre détenteur reçoit le bien : transfert, échange ou cession.
+129	Un bien à situation juridique à clarifier n’est jamais diffusé.
+130	Un bien déposé ou prêté n’appartient pas à l’institution : il ne peut que retourner à celui qui l’a confié.
+131	Un bien part en prêt ou en exposition par un dossier : la convention, l’assurance et les constats d’état de départ et de retour y sont contrôlés, et chaque original sort par une demande de mouvement autorisée par une autre personne.
+132	Un bordereau compte {n} documents au plus.
+133	Un bordereau d’élimination a été soumis et attend le visa de l’autorité.
+134	Un bordereau d’élimination est visé : la destruction revient à une troisième personne.
+135	Un bordereau d’élimination que vous avez soumis est visé ou refusé.
+136	Un bordereau de versement a été soumis à votre institution et attend sa réception.
+137	Un bordereau de versement est reçu : la remise revient à une troisième personne.
+138	Un bordereau de versement que vous avez soumis est reçu ou refusé par l’institution destinataire.
+139	Un bordereau de versement réunit des documents dont l’échéance prévoit le transfert. Il est soumis à l’institution d’archives destinataire, qui accepte ou refuse chaque ligne et délivre son accusé de réception ; les documents acceptés sont ensuite remis par une troisième personne et conservés définitivement.
+140	Un bordereau réunit des documents dont l’échéance d’élimination est arrivée. Il est soumis à l’autorité, qui vise chaque ligne ; seuls les documents visés sont détruits, par une troisième personne, chacun avec son certificat de destruction.
+141	Un brouillon de plan est déjà ouvert pour cet emplacement : terminez-le ou abandonnez-le.
+142	Un bulletin compte {n} documents au plus.
+143	Un certificat de la chaîne figure sur une liste de révocation, avant la date de signature.
+144	Un certificat de la chaîne n’était pas valide à la date de la signature : la chaîne n’est pas de confiance.
+145	Un circuit
+146	Un circuit actif doit être lié au type du document (page « Circuits de validation », fiche du circuit, rubrique « Types de documents liés »).
+147	Un circuit de traitement est toujours actif sur le document.
+148	Un circuit de validation du document est encore actif.
+149	Un circuit de validation est en cours sur ce document : terminez-le ou annulez-le.
+150	Un circuit de validation est en cours sur ce document. Terminez-le (ou annulez-le) avant de sceller la version.
+151	un concept refusé
+152	Un constat conforme porte la quantité annoncée ; sinon, déclarez un écart.
+153	Un constat de non-conformité n’est pas un défaut du fichier à corriger d’office : il éclaire le choix d’une migration vers PDF/A à partir de l’original, qui reste conservé.
+154	Un danger, ce qu’il menace, et ce que l’on fait déjà
+155	Un délai qui court depuis une date d’événement doit dire quel événement (naissance, décès, fin du marché…).
+156	Un délai, sa base légale, ce qu'il vise
+157	un département
+158	Un département ne peut pas être son propre parent.
+159	Un dépôt ou un prêt entrant a une échéance : indiquez la date de fin de la convention.
+160	Un dépôt ou un prêt entrant a une échéance.
+161	Un dépôt terminé doit encore être validé dans la liste des fichiers avant de pouvoir être consulté ou téléchargé.
+162	un document
+163	Un document compte {n} zones occultées au plus.
+164	Un document essentiel exige son motif.
+165	Un document essentiel ne peut pas être éliminé tant que cette mention n’est pas retirée, avec son motif.
+166	Un document est créé pour chaque unité d’archives qui porte des objets
+167	Un document ne peut pas être en relation avec lui-même.
+168	Un document peut en remplacer un autre, en être l’annexe, y répondre, en être la traduction ou la copie.
+169	Un document sous restriction exige la dérogation de la personne qui configure la salle.
+170	Un document sur {n}, dans l’ordre chronologique.
+171	Un document sur *
+172	un dossier
+173	Un écart n’est pas une erreur en soi : il invite à vérifier le fichier et son type déclaré avant de décider d’une migration.
+174	Un emplacement a son
+175	Un enregistrement ne se modifie plus : un constat plus récent le complète
+176	Un état fragile ou à traiter se constate avec au moins une altération.
+177	Un événement constaté sur le dossier vaut pour tous les documents du dossier et de ses sous-dossiers.
+178	Un fichier maître validé
+179	un fichier n’est pas un PDF
+180	un fichier n’est plus validé, sain et vérifié dans le stockage
+181	Un fichier ne se relie pas à lui-même.
+182	Un fichier SKOS fait 2 Mo au plus.
+183	Un format à risque, à surveiller ou obsolète se justifie (10 caractères au moins).
+184	Un gel juridique actif bloque le document.
+185	Un gel légal actif bloque l’opération.
+186	Un identifiant est répété.
+187	Un identifiant UUID valide est requis.
+188	Un index de recherche est absent : redémarrez le serveur pour le recréer, puis réindexez.
+189	Un index de recherche est endommagé : une partie des résultats peut manquer.
+190	Un lecteur abonné peut demander l’accès à un document qui n’est pas en lecture libre. L’accord est limité dans le temps ; le lecteur est prévenu de la décision.
+191	Un lecteur du portail demande l’accès à un document de votre institution.
+192	Un libellé alternatif dépasse {n} caractères.
+193	Un lot clos est figé : il n’accepte plus d’éléments ni de nouveaux réglages.
+194	Un lot regroupe des éléments scannés ensemble avec les mêmes réglages.
+195	Un lot regroupe les biens d’un même registre d’inventaire
+196	Un motif écrit d’au moins {n} caractères est exigé (réorganisation, régularisation d’un constat…).
+197	Un motif écrit d’au moins {n} caractères est exigé.
+198	Un niveau se place sous un niveau plus haut.
+199	Un nombre, au plus trois décimales
+200	Un objet dont l’état exige une intervention n’est pas en manipulation libre.
+201	Un original ne sort pas de réserve parce que l’on a le droit de gérer les archives : la sortie est demandée, autorisée par une autre personne, remise, confirmée par celle qui la reçoit, puis rendue.
+202	Un original ne sort pas sans demande : elle est autorisée par une autre personne que vous, puis l’original est remis et la sortie s’inscrit à l’historique des mouvements. Vous pouvez modifier la demande tant qu’elle n’est pas autorisée.
+203	Un original rendu dans un autre état que celui où il est parti se constate : le constat est enregistré avec le retour et devient le dernier état connu de l’original.
+204	Un original rentre d’un prêt ou d’une exposition avec un constat d’état au retour, même s’il est rendu dans l’état où il est parti : il devient le dernier état connu de l’original.
+205	Un paquet BagIt (ZIP) réunit les fichiers validés, leurs empreintes et la description PREMIS. L’archivage reprend tous les fichiers ; la diffusion, les seules copies de consultation.
+206	Un par ligne : type : titre (ex. Titre ancien : Registre des déclarations de naissance)
+207	Un par ligne (20 au plus). Ils servent à retrouver le terme, pas à indexer.
+208	Un passage compte {n} documents au plus.
+209	Un PDF peut se dire PDF/A dans ses métadonnées sans l’être. Un validateur (veraPDF) juge le contenu ; ce qu’il ne peut pas lire est « non analysable », jamais présumé conforme. L’application ne modifie jamais un original pour le rendre conforme.
+210	Un plan approuvé comporte au moins un contact à prévenir.
+211	Un plan approuvé comporte au moins une priorité de sauvetage.
+212	Un plan approuvé décrit l’alerte, l’évacuation et le sauvetage (10 caractères au moins chacun), et il est approuvé par une autre personne que son auteur.
+213	Un plan approuvé ne se modifie plus : créez une nouvelle version.
+214	Un plan d’urgence ne vaut que s’il a été éprouvé : enregistrez les exercices et les incidents.
+215	Un prêt entrant reste un prêt ; un don ou un dépôt proposé peut être accepté comme acquisition ou comme dépôt.
+216	Un prêt nomme son emprunteur (organisme ou personne).
+217	Un prêt ou une exposition réunit les originaux qui sortent, la convention, l’assurance, le transport et les constats d’état. Le dossier est accepté par une autre personne que celle qui l’a monté ; chaque original ne part qu’avec ses conditions réunies et ne rentre qu’avec un constat d’état.
+218	Un prêt réunit les originaux qui partent chez un emprunteur, la convention, l’assurance et le transport. Il est accepté par une autre personne que vous ; vous complétez ensuite la convention, l’assurance et le transport, avant la remise des originaux.
+219	Un procès-verbal compte {n} archives au plus.
+220	Un profil dit ce que l’institution exige d’une image numérisée. Aucun profil n’est livré avec l’application. Les exigences d’un profil ne se modifient pas : on le retire et on en définit un autre, pour que les évaluations passées restent lisibles.

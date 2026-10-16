@@ -1,0 +1,220 @@
+1	Document détruit
+2	Document essentiel
+3	Document essentiel : retirez d’abord la mention, avec son motif.
+4	Document lié
+5	Document non disponible
+6	Document ou dossier et bénéficiaire requis.
+7	Document_original.pdf
+8	Document, constat ou publication qui justifie la correction
+9	Documentée par
+10	Documents à classer
+11	Documents à contrôler
+12	Documents à corriger
+13	documents acceptés
+14	documents acceptés restent
+15	Documents ajoutés
+16	Documents choisis
+17	documents demandés
+18	Documents demandés *
+19	documents détruits
+20	Documents dont l’échéance d’élimination est arrivée
+21	Documents dont l’échéance prévoit le transfert aux archives
+22	Documents du dossier
+23	Documents indexés par {n}
+24	documents les plus récents
+25	documents les plus récents.
+26	Documents numérisés
+27	Documents sous gel
+28	Domaine
+29	Donateur
+30	Donnée non disponible (habilitation, périmètre ou API)
+31	données
+32	Données de démonstration dans cet onglet. Les étapes et notices ci-dessous illustrent le parcours ; aucune règle métier, preuve d’audit ou autorisation serveur n’est exécutée.
+33	Données fictives · Aucun appel au serveur
+34	Données personnelles
+35	Données personnelles :
+36	Données personnelles sans délai
+37	Données sensibles
+38	Donnez un intitulé de 3 caractères au moins.
+39	Donnez un libellé (200 caractères au plus) : par exemple l’autorité qui l’émet et sa date.
+40	Donnez un libellé (200 caractères au plus) : par exemple le nom de l’autorité.
+41	Donnez un nom au profil (200 caractères au plus).
+42	dossier
+43	Dossier
+44	Dossier *
+45	Dossier annulé.
+46	Dossier clos : tous les originaux sont rentrés.
+47	Dossier concerné
+48	Dossier de démonstration
+49	Dossier de prêt ou d’exposition
+50	Dossier de rattachement
+51	Dossier lié
+52	Dossier modifié
+53	Dossier monté
+54	Dossier non lisible
+55	Dossier prolongé
+56	Dossier prolongé : retour prévu le
+57	Dossier refusé.
+58	Dossiers clos
+59	Dossiers ouverts
+60	dpi
+61	DPI
+62	dpi minimum)
+63	dpi.
+64	Drapeau de la Guinée
+65	Droits
+66	Droits affichés par /me
+67	Droits d’image et de reproduction
+68	Droits délégués effectifs
+69	Droits détenus par l’institution
+70	Droits détenus par un tiers
+71	Droits directs effectifs
+72	Droits et sources juridiques
+73	Droits insuffisants : import arrêté.
+74	Droits insuffisants pour créer des départements dans cette institution : import arrêté.
+75	Droits insuffisants pour créer des institutions : import arrêté.
+76	Droits insuffisants pour inventorier des biens : import arrêté.
+77	du
+78	Du
+79	du {n} au {n}
+80	Du {n} au {n}
+81	du bord gauche,
+82	Du brouillon à la conservation
+83	du document {n}
+84	du document PDF
+85	du haut
+86	DUA (années)
+87	DUA et sort
+88	Dublin Core (XML)
+89	Durée
+90	Durée (mois)
+91	Durée *
+92	Durée d’utilité administrative (années)
+93	durée perpétuelle
+94	Durée proposée
+95	Durées, sort final et gels légaux
+96	écart
+97	Écart
+98	Écart encore ouvert
+99	Écarter
+100	Écarter {n}
+101	Écarter de l’échantillon
+102	Écarts
+103	Écarts constatés
+104	Écarts constatés (
+105	Échanges
+106	Échanges du versement
+107	Échantillon
+108	Échantillon à contrôler visuellement (
+109	échéance
+110	Échéance
+111	Échéance de conservation
+112	Échéance dépassée
+113	Échéance UTC
+114	Échéances de rétention
+115	Échéances dont la règle prévoit un tri
+116	échec
+117	Échec
+118	échec (
+119	Échec à la dernière tentative ({n} essai) : {n}
+120	Échec à la dernière tentative ({n} essais) : {n}
+121	échec de l’assemblage
+122	Échec de la numérisation
+123	Échec de la planification
+124	échec inattendu (journaux d’exploitation)
+125	échec sans précision
+126	échec(s) consécutif(s)
+127	échecs
+128	échouée
+129	Écran de parcours disponible pour la recette visuelle. Les contrats et autorisations du module métier doivent être raccordés et vérifiés avant toute utilisation avec des archives réelles. Aucune écriture n’est envoyée au serveur.
+130	Écran non disponible dans ce lot.
+131	Écrit au dossier et conservé dans le journal.
+132	Écrit au dossier, conservé au journal et communiqué au lecteur.
+133	Écritures
+134	Écritures des documents
+135	Écrivez le message qui sera communiqué au lecteur (au moins {n} caractères).
+136	Effacer la copie temporaire du poste
+137	Effacer le rectangle
+138	Effacer les bornes grégoriennes
+139	élément
+140	Élément
+141	Élément annulé : il n’avance plus et ses pages sont figées.
+142	élément contrôlé
+143	Élément de numérisation
+144	Élément du lot
+145	Élément n° {n}
+146	Élément ouvert.
+147	Élément qui reçoit les pages
+148	Élément sans description
+149	Élément sélectionné
+150	Élément suspendu : il reprendra à l’étape «
+151	élément(s)
+152	élément(s) à cette étape. Le serveur vérifie chaque élément et laisse les éléments bloqués à leur étape. Le résultat indique lesquels ont été traités.
+153	élément(s) reconnu(s)
+154	élément(s) terminé(s)
+155	élément(s) traité(s),
+156	éléments
+157	Éléments
+158	Éléments à cette étape
+159	Éléments à créer
+160	Éléments à vérifier
+161	éléments contrôlés
+162	Éléments de la norme ISAD(G) renseignés ; un niveau n’a pas à tous les remplir
+163	Éléments dont le dernier contrôle qualité est non conforme
+164	Éléments numérisés
+165	Éléments reportés (
+166	Éléments vérifiés
+167	Élevé
+168	élimination
+169	Élimination approuvée
+170	Élimination des archives physiques
+171	Élimination refusée
+172	Élimination visée
+173	Éliminations à valider
+174	Éliminé
+175	éliminer
+176	Éliminer
+177	Éliminer un dossier entier
+178	elle attend d’être prise en charge
+179	Elle s’ouvre dès que votre paiement est enregistré au guichet.
+180	Elles sont numérotées dans l’ordre naturel des noms (scan2 avant scan10)
+181	Emballage
+182	Embarqué
+183	Émetteur
+184	Émetteur non reconnu
+185	Émis par
+186	Émis par {n}
+187	Émise le
+188	Emplacement
+189	Emplacement actuel
+190	Emplacement de
+191	Emplacement de l’archive
+192	Emplacement habituel
+193	Emplacement non visible avec vos habilitations.
+194	Emplacement où elle a été trouvée *
+195	Emplacement parent
+196	Emplacements
+197	Emplois
+198	Empreinte
+199	Empreinte de la décision
+200	Empreinte de la liste des objets :
+201	Empreinte des certificats de destruction :
+202	Empreinte du certificat
+203	Empreinte du contenu signé
+204	Empreinte du procès-verbal
+205	Empreinte précédente
+206	Empreinte SHA-256
+207	Emprunteur *
+208	emprunteur ou convoyeur
+209	En archives intermédiaires depuis le {n} : {n}, sous la garde de {n}. Conservé jusqu’à l’échéance du {n}, où le sort final s’applique.
+210	en attente
+211	En attente
+212	En attente d’un examen juridique et de provenance, par une autre personne que celle qui a proposé la sortie.
+213	en attente de décision : acceptez ou refusez chaque archive avant de viser.
+214	En attente de la décision de l’autorité, qui n’a ni proposé ni examiné la sortie.
+215	En attente de paiement
+216	En attente de réception
+217	En attente de visa
+218	en attente depuis plus de 30 jours
+219	En attente du délai
+220	En contrôle

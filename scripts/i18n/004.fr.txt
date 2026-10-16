@@ -1,0 +1,220 @@
+1	Aucun bien dans votre périmètre.
+2	Aucun bien de l’institution ne correspond.
+3	Aucun bien encore enregistré.
+4	Aucun bien enregistré
+5	Aucun bien n’est encore publié dans le catalogue.
+6	Aucun bien ne correspond à ces critères.
+7	Aucun bien patrimonial
+8	Aucun bordereau
+9	Aucun bulletin
+10	Aucun bulletin de communication ne correspond à ce filtre.
+11	Aucun certificat de la chaîne n’est révoqué à la date retenue pour la signature.
+12	Aucun champ
+13	Aucun circuit de validation
+14	Aucun circuit n’a encore été démarré pour ce document.
+15	Aucun circuit ne s’applique à ce type de document.
+16	Aucun classement
+17	Aucun coché : tout format d’image est accepté.
+18	Aucun coché : tout mode est accepté.
+19	Aucun constat ni mouvement enregistré.
+20	Aucun contact.
+21	Aucun contenu stocké : seule la notice demeure.
+22	Aucun contrôle consigné sur les
+23	Aucun contrôle qualité
+24	Aucun contrôle qualité n'a encore été consigné.
+25	Aucun courrier en échec
+26	Aucun cycle n’est encore terminé.
+27	Aucun cycle terminé
+28	Aucun délai de communicabilité n’est appliqué à ce document.
+29	Aucun département n’existe encore dans cette institution.
+30	Aucun dépôt interrompu, aucun circuit en cours.
+31	Aucun dépôt ni circuit en cours
+32	Aucun dépôt sur cette page
+33	aucun document
+34	Aucun document
+35	Aucun document à éliminer
+36	Aucun document à verser
+37	Aucun document choisi.
+38	Aucun document clos ne porte de données personnelles sans délai de communicabilité.
+39	Aucun document concerné
+40	Aucun document dans ce périmètre.
+41	Aucun document dans cette vue
+42	Aucun document n’a été conservé.
+43	Aucun document ne devient librement communicable dans cette période.
+44	Aucun document numérisé n’est communicable pour le moment.
+45	Aucun document planifié n’a de phase intermédiaire à venir ou à constater.
+46	Aucun document que vous puissiez voir directement dans ce dossier.
+47	Aucun dossier
+48	Aucun dossier de sortie
+49	Aucun dossier ne correspond à ces critères.
+50	Aucun droit inscrit pour ce document.
+51	Aucun écart
+52	Aucun élément
+53	Aucun élément à cette étape
+54	Aucun élément à faire avancer
+55	Aucun élément dans le parcours de traitement pour le moment.
+56	Aucun élément de ce projet n’accepte de pages pour le moment : il faut un élément à l’étape de numérisation, lié à un document.
+57	Aucun élément de ce projet ne correspond au code de la feuille séparatrice.
+58	Aucun élément n’est rattaché à ce lot.
+59	Aucun élément ne correspond à ces critères.
+60	Aucun élément ne correspond.
+61	Aucun élément reporté.
+62	Aucun élément vérifié n’a été trouvé ailleurs ou déclaré introuvable.
+63	Aucun emplacement
+64	Aucun emplacement actif ne correspond.
+65	Aucun emplacement suivi
+66	Aucun événement
+67	Aucun événement associé
+68	Aucun événement de préservation
+69	Aucun événement de préservation consigné dans ce périmètre.
+70	Aucun événement historique
+71	Aucun événement journalisé
+72	Aucun exercice ni incident
+73	Aucun fichier
+74	Aucun fichier : déposez-le avec le rôle « Maître de conservation », puis cliquez sur « Valider comme maître ».
+75	Aucun fichier à examiner
+76	Aucun fichier conservé dans ce périmètre.
+77	Aucun fichier de ce document n’a encore été identifié par signature.
+78	Aucun fichier éligible : il doit être validé, sain, vérifié dans le stockage, de ce format, et ne pas être déjà migré ni prévu dans une autre campagne.
+79	Aucun fichier enregistré pour cette version
+80	Aucun fichier n’a pu être traité.
+81	Aucun fichier ni donnée ne sera envoyé. Exemple de formulaire, pas une admission.
+82	Aucun fichier réel n’est inclus dans cette maquette. En mode connecté, seuls les contenus autorisés et validés par le serveur peuvent être ouverts.
+83	Aucun fichier suivi
+84	Aucun fichier téléversé sur ce document.
+85	Aucun fichier validé à identifier dans ce périmètre.
+86	aucun filtre
+87	Aucun format identifié
+88	Aucun format inscrit
+89	Aucun gel légal
+90	Aucun gel légal actif ou passé pour ce périmètre.
+91	Aucun gel légal sur ce document
+92	Aucun identifiant attribué
+93	Aucun identifiant pérenne n’est attribué à cet objet.
+94	Aucun instrument de recherche n’est encore ouvert au public.
+95	Aucun instrument de recherche publié
+96	Aucun intervenant actif trouvé.
+97	Aucun inventaire publié
+98	Aucun justificatif
+99	Aucun justificatif renseigné.
+100	Aucun lecteur
+101	Aucun lecteur ne correspond à ces critères.
+102	Aucun lecteur ne correspond à cette recherche.
+103	Aucun lieu
+104	Aucun lieu associé
+105	Aucun lot
+106	Aucun lot dans ce projet : créez-en un pour regrouper les éléments scannés avec les mêmes réglages.
+107	Aucun lot dans votre périmètre.
+108	Aucun lot de reprise
+109	Aucun mot ne correspond.
+110	Aucun mot positionné
+111	Aucun mot pour ces filtres
+112	Aucun mot-clé. Les mots-clés sont des termes des vocabulaires contrôlés de l’institution ou du niveau national.
+113	Aucun mouvement
+114	Aucun nœud de classement
+115	Aucun objet lisible
+116	Aucun objet que vous puissiez lire n’est indexé par ce terme.
+117	Aucun objet stocké
+118	Aucun original ne correspond à ces critères.
+119	Aucun original ne demande d’attention dans votre périmètre.
+120	Aucun original relié
+121	Aucun paiement
+122	Aucun paiement ne correspond à ces critères.
+123	Aucun paquet n’a été exporté pour ce document.
+124	Aucun passage
+125	Aucun PDF de ce document n’a encore été validé.
+126	Aucun PDF validé
+127	Aucun PDF validé à contrôler dans ce périmètre.
+128	Aucun plan
+129	Aucun plan d’urgence
+130	Aucun plan d’urgence en vigueur
+131	Aucun plan d’urgence n’est rédigé pour {n}.
+132	Aucun prêt ni aucune exposition n’est ouvert dans votre périmètre.
+133	Aucun prêt ni exposition
+134	Aucun procès-verbal d’élimination
+135	Aucun producteur
+136	Aucun profil
+137	Aucun profil (fichier illisible)
+138	Aucun profil de numérisation
+139	Aucun profil défini
+140	Aucun profil utilisable. Configurez et testez un profil NAPS2 sur ce poste.
+141	Aucun projet de numérisation
+142	Aucun projet de numérisation ni contrôle qualité enregistré pour le moment.
+143	Aucun projet en cours avec des éléments à suivre.
+144	Aucun réplica configuré
+145	Aucun réplica n’est configuré.
+146	Aucun résultat OCR
+147	Aucun résultat OCR ou vue d’ensemble indisponible
+148	Aucun résultat OCR pour ce fichier
+149	Aucun résultat pour ces filtres
+150	Aucun résultat sur cette page
+151	Aucun risque enregistré
+152	Aucun risque, plan d’urgence ni exercice n’est encore enregistré.
+153	Aucun rôle
+154	Aucun scan temporaire.
+155	Aucun scanner en service : ajoutez-en depuis « Scanners »
+156	Aucun scanner enregistré. Ajoutez le matériel de l’atelier pour pouvoir l’associer aux lots de numérisation.
+157	Aucun schéma de métadonnées
+158	Aucun schéma de métadonnées n’a encore été appliqué à ce document.
+159	Aucun schéma de métadonnées n’est applicable à ce document.
+160	Aucun serveur de courrier n’est configuré : les courriers du portail restent en attente. Un agent habilité peut vérifier une adresse à la main.
+161	Aucun serveur de courrier n’est configuré : les courriers restent en attente.
+162	Aucun sous-dossier.
+163	Aucun statut juridique
+164	Aucun sujet
+165	Aucun sujet associé
+166	Aucun tarif
+167	Aucun tarif n’est défini : la personne qui configure la salle doit d’abord en créer.
+168	Aucun terme
+169	Aucun terme actif à poser avec cette recherche.
+170	Aucun terme ne correspond à cette recherche.
+171	Aucun terme ne correspond.
+172	Aucun texte multilingue
+173	Aucun texte reconnu :
+174	Aucun texte reconnu pour cette image.
+175	Aucun token ni mot de passe n’est enregistré dans localStorage. Fermer l’onglet efface la session du frontend. Le fournisseur SSO peut conserver sa propre session.
+176	Aucun type actif restant à rattacher.
+177	Aucun type d’événement
+178	Aucun type d’événement n’est défini : créez-en un dans « Événements déclencheurs », page Conservation.
+179	Aucun type n’est défini : les règles ne peuvent pas encore partir d’un événement.
+180	Aucun versement
+181	Aucun vocabulaire
+182	Aucun vocabulaire actif n’est disponible : un responsable des vocabulaires doit d’abord en constituer un.
+183	Aucun vocabulaire n’est disponible dans ce périmètre.
+184	Aucun vocabulaire n’est livré avec l’application : l’institution constitue les siens, ou reprend ceux du niveau national.
+185	Aucun.
+186	Aucune
+187	Aucune (fonction de premier niveau)
+188	Aucune action journalisée pour ce filtre.
+189	Aucune action locale
+190	Aucune action n’est possible pour votre profil sur cet abonnement dans son état actuel.
+191	Aucune action n’est possible pour votre profil sur cette demande dans son état actuel.
+192	Aucune anomalie constatée au retour.
+193	Aucune archive éliminable ne correspond.
+194	Aucune archive ne correspond à ces critères.
+195	Aucune archive ne correspond.
+196	Aucune archive physique
+197	Aucune autorité de confiance
+198	Aucune autre notice de ce type n’existe encore dans cette institution.
+199	Aucune campagne dans votre périmètre.
+200	Aucune campagne de migration
+201	Aucune campagne de récolement
+202	Aucune campagne de tri
+203	Aucune campagne ne correspond à ces critères.
+204	Aucune catégorie
+205	Aucune cible sur cette page.
+206	Aucune commande
+207	Aucune commande de reproduction ne correspond à ce filtre.
+208	Aucune commande ne correspond à ces critères.
+209	Aucune commande ouverte
+210	Aucune communication
+211	Aucune communication enregistrée dans ce périmètre.
+212	Aucune contribution
+213	Aucune copie de consultation n’est disponible pour cette page. Elle est générée après l’import, ou à la demande depuis la fiche de l’élément.
+214	Aucune copie migrée : les fichiers de ce document sont conservés dans leur format d’origine.
+215	Aucune décision
+216	Aucune décision motivée enregistrée
+217	aucune déclaration
+218	Aucune dégradation évolutive : l’objet se conserve en l’état.
+219	Aucune demande
+220	Aucune demande d’accès ne correspond à ces critères dans ce périmètre.

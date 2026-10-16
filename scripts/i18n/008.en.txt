@@ -1,0 +1,220 @@
+1	Close the intervention
+2	Close the document
+3	Close the file
+4	Close the batch
+5	Closed on
+6	closing
+7	Closing
+8	closed
+9	Document closing
+10	File closing
+11	Closing in progress…
+12	Closed
+13	Closed on
+14	Close
+15	Close the entry
+16	Close the campaign
+17	Close the batch
+18	Close the processing
+19	First close the sub-files that are still open:
+20	Code
+21	Code *
+22	Code 128: unsupported character (printable ASCII only).
+23	Code to search for
+24	Three-letter code: GNF, EUR, USD…
+25	Three-letter code (ISO 4217).
+26	Three-letter code, for example GNF
+27	Three-letter code.
+28	Short code: open the relevant project first.
+29	Ambiguous short code in this project: use the full QR code.
+30	Classification code
+31	Pairing code expired or incorrect. Also check the allowed origin in the connector.
+32	Invalid pairing code.
+33	Temporary pairing code
+34	Language code: fra, eng, fuf (Pular)… The suggestions cover the most common languages.
+35	Rule code
+36	Transition code
+37	Three-letter code: GNF, EUR…
+38	Code already used at line {1}.
+39	Hazard code
+40	department code
+41	parent department code
+42	Batch code *
+43	parent code
+44	Parent code
+45	Invalid parent code: a letter first, then letters, digits, _ or - (50 characters max).
+46	Schema code
+47	Code and name
+48	Invalid code: a letter first, then letters, digits, _ or - (50 characters max).
+49	ISO code, e.g. fr, en
+50	ISO country code, for example GN for Guinea.
+51	Codes: fr, fr+en.
+52	COLLECTION · ARCHIVAL ENTRIES
+53	Demonstration historical collection
+54	CORPORATE BODY
+55	corporate body
+56	Corporate body
+57	Paste the thesaurus or choose a file.
+58	Paste or choose the certificate, in PEM format.
+59	Columns: Inventory number, Title, Category, Date, Summary, Medium, Dimensions, Call number, Known provenance
+60	Expected columns: Code, Title, Parent code, Unit type
+61	Expected columns: Code, Title, Acronym, Type
+62	Required columns not found in the first row: {1}. Use the Excel template provided.
+63	Recognized columns:
+64	order
+65	Order
+66	Order closed: it was cancelled.
+67	Digitization order
+68	Order filed
+69	Ordered
+70	Order the digitization
+71	Order a digitization
+72	Closed orders
+73	Reproduction orders
+74	Start drafting
+75	Start an acceptance test
+76	Start by describing a fonds, then its series, files and items.
+77	Start with the service’s main functions, then their activities.
+78	Start with a role
+79	How the retained sample is chosen among the documents whose due date has arrived.
+80	How the value was established *
+81	Comment
+82	Closing comment
+83	Comment on the new version
+84	Comment on the relation
+85	Curator
+86	Communicability
+87	Communicable on {1}, {2}.
+88	Communicated
+89	Comparison
+90	Compares the image with the requirements of the chosen profile: resolution, depth, mode, format, compression, ICC profile.
+91	addition
+92	Addition required
+93	Complete
+94	Complete the metadata
+95	Component of
+96	Python component missing on the server
+97	Understand the correction
+98	Understand the answers
+99	Lossless compression
+100	Account
+101	Report
+102	Report:
+103	Report *
+104	Processing report
+105	Unnamed account
+106	Counts only what you are allowed to see.
+107	Technical account
+108	Technical account: SERVICE scope and consistent attachments required.
+109	Reader accounts, subscription plans, cash desk and subscriptions. The public catalog stays open to all; reading the pages requires a subscription.
+110	Concerns personal data
+111	Conclusion
+112	Campaign conclusion
+113	Passing condition
+114	Access conditions
+115	Access and use conditions
+116	Preservation conditions
+117	Handling conditions
+118	Display conditions
+119	Reproduction conditions
+120	Conditions and undertakings
+121	Conditions not met
+122	Proposed conditions
+123	Conditions proposed by the depositor
+124	Conditions adopted by the institution
+125	Confidence
+126	Confidence below 80%
+127	Average confidence:
+128	Average confidence of the extracted texts
+129	Confidentiality
+130	Confidentiality *
+131	Confidential
+132	Configure the permissions
+133	Configure a rule
+134	Configure a retention rule
+135	Configure an unassigned role, then grant it to another person.
+136	Confirm
+137	Confirm the address
+138	Confirm the cancellation
+139	Confirm the import
+140	Confirm the closing
+141	Confirm the closing of the entry
+142	Confirm the conformance
+143	Confirm the decision
+144	Confirm the delegation
+145	Confirm the receipt
+146	Confirm the attachment
+147	Confirm my address
+148	Confirm my assignment
+149	Confirm that this address is yours to activate your account.
+150	compliant
+151	Compliant
+152	Compliant?
+153	Compliant with the profile “{1}”
+154	Matches the register (institution): {1} → {2}.
+155	Matches the register (national): {1} → {2}.
+156	Matches the declared type
+157	Compliant with the preview’s checks
+158	Compliant
+159	compliant ·
+160	Connect
+161	Connect the workstation
+162	Connector unreachable. Check that it is started, its address, the certificate, the allowed origin and the browser’s local network permission.
+163	Local connector 127.0.0.1 with a port required.
+164	Local connector connected ·
+165	Sign in to continue.
+166	Sign-in
+167	Backend connection required.
+168	Unable to connect. Try again in a moment.
+169	Unable to connect. Check the backend.
+170	Sign-in did not complete. Try again or use the sign-in help.
+171	SSO sign-in did not complete. Check the configuration and try again.
+172	PRESERVATION
+173	Retention of
+174	Permanent preservation
+175	Preservation and restrictions
+176	Retention carried out by
+177	Proposed retention
+178	Retention validated
+179	Retention validated by
+180	Kept
+181	Kept in the log.
+182	Kept in the log. At least 5 characters.
+183	Kept in the log: why this information is clarified or corrected.
+184	Kept in the entry’s log
+185	Kept in the campaign’s log.
+186	Kept in the steps log and in the audit
+187	Kept in the item’s log
+188	Kept permanently
+189	Keep
+190	keep permanently
+191	Keep the sample permanently
+192	Keep the deposit
+193	Keep this identifier to reread the state after an interruption. Preview expiry:
+194	Keep this selection. If a response is lost, “Resume the same deposit” uses the same request and creates no duplicate.
+195	Record the event
+196	Record the anomalies and their resolution.
+197	Instructions for the workshop
+198	Finding
+199	Condition report
+200	Condition report at receipt
+201	Departure condition report
+202	Departure condition report of
+203	Departure condition report recorded
+204	Condition report and preservation
+205	Departure report
+206	Presence check
+207	Finding and planned intervention
+208	Finding and planned intervention *
+209	recorded
+210	Recorded
+211	Recorded on
+212	Recorded by
+213	recorded later: end of a contract, death, end of a term of office… Define here the event types your rules may wait for; the authorized person then records the event on the document or its file.
+214	Recorded
+215	Found at another location
+216	Record the object’s condition again.
+217	Record the condition
+218	Record the object’s condition.
+219	Record the event
+220	Record the destruction

@@ -1,0 +1,220 @@
+1	Aucune demande de dérogation dans ce périmètre.
+2	Aucune demande ne correspond à ces critères.
+3	Aucune demande ouverte
+4	Aucune demande pour ce rôle
+5	Aucune demande pour le moment.
+6	Aucune description
+7	Aucune destruction
+8	Aucune disposition proposée
+9	Aucune durée juridique n’est présélectionnée dans cette maquette.
+10	Aucune échéance à trier
+11	Aucune échéance d’élimination n’est arrivée à terme pour ce périmètre.
+12	Aucune échéance de rétention
+13	Aucune échéance de transfert n’est arrivée à terme pour ce périmètre.
+14	Aucune échéance dont la règle prévoit un tri n’est arrivée à terme pour ce périmètre.
+15	Aucune échéance n’a été planifiée.
+16	Aucune échéance n’est encore planifiée pour ce document.
+17	Aucune échéance nouvelle : toutes celles dont la date est passée sont déjà à jour.
+18	Aucune échéance planifiée
+19	Aucune échéance planifiée pour ce périmètre.
+20	Aucune élimination d’archives physiques n’a été proposée.
+21	Aucune entrée
+22	Aucune entrée archivistique
+23	Aucune entrée dans votre périmètre.
+24	Aucune entrée ne correspond à ces critères.
+25	Aucune étape
+26	Aucune feuille à imprimer.
+27	Aucune feuille de calcul trouvée dans ce classeur.
+28	Aucune feuille séparatrice n’a été reconnue dans
+29	Aucune fonction décrite
+30	Aucune formule
+31	Aucune formule n’est définie. Une personne habilitée doit en créer.
+32	Aucune formule publiée
+33	Aucune habilitation enregistrée
+34	Aucune intervention
+35	Aucune intervention de restauration déclarée pour cette archive.
+36	Aucune intervention de restauration n'a encore été déclarée.
+37	Aucune ligne constatée n’est en attente d’intégration.
+38	Aucune liste de révocation
+39	Aucune mesure : un risque élevé sans mesure est signalé à l’emplacement.
+40	Aucune métadonnée renseignée
+41	Aucune modification à enregistrer.
+42	Aucune modification de référence, de producteur, de classement, de confidentialité ou de conservation. Une notice changée depuis l’extraction provoque un conflit.
+43	Aucune notice
+44	Aucune notice dans ce périmètre
+45	Aucune notice ne peut être publiée : une notice doit être
+46	Aucune notice trouvée
+47	Aucune numérisation n’est commandée ni en cours dans votre périmètre. Les commandes se passent depuis la fiche d’un bien, onglet « Numérisation ».
+48	Aucune page à lire
+49	Aucune page enregistrée pour cet élément.
+50	Aucune page enregistrée sur {n} attendues.
+51	Aucune page enregistrée.
+52	Aucune page ne suit cette feuille séparatrice.
+53	aucune page numérisée
+54	Aucune page numérisée à renvoyer.
+55	Aucune permission attribuée
+56	Aucune permission modifiée.
+57	Aucune pièce jointe (dix au plus).
+58	Aucune pièce réelle.
+59	Aucune position OCR validée pour cette page.
+60	Aucune précision
+61	Aucune priorité.
+62	Aucune publication
+63	aucune quantité
+64	Aucune référence
+65	Aucune règle
+66	Aucune règle active ne s’applique à ce document. Une règle s’applique quand le type du document fait partie de ses types visés et, si elle vise aussi des rubriques du plan de classement, quand le document est classé dans l’une d’elles : les deux conditions à la fois quand les deux sont cochées.
+67	Aucune règle applicable
+68	Aucune règle de conservation
+69	Aucune relation
+70	Aucune relation déclarée entre les fichiers de ce document.
+71	Aucune relation enregistrée pour cette notice.
+72	Aucune réservation ce jour
+73	Aucune ressource dans ce périmètre
+74	Aucune ressource liée
+75	Aucune restriction d’accès
+76	Aucune restriction n’est nécessaire : le délai est écoulé.
+77	Aucune réussite métier ne doit être déduite de cet incident. Relisez les données après rechargement.
+78	Aucune salle
+79	Aucune salle de lecture
+80	Aucune signature
+81	Aucune signature enregistrée.
+82	Aucune sortie
+83	Aucune sortie de collection n’est ouverte dans votre périmètre.
+84	Aucune sortie n’est demandée ni en cours dans votre périmètre. Les demandes se déposent depuis la fiche d’un bien, onglet « Mouvements ».
+85	Aucune sortie ne peut être proposée pour ce bien aujourd’hui.
+86	Aucune source juridique
+87	Aucune statistique
+88	Aucune tâche à prendre en charge
+89	Aucune tâche disponible pour vos habilitations et ce périmètre.
+90	Aucune tâche en cours
+91	Aucune unité de stockage
+92	Aucune urgence
+93	aucune version
+94	Aucune version : la règle ne s’applique à rien
+95	Aucune version en vigueur (brouillon ou retirée)
+96	Aucune version enregistrée
+97	Aucune zone
+98	Aucune zone occultée : la lecture publique montre les pages en entier.
+99	Aucune zone renseignée.
+100	aujourd’hui ; les autres ont été régularisés depuis le constat.
+101	Aujourd’hui si elle n’est pas précisée
+102	Aujourd’hui si vide.
+103	Auteur
+104	Auteur déclaré
+105	Authentification non configurée.
+106	Auto-diagnostic de conservation numérique
+107	automatique
+108	Automatique : texte puis OCR
+109	Autorisé
+110	Autorisée
+111	Autoriser
+112	Autoriser la demande
+113	Autoriser la sortie
+114	Autoriser les écarts dérogeables avec un motif commun
+115	Autorisez les fenêtres de ce site pour afficher l’accusé de réception.
+116	Autorisez les fenêtres de ce site pour afficher le bordereau.
+117	Autorisez les fenêtres de ce site pour afficher le certificat.
+118	Autorisez les fenêtres de ce site pour afficher le passage.
+119	Autorité
+120	Autorité :
+121	Autorité *
+122	Autorité ARK de l’institution :
+123	Autorité dont le service dépend ; la chaîne de tutelle ne peut pas former de boucle.
+124	Autorité du gel
+125	Autorité productrice
+126	Autorité qui vise
+127	Autorité qui vise *
+128	Autorités de confiance
+129	Autorités de confiance des signatures
+130	autre
+131	Autre
+132	AUTRE
+133	Autre pièce
+134	autre(s) écart(s) non listé(s) : filtrez le parcours par constat.
+135	autre(s) élément(s).
+136	autres
+137	Autres catégories
+138	Autres exigences
+139	autres fichiers ne sont pas listés ici ; le certificat les détaillera tous.
+140	Autres fonds ou séries liés par la provenance ou le sujet
+141	Autres formes du nom
+142	Autres formes du nom (une par ligne)
+143	autres lignes en erreur ne sont pas listées.
+144	Avancée
+145	Avancement
+146	Avancement des éléments par étape
+147	Avancement des projets en cours
+148	Avancement par étape
+149	Avant
+150	Avant de constater la réception
+151	Avant de soumettre
+152	Avant la relecture.
+153	Avant la validation.
+154	Avant le départ
+155	Avant un mouvement
+156	Avant un traitement
+157	avec constat
+158	Avec les deux fichiers téléchargés (le contenu et la signature détachée, au format CMS/CAdES), n’importe quel outil de vérification CMS peut contrôler le sceau. Par exemple avec OpenSSL :
+159	Avec précautions
+160	B — conformité de base, rendu visuel
+161	Base
+162	Base de données
+163	Base juridique *
+164	Base légale
+165	Base légale *
+166	Bénéficiaire
+167	Bénéficiaire *
+168	bien
+169	Bien
+170	Bien numérique natif
+171	Bien patrimonial
+172	Biens
+173	Biens patrimoniaux
+174	Biens reçus
+175	Biens reçus ({n})
+176	Biens trouvés
+177	Bientôt librement communicables
+178	Bienvenue,
+179	Bloqué
+180	Bloqué :
+181	bloquée
+182	Bloqués
+183	Boîte des tâches
+184	boîtes
+185	booléen
+186	Bordereau
+187	Bordereau annulé : aucune destruction n’a eu lieu.
+188	Bordereau annulé : rien n’a été remis.
+189	Bordereau d’élimination
+190	Bordereau de versement
+191	Bordereau ligne à ligne, contrôle par étapes, volumétrie, accusé de réception. À choisir pour un versement d’un service producteur.
+192	Bordereaux d’élimination
+193	Boucle hiérarchique : ce département est son propre ancêtre dans le fichier.
+194	Brancher l’appareil et installer son pilote, puis NAPS2.
+195	Branches du classement
+196	Brouillon de {n} à verser à {n}. Il n’est pas encore soumis.
+197	Brouillon de {n}. Il n’est pas encore soumis à l’autorité.
+198	Bulletin
+199	Bulletins de communication
+200	C’est l’emplacement habituel : choisissez « présente ».
+201	Cadre social, culturel, économique ou politique dans lequel la notice s’inscrit
+202	Calcul de l’aperçu…
+203	Calculé sur les
+204	calculée
+205	Calculée à la lecture à partir des objets réels : rien n’est stocké
+206	Calculées d’après les dates des documents
+207	Calendrier
+208	Campagne
+209	Campagne :
+210	Campagne annulée : rien n’a été décidé.
+211	Campagne créée
+212	Campagne de migration
+213	Campagne de récolement
+214	Campagne de tri
+215	Campagnes de tri
+216	Canal
+217	Canal *
+218	Capacité
+219	Capacité (places) *
+220	Caractéristiques

@@ -1,0 +1,220 @@
+1	Create a batch to take over an existing inventory register.
+2	Create an acceptance-test institution, then its department.
+3	Create a fictitious record to explore this journey.
+4	Slot
+5	Slot *
+6	Value criteria
+7	Appraisal criteria *
+8	Archival cycle
+9	of a single element of the project. Each page is checked as usual (resolution, duplicates, numbering) before sending.
+10	Hazard
+11	Hazard *
+12	Hazards
+13	in about {1} years
+14	in about {1} months
+15	in the journey. Choose a step to see what awaits it.
+16	in the current scope.
+17	In the connected register, the filter applies to the loaded page. Full-text search has its own screen and its own permissions.
+18	In context
+19	in your workspace
+20	Date
+21	Date *
+22	Administrative date reviewed
+23	date expected in the format YYYY, YYYY-MM or YYYY-MM-DD.
+24	Archiving date
+25	Entry date
+26	Base date
+27	creation date
+28	start date
+29	start date
+30	Start date
+31	Content start date
+32	Date of death or dissolution
+33	Decision date
+34	Departure date
+35	Deposit date
+36	Determination date
+37	end date
+38	End date
+39	Content end date
+40	Planned end date
+41	Date of the act *
+42	Assessment date
+43	Insurance assessment date
+44	Event date
+45	Event date *
+46	Date of the original inventory
+47	Date of the destruction *
+48	Date of the return *
+49	Date of the withdrawal *
+50	Source date
+51	Date of birth
+52	Date of birth of the person, death, end of the contract…
+53	Date of birth or creation
+54	Production date
+55	Publication date
+56	Receipt date
+57	Receipt date: {1}
+58	Review date
+59	Reference date
+60	Withdrawal date
+61	Signature date
+62	Finding date
+63	Check date
+64	Document date
+65	Approval date
+66	Approval date *
+67	Estimated date
+68	Estimated date: cite the source of the assessment before validation.
+69	Date and time
+70	Earliest start date
+71	Latest end date
+72	Invalid date: use YYYY, YYYY-MM or YYYY-MM-DD.
+73	Date mentioned
+74	Date not interpreted: it is kept as is and remains to be qualified.
+75	Date not provided
+76	Planned date
+77	Reference date
+78	Date too long (255 characters at most).
+79	Dates
+80	Creation dates of the documents, or accumulation dates by the producer
+81	Extreme dates
+82	Dates not set
+83	Planned dates
+84	Structured dates
+85	Dates as described (if approximate)
+86	of
+87	from {1} to {2}
+88	From 0 to 1000000.
+89	From 1 to 99.
+90	From 2 to 1000.
+91	From 5 to 2000 characters.
+92	of this schedule.
+93	of this project matches this code.
+94	of this accession.
+95	consultation
+96	of files
+97	of the Nation.
+98	From digitization to accession, a controlled process for reliable and lasting archives.
+99	Start
+100	Start *
+101	Effective from
+102	Agreement start
+103	Delegation start
+104	Restriction start
+105	Start of responsibility
+106	Start of validity
+107	Loan start *
+108	Planned start
+109	Structured start
+110	December
+111	Decade
+112	Decade not specified
+113	Death or dissolution:
+114	Decided
+115	decided
+116	Decided: awaiting execution, by a person other than the one who decided.
+117	decimal
+118	decision
+119	Decision
+120	Decision:
+121	Decision *
+122	Decision recorded.
+123	Decision for
+124	Decision taken on
+125	Decision, order, resolution… that grounds the withdrawal.
+126	PDF/A declaration
+127	File’s PDF/A declaration
+128	Declares
+129	Declared
+130	declared
+131	Declared
+132	Declared missing
+133	Declared, not verified
+134	Declare
+135	Declare the remaining lines compliant
+136	Declare the authority
+137	Declare the ARK authority
+138	Declare a trust authority
+139	Declare an intervention
+140	Declare a restoration intervention
+141	Declare a page without an image
+142	Declare a signature
+143	Declare the signature of an act signed on paper, or have those of an electronically signed PDF, .p7m file or XML verified.
+144	Declare the software and services that produce the preservation events.
+145	Trigger *
+146	Sign out
+147	Remote sign-out not confirmed. Close this tab.
+148	Splitting by separator sheets (QR codes / Code 128)
+149	Decree, law or order that creates or governs the body
+150	Decrees, laws and orders that found the service
+151	Describe the archives in their context and exchange controlled records.
+152	Describe, classify and consult archival records.
+153	Describe what happened (at least 10 characters).
+154	Describe the anomaly found on return (at least {1} characters).
+155	Describe the risk in at least 10 characters.
+156	Defects found
+157	Define the rule and its first version, then choose to activate it or save it as a draft.
+158	Define the profile
+159	Define the document description fields and how they attach to document types.
+160	Define the description fields and their use.
+161	Define the steps, transitions and attachments of the document validation workflows.
+162	Define a profile
+163	Define a digitization profile
+164	Define the requirements of your digitizations to be able to check the images.
+165	Define the responsibilities and check their scope of application.
+166	final
+167	definition
+168	Definition
+169	Workflow definition
+170	final
+171	permanently
+172	Already absent
+173	Already chosen
+174	Already kept permanently
+175	Already in the campaign {1}.
+176	already deposited
+177	already deposited
+178	Already registered?
+179	Already registered in the schedule {1}.
+180	Already registered in the accession {1}.
+181	Already scheduled
+182	Already present:
+183	already taken over remain open to description and examination.
+184	Period
+185	Period (minutes)
+186	Period of
+187	Communicability period
+188	Processing time (minutes)
+189	period exceeded
+190	Period expired
+191	Perpetual period
+192	Communicability periods
+193	Delegation
+194	Future or immediate delegation, limited to 90 days.
+195	Delegations
+196	Delegations to re-examine
+197	Delegations recorded
+198	Delegate this role
+199	Issued by a qualified provider: the strongest.
+200	request
+201	Request
+202	Requested
+203	Request {1} filed on {2}: it is waiting to be taken over.
+204	Request {1} filed on {2}: the institution is reviewing it.
+205	Request cancelled by the reader
+206	Request closed: it was cancelled.
+207	Request closed: the withdrawal was refused.
+208	Access request
+209	Communication request
+210	Movement request
+211	Acceptance-test request.
+212	Request filed
+213	Requested on
+214	Request modified
+215	Request refused
+216	Request refused by the server’s checks.
+217	request. The change only applies to upcoming requests.
+218	requested
+219	Requested
+220	Requested on

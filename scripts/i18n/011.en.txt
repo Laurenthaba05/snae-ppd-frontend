@@ -1,0 +1,220 @@
+1	Requested by
+2	Request / resume the extraction
+3	Request and view your text and OCR extractions: ACQUISITION_EXTRACT.
+4	Request access
+5	Request the extraction
+6	Request the extraction after each completed deposit
+7	Request the extraction after the completed deposit
+8	Request the withdrawal of the original
+9	Request the withdrawals (
+10	Request a subscription
+11	Request additional information
+12	Request a movement
+13	Request a new link
+14	Request a correction
+15	Closed requests
+16	Access requests
+17	Pending access requests
+18	Change requests
+19	Waiver requests
+20	Waiver requests for documents under an active access restriction.
+21	Requests filed or under review
+22	Requests from portal readers
+23	Unexpired requests
+24	Requester
+25	Start
+26	Started on
+27	start
+28	Start the digitization
+29	Start the processing
+30	Start the processing stating who carries it out.
+31	Start a workflow
+32	DEMONSTRATION
+33	Start of the period
+34	departure on
+35	DEPARTMENT
+36	department
+37	Department
+38	Department *
+39	Parent department
+40	Hold department
+41	Department not available
+42	Parent department
+43	selected department
+44	exceeded
+45	Depositor
+46	Reference-list depositor
+47	Depositor or source
+48	deposited
+49	Deposited
+50	Deposited on
+51	deposited
+52	Deposited
+53	Deposited on
+54	Deposit
+55	Deposit / reread the receipts
+56	Deposit and follow
+57	File the request
+58	Deposit the list
+59	Deposit the package content
+60	Deposit a file: checks and resumption
+61	File a request
+62	File a waiver request
+63	Deposit a revocation list
+64	Deposit, validate, consult…
+65	Deposit all the batch images in order,
+66	Deposit the list published by the authority that issued the certificates (.crl file, in DER or PEM format). A list signed by a key other than the issuer’s is ignored.
+67	Deposit one certificate at a time.
+68	Deposit one list at a time.
+69	deposit
+70	Deposit
+71	Deposit in progress…
+72	Deposit unavailable.
+73	OAI-PMH repository
+74	Proposed deposit
+75	Deposit completed
+76	Deposit completed; extraction not confirmed. Open the Extraction tab.
+77	Deposit completed:
+78	Deposit completed · extraction
+79	interrupted deposits
+80	interrupted deposits on this page
+81	Since
+82	since
+83	Since
+84	for less than an hour
+85	from its record, then it is
+86	Derived from
+87	Latest
+88	Latest finding
+89	Latest automatic check
+90	Latest check per element
+91	Latest cycle finished on
+92	Latest sending
+93	Latest exercise
+94	Last sign-in
+95	Last copy successfully restored
+96	Latest destruction
+97	Latest run
+98	Latest generation failed:
+99	Latest integrity confirmed
+100	Latest on
+101	Last updated
+102	Last updated on
+103	Last modified
+104	Presence last verified
+105	Latest verification
+106	latest copies successfully restored.
+107	Latest documents added
+108	last months.
+109	Waiver:
+110	Associated waiver
+111	Waiver possible with a written reason.
+112	Waiver for {1}
+113	Digitization progress
+114	File progress
+115	Deterioration weakens the object: it requires precautions.
+116	Reliable archives for a more modern State
+117	archives are produced: it sits under a higher function (function, sub-function, activity, task), links to the record of the producer who carries it out and to the fonds that document it.
+118	Decisions with two pairs of eyes.
+119	Deposits of this version are still in progress or interrupted: finish them or abandon those that are no longer needed.
+120	Deposits of this version are still in progress or interrupted and prevent sealing it. Open the deposit tracking: finish them or abandon those that are no longer needed.
+121	descriptions
+122	Sensitive data presupposes that personal data are present.
+123	Retention due dates of your institution are reaching their term or are overdue (once a day at most).
+124	Some files show an integrity anomaly and remain blocked. Their recovery must be examined from a sound copy.
+125	Named identities, explicit attachments and controlled access.
+126	Bytes were added after this signature (another signature or a PDF update): it does not cover the end of the file.
+127	Originals have left the reserve: each one must come back, with a condition report on return, before the planned day.
+128	pages have no consultation copy
+129	producers
+130	Risk reviews, measures or emergency plans of the preservation locations are falling due or are overdue (once a day at most).
+131	as soon as it is activated, for upcoming due dates. Due dates already scheduled keep the version they were calculated with.
+132	Accessions rely on this agreement: the producer and the archives service can no longer change.
+133	deacidification
+134	Deacidification
+135	Deactivate
+136	Lower the priority
+137	Description
+138	Description (optional)
+139	Description *
+140	Additional description
+141	Description created on
+142	Actor description
+143	Rule description
+144	Source description
+145	Hold description
+146	Batch description
+147	Type description
+148	Enriched description
+149	Description and context
+150	Description and constraints
+151	Legal description
+152	PREMIS description
+153	Description validated: each correction keeps the former value, the new one, its author, its reason and its source.
+154	Description verified
+155	Designation *
+156	Designate the accession’s producer.
+157	Designate the receiving archives service.
+158	Draw the area to hide on the page: drag a rectangle.
+159	Recipient
+160	Recipient *
+161	Delegation recipient
+162	Destination
+163	Destruction
+164	Final destruction:
+165	Final destruction of the content: the certificate will be the proof.
+166	Destruction in progress:
+167	Detach
+168	Detail
+169	Waiver request detail
+170	Details
+171	Right details
+172	Structured details of the anomalies found.
+173	Detect duplicates
+174	Previous holder
+175	Destroy
+176	Destroy the targeted documents
+177	destroyed
+178	Destroyed
+179	Destroyed · certificate {1}
+180	Destroyed
+181	Destroyed on {1}
+182	Currency
+183	Currency *
+184	Currency of the insurance value
+185	Currency of the insured values
+186	Diagnosis
+187	Diagnosis * (at least 10 characters)
+188	Format diagnosis
+189	Different from the declared type
+190	Dimensions
+191	Dimensions (width × height)
+192	Saying that an archive is missing is a serious statement: describe the searches made.
+193	Saying that an archive is missing is a serious statement: state where it was searched (at least {1} characters).
+194	Director general, authorizing officer…
+195	Studies department
+196	Human resources department
+197	General directorate
+198	GENERAL_DIRECTORATE
+199	Disappearance recorded
+200	Availability
+201	Layout of the words on the page
+202	Say what makes it controlled
+203	Say how the market value was established.
+204	Say why: absence notified, duplicate, input error…
+205	Say why: decision replaced, agreement received, input error…
+206	Say why: document too fragile, out of scope…
+207	Say why: original missing, too fragile, out of scope…
+208	Say why: reader gave up, input error…
+209	Say why this archive must not be destroyed.
+210	Say why you need this document (research, project, right to assert…): at least {1} characters.
+211	document
+212	Document
+213	Document *
+214	accepted document
+215	accepted document remains
+216	Document concerned
+217	Destination document
+218	Representation document
+219	requested document
+220	destroyed document

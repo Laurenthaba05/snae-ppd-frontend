@@ -1,0 +1,220 @@
+1	Liste tronquée par le serveur à 500 droits.
+2	Liste vide
+3	Listes de révocation
+4	Listes de révocation des certificats
+5	Livrée
+6	locale, sans chiffrement (développement)
+7	Localisation et vérifications
+8	Logiciel, équipement ou organisme PREMIS responsable de cette intervention.
+9	Lois, décrets, arrêtés.
+10	Lors d’un récolement
+11	Lot
+12	Lot :
+13	Lot affiché.
+14	Lot de démonstration.
+15	Lot de numérisation
+16	Lot enregistré
+17	Lot validé
+18	Lot, nombre de pages attendues et faces : le contrôle des pages manquantes s’appuie sur ces informations.
+19	Lots de numérisation
+20	Lots en cours de traitement
+21	lue
+22	Lue le
+23	Lues le
+24	Lui-même (certificat auto-signé)
+25	Lumière, humidité, vitrine, manipulation…
+26	luminosité
+27	M’attribuer le rôle d’extraction
+28	M’attribuer le rôle de conservation
+29	M’attribuer le rôle de relecture
+30	maître de conservation
+31	Maître de conservation
+32	maîtres de conservation
+33	Maîtrise
+34	Maîtrisé
+35	Maîtriser ou accepter un risque exige un motif d’au moins 10 caractères.
+36	Majuscules ; unique.
+37	Majuscules, chiffres et souligné : par exemple NUM_ARCHIVES_400.
+38	Mandat et textes constitutifs
+39	Manifeste IIIF
+40	Manipulation
+41	Manipulation *
+42	Manipuler avec précautions ; envisager un traitement préventif.
+43	manquante(s)
+44	Manquantes
+45	Manques
+46	Manques qui bloquent la relecture ou la validation
+47	Marquer à rescanner
+48	Marquer le risque maîtrisé
+49	Marquer maîtrisé
+50	Marquer remise
+51	Marquer restituée
+52	Masquer le journal des étapes
+53	Masquer le mot de passe
+54	Masquer le suivi
+55	Masquer les constats
+56	Masquer les fichiers
+57	Matériaux
+58	Matériel
+59	Matin {n}/{n} · Après-midi {n}/{n} · {n} présent
+60	Matin {n}/{n} · Après-midi {n}/{n} · {n} présents
+61	Maximum 50 lignes par liste.
+62	Mélangez au moins trois sortes de caractères : minuscules, majuscules, chiffres, signes.
+63	Mémoire & administration
+64	Menu de navigation
+65	Mes abonnements
+66	Mes attributions et délégations
+67	Mes commandes
+68	Mes demandes
+69	Mes demandes d’accès
+70	Mes dossiers
+71	Mes encaissements
+72	Mes informations
+73	Mes tâches
+74	Message au lecteur
+75	Message au lecteur (facultatif)
+76	Message de l’institution :
+77	Mesure
+78	Mesuré
+79	Mesure des indicateurs…
+80	Mesures
+81	Mesures existantes
+82	Mesures prévues
+83	métadonnée
+84	métadonnées
+85	Métadonnées enrichies
+86	Métadonnées XMP
+87	Méthode
+88	Méthode :
+89	Méthode *
+90	Méthode de compression non prise en charge.
+91	Méthode de tri *
+92	mètres linéaires
+93	Mettez à jour le connecteur local pour bénéficier de la reprise des scans (protocole 2).
+94	Migration de format
+95	Migration des formats
+96	Migré
+97	Migré le {n}
+98	Migré vers
+99	Minimum
+100	MINISTERE
+101	ministère
+102	Ministère
+103	Mise à jour…
+104	Modalités d’entrée
+105	Modalités de transfert, délais, restrictions d’accès demandées par le producteur…
+106	Mode
+107	Mode colorimétrique
+108	Mode couleur
+109	Mode d’encaissement
+110	Mode d’entrée
+111	Mode de classement
+112	Mode de transport
+113	Mode démonstration
+114	Modèle
+115	Modèle : {n}
+116	Modèle CSV
+117	Modéré
+118	Modes colorimétriques acceptés
+119	Modification indisponible pour votre compte, cette ressource ou son état.
+120	Modifié
+121	Modifiée
+122	Modifier
+123	Modifier la campagne
+124	Modifier la demande
+125	Modifier la description
+126	Modifier la fiche
+127	Modifier la forme
+128	Modifier la formule
+129	Modifier la ligne
+130	Modifier la proposition
+131	Modifier la relation
+132	Modifier la salle
+133	Modifier le dossier
+134	Modifier le risque
+135	Modifier le scanner
+136	Modifier le statut
+137	Modifier les coordonnées
+138	Modifier les métadonnées
+139	Modifier une référence
+140	Modifiez le filtre ou l’état de vérification.
+141	Modifiez le filtre ou préparez une première notice de démonstration.
+142	Modifiez le texte recherché ou le filtre de confiance.
+143	Modifiez les informations et indiquez le motif du changement.
+144	MODULE · ACCÈS
+145	MODULE · ARCHIVES
+146	MODULE · ARCHIVES PHYSIQUES
+147	MODULE · CLASSEMENT
+148	MODULE · DOCUMENTS ET DOSSIERS
+149	MODULE · DROITS
+150	MODULE · ENTRÉES D’ARCHIVES
+151	MODULE · MÉTADONNÉES
+152	MODULE · NUMÉRISATION
+153	MODULE · PATRIMOINE
+154	MODULE · RECHERCHE
+155	MODULE · RÉTENTION
+156	MODULE · TRAÇABILITÉ
+157	MODULE · TRAITEMENTS
+158	MODULE · WORKFLOW
+159	MODULE 01 · IDENTITÉ & ORGANISATION
+160	Module matériel (PKCS#11)
+161	Module Scanners
+162	Mois
+163	Mon compte
+164	Mon profil et mes habilitations
+165	Montant
+166	Montant déclaré à l’assureur : distinct de l’appréciation scientifique ci-dessus.
+167	Montant dû
+168	Montant encaissé ({n})
+169	Monté
+170	Monter la priorité
+171	Monter le prêt
+172	Monter un prêt
+173	Monter un prêt avec ce bien
+174	Monter un prêt sortant
+175	Monter une exposition
+176	Monter une exposition avec ce bien
+177	Montez-en un avec les boutons ci-dessus.
+178	mot
+179	Mot de passe :
+180	Mot de passe actuel
+181	Mot de passe oublié
+182	mot(s) affiché(s) sur
+183	Moteur
+184	Moteur de recherche
+185	Moteur de reconnaissance
+186	moteur interrompu en cours de reconnaissance
+187	moteur interrompu pendant le traitement
+188	Moteur non précisé
+189	Motif
+190	Motif :
+191	Motif : un texte écrit d’au moins {n} caractères est exigé.
+192	Motif (au moins {n} caractères) *
+193	Motif *
+194	Motif * (au moins 10 caractères)
+195	Motif commun (10 caractères minimum)
+196	Motif d’annulation
+197	Motif de l’abandon *
+198	Motif de l’absence d’assurance * (au moins 10 caractères)
+199	Motif de l’annulation
+200	Motif de l’écart
+201	Motif de l’écart ou de l’absence
+202	Motif de l’exonération
+203	Motif de l’occultation *
+204	Motif de la correction
+205	Motif de la correction * (au moins 10 caractères)
+206	Motif de la décision
+207	Motif de la décision (10 caractères minimum)
+208	Motif de la délégation *
+209	Motif de la demande
+210	Motif de la mention « essentiel »
+211	Motif de la migration *
+212	Motif de la modification *
+213	Motif de la remise
+214	Motif de la révocation
+215	Motif de la suspension
+216	Motif de modification *
+217	Motif de mon attribution *
+218	Motif de révocation *
+219	Motif de votre décision *
+220	Motif du classement

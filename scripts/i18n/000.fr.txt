@@ -1,0 +1,220 @@
+1	— à redemander
+2	— à revoir avant le {n}
+3	— ajusté à la main
+4	— approuvée le {n}
+5	— dépassée
+6	— dernier passage le {n}
+7	— dont les pages signalées ci-dessus
+8	— empreinte
+9	— par
+10	— par la méthode
+11	— réf.
+12	— remplacé par « {n} »
+13	— répétable
+14	— restitué le {n}
+15	— retiré
+16	— retirée le
+17	— revue dépassée
+18	— score non calibré
+19	— téléversé sur la version 1 juste après la création.
+20	— version
+21	, {n} en échec ({n})
+22	, accusé de réception {n}
+23	, acte «
+24	, constaté le
+25	, dans l’ordre du parcours (emplacement puis cote)
+26	, déclare {n}
+27	, du
+28	, le
+29	, le {n}
+30	, liste tronquée
+31	, ne déclare aucun profil
+32	, préfixe « {n} »
+33	, puis exécuté avec la destruction constatée par deux personnes. L’archive détruite n’est pas supprimée : elle est marquée et figée.
+34	, retour prévu le
+35	, signée le
+36	, sur les listes déposées ici et sur celles que la signature embarque : le serveur n’ouvre aucune adresse du certificat. Sans liste, la révocation est dite indéterminée. Une liste n’est prise en compte que si elle est signée par l’émetteur du certificat jugé.
+37	, une campagne applique sa méthode (un document sur N, pourcentage tiré au hasard, années choisies…) aux échéances arrivées, de façon reproductible. Les documents retenus sont conservés définitivement ; les autres sont éliminés par un bordereau d’élimination, avec le visa de l’autorité.
+38	; {n} en échec
+39	; {n} en échec (voir le journal du serveur), relancez la réindexation.
+40	; dernier échec :
+41	; l’échéance serait le
+42	; une notice qui ne l’est plus disparaît aussitôt, sans qu’il faille retoucher la publication.
+43	: elle doit être renouvelée avant toute réservation.
+44	: elle ne s’applique à aucun document. La supprimer libère son code ; l’opération est inscrite au journal d’audit.
+45	: elle ne se modifie pas et ne s’annule pas seule, et l’original ne rentre qu’après le contrôle qualité des pages. Voir l’onglet « Numérisation » du bien.
+46	: il reste dans la même institution et le même service, et n’est jamais moins confidentiel que lui.
+47	: la date de libre communicabilité est calculée et la restriction posée.
+48	: lien HTTP ou HTTPS requis.
+49	: sélectionnez une référence valide.
+50	: sortie
+51	: un objet est requis.
+52	? Aucune réouverture n’est exposée par l’API actuelle.
+53	. Ces compteurs ne constituent pas un droit d’accès national.
+54	. Cet identifiant permet de reprendre la relecture dans Acquisition.
+55	. Choisissez la même version de règle ; le serveur refuse les échéances d’une autre règle. L’échantillon du brouillon sera recalculé après cet ajout.
+56	. Copie de lecture sans couche de texte : le maître et les pages ne sont pas modifiés.
+57	. Corrigez la cause, puis créez une nouvelle demande explicitement.
+58	. Elle ne change plus : son NAAN figure dans chaque identifiant.
+59	. Il ne change plus.
+60	. La clôture ne constitue ni une admission probante ni une preuve d’intégration au SAE.
+61	. La date de clôture sera enregistrée ; le dossier ne recevra plus de nouvelles pièces ou de sous-dossiers.
+62	. La personne qui valide n’est pas celle qui a arrêté la campagne ; une troisième personne exécutera.
+63	. Lancez d’abord les copies.
+64	. Le travail continue sur le serveur, vous pouvez quitter cette page.
+65	. Les cadres orange indiquent une confiance inférieure à 80 %.
+66	. Les objets déjà supprimés sont reconnus à la reprise ; l’action ne peut plus être annulée.
+67	. Les rôles d’administration ne sont pas délégables.
+68	. Opérateur :
+69	. Origine des coordonnées : angle supérieur gauche.
+70	. Page blanche, photographie ou écriture illisible : le contrôle qualité décidera.
+71	. Plus aucun fichier à identifier.
+72	. Plus aucun PDF à valider.
+73	. Règle :
+74	. Sélectionnez un cadre pour lire ses coordonnées.
+75	. Témoin :
+76	. Une connexion réussie au connecteur ne prouve pas que le scanner est branché.
+77	. Une feuille séparatrice est un QR ou un Code 128 imprimé depuis le projet, le lot ou l’élément, puis scanné avec les pages : une capture d’écran ou une photo sans code n’en est pas une. Ajoutez-la à la sélection, ou importez les fichiers sans feuille séparatrice ci-dessous.
+78	. Voir l’onglet « Mouvements ».
+79	. Vous pourrez les importer plus tard ou les déclarer manquantes.
+80	… et
+81	· {n} absente, laissée de côté
+82	· {n} absente, laissées de côté
+83	· {n} absentes, laissée de côté
+84	· {n} absentes, laissées de côté
+85	· {n} déjà intégrée
+86	· {n} déjà intégrées
+87	· {n} en échec
+88	· à revoir avant le
+89	· à revoir avant le {n}
+90	· absence vérifiée
+91	· adresse non confirmée
+92	· appliqué par
+93	· commandée le
+94	· confidentiel
+95	· constaté :
+96	· Créée le
+97	· découpage par feuilles séparatrices
+98	· demandé le
+99	· demandée le
+100	· déposée le
+101	· dernière révision le
+102	· dernière revue le {n} par {n}
+103	· Dimensions :
+104	· Faces :
+105	· fin actuelle le
+106	· identification minimale, le reste se complète après l’examen
+107	· indexé
+108	· lecteur
+109	· minimum
+110	· Minimum
+111	· ne vaut plus : l’archive a été déplacée depuis
+112	· nouvelle numérisation
+113	· page
+114	· Pages attendues :
+115	· par
+116	· prochaine avant le
+117	· proposé le
+118	· rangée à
+119	· reçu
+120	· scellée
+121	· signée le
+122	· une échéance en est partie
+123	· valable jusqu’au
+124	· vérifiée le
+125	· vers
+126	· volumétrie annoncée :
+127	« Des documents traités aujourd’hui, une mémoire durable demain. »
+128	« Des traitements rigoureux
+129	« Inconnue » est une réponse valable ; « non renseignée » n’en est pas une.
+130	« Les archives sont la mémoire vivante des nations. »
+131	« Organiser
+132	« Préserver la mémoire aujourd’hui, construire le futur demain. »
+133	« vers 1930 », « entre 1925 et 1935 »
+134	» a été prise en charge. Elle apparaît dans « Mes tâches ».
+135	» du
+136	» est remplacée : sa restriction est annulée et remplacée par celle de la nouvelle catégorie.
+137	». Ce que la base refuse (document détruit, description de bien fermée ou bien sorti) est laissé en l’état et compté. L’opération ne se défait pas en un geste.
+138	(.xlsx ou .csv,
+139	({n} acceptée)
+140	({n} acceptées)
+141	({n} détruite)
+142	({n} détruites)
+143	(accusé {n})
+144	(annulé)
+145	(avec perte)
+146	(capacité
+147	(carte expirée)
+148	(confidentialité « public ») et
+149	(conservation définitive),
+150	(danger, probabilité, gravité, mesures), son
+151	(dont {n} ajusté à la main)
+152	(dont {n} ajustés à la main)
+153	(dont {n} détruit)
+154	(dont {n} détruits)
+155	(dont {n} en phase courante, puis en archives intermédiaires)
+156	(erreurs)
+157	(état de rédaction « validée »).
+158	(facultatif)
+159	(ignoré)
+160	(imprimées depuis le projet ou le lot). Chaque feuille ouvre un élément ; les images qui la suivent deviennent ses pages. Les feuilles ne sont pas conservées.
+161	(indisponible : condition non remplie)
+162	(JPEG ou PNG)
+163	(le même lot et la même graine redonnent le même échantillon)
+164	(libellé d’un terme placé plus haut dans le fichier ou déjà présent),
+165	(obligatoire),
+166	(obsolète)
+167	(réf. {n})
+168	(résultat incertain : réessayez, aucun doublon ne sera créé)
+169	(retirée)
+170	(sans perte)
+171	(séparés par « | »). Séparateur : point-virgule ou virgule.
+172	(TIFF, JPEG ou PNG, une par page)
+173	(unité inactive)
+174	(version
+175	) : elle ne se modifie pas et ne s’annule pas seule. La remise exige la convention, l’assurance et un constat d’état de départ récent ; le retour exige un constat d’état. Voir l’onglet « Prêts et expositions » du bien.
+176	) × gravité
+177	) peut être copié vers un ou plusieurs stockages de réplication, par exemple un volume hébergé en Guinée ou un autre site. Chaque copie est relue et comparée à l’empreinte du fichier ; une copie altérée ou perdue est refaite.
+178	) sous
+179	), retour prévu le
+180	). Validez ensuite le fichier dans la liste pour autoriser sa consultation.
+181	{n} — dans la limite des places libres
+182	{n} — rotation à préparer (seuil : {n} jours)
+183	{n} : {n} indexé sur {n}
+184	{n} : {n} indexés sur {n}
+185	{n} : 10 000 caractères au plus.
+186	{n} : AAAA, AAAA-MM ou AAAA-MM-JJ.
+187	{n} : ce jour n’existe pas.
+188	{n} : indiquez au moins une date.
+189	{n} : la quantité et l’unité sont obligatoires pour soumettre.
+190	{n} : la règle 3-2-1 (trois copies, deux supports, une hors site) n’est pas atteinte.
+191	{n} : un texte écrit d’au moins {n} caractères est exigé.
+192	{n} · étape « {n} » · {n}
+193	{n} · image {n} sur {n}
+194	{n} · notice créée · {n}
+195	{n} / DÉMONSTRATION
+196	{n} % des documents, tirés au hasard (tirage reproductible).
+197	{n} à copier
+198	{n} a expiré le {n}.
+199	{n} à refaire
+200	{n} à supprimer
+201	{n} a un type déclaré différent du format reconnu.
+202	{n} abandonné
+203	{n} abandonnés
+204	{n} acte scellé
+205	{n} acte scellés
+206	{n} actes scellé
+207	{n} actes scellés
+208	{n} après {n}
+209	{n} biens par fichier, 2 Mo maximum. Les lignes invalides sont signalées avant l’import et ignorées.
+210	{n} bit par composante
+211	{n} bits par composante
+212	{n} concerne un autre producteur.
+213	{n} concerne un autre service d’archives.
+214	{n} constaté ·
+215	{n} déclarée
+216	{n} déclarées
+217	{n} département existe déjà : ils peuvent servir de parent.
+218	{n} départements existent déjà : ils peuvent servir de parent.
+219	{n} départements par fichier, 2 Mo maximum. Supprimez les lignes d’exemple : toute ligne remplie sera importée.
+220	{n} dépôt abandonné avant l’erreur.

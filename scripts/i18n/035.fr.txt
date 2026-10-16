@@ -1,0 +1,63 @@
+1	{n} copie sur {n} support distinct, dont {n} hors site
+2	{n} copie sur {n} supports distincts, dont {n} hors site
+3	{n} copie vérifiée ({n})
+4	{n} copies sur {n} support distinct, dont {n} hors site
+5	{n} copies sur {n} supports distincts, dont {n} hors site
+6	{n} copies vérifiées ({n})
+7	{n} déjà déposé
+8	{n} déjà déposés
+9	{n} document accepté, {n} refusé.
+10	{n} document accepté, {n} refusés.
+11	{n} document détruit, chacun avec son certificat de destruction.
+12	{n} document détruit.
+13	{n} document et {n} dossier
+14	{n} document et {n} dossiers
+15	{n} document remis à {n}, conservés définitivement.
+16	{n} documents acceptés, {n} refusé.
+17	{n} documents acceptés, {n} refusés.
+18	{n} documents détruits, chacun avec son certificat de destruction.
+19	{n} documents détruits.
+20	{n} documents et {n} dossier
+21	{n} documents et {n} dossiers
+22	{n} documents remis à {n}, conservés définitivement.
+23	{n} échec (voir ci-dessous)
+24	{n} échecs (voir ci-dessous)
+25	{n} en échec (renvoyez le même paquet pour les retenter)
+26	{n} fichier déposé pour {n} unité
+27	{n} fichier déposé pour {n} unités
+28	{n} fichier validé, dont {n} maître de conservation.
+29	{n} fichier validé, dont {n} maîtres de conservation.
+30	{n} fichiers déposés pour {n} unité
+31	{n} fichiers déposés pour {n} unités
+32	{n} fichiers validés, dont {n} maître de conservation.
+33	{n} fichiers validés, dont {n} maîtres de conservation.
+34	{n} ligne attend la réception de {n}.
+35	{n} ligne attend le visa de l’autorité. Rien ne peut être détruit avant son visa.
+36	{n} ligne n’est pas décidée : acceptez-la ou refusez-la.
+37	{n} lignes attendent la réception de {n}.
+38	{n} lignes attendent le visa de l’autorité. Rien ne peut être détruit avant son visa.
+39	{n} lignes ne sont pas décidées : acceptez-la ou refusez-la.
+40	{n} refus doit être motivé.
+41	{n} refus doivent être motivés.
+42	{n} reste à détruire
+43	{n} restent à détruire
+44	{n} texte dérivé à vider
+45	{n} textes dérivés à vider
+46	{n} unité reprise dans le bordereau ; {n} objet déclaré, dont {n} vérifié par empreinte.
+47	{n} unité reprise dans le bordereau ; {n} objet déclaré, dont {n} vérifiés par empreinte.
+48	{n} unité reprise dans le bordereau ; {n} objets déclarés, dont {n} vérifié par empreinte.
+49	{n} unité reprise dans le bordereau ; {n} objets déclarés, dont {n} vérifiés par empreinte.
+50	{n} unités reprises dans le bordereau ; {n} objet déclaré, dont {n} vérifié par empreinte.
+51	{n} unités reprises dans le bordereau ; {n} objet déclaré, dont {n} vérifiés par empreinte.
+52	{n} unités reprises dans le bordereau ; {n} objets déclarés, dont {n} vérifié par empreinte.
+53	{n} unités reprises dans le bordereau ; {n} objets déclarés, dont {n} vérifiés par empreinte.
+54	{n} zone occultée sur {n} page : le lecteur du portail ne les voit jamais.
+55	{n} zone occultée sur {n} pages : le lecteur du portail ne les voit jamais.
+56	{n} zones occultées sur {n} page : le lecteur du portail ne les voit jamais.
+57	{n} zones occultées sur {n} pages : le lecteur du portail ne les voit jamais.
+58	dans {n} jour
+59	dans {n} jours
+60	Il y a {n} fichier mais aucun maître validé. Déposez le maître (rôle « Maître de conservation ») et validez-le ; les autres fichiers doivent aussi être validés.
+61	Il y a {n} fichiers mais aucun maître validé. Déposez le maître (rôle « Maître de conservation ») et validez-le ; les autres fichiers doivent aussi être validés.
+62	Je confirme la destruction définitive de {n} objet de ce document.
+63	Je confirme la destruction définitive de {n} objets de ce document.

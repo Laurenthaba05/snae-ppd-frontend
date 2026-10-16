@@ -1,0 +1,220 @@
+1	le fichier a changé pendant la reconnaissance
+2	Le fichier choisi n’est pas un paquet ZIP.
+3	Le fichier contient {n} lignes : l’import est limité à {n} départements à la fois.
+4	Le fichier contient {n} lignes : l’import est limité à {n} institutions à la fois.
+5	Le fichier contient {n} lignes : la reprise est limitée à {n} biens à la fois.
+6	Le fichier contient {n} lignes : un bordereau en compte {n} au plus.
+7	Le fichier contient plus de {n} lignes.
+8	Le fichier d’arrivée est tiré du fichier de départ
+9	Le fichier dépasse 2 Mo.
+10	Le fichier dépasse la taille que la copie sait traiter.
+11	Le fichier doit avoir été validé. Chaque nouvelle vérification remplace la précédente.
+12	Le fichier doit être du SKOS en JSON-LD ou en RDF/XML.
+13	Le fichier doit être encodé en UTF-8.
+14	Le fichier du stockage principal ne correspond plus à son empreinte : il n’a pas été copié. Il faut le restaurer depuis une autre copie.
+15	Le fichier est analysé et contrôlé par le serveur avant d’être associé à cette version.
+16	Le fichier est introuvable dans le stockage principal et dans les autres copies vérifiées.
+17	Le fichier est prêt à être enregistré sur votre appareil.
+18	Le fichier est trop volumineux une fois décompressé.
+19	Le fichier est vide.
+20	le fichier n’a pas été validé (analyse antivirus en attente ou échouée)
+21	Le fichier n’a pas pu être lu.
+22	Le fichier n’a pas pu être validé. Vous pouvez réessayer avec le même fichier lorsque le service sera disponible.
+23	Le fichier n’est plus celui que le signataire a signé, ou la signature ne correspond pas à son certificat.
+24	Le fichier ne contient aucun bien (seulement la ligne d’en-têtes).
+25	Le fichier ne contient aucun département (seulement la ligne d’en-têtes).
+26	Le fichier ne contient aucune institution (seulement la ligne d’en-têtes).
+27	Le fichier ne contient aucune ligne (seulement la ligne d’en-têtes).
+28	Le fichier ne déclare pas de conformité PDF/A.
+29	Le fichier reçu ne correspond pas aux informations affichées. Actualisez la liste avant de recommencer.
+30	Le fichier se déclare {n}.
+31	le fichier sélectionné
+32	Le filtre porte uniquement sur les éléments déjà chargés. Passez à la page suivante ou retirez le filtre.
+33	Le format cible doit différer du format décrit.
+34	Le format cible est celui que le registre désigne
+35	Le format cible n’a pas la forme attendue.
+36	Le format d’un fichier n’était jusqu’ici que son type de média déclaré. Un outil d’identification compare le contenu à la base PRONOM ; ce qu’il ne reconnaît pas est « inconnu », jamais présumé sûr.
+37	Le formulaire connecté exige aussi l’institution et le type documentaire. Son contrat est décrit dans le parcours P12.
+38	Le fournisseur d’identité n’est pas encore configuré. Consultez le guide de connexion ou lancez la démonstration séparée.
+39	Le fournisseur de stockage a refusé l’opération.
+40	Le gel d’un dossier ou d’une branche couvre aussi les documents qui lui sont rattachés. Le serveur vérifie les cibles et vos droits.
+41	Le gel empêche l’élimination des cibles et reste actif jusqu’à sa levée.
+42	Le lancement fige le périmètre :
+43	Le lecteur a pris connaissance du règlement de la salle et l’accepte.
+44	Le lecteur doit accepter le règlement de la salle.
+45	Le lecteur doit être présent dans la salle
+46	Le lecteur donne la référence
+47	Le lecteur n’a pas pu démarrer. Téléchargez le fichier ou fermez puis rouvrez cette fenêtre.
+48	Le lecteur ne peut plus ouvrir de session et ses sessions en cours sont fermées. Le motif est conservé.
+49	Le lecteur perd l’accès à la lecture. L’annulation est motivée et conservée.
+50	Le libellé
+51	Le libellé de la campagne est obligatoire.
+52	Le libellé est limité à 200 caractères.
+53	Le libellé est obligatoire ({n} caractères au plus).
+54	Le libellé est obligatoire.
+55	Le libellé préféré ne change plus : les mots-clés le citent.
+56	Le lien est incomplet. Ouvrez-le depuis le courrier reçu, ou demandez un nouveau courrier depuis la page de connexion.
+57	Le lien est incomplet. Ouvrez-le depuis le courrier reçu, ou demandez un nouveau lien.
+58	le lieu
+59	Le lieu des archives intermédiaires est obligatoire.
+60	Le lieu est limité à 300 caractères.
+61	Le magasinier remet l’original à l’atelier (onglet « Mouvements ») ; aucune page ne s’enregistre avant.
+62	Le maximum de
+63	le modèle de langue n’est pas installé sur le serveur
+64	Le module Fonds et producteurs nécessite une connexion au serveur.
+65	Le montant
+66	Le montant encaissé doit être exactement celui de la formule demandée : {n}.
+67	Le montant est positif ou nul, avec deux décimales au plus (0 pour une formule sur exonération).
+68	Le mot de passe ne doit pas contenir votre adresse.
+69	Le moteur de recherche est à vérifier.
+70	Le moteur de recherche est injoignable : les recherches échoueront tant qu’il ne répond pas.
+71	Le moteur de recherche n’est pas activé sur ce serveur : aucune recherche ne peut aboutir.
+72	le moteur de recherche ne répondait plus
+73	Le moteur n’a pas enregistré la position des mots pour ce résultat.
+74	Le motif d’un refus est limité à 4000 caractères.
+75	Le motif de l’absence d’assurance s’écrit en {n} caractères au moins (garantie de l’État, décision, convention…).
+76	Le motif de l’occultation est obligatoire (donnée personnelle, secret protégé…).
+77	Le motif de la migration est obligatoire (10 caractères au moins).
+78	Le motif dit pourquoi l’original sort : au moins {n} caractères.
+79	Le motif dit pourquoi numériser : au moins {n} caractères.
+80	Le motif est limité à 2000 caractères.
+81	Le motif est limité à 4000 caractères.
+82	Le motif est limité à 500 caractères.
+83	Le motif est limité à 5000 caractères.
+84	Le motif est obligatoire : {n} caractères au moins.
+85	Le motif est obligatoire ({n} caractères au moins).
+86	Le motif s’applique à tous les éléments concernés et peut autoriser les écarts dérogeables. Les blocages obligatoires restent appliqués.
+87	Le NAAN est un nombre de 5 à 9 chiffres, donné par l’organisme qui attribue les NAAN.
+88	Le navigateur a bloqué la fenêtre d’impression : autorisez les fenêtres pour ce site.
+89	Le niveau choisi doit suivre celui de la notice de rattachement.
+90	Le nom de l’agent est obligatoire.
+91	Le nom de l’autorité est limité à 300 caractères.
+92	Le nom de l'autorité, tel que vos agents le reconnaîtront.
+93	Le nom de la salle est obligatoire.
+94	Le nom du dépôt n’est pas renseigné.
+95	Le nom du format est obligatoire.
+96	Le nom du responsable est limité à 300 caractères.
+97	Le nom du signataire est limité à 500 caractères.
+98	Le nom du signataire est obligatoire.
+99	Le nom est obligatoire (200 caractères au plus).
+100	Le nom est obligatoire.
+101	Le nombre de pages attendues se donne entre 1 et 100000.
+102	Le nombre de pièces est un entier positif.
+103	Le numéro de la pièce n’est jamais conservé en entier : seuls ses quatre derniers caractères le sont
+104	Le numéro de la pièce présentée est obligatoire (4 caractères au moins).
+105	Le numéro donné à l’institution par l’organisme qui attribue les NAAN (5 à 9 chiffres).
+106	Le numéro porté au registre (150 caractères au plus), unique dans l’institution. À défaut, renseignez la cote.
+107	Le paquet doit être celui dont le bordereau a été repris. Les lignes constatées absentes ne sont pas déposées. Renvoyer le même paquet ne redépose rien et retente ce qui a échoué.
+108	Le paquet SEDA : un manifeste XML à la racine et ses objets.
+109	Le parc décrit les appareils. Les profils de qualité définissent les exigences de conservation. Le profil local NAPS2 pilote l’appareil.
+110	Le parent « {n} » (ligne {n}) est ignoré : ce département ne peut pas être créé.
+111	Le patrimoine impose une résolution minimale de
+112	le PDF écrit est incomplet
+113	Le PDF est assemblé à partir des copies de consultation : il manque celles des
+114	Le PDF est vide ou dépasse la limite de 50 Mio. Réduisez le nombre de pages.
+115	Le PDF sera ajouté comme pièce jointe. Le dépôt applique les permissions, l’antivirus et les contrôles d’intégrité du backend.
+116	Le périmètre se décide avant le lancement : ensuite la liste des éléments est figée
+117	Le pilote n’a pas terminé le scan. Vérifiez le câble ou le réseau, le papier et le profil NAPS2.
+118	Le plan de classement n’a pas pu être lu : la règle peut viser des types de documents seulement.
+119	Le plan est relu et reste en vigueur sans changement de contenu
+120	Le plus ancien :
+121	Le portail ne propose que les formules actives. Les tarifs, les durées et les catégories de lecteurs sont fixés par l’institution : rien n’est préenregistré. Une formule modifiée ne change pas les abonnements déjà demandés.
+122	Le préfixe compte 8 caractères au plus, parmi les chiffres et les consonnes b c d f g h j k m n p q r s t v w x z.
+123	Le premier passage du service est en attente. Aucun contrôle automatique n’est encore confirmé.
+124	Le prénom est obligatoire.
+125	Le prix de chaque ligne est celui du tarif au jour de la commande. L’encaissement est fait au guichet : on enregistre ici sa référence (quittance), le système n’exécute aucun paiement. Les reproductions ne sont remises qu’une fois l’encaissement enregistré.
+126	Le prix est un montant positif ou nul, à deux décimales au plus.
+127	Le procès-verbal de la décision est obligatoire pour accepter des lignes.
+128	Le procès-verbal de réception est obligatoire pour accepter des lignes.
+129	Le procès-verbal détaille où se trouvent les archives : il exige l’habilitation de récolement de cette institution.
+130	Le procès-verbal du visa est obligatoire (10 caractères au moins).
+131	Le procès-verbal est limité à 15000 caractères.
+132	Le procès-verbal est obligatoire.
+133	Le profil ne pourra plus servir à évaluer de nouvelles images.
+134	Le propriétaire ou déposant, ou le nouveau détenteur.
+135	Le public ne le verra plus ; vous pourrez le publier de nouveau.
+136	Le rangement change l’emplacement habituel et s’inscrit à l’historique des mouvements. Il ne déplace pas l’archive : c’est le constat de ce qui a été fait.
+137	Le rattachement du document a changé depuis la proposition.
+138	Le rattachement se modifie depuis la fiche d’un utilisateur par une autre autorité centrale. Une délégation se crée depuis vos attributions directes, dans Mon profil : le rôle doit être métier, sa portée est conservée et la période est limitée à 90 jours. Ces actions restent soumises aux contrôles du serveur.
+139	Le référentiel des dangers des registres de risques : valeurs d’exemple, à adapter à l’institution
+140	Le référentiel des institutions et organismes de conservation.
+141	Le registre désigne {n} comme format cible de {n} ; ce convertisseur produit {n}.
+142	Le registre est une donnée de l’institution (ou du niveau national) : aucun format n’est livré tout fait. L’inscription de l’institution l’emporte sur l’inscription nationale.
+143	Le registre n’a pas pu être chargé. Aucune donnée de remplacement n’est présentée comme réelle.
+144	Le registre n’indique aucun format cible pour {n} : une migration ne se décide pas sans lui.
+145	Le registre ou la veille qui fonde l’évaluation.
+146	Le rejet est définitif : le versement ne pourra pas être repris.
+147	Le remplaçant est lui-même obsolète ou son vocabulaire est retiré : choisissez un autre remplaçant.
+148	Le réplica a refusé la suppression : elle sera reprise.
+149	Le réplica contient déjà un objet à cet emplacement.
+150	Le réplica ne répond pas : la vérification sera reprise.
+151	Le responsable des archives intermédiaires est obligatoire.
+152	Le résultat peut être incertain. Le même formulaire conserve sa clé pour un rejeu exact ; ne changez pas d’intention sans vérifier.
+153	Le retour prévu ne peut pas dépasser cinq ans : au-delà, c’est un transfert à décider autrement.
+154	Le retour prévu ne peut pas dépasser cinq ans.
+155	Le retour prévu ne peut pas être dans le passé.
+156	Le retour prévu ne précède pas le début.
+157	Le risque est déjà dans cet état.
+158	Le rôle métier est transmis dans sa portée actuelle pour 90 jours au plus. Le serveur contrôle le destinataire, les droits et la période.
+159	Le scanner est disponible en mode connecté. Aucun appareil n’est piloté en démonstration.
+160	Le scanner n’a pas produit de PDF valide.
+161	Le scanner n’a pas terminé dans le délai de trois minutes. Vérifiez l’appareil avant une nouvelle tentative.
+162	Le sceau n’a pas pu être vérifié.
+163	Le scellement des actes n’est pas activé : aucune clé n’est configurée pour cette installation. L’acte n’est pas scellé.
+164	Le scellement des actes n’est pas activé sur ce serveur : aucune clé n’est configurée, les actes ne portent aucun sceau.
+165	Le serveur a transmis une liste de droits tronquée. Certains accès peuvent ne pas apparaître.
+166	Le serveur de courrier a différé la réception pour ce destinataire.
+167	Le serveur de courrier a différé le message.
+168	Le serveur de courrier a refusé l’adresse du destinataire.
+169	Le serveur de courrier a refusé l’identifiant ou le mot de passe configurés.
+170	Le serveur de courrier a refusé la connexion.
+171	Le serveur de courrier a refusé la présentation du serveur.
+172	Le serveur de courrier a refusé le message.
+173	Le serveur de courrier est configuré mais l’envoi est désactivé : les courriers restent en attente.
+174	Le serveur de courrier est injoignable.
+175	Le serveur de courrier n’a pas répondu à temps.
+176	Le serveur de courrier n’offre pas le chiffrement STARTTLS : rien n’est envoyé en clair.
+177	Le serveur de courrier refuse l’adresse d’expédition configurée.
+178	Le serveur interdit les cycles et les rattachements incompatibles.
+179	Le serveur n’a pas renvoyé le fichier complet.
+180	Le serveur ne peut pas traiter cette demande.
+181	Le serveur ne peut pas traiter cette requête.
+182	Le serveur ne répond pas correctement : import arrêté. Réessayez plus tard.
+183	Le serveur refuse le parcours. Exemple : vous ne pouvez pas approuver votre propre demande.
+184	Le serveur relit le fichier, contrôle chaque signature et évalue la chaîne de confiance
+185	le serveur s’est arrêté pendant le travail
+186	Le serveur vérifie le périmètre, les périodes, les doublons et l’absence d’élévation de privilèges.
+187	Le service antivirus est injoignable. Réessayez lorsque le service sera disponible.
+188	Le service d’archives contrôle le bordereau : il peut l’accepter, demander une correction ou le rejeter.
+189	Le service d’archives ou la commission qui donne le visa.
+190	Le service d’authentification est temporairement inaccessible. Vérifiez votre connexion réseau, puis réessayez.
+191	Le service de contrôle a rencontré une erreur. Une intervention technique est nécessaire.
+192	Le service de contrôle ne donne plus de nouvelles. Vérifiez son fonctionnement.
+193	Le service est momentanément indisponible.
+194	Le sort final de la règle n’est pas l’élimination.
+195	Le sort final de la règle n’est pas le transfert.
+196	Le sort final de la règle n’est pas le tri.
+197	Le statut a été enregistré pour
+198	le stockage est indisponible
+199	le stockage était indisponible
+200	le stockage n’a pas répondu
+201	Le stockage ne permet pas de supprimer le contenu : aucune destruction n’est possible tant qu’il n’est pas raccordé.
+202	Le stockage ne répond pas.
+203	Le sub SSO ne doit pas contenir d’espace.
+204	Le suivi automatique de conservation est disponible en mode connecté.
+205	Le sujet pour lequel le lecteur vient consulter les documents.
+206	le support est limité à 100 caractères.
+207	Le tableau crée des notices ; il ne contient pas les fichiers PDF ou images. Les rattachements existants sont conservés et aucun enregistrement n’est écrasé. Jusqu’à
+208	Le téléversement n’est pas confirmé. Vérifiez l’état avant de recommencer.
+209	Le téléversement n’est pas disponible.
+210	le témoin
+211	Le terme obsolète n’est plus posé nulle part.
+212	Le terme obsolète sera retiré de chaque objet qui le porte et remplacé par «
+213	Le terme reste lisible sur les documents déjà indexés ; il ne se pose plus.
+214	Le texte avec la position de chaque mot (ALTO)
+215	Le texte qui fixe le délai : loi, article.
+216	Le texte reconnu n’est pas disponible pour cette image.
+217	Le traitement part du dernier constat d’état. Il sera validé ou refusé par une autre personne que vous ; tant qu’il n’est pas validé, vous pouvez encore le modifier.
+218	Le traitement prévu dit ce qui sera fait : au moins {n} caractères.
+219	Le transport retour ne précède pas le transport aller.
+220	Le tri aléatoire garde un pourcentage compris entre 1 et 99.

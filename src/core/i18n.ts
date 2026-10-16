@@ -2,9 +2,11 @@
  * Interface bilingue : le français est la langue source, l'anglais une traduction **partielle**. Les textes de l'application sont écrits en français ; le catalogue associe à un texte
  * français sa traduction anglaise. Un texte absent du catalogue reste en français : on ne devine jamais une traduction, et rien ne casse quand un écran n'est pas traduit.
  *
- * Couvert : la coque (menus, en-tête, périmètre, pied de page), les composants communs (chargement, vide, erreurs, pagination, états), la connexion, les notifications. **Non couvert** :
- * les écrans métier (leurs titres, formulaires, tableaux), le portail des lecteurs, les textes envoyés par le serveur (messages d'erreur, titres de notifications), les documents imprimables
- * et les dates (toujours en français, UTC). Pour étendre : ajouter la paire français → anglais au catalogue puis passer le texte par `tr`.
+ * Deux catalogues : `EN` ci-dessous (la coque, les composants communs, la connexion, les notifications, lus par `tr`) et `EN_SCREENS` (`i18nScreens.ts`, **généré** par
+ * `scripts/i18n-build.mjs`, les écrans métier), chargé à la demande et appliqué à l'affichage par `ui/domTranslator.ts` : les écrans n'appellent pas `tr`.
+ * **Non couvert** : les textes envoyés par le serveur (messages d'erreur, titres de notifications), les données (titres, noms), les documents imprimables et les dates (toujours en
+ * français, UTC). Aucune relecture par un traducteur. Voir `docs/INTERFACE-BILINGUE.md` du serveur. Pour un nouvel écran : écrire le texte en français, puis
+ * `node scripts/i18n-build.mjs freeze`, traduire le lot, `build`.
  */
 export type Locale = 'fr' | 'en';
 
@@ -200,10 +202,102 @@ export const EN: Readonly<Record<string, string>> = {
     'Notification': 'Notification'
 };
 
-/** La traduction d'un texte français dans la langue demandée ; le texte lui-même si la langue est le français ou s'il n'est pas traduit. */
+// ---- catalogues complémentaires (écrans métier) : chargés à la demande, par texte exact ou par modèle à paramètres
+
+interface Template { pattern: RegExp; target: string }
+const extra = new Map<string, string>();
+const templates: Template[] = [];
+const PLACEHOLDER = /\{n\}/g;
+const REGEX_SPECIALS = /[.*+?^${}()|[\]\\]/g;
+
+/**
+ * Ajoute un catalogue complémentaire. Une clé qui contient `{n}` est un **modèle** : chaque `{n}` capte un morceau de texte (un nombre, un nom) et la traduction le reprend par
+ * `{1}`, `{2}`… dans l'ordre des captures. Exemple : « Sur {n} fichiers : {n} conformes » → « Out of {1} files: {2} compliant ».
+ */
+export function registerCatalog(entries: Readonly<Record<string, string>>): void {
+    for (const [source, target] of Object.entries(entries)) {
+        if (!source.includes('{n}')) { extra.set(source, target); continue; }
+        const body = source.split(PLACEHOLDER).map(part => part.replace(REGEX_SPECIALS, '\\$&')).join('(.+?)');
+        templates.push({ pattern: new RegExp('^' + body + '$', 's'), target });
+    }
+}
+
+/** Remet le registre à zéro (tests). */
+export function resetCatalogs(): void { extra.clear(); templates.length = 0; memo.clear(); }
+
+const memo = new Map<string, string | null>();
+const MEMO_LIMIT = 20000;
+
+/** La traduction d'un texte déjà nettoyé de ses espaces de bordure, ou null s'il n'est dans aucun catalogue. */
+const own = (text: string): string | undefined => Object.prototype.hasOwnProperty.call(EN, text) ? EN[text] : undefined;
+
+function lookup(text: string): string | null {
+    const exact = own(text) ?? extra.get(text);
+    if (exact !== undefined) return exact;
+    if (templates.length === 0 || text.length > 400) return null;
+    const cached = memo.get(text);
+    if (cached !== undefined) return cached;
+    let found: string | null = null;
+    for (const { pattern, target } of templates) {
+        const match = pattern.exec(text);
+        if (match) { found = target.replace(/\{(\d+)\}/g, (whole, index) => match[Number(index)] ?? whole); break; }
+    }
+    if (memo.size >= MEMO_LIMIT) memo.clear();
+    memo.set(text, found);
+    return found;
+}
+
+const NUMBER_HEAD = /^(\d[\d.,/:%-]*)\s+(\D.*)$/s;
+const NUMBER_TAIL = /^(\D.*?)\s+(\d[\d.,/:%-]*)$/s;
+
+/**
+ * Un texte « 50 % vérifié » ou « Page 3 » est une valeur chiffrée collée à un texte du catalogue (le code assemble la valeur et le libellé). Si le reste est dans le catalogue,
+ * la valeur est conservée telle quelle. Seule une valeur qui commence par un chiffre est reconnue : un nom ou une phrase n'est jamais découpé.
+ */
+function withNumber(text: string): string | null {
+    const head = NUMBER_HEAD.exec(text);
+    if (head) { const rest = lookup(head[2] ?? ''); if (rest !== null) return `${head[1]} ${rest}`; }
+    const tail = NUMBER_TAIL.exec(text);
+    if (tail) { const rest = lookup(tail[1] ?? ''); if (rest !== null) return `${rest} ${tail[2]}`; }
+    return null;
+}
+
+/**
+ * Un libellé repris en milieu de phrase change de casse (« à relire » pour « À relire », « Ligne » pour « ligne ») : on cherche la forme de l'autre casse et on rend la traduction
+ * dans la casse du texte affiché. Une traduction qui commence par un sigle (« SKOS import ») garde sa majuscule.
+ */
+function withCase(text: string): string | null {
+    const first = text[0];
+    if (!first) return null;
+    const upper = first.toLocaleUpperCase('fr'), lower = first.toLocaleLowerCase('fr');
+    const recase = (value: string, toUpper: boolean): string => {
+        const head = value[0], second = value[1];
+        if (!head || (second !== undefined && second !== second.toLowerCase())) return value;
+        return (toUpper ? head.toLocaleUpperCase('en') : head.toLocaleLowerCase('en')) + value.slice(1);
+    };
+    if (first === lower && upper !== first) { const found = lookup(upper + text.slice(1)); return found === null ? null : recase(found, false); }
+    if (first === upper && lower !== first) { const found = lookup(lower + text.slice(1)); return found === null ? null : recase(found, true); }
+    return null;
+}
+
+/** Le nombre de textes et de modèles des catalogues complémentaires (pour les mesures de couverture). */
+export function catalogSize(): { exact: number; templates: number } { return { exact: extra.size, templates: templates.length }; }
+
+/**
+ * La traduction d'un texte français dans la langue demandée ; le texte lui-même si la langue est le français ou s'il n'est pas traduit. Les espaces de bordure sont conservés :
+ * les textes d'une interface sont souvent des morceaux (« · à revoir avant le »).
+ */
 export function translate(locale: Locale, text: string): string {
     if (locale !== 'en') return text;
-    return EN[text] ?? text;
+    const direct = own(text);
+    if (direct !== undefined) return direct;
+    const trimmed = text.trim();
+    if (trimmed.length === 0) return text;
+    // Le catalogue est écrit avec des espaces simples : un texte composé de plusieurs morceaux peut en porter deux (« un compte  habilité »), il se retrouve en les réduisant.
+    const found = lookup(trimmed) ?? (/\s{2,}|[\n\t]/.test(trimmed) ? lookup(trimmed.replace(/\s+/g, ' ')) : null) ?? withNumber(trimmed) ?? withCase(trimmed);
+    if (found === null) return text;
+    const start = text.length - text.trimStart().length;
+    return text.slice(0, start) + found + text.slice(text.trimEnd().length);
 }
 
 /** Les textes du catalogue sans traduction utile (vide, ou identique à la source alors qu'un mot a été traduit ailleurs) : vide quand le catalogue est sain. */
