@@ -5,6 +5,7 @@ import { NationalFlag } from '../ui/Institutional';
 import { Busy } from '../ui/components';
 import { portalPath } from '../core/portal';
 import { usePortal } from './context';
+import { PortalAssistant } from './Assistant';
 
 /** Un lien du portail : une vraie adresse (clic du milieu, copie du lien), sans rechargement de la page. */
 export function PLink({ to, className, children, params, ...rest }: { to: string; className?: string; children: React.ReactNode; params?: Record<string, string | number | null | undefined> } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>) {
@@ -53,6 +54,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         </header>
         {reader && access === 'EN_ATTENTE' && <div className="portal-banner" role="status"><Icon name="info" size={18} /><span>Votre demande d’abonnement attend le paiement au guichet. <PLink to="/compte">Voir la référence à donner</PLink></span></div>}
         <main id="portal-main" tabIndex={-1} className="portal-main">{children}</main>
+        <PortalAssistant />
         <footer className="portal-footer"><span>SNAE-PPD · Archives et patrimoine documentaire</span><span>Les pages consultées portent le nom du lecteur et sont tracées.</span></footer>
     </div>;
 }

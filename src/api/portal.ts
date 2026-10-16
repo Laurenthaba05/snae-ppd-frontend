@@ -12,13 +12,13 @@ const BASE = '/api/v1/portal';
 export class PortalApi {
     constructor(private fetcher: typeof fetch = fetch.bind(globalThis), private timeoutMs = 20000) { }
 
-    private async call<T>(path: string, method: 'GET' | 'POST' | 'PUT' = 'GET', body?: unknown, signal?: AbortSignal): Promise<T> {
+    private async call<T>(path: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET', body?: unknown, signal?: AbortSignal, timeoutMs = this.timeoutMs): Promise<T> {
         if (!path.startsWith('/') || path.startsWith('//') || path.includes('..') || /[\\\r\n]/.test(path)) throw new Error('Chemin API interdit.');
         const controller = new AbortController();
         const relay = () => controller.abort();
         signal?.addEventListener('abort', relay, { once: true });
         if (signal?.aborted) controller.abort();
-        const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
         try {
             const response = await this.fetcher(BASE + path, { method, credentials: 'same-origin', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: controller.signal,
                 headers: { Accept: 'application/json', ...(method !== 'GET' ? { 'Content-Type': 'application/json', 'X-Requested-With': 'snae-portail' } : {}) },
@@ -80,4 +80,17 @@ export class PortalApi {
 
     // ---------- lecture
     pages(documentId: string, signal?: AbortSignal): Promise<PortalReadablePage[]> { return this.call('/documents/' + encodeURIComponent(documentId) + '/pages', 'GET', undefined, signal); }
+
+    // ---------- assistant virtuel Moriba / Heny
+    assistantConfig(signal?: AbortSignal): Promise<AssistantConfig> { return this.call('/assistant/config', 'GET', undefined, signal); }
+    /** Le premier envoi crée la conversation : le serveur rend alors son jeton, à renvoyer avec les messages suivants. Le modèle peut mettre du temps à répondre. */
+    assistantMessage(body: { conversation?: string | null; persona?: string; message: string }): Promise<AssistantAnswer> { return this.call('/assistant/messages', 'POST', body, undefined, 120000); }
+    whatsappLink(signal?: AbortSignal): Promise<{ lie: boolean }> { return this.call('/assistant/whatsapp/link', 'GET', undefined, signal); }
+    whatsappLinkCode(): Promise<WhatsAppLinkCode> { return this.call('/assistant/whatsapp/link-code', 'POST', {}); }
+    whatsappUnlink(): Promise<{ lie: boolean }> { return this.call('/assistant/whatsapp/link', 'DELETE', {}); }
 }
+
+export type AssistantPersona = 'MORIBA' | 'HENY';
+export interface AssistantConfig { actif: boolean; whatsapp: boolean; whatsappNumero: string | null; personaParDefaut: AssistantPersona; personas: { code: AssistantPersona; nom: string; presentation: string }[]; accueil: Record<string, string> }
+export interface AssistantAnswer { conversation: string | null; persona: AssistantPersona; personaNom: string; reponse: string; degrade: boolean; lecteurIdentifie: boolean }
+export interface WhatsAppLinkCode { code: string; expireLe: string; commande: string }

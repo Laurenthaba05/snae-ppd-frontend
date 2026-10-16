@@ -81,3 +81,32 @@
 .portal-quote{margin:0;padding:6px 10px;border-left:3px solid var(--p-line,#dce5dc);color:var(--p-muted,#5d7176);font-style:italic;overflow-wrap:anywhere}
 .portal-dialog{padding:22px 27px}.portal-dialog textarea{width:100%}
 .portal-journal{list-style:none;margin:0;padding:0;display:grid;gap:6px}.portal-journal li{padding:6px 10px;border-left:3px solid #dce5dc}
+
+/* Assistant virtuel Moriba / Heny : fenêtre de discussion flottante. */
+.assistant-dock{position:fixed;right:16px;bottom:16px;z-index:60;display:flex;flex-direction:column;align-items:flex-end;gap:10px;max-width:calc(100vw - 32px)}
+.assistant-launcher{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:0;border-radius:999px;background:var(--p-green);color:#fff;font-weight:600;font-size:14.5px;box-shadow:0 6px 18px rgba(16,40,30,.25);cursor:pointer}
+.assistant-launcher:hover{background:var(--p-green2)}.assistant-launcher:focus-visible,.assistant-panel button:focus-visible,.assistant-form textarea:focus-visible{outline:3px solid var(--p-gold);outline-offset:2px}
+.assistant-panel{width:380px;max-width:100%;height:min(600px,calc(100vh - 100px));display:flex;flex-direction:column;background:#fff;border:1px solid var(--p-line);border-radius:14px;box-shadow:0 12px 36px rgba(16,40,30,.22);overflow:hidden}
+.assistant-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px;background:var(--p-green);color:#fff}
+.assistant-head div{display:grid}.assistant-head strong{font-size:16px}.assistant-head small{font-size:12px;opacity:.85}
+.assistant-icon{border:0;background:transparent;color:inherit;padding:4px;border-radius:6px;cursor:pointer}
+.assistant-personas{display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px;border-bottom:1px solid var(--p-line);background:var(--p-soft)}
+.assistant-personas button{padding:4px 12px;border:1px solid var(--p-line);border-radius:999px;background:#fff;color:var(--p-ink);font-size:13px;cursor:pointer}
+.assistant-personas button[aria-pressed=true]{background:var(--p-green2);border-color:var(--p-green2);color:#fff}
+.assistant-personas .assistant-restart{margin-left:auto;border:0;background:transparent;color:var(--p-green2);text-decoration:underline}
+.assistant-log{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}
+.assistant-line{display:grid;gap:2px;max-width:88%}.assistant-line p{margin:0;padding:9px 12px;border-radius:12px;font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.assistant-line.assistant p{background:var(--p-soft);border:1px solid var(--p-line)}.assistant-line.user{align-self:flex-end}.assistant-line.user p{background:var(--p-green2);color:#fff}
+.assistant-line.notice{max-width:100%}.assistant-line.notice p{background:#fbf4dd;border:1px solid #eadcaf;color:#6c5217}
+.assistant-who{font-size:11.5px;color:var(--p-muted);font-weight:600}
+.assistant-line.typing p{display:flex;gap:4px}.assistant-line.typing span{width:7px;height:7px;border-radius:50%;background:var(--p-muted);animation:assistant-dot 1s infinite ease-in-out}
+.assistant-line.typing span:nth-child(2){animation-delay:.15s}.assistant-line.typing span:nth-child(3){animation-delay:.3s}
+@keyframes assistant-dot{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.assistant-line.typing span{animation:none;opacity:.6}}
+.assistant-form{display:flex;gap:8px;align-items:flex-end;padding:10px 12px;border-top:1px solid var(--p-line)}
+.assistant-form textarea{flex:1;resize:none;padding:8px 10px;border:1px solid var(--p-line);border-radius:8px;font:inherit;font-size:14px}
+.assistant-note,.assistant-whatsapp{margin:0;padding:0 12px 8px;font-size:12px;color:var(--p-muted)}
+.assistant-whatsapp{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}.assistant-whatsapp a{color:var(--p-green2);font-weight:600}.assistant-whatsapp p{margin:0;flex-basis:100%}
+.assistant-error{color:#9b2c2c}
+@media (max-width:480px){.assistant-dock{right:8px;bottom:8px;max-width:calc(100vw - 16px)}.assistant-panel{width:calc(100vw - 16px);height:calc(100vh - 80px)}}
+@media print{.assistant-dock{display:none}}
