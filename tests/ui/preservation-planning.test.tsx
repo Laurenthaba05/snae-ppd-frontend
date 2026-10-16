@@ -10,7 +10,8 @@ const fixture = vi.hoisted(() => ({
     preservationPlanning: {
         agents: vi.fn(), createAgent: vi.fn(), retireAgent: vi.fn(), formats: vi.fn(), createFormat: vi.fn(), retireFormat: vi.fn(), formatRisk: vi.fn(), relations: vi.fn(),
         addRelation: vi.fn(), rights: vi.fn(), addRight: vi.fn(), retireRight: vi.fn(), premis: vi.fn(), packages: vi.fn(), downloadPackage: vi.fn(), oaisDiagnostic: vi.fn(),
-        evaluateOais: vi.fn()
+        evaluateOais: vi.fn(), migrationConverters: vi.fn(), migrationCampaigns: vi.fn(), documentMigrations: vi.fn(), identificationStatus: vi.fn(), identificationSummary: vi.fn(),
+        runIdentification: vi.fn(), documentIdentifications: vi.fn(), pdfaStatus: vi.fn(), pdfaSummary: vi.fn(), runPdfaValidation: vi.fn(), documentPdfaValidations: vi.fn()
     },
     records: { versions: vi.fn(), files: vi.fn() }
 }));
@@ -66,6 +67,15 @@ beforeEach(() => {
     fixture.preservationPlanning.rights.mockResolvedValue([]);
     fixture.preservationPlanning.packages.mockResolvedValue([]);
     fixture.preservationPlanning.oaisDiagnostic.mockResolvedValue(diagnostic());
+    fixture.preservationPlanning.migrationConverters.mockResolvedValue([]);
+    fixture.preservationPlanning.migrationCampaigns.mockResolvedValue([]);
+    fixture.preservationPlanning.documentMigrations.mockResolvedValue([]);
+    fixture.preservationPlanning.identificationStatus.mockResolvedValue({ enabled: false, configured: false, tool: null, toolVersion: null, signature: null, lastRunAt: null });
+    fixture.preservationPlanning.identificationSummary.mockResolvedValue({ institutionId: INST, eligible: 0, identified: 0, ambiguous: 0, unknown: 0, pending: 0, mismatched: 0, rows: [], mismatches: [] });
+    fixture.preservationPlanning.documentIdentifications.mockResolvedValue([]);
+    fixture.preservationPlanning.pdfaStatus.mockResolvedValue({ enabled: false, configured: false, tool: null, toolVersion: null, flavour: '0', defaultFlavour: '2b', lastRunAt: null });
+    fixture.preservationPlanning.pdfaSummary.mockResolvedValue({ institutionId: INST, eligible: 0, validated: 0, compliant: 0, nonCompliant: 0, unreadable: 0, pending: 0, profiles: [], failures: [], files: [] });
+    fixture.preservationPlanning.documentPdfaValidations.mockResolvedValue([]);
 });
 
 it('le diagnostic montre ce qui est à migrer et dit « non évalué » pour un format absent du registre', async () => {

@@ -1,5 +1,8 @@
 import { DECISION_LABELS, COPYRIGHT_LABELS } from '../core/preservationPlanning';
 import { RightEvidenceFields, RightDetailsView } from './RightEvidenceFields';
+import { DocumentMigrationsList, FormatMigrationPanel } from './FormatMigration';
+import { DocumentIdentificationList, FormatIdentificationPanel } from './FormatIdentification';
+import { DocumentPdfaList, PdfaValidationPanel } from './PdfaValidation';
 import { manifestFileName } from '../core/iiifViewer';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
@@ -26,11 +29,15 @@ export function PreservationPlanningSection() {
     if (demo || !institutionId) return null;
     const planning = ['PRESERVATION_PLANNING_READ', 'PRESERVATION_PLANNING_MANAGE'].some(code => can(me, code, { institutionId }));
     const maturity = ['PRESERVATION_DIAGNOSTIC_READ', 'PRESERVATION_DIAGNOSTIC_MANAGE'].some(code => can(me, code, { institutionId }));
-    if (!planning && !maturity) return null;
+    const migration = ['PRESERVATION_MIGRATION_MANAGE', 'PRESERVATION_MIGRATION_APPROVE'].some(code => can(me, code, { institutionId }));
+    if (!planning && !maturity && !migration) return null;
     return <>
         {maturity && <OaisDiagnosticPanel institutionId={institutionId} />}
         {planning && <FormatRiskPanel institutionId={institutionId} />}
+        {planning && <FormatIdentificationPanel institutionId={institutionId} />}
+        {planning && <PdfaValidationPanel institutionId={institutionId} />}
         {planning && <FormatRegistryPanel institutionId={institutionId} />}
+        {(planning || migration) && <FormatMigrationPanel institutionId={institutionId} />}
         {planning && <PreservationAgentsPanel institutionId={institutionId} />}
     </>;
 }
@@ -285,6 +292,18 @@ export function DocumentPremisPanel({ documentId, reference, canManage, canExpor
                 : (relations.data ?? []).length === 0 ? <p><small>Aucune relation déclarée entre les fichiers de ce document.</small></p>
                     : <ul className="plain-list">{(relations.data ?? []).map(r => <li key={r.id}><strong>{r.sourceName}</strong> — {RELATION_LABELS[r.type].toLowerCase()} → <strong>{r.targetName}</strong></li>)}</ul>}
             {canManage && <button type="button" className="btn small secondary" onClick={() => setRelating(true)}>Relier deux fichiers</button>}
+        </div>
+        <div className="panel-padding">
+            <h4>Identification des formats</h4>
+            <DocumentIdentificationList documentId={documentId} />
+        </div>
+        <div className="panel-padding">
+            <h4>Validation PDF/A</h4>
+            <DocumentPdfaList documentId={documentId} />
+        </div>
+        <div className="panel-padding">
+            <h4>Copies migrées</h4>
+            <DocumentMigrationsList documentId={documentId} />
         </div>
         <div className="panel-padding">
             <h4>Droits</h4>
