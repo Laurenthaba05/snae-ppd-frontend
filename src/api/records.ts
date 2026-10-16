@@ -3,6 +3,7 @@ import { query } from '../core/http.js';
 import { parsePage } from '../core/contracts.js';
 import { uuid } from '../core/validation.js';
 import { identifier } from '../core/iiifViewer.js';
+import type { SealKeyStatus } from '../core/sealKey.js';
 import type { PreservationMonitor, BackupMonitor } from '../core/types.js';
 import type { Volumetry, DocumentRelation, DocumentRelations, RelationType } from '../core/recordInfo.js';
 import type { DocumentSignature } from '../core/signatures.js';
@@ -35,6 +36,8 @@ export class RecordsApi {
     iiifOcr(fileId: string, frame: number, signal?: AbortSignal): Promise<unknown> { return this.transport.request('/iiif/' + identifier(uuid(fileId), frame) + '/annotations/ocr', { signal }); }
     /** Le manifeste IIIF (présentation 3.0) du document, en fichier JSON : pour un visualiseur compatible, avec le même jeton d'accès. */
     iiifManifest(documentId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/documents/' + uuid(documentId) + '/iiif/manifest', { signal, responseType: 'blob' }); }
+    /** L'état de la clé qui scelle les actes (gestion nationale des autorités de confiance). */
+    sealKeyStatus(signal?: AbortSignal): Promise<SealKeyStatus> { return this.transport.request('/signing/key-status', { signal }); }
     fileContent(fileId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/files/' + uuid(fileId) + '/content', { signal, responseType: 'blob' }); }
     async dossiers(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Dossier>> { return parsePage<Dossier>(await this.transport.request('/dossiers' + query(params), { signal })); }
     dossier(id: string, signal?: AbortSignal): Promise<Dossier> { return this.transport.request('/dossiers/' + uuid(id), { signal }); }

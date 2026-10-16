@@ -52,3 +52,6 @@
 .iiif-word { position: absolute; border: 2px solid #f0b400; background: rgba(240, 180, 0, .28); box-sizing: border-box; pointer-events: none; }
 .iiif-wait { position: absolute; left: 20px; top: 20px; color: #fff; }
 .heading-actions { display: inline-flex; flex-wrap: wrap; gap: 8px; }
+.seal-key-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 24px; margin: 8px 0 18px; }
+.seal-key-facts dt { color: #8b9aaa; font-size: 12px; }
+.seal-key-facts dd { margin: 2px 0 0; overflow-wrap: anywhere; }
