@@ -1,4 +1,4 @@
-import type { Dossier, DossierElement, DossierNature, DossierRow, DossierStage, DossierStatus, DossierTransitionOption } from './types.js';
+import type { LoanDossier, DossierElement, DossierNature, DossierRow, DossierStage, DossierStatus, DossierTransitionOption } from './types.js';
 import { MOTIF_MIN } from './heritageAssets.js';
 import { MAX_DAYS_AHEAD, addDays, statusLabel as movementStatusLabel } from './movements.js';
 import { dayText } from './placement.js';
@@ -40,12 +40,12 @@ export function lateText(d: Pick<DossierRow, 'enRetard' | 'joursRetard'>): strin
 }
 
 /** La période d'un dossier, en toutes lettres : « du 10 octobre 2026 au 14 janvier 2027 », « le 5 octobre 2026 » quand elle tient en un jour. */
-export function periodText(d: Pick<Dossier | DossierRow, 'dateDebut' | 'dateFin'>): string {
+export function periodText(d: Pick<LoanDossier | DossierRow, 'dateDebut' | 'dateFin'>): string {
     return d.dateDebut === d.dateFin ? `le ${dayText(d.dateDebut)}` : `du ${dayText(d.dateDebut)} au ${dayText(d.dateFin)}`;
 }
 
 /** La valeur assurée du dossier, ou rien quand aucun original n'en porte. */
-export function valueText(d: Pick<Dossier, 'valeurTotale' | 'assurance'>): string | null {
+export function valueText(d: Pick<LoanDossier, 'valeurTotale' | 'assurance'>): string | null {
     return d.valeurTotale === null ? null : formatAmount(d.valeurTotale, d.assurance.devise ?? 'GNF');
 }
 
@@ -53,7 +53,7 @@ export function valueText(d: Pick<Dossier, 'valeurTotale' | 'assurance'>): strin
 
 export interface TimelineStep { key: string; label: string; state: 'done' | 'current' | 'todo' | 'cancelled' }
 /** Le déroulé d'un dossier : ce qui est fait, ce qui est en cours, ce qui reste. Rien n'est stocké : tout se lit de la décision et des sorties des originaux. */
-export function timeline(d: Pick<Dossier, 'statut' | 'decision' | 'elements'>): TimelineStep[] {
+export function timeline(d: Pick<LoanDossier, 'statut' | 'decision' | 'elements'>): TimelineStep[] {
     const outs = d.elements.map(e => e.sortie?.statut ?? null);
     const all = (statuses: string[]) => d.elements.length > 0 && outs.every(s => s !== null && statuses.includes(s));
     const flags: Array<[string, string, boolean]> = [
@@ -98,7 +98,7 @@ export interface DossierForm {
 }
 export const emptyDossierForm = (nature: DossierNature = 'PRET'): DossierForm =>
     ({ nature, intitule: '', objet: '', lieuNom: '', lieuAdresse: '', dateDebut: '', dateFin: '', retourPrevu: '', emprunteurNom: '', emprunteurContact: '', commissaire: '' });
-export const dossierFormOf = (d: Dossier): DossierForm => ({ nature: d.nature, intitule: d.intitule, objet: d.objet, lieuNom: d.lieuNom, lieuAdresse: d.lieuAdresse ?? '', dateDebut: d.dateDebut, dateFin: d.dateFin,
+export const dossierFormOf = (d: LoanDossier): DossierForm => ({ nature: d.nature, intitule: d.intitule, objet: d.objet, lieuNom: d.lieuNom, lieuAdresse: d.lieuAdresse ?? '', dateDebut: d.dateDebut, dateFin: d.dateFin,
     retourPrevu: d.retourPrevu, emprunteurNom: d.emprunteurNom ?? '', emprunteurContact: d.emprunteurContact ?? '', commissaire: d.commissaire ?? '' });
 
 /** Contrôles avant l'envoi, pour guider : le serveur refait les mêmes contrôles et reste seul juge. À la création, le début n'est pas dans le passé. */
@@ -145,7 +145,7 @@ export interface TermsForm {
 }
 export const emptyTermsForm = (): TermsForm => ({ conventionReference: '', conventionSigneeLe: '', conventionSignataire: '', assuranceMode: 'POLICE', assureur: '', assurancePolice: '', assuranceDu: '', assuranceAu: '', exonerationMotif: '',
     devise: '', transportMode: '', transporteur: '', convoyeur: '', transportAllerLe: '', transportRetourLe: '', emballage: '' });
-export const termsFormOf = (d: Pick<Dossier, 'convention' | 'assurance' | 'transport'>): TermsForm => ({
+export const termsFormOf = (d: Pick<LoanDossier, 'convention' | 'assurance' | 'transport'>): TermsForm => ({
     conventionReference: d.convention.reference ?? '', conventionSigneeLe: d.convention.signeeLe ?? '', conventionSignataire: d.convention.signataire ?? '', assuranceMode: d.assurance.exonerationMotif ? 'EXONERATION' : 'POLICE',
     assureur: d.assurance.assureur ?? '', assurancePolice: d.assurance.police ?? '', assuranceDu: d.assurance.du ?? '', assuranceAu: d.assurance.au ?? '', exonerationMotif: d.assurance.exonerationMotif ?? '', devise: d.assurance.devise ?? '',
     transportMode: d.transport.mode ?? '', transporteur: d.transport.transporteur ?? '', convoyeur: d.transport.convoyeur ?? '', transportAllerLe: d.transport.allerLe ?? '', transportRetourLe: d.transport.retourLe ?? '', emballage: d.transport.emballage ?? ''
@@ -224,7 +224,7 @@ export function transitionBody(vers: DossierStatus, expectedVersion: number, tex
 export interface ProlongForm { nouvelleFin: string; motif: string }
 export const emptyProlongForm = (): ProlongForm => ({ nouvelleFin: '', motif: '' });
 /** Contrôles avant l'envoi : une nouvelle fin postérieure à la fin actuelle, dans les cinq ans, un motif écrit, et pour un prêt assuré une police qui couvre le nouveau retour. */
-export function prolongProblems(form: ProlongForm, d: Pick<Dossier, 'dateFin' | 'nature' | 'assurance'>, today: string): string[] {
+export function prolongProblems(form: ProlongForm, d: Pick<LoanDossier, 'dateFin' | 'nature' | 'assurance'>, today: string): string[] {
     const problems: string[] = [];
     if (!form.nouvelleFin) problems.push('Indiquez la nouvelle date de fin.');
     else {
@@ -263,7 +263,7 @@ const dash = (text: string | null | undefined): string => text && text.trim() ? 
  * La fiche de transport d'un dossier, prête à imprimer : ce qui part, pour qui, avec quelle convention, quelle assurance, quel transport, dans quel état, et les lignes à signer à la remise et au retour.
  * Tout le texte est échappé.
  */
-export function transportSheetHtml(d: Dossier, institution = 'SNAE-PPD'): string {
+export function transportSheetHtml(d: LoanDossier, institution = 'SNAE-PPD'): string {
     const pret = d.nature === 'PRET';
     const rows = d.elements.map(e => `<tr><td>${escape(e.cote)}</td><td>${escape(e.bienIdentifiant)}<br>${escape(e.bienIntitule)}</td><td>${e.valeurAssuree === null ? '—' : escape(formatAmount(e.valeurAssuree, d.assurance.devise ?? 'GNF'))}</td>`
         + `<td>${dash(e.conditions)}</td><td>${dash(e.emplacement)}</td><td>${e.constatDepart ? escape(dayText(e.constatDepart.constateLe)) + '<br>' + escape(e.constatDepart.etat.toLowerCase().replace('_', ' ')) + ', manipulation ' + escape(e.constatDepart.manipulation.toLowerCase()) : '—'}</td></tr>`).join('');

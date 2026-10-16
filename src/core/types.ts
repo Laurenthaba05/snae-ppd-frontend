@@ -1909,8 +1909,8 @@ export interface DossierElement {
 export interface DossierConvention { reference: string | null; signeeLe: string | null; signataire: string | null }
 export interface DossierAssurance { assureur: string | null; police: string | null; du: string | null; au: string | null; exonerationMotif: string | null; devise: string | null }
 export interface DossierTransport { mode: string | null; transporteur: string | null; convoyeur: string | null; allerLe: string | null; retourLe: string | null; emballage: string | null }
-export interface Dossier {
-    classificationNodeId?: string | null;
+/** Le dossier de prêt ou d’exposition du module patrimoine (V70) ; ne pas confondre avec `Dossier`, le dossier archivistique. */
+export interface LoanDossier {
     id: string; numero: string; nature: DossierNature; institutionId: string; intitule: string; objet: string; lieuNom: string; lieuAdresse: string | null; dateDebut: string; dateFin: string; retourPrevu: string;
     emprunteurNom: string | null; emprunteurContact: string | null; commissaire: string | null; convention: DossierConvention; assurance: DossierAssurance; transport: DossierTransport;
     statut: DossierStatus; etape: DossierStage; creation: MovementStep; decision: MovementStep | null; decisionMotif: string | null; fermeture: MovementStep | null; fermeMotif: string | null;

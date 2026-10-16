@@ -16,7 +16,7 @@ import {
     transitionBody, transitionLabel, transitionProblems, transportSheetHtml, valueText
 } from '../core/dossiers';
 import type { DossierForm, ElementForm, ProlongForm, TermsForm } from '../core/dossiers';
-import type { Dossier, DossierElement, DossierJournalEntry, DossierNature, DossierPage, DossierRow, DossierStage, DossierSummary, DossierTransitionOption, HeritageAsset, HeritageAssetPage, HeritageAssetSummary } from '../core/types';
+import type { LoanDossier, DossierElement, DossierJournalEntry, DossierNature, DossierPage, DossierRow, DossierStage, DossierSummary, DossierTransitionOption, HeritageAsset, HeritageAssetPage, HeritageAssetSummary } from '../core/types';
 import { display } from '../core/format';
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
@@ -86,7 +86,7 @@ function CreateDialog({ nature, institutionId, initial, onClose, onDone }: { nat
         if (problems.length) return;
         const body = { ...dossierBody(form), institutionId, originaux: picked.map(p => ({ bienId: p.bienId, archiveId: p.archiveId })) };
         let id = '';
-        if (await action.run(async () => { id = (await heritage!.command<Dossier>('/dossiers', body, key.current, 'POST')).id; })) { onDone(id); onClose(); }
+        if (await action.run(async () => { id = (await heritage!.command<LoanDossier>('/dossiers', body, key.current, 'POST')).id; })) { onDone(id); onClose(); }
     };
     return <Modal title={pret ? 'Monter un prêt sortant' : 'Monter une exposition'} onClose={onClose} locked={action.busy} wide>
         <form onSubmit={submit}>
@@ -115,7 +115,7 @@ function CreateDialog({ nature, institutionId, initial, onClose, onDone }: { nat
     </Modal>;
 }
 
-function EditDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: () => void; onDone: () => void }) {
+function EditDialog({ dossier, onClose, onDone }: { dossier: LoanDossier; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [form, setForm] = useState<DossierForm>(() => dossierFormOf(dossier));
     const action = useRun();
@@ -151,7 +151,7 @@ function EditDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: (
 
 // ---------- convention, assurance, transport
 
-function TermsDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: () => void; onDone: () => void }) {
+function TermsDialog({ dossier, onClose, onDone }: { dossier: LoanDossier; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [form, setForm] = useState<TermsForm>(() => termsFormOf(dossier));
     const action = useRun();
@@ -203,7 +203,7 @@ function TermsDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: 
 
 // ---------- originaux du dossier
 
-function AddOriginalDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: () => void; onDone: () => void }) {
+function AddOriginalDialog({ dossier, onClose, onDone }: { dossier: LoanDossier; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [picked, setPicked] = useState<PickedOriginal | null>(null);
     const [form, setForm] = useState<ElementForm>(emptyElementForm);
@@ -230,7 +230,7 @@ function AddOriginalDialog({ dossier, onClose, onDone }: { dossier: Dossier; onC
     </Modal>;
 }
 
-function ElementDialog({ dossier, element, onClose, onDone }: { dossier: Dossier; element: DossierElement; onClose: () => void; onDone: () => void }) {
+function ElementDialog({ dossier, element, onClose, onDone }: { dossier: LoanDossier; element: DossierElement; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [form, setForm] = useState<ElementForm>(() => elementFormOf(element));
     const action = useRun();
@@ -255,7 +255,7 @@ function ElementDialog({ dossier, element, onClose, onDone }: { dossier: Dossier
 }
 
 /** Le constat d'état de départ : c'est celui de la conservation, enregistré depuis le dossier (le contexte « avant un mouvement » est imposé). */
-function DepartureReportDialog({ dossier, element, onClose, onDone }: { dossier: Dossier; element: DossierElement; onClose: () => void; onDone: () => void }) {
+function DepartureReportDialog({ dossier, element, onClose, onDone }: { dossier: LoanDossier; element: DossierElement; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const references = useAlterations();
     const [form, setForm] = useState<ReportForm>(() => emptyReportForm(''));
@@ -279,7 +279,7 @@ function DepartureReportDialog({ dossier, element, onClose, onDone }: { dossier:
 
 // ---------- passages et prolongation
 
-function TransitionDialog({ dossier, option, onClose, onDone }: { dossier: Dossier; option: DossierTransitionOption; onClose: () => void; onDone: () => void }) {
+function TransitionDialog({ dossier, option, onClose, onDone }: { dossier: LoanDossier; option: DossierTransitionOption; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [texte, setTexte] = useState('');
     const action = useRun();
@@ -304,7 +304,7 @@ function TransitionDialog({ dossier, option, onClose, onDone }: { dossier: Dossi
     </Modal>;
 }
 
-function ProlongDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose: () => void; onDone: () => void }) {
+function ProlongDialog({ dossier, onClose, onDone }: { dossier: LoanDossier; onClose: () => void; onDone: () => void }) {
     const { heritage } = useSession();
     const [form, setForm] = useState<ProlongForm>(emptyProlongForm);
     const action = useRun();
@@ -332,7 +332,7 @@ function ProlongDialog({ dossier, onClose, onDone }: { dossier: Dossier; onClose
 // ---------- fiche d'un dossier
 
 function ElementCard({ dossier, element, onOpenMovement, onEdit, onReport, onRemove, busy }: {
-    dossier: Dossier; element: DossierElement; onOpenMovement: (id: string) => void; onEdit: (e: DossierElement) => void; onReport: (e: DossierElement) => void; onRemove: (e: DossierElement) => void; busy: boolean;
+    dossier: LoanDossier; element: DossierElement; onOpenMovement: (id: string) => void; onEdit: (e: DossierElement) => void; onReport: (e: DossierElement) => void; onRemove: (e: DossierElement) => void; busy: boolean;
 }) {
     const status = element.sortie?.statut ?? null;
     const tone = element.sortie?.enRetard ? 'bad' : status === 'RETOURNEE' ? 'ok' : status === 'REFUSEE' || status === 'ANNULEE' || element.obstacles.length > 0 ? 'bad' : status === null || status === 'DEMANDEE' || status === 'AUTORISEE' ? 'warn' : '';
@@ -361,9 +361,9 @@ export function DossierDialog({ id, onClose, onChanged }: { id: string; onClose:
     const [reporting, setReporting] = useState<DossierElement | null>(null);
     const [movementId, setMovementId] = useState<string | null>(null);
     const action = useRun();
-    const q = useResource<Dossier>(s => heritage!.dossier(id, s), 'dossier:' + id + ':' + revision + ':' + epoch);
+    const q = useResource<LoanDossier>(s => heritage!.dossier(id, s), 'dossier:' + id + ':' + revision + ':' + epoch);
     const journalQ = useResource<DossierJournalEntry[]>(s => heritage!.dossierJournal(id, s), 'dossier-journal:' + id + ':' + revision + ':' + epoch);
-    const last = useRef<Dossier | null>(null);
+    const last = useRef<LoanDossier | null>(null);
     if (q.data) last.current = q.data;
     const dossier = q.data ?? last.current;
     const refresh = () => { setRevision(r => r + 1); onChanged(); };

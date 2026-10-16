@@ -3,7 +3,7 @@ import { uuid } from '../core/validation.js';
 import { allPages } from '../core/paging.js';
 import { query } from '../core/http.js';
 import type { AssetExits, Exit, ExitPage } from '../core/deaccessions.js';
-import type { Place, HistoricalEvent, Subject, PlaceTag, MultilingualText, HeritageAsset, HeritageAssetPage, HeritageJournalEntry, HeritageDashboard, HeritageReference, HeritageAssetFilters, EntryFilters, EntryPage, EntryDashboard, HeritageEntry, EntryJournalEntry, EntryReceipt, HeritageReprise, AssetLocation, HeritagePlacementPage, PlacementFilters, RecolementFilters, RecolementPage, Recolement, RecolementJournalEntry, RecolementElementFilters, RecolementElementPage, RecolementReport, RecolementLocation, StoragePlace, AssetConservation, Treatment, TreatmentJournalEntry, ConservationQueueFilters, ConservationQueuePage, MovementRequest, MovementPage, MovementFilters, MovementJournalEntry, DigitizationOrder, DigitizationOrderPage, DigitizationOrderFilters, DigitizationOrderJournalEntry, OrderProject, Dossier, DossierPage, DossierFilters, DossierRow, DossierSummary, DossierJournalEntry } from '../core/types.js';
+import type { Place, HistoricalEvent, Subject, PlaceTag, MultilingualText, HeritageAsset, HeritageAssetPage, HeritageJournalEntry, HeritageDashboard, HeritageReference, HeritageAssetFilters, EntryFilters, EntryPage, EntryDashboard, HeritageEntry, EntryJournalEntry, EntryReceipt, HeritageReprise, AssetLocation, HeritagePlacementPage, PlacementFilters, RecolementFilters, RecolementPage, Recolement, RecolementJournalEntry, RecolementElementFilters, RecolementElementPage, RecolementReport, RecolementLocation, StoragePlace, AssetConservation, Treatment, TreatmentJournalEntry, ConservationQueueFilters, ConservationQueuePage, MovementRequest, MovementPage, MovementFilters, MovementJournalEntry, DigitizationOrder, DigitizationOrderPage, DigitizationOrderFilters, DigitizationOrderJournalEntry, OrderProject, LoanDossier, DossierPage, DossierFilters, DossierRow, DossierSummary, DossierJournalEntry } from '../core/types.js';
 export class HeritageApi {
     constructor(readonly transport: Transport) { }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
@@ -61,7 +61,7 @@ export class HeritageApi {
     /** Dossiers de prêt sortant et d'exposition visibles pour la personne connectée (filtrés par périmètre côté serveur). */
     dossiers(filters: DossierFilters, signal?: AbortSignal): Promise<DossierPage> { return this.transport.request('/heritage/dossiers' + query({ ...filters }), { signal }); }
     dossiersSummary(signal?: AbortSignal): Promise<DossierSummary> { return this.transport.request('/heritage/dossiers/summary', { signal }); }
-    dossier(id: string, signal?: AbortSignal): Promise<Dossier> { return this.transport.request('/heritage/dossiers/' + uuid(id), { signal }); }
+    dossier(id: string, signal?: AbortSignal): Promise<LoanDossier> { return this.transport.request('/heritage/dossiers/' + uuid(id), { signal }); }
     dossierJournal(id: string, signal?: AbortSignal): Promise<DossierJournalEntry[]> { return this.transport.request('/heritage/dossiers/' + uuid(id) + '/journal', { signal }); }
     /** Les dossiers où figure un bien (onglet « Prêts et expositions » de sa fiche). */
     assetDossiers(id: string, signal?: AbortSignal): Promise<DossierRow[]> { return this.transport.request('/heritage/assets/' + uuid(id) + '/dossiers', { signal }); }

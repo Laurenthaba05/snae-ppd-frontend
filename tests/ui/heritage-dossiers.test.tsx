@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { ApiError } from '../../src/core/http';
-import type { Dossier, DossierElement, DossierPage, DossierRow, DossierSummary, DossierTransitionOption, HeritageAsset, HeritageAssetPage, HeritageReference, MovementRequest } from '../../src/core/types';
+import type { LoanDossier, DossierElement, DossierPage, DossierRow, DossierSummary, DossierTransitionOption, HeritageAsset, HeritageAssetPage, HeritageReference, MovementRequest } from '../../src/core/types';
 const INST = '00000000-0000-4000-8000-0000000000a1';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['HERITAGE_READ', 'HERITAGE_LOAN_MANAGE']),
@@ -25,13 +25,13 @@ const alterations: HeritageReference[] = [{ domaine: 'ALTERATION', code: 'DECHIR
 const option = (vers: DossierTransitionOption['vers'], extra: Partial<DossierTransitionOption> = {}): DossierTransitionOption => ({ vers, permissions: ['HERITAGE_LOAN_DECIDE'], peutAgir: true, motifRequis: false, bloquants: [], ...extra });
 const element = (extra: Partial<DossierElement> = {}): DossierElement => ({ id: ID + 'e1', bienId: ID + 'b1', bienIdentifiant: 'PAT-000001', bienIntitule: 'Registre des naissances', archiveId: ID + 'a1', cote: 'ARCH-001', valeurAssuree: 1500000,
     conditions: 'Vitrine climatisée', emplacement: 'Salle 2', sortie: null, constatDepart: null, constatRetour: null, obstacles: [], ...extra });
-const dossier = (extra: Partial<Dossier> = {}): Dossier => ({ id: ID + 'd1', numero: 'PRE-2026-000001', nature: 'PRET', institutionId: INST, intitule: 'Prêt à l’université de Kankan', objet: 'Prêt pour une exposition de recherche sur l’état civil',
+const dossier = (extra: Partial<LoanDossier> = {}): LoanDossier => ({ id: ID + 'd1', numero: 'PRE-2026-000001', nature: 'PRET', institutionId: INST, intitule: 'Prêt à l’université de Kankan', objet: 'Prêt pour une exposition de recherche sur l’état civil',
     lieuNom: 'Université de Kankan', lieuAdresse: 'Campus de Kankan', dateDebut: plus(10), dateFin: plus(100), retourPrevu: plus(100), emprunteurNom: 'Université de Kankan', emprunteurContact: 'recteur@exemple.gn', commissaire: null,
     convention: { reference: null, signeeLe: null, signataire: null }, assurance: { assureur: null, police: null, du: null, au: null, exonerationMotif: null, devise: null }, transport: { mode: null, transporteur: null, convoyeur: null, allerLe: null, retourLe: null, emballage: null },
     statut: 'EN_INSTRUCTION', etape: 'EN_INSTRUCTION', creation: step(), decision: null, decisionMotif: null, fermeture: null, fermeMotif: null, enRetard: false, joursRetard: null, prolongations: 0, valeurTotale: 1500000,
     elements: [element()], preparation: [], passages: [option('ACCEPTE'), option('REFUSE', { motifRequis: true }), option('ANNULE', { permissions: ['HERITAGE_LOAN_MANAGE'], motifRequis: true })],
     peutModifier: true, peutCompleter: true, peutPreparer: false, peutProlonger: false, peutConstater: false, sortiesADemander: 0, version: 2, createdAt: '2026-10-01T09:00:00Z', ...extra });
-const accepted = (extra: Partial<Dossier> = {}) => dossier({ statut: 'ACCEPTE', etape: 'A_PREPARER', decision: step('Mamadou Bah'), passages: [option('ANNULE', { motifRequis: true }), option('CLOS', { permissions: ['HERITAGE_LOAN_MANAGE'], bloquants: [{ code: 'NOT_RETURNED', message: 'Des originaux ne sont pas rentrés en réserve (ARCH-001).', bloque: null }] })],
+const accepted = (extra: Partial<LoanDossier> = {}) => dossier({ statut: 'ACCEPTE', etape: 'A_PREPARER', decision: step('Mamadou Bah'), passages: [option('ANNULE', { motifRequis: true }), option('CLOS', { permissions: ['HERITAGE_LOAN_MANAGE'], bloquants: [{ code: 'NOT_RETURNED', message: 'Des originaux ne sont pas rentrés en réserve (ARCH-001).', bloque: null }] })],
     peutModifier: false, peutPreparer: true, peutProlonger: true, peutConstater: true, sortiesADemander: 1,
     preparation: [{ code: 'CONVENTION_MISSING', message: 'La convention de prêt n’est pas enregistrée : indiquez sa référence et sa date de signature.', bloque: null }, { code: 'DEPARTURE_REPORT_MISSING', message: 'Original ARCH-001 : aucun constat d’état de départ. Il se fait juste avant le départ.', bloque: null }], ...extra });
 const row = (extra: Partial<DossierRow> = {}): DossierRow => ({ id: ID + 'd1', numero: 'PRE-2026-000001', nature: 'PRET', intitule: 'Prêt à l’université de Kankan', lieuNom: 'Université de Kankan', emprunteurNom: 'Université de Kankan', dateDebut: plus(10), dateFin: plus(100),
@@ -60,7 +60,7 @@ beforeEach(() => {
 });
 
 const top = () => { const all = screen.getAllByRole('dialog'); return all[all.length - 1]!; };
-const fiche = async (d: Dossier) => {
+const fiche = async (d: LoanDossier) => {
     fixture.heritage.dossier.mockResolvedValue(d);
     fixture.heritage.dossiers.mockResolvedValue(page([row({ id: d.id, numero: d.numero })]));
     render(<DossiersPanel />);
