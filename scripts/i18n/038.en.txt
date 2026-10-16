@@ -1,0 +1,33 @@
+1	{1} anomaly(ies) found: the log is not consistent. Do not rely on it until the cause has been investigated.
+2	{1} event(s) read
+3	{1} event(s) read out of {2} ({3} %)
+4	No anomaly: the {1} events read form a consistent chain up to the head (event no. {2}).
+5	This check does not see a consistent rewrite of the whole rest of the chain from some point onward: regularly record the chain head outside the database and compare it later. An independent SQL script (outils/verifier-journal-audit.sql) repeats this check without the application’s code.
+6	Broken chain
+7	Columns differing from the signed content
+8	Content inconsistent with the row
+9	Inconsistent start of the chain
+10	Numbers are missing: events have been deleted.
+11	Modified event
+12	Event no.
+13	Missing events
+14	History: split chain
+15	History: unlinked events
+16	History: missing or multiple root
+17	Log integrity
+18	The recorded hash is not that of the content: the event was modified after the fact.
+19	The event does not follow the one before it: an event was replaced, removed or rewritten.
+20	The chain head does not designate the last event.
+21	The content whose hash was computed is no longer there.
+22	The content is no longer readable.
+23	The signed content does not say what the row’s identifier, number or previous hash say.
+24	The first event does not follow the earlier history.
+25	The first {1} anomalies out of {2} are shown.
+26	What do the anomalies mean?
+27	Verification interrupted: the chain was not read up to the head (up to event no. {1}).
+28	Verification interrupted: the chain was not read up to the head.
+29	Reads the log from its first event: consecutive numbers, each event’s hash, chaining, consistency with the columns, chain head. The verification records itself in the log.
+30	Finished on {1} · {2} slice(s) · {3} s of server-side reading.
+31	Inconsistent chain head
+32	A displayed column (action, actor, values…) differs from the signed content.
+33	Verify the chain

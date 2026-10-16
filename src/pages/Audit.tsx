@@ -1,4 +1,5 @@
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
+import { AuditChainPanel } from '../ui/AuditChainPanel';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { PageHead, Busy, ErrorNotice, Empty, Pagination, useResource, CopyId, formatDate, Modal } from '../ui/components';
@@ -58,6 +59,7 @@ export function AuditPage() {
     const q = useResource(s => audit!.recentEvents(category || null, page, size, s), JSON.stringify(['audit', category, page, epoch]));
     const rows = q.data?.items ?? [];
     return <><PageHead eyebrow="MODULE · TRAÇABILITÉ" title="Journal d’audit" description="Journal inviolable, à chaîne de hachage, de toutes les actions métier du système."/>
+        <AuditChainPanel />
         <div className="panel"><div className="table-toolbar"><div className="input-icon search-box"><Icon name="search"/><input aria-label="Filtrer par catégorie" placeholder="Catégorie (ex. RETENTION, RECORDS, PUBLICATION…)" value={category} onChange={e => { setCategory(e.target.value); setPage(0); }}/></div><div className="toolbar-right"><button className="icon-btn" aria-label="Actualiser" onClick={q.refresh}><Icon name="refresh" size={18}/></button></div></div>
         {q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : rows.length ? <><AuditEventsTable rows={rows} onSelect={setSelected}/><Pagination page={page} hasMore={q.data!.hasMore} count={rows.length} onChange={setPage}/></> : <Empty title="Aucun événement" description="Aucune action journalisée pour ce filtre."/>}
         </div>

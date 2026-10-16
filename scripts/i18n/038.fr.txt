@@ -1,0 +1,33 @@
+1	{n} anomalie(s) relevée(s) : le journal n’est pas cohérent. Ne vous y fiez pas avant d’en avoir cherché la cause.
+2	{n} événement(s) relu(s)
+3	{n} événement(s) relu(s) sur {n} ({n} %)
+4	Aucune anomalie : les {n} événements relus forment une chaîne cohérente jusqu’à la tête (événement n° {n}).
+5	Ce contrôle ne voit pas une réécriture cohérente de toute la suite de la chaîne à partir d’un point : relevez régulièrement la tête de chaîne hors de la base et comparez-la plus tard. Un script SQL indépendant (outils/verifier-journal-audit.sql) refait ce contrôle sans le code de l’application.
+6	Chaîne rompue
+7	Colonnes différentes du contenu signé
+8	Contenu incohérent avec la ligne
+9	Début de chaîne incohérent
+10	Des numéros manquent : des événements ont été supprimés.
+11	Événement modifié
+12	Événement n°
+13	Événements manquants
+14	Historique : chaîne divisée
+15	Historique : événements non reliés
+16	Historique : racine absente ou multiple
+17	Intégrité du journal
+18	L’empreinte enregistrée n’est pas celle du contenu : l’événement a été modifié après coup.
+19	L’événement ne prolonge pas celui qui le précède : un événement a été remplacé, retiré ou réécrit.
+20	La tête de chaîne ne désigne pas le dernier événement.
+21	Le contenu dont l’empreinte a été calculée n’est plus là.
+22	Le contenu n’est plus lisible.
+23	Le contenu signé ne dit pas ce que disent l’identifiant, le numéro ou l’empreinte précédente de la ligne.
+24	Le premier événement ne prolonge pas l’historique antérieur.
+25	Les {n} premières anomalies sur {n} sont affichées.
+26	Que signifient les anomalies ?
+27	Relecture interrompue : la chaîne n’a pas été relue jusqu’à la tête (jusqu’à l’événement n° {n}).
+28	Relecture interrompue : la chaîne n’a pas été relue jusqu’à la tête.
+29	Relit le journal depuis son premier événement : numéros consécutifs, empreinte de chaque événement, chaînage, cohérence avec les colonnes, tête de chaîne. La vérification s’inscrit elle-même au journal.
+30	Terminé le {n} · {n} tranche(s) · {n} s de relecture côté serveur.
+31	Tête de chaîne incohérente
+32	Une colonne affichée (action, acteur, valeurs…) diffère du contenu signé.
+33	Vérifier la chaîne
