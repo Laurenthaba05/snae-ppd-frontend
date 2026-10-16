@@ -6,6 +6,8 @@ export interface PageResult<T> { items: T[]; page: number; size: number; hasMore
 /** La taille demandée à chaque page (le serveur plafonne à 200) et le nombre d'éléments au-delà duquel on renonce à tout charger d'un coup. */
 export const LIST_PAGE_SIZE = 200;
 export const LIST_MAX_ITEMS = 5000;
+/** Les résultats d'une recherche faite par le serveur pour un sélecteur : une petite page, jamais la table entière. */
+export const SEARCH_PAGE_SIZE = 20;
 
 /**
  * Charge toutes les pages d'une liste, une à la fois, jusqu'à `limit` éléments. Au-delà, c'est une **erreur explicite** (413) et non une liste tronquée en silence : un écran qui

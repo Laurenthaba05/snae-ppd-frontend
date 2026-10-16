@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 7666 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 7668 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -2382,6 +2382,8 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Critères de valeur": "Value criteria",
     "Critères du tri *": "Appraisal criteria *",
     "Cycle archivistique": "Archival cycle",
+    "D'autres archives correspondent : précisez la cote ou un mot de la description.": "Other archives match: specify the call number or a word from the description.",
+    "D'autres résultats existent : affinez la recherche.": "Other results exist: narrow your search.",
     "d’un seul élément du projet. Chaque page est contrôlée comme d’habitude (résolution, doublons, numérotation) avant l’envoi.": "of a single element of the project. Each page is checked as usual (resolution, duplicates, numbering) before sending.",
     "Danger": "Hazard",
     "Danger *": "Hazard *",

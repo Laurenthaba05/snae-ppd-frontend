@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
 import { can } from '../core/policy';
@@ -8,6 +8,8 @@ import {
     type Room, type Slip, type SlipLine, type SlipSummary, type SlipStatus
 } from '../core/readingRoom';
 import type { PhysicalArchive } from '../core/types';
+import type { PageResult } from '../core/paging';
+import { useDebounced } from './search';
 
 const STATUS_FILTERS: SlipStatus[] = ['DEMANDE', 'PREPARE', 'COMMUNIQUE', 'RESTITUE', 'REFUSE', 'ANNULE'];
 
@@ -46,16 +48,13 @@ export function ReadingRoomSlips({ institutionId }: { institutionId: string }) {
     </div>;
 }
 
-/** Le choix des originaux par leur cote ou leur description ; la liste vient du magasin, filtrée ici. */
+/** Le choix des originaux par leur cote ou leur description : la recherche est faite par le serveur (vingt résultats au plus), jamais sur toute la table du magasin. */
 function ArchivePicker({ selected, onToggle, disabled }: { selected: ReadonlySet<string>; onToggle: (a: PhysicalArchive) => void; disabled: boolean }) {
     const { physicalArchives, epoch } = useSession();
     const [text, setText] = useState('');
-    const q = useResource<PhysicalArchive[]>(s => physicalArchives!.archives(s), `rr-archives:${epoch}`);
-    const shown = useMemo(() => {
-        const needle = text.trim().toLowerCase();
-        const all = q.data ?? [];
-        return (needle ? all.filter(a => a.cote.toLowerCase().includes(needle) || (a.description ?? '').toLowerCase().includes(needle)) : all).slice(0, 50);
-    }, [q.data, text]);
+    const needle = useDebounced(text.trim());
+    const q = useResource<PageResult<PhysicalArchive>>(s => physicalArchives!.searchArchives(needle, s), `rr-archives:${needle}:${epoch}`);
+    const shown = q.data?.items ?? [];
     return <Field label="Documents demandés *" wide hint={`Cherchez par cote ou description ; ${MAX_SLIP_ITEMS} documents au plus.`}>
         <div className="reference-picker">
             <input aria-label="Chercher un document par cote" placeholder="Cote ou description…" value={text} onChange={e => setText(e.target.value)} disabled={disabled} />
@@ -63,7 +62,8 @@ function ArchivePicker({ selected, onToggle, disabled }: { selected: ReadonlySet
                 : shown.length === 0 ? <p><small>Aucune archive ne correspond.</small></p>
                     : <div className="reference-options">{shown.map(a => <label key={a.id} className="check-row">
                         <input type="checkbox" checked={selected.has(a.id)} onChange={() => onToggle(a)} disabled={disabled} />
-                        <span><strong>{a.cote}</strong>{a.description ? <small className="cell-sub">{a.description}</small> : null}</span></label>)}</div>}
+                        <span><strong>{a.cote}</strong>{a.description ? <small className="cell-sub">{a.description}</small> : null}</span></label>)}
+                        {q.data?.hasMore ? <small>D'autres archives correspondent : précisez la cote ou un mot de la description.</small> : null}</div>}
         </div>
     </Field>;
 }

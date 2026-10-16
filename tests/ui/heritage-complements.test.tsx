@@ -11,7 +11,7 @@ const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['HERITAGE_READ', 'HERITAGE_ASSET_MANAGE']),
     heritage: { assets: vi.fn(), assetsDashboard: vi.fn(), asset: vi.fn(), assetJournal: vi.fn(), references: vi.fn(), command: vi.fn(), places: vi.fn(), historicalEvents: vi.fn(), subjects: vi.fn() },
     vocabulary: { keywords: vi.fn(), list: vi.fn(), terms: vi.fn(), addKeywords: vi.fn(), removeKeyword: vi.fn() },
-    physicalArchives: { archives: vi.fn() }, records: { documents: vi.fn() }
+    physicalArchives: { searchArchives: vi.fn() }, records: { documents: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
@@ -40,7 +40,7 @@ const keyword = (over: Partial<Keyword> = {}): Keyword => ({ termId: TERM, label
 beforeEach(() => {
     fixture.allowed = new Set(['HERITAGE_READ', 'HERITAGE_ASSET_MANAGE']);
     for (const fn of [...Object.values(fixture.heritage), ...Object.values(fixture.vocabulary)]) fn.mockReset();
-    fixture.physicalArchives.archives.mockReset().mockResolvedValue([]);
+    fixture.physicalArchives.searchArchives.mockReset().mockResolvedValue({ items: [], page: 0, size: 20, hasMore: false });
     fixture.records.documents.mockReset().mockResolvedValue({ items: [], page: 0, size: 100, hasMore: false });
     fixture.heritage.assets.mockResolvedValue({ items: [], page: 0, size: 20, total: 0, hasMore: false } as HeritageAssetPage);
     fixture.heritage.assetsDashboard.mockResolvedValue(dashboard);

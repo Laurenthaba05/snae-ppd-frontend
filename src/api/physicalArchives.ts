@@ -1,6 +1,6 @@
 import type { Transport, RequestOptions } from '../core/http.js';
 import { uuid } from '../core/validation.js';
-import { allPages } from '../core/paging.js';
+import { allPages, SEARCH_PAGE_SIZE, type PageResult } from '../core/paging.js';
 import { query } from '../core/http.js';
 import type { Elimination, EliminationCandidatePage, EliminationSummary } from '../core/physicalElimination.js';
 import type { EmergencyPlan, Exercise, Hazard, PlanSummary, Risk, RiskSummary, SiteRiskSummary } from '../core/physicalRisk.js';
@@ -16,6 +16,8 @@ export class PhysicalArchivesApi {
     storageUnitsByLocation(locationId: string, signal?: AbortSignal): Promise<StorageUnit[]> { return this.transport.request('/physical-archives/locations/' + uuid(locationId) + '/storage-units', { signal }); }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     archives(signal?: AbortSignal): Promise<PhysicalArchive[]> { return allPages<PhysicalArchive>((page, size) => this.transport.request('/physical-archives/archives' + query({ page, size }), { signal })); }
+    /** Une recherche faite par le serveur (cote ou description, sans tenir compte de la casse) : vingt résultats au plus, hasMore dit s'il y en a d'autres. Un texte vide rend le début de la liste. */
+    searchArchives(text: string, signal?: AbortSignal): Promise<PageResult<PhysicalArchive>> { return this.transport.request('/physical-archives/archives' + query({ q: text.trim(), page: 0, size: SEARCH_PAGE_SIZE }), { signal }); }
     archive(id: string, signal?: AbortSignal): Promise<PhysicalArchive> { return this.transport.request('/physical-archives/archives/' + uuid(id), { signal }); }
     restorations(signal?: AbortSignal): Promise<RestorationListItem[]> { return this.transport.request('/physical-archives/restorations', { signal }); }
     archivesByStorageUnit(unitId: string, signal?: AbortSignal): Promise<PhysicalArchive[]> { return this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/archives', { signal }); }

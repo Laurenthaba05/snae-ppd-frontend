@@ -6,7 +6,7 @@ const INST = '00000000-0000-4000-8000-0000000000a1';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['HERITAGE_READ', 'HERITAGE_ASSET_MANAGE']),
     heritage: { assets: vi.fn(), assetsDashboard: vi.fn(), asset: vi.fn(), assetJournal: vi.fn(), references: vi.fn(), command: vi.fn(), places: vi.fn(), historicalEvents: vi.fn(), subjects: vi.fn() },
-    physicalArchives: { archives: vi.fn() }, records: { documents: vi.fn() }
+    physicalArchives: { searchArchives: vi.fn() }, records: { documents: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
@@ -41,7 +41,7 @@ const asset = (extra: Partial<HeritageAsset> = {}): HeritageAsset => ({ id: ID +
 beforeEach(() => {
     fixture.allowed = new Set(['HERITAGE_READ', 'HERITAGE_ASSET_MANAGE']);
     for (const fn of Object.values(fixture.heritage)) fn.mockReset();
-    fixture.physicalArchives.archives.mockReset().mockResolvedValue([]);
+    fixture.physicalArchives.searchArchives.mockReset().mockResolvedValue({ items: [], page: 0, size: 20, hasMore: false });
     fixture.records.documents.mockReset().mockResolvedValue({ items: [], page: 0, size: 100, hasMore: false });
     fixture.heritage.assets.mockResolvedValue(page([]));
     fixture.heritage.assetsDashboard.mockResolvedValue(dashboard());
@@ -243,7 +243,7 @@ it('l’historique montre les corrections avec ancienne et nouvelle valeur, moti
 it('les liens : originaux et ressources se retirent, une archive se relie, et un document garde son rôle', async () => {
     const view = asset({ originaux: [{ archivePhysiqueId: ID + 'b1', cote: 'COTE-1', libelle: 'Volume 1', support: 'Papier', etatPhysique: null }],
         ressources: [{ documentId: ID + 'd1', role: 'REPRESENTATION', titre: 'Numérisation du registre', identifiantMetier: 'DOC-1', libelle: null, confidentiel: false }] });
-    fixture.physicalArchives.archives.mockResolvedValue([{ id: ID + 'b2', cote: 'COTE-2', support: 'Parchemin', etatPhysique: null, documentId: null, uniteStockageId: ID + 'c1', description: null, dateExtremeDebut: null, dateExtremeFin: null, quantite: null, uniteQuantite: null, versionLock: 0 }]);
+    fixture.physicalArchives.searchArchives.mockResolvedValue({ items: [{ id: ID + 'b2', cote: 'COTE-2', support: 'Parchemin', etatPhysique: null, documentId: null, uniteStockageId: ID + 'c1', description: null, dateExtremeDebut: null, dateExtremeFin: null, quantite: null, uniteQuantite: null, versionLock: 0 }], page: 0, size: 20, hasMore: false });
     fixture.records.documents.mockResolvedValue({ items: [{ id: ID + 'd2', title: 'Contrat de dépôt', reference: 'DOC-2' }], page: 0, size: 100, hasMore: false });
     const dialog = await openAsset(view);
     fireEvent.click(await within(dialog).findByRole('tab', { name: 'Ressources et liens' }));
@@ -257,6 +257,23 @@ it('les liens : originaux et ressources se retirent, une archive se relie, et un
     const picker = (await screen.findAllByRole('dialog')).at(-1)!;
     fireEvent.click(await within(picker).findByRole('button', { name: 'Choisir' }));
     await waitFor(() => expect(fixture.heritage.command).toHaveBeenCalledWith('/assets/' + ID + '01/originals/' + ID + 'b2', {}, expect.any(String), 'POST'));
+});
+
+it('relier un original : la recherche est faite par le serveur, une fois la saisie terminée, et dit s’il y a d’autres résultats', async () => {
+    const archive = (cote: string) => ({ id: ID + cote, cote, support: null, etatPhysique: null, documentId: null, uniteStockageId: ID + 'c1', description: 'Registre de ' + cote, dateExtremeDebut: null, dateExtremeFin: null, quantite: null, uniteQuantite: null, versionLock: 0 });
+    fixture.physicalArchives.searchArchives.mockImplementation(async (text: string) => ({ items: text ? [archive('FOND-77')] : [archive('FOND-01'), archive('FOND-02')], page: 0, size: 20, hasMore: text === '' }));
+    const dialog = await openAsset(asset());
+    fireEvent.click(await within(dialog).findByRole('tab', { name: 'Ressources et liens' }));
+    fireEvent.click(await within(dialog).findByRole('button', { name: 'Relier un original' }));
+    const picker = (await screen.findAllByRole('dialog')).at(-1)!;
+    expect(await within(picker).findByText('FOND-01')).toBeTruthy();
+    expect(within(picker).getByText(/D'autres résultats existent/)).toBeTruthy();
+    const box = within(picker).getByLabelText('Rechercher');
+    for (const text of ['f', 'fo', 'fond-7', 'fond-77']) fireEvent.change(box, { target: { value: text } });
+    expect(await within(picker).findByText('FOND-77')).toBeTruthy();
+    expect(within(picker).queryByText('FOND-01')).toBeNull();
+    const asked = fixture.physicalArchives.searchArchives.mock.calls.map(c => c[0]);
+    expect(asked).toEqual(['', 'fond-77']);
 });
 
 it('relier un document envoie son rôle, et une erreur du serveur reste affichée', async () => {

@@ -14,7 +14,7 @@ const fixture = vi.hoisted(() => ({
         createOrder: vi.fn(), acceptOrder: vi.fn(), refuseOrder: vi.fn(), recordPayment: vi.fn(), completeOrder: vi.fn(), deliverOrder: vi.fn(), cancelOrder: vi.fn(),
         statistics: vi.fn(), statisticsCsv: vi.fn()
     },
-    physicalArchives: { archives: vi.fn() }
+    physicalArchives: { searchArchives: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
@@ -62,7 +62,8 @@ const order = (over: Partial<OrderSummary> = {}): Order => ({
 beforeEach(() => {
     fixture.epoch += 1;
     fixture.allowed = new Set(['READING_ROOM_READ', 'READING_ROOM_DESK']);
-    for (const fn of [...Object.values(fixture.readingRoom), fixture.physicalArchives.archives]) fn.mockReset();
+    for (const fn of [...Object.values(fixture.readingRoom), fixture.physicalArchives.searchArchives]) fn.mockReset();
+    fixture.physicalArchives.searchArchives.mockResolvedValue({ items: [], page: 0, size: 20, hasMore: false });
     fixture.readingRoom.rooms.mockResolvedValue([room()]);
     fixture.readingRoom.occupancy.mockResolvedValue({ roomId: 'room-1', day: today, capacity: 3, morning: 1, afternoon: 0, present: 1 });
     fixture.readingRoom.visits.mockResolvedValue([]);
@@ -166,6 +167,21 @@ it('la fiche d’un lecteur suspendu dit pourquoi, et seule la gestion lève la 
     const manager = await screen.findByRole('dialog');
     fireEvent.click(await within(manager).findByRole('button', { name: 'Lever la suspension' }));
     await waitFor(() => expect(fixture.readingRoom.reinstateReader).toHaveBeenCalledWith('reader-1', expect.any(String)));
+});
+
+it('le bulletin cherche les originaux côté serveur, après la saisie, sans charger tout le magasin', async () => {
+    const found = (cote: string) => ({ id: 'a-' + cote, cote, description: 'Registre ' + cote, support: null, etatPhysique: null, documentId: null, uniteStockageId: 'u1', dateExtremeDebut: null, dateExtremeFin: null, quantite: null, uniteQuantite: null, versionLock: 0 });
+    fixture.physicalArchives.searchArchives.mockImplementation(async (text: string) => ({ items: text ? [found('RC-77')] : [found('RC-01'), found('RC-02')], page: 0, size: 20, hasMore: text === '' }));
+    render(<ReadingRoomSlips institutionId={INST} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Nouveau bulletin' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(await within(dialog).findByText('RC-01')).toBeTruthy();
+    expect(within(dialog).getByText(/D'autres archives correspondent/)).toBeTruthy();
+    const box = within(dialog).getByLabelText('Chercher un document par cote');
+    for (const text of ['r', 'rc', 'rc-7', 'rc-77']) fireEvent.change(box, { target: { value: text } });
+    expect(await within(dialog).findByText('RC-77')).toBeTruthy();
+    expect(within(dialog).queryByText('RC-01')).toBeNull();
+    expect(fixture.physicalArchives.searchArchives.mock.calls.map(c => c[0])).toEqual(['', 'rc-77']);
 });
 
 it('prépare chaque ligne puis remet au lecteur avec l’état constaté, et restitue ligne par ligne', async () => {

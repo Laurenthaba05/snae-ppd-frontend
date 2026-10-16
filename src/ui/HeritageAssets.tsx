@@ -21,6 +21,8 @@ import {
 import type { FieldDef, FieldGroup } from '../core/heritageAssets';
 import type { AssetFields, AssetGap, HeritageAsset, HeritageAssetPage, HeritageAssetSummary, HeritageDashboard, HeritageJournalEntry, HeritageReference, Place, HistoricalEvent, Subject, PhysicalArchive, Page, RecordDocument } from '../core/types';
 import { display } from '../core/format';
+import type { PageResult } from '../core/paging';
+import { useDebounced } from './search';
 import { UUID_RE } from '../core/validation';
 
 const DESCRIPTION_STATUSES = ['MINIMALE', 'EN_REDACTION', 'A_RELIRE', 'VALIDEE'] as const;
@@ -245,20 +247,22 @@ function TransitionBar({ asset, onDone }: { asset: HeritageAsset; onDone: () => 
 
 export interface Pick { id: string; label: string; detail?: string }
 
-export function PickerDialog({ title, items, loading, roles, roleLabel, onPick, onClose }: { title: string; items: Pick[]; loading: boolean; roles?: Record<string, string>; roleLabel?: string; onPick: (id: string, role: string) => Promise<void>; onClose: () => void }) {
+/** onSearch : la recherche est faite par le serveur (le texte saisi lui est transmis, la liste reçue n'est pas filtrée ici) ; hasMore dit que d'autres résultats existent. */
+export function PickerDialog({ title, items, loading, roles, roleLabel, onPick, onClose, onSearch, hasMore }: { title: string; items: Pick[]; loading: boolean; roles?: Record<string, string>; roleLabel?: string; onPick: (id: string, role: string) => Promise<void>; onClose: () => void; onSearch?: (text: string) => void; hasMore?: boolean }) {
     const [filter, setFilter] = useState('');
     const [role, setRole] = useState(roles ? Object.keys(roles)[0] ?? '' : '');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
-    const shown = items.filter(i => (i.label + ' ' + (i.detail ?? '')).toLowerCase().includes(filter.toLowerCase())).slice(0, 50);
+    const shown = (onSearch ? items : items.filter(i => (i.label + ' ' + (i.detail ?? '')).toLowerCase().includes(filter.toLowerCase()))).slice(0, 50);
     const pick = async (id: string) => { setBusy(true); setError(null); try { await onPick(id, role); onClose(); } catch (e) { setError(e); } finally { setBusy(false); } };
     return <Modal title={title} onClose={onClose} locked={busy}>
         <div className="form-grid">
-            <Field label="Rechercher" wide><input value={filter} onChange={e => setFilter(e.target.value)} disabled={busy} autoFocus /></Field>
+            <Field label="Rechercher" wide><input value={filter} onChange={e => { setFilter(e.target.value); onSearch?.(e.target.value); }} disabled={busy} autoFocus /></Field>
             {roles ? <Field label={roleLabel ?? 'Rôle'}><select value={role} onChange={e => setRole(e.target.value)} disabled={busy}>{Object.entries(roles).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></Field> : null}
         </div>
         {loading ? <Busy /> : shown.length ? <ul className="asset-picker">{shown.map(i => <li key={i.id}><span>{i.label}{i.detail && <small> · {i.detail}</small>}</span><button type="button" className="btn small secondary" onClick={() => void pick(i.id)} disabled={busy}>Choisir</button></li>)}</ul> : <Empty title="Aucun résultat" description="Aucun élément ne correspond." />}
         {items.length > shown.length && <small>Affinez la recherche : {items.length - shown.length} autre(s) élément(s).</small>}
+        {hasMore && items.length <= shown.length && <small>D'autres résultats existent : affinez la recherche.</small>}
         {error ? <ErrorNotice error={error} /> : null}
     </Modal>;
 }
@@ -267,7 +271,9 @@ function LinksTab({ asset, canEdit, onChanged }: { asset: HeritageAsset; canEdit
     const { heritage, physicalArchives, records, epoch } = useSession();
     const [dialog, setDialog] = useState<'original' | 'ressource' | 'place' | 'event' | 'subject' | null>(null);
     const [error, setError] = useState<unknown>(null);
-    const archivesQ = useResource<PhysicalArchive[]>(s => dialog === 'original' ? physicalArchives!.archives(s) : Promise.resolve([]), 'asset-archives:' + dialog + ':' + epoch);
+    const [archiveText, setArchiveText] = useState('');
+    const archiveNeedle = useDebounced(archiveText.trim());
+    const archivesQ = useResource<PageResult<PhysicalArchive>>(s => dialog === 'original' ? physicalArchives!.searchArchives(archiveNeedle, s) : Promise.resolve({ items: [], page: 0, size: 0, hasMore: false }), 'asset-archives:' + dialog + ':' + archiveNeedle + ':' + epoch);
     const docsQ = useResource<Page<RecordDocument>>(s => dialog === 'ressource' ? records!.documents({ institutionId: asset.institutionId, page: 0, size: 100 }, s) : Promise.resolve({ items: [], page: 0, size: 0, hasMore: false }), 'asset-docs:' + dialog + ':' + epoch);
     const placesQ = useResource<Place[]>(s => dialog === 'place' ? heritage!.places(s) : Promise.resolve([]), 'asset-places:' + dialog + ':' + epoch);
     const eventsQ = useResource<HistoricalEvent[]>(s => dialog === 'event' ? heritage!.historicalEvents(s) : Promise.resolve([]), 'asset-events:' + dialog + ':' + epoch);
@@ -290,8 +296,8 @@ function LinksTab({ asset, canEdit, onChanged }: { asset: HeritageAsset; canEdit
             <div className="section-heading"><h4>{title}</h4>{canEdit && <button type="button" className="btn small secondary" onClick={() => setDialog(kind)}>Associer</button>}</div>
             {list.length ? <ul className="asset-links">{list.map(l => <li key={l.id + (l.detail ?? '')}><span>{l.libelle}{l.detail && <small> · {l.detail}</small>}</span>
                 {canEdit && <button type="button" className="btn small secondary" onClick={() => void remove('/' + kind + 's/' + l.id + '/untag', { roleLieu: l.detail })}>Retirer</button>}</li>)}</ul> : <small className="wf-note">Aucun.</small>}</section>)}
-        {dialog === 'original' && <PickerDialog title="Relier une archive physique" loading={archivesQ.loading} items={(archivesQ.data ?? []).filter(a => !linked.has(a.id)).map(a => ({ id: a.id, label: a.cote, detail: a.support ?? undefined }))}
-            onPick={async id => post('/originals/' + id, {})} onClose={() => setDialog(null)} />}
+        {dialog === 'original' && <PickerDialog title="Relier une archive physique" loading={archivesQ.loading} items={(archivesQ.data?.items ?? []).filter(a => !linked.has(a.id)).map(a => ({ id: a.id, label: a.cote, detail: a.support ?? a.description ?? undefined }))}
+            onSearch={setArchiveText} hasMore={archivesQ.data?.hasMore} onPick={async id => post('/originals/' + id, {})} onClose={() => { setDialog(null); setArchiveText(''); }} />}
         {dialog === 'ressource' && <PickerDialog title="Relier un document" loading={docsQ.loading} items={(docsQ.data?.items ?? []).map(d => ({ id: d.id, label: d.title, detail: d.reference }))} roles={ROLE_RESSOURCE_LABELS} roleLabel="Rôle du document"
             onPick={async (id, role) => post('/resources', { documentId: id, role })} onClose={() => setDialog(null)} />}
         {dialog === 'place' && <PickerDialog title="Associer un lieu" loading={placesQ.loading} items={(placesQ.data ?? []).map(p => ({ id: p.id, label: p.nom, detail: p.typeLieu ?? undefined }))}
