@@ -137,7 +137,7 @@ async function readXlsx(bytes: Uint8Array): Promise<Table> {
             const type = /\st="([^"]*)"/.exec(' ' + attrs)?.[1] ?? 'n';
             const inner = cell[2] ?? '';
             const raw = /<v\b[^>]*>([\s\S]*?)<\/v>/.exec(inner)?.[1];
-            let value = '';
+            let value: string;
             if (type === 's') value = raw === undefined ? '' : shared[Number(raw)] ?? '';
             else if (type === 'inlineStr') value = textOf(inner);
             else if (type === 'b') value = raw === '1' ? 'VRAI' : 'FAUX';
@@ -236,6 +236,7 @@ export function zipStore(files: Array<{ name: string; data: Uint8Array }>, now =
     return out;
 }
 
+// eslint-disable-next-line no-control-regex -- on retire exactement les caractères de contrôle que XML 1.0 interdit
 const xmlEscape = (s: string) => s.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const columnName = (i: number) => { let n = i + 1, s = ''; while (n > 0) { s = String.fromCharCode(65 + ((n - 1) % 26)) + s; n = Math.floor((n - 1) / 26); } return s; };
 

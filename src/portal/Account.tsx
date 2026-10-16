@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, {  useState } from 'react';
 import { Icon } from '../ui/icons';
 import { Badge, ErrorNotice, Field, Modal, Notice, formatDate } from '../ui/components';
 import { printHtml } from '../ui/printHtml';

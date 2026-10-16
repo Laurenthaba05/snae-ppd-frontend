@@ -14,6 +14,7 @@ export function text(value: string, max: number, required = true): string | null
     const v = value.trim();
     if (!v && !required)
         return null;
+    // eslint-disable-next-line no-control-regex -- refuser les caractères de contrôle est le but de ce contrôle
     if (!v || v.length > max || /[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(v))
         throw new Error(`Texte requis, au maximum ${max} caractères.`);
     return v;

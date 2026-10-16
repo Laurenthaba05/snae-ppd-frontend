@@ -226,7 +226,7 @@ export function SessionProvider({ children }: {
             return;
         let alive = true;
         setBusy(true);
-        initialize().catch(e => {
+        initialize().catch(() => {
             if (alive)
                 setError(new Error('Connexion SSO non aboutie. Vérifiez la configuration et recommencez.'));
         }).finally(() => {

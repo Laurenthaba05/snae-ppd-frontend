@@ -1,6 +1,6 @@
 import React from 'react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {  fireEvent, render, screen, waitFor } from '@testing-library/react';
 import type { Capabilities, ScannerJob } from '../../src/api/acquisition';
 import { ApiError } from '../../src/core/http';
 const f = vi.hoisted(() => ({

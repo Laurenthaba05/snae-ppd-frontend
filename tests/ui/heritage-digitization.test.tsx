@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
-import type { DigitizationOrder, DigitizationOrderPage, DigitizationOrderRow, HeritageAsset, MovementRequest, OrderProject, OrderStage, OrderStatus, OrderTransitionOption } from '../../src/core/types';
+import type { DigitizationOrder, DigitizationOrderPage, DigitizationOrderRow, HeritageAsset, MovementRequest, OrderProject, OrderStatus, OrderTransitionOption } from '../../src/core/types';
 const INST = '00000000-0000-4000-8000-0000000000a1';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['HERITAGE_READ', 'HERITAGE_DIGITIZATION_ORDER']),

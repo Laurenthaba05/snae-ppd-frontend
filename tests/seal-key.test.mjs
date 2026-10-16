@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { badge, storeLabel, useText, validityText } from '../.test-build/sealKey.js';
+import { badge, storeLabel, usageText, validityText } from '../.test-build/sealKey.js';
 
 test('La garde de la clé se dit en clair', () => {
     assert.equal(storeLabel({ storeType: 'PKCS11', hardware: true }), 'Module matériel (PKCS#11)');
@@ -18,8 +18,8 @@ test('La validité dit les jours restants et signale la rotation à préparer', 
 });
 
 test('Le nombre d’actes scellés s’accorde', () => {
-    assert.equal(useText({ seals: 1 }), '1 acte scellé');
-    assert.equal(useText({ seals: 12 }), '12 actes scellés');
+    assert.equal(usageText({ seals: 1 }), '1 acte scellé');
+    assert.equal(usageText({ seals: 12 }), '12 actes scellés');
 });
 
 test('La pastille suit l’activation et l’expiration', () => {

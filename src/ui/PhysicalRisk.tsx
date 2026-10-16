@@ -7,7 +7,7 @@ import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useR
 import { ReasonPrompt, useAction } from './ReadingRoomParts';
 import { printHtml } from './printHtml';
 import {
-    EXERCISE_LABELS, LEVEL_LABELS, MEASURE_LABELS, PROBABILITY_LABELS, RULE_TEXTS, SEVERITY_LABELS, addMonths, approvalReadiness, contactProblems, exerciseProblems, gapLabel,
+    EXERCISE_LABELS, MEASURE_LABELS, PROBABILITY_LABELS, RULE_TEXTS, SEVERITY_LABELS, addMonths, approvalReadiness, contactProblems, exerciseProblems, gapLabel,
     levelLabel, levelOf, measureLabel, measureProblems, planLabel, planSheetHtml, priorityProblems, riskProblems, riskStatusLabel, reviewProblems,
     type ContactDraft, type EmergencyPlan, type Exercise, type Hazard, type PlanSummary, type PriorityDraft, type Risk, type RiskLevel, type RiskMeasure, type RiskSummary, type SiteRiskSummary
 } from '../core/physicalRisk';

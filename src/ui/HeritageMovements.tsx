@@ -175,7 +175,7 @@ export function MovementDialog({ id, onClose, onChanged }: { id: string; onClose
 
 // ---------- onglet « Mouvements » d'un bien
 
-function OriginalMovements({ asset, original, requests, canRequest, onOpen, onAsk }: {
+function OriginalMovements({ original, requests, canRequest, onOpen, onAsk }: {
     asset: HeritageAsset; original: HeritageAsset['originaux'][number]; requests: MovementRow[]; canRequest: boolean; onOpen: (id: string) => void; onAsk: (archiveId: string, cote: string) => void;
 }) {
     const mine = requests.filter(r => r.archiveId === original.archivePhysiqueId);

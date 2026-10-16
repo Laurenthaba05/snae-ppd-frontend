@@ -27,6 +27,7 @@ export function checkFileContent(blob: Blob, file: Pick<DocumentFile, 'size' | '
 
 export function downloadFilename(name: string): string {
     // Remove paths, control characters and bidirectional overrides from untrusted names.
+    // eslint-disable-next-line no-control-regex -- un nom de fichier ne garde aucun caractère de contrôle
     return name.replace(/[\\/]/g, '_').replace(/[\u0000-\u001f\u007f<>:"|?*\u202a-\u202e\u2066-\u2069]/g, '_')
         .replace(/^[. ]+|[. ]+$/g, '').slice(0, 200) || 'document';
 }

@@ -27,7 +27,7 @@ export function validityText(status: Pick<SealKeyStatus, 'daysRemaining' | 'rota
 }
 
 /** Le bilan d'un certificat de l'historique : « 12 actes scellés du 3 mars 2026 au 9 octobre 2026 ». */
-export function useText(use: Pick<SealCertificateUse, 'seals'>): string {
+export function usageText(use: Pick<SealCertificateUse, 'seals'>): string {
     return `${use.seals} acte${use.seals > 1 ? 's' : ''} scellé${use.seals > 1 ? 's' : ''}`;
 }
 

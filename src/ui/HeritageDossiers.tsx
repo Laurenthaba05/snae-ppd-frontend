@@ -12,7 +12,7 @@ import { emptyReportForm, reportBody, reportProblems } from '../core/conservatio
 import type { ReportForm } from '../core/conservation';
 import {
     NATURE_LABELS, STAGE_FILTERS, STAGE_NEXT_STEPS, dossierBody, dossierFormOf, dossierProblems, elementBody, elementFormOf, elementProblems, elementSummary, elementUpdateBody, emptyDossierForm, emptyElementForm,
-    emptyProlongForm, emptyTermsForm, isOpen, journalSummary, lateText, natureLabel, periodText, prolongBody, prolongProblems, sortieText, stageLabel, stageTone, termsBody, termsFormOf, termsProblems, timeline,
+    emptyProlongForm, isOpen, journalSummary, lateText, natureLabel, periodText, prolongBody, prolongProblems, sortieText, stageLabel, termsBody, termsFormOf, termsProblems, timeline,
     transitionBody, transitionLabel, transitionProblems, transportSheetHtml, valueText
 } from '../core/dossiers';
 import type { DossierForm, ElementForm, ProlongForm, TermsForm } from '../core/dossiers';

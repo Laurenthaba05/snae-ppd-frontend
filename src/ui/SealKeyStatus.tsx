@@ -3,7 +3,7 @@ import { useSession } from '../auth/session';
 import { can } from '../core/policy';
 import { commonName } from '../core/signatures';
 import { Badge, Busy, ErrorNotice, Notice, formatDate, useResource } from './components';
-import { ALGORITHM_LABELS, badge, storeLabel, useText, validityText, type SealKeyStatus } from '../core/sealKey';
+import { ALGORITHM_LABELS, badge, storeLabel, usageText, validityText, type SealKeyStatus } from '../core/sealKey';
 
 /**
  * La clé qui scelle les actes du système : où elle est gardée (module matériel ou magasin logiciel), son certificat, son expiration et les certificats déjà employés pour sceller.
@@ -31,7 +31,7 @@ export function SealKeyStatusSection() {
                 {s.history.length > 0 && <div className="table-scroll"><table><thead><tr><th>Certificat employé</th><th>Actes</th><th>Premier</th><th>Dernier</th><th>État</th></tr></thead>
                     <tbody>{s.history.map(h => <tr key={h.fingerprint}>
                         <td>{commonName(h.subject ?? '')}<small className="cell-sub"><code>{h.fingerprint.slice(0, 16)}…</code></small></td>
-                        <td>{useText(h)}</td><td>{formatDate(h.firstSealedAt)}</td><td>{formatDate(h.lastSealedAt)}</td>
+                        <td>{usageText(h)}</td><td>{formatDate(h.firstSealedAt)}</td><td>{formatDate(h.lastSealedAt)}</td>
                         <td>{h.current ? <Badge value="ACTIF" label="Clé actuelle" /> : <Badge value="BROUILLON" label="Ancienne clé" />}</td>
                     </tr>)}</tbody></table></div>}
                 <p><small>Les sceaux déjà posés portent leur certificat : changer de clé n’en modifie aucun. Ils restent « de confiance » tant que leur autorité est déclarée parmi les autorités de

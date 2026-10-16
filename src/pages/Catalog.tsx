@@ -3,7 +3,7 @@ import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
 import { navigate } from '../ui/navigation';
 import { EntityName } from '../ui/names';
-import { PageHead, Badge, Busy, ErrorNotice, Empty, Pagination, useResource, Notice } from '../ui/components';
+import { PageHead, Badge, Busy, ErrorNotice, Empty, Pagination, useResource } from '../ui/components';
 import { Icon } from '../ui/icons';
 import { ReferencePicker } from '../ui/ReferencePicker';
 import { EntityForm } from './EntityForm';

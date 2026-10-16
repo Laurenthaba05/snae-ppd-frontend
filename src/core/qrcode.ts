@@ -75,7 +75,8 @@ export function rsCorrect(block: number[], ecCount: number): boolean {
     }
     if (clean) return true;
     // Berlekamp-Massey
-    let sigma = [1], previous = [1], l = 0, m = 1, b = 1;
+    const sigma = [1];
+    let previous = [1], l = 0, m = 1, b = 1;
     for (let i = 0; i < ecCount; i++) {
         let d = syndromes[i]!;
         for (let j = 1; j <= l; j++) d ^= mul(sigma[j] ?? 0, syndromes[i - j]!);

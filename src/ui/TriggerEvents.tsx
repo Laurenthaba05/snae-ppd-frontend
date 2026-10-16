@@ -121,7 +121,7 @@ export function DeclareTriggerEventDialog({ documentId, dossierId, typeId, typeL
 
 /** Les événements constatés qui concernent un document (le sien et ceux de ses dossiers), avec leur annulation motivée et la planification des documents concernés. */
 export function DocumentTriggerEvents({ documentId, onChanged }: { documentId: string; onChanged?: () => void }) {
-    const { me, retention, epoch } = useSession();
+    const { retention, epoch } = useSession();
     const q = useResource<TriggerEvent[]>(signal => retention!.triggerEvents({ documentId }, signal), `document-trigger-events:${documentId}:${epoch}`);
     const [cancelling, setCancelling] = useState<TriggerEvent | null>(null);
     const [scheduling, setScheduling] = useState<TriggerEvent | null>(null);

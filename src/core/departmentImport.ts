@@ -65,7 +65,7 @@ export function parseDepartmentTable(table: Table, existing: ReadonlyMap<string,
     // Le parent : un département de l'institution, ou une autre ligne du fichier.
     for (const row of rows) {
         if (!row.parentCode) continue;
-        let parentCode = '';
+        let parentCode: string;
         try { parentCode = code(row.parentCode); } catch { row.errors.push('Code du parent invalide : une lettre en premier, puis lettres, chiffres, _ ou - (50 caractères max).'); continue; }
         let own = ''; try { own = code(row.code); } catch { /* déjà signalé */ }
         if (parentCode === own) { row.errors.push('Un département ne peut pas être son propre parent.'); continue; }

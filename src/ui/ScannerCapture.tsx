@@ -22,7 +22,6 @@ type Target = { documentId: string | null; versionId: string };
 
 export function ScannerWorkspace() {
     const { records, demo, epoch } = useSession();
-    const { scope } = useWorkspace();
     const api = useMemo(() => records ? new AcquisitionApi(records.transport) : null, [records]);
     const q = useResource(signal => api && !demo ? api.capabilities(signal) : Promise.resolve(null), String(epoch));
     if (demo) return <Notice>Le scanner est disponible en mode connecté. Aucun appareil n’est piloté en démonstration.</Notice>;

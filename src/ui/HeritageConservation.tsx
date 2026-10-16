@@ -7,7 +7,7 @@ import { label } from '../core/heritageAssets';
 import {
     ATTENTION_LABELS, ATTENTION_NEXT_STEPS, CONTEXT_CHOICES, CONTEXT_LABELS, HANDLING_LABELS, STATE_HINTS, STATE_LABELS, TREATMENT_STATUS_LABELS, TREATMENT_TYPE_LABELS, URGENCY_LABELS, alterationLabels,
     attentionLabel, attentionTone, emptyProposalForm, emptyReportForm, emptyTransitionForm, handlingChoices, handlingTone, needsForm, proposalBody, proposalOf, proposalProblems, reportBody, reportProblems,
-    stateLabel, stateTone, statusLabel, transitionNeeds, treatmentBody, treatmentDays, treatmentTransitionLabel, treatmentTransitionProblems, worstAttention
+    stateLabel, statusLabel, transitionNeeds, treatmentBody, treatmentDays, treatmentTransitionLabel, treatmentTransitionProblems, worstAttention
 } from '../core/conservation';
 import type { ProposalForm, ReportForm, TreatmentTransitionForm } from '../core/conservation';
 import type {

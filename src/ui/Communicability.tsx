@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {  useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { commandKey } from '../api/archives';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';

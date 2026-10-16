@@ -243,7 +243,7 @@ export function CreateContributionDialog({ elementId, onClose, onCreated }: {
     </Modal>;
 }
 
-function OcrSection({ elementId, canManage }: {
+function OcrSection({ canManage }: {
     elementId: string;
     canManage: boolean;
 }) {

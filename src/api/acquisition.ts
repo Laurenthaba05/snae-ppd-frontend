@@ -75,8 +75,8 @@ export class ScannerClient {
       return await r.json() as T;
     } catch (e) {
       if (signal?.aborted) throw e;
-      if (controller.signal.aborted) throw new Error('Le connecteur ne répond plus. Actualisez les scans du poste avant de relancer une demande.');
-      if (e instanceof TypeError) throw new Error('Connecteur inaccessible. Vérifiez son démarrage, son adresse, le certificat, l’origine autorisée et la permission réseau local du navigateur.');
+      if (controller.signal.aborted) throw new Error('Le connecteur ne répond plus. Actualisez les scans du poste avant de relancer une demande.', { cause: e });
+      if (e instanceof TypeError) throw new Error('Connecteur inaccessible. Vérifiez son démarrage, son adresse, le certificat, l’origine autorisée et la permission réseau local du navigateur.', { cause: e });
       throw e;
     } finally {clearTimeout(timer); signal?.removeEventListener('abort', abort);}
   }

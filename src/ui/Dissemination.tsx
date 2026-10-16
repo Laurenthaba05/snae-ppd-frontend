@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { ApiError } from '../core/http';
 import { can } from '../core/policy';
-import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
+import {  Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
 import { useWorkspace } from './workspace';
 import { useAction } from './ReadingRoomParts';
 import { FindingAidsPanel } from './FindingAids';
