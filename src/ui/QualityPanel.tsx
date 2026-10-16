@@ -58,7 +58,7 @@ export function QualityPanel({ element, onSendBack }: { element: DigitizationEle
             {summary.failed > 0 && <li className="bad">{summary.failed} en échec</li>}
         </ul>
         {error ? <ErrorNotice error={error} /> : null}
-        {flaggedPages.length > 0 && <div className="table-scroll"><table className="quality-table"><thead><tr><th>Page</th><th>Signalement</th><th>Mesures</th><th /></tr></thead>
+        {flaggedPages.length > 0 && <div className="table-scroll"><table className="quality-table"><thead><tr><th>Page</th><th>Signalement</th><th>Mesures</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{flaggedPages.map(p => <tr key={p.fichierId}><td>{p.numeroPage ?? '—'}</td><td>{p.issues.map(i => <span key={i.code} className="quality-issue">{i.message}</span>)}</td><td><small>{metricsText(p)}</small></td><td><button type="button" className="btn small secondary" onClick={() => setViewing(p)}>Voir la page</button></td></tr>)}</tbody></table></div>}
         {failed.length > 0 && <ul className="ocr-jobs-list">{failed.map(p => <li key={p.fichierId}>{fileName(p.numeroPage)} : {qualityErrorText(p.errorCode)}</li>)}</ul>}
         {data.sample.length > 0 && <p className="quality-sample">Échantillon à contrôler visuellement ({Math.round(data.sampleRate * 100)} % des pages, au moins {data.sampleMinimum}) : <strong>{data.sample.map(n => 'p. ' + n).join(', ')}</strong>{extra.length < data.sample.length && <> — dont les pages signalées ci-dessus</>}.</p>}

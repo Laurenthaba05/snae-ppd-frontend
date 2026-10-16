@@ -103,7 +103,7 @@ export function ScanProfilesSection() {
         </div>
         {list.loading && !items.length ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />
             : items.length === 0 ? <Empty title="Aucun profil de numérisation" description="Définissez les exigences de vos numérisations pour pouvoir contrôler les images." icon="scanner" />
-                : <div className="table-scroll"><table><thead><tr><th>Profil</th><th>Exigences</th><th>Périmètre</th><th>État</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Profil</th><th>Exigences</th><th>Périmètre</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(p => <tr key={p.id}>
                         <td><strong>{p.name}</strong><small className="cell-sub">{p.code}</small>{p.description && <small className="cell-sub">{p.description}</small>}{p.source && <small className="cell-sub">Source : {p.source}</small>}</td>
                         <td><ul className="plain-list">{requirementLines(p).map(line => <li key={line}>{line}</li>)}</ul></td>

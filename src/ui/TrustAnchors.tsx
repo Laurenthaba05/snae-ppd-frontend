@@ -32,7 +32,7 @@ export function TrustAnchorsSection() {
         </div>
         {list.loading && !list.data ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />
             : items.length === 0 ? <Empty title="Aucune autorité de confiance" description="Tant qu'aucune n'est déclarée, la chaîne des signatures n'est pas évaluée." icon="shield" />
-                : <div className="table-scroll"><table><thead><tr><th>Autorité</th><th>Certificat</th><th>Valide</th><th>Périmètre</th><th>État</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Autorité</th><th>Certificat</th><th>Valide</th><th>Périmètre</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(a => <tr key={a.id}>
                         <td><strong>{a.label}</strong></td>
                         <td>{commonName(a.subject)}<small className="cell-sub">{a.selfSigned ? 'Racine (auto-signé)' : `Émis par ${commonName(a.issuer)}`}</small><small className="cell-sub">SHA-256 : <code title={a.fingerprint}>{a.fingerprint.slice(0, 8)}…{a.fingerprint.slice(-8)}</code></small></td>

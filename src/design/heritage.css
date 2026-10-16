@@ -61,9 +61,9 @@
 .placement-choices legend{padding:0 6px;font-size:14px;color:#33494d}
 .placement-choices label{display:flex;align-items:flex-start;gap:10px;padding:6px 4px;cursor:pointer}
 .placement-choices label span{display:grid;gap:2px}.placement-choices small{color:#5d7176}
-.badge-introuvable,.badge-absente{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
+.badge-introuvable,.badge-absente,.badge-non_conforme{background:#fff0ee;color:#8f2f1d;border-color:#efcfc6}
 .badge-autre_emplacement,.badge-sortie_en_retard{background:#fbf4dd;color:#856625;border-color:#eadcaf}
-.badge-non_verifiee,.badge-verification_ancienne,.badge-verification,.badge-sortie,.badge-retour,.badge-rangement{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
+.badge-validation_format,.badge-non_analysable,.badge-non_verifiee,.badge-verification_ancienne,.badge-verification,.badge-sortie,.badge-retour,.badge-rangement{background:#eef2f5;color:#33494d;border-color:#d8e0e6}
 .badge-presente,.badge-conforme{background:#e1f3e8;color:#1b4d3a;border-color:#c5e3cf}
 .placement-card .section-heading{padding:0 0 8px;border-bottom:1px solid #eef2ee}
 .nowrap{white-space:nowrap}

@@ -69,7 +69,7 @@ export function OcrListPage() {
                         <button className="icon-btn" aria-label="Actualiser la liste" onClick={q.refresh}><Icon name="refresh" size={18} /></button></div></div>
                 {error ? <ErrorNotice error={error} /> : null}
                 {rows.length ? <div className="table-scroll"><table>
-                    <thead><tr><th>Fichier</th><th>Projet · élément</th><th>Moteur</th><th>Langue</th><th>Page</th><th>Confiance</th><th>Vérification</th><th>Date</th><th /></tr></thead>
+                    <thead><tr><th>Fichier</th><th>Projet · élément</th><th>Moteur</th><th>Langue</th><th>Page</th><th>Confiance</th><th>Vérification</th><th>Date</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{rows.map(i => { const c = confidenceOf(i); return <tr key={i.id}>
                         <td><strong>{i.fichierNom}</strong><small className="cell-sub">{i.documentReference} · {i.documentTitre}</small></td>
                         <td>{i.projetNom ? <>{i.projetNom}<small className="cell-sub">{i.elementDescription || '—'}</small></> : <span className="cell-sub">Hors projet</span>}</td>

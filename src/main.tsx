@@ -15,6 +15,7 @@ import './design/portal.css';
 import './design/intake.css';
 import './design/destruction.css';
 import './design/records.css';
+import './design/a11y.css';
 const root = document.getElementById('root');
 if (!root)
     throw new Error('Point de montage introuvable.');

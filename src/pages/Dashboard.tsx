@@ -221,7 +221,7 @@ export function HomeView({ data, loading, name, canGo }: { data: HomeData | null
                         <div className="hm-card-head"><h2>Derniers documents ajoutés</h2><button className="hm-more" onClick={() => navigate('/app/documents')}>Voir tous<Icon name="arrow" size={15} /></button></div>
                         {loading ? <p className="db-chart-note">Chargement…</p>
                             : !data?.docs ? <p className="db-chart-note">{NA}</p>
-                            : docs.length ? <div className="db-matrix-scroll"><table className="hm-table">
+                            : docs.length ? <div className="db-matrix-scroll" tabIndex={0} role="region" aria-label="Tableau, défilement horizontal possible"><table className="hm-table">
                                 <thead><tr><th scope="col" /><th scope="col">Titre</th><th scope="col">Référence</th><th scope="col">Type</th><th scope="col">Date</th><th scope="col">Statut</th></tr></thead>
                                 <tbody>{docs.slice(0, 5).map(doc => { const chip = statusChip(doc); const date = doc.createdAt ?? doc.documentDate; return <tr key={doc.id}>
                                     <td className="hm-ic"><span><Icon name="document" size={18} /></span></td>

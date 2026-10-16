@@ -169,7 +169,7 @@ export function TreatmentCharts({ data }: { data: TreatmentData }) {
         </div>
         <details className="db-data">
             <summary>Afficher les données sous forme de tableau</summary>
-            <div className="db-matrix-scroll"><table>
+            <div className="db-matrix-scroll" tabIndex={0} role="region" aria-label="Tableau, défilement horizontal possible"><table>
                 <caption>Indicateurs de traitement</caption>
                 <thead><tr><th scope="col">Indicateur</th><th scope="col">Détail</th><th scope="col">Valeur</th></tr></thead>
                 <tbody>
@@ -223,7 +223,7 @@ export function TreatmentDashboard() {
                         <div><h2>Cartographie du parcours par rôle utilisateur</h2><p>Visualisez les actions de chaque acteur tout au long du processus de traitement.</p></div>
                         <ul className="db-legend">{legend.map(([key, label]) => <li key={key}><i className={key} />{label}</li>)}</ul>
                     </div>
-                    <div className="db-matrix-scroll">
+                    <div className="db-matrix-scroll" tabIndex={0} role="region" aria-label="Tableau, défilement horizontal possible">
                         <table className="db-matrix">
                             <thead><tr><td />{stepTitles.map((title, index) => <th key={title} scope="col">{index + 1}. {title}{stageCount(data?.pipeline, index) !== null && <span className="db-count" title="Éléments à cette étape">{nf(stageCount(data?.pipeline, index)!)}</span>}</th>)}</tr></thead>
                             <tbody>

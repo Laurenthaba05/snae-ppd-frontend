@@ -16,7 +16,7 @@ export function Empty({ title = 'Aucun résultat', description = 'Aucune donnée
     title?: string;
     description?: string;
     icon?: string;
-}) { const { tr } = useLocale(); return <div className="empty"><span className="empty-icon"><Icon name={icon} size={30}/></span><h3>{tr(title)}</h3><p>{tr(description)}</p></div>; }
+}) { const { tr } = useLocale(); return <div className="empty"><span className="empty-icon"><Icon name={icon} size={30}/></span><h2>{tr(title)}</h2><p>{tr(description)}</p></div>; }
 export function ErrorNotice({ error, onRetry }: {
     error: unknown;
     onRetry?: () => void;

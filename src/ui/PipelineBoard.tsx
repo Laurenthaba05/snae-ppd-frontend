@@ -15,7 +15,7 @@ function Queue({ status }: { status: DigitizationElementStatus }) {
     if (q.error) return <ErrorNotice error={q.error} onRetry={q.refresh} />;
     const items = q.data ?? [];
     if (!items.length) return <Empty title="Aucun élément à cette étape" description="Rien n’attend à cette étape pour le moment." />;
-    return <div className="table-scroll"><table className="pl-queue"><thead><tr><th>Élément</th><th>Projet</th><th>Lot</th><th>Arrivé</th><th /></tr></thead>
+    return <div className="table-scroll"><table className="pl-queue"><thead><tr><th>Élément</th><th>Projet</th><th>Lot</th><th>Arrivé</th><th><span className="sr-only">Actions</span></th></tr></thead>
         <tbody>{items.map(item => <tr key={item.elementId}>
             <td><strong>{elementName(item.description)}</strong></td><td>{item.projetNom}</td><td>{item.lotCode ?? '—'}</td>
             <td>{item.depuis ? <>{formatDate(item.depuis)}<small className="cell-sub">{sinceText(item.depuis)}</small></> : '—'}</td>

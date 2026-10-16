@@ -110,7 +110,7 @@ export function ClassificationPage() {
         {canManage && <button className="btn primary" onClick={() => setCreating(true)}>Créer un nœud</button>}
     </PageHead>
         <div className="panel">
-        {q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : nodes.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Statut</th><th /></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun nœud de classement" description="Créez le premier nœud pour ce périmètre."/>}
+        {q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : nodes.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun nœud de classement" description="Créez le premier nœud pour ce périmètre."/>}
         </div>
         {creating && <CreateNodeDialog nodes={nodes} onClose={() => setCreating(false)} onCreated={q.refresh}/>}
         </>;

@@ -49,7 +49,7 @@ export function VocabularyPage() {
             <div className="table-toolbar"><label><input type="checkbox" checked={showRetired} onChange={e => setShowRetired(e.target.checked)} /> Afficher les vocabulaires retirés</label></div>
             {list.loading && items.length === 0 ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />
                 : items.length === 0 ? <Empty title="Aucun vocabulaire" description="Aucun vocabulaire n’est livré avec l’application : l’institution constitue les siens, ou reprend ceux du niveau national." icon="tag" />
-                    : <div className="table-scroll"><table><thead><tr><th>Vocabulaire</th><th>Code</th><th>Périmètre</th><th>Termes</th><th>État</th><th /></tr></thead>
+                    : <div className="table-scroll"><table><thead><tr><th>Vocabulaire</th><th>Code</th><th>Périmètre</th><th>Termes</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                         <tbody>{items.map(v => <tr key={v.id}>
                             <td><strong>{v.name}</strong>{v.description && <small className="cell-sub">{v.description}</small>}</td>
                             <td><code>{v.code}</code></td>
@@ -141,7 +141,7 @@ function VocabularyTerms({ vocabulary: v, canManage, onChanged }: { vocabulary: 
         </div>
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
             : rows.length === 0 ? <Empty title="Aucun terme" description={text || status ? 'Aucun terme ne correspond à cette recherche.' : 'Ce vocabulaire ne compte encore aucun terme.'} icon="tag" />
-                : <div className="table-scroll"><table><thead><tr><th>Terme</th><th>Définition</th><th>Emplois</th><th>État</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Terme</th><th>Définition</th><th>Emplois</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{rows.map(({ term: t, depth }) => <tr key={t.id}>
                         <td><span className={`term-label depth-${Math.min(depth, 4)}`}><strong>{t.label}</strong></span>
                             {t.alternativeLabels.length > 0 && <small className="cell-sub">Synonymes : {t.alternativeLabels.join(', ')}</small>}
@@ -237,7 +237,7 @@ function TermObjectsDialog({ term, onClose }: { term: VocabularyTerm; onClose: (
         </div>
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
             : items.length === 0 ? <Empty title="Aucun objet lisible" description="Aucun objet que vous puissiez lire n’est indexé par ce terme." icon="tag" />
-                : <div className="table-scroll"><table><thead><tr><th>Titre</th><th>Référence</th><th>{kind === 'BIEN' ? 'Description' : kind === 'NOTICE' ? 'Rédaction' : 'Confidentialité'}</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Titre</th><th>Référence</th><th>{kind === 'BIEN' ? 'Description' : kind === 'NOTICE' ? 'Rédaction' : 'Confidentialité'}</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(h => <tr key={h.id}>
                         <td><strong>{h.title}</strong></td><td>{h.reference}</td><td>{kind === 'BIEN' ? (h.archivalStatus ? <Badge value={h.archivalStatus} label={(DESCRIPTION_LABELS as Record<string, string>)[h.archivalStatus] ?? h.archivalStatus} /> : '—')
                             : kind === 'NOTICE' ? (h.archivalStatus ? <Badge value={h.archivalStatus} label={(NOTICE_STATUS_LABELS as Record<string, string>)[h.archivalStatus] ?? h.archivalStatus} /> : '—')

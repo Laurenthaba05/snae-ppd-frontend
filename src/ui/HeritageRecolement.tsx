@@ -180,7 +180,7 @@ function ElementsTab({ campaign, onChanged }: { campaign: Recolement; onChanged:
             </form>
             {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : items.length ? <>
                 <p className="wf-note" role="status">{q.data!.total} élément{q.data!.total > 1 ? 's' : ''}, dans l’ordre du parcours (emplacement puis cote)</p>
-                <div className="table-scroll"><table><thead><tr><th>Emplacement</th><th>Cote</th><th>Bien</th><th>Étape</th><th>Constat</th><th /></tr></thead>
+                <div className="table-scroll"><table><thead><tr><th>Emplacement</th><th>Cote</th><th>Bien</th><th>Étape</th><th>Constat</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(e => <tr key={e.id} className={'rec-el ' + elementTone(e)}>
                         <td className="nowrap">{placeText(e.habituel)}</td>
                         <td className="nowrap">{e.cote}{e.support && <small className="cell-sub">{display(e.support)}</small>}</td>

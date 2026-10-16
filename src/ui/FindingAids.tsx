@@ -23,7 +23,7 @@ export function FindingAidsPanel({ institutionId }: { institutionId: string }) {
         </div>
         {list.loading && !list.data ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />
             : items.length === 0 ? <Empty title="Aucun instrument de recherche publié" description="Publiez un fonds pour que son inventaire soit consultable par le public." icon="archive" />
-                : <div className="table-scroll"><table><thead><tr><th>Instrument</th><th>Niveau</th><th>Visible pour le public</th><th>Publié</th><th>État</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Instrument</th><th>Niveau</th><th>Visible pour le public</th><th>Publié</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(p => <tr key={p.id}>
                         <td><strong>{p.title}</strong><small className="cell-sub">{p.code}</small></td>
                         <td>{levelLabel(p.level)}</td>

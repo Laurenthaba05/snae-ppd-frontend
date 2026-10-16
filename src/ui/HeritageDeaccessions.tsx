@@ -41,7 +41,7 @@ export function DeaccessionTab({ asset, onChanged }: { asset: HeritageAsset; onC
                 <strong>Aucune sortie ne peut être proposée pour ce bien aujourd’hui.</strong>
                 <ul>{Array.from(new Set(Object.values(data.obstacles).flat().map(o => o.message))).map(m => <li key={m}>{m}</li>)}</ul></Notice>}
             {data.items.length === 0 ? <Empty title="Aucune sortie" description="Ce bien n’a fait l’objet d’aucun dossier de sortie." icon="archive" />
-                : <div className="table-scroll"><table><thead><tr><th>Dossier</th><th>Nature</th><th>État</th><th>Proposé le</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Dossier</th><th>Nature</th><th>État</th><th>Proposé le</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{data.items.map(e => <tr key={e.id}>
                         <td><strong>{e.numero}</strong><small className="cell-sub">{e.motifLabel}</small></td>
                         <td>{natureLabel(e.nature)}{e.destinataire && <small className="cell-sub">{e.destinataire}</small>}</td>
@@ -253,7 +253,7 @@ export function DeaccessionsPanel() {
                 <option value="">Tous</option>{(Object.keys(STATUS_LABELS) as ExitStatus[]).map(s => <option key={s} value={s}>{STATUS_LABELS[s]}</option>)}</select></Field></div>
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
             : items.length === 0 ? <Empty title="Aucun dossier de sortie" description="Aucune sortie de collection n’est ouverte dans votre périmètre." icon="archive" />
-                : <div className="table-scroll"><table><thead><tr><th>Dossier</th><th>Bien</th><th>Nature</th><th>État</th><th>Proposé le</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Dossier</th><th>Bien</th><th>Nature</th><th>État</th><th>Proposé le</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(e => <tr key={e.id}>
                         <td><strong>{e.numero}</strong><small className="cell-sub">{e.motifLabel}</small></td>
                         <td>{e.bienIdentifiant}<small className="cell-sub">{e.bienIntitule}</small></td>

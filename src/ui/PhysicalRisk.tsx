@@ -58,7 +58,7 @@ export function PhysicalRiskSection() {
         <div className="panel-padding"><p><small>Un emplacement a son <strong>registre des risques</strong> (danger, probabilité, gravité, mesures), son <strong>plan d’urgence</strong> approuvé par une autre personne que son auteur, et le journal de ses <strong>exercices</strong> et incidents. Ce qui manque est signalé en tête.</small></p></div>
         {sites.loading && !sites.data ? <Busy /> : sites.error ? <ErrorNotice error={sites.error} onRetry={sites.refresh} />
             : items.length === 0 ? <Empty title="Aucun emplacement suivi" description="Aucun risque, plan d’urgence ni exercice n’est encore enregistré." icon="shield" />
-                : <div className="table-scroll"><table><thead><tr><th>Emplacement</th><th>Risques ouverts</th><th>Plan d’urgence</th><th>Dernier exercice</th><th>À traiter</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Emplacement</th><th>Risques ouverts</th><th>Plan d’urgence</th><th>Dernier exercice</th><th>À traiter</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(s => <tr key={s.locationId}>
                         <td><strong>{s.locationLabel}</strong></td>
                         <td>{s.openRisks === 0 ? '—' : <span className="risk-counts">
@@ -102,7 +102,7 @@ function HazardsDialog({ onClose }: { onClose: () => void }) {
     };
     return <Modal title="Dangers" subtitle="Le référentiel des dangers des registres de risques : valeurs d’exemple, à adapter à l’institution" onClose={onClose} locked={action.busy}>
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
-            : <div className="table-scroll"><table><thead><tr><th>Danger</th><th>Code</th><th>État</th><th /></tr></thead>
+            : <div className="table-scroll"><table><thead><tr><th>Danger</th><th>Code</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                 <tbody>{items.map(h => <tr key={h.code}><td>{h.label}</td><td><code>{h.code}</code></td><td>{h.active ? 'Actif' : 'Retiré'}</td>
                     <td><button type="button" className="btn small secondary" disabled={action.busy} onClick={() => toggle(h)}>{h.active ? 'Retirer' : 'Réactiver'}</button></td></tr>)}</tbody></table></div>}
         {action.error ? <ErrorNotice error={ruleError(action.error)} /> : null}
@@ -164,7 +164,7 @@ function RisksTab({ locationId, canManage, canApprove, onChanged }: { locationId
         {canManage && <div className="toolbar-right"><button type="button" className="btn small primary" onClick={() => setCreating(true)}>Ajouter un risque</button></div>}
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
             : items.length === 0 ? <Empty title="Aucun risque enregistré" description="Évaluez les dangers de cet emplacement : incendie, eau, humidité, nuisibles, vol…" icon="shield" />
-                : <div className="table-scroll"><table><thead><tr><th>Risque</th><th>Niveau</th><th>État</th><th>Mesures</th><th>Prochaine revue</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Risque</th><th>Niveau</th><th>État</th><th>Mesures</th><th>Prochaine revue</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(r => <tr key={r.id}>
                         <td><strong>{r.hazardLabel}</strong><small className="cell-sub">{r.reference} — {r.description}</small></td>
                         <td><LevelTag level={r.level} score={r.score} /></td>
@@ -254,7 +254,7 @@ function RiskDialog({ id, canManage, canApprove, onClose, onChanged }: { id: str
         </dl>
         <h4>Mesures</h4>
         {r.measures.length === 0 ? <p><small>Aucune mesure : un risque élevé sans mesure est signalé à l’emplacement.</small></p>
-            : <div className="table-scroll"><table><thead><tr><th>Mesure</th><th>Responsable</th><th>Échéance</th><th>État</th><th /></tr></thead>
+            : <div className="table-scroll"><table><thead><tr><th>Mesure</th><th>Responsable</th><th>Échéance</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
                 <tbody>{r.measures.map(m => <tr key={m.id}>
                     <td><strong>{m.label}</strong>{m.description && <small className="cell-sub">{m.description}</small>}{m.note && <small className="cell-sub">Compte rendu : {m.note}</small>}</td>
                     <td>{m.owner ?? '—'}</td>
@@ -431,7 +431,7 @@ function PlansTab({ locationId, locationLabel, canManage, canApprove, onChanged 
             {items.some(p => p.status === 'APPROUVE') ? 'Préparer une nouvelle version' : 'Rédiger un plan d’urgence'}</button></div>}
         {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
             : items.length === 0 ? <Empty title="Aucun plan d’urgence" description={`Aucun plan d’urgence n’est rédigé pour ${locationLabel}.`} icon="shield" />
-                : <div className="table-scroll"><table><thead><tr><th>Version</th><th>État</th><th>Approuvé le</th><th>Prochaine revue</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Version</th><th>État</th><th>Approuvé le</th><th>Prochaine revue</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(p => <tr key={p.id}>
                         <td><strong>Version {p.versionNumber}</strong><small className="cell-sub">{p.title}</small></td>
                         <td><Badge value={p.status} label={planLabel(p.status)} /></td>

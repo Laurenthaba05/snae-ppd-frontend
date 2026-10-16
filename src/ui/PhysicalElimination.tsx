@@ -37,7 +37,7 @@ export function PhysicalEliminationSection() {
         <div className="panel-padding"><p><small>Une élimination se constate par un procès-verbal : proposé, <strong>visé ligne par ligne par une autre personne</strong>, puis exécuté avec la destruction constatée par deux personnes. L’archive détruite n’est pas supprimée : elle est marquée et figée.</small></p></div>
         {list.loading && !list.data ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />
             : items.length === 0 ? <Empty title="Aucun procès-verbal d’élimination" description="Aucune élimination d’archives physiques n’a été proposée." icon="trash" />
-                : <div className="table-scroll"><table><thead><tr><th>Procès-verbal</th><th>État</th><th>Archives</th><th>Créé le</th><th /></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Procès-verbal</th><th>État</th><th>Archives</th><th>Créé le</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{items.map(e => <tr key={e.id}>
                         <td><strong>{e.title}</strong><small className="cell-sub">{e.reference}</small></td>
                         <td><Badge value={e.status} label={statusLabel(e.status)} /></td>
@@ -137,7 +137,7 @@ function DetailDialog({ id, canPropose, canValidate, canExecute, onClose, onChan
             {e.remarks && <div><dt>Observations</dt><dd>{e.remarks}</dd></div>}
         </dl>
         {e.minutes && <details><summary>Procès-verbal du visa</summary><p style={{ whiteSpace: 'pre-wrap' }}>{e.minutes}</p></details>}
-        <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Archive</th><th>Quantité</th><th>État</th><th /></tr></thead>
+        <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Archive</th><th>Quantité</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{e.lines.map(l => <tr key={l.id}>
                 <td><strong>{l.reference}</strong><small className="cell-sub">{l.storageUnit}</small></td>
                 <td>{l.description ?? '—'}{l.support && <small className="cell-sub">{l.support}</small>}</td>

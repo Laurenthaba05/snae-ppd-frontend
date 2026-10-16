@@ -132,7 +132,7 @@ function DerogationsPanel() {
         {!scope.institutionId && <Notice>Périmètre national : cette liste affiche uniquement vos propres demandes. Choisissez une institution pour instruire les demandes déposées auprès d'elle.</Notice>}
         {Boolean(actionError) && <ErrorNotice error={actionError} />}
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : q.data?.length ?
-            <div className="table-scroll"><table><thead><tr><th>Motif</th><th>Statut</th><th>Déposée le</th><th /></tr></thead><tbody>
+            <div className="table-scroll"><table><thead><tr><th>Motif</th><th>Statut</th><th>Déposée le</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>
                 {q.data.map(r => <tr key={r.id}>
                     <td><button type="button" className="record-name" onClick={() => setDetailId(r.id)}>{r.motif}</button></td>
                     <td><Badge value={r.statut} /></td>
@@ -209,7 +209,7 @@ export function CommunicationsPage() {
         {!scope.institutionId && <Notice>Choisissez une institution dans le contexte de travail pour consulter et gérer son registre de communications.</Notice>}
         {Boolean(actionError) && <ErrorNotice error={actionError} />}
         {scope.institutionId && (q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : q.data?.length ?
-            <div className="table-scroll"><table><thead><tr><th>Statut</th><th>Lieu</th><th>Demandée le</th><th /></tr></thead><tbody>
+            <div className="table-scroll"><table><thead><tr><th>Statut</th><th>Lieu</th><th>Demandée le</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>
                 {q.data.map(c => <tr key={c.id}>
                     <td><Badge value={c.statut} /><ResourceDetailsButton resource="communication" id={c.id} /></td>
                     <td>{c.lieu ?? '—'}</td>

@@ -1,0 +1,21 @@
+/*
+ * Accessibilité (WCAG 2.2 niveau AA) : corrections de contraste et de cibles mesurées avec axe-core 4.13.0 sur chaque écran de la démonstration.
+ * Chargé en dernier : il ne redéfinit que des couleurs de texte (jamais la mise en page) pour atteindre au moins 4,5:1 sur le fond de l'élément.
+ * Un nouvel écran doit réutiliser ces valeurs : texte secondaire #5d6e7e, repères et titres vides #4f6379.
+ */
+.badge-national { color: #3e5472; }
+.badge-institution, .badge-departement { color: #6f5c2f; }
+.empty p, .choose-scope p, .scope-hero p, .profile-card p, .session-note p, .detail-card > p, .page-note { color: #5d6e7e; }
+/* titres de niveau 2 : un titre ne saute jamais de niveau (h1 puis h3) ; ils reprennent la mise en forme des anciens h3 */
+.empty h2 { font-size: 15px; color: #4f6379; margin: 0 0 9px; }
+.choose-scope h2, .scope-hero h2 { margin: 0; font-size: 14px; }
+.f3-preview-description h2, .f3-timeline h2, .f3-compact-panel h2 { font-size: 15px; margin: 0 0 17px; }
+.f3-preview-description h2 { margin-bottom: 22px; }
+.f3-preview-toolbar h2 { margin: 0; font-size: 14px; }
+.stat-card > span, .stat-card > small, .copy-id { color: #5a6b7d; }
+.copy-id code { color: #5a6b7d; }
+.f3-card-body small { color: #51675a; }
+.f3-status-line { color: #566a5c; }
+th { color: #5a6b7d; }
+.f3-atlas-index nav button > span { color: #4f6a58; }
+.f3-atlas-index nav button.selected > span { color: #4a6554; }

@@ -19,12 +19,12 @@
 .nx-dashboard:hover{background:rgba(255,255,255,.07)}
 .nx-dashboard.active{background:linear-gradient(180deg,#a68a3b,#9a7d32);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .nx-section{margin-top:3px}
-.nx-section-head{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;color:#b3c9c0;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:left;padding:4px 10px;border-radius:7px;cursor:pointer}
+.nx-section-head{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;color:#b3c9c0;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:left;padding:4px 10px;min-height:24px;border-radius:7px;cursor:pointer}
 .nx-section-head svg{opacity:0;transition:opacity .15s}
 .nx-section-head:hover svg,.nx-section-head:focus-visible svg,.nx-section-head.current svg{opacity:1}
 .nx-section-head.current{background:linear-gradient(180deg,#a68a3b,#9a7d32);color:#fff;font-weight:700;padding:7px 10px}
 .nx-items{display:grid;gap:0;padding:2px 0 0}
-.nx-item{display:flex;align-items:center;gap:12px;width:100%;min-height:21px;padding:1px 10px 1px 12px;border:0;border-radius:6px;background:transparent;color:#e3eee8;font-size:14px;line-height:1.25;text-align:left;cursor:pointer}
+.nx-item{display:flex;align-items:center;gap:12px;width:100%;min-height:24px;padding:1px 10px 1px 12px;border:0;border-radius:6px;background:transparent;color:#e3eee8;font-size:14px;line-height:1.25;text-align:left;cursor:pointer}
 .nx-item svg{flex:none;color:#cfe0d8}
 .nx-item:hover{background:rgba(255,255,255,.07)}
 .nx-item.active{background:rgba(255,255,255,.1);color:#fff;font-weight:600}

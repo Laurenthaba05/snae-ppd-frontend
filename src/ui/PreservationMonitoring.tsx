@@ -49,7 +49,7 @@ function ScopedMonitoring() {
                 {data.summary.blocked > 0 && <div role="alert"><Notice tone="warning">Des fichiers présentent une anomalie d’intégrité et restent bloqués. Leur récupération doit être examinée à partir d’une copie saine.</Notice></div>}
                 <label><input type="checkbox" checked={attentionOnly} onChange={event => { setAttentionOnly(event.target.checked); setPage(0); }}/> Afficher seulement les fichiers à examiner</label>
             </div>
-            {data.items.length ? <div className="table-scroll"><table><thead><tr><th>Fichier / document</th><th>État</th><th>Dernière intégrité confirmée</th><th>Dernier contrôle automatique</th><th>Prochain contrôle</th><th/></tr></thead><tbody>
+            {data.items.length ? <div className="table-scroll"><table><thead><tr><th>Fichier / document</th><th>État</th><th>Dernière intégrité confirmée</th><th>Dernier contrôle automatique</th><th>Prochain contrôle</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>
                 {data.items.map(file => <tr key={file.fileId}><td>{file.filename}<small className="cell-sub">{file.documentReference}</small></td>
                     <td>{labels[file.status]}{file.consecutiveFailures > 0 && <small className="cell-sub">{file.consecutiveFailures} échec(s) consécutif(s)</small>}</td>
                     <td>{formatDate(file.lastVerifiedAt)}</td><td>{formatDate(file.lastCheckedAt)}</td><td>{file.status === 'BLOCKED' ? 'Intervention requise' : formatDate(file.nextCheckAt)}</td>
