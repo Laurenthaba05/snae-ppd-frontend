@@ -4,10 +4,13 @@ import type { BordereauLine, BordereauView, CycleAction, Finding, LineInput, Sta
 import type { AgreementBody, AgreementView } from '../core/depositAgreements.js';
 import type { DepositReport, DepositView, IntegrationPreview, IntegrationResult, IntegrationView, SedaManifest, SedaPackageReport } from '../core/intakeExchange.js';
 import { uuid } from '../core/validation.js';
+import { allPages } from '../core/paging.js';
+import { query } from '../core/http.js';
 
 export class ArchivalIntakeApi {
     constructor(readonly transport: Transport) { }
-    entries(signal?: AbortSignal): Promise<ArchivalIntake[]> { return this.transport.request('/archival-intake/entries', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    entries(signal?: AbortSignal): Promise<ArchivalIntake[]> { return allPages<ArchivalIntake>((page, size) => this.transport.request('/archival-intake/entries' + query({ page, size }), { signal })); }
     command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request('/archival-intake' + path, { method, body, idempotencyKey: key } satisfies RequestOptions); }
 
     // ---- versement structuré : circuit, journal

@@ -1,13 +1,17 @@
 import type { Transport, RequestOptions } from '../core/http.js';
 import { uuid } from '../core/validation.js';
+import { allPages } from '../core/paging.js';
 import { query } from '../core/http.js';
 import type { AssetExits, Exit, ExitPage } from '../core/deaccessions.js';
 import type { Place, HistoricalEvent, Subject, PlaceTag, MultilingualText, HeritageAsset, HeritageAssetPage, HeritageJournalEntry, HeritageDashboard, HeritageReference, HeritageAssetFilters, EntryFilters, EntryPage, EntryDashboard, HeritageEntry, EntryJournalEntry, EntryReceipt, HeritageReprise, AssetLocation, HeritagePlacementPage, PlacementFilters, RecolementFilters, RecolementPage, Recolement, RecolementJournalEntry, RecolementElementFilters, RecolementElementPage, RecolementReport, RecolementLocation, StoragePlace, AssetConservation, Treatment, TreatmentJournalEntry, ConservationQueueFilters, ConservationQueuePage, MovementRequest, MovementPage, MovementFilters, MovementJournalEntry, DigitizationOrder, DigitizationOrderPage, DigitizationOrderFilters, DigitizationOrderJournalEntry, OrderProject, Dossier, DossierPage, DossierFilters, DossierRow, DossierSummary, DossierJournalEntry } from '../core/types.js';
 export class HeritageApi {
     constructor(readonly transport: Transport) { }
-    places(signal?: AbortSignal): Promise<Place[]> { return this.transport.request('/heritage/places', { signal }); }
-    historicalEvents(signal?: AbortSignal): Promise<HistoricalEvent[]> { return this.transport.request('/heritage/historical-events', { signal }); }
-    subjects(signal?: AbortSignal): Promise<Subject[]> { return this.transport.request('/heritage/subjects', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    places(signal?: AbortSignal): Promise<Place[]> { return allPages<Place>((page, size) => this.transport.request('/heritage/places' + query({ page, size }), { signal })); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    historicalEvents(signal?: AbortSignal): Promise<HistoricalEvent[]> { return allPages<HistoricalEvent>((page, size) => this.transport.request('/heritage/historical-events' + query({ page, size }), { signal })); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    subjects(signal?: AbortSignal): Promise<Subject[]> { return allPages<Subject>((page, size) => this.transport.request('/heritage/subjects' + query({ page, size }), { signal })); }
     documentPlaces(documentId: string, signal?: AbortSignal): Promise<PlaceTag[]> { return this.transport.request('/heritage/documents/' + uuid(documentId) + '/places', { signal }); }
     documentHistoricalEvents(documentId: string, signal?: AbortSignal): Promise<HistoricalEvent[]> { return this.transport.request('/heritage/documents/' + uuid(documentId) + '/historical-events', { signal }); }
     documentSubjects(documentId: string, signal?: AbortSignal): Promise<Subject[]> { return this.transport.request('/heritage/documents/' + uuid(documentId) + '/subjects', { signal }); }

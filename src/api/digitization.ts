@@ -1,11 +1,13 @@
 import type { Transport, RequestOptions } from '../core/http.js';
 import { query } from '../core/http.js';
 import { uuid } from '../core/validation.js';
+import { allPages } from '../core/paging.js';
 import type { ConformityReport, ImageTechnical, PdfaDeclaration, ScanProfile } from '../core/scanProfiles.js';
 import type { LotAdvance, AccessPdf, DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrLayout, OcrResult, Contribution, OcrListItem, Scanner, ScanLot, ScanPage, PageCheck, LotSummary, ElementWorkflow, ElementTransition, PipelineStage, QueueItem, DigitizationElementStatus, OcrJobs, OcrStatus, QualityAnalysis, FileAssets } from '../core/types.js';
 export class DigitizationApi {
     constructor(readonly transport: Transport) { }
-    projects(signal?: AbortSignal): Promise<DigitizationProject[]> { return this.transport.request('/digitization/projects', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    projects(signal?: AbortSignal): Promise<DigitizationProject[]> { return allPages<DigitizationProject>((page, size) => this.transport.request('/digitization/projects' + query({ page, size }), { signal })); }
     elementsByProject(projectId: string, signal?: AbortSignal): Promise<DigitizationElement[]> { return this.transport.request('/digitization/projects/' + uuid(projectId) + '/elements', { signal }); }
     qualityControls(signal?: AbortSignal): Promise<QualityControlListItem[]> { return this.transport.request('/digitization/quality-controls', { signal }); }
     qualityControlsByElement(elementId: string, signal?: AbortSignal): Promise<QualityControl[]> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/quality-controls', { signal }); }

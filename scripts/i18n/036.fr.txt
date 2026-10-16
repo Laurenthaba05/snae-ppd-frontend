@@ -1,0 +1,1 @@
+1	La liste dépasse {n} éléments : elle ne se charge pas d'un coup. Affinez le périmètre ou la recherche.

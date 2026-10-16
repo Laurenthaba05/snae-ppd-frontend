@@ -1,5 +1,6 @@
 import type { Transport, RequestOptions } from '../core/http.js';
 import { uuid } from '../core/validation.js';
+import { allPages } from '../core/paging.js';
 import { query } from '../core/http.js';
 import type { Elimination, EliminationCandidatePage, EliminationSummary } from '../core/physicalElimination.js';
 import type { EmergencyPlan, Exercise, Hazard, PlanSummary, Risk, RiskSummary, SiteRiskSummary } from '../core/physicalRisk.js';
@@ -7,11 +8,14 @@ import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, Resto
 export class PhysicalArchivesApi {
     constructor(readonly transport: Transport) { }
     restorationsByArchive(archiveId: string, signal?: AbortSignal): Promise<RestorationIntervention[]> { return this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/restorations', { signal }); }
-    locations(signal?: AbortSignal): Promise<Localisation[]> { return this.transport.request('/physical-archives/locations', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    locations(signal?: AbortSignal): Promise<Localisation[]> { return allPages<Localisation>((page, size) => this.transport.request('/physical-archives/locations' + query({ page, size }), { signal })); }
     location(id: string, signal?: AbortSignal): Promise<Localisation> { return this.transport.request('/physical-archives/locations/' + uuid(id), { signal }); }
-    storageUnits(signal?: AbortSignal): Promise<StorageUnit[]> { return this.transport.request('/physical-archives/storage-units', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    storageUnits(signal?: AbortSignal): Promise<StorageUnit[]> { return allPages<StorageUnit>((page, size) => this.transport.request('/physical-archives/storage-units' + query({ page, size }), { signal })); }
     storageUnitsByLocation(locationId: string, signal?: AbortSignal): Promise<StorageUnit[]> { return this.transport.request('/physical-archives/locations/' + uuid(locationId) + '/storage-units', { signal }); }
-    archives(signal?: AbortSignal): Promise<PhysicalArchive[]> { return this.transport.request('/physical-archives/archives', { signal }); }
+    /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
+    archives(signal?: AbortSignal): Promise<PhysicalArchive[]> { return allPages<PhysicalArchive>((page, size) => this.transport.request('/physical-archives/archives' + query({ page, size }), { signal })); }
     archive(id: string, signal?: AbortSignal): Promise<PhysicalArchive> { return this.transport.request('/physical-archives/archives/' + uuid(id), { signal }); }
     restorations(signal?: AbortSignal): Promise<RestorationListItem[]> { return this.transport.request('/physical-archives/restorations', { signal }); }
     archivesByStorageUnit(unitId: string, signal?: AbortSignal): Promise<PhysicalArchive[]> { return this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/archives', { signal }); }

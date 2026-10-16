@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 7665 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 7666 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -4193,6 +4193,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "La lecture des positions et du texte reste soumise aux droits d’accès et à la confidentialité de chaque document. Les documents confidentiels ou sous restriction n’apparaissent pas.": "Reading positions and text remains subject to each document’s access rights and confidentiality. Confidential or restricted documents do not appear.",
     "La ligne": "The line",
     "La limite de cette session est atteinte. Terminez les dépôts avant de redémarrer le connecteur.": "This session’s limit is reached. Finish the deposits before restarting the connector.",
+    "La liste dépasse {n} éléments : elle ne se charge pas d'un coup. Affinez le périmètre ou la recherche.": "The list exceeds {1} items: it is not loaded all at once. Narrow the scope or the search.",
     "La liste des éléments se fige au lancement :": "The list of elements is frozen at launch:",
     "La liste est limitée aux 20 premiers documents.": "The list is limited to the first 20 documents.",
     "La liste sélectionnée remplace la liste complète. Les délégations existantes devront être réinstruites après un changement approuvé.": "The selected list replaces the complete list. Existing delegations will have to be reviewed again after an approved change.",
