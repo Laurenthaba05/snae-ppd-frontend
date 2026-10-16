@@ -125,3 +125,23 @@ test('Un certificat auto-signé déclaré de confiance n’est plus une réserve
     assert.ok(!trusted.notes.some(n => /auto-signé/.test(n)));
     assert.equal(trusted.tone, 'success');
 });
+
+test('La révocation précise le verdict : révoqué, non révoqué, indéterminé ; non vérifiée garde la réserve d’origine', () => {
+    const base = { ...verified(), chainStatus: 'VALIDE', chainAnchor: 'CN=Autorité racine,O=Archives,C=GN' };
+    const revoked = verdictOf({ ...base, revocationStatus: 'REVOQUE', revocationMessage: 'Le certificat « CN=Mamadou » est révoqué depuis le 2026-09-01.' });
+    assert.equal(revoked.tone, 'danger');
+    assert.match(revoked.title, /révoqué à la date de la signature/);
+    assert.ok(revoked.notes.some(n => /est révoqué depuis le 2026-09-01/.test(n)));
+    const good = verdictOf({ ...base, revocationStatus: 'NON_REVOQUE', revocationMessage: 'Aucun certificat de la chaîne n’est révoqué à la date retenue pour la signature.' });
+    assert.equal(good.tone, 'success');
+    assert.ok(good.notes.some(n => /Aucun certificat de la chaîne n’est révoqué/.test(n)));
+    assert.ok(!good.notes.some(n => /n’est pas vérifiée/.test(n)));
+    const unknown = verdictOf({ ...base, revocationStatus: 'INDETERMINEE' });
+    assert.equal(unknown.tone, 'warning');
+    assert.ok(unknown.notes.some(n => /révocation est indéterminée/.test(n)));
+    const notChecked = verdictOf({ ...base, revocationStatus: 'NON_VERIFIEE' });
+    assert.equal(notChecked.tone, 'success');
+    assert.ok(notChecked.notes.some(n => /révocation du certificat n’est pas vérifiée/.test(n)));
+    // sans chaîne établie, un verdict de révocation ne change pas le titre
+    assert.notEqual(verdictOf({ ...base, chainStatus: 'NON_ANCREE', revocationStatus: 'NON_REVOQUE' }).tone, 'danger');
+});

@@ -27,7 +27,7 @@ export function TrustAnchorsSection() {
         <div className="section-heading"><h3>Autorités de confiance des signatures</h3>
             <button type="button" className="btn small primary" onClick={() => setDeclaring(true)}>Déclarer une autorité de confiance</button></div>
         <div className="panel-padding">
-            <p><small>Les signatures électroniques ne sont « de confiance » que si le certificat du signataire remonte à une autorité que vous avez déclarée ici. Aucune n’est livrée avec l’application : déclarer une autorité est une décision qui engage la valeur de toutes les vérifications. La révocation des certificats n’est pas vérifiée.</small></p>
+            <p><small>Les signatures électroniques ne sont « de confiance » que si le certificat du signataire remonte à une autorité que vous avez déclarée ici. Aucune n’est livrée avec l’application : déclarer une autorité est une décision qui engage la valeur de toutes les vérifications. La révocation des certificats se juge à part, sur les listes de révocation déposées ci-dessous.</small></p>
             <label><input type="checkbox" checked={showRetired} onChange={e => setShowRetired(e.target.checked)} /> Afficher les autorités retirées</label>
         </div>
         {list.loading && !list.data ? <Busy /> : list.error ? <ErrorNotice error={list.error} onRetry={list.refresh} />

@@ -3,7 +3,8 @@
  * la signature ? le certificat correspond-il ?). Les règles reprennent celles du serveur pour guider la saisie ; le serveur reste seul juge.
  *
  * Ce que la vérification dit de l'intégrité (le contenu a-t-il changé ?) et, depuis qu'une institution déclare ses autorités de confiance, de la chaîne du certificat (remonte-t-elle à une
- * autorité que l'on reconnaît ?). La révocation du certificat n'est pas vérifiée : tout verdict de confiance le dit.
+ * autorité que l'on reconnaît ?). La révocation se juge hors ligne, sur les listes de révocation que l'institution dépose ou que la signature embarque : sans liste, elle est dite
+ * non vérifiée ou indéterminée, jamais présumée bonne.
  */
 
 export type SignatureFormat = 'PADES' | 'CADES' | 'XADES' | 'AUTRE';
@@ -14,12 +15,17 @@ export type ChainStatus = 'NON_EVALUEE' | 'VALIDE' | 'NON_ANCREE' | 'INVALIDE';
 export const CHAIN_LABELS: Record<ChainStatus, string> = {
     NON_EVALUEE: 'Chaîne non évaluée', VALIDE: 'Chaîne de confiance établie', NON_ANCREE: 'Émetteur non reconnu', INVALIDE: 'Chaîne invalide à la date de signature'
 };
+export type RevocationStatus = 'NON_VERIFIEE' | 'NON_REVOQUE' | 'REVOQUE' | 'INDETERMINEE';
+export const REVOCATION_LABELS: Record<RevocationStatus, string> = {
+    NON_VERIFIEE: 'Révocation non vérifiée', NON_REVOQUE: 'Certificat non révoqué', REVOQUE: 'Certificat révoqué', INDETERMINEE: 'Révocation indéterminée'
+};
 export interface CertificateInfo { subject: string; issuer: string; serial: string; sha256: string; validFrom: string; validTo: string }
 export interface DocumentSignature {
     id: string; fileId: string; fileName: string; source: 'DECLAREE' | 'VERIFIEE'; format: SignatureFormat; level: SignatureLevel; signer: string; quality: string | null; organization: string | null;
     signedAt: string | null; fileHash: string; status: SignatureCheck; verifiedAt: string | null; message: string | null; coversWholeFile: boolean | null; certificate: CertificateInfo | null;
     signedWithinCertificateValidity: boolean | null; comment: string | null; version: number; createdAt: string;
     chainStatus?: ChainStatus; chainAnchor?: string | null; chainMessage?: string | null;
+    revocationStatus?: RevocationStatus; revocationSource?: string | null; revocationMessage?: string | null;
 }
 
 export const FORMAT_LABELS: Record<SignatureFormat, string> = { PADES: 'PAdES (signature intégrée au PDF)', CADES: 'CAdES (signature CMS)', XADES: 'XAdES (signature XML)', AUTRE: 'Autre (papier, image, cachet…)' };
@@ -70,7 +76,8 @@ export interface Verdict { tone: VerdictTone; title: string; notes: string[] }
 /**
  * Ce que dit une signature, en clair : un titre et les réserves à connaître. On ne conclut jamais « signature valable » : l'intégrité est établie, pas la confiance.
  */
-export function verdictOf(s: Pick<DocumentSignature, 'source' | 'status' | 'coversWholeFile' | 'signedWithinCertificateValidity' | 'certificate' | 'message' | 'chainStatus' | 'chainAnchor'>): Verdict {
+export function verdictOf(s: Pick<DocumentSignature, 'source' | 'status' | 'coversWholeFile' | 'signedWithinCertificateValidity' | 'certificate' | 'message' | 'chainStatus' | 'chainAnchor'>
+    & Partial<Pick<DocumentSignature, 'revocationStatus' | 'revocationMessage'>>): Verdict {
     if (s.source === 'DECLAREE') return { tone: 'neutral', title: 'Déclarée, non vérifiée', notes: ['Cette signature a été saisie par une personne : le serveur ne l’a pas contrôlée.'] };
     const notes: string[] = [];
     if (s.status === 'INTEGRITE_INVALIDE') return { tone: 'danger', title: 'Le contenu a été modifié depuis la signature', notes: ['Le fichier n’est plus celui que le signataire a signé, ou la signature ne correspond pas à son certificat.'] };
@@ -78,14 +85,23 @@ export function verdictOf(s: Pick<DocumentSignature, 'source' | 'status' | 'cove
     if (s.coversWholeFile === false) notes.push('Des octets ont été ajoutés après cette signature (autre signature ou mise à jour du PDF) : elle ne couvre pas la fin du fichier.');
     if (s.signedWithinCertificateValidity === false) notes.push('Le certificat n’était pas valide à la date de signature.');
     const chain = s.chainStatus ?? 'NON_EVALUEE';
+    const revocation = s.revocationStatus ?? 'NON_VERIFIEE';
+    // un certificat révoqué à la date de signature ne se rattrape par aucune autre vérification
+    if (chain === 'VALIDE' && revocation === 'REVOQUE') return { tone: 'danger', title: 'Le certificat du signataire était révoqué à la date de la signature',
+        notes: [s.revocationMessage ?? 'Un certificat de la chaîne figure sur une liste de révocation, avant la date de signature.', 'Le contenu n’a pas été modifié depuis la signature, mais le signataire n’était plus garanti.'] };
     // un certificat auto-signé que l'institution a déclaré de confiance est la racine de sa propre chaîne : ce n'est plus une réserve
     if (isSelfSigned(s.certificate) && chain !== 'VALIDE') notes.push('Le certificat est auto-signé : personne d’autre ne garantit l’identité du signataire.');
     const reserves = notes.length;
-    if (chain === 'VALIDE') notes.push(`La chaîne du certificat remonte à une autorité de confiance déclarée${s.chainAnchor ? ' (' + commonName(s.chainAnchor) + ')' : ''}. La révocation du certificat n’est pas vérifiée.`);
+    if (chain === 'VALIDE') {
+        const anchor = `La chaîne du certificat remonte à une autorité de confiance déclarée${s.chainAnchor ? ' (' + commonName(s.chainAnchor) + ')' : ''}.`;
+        if (revocation === 'NON_REVOQUE') notes.push(`${anchor} ${s.revocationMessage ?? 'Aucun certificat de la chaîne n’est révoqué à la date retenue pour la signature.'}`);
+        else if (revocation === 'INDETERMINEE') { notes.push(`${anchor} ${s.revocationMessage ?? 'La révocation est indéterminée : aucune liste de révocation ne permet de conclure.'}`); }
+        else notes.push(`${anchor} La révocation du certificat n’est pas vérifiée.`);
+    }
     else if (chain === 'NON_ANCREE') notes.push('L’émetteur du certificat ne remonte à aucune autorité de confiance déclarée : l’identité du signataire n’est garantie par personne que vous reconnaissiez.');
     else if (chain === 'INVALIDE') notes.push('Un certificat de la chaîne n’était pas valide à la date de la signature : la chaîne n’est pas de confiance.');
     else notes.push('La chaîne de confiance du certificat n’est pas évaluée : l’émetteur n’est pas comparé à une liste d’autorités reconnues.');
-    const warning = reserves > 0 || chain === 'NON_ANCREE' || chain === 'INVALIDE';
+    const warning = reserves > 0 || chain === 'NON_ANCREE' || chain === 'INVALIDE' || (chain === 'VALIDE' && revocation === 'INDETERMINEE');
     return { tone: warning ? 'warning' : 'success', title: 'Le contenu n’a pas été modifié depuis la signature', notes };
 }
 

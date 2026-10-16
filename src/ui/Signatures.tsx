@@ -4,7 +4,7 @@ import { commandKey } from '../api/archives';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
 import { formatDay } from '../core/format';
 import {
-    CHAIN_LABELS, CHECK_LABELS, FORMAT_LABELS, FORMAT_SHORT, LEVEL_HINTS, LEVEL_LABELS, commonName, declarationBody, declarationProblems, emptyDeclaration, groupByFile, isDetachedSignature, isSelfSigned,
+    CHAIN_LABELS, CHECK_LABELS, REVOCATION_LABELS, FORMAT_LABELS, FORMAT_SHORT, LEVEL_HINTS, LEVEL_LABELS, commonName, declarationBody, declarationProblems, emptyDeclaration, groupByFile, isDetachedSignature, isSelfSigned,
     isVerifiable, overview, overviewText, shortHash, verdictOf,
     type DeclarationForm, type DocumentSignature, type SignatureFormat, type SignatureLevel
 } from '../core/signatures';
@@ -71,7 +71,9 @@ function SignatureItem({ s, children }: { s: DocumentSignature; children?: React
     return <li className={'signature-item tone-' + verdict.tone}>
         <div className="signature-head"><strong>{s.signer}</strong>{detail && <span className="cell-sub">{detail}</span>}
             <Badge value={s.source === 'DECLAREE' ? 'NON_VERIFIEE' : s.status} label={CHECK_LABELS[s.source === 'DECLAREE' ? 'NON_VERIFIEE' : s.status]} />
-            {s.source === 'VERIFIEE' && s.status === 'INTEGRITE_VALIDE' && s.chainStatus && s.chainStatus !== 'NON_EVALUEE' && <Badge value={s.chainStatus === 'VALIDE' ? 'VALIDE' : 'SUSPENDU'} label={CHAIN_LABELS[s.chainStatus]} />}</div>
+            {s.source === 'VERIFIEE' && s.status === 'INTEGRITE_VALIDE' && s.chainStatus && s.chainStatus !== 'NON_EVALUEE' && <Badge value={s.chainStatus === 'VALIDE' ? 'VALIDE' : 'SUSPENDU'} label={CHAIN_LABELS[s.chainStatus]} />}
+            {s.source === 'VERIFIEE' && s.status === 'INTEGRITE_VALIDE' && s.chainStatus === 'VALIDE' && s.revocationStatus && s.revocationStatus !== 'NON_VERIFIEE' &&
+                <Badge value={s.revocationStatus === 'NON_REVOQUE' ? 'VALIDE' : s.revocationStatus === 'REVOQUE' ? 'ECHEC' : 'SUSPENDU'} label={REVOCATION_LABELS[s.revocationStatus]} />}</div>
         <small className="cell-sub">{SOURCE_LABEL[s.source]} · {FORMAT_SHORT[s.format]} · {LEVEL_LABELS[s.level]}{s.signedAt ? ' · signée le ' + formatDate(s.signedAt) : ''}{s.verifiedAt ? ' · vérifiée le ' + formatDate(s.verifiedAt) : ''}</small>
         <p className="signature-verdict">{verdict.title}</p>
         {verdict.notes.length > 0 && <ul className="signature-notes">{verdict.notes.map(n => <li key={n}>{n}</li>)}</ul>}

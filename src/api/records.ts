@@ -7,6 +7,7 @@ import type { PreservationMonitor, BackupMonitor } from '../core/types.js';
 import type { Volumetry, DocumentRelation, DocumentRelations, RelationType } from '../core/recordInfo.js';
 import type { DocumentSignature } from '../core/signatures.js';
 import type { TrustAnchor } from '../core/trustAnchors.js';
+import type { RevocationList } from '../core/revocationLists.js';
 import type { ReplicationStatus } from '../core/replication.js';
 import type { DocumentLifecycle, Page, RecordDocument, Dossier, DocumentVersion, DocumentFile, DocumentType, Ingestion, Actor, DocumentActor, QualifiedTimestamp, IntegrityCheck, PreservationEvent, PreservationEventListItem } from '../core/types.js';
 export class RecordsApi {
@@ -62,6 +63,11 @@ export class RecordsApi {
     }
     addTrustAnchor(institutionId: string | null, label: string, certificate: string, key: string): Promise<TrustAnchor> { return this.command('/trust-anchors', { institutionId, label, certificate }, key); }
     retireTrustAnchor(id: string, reason: string, key: string): Promise<TrustAnchor> { return this.command('/trust-anchors/' + uuid(id) + '/retire', { reason }, key); }
+    revocationLists(institutionId: string | null | undefined, includeRetired: boolean, signal?: AbortSignal): Promise<RevocationList[]> {
+        return this.transport.request('/revocation-lists' + query({ institutionId, includeRetired: includeRetired ? 'true' : undefined }), { signal });
+    }
+    addRevocationList(institutionId: string | null, label: string, content: string, key: string): Promise<RevocationList> { return this.command('/revocation-lists', { institutionId, label, content }, key); }
+    retireRevocationList(id: string, reason: string, key: string): Promise<RevocationList> { return this.command('/revocation-lists/' + uuid(id) + '/retire', { reason }, key); }
     deleteSignature(id: string, signatureId: string, version: number, key: string): Promise<void> { return this.command('/documents/' + uuid(id) + '/signatures/' + uuid(signatureId) + '/delete', { version }, key); }
     command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request(path, { method, body, idempotencyKey: key } satisfies RequestOptions); }
     uploadContent(versionId: string, file: File, role: 'PIECE_JOINTE' | 'MAITRE_CONSERVATION', key: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.upload!('/versions/' + uuid(versionId) + '/content', file, { role }, key, signal); }

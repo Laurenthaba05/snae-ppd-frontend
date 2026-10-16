@@ -18,6 +18,7 @@ import { PreservationPlanningSection, DocumentPremisPanel } from '../ui/Preserva
 import { ArkPanel, DisseminationSection } from '../ui/Dissemination';
 import { DocumentFormPanel, KeywordsPanel } from '../ui/Vocabularies';
 import { TrustAnchorsSection } from '../ui/TrustAnchors';
+import { RevocationListsSection } from '../ui/RevocationLists';
 import { RecordForm } from './RecordForm';
 import { AuditEventsTable, AuditDetailDialog } from './Audit';
 import { HeritagePanel } from './Heritage';
@@ -269,6 +270,7 @@ export function PreservationEventListPage() {
         <PreservationPlanningSection/>
         <DisseminationSection/>
         <TrustAnchorsSection/>
+        <RevocationListsSection/>
         <div className="panel">
             {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : items.length ? <div className="table-scroll"><table><thead><tr><th>Document</th><th>Type</th><th>Résultat</th><th>Outil</th><th>Date</th><th /></tr></thead><tbody>{items.map(item => <tr key={item.id}><td>{item.documentReference ?? 'Document non disponible'}</td><td><Badge value={item.typeEvenement}/></td><td><Badge value={item.resultat}/></td><td>{item.outil ?? '—'}</td><td>{formatDate(item.dateEvenement)}</td><td><button className="btn small secondary" onClick={() => navigate('/app/documents/' + item.documentId)}>Ouvrir le document</button></td></tr>)}</tbody></table></div> : <Empty title="Aucun événement" description="Aucun événement de préservation consigné dans ce périmètre."/>}
         </div>
