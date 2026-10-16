@@ -84,7 +84,8 @@ it('une description à relire ou validée ne propose plus de poser ni de retirer
     render(<HeritageAssetsPanel initialAssetId={ASSET} />);
     const dialog = await screen.findByRole('dialog');
     const keywords = await within(dialog).findByRole('region', { name: 'Mots-clés' });
-    expect(within(keywords).getByText('Parchemin')).toBeTruthy();
+    // la région existe avant que la liste des mots-clés soit chargée : on attend le mot-clé avant de constater l'absence des boutons
+    expect(await within(keywords).findByText('Parchemin')).toBeTruthy();
     expect(within(keywords).queryByRole('button', { name: 'Ajouter des mots-clés' })).toBeNull();
     expect(within(keywords).queryByRole('button', { name: 'Retirer le mot-clé Parchemin' })).toBeNull();
 });
