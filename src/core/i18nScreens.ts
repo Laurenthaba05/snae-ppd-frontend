@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 7938 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 7940 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -279,6 +279,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "{n} échec (voir ci-dessous)": "{1} failure (see below)",
     "{n} échecs (voir ci-dessous)": "{1} failures (see below)",
     "{n} éléments non disponibles": "{1} items not available",
+    "{n} éléments sélectionnés": "{1} items selected",
     "{n} en échec": "{1} failed",
     "{n} en échec (renvoyez le même paquet pour les retenter)": "{1} failed (resend the same package to retry them)",
     "{n} événement(s) relu(s)": "{1} event(s) read",
@@ -439,6 +440,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "1 échéance": "1 due date",
     "1 échéance a été planifiée.": "1 due date has been scheduled.",
     "1 élément non disponible": "1 item not available",
+    "1 élément sélectionné": "1 item selected",
     "1 ligne a échoué": "1 line failed",
     "1 version de règle": "1 rule version",
     "10 caractères au moins, avec trois sortes parmi : minuscules, majuscules, chiffres, signes.": "At least 10 characters, with three kinds among: lowercase, uppercase, digits, symbols.",

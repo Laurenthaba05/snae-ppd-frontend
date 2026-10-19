@@ -1,0 +1,2 @@
+1	{n} éléments sélectionnés
+2	1 élément sélectionné

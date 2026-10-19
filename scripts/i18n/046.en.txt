@@ -1,0 +1,2 @@
+1	{1} items selected
+2	1 item selected
