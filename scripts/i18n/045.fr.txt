@@ -1,0 +1,2 @@
+1	Votre compte est rattaché à cette institution : l’origine ne peut être qu’elle.
+2	Vous travaillez dans cette institution : la création lui est rattachée. Pour en choisir une autre, changez d’institution dans le bandeau.

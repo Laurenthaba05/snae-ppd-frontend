@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 7936 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 7938 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -7899,6 +7899,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Votre accès a expiré le": "Your access expired on",
     "Votre administrateur vous accompagne": "Your administrator is supporting you",
     "votre compte": "your account",
+    "Votre compte est rattaché à cette institution : l’origine ne peut être qu’elle.": "Your account is attached to this institution: the origin can only be this one.",
     "Votre compte ne dispose pas d’une habilitation de traitement des tâches.": "Your account does not have a task processing permission.",
     "Votre compte ne possède pas l’habilitation d’extraction dans ce périmètre. Le dépôt du PDF reste disponible.": "Your account does not have the extraction permission in this scope. The PDF upload remains available.",
     "Votre demande d’abonnement attend le paiement au guichet.": "Your subscription request is awaiting payment at the counter.",
@@ -7920,6 +7921,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Vous n’avez pas le droit de faire passer ce document (revue de la conservation et proposition de décision).": "You do not have the right to move this document on (preservation review and proposal of a decision).",
     "Vous pouvez lire les documents communicables.": "You can read the communicable documents.",
     "Vous serez redirigé vers votre fournisseur d’identité.": "You will be redirected to your identity provider.",
+    "Vous travaillez dans cette institution : la création lui est rattachée. Pour en choisir une autre, changez d’institution dans le bandeau.": "You are working in this institution: what you create is attached to it. To choose another one, change institution in the header.",
     "Vous validez la conservation définitive de": "You are validating the permanent preservation of",
     "Vue d’ensemble": "Overview",
     "Vue d’ensemble des contrôles qualité consignés sur les éléments de numérisation.": "Overview of the quality controls recorded on the digitization elements.",
