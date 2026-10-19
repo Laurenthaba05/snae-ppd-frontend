@@ -1,0 +1,22 @@
+1	Buildings
+2	Reader card, documents to provide, rules
+3	ISO 15924 codes separated by +: Latn
+4	ISO 639 codes separated by +: fr, en
+5	Geographical and cultural context
+6	Control of the record
+7	Description of the service
+8	Scripts of the record
+9	Holdings
+10	service identifier
+11	Finding aids, guides and publications
+12	Languages of the record
+13	The name of the service in another language, one per line
+14	The main bodies of records held
+15	Premises, stores, capacity
+16	Photocopying, digitization, fees
+17	First entered on
+18	Reading room, research assistance
+19	Reading room, exhibition hall, auditorium
+20	Acronyms, former names, one per line
+21	A validated record requires: {1}.
+22	A validated record requires the service identifier, the address and the opening hours

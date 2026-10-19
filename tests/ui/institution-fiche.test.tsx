@@ -29,7 +29,7 @@ it('affiche les zones renseignées, la tutelle par son nom et la date de mise à
     request.mockResolvedValue(filled);
     render(<InstitutionFichePanel institutionId={INST} />);
     expect(await screen.findByText('Présidence de la République')).toBeTruthy();
-    expect(screen.getByText(/4 zones renseignées sur 13/)).toBeTruthy();
+    expect(screen.getByText(/4 zones renseignées sur 30/)).toBeTruthy();
     expect(screen.getByText(/Dernière mise à jour le/)).toBeTruthy();
     expect(screen.getByText(/Boulevard du Commerce/)).toBeTruthy(); expect(screen.getByText('Créées en 1960.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Modifier la fiche' })).toBeTruthy();
@@ -70,6 +70,42 @@ it('l’identifiant du service (ISIL) et le pays se saisissent, se contrôlent e
     expect((put[1] as { body: Record<string, unknown> }).body).toMatchObject({ codePays: 'GN', identifiantService: 'GN-ANG' });
 });
 
+it('les zones ISDIAH de description, d’accès et de contrôle se saisissent et partent avec leur état de rédaction', async () => {
+    request.mockImplementation(async (_path: string, options: { method?: string }) => options?.method === 'PUT' ? { ...filled, version: 1 } : empty);
+    render(<InstitutionFichePanel institutionId={INST} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Renseigner la fiche' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Contact', 'Description du service', 'Accès et services', 'Contrôle de la fiche']);
+    fireEvent.change(within(dialog).getByLabelText(/^Formes parallèles du nom/), { target: { value: 'National Archives of Guinea' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Structure administrative/), { target: { value: 'Direction, trois services' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Conditions d’accès et d’utilisation/), { target: { value: 'Carte de lecteur' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Niveau de détail/), { target: { value: 'PARTIEL' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Langues de la fiche/), { target: { value: 'fr+en' } });
+    const save = () => within(dialog).getByRole('button', { name: 'Enregistrer' }) as HTMLButtonElement;
+    fireEvent.change(within(dialog).getByLabelText(/^État de rédaction/), { target: { value: 'VALIDEE' } });
+    expect(within(dialog).getByRole('alert').textContent).toBe('Une fiche validée exige : identifiant du service, adresse, horaires d’ouverture.'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Identifiant du service/), { target: { value: 'GN-ANG' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Adresse/), { target: { value: 'Conakry' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Horaires d’ouverture/), { target: { value: '8 h – 16 h' } });
+    expect(within(dialog).queryByRole('alert')).toBeNull(); expect(save().disabled).toBe(false);
+    fireEvent.change(within(dialog).getByLabelText(/^Langues de la fiche/), { target: { value: 'français' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('codes de langue ISO 639'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Langues de la fiche/), { target: { value: 'fr+en' } });
+    fireEvent.click(save());
+    await screen.findByText('Fiche enregistrée.');
+    const put = request.mock.calls.find(c => (c[1] as { method?: string }).method === 'PUT')!;
+    expect((put[1] as { body: unknown }).body).toMatchObject({ formesParalleles: 'National Archives of Guinea', structure: 'Direction, trois services', conditionsAcces: 'Carte de lecteur', niveauDetail: 'PARTIEL',
+        langues: 'fr+en', statut: 'VALIDEE', identifiantService: 'GN-ANG', adresse: 'Conakry', horaires: '8 h – 16 h' });
+});
+
+it('montre l’état de rédaction en toutes lettres et les dates de première saisie et de mise à jour', async () => {
+    request.mockResolvedValue({ ...filled, createdAt: '2026-09-01T09:00:00Z', input: { ...filled.input, statut: 'A_RELIRE', niveauDetail: 'COMPLET' } });
+    render(<InstitutionFichePanel institutionId={INST} />);
+    await screen.findByText('Présidence de la République');
+    expect(screen.getByText('À relire')).toBeTruthy(); expect(screen.getByText('Complet')).toBeTruthy();
+    expect(screen.getByText(/Première saisie le/)).toBeTruthy(); expect(screen.getByText(/Dernière mise à jour le/)).toBeTruthy();
+});
+
 it('enregistre la fiche avec sa version, les zones vides absentes et la tutelle choisie, puis relit la fiche', async () => {
     request.mockImplementation(async (_path: string, options: { method?: string }) => options?.method === 'PUT' ? { ...filled, version: 1 } : empty);
     render(<InstitutionFichePanel institutionId={INST} />);
@@ -83,8 +119,11 @@ it('enregistre la fiche avec sa version, les zones vides absentes et la tutelle 
     const put = request.mock.calls.find(c => (c[1] as { method?: string }).method === 'PUT')!;
     expect(put[0]).toBe(`/archives/institutions/${INST}/fiche`);
     expect((put[1] as { idempotencyKey: string }).idempotencyKey).toBeTruthy();
-    expect((put[1] as { body: unknown }).body).toEqual({ institutionId: INST, codePays: null, identifiantService: null, adresse: 'Conakry, Kaloum', telephone: null, courriel: 'archives@exemple.gn', siteWeb: null, horaires: null, accessibilite: null, services: null,
-        histoire: null, mandat: null, politiqueAcquisition: null, tutelleInstitutionId: TUTELLE, version: 0 });
+    const body = (put[1] as { body: Record<string, unknown> }).body;
+    expect(body).toMatchObject({ institutionId: INST, adresse: 'Conakry, Kaloum', courriel: 'archives@exemple.gn', tutelleInstitutionId: TUTELLE, version: 0 });
+    // Les zones laissées vides partent absentes (null), pas en chaîne vide.
+    const filledKeys = ['institutionId', 'adresse', 'courriel', 'tutelleInstitutionId', 'version'];
+    expect(Object.entries(body).filter(([k]) => !filledKeys.includes(k)).every(([, v]) => v === null)).toBe(true);
     await waitFor(() => expect(request.mock.calls.filter(c => (c[1] as { method?: string }).method !== 'PUT').length).toBe(2));   // relue après l’enregistrement
 });
 

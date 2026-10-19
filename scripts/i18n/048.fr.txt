@@ -1,0 +1,22 @@
+1	Bâtiments
+2	Carte de lecteur, pièces à fournir, règlement
+3	Codes ISO 15924 séparés par + : Latn
+4	Codes ISO 639 séparés par + : fr, en
+5	Contexte géographique et culturel
+6	Contrôle de la fiche
+7	Description du service
+8	Écritures de la fiche
+9	Fonds détenus
+10	identifiant du service
+11	Instruments de recherche, guides et publications
+12	Langues de la fiche
+13	Le nom du service dans une autre langue, une par ligne
+14	Les grands ensembles conservés
+15	Locaux, magasins, capacité
+16	Photocopie, numérisation, tarifs
+17	Première saisie le
+18	Salle de lecture, aide à la recherche
+19	Salle de lecture, salle d’exposition, auditorium
+20	Sigles, anciennes appellations, une par ligne
+21	Une fiche validée exige : {n}.
+22	Une fiche validée exige l’identifiant du service, l’adresse et les horaires
