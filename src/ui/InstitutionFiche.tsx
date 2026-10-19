@@ -60,7 +60,7 @@ function FicheDialog({ api, institutionId, view, onClose, onSaved }: { api: Arch
             {FICHE_GROUPS.map(group => <React.Fragment key={group.title}><h4 className="form-section span2">{group.title}</h4>
                 {group.fields.map(f => <Field key={f.key} label={f.label} hint={f.hint} wide={f.kind === 'area'}>
                     {f.kind === 'area' ? <textarea rows={3} maxLength={10000} value={form[f.key]} disabled={busy} onChange={e => set(f.key, e.target.value)} />
-                        : <input type={f.kind === 'tel' ? 'tel' : f.kind === 'email' ? 'email' : f.kind === 'url' ? 'url' : 'text'} value={form[f.key]} disabled={busy} maxLength={f.kind === 'url' ? 300 : f.kind === 'email' ? 200 : 60} onChange={e => set(f.key, e.target.value)} />}
+                        : <input type={f.kind === 'tel' ? 'tel' : f.kind === 'email' ? 'email' : f.kind === 'url' ? 'url' : 'text'} value={form[f.key]} disabled={busy} maxLength={f.key === 'codePays' ? 2 : f.key === 'identifiantService' ? 16 : f.kind === 'url' ? 300 : f.kind === 'email' ? 200 : 60} autoCapitalize={f.kind === 'code' ? 'characters' : undefined} autoComplete="off" onChange={e => set(f.key, e.target.value)} />}
                 </Field>)}</React.Fragment>)}
         </div>
         {problems.length > 0 && <ul className="relation-problems" role="alert">{problems.map(p => <li key={p}>{p}</li>)}</ul>}

@@ -1,0 +1,17 @@
+1	{n} : date attendue au format AAAA, AAAA-MM ou AAAA-MM-JJ.
+2	AAAA, AAAA-MM ou AAAA-MM-JJ : l’année suffit
+3	Code ISO 3166-1 de deux lettres : GN pour la Guinée
+4	codes d’écriture ISO 15924 attendus, séparés par « + » (Latn, Arab, Nkoo, Adlm).
+5	codes de langue ISO 639 attendus, séparés par « + » (fr, en, ff, man ; deux ou trois lettres).
+6	Codes ISO 15924 séparés par + : Latn (latin), Arab (arabe), Nkoo (n’ko), Adlm (adlam)
+7	Codes ISO 639 séparés par + : fr, en, ff (peul), man (mandingue)
+8	Codes ISO 639 séparés par + : fr, en, ff (peul), man (mandingue), sus (soussou)
+9	fr+man
+10	français
+11	Identifiant du service : forme ISIL attendue (préfixe de 1 à 4 lettres, tiret, 1 à 11 caractères parmi lettres, chiffres, « : », « / » et « - » ; 16 au plus).
+12	Identifiant du service (ISIL)
+13	Identifiant international des bibliothèques et services d’archives (ISO 15511), par exemple GN-ANG ; il désigne ce service seul
+14	kpellé
+15	Langues de la notice
+16	Le préfixe de l’identifiant ({n}) ne correspond pas au pays choisi ({n}).
+17	Pays : code ISO 3166-1 de deux lettres attendu (GN pour la Guinée).

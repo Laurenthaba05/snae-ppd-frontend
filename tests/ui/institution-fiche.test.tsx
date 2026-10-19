@@ -29,7 +29,7 @@ it('affiche les zones renseignées, la tutelle par son nom et la date de mise à
     request.mockResolvedValue(filled);
     render(<InstitutionFichePanel institutionId={INST} />);
     expect(await screen.findByText('Présidence de la République')).toBeTruthy();
-    expect(screen.getByText(/4 zones renseignées sur 11/)).toBeTruthy();
+    expect(screen.getByText(/4 zones renseignées sur 13/)).toBeTruthy();
     expect(screen.getByText(/Dernière mise à jour le/)).toBeTruthy();
     expect(screen.getByText(/Boulevard du Commerce/)).toBeTruthy(); expect(screen.getByText('Créées en 1960.')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Modifier la fiche' })).toBeTruthy();
@@ -51,6 +51,25 @@ it('l’administration de l’institution suffit aussi pour la renseigner', asyn
     expect(await screen.findByRole('button', { name: 'Renseigner la fiche' })).toBeTruthy();
 });
 
+it('l’identifiant du service (ISIL) et le pays se saisissent, se contrôlent et partent à la forme normale', async () => {
+    request.mockImplementation(async (_path: string, options: { method?: string }) => options?.method === 'PUT' ? { ...filled, version: 1 } : empty);
+    render(<InstitutionFichePanel institutionId={INST} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Renseigner la fiche' }));
+    const dialog = await screen.findByRole('dialog');
+    const save = () => within(dialog).getByRole('button', { name: 'Enregistrer' }) as HTMLButtonElement;
+    fireEvent.change(within(dialog).getByLabelText(/^Identifiant du service/), { target: { value: 'ANG' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('forme ISIL attendue'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Identifiant du service/), { target: { value: 'FR-ANG' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Pays/), { target: { value: 'gn' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('ne correspond pas au pays'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Identifiant du service/), { target: { value: 'GN-ANG' } });
+    expect(within(dialog).queryByRole('alert')).toBeNull(); expect(save().disabled).toBe(false);
+    fireEvent.click(save());
+    await screen.findByText('Fiche enregistrée.');
+    const put = request.mock.calls.find(c => (c[1] as { method?: string }).method === 'PUT')!;
+    expect((put[1] as { body: Record<string, unknown> }).body).toMatchObject({ codePays: 'GN', identifiantService: 'GN-ANG' });
+});
+
 it('enregistre la fiche avec sa version, les zones vides absentes et la tutelle choisie, puis relit la fiche', async () => {
     request.mockImplementation(async (_path: string, options: { method?: string }) => options?.method === 'PUT' ? { ...filled, version: 1 } : empty);
     render(<InstitutionFichePanel institutionId={INST} />);
@@ -64,7 +83,7 @@ it('enregistre la fiche avec sa version, les zones vides absentes et la tutelle 
     const put = request.mock.calls.find(c => (c[1] as { method?: string }).method === 'PUT')!;
     expect(put[0]).toBe(`/archives/institutions/${INST}/fiche`);
     expect((put[1] as { idempotencyKey: string }).idempotencyKey).toBeTruthy();
-    expect((put[1] as { body: unknown }).body).toEqual({ institutionId: INST, adresse: 'Conakry, Kaloum', telephone: null, courriel: 'archives@exemple.gn', siteWeb: null, horaires: null, accessibilite: null, services: null,
+    expect((put[1] as { body: unknown }).body).toEqual({ institutionId: INST, codePays: null, identifiantService: null, adresse: 'Conakry, Kaloum', telephone: null, courriel: 'archives@exemple.gn', siteWeb: null, horaires: null, accessibilite: null, services: null,
         histoire: null, mandat: null, politiqueAcquisition: null, tutelleInstitutionId: TUTELLE, version: 0 });
     await waitFor(() => expect(request.mock.calls.filter(c => (c[1] as { method?: string }).method !== 'PUT').length).toBe(2));   // relue après l’enregistrement
 });

@@ -1,0 +1,17 @@
+1	{1} : date expected in the format YYYY, YYYY-MM or YYYY-MM-DD.
+2	YYYY, YYYY-MM or YYYY-MM-DD: the year is enough
+3	ISO 3166-1 two-letter code: GN for Guinea
+4	ISO 15924 script codes expected, separated by “+” (Latn, Arab, Nkoo, Adlm).
+5	ISO 639 language codes expected, separated by “+” (fr, en, ff, man; two or three letters).
+6	ISO 15924 codes separated by +: Latn (Latin), Arab (Arabic), Nkoo (N’Ko), Adlm (Adlam)
+7	ISO 639 codes separated by +: fr, en, ff (Fula), man (Mandingo)
+8	ISO 639 codes separated by +: fr, en, ff (Fula), man (Mandingo), sus (Susu)
+9	fr+man
+10	French
+11	Service identifier: ISIL form expected (prefix of 1 to 4 letters, hyphen, 1 to 11 characters among letters, digits, “:”, “/” and “-”; 16 at most).
+12	Service identifier (ISIL)
+13	International standard identifier for libraries and related organisations (ISO 15511), for example GN-ANG; it designates this service only
+14	Kpelle
+15	Languages of the record
+16	The identifier prefix ({1}) does not match the chosen country ({2}).
+17	Country: two-letter ISO 3166-1 code expected (GN for Guinea).

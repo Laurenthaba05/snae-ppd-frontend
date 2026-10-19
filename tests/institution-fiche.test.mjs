@@ -4,9 +4,9 @@ import { FICHE_GROUPS, emptyFicheForm, ficheBody, ficheCompleteness, ficheFormOf
 
 const view = (extra = {}) => ({ input: { institutionId: 'i1', adresse: 'Conakry', telephone: null, courriel: 'archives@exemple.gn', siteWeb: null, horaires: null, accessibilite: null, services: null, histoire: null, mandat: null, politiqueAcquisition: null, tutelleInstitutionId: null, version: 2, ...extra }, code: 'AN', nom: 'Archives nationales', sigle: 'AN', tutelleNom: null, version: 2, updatedAt: '2026-10-09T00:00:00Z' });
 
-test('La fiche suit les zones ISDIAH : contact, accès et services, contexte', () => {
-    assert.deepEqual(FICHE_GROUPS.map(g => g.title), ['Contact', 'Accès et services', 'Contexte']);
-    assert.deepEqual(FICHE_GROUPS.flatMap(g => g.fields.map(f => f.key)), ['adresse', 'telephone', 'courriel', 'siteWeb', 'horaires', 'accessibilite', 'services', 'histoire', 'mandat', 'politiqueAcquisition']);
+test('La fiche suit les zones ISDIAH : identification, contact, accès et services, contexte', () => {
+    assert.deepEqual(FICHE_GROUPS.map(g => g.title), ['Identification', 'Contact', 'Accès et services', 'Contexte']);
+    assert.deepEqual(FICHE_GROUPS.flatMap(g => g.fields.map(f => f.key)), ['identifiantService', 'codePays', 'adresse', 'telephone', 'courriel', 'siteWeb', 'horaires', 'accessibilite', 'services', 'histoire', 'mandat', 'politiqueAcquisition']);
 });
 
 test('Une fiche absente donne un formulaire vide, une fiche existante se relit sans null', () => {
@@ -26,12 +26,21 @@ test('Les coordonnées mal formées sont signalées avec leur champ', () => {
 
 test('Le corps envoyé rend absentes les zones vides et rogne les coordonnées', () => {
     const body = ficheBody('i1', { ...emptyFicheForm(), adresse: 'Conakry', telephone: ' +224 62 ', courriel: ' a@b.gn ', horaires: '   ', tutelleInstitutionId: '' }, 3);
-    assert.deepEqual(body, { institutionId: 'i1', adresse: 'Conakry', telephone: '+224 62', courriel: 'a@b.gn', siteWeb: null, horaires: null, accessibilite: null, services: null, histoire: null, mandat: null, politiqueAcquisition: null, tutelleInstitutionId: null, version: 3 });
+    assert.deepEqual(body, { institutionId: 'i1', codePays: null, identifiantService: null, adresse: 'Conakry', telephone: '+224 62', courriel: 'a@b.gn', siteWeb: null, horaires: null, accessibilite: null, services: null, histoire: null, mandat: null, politiqueAcquisition: null, tutelleInstitutionId: null, version: 3 });
     assert.equal(ficheBody('i1', { ...emptyFicheForm(), tutelleInstitutionId: 't9' }, 0).tutelleInstitutionId, 't9');
 });
 
 test('L’avancement de la fiche compte les zones renseignées et la tutelle', () => {
-    assert.deepEqual(ficheCompleteness(null), { done: 0, total: 11 });
-    assert.deepEqual(ficheCompleteness(view()), { done: 2, total: 11 });
-    assert.deepEqual(ficheCompleteness(view({ tutelleInstitutionId: 't1', histoire: 'x' })), { done: 4, total: 11 });
+    assert.deepEqual(ficheCompleteness(null), { done: 0, total: 13 });
+    assert.deepEqual(ficheCompleteness(view()), { done: 2, total: 13 });
+    assert.deepEqual(ficheCompleteness(view({ tutelleInstitutionId: 't1', histoire: 'x' })), { done: 4, total: 13 });
+});
+
+test('Le pays et l’identifiant du service sont contrôlés et envoyés à la forme normale', () => {
+    const body = ficheBody('i1', { ...emptyFicheForm(), codePays: ' gn ', identifiantService: ' GN-ANG ' }, 0);
+    assert.equal(body.codePays, 'GN'); assert.equal(body.identifiantService, 'GN-ANG');
+    assert.deepEqual(ficheProblems({ ...emptyFicheForm(), codePays: 'GN', identifiantService: 'GN-ANG' }), []);
+    assert.equal(ficheProblems({ ...emptyFicheForm(), codePays: 'GIN' }).length, 1);
+    assert.equal(ficheProblems({ ...emptyFicheForm(), identifiantService: 'ANG' }).length, 1);
+    assert.match(ficheProblems({ ...emptyFicheForm(), codePays: 'GN', identifiantService: 'FR-ANG' }).join(' '), /ne correspond pas au pays/);
 });

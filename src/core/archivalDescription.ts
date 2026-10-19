@@ -2,7 +2,9 @@
  * Notice de description archivistique (ISAD(G) 2e éd.) : les sept zones, leurs éléments, l'importance matérielle structurée, l'état de rédaction et le contrôle
  * « description validée ». Les règles reprennent celles du serveur pour guider la saisie ; le serveur reste seul juge.
  */
-export type FieldKind = 'area' | 'date' | 'text' | 'select' | 'quantity';
+import { languageCodesProblem, partialDateOrderProblem, partialDateProblem, scriptCodesProblem } from './archivalCodes.js';
+
+export type FieldKind = 'area' | 'date' | 'partialDate' | 'languages' | 'scripts' | 'text' | 'select' | 'quantity';
 export interface DescriptionField { key: string; label: string; kind: FieldKind; hint?: string; isad?: string }
 export interface DescriptionGroup { title: string; fields: ReadonlyArray<DescriptionField> }
 
@@ -16,8 +18,8 @@ export const EXTENT_UNITS: ReadonlyArray<{ code: string; label: string }> = [
 /** Les zones de la norme dans l'ordre de lecture ; `isad` donne le numéro de l'élément pour l'archiviste qui connaît la norme. */
 export const DESCRIPTION_GROUPS: ReadonlyArray<DescriptionGroup> = [
     { title: 'Identification', fields: [
-        { key: 'dateStart', label: 'Date de début', kind: 'date', isad: '3.1.3' },
-        { key: 'dateEnd', label: 'Date de fin', kind: 'date', isad: '3.1.3' },
+        { key: 'dateStart', label: 'Date de début', kind: 'partialDate', hint: 'AAAA, AAAA-MM ou AAAA-MM-JJ : l’année suffit', isad: '3.1.3' },
+        { key: 'dateEnd', label: 'Date de fin', kind: 'partialDate', hint: 'AAAA, AAAA-MM ou AAAA-MM-JJ : l’année suffit', isad: '3.1.3' },
         { key: 'dateKind', label: 'Nature des dates', kind: 'select', hint: 'Dates de création des documents, ou dates d’accumulation par le producteur', isad: '3.1.3' },
         { key: 'dateLabel', label: 'Dates telles que décrites (si approximatives)', kind: 'area', hint: 'Par exemple « vers 1960 » ou « 1958-1984 (lacunes) »', isad: '3.1.3' },
         { key: 'extentQuantity', label: 'Importance matérielle : quantité', kind: 'quantity', hint: 'Un nombre, au plus trois décimales', isad: '3.1.5' },
@@ -35,8 +37,8 @@ export const DESCRIPTION_GROUPS: ReadonlyArray<DescriptionGroup> = [
     { title: 'Conditions d’accès et d’utilisation', fields: [
         { key: 'accessConditions', label: 'Conditions d’accès', kind: 'area', isad: '3.4.1' },
         { key: 'reproductionConditions', label: 'Conditions de reproduction', kind: 'area', isad: '3.4.2' },
-        { key: 'language', label: 'Langue des documents', kind: 'area', isad: '3.4.3' },
-        { key: 'scripts', label: 'Écritures des documents', kind: 'area', hint: 'Latin, arabe, N’ko…', isad: '3.4.3' },
+        { key: 'language', label: 'Langue des documents', kind: 'languages', hint: 'Codes ISO 639 séparés par + : fr, en, ff (peul), man (mandingue), sus (soussou)', isad: '3.4.3' },
+        { key: 'scripts', label: 'Écritures des documents', kind: 'scripts', hint: 'Codes ISO 15924 séparés par + : Latn (latin), Arab (arabe), Nkoo (n’ko), Adlm (adlam)', isad: '3.4.3' },
         { key: 'physicalCharacteristics', label: 'Caractéristiques matérielles et contraintes techniques', kind: 'area', hint: 'État physique, formats qui demandent un équipement', isad: '3.4.4' },
         { key: 'findingAids', label: 'Instruments de recherche', kind: 'area', isad: '3.4.5' }] },
     { title: 'Sources complémentaires', fields: [
@@ -95,6 +97,8 @@ export function descriptionProblems(details: Readonly<Record<string, string>>, p
     const quantity = details.extentQuantity?.trim() ?? '', unit = details.extentUnit?.trim() ?? '';
     if (quantity && !QUANTITY.test(quantity)) problems.push('Importance matérielle : la quantité est un nombre, avec au plus trois décimales.');
     else if (!!quantity !== !!unit) problems.push('Importance matérielle : indiquez la quantité ET l’unité, ou aucune des deux.');
+    for (const p of [partialDateProblem('Date de début', details.dateStart), partialDateProblem('Date de fin', details.dateEnd), partialDateOrderProblem(details.dateStart, details.dateEnd),
+        languageCodesProblem('Langue', details.language), scriptCodesProblem('Écritures', details.scripts)]) if (p) problems.push(p);
     if (details.status === 'VALIDEE') {
         const missing = missingForValidation(details, producerIsKnown);
         if (missing.length) problems.push(`Une description validée exige : ${missing.join(', ')}.`);

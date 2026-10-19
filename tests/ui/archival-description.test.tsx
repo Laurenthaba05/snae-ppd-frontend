@@ -104,7 +104,7 @@ it('l’éditeur de notice d’autorité regroupe les champs ISAAR par zone, ave
     fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
     const dialog = await screen.findByRole('dialog');
     expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Description', 'Contrôle de la notice']);
-    for (const label of ['Formes parallèles du nom', 'Formes normalisées', 'Identifiants officiels', 'Lieux', 'Statut juridique', 'Textes et mandats', 'Structure interne', 'Contexte général', 'État de rédaction', 'Niveau de détail', 'Règles ou conventions', 'Langues et écritures', 'Notes de mise à jour'])
+    for (const label of ['Formes parallèles du nom', 'Formes normalisées', 'Identifiants officiels', 'Lieux', 'Statut juridique', 'Textes et mandats', 'Structure interne', 'Contexte général', 'État de rédaction', 'Niveau de détail', 'Règles ou conventions', 'Langues de la notice', 'Notes de mise à jour'])
         expect(within(dialog).getByLabelText(new RegExp('^' + label))).toBeTruthy();
     expect((within(dialog).getByLabelText(/^Textes et mandats/) as HTMLTextAreaElement).value).toBe('Décret D/2018/014');
     expect((within(dialog).getByLabelText(/^État de rédaction/) as HTMLSelectElement).value).toBe('VALIDEE');
@@ -179,6 +179,53 @@ it('une quantité sans unité, ou une validation sans dates ni producteur, bloqu
     expect(within(dialog).getByRole('alert').textContent).toBe('Une description validée exige : dates, producteur.'); expect(save().disabled).toBe(true);
     fireEvent.change(within(dialog).getByLabelText(/^Dates telles que décrites/), { target: { value: 'vers 1960' } });
     expect(within(dialog).getByRole('alert').textContent).toBe('Une description validée exige : producteur.');
+});
+it('une date se saisit à l’année, au mois ou au jour, une langue et une écriture en codes ISO, et l’erreur est dite avant l’envoi', async () => {
+    const producer = authorityRow(1, 'Ministère');
+    serveDescriptions([descriptionRow(1)], [producer]);
+    render(<ArchivalDescriptionPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
+    const dialog = await screen.findByRole('dialog');
+    const save = () => within(dialog).getByRole('button', { name: 'Enregistrer' }) as HTMLButtonElement;
+    const start = within(dialog).getByLabelText(/^Date de début/) as HTMLInputElement;
+    expect(start.type).toBe('text');                                                    // plus un sélecteur de jour : l’année seule est possible
+    fireEvent.change(start, { target: { value: '1923' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Date de fin/), { target: { value: '1950-05' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Langue des documents/), { target: { value: 'fr+man' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Écritures des documents/), { target: { value: 'Latn+Nkoo' } });
+    expect(within(dialog).queryByRole('alert')).toBeNull(); expect(save().disabled).toBe(false);
+    fireEvent.change(within(dialog).getByLabelText(/^Date de fin/), { target: { value: '1922' } });
+    expect(within(dialog).getByRole('alert').textContent).toBe('La date de début dépasse la date de fin.'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Date de fin/), { target: { value: '1950-13' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('Date de fin : date attendue au format AAAA, AAAA-MM ou AAAA-MM-JJ');
+    fireEvent.change(within(dialog).getByLabelText(/^Date de fin/), { target: { value: '1950-05' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Langue des documents/), { target: { value: 'français' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('codes de langue ISO 639'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Langue des documents/), { target: { value: 'fr+man' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Écritures des documents/), { target: { value: 'latin' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('codes d’écriture ISO 15924'); expect(save().disabled).toBe(true);
+    fireEvent.change(within(dialog).getByLabelText(/^Écritures des documents/), { target: { value: 'Latn+Nkoo' } });
+    fireEvent.change(within(dialog).getByLabelText('Référence'), { target: { value: 'GN/DATES' } });
+    fireEvent.change(within(dialog).getByLabelText('Intitulé'), { target: { value: 'Fonds daté à l’année' } });
+    fireEvent.click(save());
+    await waitFor(() => expect(session.records.transport.request.mock.calls.some(c => (c[1] as { method?: string })?.method === 'POST')).toBe(true));
+    const post = session.records.transport.request.mock.calls.find(c => (c[1] as { method?: string })?.method === 'POST')!;
+    expect((post[1] as { body: { details: Record<string, string> } }).body.details).toMatchObject({ dateStart: '1923', dateEnd: '1950-05', language: 'fr+man', scripts: 'Latn+Nkoo' });
+});
+it('une notice d’autorité se date à l’année et donne ses langues en codes ISO', async () => {
+    serve([authorityRow(1, 'Ministère de l’Énergie')]);
+    await showAuthorities();
+    fireEvent.click(await screen.findByRole('button', { name: 'Créer un producteur' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.change(within(dialog).getByLabelText(/^Date de naissance ou de création/), { target: { value: '1958' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Date de décès ou de dissolution/), { target: { value: '1984-04' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Langues de la notice/), { target: { value: 'fr' } });
+    expect(within(dialog).queryByRole('alert')).toBeNull();
+    fireEvent.change(within(dialog).getByLabelText(/^Date de décès ou de dissolution/), { target: { value: '1950' } });
+    expect(within(dialog).getByRole('alert').textContent).toBe('La date de début dépasse la date de fin.');
+    fireEvent.change(within(dialog).getByLabelText(/^Date de décès ou de dissolution/), { target: { value: '1984-04' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Langues de la notice/), { target: { value: 'français' } });
+    expect(within(dialog).getByRole('alert').textContent).toContain('Langues de la notice : codes de langue ISO 639');
 });
 it('enregistre les éléments ISAD(G) saisis, quantité et unité comprises', async () => {
     const producer = authorityRow(1, 'Ministère');

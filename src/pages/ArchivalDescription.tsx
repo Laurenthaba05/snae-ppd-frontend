@@ -16,6 +16,7 @@ import type { RelationView } from '../core/authorityRelations';
 import { DATE_KIND_LABELS, DESCRIPTION_GROUPS, EXTENT_UNITS, STATUS_LABELS, descriptionProblems, isadCompleteness, producerKnown } from '../core/archivalDescription';
 import { ArchivesApi, archiveLevels, commandKey, flattenDescriptions, type ArchiveKind, type DescriptionView, type DescriptionInput, type AuthorityView, type AuthorityInput, type CsvPreview } from '../api/archives';
 import { label } from '../core/format';
+import { LANGUAGE_SUGGESTIONS, SCRIPT_SUGGESTIONS, languageCodesProblem, partialDateOrderProblem, partialDateProblem } from '../core/archivalCodes';
 import { saveBlob } from '../ui/download';
 
 const levelLabels: Record<string, string> = { FONDS: 'Fonds', SOUS_FONDS: 'Sous-fonds', SERIE: 'Série', SOUS_SERIE: 'Sous-série', DOSSIER: 'Dossier', PIECE: 'Pièce' };
@@ -23,10 +24,11 @@ const authorityLabels: Record<string, string> = {
     otherNames: 'Autres formes du nom (une par ligne)', parallelNames: 'Formes parallèles du nom (une par ligne)', standardizedNames: 'Formes normalisées selon d’autres règles (une par ligne)',
     identifiers: 'Identifiants officiels (un par ligne, « SCHÉMA : valeur »)', dateStart: 'Date de naissance ou de création', dateEnd: 'Date de décès ou de dissolution', places: 'Lieux (un par ligne)',
     legalStatus: 'Statut juridique (un par ligne)', functions: 'Fonctions et activités', mandates: 'Textes et mandats (un par ligne)', structure: 'Structure interne ou généalogie', context: 'Contexte général',
-    history: 'Histoire administrative ou biographie', status: 'État de rédaction', detailLevel: 'Niveau de détail', rules: 'Règles ou conventions appliquées', languages: 'Langues et écritures de la notice',
+    history: 'Histoire administrative ou biographie', status: 'État de rédaction', detailLevel: 'Niveau de détail', rules: 'Règles ou conventions appliquées', languages: 'Langues de la notice',
     sources: 'Sources de la notice', maintenanceNotes: 'Notes de mise à jour'
 };
 const authorityHints: Record<string, string> = {
+    dateStart: 'AAAA, AAAA-MM ou AAAA-MM-JJ : l’année suffit', dateEnd: 'AAAA, AAAA-MM ou AAAA-MM-JJ : l’année suffit', languages: 'Codes ISO 639 séparés par + : fr, en, ff (peul), man (mandingue)',
     identifiers: 'Numéro d’identification fiscale, registre du commerce, code officiel de l’organisme', mandates: 'Décret, loi ou arrêté qui crée ou régit la collectivité',
     structure: 'Organigramme, services rattachés, branches d’une famille', context: 'Cadre social, culturel, économique ou politique dans lequel la notice s’inscrit'
 };
@@ -37,11 +39,18 @@ const authorityGroups: { title: string; keys: string[] }[] = [
 ];
 const authorityStatusLabels: Record<string, string> = { BROUILLON: 'Brouillon', A_RELIRE: 'À relire', VALIDEE: 'Validée' };
 const detailLevelLabels: Record<string, string> = { MINIMAL: 'Minimal', PARTIEL: 'Partiel', COMPLET: 'Complet' };
+/** Les remarques sur une notice d'autorité avant l'envoi : dates à précision variable et langues en codes ISO. Le serveur reste seul juge. */
+export function authorityProblems(details: Readonly<Record<string, string>>): string[] {
+    return [partialDateProblem('Date de début', details.dateStart), partialDateProblem('Date de fin', details.dateEnd), partialDateOrderProblem(details.dateStart, details.dateEnd),
+        languageCodesProblem('Langues de la notice', details.languages)].filter((p): p is string => !!p);
+}
 function AuthorityFields({ details, disabled, onChange }: { details: Record<string, string>; disabled: boolean; onChange: (details: Record<string, string>) => void }) {
     const set = (key: string, value: string) => onChange({ ...details, [key]: value });
+    const lists = useId();
     return <>{authorityGroups.map(group => <React.Fragment key={group.title}><h4 className="form-section span2">{group.title}</h4>
         {group.keys.map(key => <Field key={key} label={authorityLabels[key]!} hint={authorityHints[key]} wide={!key.startsWith('date')}>
-            {key === 'dateStart' || key === 'dateEnd' ? <input type="date" value={details[key] ?? ''} disabled={disabled} onChange={e => set(key, e.target.value)} />
+            {key === 'dateStart' || key === 'dateEnd' ? <input inputMode="numeric" maxLength={10} placeholder="AAAA, AAAA-MM ou AAAA-MM-JJ" autoComplete="off" value={details[key] ?? ''} disabled={disabled} onChange={e => set(key, e.target.value)} />
+                : key === 'languages' ? <><input maxLength={60} list={lists + 'langues'} placeholder="fr+man" autoComplete="off" value={details[key] ?? ''} disabled={disabled} onChange={e => set(key, e.target.value)} /><datalist id={lists + 'langues'}>{LANGUAGE_SUGGESTIONS.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}</datalist></>
                 : key === 'status' ? <select value={details[key] || 'BROUILLON'} disabled={disabled} onChange={e => set(key, e.target.value)}>{Object.entries(authorityStatusLabels).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
                 : key === 'detailLevel' ? <select value={details[key] ?? ''} disabled={disabled} onChange={e => set(key, e.target.value)}><option value="">Non précisé</option>{Object.entries(detailLevelLabels).map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
                 : <textarea maxLength={10000} rows={key === 'history' || key === 'context' || key === 'structure' ? 4 : 2} value={details[key] ?? ''} disabled={disabled} onChange={e => set(key, e.target.value)} />}
@@ -87,12 +96,16 @@ function ArchiveWorkspace({ institution }: { institution: string }) {
 
 function DescriptionFields({ details, disabled, onChange }: { details: Record<string, string>; disabled: boolean; onChange: (details: Record<string, string>) => void }) {
     const set = (key: string, value: string) => onChange({ ...details, [key]: value });
+    const lists = useId();
     const options: Record<string, ReadonlyArray<[string, string]>> = {
         dateKind: [['', 'Non précisée'], ...Object.entries(DATE_KIND_LABELS)], extentUnit: [['', 'Aucune'], ...EXTENT_UNITS.map(u => [u.code, u.label] as [string, string])], status: Object.entries(STATUS_LABELS)
     };
     return <>{DESCRIPTION_GROUPS.map(group => <React.Fragment key={group.title}><h4 className="form-section span2">{group.title}</h4>
         {group.fields.map(f => <Field key={f.key} label={f.label} hint={f.hint} wide={f.kind === 'area'}>
             {f.kind === 'date' ? <input type="date" value={details[f.key] ?? ''} disabled={disabled} onChange={e => set(f.key, e.target.value)} />
+                : f.kind === 'partialDate' ? <input inputMode="numeric" maxLength={10} placeholder="AAAA, AAAA-MM ou AAAA-MM-JJ" autoComplete="off" value={details[f.key] ?? ''} disabled={disabled} onChange={e => set(f.key, e.target.value)} />
+                : f.kind === 'languages' || f.kind === 'scripts' ? <><input maxLength={60} list={lists + f.kind} placeholder={f.kind === 'languages' ? 'fr+man' : 'Latn+Nkoo'} autoComplete="off" value={details[f.key] ?? ''} disabled={disabled} onChange={e => set(f.key, e.target.value)} />
+                    <datalist id={lists + f.kind}>{(f.kind === 'languages' ? LANGUAGE_SUGGESTIONS : SCRIPT_SUGGESTIONS).map(s => <option key={s.code} value={s.code}>{s.label}</option>)}</datalist></>
                 : f.kind === 'select' ? <select value={details[f.key] || (f.key === 'status' ? 'BROUILLON' : '')} disabled={disabled} onChange={e => set(f.key, e.target.value)}>{options[f.key]!.map(([value, text]) => <option key={value} value={value}>{text}</option>)}</select>
                 : f.kind === 'quantity' ? <input inputMode="decimal" maxLength={13} placeholder="12,5" value={details[f.key] ?? ''} disabled={disabled} onChange={e => set(f.key, e.target.value)} />
                 : f.kind === 'text' ? <input maxLength={200} value={details[f.key] ?? ''} disabled={disabled} onChange={e => set(f.key, e.target.value)} />
@@ -106,7 +119,7 @@ function ArchiveEditor({ api, institution, kind, row, descriptions, authorities,
     const [draft, setDraft] = useState<DescriptionInput | AuthorityInput>(() => row ? { ...row.input, version: row.version } : isDescription ? { institutionId: institution, code: '', title: '', level: 'FONDS', parentId: null, producerId: null, confidentiality: 'INTERNE', documentId: null, dossierId: null, details: { status: 'BROUILLON' } as Record<string, string> } : { institutionId: institution, code: '', name: '', kind: 'COLLECTIVITE', actorId: null, details: { status: 'BROUILLON' } as Record<string, string> });
     const [busy, setBusy] = useState(false); const [error, setError] = useState<unknown>(); const intention = useRef<ReturnType<typeof commandKey> | null>(null);
     const disabled = busy || readOnly; const d = draft as DescriptionInput; const a = draft as AuthorityInput;
-    const problems = isDescription ? [...enrichmentProblems(d.enrichment), ...descriptionProblems(enrichedDetails(d), producerKnown(d.producerId || d.enrichment?.producers[0]?.authorityId || null, d.parentId, descriptions.map(x => ({ id: x.id, parentId: x.input.parentId, producerId: x.input.producerId || x.input.enrichment?.producers[0]?.authorityId || null }))))] : [];
+    const problems = isDescription ? [...enrichmentProblems(d.enrichment), ...descriptionProblems(enrichedDetails(d), producerKnown(d.producerId || d.enrichment?.producers[0]?.authorityId || null, d.parentId, descriptions.map(x => ({ id: x.id, parentId: x.input.parentId, producerId: x.input.producerId || x.input.enrichment?.producers[0]?.authorityId || null }))))] : authorityProblems(a.details ?? {});
     const change = (key: string, value: unknown) => setDraft(v => ({ ...v, [key]: value }));
     const submit = async (e: React.FormEvent) => { const signal = cancellation.current.signal; e.preventDefault(); if (readOnly) return; setBusy(true); setError(undefined); intention.current = commandKey(intention.current, draft); try { await api.save(kind, row?.id, draft, intention.current.key, signal); if (!signal.aborted) { onSaved(); onClose(); } } catch (e) { if (!signal.aborted) setError(e); } finally { if (!signal.aborted) setBusy(false); } };
     return <Modal wide title={isDescription ? 'Description archivistique' : 'Notice de producteur'} onClose={onClose} locked={busy}><form id={formId} onSubmit={submit}><div className="form-grid">
