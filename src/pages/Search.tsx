@@ -53,6 +53,7 @@ export function SearchPage() {
     const { me, search, epoch } = useSession();
     const { scope } = useWorkspace();
     const [keywords, setKeywords] = useState<Array<{ id: string; label: string }>>([]);
+    const [metadataTerms, setMetadataTerms] = useState<Array<{ id: string; label: string }>>([]);
     const initialQuery = new URLSearchParams(location.search).get('q')?.trim().slice(0, 200) ?? '';
     const [input, setInput] = useState(initialQuery);
     const [query, setQuery] = useState(initialQuery);
@@ -66,7 +67,10 @@ export function SearchPage() {
     const canPreviewOcr = ['DOCUMENT_READ', 'DIGITIZATION_READ', 'FILE_CONTENT_DOWNLOAD'].every(permission => can(me, permission, scope));
     const canReindex = can(me, 'SEARCH_REINDEX', {});
     const keywordIds = keywords.map(k => k.id);
-    const q = useResource(s => query ? search!.search(query, type, page, size, s, keywordIds) : Promise.resolve({ hits: [], page: 0, size, hasMore: false }), JSON.stringify(['search', query, type, page, keywordIds, epoch]));
+    const metadataTermIds = metadataTerms.map(k => k.id);
+    // les métadonnées ont leur propre droit de lecture : le filtre par terme de métadonnée ne se propose qu'à qui peut les lire
+    const canFilterMetadata = can(me, 'DOCUMENT_METADATA_READ', scope);
+    const q = useResource(s => query ? search!.search(query, type, page, size, s, keywordIds, metadataTermIds) : Promise.resolve({ hits: [], page: 0, size, hasMore: false }), JSON.stringify(['search', query, type, page, keywordIds, metadataTermIds, epoch]));
     // l'état ne bloque jamais la page : en cas d'échec de la sonde, la recherche elle-même dira ce qui ne va pas
     const health = useResource(s => search!.status(s).catch(() => null), 'search-status:' + epoch);
     // la dernière exécution : visible au retour sur la page tant qu'elle tourne ou qu'elle attend une reprise
@@ -101,7 +105,7 @@ export function SearchPage() {
         {current && <ReindexNotice run={current} busy={reindexing} onResume={() => reindex(true)}/>}
         {health.data && <SearchStatusNotice status={health.data}/>}
         <div className="panel"><form onSubmit={submit} className="table-toolbar"><div className="input-icon search-box"><Icon name="search"/><input aria-label="Rechercher" placeholder="Titre, référence, contenu…" value={input} onChange={e => setInput(e.target.value)}/></div><div className="toolbar-right"><select aria-label="Type" value={type} onChange={e => { setType(e.target.value as SearchTargetType); setPage(0); }}><option value="ALL">Tous types</option><option value="DOCUMENT">Documents</option><option value="DOSSIER">Dossiers</option></select><button type="submit" className="btn primary small">Rechercher</button></div></form>
-        <div className="panel-padding"><KeywordFilter institutionId={scope.institutionId ?? null} selected={keywords} onChange={next => { setKeywords(next); setPage(0); }} /></div>
+        <div className="panel-padding"><KeywordFilter institutionId={scope.institutionId ?? null} selected={keywords} onChange={next => { setKeywords(next); setPage(0); }} />{canFilterMetadata && <KeywordFilter kind="metadata" institutionId={scope.institutionId ?? null} selected={metadataTerms} onChange={next => { setMetadataTerms(next); setPage(0); }} />}</div>
         {!query ? <Notice>Tapez une recherche pour explorer les documents et dossiers accessibles dans votre périmètre.</Notice> : q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : hits.length ? <div className="table-scroll"><table><thead><tr><th>Résultat</th><th>Type</th><th>Pertinence</th></tr></thead><tbody>{hits.map(h => <tr key={h.type + h.id}><td><button className="record-name" onClick={() => navigate('/app/' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers') + '/' + h.id)}><span className={'table-avatar ' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers')}><Icon name={h.type === 'DOCUMENT' ? 'document' : 'archive'} size={19}/></span><span><strong>{h.titre ?? 'Sans titre'}</strong>{h.description && <small>{h.description}</small>}</span></button>{h.type === 'DOCUMENT' && canPreviewOcr && <button className="btn small secondary search-ocr-link" onClick={() => setOcrPreview({ id: h.id, title: h.titre ?? 'Sans titre', query })}>Voir le mot dans le PDF</button>}</td><td><span className="tag">{h.type === 'DOCUMENT' ? 'Document' : 'Dossier'}</span></td><td>{h.score.toFixed(2)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun résultat" description="Essayez d’autres mots-clés, ou vérifiez que l’index a été alimenté (réindexation)."/>}
         {query && !q.loading && !q.error && <div className="pagination"><span>{hits.length} résultat{hits.length > 1 ? 's' : ''} sur cette page · page {page + 1}</span><div><button className="btn small secondary" disabled={page === 0} onClick={() => setPage(p => p - 1)}>Précédente</button><button className="btn small secondary" disabled={!q.data?.hasMore} onClick={() => setPage(p => p + 1)}>Suivante</button></div></div>}
         </div>

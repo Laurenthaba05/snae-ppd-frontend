@@ -169,23 +169,28 @@ function VocabularyTerms({ vocabulary: v, canManage, onChanged }: { vocabulary: 
 }
 
 /** Le choix d'un terme actif d'un vocabulaire par son libellé : recherche, puis liste. Jamais par un identifiant. */
-function TermPicker({ vocabularyId, value, onChange, label, excludeId, disabled }: {
-    vocabularyId: string; value: string; onChange: (id: string) => void; label: string; excludeId?: string; disabled?: boolean;
+/**
+ * `bare` : sans le cadre d'un champ de formulaire (le libellé est déjà posé par l'appelant). `current` : le terme déjà choisi, montré même s'il est devenu obsolète ou s'il n'est
+ * pas dans les résultats de la recherche — pour qu'on ne le perde pas en ouvrant le formulaire.
+ */
+export function TermPicker({ vocabularyId, value, onChange, label, excludeId, disabled, bare, current }: {
+    vocabularyId: string; value: string; onChange: (id: string) => void; label: string; excludeId?: string; disabled?: boolean; bare?: boolean;
+    current?: { id: string; label: string; obsolete?: boolean | null } | null;
 }) {
     const { vocabulary, epoch } = useSession();
     const [text, setText] = useState('');
     const q = useResource<TermPage>(s => vocabulary!.terms(vocabularyId, { q: text.trim() || undefined, status: 'ACTIF' }, s), `term-pick:${vocabularyId}:${text.trim()}:${epoch}`);
     const items = (q.data?.items ?? []).filter(t => t.id !== excludeId);
-    return <Field label={label} wide hint="Cherchez par libellé ou par synonyme.">
-        <div className="reference-picker">
-            <input aria-label={`Chercher : ${label}`} placeholder="Libellé…" value={text} onChange={e => setText(e.target.value)} disabled={disabled} />
-            {q.loading && !q.data ? <Busy label="Recherche…" /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
-                : <select aria-label={label} value={value} onChange={e => onChange(e.target.value)} disabled={disabled}>
-                    <option value="">Aucun</option>
-                    {items.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
-                </select>}
-        </div>
-    </Field>;
+    const control = <div className="reference-picker">
+        <input aria-label={`Chercher : ${label}`} placeholder="Libellé…" value={text} onChange={e => setText(e.target.value)} disabled={disabled} />
+        {q.loading && !q.data ? <Busy label="Recherche…" /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
+            : <select aria-label={label} value={value} onChange={e => onChange(e.target.value)} disabled={disabled}>
+                <option value="">Aucun</option>
+                {current && !items.some(t => t.id === current.id) && <option value={current.id}>{current.label}{current.obsolete ? ' (obsolète)' : ''}</option>}
+                {items.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}
+            </select>}
+    </div>;
+    return bare ? control : <Field label={label} wide hint="Cherchez par libellé ou par synonyme.">{control}</Field>;
 }
 
 function TermDialog({ vocabulary: v, term, onClose, onDone }: { vocabulary: Vocabulary; term: VocabularyTerm | null; onClose: () => void; onDone: () => void }) {
@@ -443,27 +448,32 @@ function KeywordPicker({ kind, objectId, institutionId, attached, onClose, onDon
 
 // ------------------------------------------------------------------------------------------------ filtre par mot-clé
 /** Le filtre par mot-clé de la recherche : les termes choisis, tous exigés d'un résultat. Sans client des vocabulaires (démonstration), rien ne s'affiche. */
-export function KeywordFilter({ institutionId, selected, onChange }: { institutionId: string | null; selected: Array<{ id: string; label: string }>; onChange: (next: Array<{ id: string; label: string }>) => void }) {
+export function KeywordFilter({ institutionId, selected, onChange, kind = 'keyword' }: {
+    institutionId: string | null; selected: Array<{ id: string; label: string }>; onChange: (next: Array<{ id: string; label: string }>) => void;
+    /** `metadata` : le même filtre, appliqué aux termes portés par les métadonnées des documents (champs de type terme) plutôt qu'à leurs mots-clés. */
+    kind?: 'keyword' | 'metadata';
+}) {
     const { vocabulary } = useSession();
     const [choosing, setChoosing] = useState(false);
     if (!vocabulary) return null;
-    return <div className="keyword-filter" role="group" aria-label="Filtre par mot-clé">
-        <strong>Mots-clés</strong>
+    const text = kind === 'metadata' ? { group: 'Filtre par terme de métadonnée', title: 'Termes des métadonnées', button: 'Filtrer par terme de métadonnée' } : { group: 'Filtre par mot-clé', title: 'Mots-clés', button: 'Filtrer par mot-clé' };
+    return <div className="keyword-filter" role="group" aria-label={text.group}>
+        <strong>{text.title}</strong>
         {selected.length === 0 ? <small>aucun filtre</small> : <ul className="keyword-list">{selected.map(k => <li key={k.id} className="keyword-item"><span>{k.label}</span>
             <button type="button" aria-label={`Retirer le filtre ${k.label}`} onClick={() => onChange(selected.filter(s => s.id !== k.id))}>×</button></li>)}</ul>}
-        <button type="button" className="btn small secondary" disabled={selected.length >= 10} onClick={() => setChoosing(true)}>Filtrer par mot-clé</button>
-        {choosing && <TermChooser institutionId={institutionId} onClose={() => setChoosing(false)}
+        <button type="button" className="btn small secondary" disabled={selected.length >= 10} onClick={() => setChoosing(true)}>{text.button}</button>
+        {choosing && <TermChooser institutionId={institutionId} title={text.button} onClose={() => setChoosing(false)}
             onPick={t => { if (!selected.some(s => s.id === t.id)) onChange([...selected, { id: t.id, label: t.label }]); setChoosing(false); }} />}
     </div>;
 }
 
-function TermChooser({ institutionId, onPick, onClose }: { institutionId: string | null; onPick: (term: VocabularyTerm) => void; onClose: () => void }) {
+function TermChooser({ institutionId, onPick, onClose, title = 'Filtrer par mot-clé' }: { institutionId: string | null; onPick: (term: VocabularyTerm) => void; onClose: () => void; title?: string }) {
     const { vocabulary, epoch } = useSession();
     const [vocabularyId, setVocabularyId] = useState('');
     const [text, setText] = useState('');
     const vocabularies = useResource<Vocabulary[]>(s => vocabulary!.list(institutionId, false, s), `filter-vocabularies:${institutionId ?? 'national'}:${epoch}`);
     const terms = useResource<TermPage | null>(s => vocabularyId ? vocabulary!.terms(vocabularyId, { q: text.trim() || undefined }, s) : Promise.resolve(null), `filter-terms:${vocabularyId}:${text.trim()}:${epoch}`);
-    return <Modal title="Filtrer par mot-clé" subtitle="Choisissez un terme : seuls les résultats qui le portent restent affichés" onClose={onClose}>
+    return <Modal title={title} subtitle="Choisissez un terme : seuls les résultats qui le portent restent affichés" onClose={onClose}>
         {vocabularies.loading && !vocabularies.data ? <Busy /> : vocabularies.error ? <ErrorNotice error={vocabularies.error} onRetry={vocabularies.refresh} />
             : (vocabularies.data ?? []).length === 0 ? <Notice>Aucun vocabulaire n’est disponible dans ce périmètre.</Notice>
                 : <div className="form-grid">

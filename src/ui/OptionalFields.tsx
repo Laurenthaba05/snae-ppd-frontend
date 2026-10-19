@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Field } from './components';
 import { ReferencePicker } from './ReferencePicker';
 import { optionalFieldGroups, optionalPayload } from '../core/optionalFields';
-export function useOptionalFields(group: string) {
- const [values,setValues] = useState<Record<string,string>>({});
+/** Les champs facultatifs d'un formulaire ; `initial` préremplit les valeurs (formulaire de modification). */
+export function useOptionalFields(group: string, initial?: Record<string,string>) {
+ const [values,setValues] = useState<Record<string,string>>(initial ?? {});
  const fields = optionalFieldGroups[group];
  if (!fields) throw new Error('Formulaire inconnu : ' + group);
  return { fields, values, setValues, payload: () => optionalPayload(fields,values), reset: () => setValues({}) };

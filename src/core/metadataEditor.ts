@@ -1,5 +1,6 @@
 import type { MetadataValue, MetadataFieldDefinition, Json } from './types.js';
-export interface MetadataOccurrence { order: number; raw: string; initial: string; original?: Json }
+/** `label` et `obsolete` : pour un terme de vocabulaire, son libellé et son état (la valeur est l'identifiant du terme). */
+export interface MetadataOccurrence { order: number; raw: string; initial: string; original?: Json; label?: string | null; obsolete?: boolean | null }
 export type MetadataDraft = Record<string, MetadataOccurrence[]>;
 export function metadataDraft(fields: MetadataFieldDefinition[], current: MetadataValue[]): MetadataDraft {
  return Object.fromEntries(fields.map(f => {
@@ -9,7 +10,7 @@ export function metadataDraft(fields: MetadataFieldDefinition[], current: Metada
     const date = new Date(v.value);
     if (Number.isFinite(date.getTime())) raw = new Date(date.getTime()-date.getTimezoneOffset()*60000).toISOString().slice(0,-1);
    }
-   return {order:v.order,raw,initial:raw,original:v.value};
+   return {order:v.order,raw,initial:raw,original:v.value,...(v.label != null ? {label:v.label,obsolete:v.termObsolete} : {})};
   });
   return [f.fieldCode, rows.length ? rows : [{order:0,raw:'',initial:''}]];
  }));

@@ -1133,7 +1133,7 @@ export interface AccessRestriction {
     versionLock: number;
 }
 export type MetadataSchemaStatus = 'BROUILLON' | 'ACTIF' | 'INACTIF' | 'RETIRE';
-export type MetadataValueType = 'TEXTE' | 'TEXTE_LONG' | 'ENTIER' | 'DECIMAL' | 'BOOLEEN' | 'DATE' | 'DATETIME' | 'UUID' | 'ENUM';
+export type MetadataValueType = 'TEXTE' | 'TEXTE_LONG' | 'ENTIER' | 'DECIMAL' | 'BOOLEEN' | 'DATE' | 'DATETIME' | 'UUID' | 'ENUM' | 'TERME';
 export interface MetadataSchema {
     id: string;
     code: string;
@@ -1147,6 +1147,9 @@ export interface MetadataSchema {
 export interface MetadataField {
     description?: string | null;
     vocabulary?: string | null;
+    /** Un champ de type TERME propose les termes actifs de ce vocabulaire contrôlé (identifiant et nom). */
+    vocabularyId?: string | null;
+    vocabularyName?: string | null;
     configuration?: Json;
     id: string;
     code: string;
@@ -1166,6 +1169,8 @@ export interface MetadataBinding {
 export interface MetadataFieldDefinition {
     description?: string | null;
     vocabulary?: string | null;
+    vocabularyId?: string | null;
+    vocabularyName?: string | null;
     order?: number | null;
     schemaCode: string;
     schemaVersion: number;
@@ -1187,6 +1192,31 @@ export interface MetadataValue {
     order: number;
     value: Json;
     valueVersion: number;
+    /** Pour un champ de type TERME : le libellé du terme (la valeur est son identifiant), et si ce terme est devenu obsolète. */
+    label?: string | null;
+    termObsolete?: boolean | null;
+}
+/** Une ligne de l'historique des valeurs : de l'entrée en vigueur à la fin (vide : toujours en vigueur) ; `superseded` : remplacée par une autre valeur du même champ, sinon retirée. */
+export interface MetadataValueHistory {
+    schemaCode: string;
+    schemaVersion: number;
+    fieldCode: string;
+    fieldName: string;
+    type: MetadataValueType;
+    order: number;
+    value: Json;
+    valueVersion: number;
+    validFrom: string;
+    validTo: string | null;
+    enteredById: string | null;
+    label?: string | null;
+    termObsolete?: boolean | null;
+    superseded: boolean;
+}
+/** `hasMore` : l'historique est plus long que la page rendue (les lignes les plus anciennes manquent). */
+export interface MetadataHistoryPage {
+    items: MetadataValueHistory[];
+    hasMore: boolean;
 }
 export type IntakeMode = 'VERSEMENT' | 'DON' | 'DEPOT' | 'ACHAT' | 'TRANSFERT' | 'COLLECTE' | 'RESTITUTION' | 'AUTRE';
 export type IntakeStatus = 'OUVERTE' | 'CLOTUREE';
@@ -1196,6 +1226,8 @@ export interface ArchivalIntake {
     modeEntree: IntakeMode;
     sourceActeurId: string | null;
     sourceInstitutionId: string | null;
+    /** La direction (ou le service) versante, dans l'institution versante. */
+    sourceDepartmentId?: string | null;
     dateEntree: string;
     statut: IntakeStatus;
     instrument: string | null;
