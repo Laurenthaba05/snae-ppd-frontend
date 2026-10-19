@@ -5,9 +5,10 @@ import { CommandDialog } from '../ui/CommandDialog';
 import { Field, useResource, Modal, ErrorNotice } from '../ui/components';
 import { Icon } from '../ui/icons';
 import { ReferencePicker } from '../ui/ReferencePicker';
+import { InstitutionChoice } from '../ui/InstitutionChoice';
 import { CodeField } from '../ui/CodeField';
 import { text, uuid } from '../core/validation';
-import { can, platform } from '../core/policy';
+import { can } from '../core/policy';
 import type { RecordCatalog, DocumentType, Dossier, ClassificationNode } from '../core/types';
 const id = (x: string) => x.trim() ? uuid(x.trim()) : null;
 function CreateDocumentTypeDialog({ onClose, onCreated }: {
@@ -57,7 +58,6 @@ export function RecordForm({ kind, parent, onClose, onCreated }: {
 }) {
     const { me, records, classification } = useSession();
     const { scope } = useWorkspace();
-    const central = platform(me);
     const [creatingType, setCreatingType] = useState(false);
     const [reference, setReference] = useState('');
     const [title, setTitle] = useState('');
@@ -88,7 +88,7 @@ export function RecordForm({ kind, parent, onClose, onCreated }: {
         {parent && <p className="span2"><small>Sous-dossier de <strong>{parent.reference} · {parent.title}</strong> : il reste dans la même institution et le même service, et n’est jamais moins confidentiel que lui.</small></p>}
         <CodeField kind={kind === 'documents' ? 'DOCUMENT' : 'DOSSIER'} institutionId={institutionId} parentId={kind === 'documents' ? dossierId || null : parent?.id ?? null} classementId={classificationNodeId || null} value={reference} onChange={setReference} label="Cote ou référence *" maxLength={150}/>
         <Field label="Titre *" wide><input value={title} onChange={e => setTitle(e.target.value)} required maxLength={500}/></Field>
-        <Field label="Institution *"><ReferencePicker kind="institutions" label="Sélectionner une institution" value={institutionId} disabled={!!parent} onChange={v => { setInstitutionId(v); setDepartmentId(''); setClassificationNodeId(''); setDossierId(''); }} scope={central ? {} : { institutionId: me!.user.institutionId }}/></Field>
+        <Field label="Institution *"><InstitutionChoice value={institutionId} disabled={!!parent} onChange={v => { setInstitutionId(v); setDepartmentId(''); setClassificationNodeId(''); setDossierId(''); }}/></Field>
         <Field label="Département" hint="Optionnel."><ReferencePicker kind="departments" label="Sélectionner un département" value={departmentId} disabled={!!parent} onChange={setDepartmentId} scope={{ institutionId }} nullable/></Field>
         {kind === 'documents' && <Field label="Type de document *"><div className="input-icon"><select value={typeDocumentId} onChange={e => setTypeDocumentId(e.target.value)} required disabled={types.loading}><option value="">{types.loading ? 'Chargement…' : 'Choisir un type'}</option>{types.data?.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}</select>{can(me, 'TYPE_DOCUMENT_MANAGE', {}) && <button type="button" className="icon-btn" aria-label="Créer un type de document" onClick={() => setCreatingType(true)}><Icon name="plus" size={16}/></button>}</div></Field>}
         {kind === 'documents' && <Field label="Dossier" hint="Optionnel, limité aux dossiers de l’institution choisie."><select value={dossierId} onChange={e => setDossierId(e.target.value)} disabled={!institutionId || dossiers.loading}><option value="">Aucun</option>{dossiers.data?.items.map(d => <option key={d.id} value={d.id}>{d.title} ({d.reference})</option>)}</select></Field>}

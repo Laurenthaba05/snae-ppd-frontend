@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { ApiError } from '../core/http';
-import { platform } from '../core/policy';
 import { buildXlsx, downloadBytes, readSpreadsheet } from '../core/spreadsheet';
 import { MAX_IMPORT_ROWS } from '../core/institutionImport';
 import { departmentTemplate, parseDepartmentTable, type DepartmentRow } from '../core/departmentImport';
@@ -9,7 +8,7 @@ import type { Department } from '../core/types';
 import { Busy, ErrorNotice, Field, Modal, Notice } from './components';
 import { Icon } from './icons';
 import { EntityName } from './names';
-import { ReferencePicker } from './ReferencePicker';
+import { InstitutionChoice } from './InstitutionChoice';
 import { display } from '../core/format';
 
 type Stage = 'choose' | 'preview' | 'running' | 'done';
@@ -31,7 +30,7 @@ async function loadExisting(api: NonNullable<ReturnType<typeof useSession>['api'
 }
 
 export function DepartmentImport({ initialInstitutionId, onClose, onDone }: { initialInstitutionId: string | null; onClose: () => void; onDone: () => void }) {
-    const { api, me, refresh } = useSession();
+    const { api, refresh } = useSession();
     const [stage, setStage] = useState<Stage>('choose');
     const [institutionId, setInstitutionId] = useState(initialInstitutionId ?? '');
     const [existing, setExisting] = useState<{ state: 'idle' } | { state: 'loading' } | { state: 'error'; error: unknown } | { state: 'ready'; codes: Map<string, string> }>({ state: 'idle' });
@@ -126,14 +125,13 @@ export function DepartmentImport({ initialInstitutionId, onClose, onDone }: { in
     };
 
     const close = () => { if (stage !== 'running') onClose(); };
-    const central = platform(me);
     const ready = existing.state === 'ready';
     return <Modal title="Importer des départements depuis Excel" subtitle={stage === 'choose' ? 'Ajoutez plusieurs départements à une institution en une seule opération.' : fileName} onClose={close} locked={stage === 'running'} wide>
         <div className="imp">
             {stage === 'choose' && <>
                 <ol className="imp-steps">
                     <li><strong>Choisissez l’institution</strong> à laquelle les départements du fichier seront rattachés.
-                        <Field label="Institution"><ReferencePicker kind="institutions" label="Sélectionner une institution" value={institutionId} onChange={chooseInstitution} scope={central ? {} : { institutionId: me?.user.institutionId }} /></Field>
+                        <Field label="Institution"><InstitutionChoice value={institutionId} onChange={chooseInstitution} /></Field>
                         {existing.state === 'loading' && <Busy label="Lecture des départements existants…" />}
                         {existing.state === 'error' && <ErrorNotice error={existing.error} onRetry={() => setAttempt(n => n + 1)} />}
                         {ready && <small className="imp-note">{existing.codes.size === 0 ? 'Aucun département n’existe encore dans cette institution.' : `${existing.codes.size} département${existing.codes.size > 1 ? 's existent' : ' existe'} déjà : ils peuvent servir de parent.`}</small>}

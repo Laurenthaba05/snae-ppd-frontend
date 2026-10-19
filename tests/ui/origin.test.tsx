@@ -6,6 +6,8 @@ import { beforeEach, expect, it, vi } from 'vitest';
 // L'origine d'une activité des modules nationaux : l'institution et, si on la connaît, la direction ou le service. Une direction ne se choisit que dans une institution, changer d'institution
 // efface la direction, un champ vide part en `null`, l'origine s'affiche par ses noms, et le rattachement d'une activité déjà créée se fait dans une fenêtre qui garde la saisie en cas de refus.
 const picked = vi.hoisted(() => ({ institution: 'i-1', department: 'd-1' }));
+vi.mock('../../src/auth/session', () => ({ useSession: () => ({ me: null }) }));
+vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: null, departmentId: null } }) }));
 vi.mock('../../src/ui/ReferencePicker', () => ({
     ReferencePicker: ({ kind, label, value, onChange, disabled, scope }: { kind: string; label: string; value: string; onChange: (id: string) => void; disabled?: boolean; scope?: { institutionId?: string | null } }) =>
         <div><span data-testid={'scope-' + kind}>{scope?.institutionId ?? ''}</span><button type="button" aria-label={label} disabled={disabled} onClick={() => onChange(kind === 'institutions' ? picked.institution : picked.department)}>{value || 'vide'}</button>

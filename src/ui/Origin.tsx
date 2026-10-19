@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ErrorNotice, Field, Modal } from './components';
 import { ReferencePicker } from './ReferencePicker';
+import { InstitutionChoice } from './InstitutionChoice';
 import { EntityName } from './names';
 
 /**
@@ -18,7 +19,7 @@ export function OriginFields({ institutionId, departmentId, onChange, disabled =
 }) {
     return <>
         <Field label={institutionLabel} hint={hint ?? 'Facultatif : elle sert aux tableaux de bord et aux comptes par institution.'}>
-            <ReferencePicker kind="institutions" label="Sélectionner une institution" value={institutionId} disabled={disabled} nullable onChange={id => onChange(id, id === institutionId ? departmentId : '')} />
+            <InstitutionChoice value={institutionId} disabled={disabled} nullable followWorkspace={false} onChange={id => onChange(id, id === institutionId ? departmentId : '')} />
         </Field>
         <Field label={unitLabel} hint={institutionId ? 'Facultatif : une direction ou un service de cette institution.' : 'Choisissez d’abord l’institution.'}>
             <ReferencePicker kind="departments" label="Sélectionner une direction ou un service" value={departmentId} disabled={disabled || !institutionId} nullable scope={{ institutionId }} onChange={id => onChange(institutionId, id)} />

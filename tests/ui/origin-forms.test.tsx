@@ -9,7 +9,8 @@ const fixture = vi.hoisted(() => ({
     digitization: { command: vi.fn() }, physicalArchives: { command: vi.fn() }, archivalIntake: { command: vi.fn(), agreements: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/core/policy', () => ({ can: () => true }));
+vi.mock('../../src/core/policy', () => ({ can: () => true, platform: () => true }));
+vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: null, departmentId: null } }) }));
 vi.mock('../../src/ui/ResourceDetails', () => ({ ResourceDetailsButton: () => null }));
 vi.mock('../../src/ui/OptionalFields', () => ({ OptionalFields: () => null, useOptionalFields: () => ({ payload: () => ({}), values: {} }) }));
 vi.mock('../../src/ui/names', () => ({ EntityName: ({ id }: { id: string }) => <span>{id}</span>, DocumentName: ({ id }: { id: string }) => <span>{id}</span> }));

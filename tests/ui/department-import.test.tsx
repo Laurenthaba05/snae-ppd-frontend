@@ -9,6 +9,7 @@ const fixture = vi.hoisted(() => ({
     api: { command: vi.fn(), list: vi.fn(), get: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
+vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: null, departmentId: null } }) }));
 import { DepartmentImport } from '../../src/ui/DepartmentImport';
 
 const api = fixture.api;
