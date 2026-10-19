@@ -11,6 +11,7 @@ import { uuid } from '../core/validation';
 import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem } from '../core/types';
 import { DocumentName } from '../ui/names';
 import { display } from '../core/format';
+import { OriginDialog, OriginFields, OriginText, originPayload } from '../ui/Origin';
 
 function CreateLocationDialog({ locations, onClose, onCreated }: {
     locations: Localisation[];
@@ -101,7 +102,7 @@ function CreateStorageUnitDialog({ locationId, onClose, onCreated }: {
     </Modal>;
 }
 
-function CreateArchiveDialog({ unitId, onClose, onCreated }: {
+export function CreateArchiveDialog({ unitId, onClose, onCreated }: {
     unitId: string;
     onClose: () => void;
     onCreated: () => void;
@@ -112,6 +113,8 @@ function CreateArchiveDialog({ unitId, onClose, onCreated }: {
     const [etatPhysique, setEtatPhysique] = useState('');
     const [description, setDescription] = useState('');
     const [documentId, setDocumentId] = useState('');
+    const [institutionId, setInstitutionId] = useState('');
+    const [departmentId, setDepartmentId] = useState('');
     const extra = useOptionalFields('archive');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
@@ -121,7 +124,7 @@ function CreateArchiveDialog({ unitId, onClose, onCreated }: {
         setError(null);
         try {
             const trimmedDocumentId = documentId.trim();
-            await physicalArchives!.command('/archives', { ...extra.payload(), uniteStockageId: unitId, cote: cote.trim(), support: support.trim() || null, etatPhysique: etatPhysique.trim() || null, description: description.trim() || null, documentId: trimmedDocumentId ? uuid(trimmedDocumentId) : null }, crypto.randomUUID(), 'POST');
+            await physicalArchives!.command('/archives', { ...extra.payload(), uniteStockageId: unitId, cote: cote.trim(), support: support.trim() || null, etatPhysique: etatPhysique.trim() || null, description: description.trim() || null, ...originPayload(institutionId, departmentId), documentId: trimmedDocumentId ? uuid(trimmedDocumentId) : null }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -140,6 +143,7 @@ function CreateArchiveDialog({ unitId, onClose, onCreated }: {
                 <Field label="Support" hint="Optionnel"><input value={support} onChange={e => setSupport(e.target.value)} maxLength={80} disabled={busy}/></Field>
                 <Field label="État physique" hint="Optionnel"><input value={etatPhysique} onChange={e => setEtatPhysique(e.target.value)} maxLength={40} disabled={busy}/></Field>
                 <Field label="Document lié" hint="Identifiant du document, optionnel" wide><input value={documentId} onChange={e => setDocumentId(e.target.value)} disabled={busy}/></Field>
+                <OriginFields institutionId={institutionId} departmentId={departmentId} onChange={(i, d) => { setInstitutionId(i); setDepartmentId(d); }} disabled={busy} hint="Facultatif : l’institution qui a produit ces archives (celle du document quand il y en a un)."/>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
             <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
             </div>
@@ -292,6 +296,7 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
     const [checkingOut, setCheckingOut] = useState(false);
     const [attachingDocument, setAttachingDocument] = useState(false);
     const [creatingRestoration, setCreatingRestoration] = useState(false);
+    const [editingOrigin, setEditingOrigin] = useState(false);
     const [completingRestoration, setCompletingRestoration] = useState<string | null>(null);
     const [pending, setPending] = useState<string | null>(null);
     const canReadRestoration = can(me, 'RESTORATION_READ', {});
@@ -328,6 +333,7 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
             <dl className="detail-card">
                 <div><dt>État physique</dt><dd>{display(archive.etatPhysique)}</dd></div>
                 <div><dt>Document lié</dt><dd>{archive.documentId ? <DocumentName id={archive.documentId}/> : <span className="table-actions"><span>—</span>{canManage && <button className="btn small secondary" onClick={() => setAttachingDocument(true)}>Rattacher un document</button>}</span>}</dd></div>
+                <div><dt>Origine</dt><dd><span className="table-actions"><OriginText institutionId={archive.institutionId} departmentId={archive.departmentId}/>{canManage && !archive.documentId && <button className="btn small secondary" onClick={() => setEditingOrigin(true)}>Modifier</button>}</span></dd></div>
                 <div><dt>Dates extrêmes</dt><dd>{archive.dateExtremeDebut ?? '—'} → {archive.dateExtremeFin ?? '—'}</dd></div>
                 <div><dt>Quantité</dt><dd>{archive.quantite ? archive.quantite + (archive.uniteQuantite ? ' ' + archive.uniteQuantite : '') : '—'}</dd></div>
                 <div><dt>Description</dt><dd>{archive.description ?? '—'}</dd></div>
@@ -344,6 +350,8 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
         {checkingOut && <CheckoutDialog archive={archive} units={units} onClose={() => setCheckingOut(false)} onDone={() => { q.refresh(); onChanged(); }}/>}
         {attachingDocument && <AttachDocumentDialog archiveId={archive.id} onClose={() => setAttachingDocument(false)} onAttached={onChanged}/>}
+        {editingOrigin && <OriginDialog title="Origine de l’archive" subject={archive.cote} institutionId={archive.institutionId ?? null} departmentId={archive.departmentId ?? null}
+            onSave={async (institutionId, departmentId) => { await physicalArchives!.command(`/archives/${archive.id}/origin`, { institutionId, departmentId }, crypto.randomUUID(), 'POST'); onChanged(); }} onClose={() => setEditingOrigin(false)}/>}
         {creatingRestoration && <CreateRestorationDialog archiveId={archive.id} onClose={() => setCreatingRestoration(false)} onCreated={restorationsQ.refresh}/>}
         {completingRestoration && <CompleteRestorationDialog restorationId={completingRestoration} onClose={() => setCompletingRestoration(null)} onDone={restorationsQ.refresh}/>}
     </Modal>;
@@ -460,7 +468,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         </div>}
         {selectedUnitId && <div className="panel">
             <div className="section-heading"><h3>Archives physiques</h3>{canManageArchives && <button className="btn small primary" onClick={() => setCreatingArchive(true)}>Créer une archive</button>}</div>
-            {archivesQ.loading ? <Busy /> : archivesQ.error ? <ErrorNotice error={archivesQ.error} onRetry={archivesQ.refresh}/> : archives.length ? <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Support</th><th>État</th><th>Document</th></tr></thead><tbody>{archives.map(a => <tr key={a.id}><td><button className="record-name" onClick={() => setSelectedArchiveId(a.id)}><strong>{a.cote}</strong></button></td><td>{display(a.support)}</td><td>{display(a.etatPhysique)}</td><td>{a.documentId ? <DocumentName id={a.documentId}/> : '—'}</td></tr>)}</tbody></table></div> : <Empty title="Aucune archive physique" description="Créez la première archive pour cette unité de stockage."/>}
+            {archivesQ.loading ? <Busy /> : archivesQ.error ? <ErrorNotice error={archivesQ.error} onRetry={archivesQ.refresh}/> : archives.length ? <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Support</th><th>État</th><th>Document</th><th>Origine</th></tr></thead><tbody>{archives.map(a => <tr key={a.id}><td><button className="record-name" onClick={() => setSelectedArchiveId(a.id)}><strong>{a.cote}</strong></button></td><td>{display(a.support)}</td><td>{display(a.etatPhysique)}</td><td>{a.documentId ? <DocumentName id={a.documentId}/> : '—'}</td><td><OriginText institutionId={a.institutionId} departmentId={a.departmentId}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune archive physique" description="Créez la première archive pour cette unité de stockage."/>}
         </div>}
         <PhysicalEliminationSection />
         <PhysicalRiskSection />

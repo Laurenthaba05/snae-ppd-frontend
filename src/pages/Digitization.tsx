@@ -17,8 +17,9 @@ import { canWith, isCaptureStage, isWorkingStage, stageName } from '../core/work
 import { BatchImportDialog, CodeLookup, SheetsButton, elementSheet } from '../ui/ScanCodes';
 import type { DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrResult, Contribution, ScanLot } from '../core/types';
 import { display, elementName } from '../core/format';
+import { OriginDialog, OriginFields, OriginText, originPayload } from '../ui/Origin';
 
-function CreateProjectDialog({ onClose, onCreated }: {
+export function CreateProjectDialog({ onClose, onCreated }: {
     onClose: () => void;
     onCreated: () => void;
 }) {
@@ -27,6 +28,8 @@ function CreateProjectDialog({ onClose, onCreated }: {
     const [code, setCode] = useState('');
     const [perimetre, setPerimetre] = useState('');
     const [description, setDescription] = useState('');
+    const [institutionId, setInstitutionId] = useState('');
+    const [departmentId, setDepartmentId] = useState('');
     const extra = useOptionalFields('project');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
@@ -35,7 +38,7 @@ function CreateProjectDialog({ onClose, onCreated }: {
         setBusy(true);
         setError(null);
         try {
-            await digitization!.command('/projects', { ...extra.payload(), nom: nom.trim(), code: code.trim() || null, perimetre: perimetre.trim() || null, description: description.trim() || null }, crypto.randomUUID(), 'POST');
+            await digitization!.command('/projects', { ...extra.payload(), nom: nom.trim(), code: code.trim() || null, perimetre: perimetre.trim() || null, description: description.trim() || null, ...originPayload(institutionId, departmentId) }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -53,6 +56,7 @@ function CreateProjectDialog({ onClose, onCreated }: {
                 <Field label="Nom" wide><input value={nom} onChange={e => setNom(e.target.value)} required maxLength={255} disabled={busy}/></Field>
                 <Field label="Code" hint="Optionnel"><input value={code} onChange={e => setCode(e.target.value)} maxLength={100} disabled={busy}/></Field>
                 <Field label="Périmètre" hint="Optionnel"><input value={perimetre} onChange={e => setPerimetre(e.target.value)} disabled={busy}/></Field>
+                <OriginFields institutionId={institutionId} departmentId={departmentId} onChange={(i, d) => { setInstitutionId(i); setDepartmentId(d); }} disabled={busy} hint="Facultatif : l’institution dont on numérise les archives. Elle sert aux tableaux de bord."/>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
             <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
             </div>
@@ -360,6 +364,7 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
     const { me, digitization, epoch } = useSession();
     const canManage = can(me, 'DIGITIZATION_MANAGE', {});
     const [creatingProject, setCreatingProject] = useState(false);
+    const [originOf, setOriginOf] = useState<DigitizationProject | null>(null);
     const [creatingElement, setCreatingElement] = useState(false);
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(initialProjectId ?? null);
     const [selectedElementId, setSelectedElementId] = useState<string | null>(initialElementId ?? null);
@@ -384,7 +389,7 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
         <div className="panel panel-padding"><CodeLookup projectId={selectedProjectId} elements={elements} lots={lotsForLookup.data ?? []} onElement={openElement} onLot={openLot}/></div>
         <div className="panel">
             <div className="section-heading"><h3>Projets</h3></div>
-            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button><ResourceDetailsButton resource="digitizationProject" id={p.id} title={p.nom} /></td><td>{p.code ?? '—'}</td><td><Badge value={p.statut}/></td><td>{canManage && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
+            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Origine</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button><ResourceDetailsButton resource="digitizationProject" id={p.id} title={p.nom} /></td><td>{p.code ?? '—'}</td><td><OriginText institutionId={p.institutionId} departmentId={p.departmentId}/></td><td><Badge value={p.statut}/></td><td>{canManage && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => setOriginOf(p)} aria-label={`Rattacher le projet ${p.nom} à son institution`}>Origine</button><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
         </div>
         {selectedProjectId && <div className="panel">
             <div className="section-heading"><h3>Éléments</h3><div className="table-actions"><SheetsButton label="Feuilles séparatrices" title="Feuilles séparatrices" build={async () => elements.filter(el => isCaptureStage(el.statut)).map(el => elementSheet(el, selectedProject ? [selectedProject.nom] : []))}/>{canManage && <button className="btn small secondary" onClick={() => setBatching(true)}>Importer un lot de fichiers</button>}{canManage && <button className="btn small primary" onClick={() => setCreatingElement(true)}>Créer un élément</button>}</div></div>
@@ -393,6 +398,8 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
         {selectedProjectId && <LotsPanel projectId={selectedProjectId} canManage={canManage} focusLotId={focusLotId} projectName={selectedProject?.nom}/>}
         {batching && selectedProjectId && <BatchImportDialog projectId={selectedProjectId} lot={null} onClose={() => setBatching(false)} onDone={elementsQ.refresh}/>}
         {creatingProject && <CreateProjectDialog onClose={() => setCreatingProject(false)} onCreated={projectsQ.refresh}/>}
+        {originOf && <OriginDialog title="Origine du projet" subject={originOf.nom} institutionId={originOf.institutionId ?? null} departmentId={originOf.departmentId ?? null}
+            onSave={async (institutionId, departmentId) => { await digitization!.command(`/projects/${originOf.id}/origin`, { institutionId, departmentId }, crypto.randomUUID(), 'POST'); projectsQ.refresh(); }} onClose={() => setOriginOf(null)}/>}
         {creatingElement && selectedProjectId && <CreateElementDialog projectId={selectedProjectId} onClose={() => setCreatingElement(false)} onCreated={elementsQ.refresh}/>}
         {selectedElement && <ElementDetailDialog element={selectedElement} canManage={canManage} onClose={() => setSelectedElementId(null)} onChanged={elementsQ.refresh}/>}
         </>;

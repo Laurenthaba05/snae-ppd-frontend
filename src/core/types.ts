@@ -536,6 +536,9 @@ export interface PhysicalArchive {
     quantite: string | null;
     uniteQuantite: string | null;
     versionLock: number;
+    /** D'où vient l'archive : l'institution et la direction (ou le service) qui l'ont produite. */
+    institutionId?: string | null;
+    departmentId?: string | null;
 }
 export interface ArchiveMovement {
     id: string;
@@ -629,6 +632,9 @@ export interface DigitizationProject {
     dateFinReelle: string | null;
     statut: DigitizationProjectStatus;
     versionLock: number;
+    /** D'où vient le projet : l'institution et la direction (ou le service) dont on numérise les archives. */
+    institutionId?: string | null;
+    departmentId?: string | null;
 }
 export interface DigitizationElement {
     id: string;

@@ -13,11 +13,12 @@ import { STAGE_LABELS, isFinal } from '../core/structuredIntake';
 import { display } from '../core/format';
 import { useWorkspace } from '../ui/workspace';
 import { uuid } from '../core/validation';
+import { OriginFields, OriginText, originPayload } from '../ui/Origin';
 import type { ArchivalIntake, IntakeMode } from '../core/types';
 
 const modes: IntakeMode[] = ['VERSEMENT', 'DON', 'DEPOT', 'ACHAT', 'TRANSFERT', 'COLLECTE', 'RESTITUTION', 'AUTRE'];
 
-function CreateIntakeDialog({ onClose, onCreated }: {
+export function CreateIntakeDialog({ onClose, onCreated }: {
     onClose: () => void;
     onCreated: () => void;
 }) {
@@ -32,6 +33,8 @@ function CreateIntakeDialog({ onClose, onCreated }: {
     const [accordId, setAccordId] = useState('');
     const [institutionArchivesId, setInstitutionArchivesId] = useState('');
     const [producteurId, setProducteurId] = useState('');
+    const [sourceInstitutionId, setSourceInstitutionId] = useState('');
+    const [sourceDepartmentId, setSourceDepartmentId] = useState('');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const intent=useRef<{payload:string;key:string}|null>(null);
@@ -53,6 +56,7 @@ function CreateIntakeDialog({ onClose, onCreated }: {
         setError(null);
         try {
             const payload={...extra.payload(), numero:numero.trim(),modeEntree,dateEntree:new Date(dateEntree).toISOString(),referencePreuve:referencePreuve.trim()||null,description:description.trim()||null,
+                ...originPayload(sourceInstitutionId, sourceDepartmentId, { institution: 'sourceInstitutionId', department: 'sourceDepartmentId' }),
                 ...(structured ? { structured: true, accordId: accordId || null, producteurId, institutionArchivesId } : {})};
             const serialized=JSON.stringify(payload);
             if(intent.current?.payload!==serialized)intent.current={payload:serialized,key:crypto.randomUUID()};
@@ -75,6 +79,8 @@ function CreateIntakeDialog({ onClose, onCreated }: {
                 <Field label="Mode d’entrée"><select value={modeEntree} onChange={e => setModeEntree(e.target.value as IntakeMode)} disabled={busy}>{modes.map(m => <option key={m} value={m}>{display(m)}</option>)}</select></Field>
                 <Field label="Date d’entrée"><input type="datetime-local" value={dateEntree} onChange={e => setDateEntree(e.target.value)} required disabled={busy}/></Field>
                 <Field label="Référence de preuve" hint="Optionnelle" wide><input value={referencePreuve} onChange={e => setReferencePreuve(e.target.value)} maxLength={255} disabled={busy}/></Field>
+                <OriginFields institutionId={sourceInstitutionId} departmentId={sourceDepartmentId} onChange={(i, d) => { setSourceInstitutionId(i); setSourceDepartmentId(d); }} disabled={busy}
+                    institutionLabel="Institution versante" unitLabel="Direction ou service versant" hint="Facultatif : l’institution qui verse ces archives. Elle sert aux tableaux de bord."/>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
                 <label className="field span2 check-field"><span><input type="checkbox" checked={structured} onChange={e => setStructured(e.target.checked)} disabled={busy}/> Versement structuré</span><small>Bordereau ligne à ligne, contrôle par étapes, volumétrie, accusé de réception. À choisir pour un versement d’un service producteur.</small></label>
                 {structured && <>
@@ -182,7 +188,7 @@ export function ArchivalIntakePage() {
         <div className="tabs" role="tablist" aria-label="Entrées et accords"><button role="tab" aria-selected={tab === 'entries'} className={tab === 'entries' ? 'active' : ''} onClick={() => setTab('entries')}>Entrées</button><button role="tab" aria-selected={tab === 'agreements'} className={tab === 'agreements' ? 'active' : ''} onClick={() => setTab('agreements')}>Accords de versement</button></div>
         {tab === 'agreements' ? <DepositAgreementsPanel canManage={canManage}/> : <div className="panel">
             <div className="section-heading"><h3>Entrées</h3></div>
-            {entriesQ.loading ? <Busy /> : entriesQ.error ? <ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/> : entries.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>Mode</th><th>Date</th><th>Étape</th><th>Statut</th></tr></thead><tbody>{entries.map(e => <tr key={e.id}><td><button className="record-name" onClick={() => setSelectedId(e.id)}><strong>{e.numero}</strong></button><ResourceDetailsButton resource="intakeEntry" id={e.id} title={e.numero} /></td><td>{display(e.modeEntree)}</td><td>{formatDate(e.dateEntree)}</td><td>{e.etape ? <Badge value={e.etape} label={STAGE_LABELS[e.etape]}/> : <small>Entrée simple</small>}</td><td><Badge value={e.statut}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune entrée archivistique" description="Créez la première entrée."/>}
+            {entriesQ.loading ? <Busy /> : entriesQ.error ? <ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/> : entries.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>Mode</th><th>Date</th><th>Versant</th><th>Étape</th><th>Statut</th></tr></thead><tbody>{entries.map(e => <tr key={e.id}><td><button className="record-name" onClick={() => setSelectedId(e.id)}><strong>{e.numero}</strong></button><ResourceDetailsButton resource="intakeEntry" id={e.id} title={e.numero} /></td><td>{display(e.modeEntree)}</td><td>{formatDate(e.dateEntree)}</td><td><OriginText institutionId={e.sourceInstitutionId} departmentId={e.sourceDepartmentId}/></td><td>{e.etape ? <Badge value={e.etape} label={STAGE_LABELS[e.etape]}/> : <small>Entrée simple</small>}</td><td><Badge value={e.statut}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune entrée archivistique" description="Créez la première entrée."/>}
         </div>}
         {creating && <CreateIntakeDialog onClose={() => setCreating(false)} onCreated={entriesQ.refresh}/>}
         {selected && <IntakeDetailDialog intake={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={entriesQ.refresh}/>}
