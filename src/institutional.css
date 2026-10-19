@@ -183,7 +183,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .stat-scope { display:block; margin:11px 0 12px; }
 .home-columns { display:grid; grid-template-columns:minmax(0,1.7fr) minmax(250px,1fr); gap:24px; }
 .section-heading.plain { padding:0; margin:0 0 17px; }
-.section-heading h3 { font-size:16px; color:#3c573d; font-weight:600; margin:0; }
+.section-heading h3, .section-heading h2 { font-size:16px; color:#3c573d; font-weight:600; margin:0; }
 .section-heading p { font-size:13px; color:#5d705d; margin:6px 0 0; }
 .section-caption { font-size:11px; color:#919c85; letter-spacing:.7px; }
 .shortcut-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }

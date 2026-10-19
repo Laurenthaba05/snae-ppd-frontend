@@ -73,6 +73,8 @@ export const EN: Readonly<Record<string, string>> = {
     'Métadonnées': 'Metadata',
     'Vocabulaires contrôlés': 'Controlled vocabularies',
     'Codification des références': 'Reference codification',
+    'Tableau de bord du périmètre': 'Scope dashboard',
+    'Tableau de bord national': 'National dashboard',
     'Recherche': 'Search',
     'Consultations': 'Consultations',
     'Communications': 'Communications',

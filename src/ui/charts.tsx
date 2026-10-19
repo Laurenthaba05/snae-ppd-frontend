@@ -41,7 +41,7 @@ export function StackedBar({ title, unit, segments }: { title: string; unit: str
         <div className="db-sbar" role="img" aria-label={summary}>
             {live.length ? live.map(s => {
                 const rows = [{ color: s.color, label: s.label, value: nf(s.value) + ' ' + unit + ' · ' + percent(s.value, total) + ' %' }];
-                return <span key={s.key} className="db-sbar-seg" tabIndex={0} aria-label={s.label + ' : ' + nf(s.value)} style={{ flexGrow: s.value, background: s.color }}
+                return <span key={s.key} className="db-sbar-seg" tabIndex={0} role="img" aria-label={s.label + ' : ' + nf(s.value)} style={{ flexGrow: s.value, background: s.color }}
                     onPointerMove={e => show(e, title, rows)} onPointerLeave={hide} onFocus={e => show(e, title, rows)} onBlur={hide} />;
             }) : <span className="db-sbar-empty" />}
         </div>
@@ -97,7 +97,7 @@ export function StackedColumns({ title, unit, columns, good, warn }: { title: st
                     {c.good > 0 && <path d={c.warn > 0 ? `M${x} ${top + plotH}V${top + plotH - goodH + gap}H${x + barW}V${top + plotH}Z` : roundedTop(x, top + plotH - goodH, barW, goodH, 4)} fill={good.color} />}
                     {c.warn > 0 && <path d={roundedTop(x, top + plotH - goodH - warnH, barW, warnH - gap, 4)} fill={warn.color} />}
                     <text x={cx} y={H - 7} textAnchor="middle">{c.label}</text>
-                    <rect x={cx - band / 2} y={top} width={band} height={plotH + bottom} fill="transparent" tabIndex={0} aria-label={c.label + ' : ' + c.good + ' conformes, ' + c.warn + ' à corriger'}
+                    <rect x={cx - band / 2} y={top} width={band} height={plotH + bottom} fill="transparent" tabIndex={0} role="img" aria-label={c.label + ' : ' + c.good + ' conformes, ' + c.warn + ' à corriger'}
                         onPointerMove={e => show(e, c.label, rows)} onPointerLeave={hide} onFocus={e => show(e, c.label, rows)} onBlur={hide} />
                 </g>;
             })}
@@ -144,7 +144,7 @@ export function AreaChart({ title, unit, points, color }: { title: string; unit:
             {points.map((p, i) => <text key={p.key} x={xOf(i)} y={H - 8} textAnchor="middle">{p.label}</text>)}
             {active !== null && <line x1={xOf(active)} x2={xOf(active)} y1={top} y2={top + plotH} className="axis" />}
             {points.length > 0 && <circle cx={xOf(dot)} cy={yOf(points[dot]!.value)} r={4.5} fill={color} stroke="#fff" strokeWidth={2} />}
-            {points.map((p, i) => <rect key={p.key} x={xOf(i) - hit / 2} y={top} width={hit} height={plotH + bottom} fill="transparent" tabIndex={0} aria-label={p.label + ' : ' + nf(p.value) + ' ' + unit}
+            {points.map((p, i) => <rect key={p.key} x={xOf(i) - hit / 2} y={top} width={hit} height={plotH + bottom} fill="transparent" tabIndex={0} role="img" aria-label={p.label + ' : ' + nf(p.value) + ' ' + unit}
                 onPointerMove={e => { setActive(i); show(e, p.label, [{ color, label: title, value: nf(p.value) + ' ' + unit }]); }} onPointerLeave={() => { setActive(null); hide(); }}
                 onFocus={e => { setActive(i); show(e, p.label, [{ color, label: title, value: nf(p.value) + ' ' + unit }]); }} onBlur={() => { setActive(null); hide(); }} />)}
         </svg>
@@ -166,7 +166,7 @@ export function Donut({ title, unit, segments, centerLabel }: { title: string; u
                     const length = Math.max((s.value / total) * C - GAP, 0.5);
                     const start = offset; offset += (s.value / total) * C;
                     const rows = [{ color: s.color, label: s.label, value: nf(s.value) + ' ' + unit + ' · ' + percent(s.value, total) + ' %' }];
-                    return <circle key={s.key} className="db-donut-seg" cx="85" cy="85" r={R} fill="none" stroke={s.color} strokeWidth={24} strokeDasharray={`${length} ${C - length}`} strokeDashoffset={-start} tabIndex={0} aria-label={s.label + ' : ' + nf(s.value)}
+                    return <circle key={s.key} className="db-donut-seg" cx="85" cy="85" r={R} fill="none" stroke={s.color} strokeWidth={24} strokeDasharray={`${length} ${C - length}`} strokeDashoffset={-start} tabIndex={0} role="img" aria-label={s.label + ' : ' + nf(s.value)}
                         onPointerMove={e => show(e, title, rows)} onPointerLeave={hide} onFocus={e => show(e, title, rows)} onBlur={hide} />;
                 })}
             </g>

@@ -105,3 +105,14 @@ it('l’état du système n’est « Opérationnel » que si tout ce qui a été
     expect(state({ backup: 'unknown', ocr: 'unknown' })).toBe('Opérationnel');   // ce qui n'est pas mesuré ne compte ni pour ni contre
     expect(state({ apiOk: false })).toBe('Indisponible');
 });
+
+it('l’accueil renvoie au tableau de bord du périmètre, seulement à qui peut l’ouvrir', async () => {
+    const { navigate } = await import('../../src/ui/navigation');
+    const first = render(<HomeView data={data()} loading={false} name="Mariama" canGo={route => route === 'tableau-de-bord'} />);
+    const link = screen.getByRole('button', { name: 'Voir le tableau de bord complet de votre périmètre' });
+    link.click();
+    expect(navigate).toHaveBeenCalledWith('/app/tableau-de-bord');
+    first.unmount();
+    render(<HomeView data={data()} loading={false} name="Mariama" canGo={() => false} />);
+    expect(screen.queryByRole('button', { name: 'Voir le tableau de bord complet de votre périmètre' })).toBeNull();
+});

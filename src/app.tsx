@@ -50,6 +50,8 @@ const ReadingRoomPage = screen(() => import('./pages/ReadingRoom'), 'ReadingRoom
 const VocabularyPage = screen(() => import('./ui/Vocabularies'), 'VocabularyPage');
 const MetadataPage = screen(() => import('./pages/Metadata'), 'MetadataPage');
 const CodificationPage = screen(() => import('./ui/Codification'), 'CodificationPage');
+const ScopeDashboardPage = screen(() => import('./pages/ScopeDashboard'), 'ScopeDashboardPage');
+const NationalDashboardPage = screen(() => import('./pages/NationalDashboard'), 'NationalDashboardPage');
 const ArchivalIntakePage = screen(() => import('./pages/ArchivalIntake'), 'ArchivalIntakePage');
 const TaskInboxPage = screen(() => import('./pages/TaskInbox'), 'TaskInboxPage');
 const WorkflowPage = screen(() => import('./pages/Workflow'), 'WorkflowPage');
@@ -60,7 +62,7 @@ const PortalApp = screen(() => import('./portal/PortalApp'), 'PortalApp');
 
 const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
 const recordKeys = ['documents', 'dossiers'];
-const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires', 'codification']);
+const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires', 'codification', 'tableau-de-bord', 'tableau-national']);
 
 function Shell() {
     const { me, demo, epoch, logout, switchPersona, resetDemo } = useSession();
@@ -152,7 +154,8 @@ function Shell() {
     }, [menu]);
 
     const render = () => {
-        if (!section) return <Dashboard />;
+        // le Directeur national n'a pas d'institution de rattachement : son accueil est la vue d'ensemble nationale (dès qu'il choisit une institution, il retrouve l'accueil ordinaire)
+        if (!section) return !demo && !scope.institutionId && can(me, 'DASHBOARD_NATIONAL_READ', {}) ? <NationalDashboardPage /> : <Dashboard />;
         if (section === 'acquisition') return <AcquisitionPage />;
         if (section === 'parcours') return <JourneysPage />;
         if (section === 'scanners') return demo || can(me, 'DIGITIZATION_READ', {}) ? <ScannersPage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture de la numérisation.</Notice>;
@@ -191,6 +194,8 @@ function Shell() {
         if (!demo && section === 'salle-lecture') return ['READING_ROOM_READ', 'READING_ROOM_DESK', 'READING_ROOM_MANAGE'].some(code => can(me, code, scope)) ? <ReadingRoomPage /> : <Notice tone="warning">Cette section exige une habilitation de la salle de lecture pour ce périmètre.</Notice>;
         if (!demo && section === 'notifications') return <NotificationsPage />;
         if (!demo && section === 'vocabulaires') return can(me, 'VOCABULARY_MANAGE', scope) ? <VocabularyPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion des vocabulaires contrôlés pour ce périmètre.</Notice>;
+        if (!demo && section === 'tableau-national') return can(me, 'DASHBOARD_NATIONAL_READ', {}) ? <NationalDashboardPage /> : <Notice tone="warning">Cette section exige l’habilitation nationale de lecture du tableau de bord national.</Notice>;
+        if (!demo && section === 'tableau-de-bord') return <ScopeDashboardPage />;
         if (!demo && section === 'codification') return can(me, 'CODIFICATION_MANAGE', scope) ? <CodificationPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion de la codification des références pour ce périmètre.</Notice>;
         if (!demo && section === 'metadonnees') return can(me, 'METADATA_SCHEMA_MANAGE', scope) ? <MetadataPage /> : <Notice tone="warning">Cette section exige une habilitation d’administration des schémas de métadonnées.</Notice>;
         if (!demo && section === 'versements') return can(me, 'ARCHIVAL_INTAKE_READ', {}) ? <ArchivalIntakePage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des entrées archivistiques.</Notice>;

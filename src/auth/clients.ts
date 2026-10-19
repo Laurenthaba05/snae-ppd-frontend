@@ -21,6 +21,7 @@ import { DisseminationApi } from '../api/dissemination';
 import { VocabularyApi } from '../api/vocabulary';
 import { NotificationsApi } from '../api/notifications';
 import { CodificationApi } from '../api/codification';
+import { DashboardApi } from '../api/dashboard';
 
 /**
  * Les clients d'API de l'application, déclarés une seule fois : ajouter un module, c'est ajouter une ligne ici. Chacun est créé sur le même transport quand la connexion est
@@ -48,7 +49,8 @@ const factories = {
     dissemination: (t: Transport) => new DisseminationApi(t),
     vocabulary: (t: Transport) => new VocabularyApi(t),
     notifications: (t: Transport) => new NotificationsApi(t),
-    codification: (t: Transport) => new CodificationApi(t)
+    codification: (t: Transport) => new CodificationApi(t),
+    dashboard: (t: Transport) => new DashboardApi(t)
 };
 
 export type Clients = { [K in keyof typeof factories]: ReturnType<(typeof factories)[K]> };

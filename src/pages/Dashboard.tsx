@@ -196,6 +196,7 @@ export function HomeView({ data, loading, name, canGo }: { data: HomeData | null
             <Kpi icon="users" tone="green2" route="consultations" value={val(data?.tasks.requests)} label="Demandes d’accès" hint={data?.tasks.requests === null ? NA : 'Demandes déposées ou en instruction'} />
             <Kpi icon="stack" tone="blue" value="—" label="Volume total" hint="Volume de stockage non exposé par l’API actuelle" />
         </section>
+        {canGo('tableau-de-bord') && <p className="hm-foot"><button type="button" className="text-link" onClick={() => navigate('/app/tableau-de-bord')}>Voir le tableau de bord complet de votre périmètre</button> : chiffres exacts, unités et sous-unités.</p>}
 
         <div className="hm-grid">
             <div className="hm-left">
