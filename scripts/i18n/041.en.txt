@@ -1,0 +1,61 @@
+1	. Fixed text is written in capitals; the year is written with four digits; the counter resumes after the highest number already used (per year and per container when the model contains them), without filling gaps.
+2	Add a part
+3	Preview:
+4	ARC, -, /…
+5	No model: the reference is free
+6	This reference does not follow the model: you can still save it.
+7	This reference does not follow the institution’s mandatory model; saving will be refused.
+8	This section requires the permission to manage codification for this institution.
+9	This section requires a permission to manage reference codification for this scope.
+10	Counter digits of part {1}
+11	Choose an institution in the working scope: codification models belong to an institution.
+12	Classification code
+13	Classification code, year and number ({classement}-YYYY-01)
+15	How the reference of a document is written (its business identifier)
+16	How the reference of a folder is written
+17	How the code of a description record is written (fonds, series, folder, item)
+18	Describe how the institution writes its call numbers and codes: the system suggests the next one and checks what is entered.
+19	Describe, for the institution, how the references of documents, folders and description records are written: the system suggests the next one and checks what is entered.
+20	Define
+21	Define a model for documents
+22	Define a model for folders
+23	Define a model for description records
+24	Move part {1} down
+25	Document’s folder
+26	Example
+27	Optional: what this model is for.
+28	model guides data entry (suggesting the next reference, warning) without refusing anything; the
+29	indicative
+30	Indicative
+31	Indicative: guides without refusing. Mandatory: a reference that does not follow it is refused on creation, imports included.
+32	The
+33	References become free again: no more suggestion, no more check. References already recorded do not change.
+34	Codification model: documents
+35	Codification model: folders
+36	Codification model: description records
+37	Institution’s model: {1} (indicative).
+38	Institution’s model: {1} (mandatory).
+39	Models of
+40	Edit the model for documents
+41	Edit the model for folders
+42	Edit the model for description records
+43	Move part {1} up
+44	Subject concerned:
+45	mandatory
+46	Start from an example
+47	Part {1}
+48	Parts of the reference, in order
+49	Suggest the next reference
+50	Container reference and number ({contenant}/001)
+51	model refuses on creation a reference that does not follow it, imports included. References already recorded never change.
+52	Replaces the parts below; nothing is saved until “Save”.
+53	Remove this model?
+54	Remove part {1}
+55	Remove the model
+56	Remove the model for documents
+57	Remove the model for folders
+58	Remove the model for description records
+59	Text of part {1}
+60	Text, year and number (ARC-YYYY-0001)
+61	Type of part {1}
+62	A continuous number (00001)

@@ -1,0 +1,25 @@
+1	National activities attached
+2	physical archives
+3	These activities are attached to the institution and the unit of origin of each one; those with no origin yet are not included.
+4	Directorate or service
+5	Directorate or service of origin
+6	Depositing directorate or service
+7	Digitized items by stage
+8	Optional: it is used by the dashboards and the counts per institution.
+9	Optional: the institution whose archives are being digitized. It is used by the dashboards.
+10	Optional: the institution that produced these archives (the document’s one when there is one).
+11	Optional: the institution depositing these archives. It is used by the dashboards.
+12	Optional: a directorate or a service of this institution.
+13	Not attached
+14	Origin of the archive
+15	Origin of the project
+16	digitization projects in total
+17	digitization projects in progress
+18	projects with no origin
+19	Attach project {1} to its institution
+20	without a depositing institution
+21	with no origin
+22	Select a directorate or a service
+23	deposits in total
+24	deposits open
+25	Open deposits

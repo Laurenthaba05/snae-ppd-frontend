@@ -1,0 +1,75 @@
+1	{1} created in the last 30 days
+2	Show this institution’s dashboard
+3	Show this unit’s dashboard
+4	Aug.
+5	Permanently archived
+6	archives recorded
+7	No documents.
+8	No retention deadline in this scope.
+9	No retention deadline.
+10	No institutions.
+11	No unit is visible in this scope.
+12	disposal slips in progress
+13	This section requires the national permission to read the national dashboard.
+14	This unit and its sub-units
+15	Choose an institution (and, if needed, a unit) in the working scope to see its dashboard.
+16	Confidentiality and deadlines
+17	Retention and deadlines
+18	in the next 90 days
+19	Dec.
+20	Requests
+21	access requests pending
+22	Consultation requests submitted or under review
+23	Pending requests
+24	destroyed
+25	document(s) destroyed, kept as traces.
+26	Documents added per month
+27	Documents by level
+28	Documents by status
+29	Documents attached
+30	Folders attached
+31	deadline(s)
+32	Retention deadlines passed and not handled
+33	deadlines overdue
+34	Overdue deadlines
+35	Deadlines by state
+36	Due
+37	items in processing
+38	items suspended
+39	Disposals and transfers
+40	On deposit
+41	entries in total
+42	entries open
+43	Feb.
+44	Holds
+45	Active holds
+46	active legal holds
+47	Active legal holds
+48	National indicators
+49	The overview of all institutions and national activities, on a single screen.
+50	The dashboard is not available in this session.
+51	The national dashboard is not available in this session.
+52	The figures for the institution or unit chosen in the working scope, sub-units included: what you are allowed to read, nothing more.
+53	The figures for your institution or your unit, sub-units included.
+54	Consultation requests are counted per institution, not per unit
+55	The institutions
+56	The institution’s units
+57	Updated on {1} at {2}
+58	Confidentiality levels
+59	Not available: your permission does not cover this heading in this scope.
+60	Not available: your permission does not cover retention in this scope.
+61	Not available: your permission does not cover digitization.
+62	Not available: your permission does not cover the readers’ portal.
+63	Not available: your permission does not cover physical archives.
+64	Not available: your permission does not cover documents in this scope.
+65	Not available: your permission does not cover disposals and transfers.
+66	Not available: your permission does not cover transfers of records.
+67	Open the national dashboard
+68	STEERING
+69	NATIONAL STEERING
+70	Status of documents
+71	Institutions table, scrolling possible
+72	Units table, horizontal scrolling possible
+73	All the units of the institution
+74	Units
+75	View the dashboard of the whole institution

@@ -1,0 +1,64 @@
+1	(obsolete term)
+2	) will no longer be assigned to new documents. Documents that already received it keep it and their values do not change.
+3	) will be removed from this draft. No document has a value for it yet: nothing recorded is lost.
+4	Archives virtual assistant · 24/7
+5	No history
+6	No active vocabulary is available for this schema: create one in the vocabularies module.
+7	No value has been recorded for this document yet.
+8	This field is not linked to any vocabulary: report it to the schema administrator.
+9	This schema is active: its fields cannot be modified, because documents depend on it. To change it, create a new version, correct it, then activate it: the old version is then withdrawn, and the documents that received it keep it.
+10	This schema is withdrawn: it is no longer assigned to new documents. To use it again, create a new version.
+11	Choose your assistant
+12	Choose a controlled vocabulary.
+13	Signed in: the assistant can read your requests and subscriptions.
+14	Sign in so the assistant can follow your requests.
+15	Create a new version
+16	Effective date
+17	Unlink my WhatsApp
+18	Move down
+19	Write to the assistant on WhatsApp
+20	typing…
+21	In force from
+22	Send
+23	Send
+24	Close the assistant
+25	Metadata term filter
+26	Filter by metadata term
+27	Metadata history
+28	Change history
+29	The assistant is not responding at the moment.
+30	The assistant is not responding at the moment. Try again in a few minutes.
+31	The history is longer than the page shown: the oldest changes are not displayed.
+32	The field
+33	A field’s code does not change: values are recorded under this name.
+34	The schema
+35	The schema is only assigned to documents from this date.
+36	The active terms of this vocabulary are offered when entering data; the recorded value is the term.
+37	Values in force, replaced or withdrawn, from most recent to oldest
+38	Link my WhatsApp
+39	Edit the field
+40	Edit the name and effective date
+41	Edit the schema
+42	Move up
+43	Never give your password.
+44	New conversation
+45	Effective period
+46	Ask your question…
+47	Replaced on
+48	Withdrawn on
+49	Withdraw this schema
+50	Withdraw this schema?
+51	Remove the link to
+52	Withdraw the schema
+53	Entered by
+54	Delete this field?
+55	Delete the field
+56	on WhatsApp before
+57	Vocabulary term
+58	Term not found
+59	Metadata terms
+60	Too many messages: try again in a moment.
+61	Document type not found
+62	Controlled vocabulary
+63	Controlled vocabulary:
+64	Your question

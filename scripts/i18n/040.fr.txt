@@ -1,0 +1,8 @@
+1	Voir le mot dans le PDF
+2	Mot recherché dans le document
+3	Localisation du mot dans les pages OCR validées…
+4	Aucune position correspondant aux mots exacts de la recherche dans les PDF consultables de la dernière version. Le résultat peut provenir de la notice, d’une variante du mot ou d’un texte sans positions OCR.
+6	Les mots correspondants sont surlignés en jaune.
+7	La page demandée n’existe plus dans ce PDF. La première page est affichée.
+8	Ce document est volumineux. Précisez votre recherche ou consultez ses fichiers depuis la notice.
+9	Recherche :

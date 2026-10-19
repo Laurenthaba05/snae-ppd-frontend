@@ -1,0 +1,25 @@
+1	Activités nationales rattachées
+2	archives physiques
+3	Ces activités sont rattachées à l’institution et à la direction d’origine de chacune ; celles qui n’ont pas encore d’origine n’y figurent pas.
+4	Direction ou service
+5	Direction ou service d’origine
+6	Direction ou service versant
+7	Éléments numérisés par étape
+8	Facultatif : elle sert aux tableaux de bord et aux comptes par institution.
+9	Facultatif : l’institution dont on numérise les archives. Elle sert aux tableaux de bord.
+10	Facultatif : l’institution qui a produit ces archives (celle du document quand il y en a un).
+11	Facultatif : l’institution qui verse ces archives. Elle sert aux tableaux de bord.
+12	Facultatif : une direction ou un service de cette institution.
+13	Non rattaché
+14	Origine de l’archive
+15	Origine du projet
+16	projets de numérisation au total
+17	projets de numérisation en cours
+18	projets sans origine
+19	Rattacher le projet {n} à son institution
+20	sans institution versante
+21	sans origine
+22	Sélectionner une direction ou un service
+23	versements au total
+24	versements ouverts
+25	Versements ouverts

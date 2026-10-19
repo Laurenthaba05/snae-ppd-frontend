@@ -1,0 +1,8 @@
+1	View word in PDF
+2	Search word in the document
+3	Locating the word in validated OCR pages…
+4	No positions match the exact search words in viewable PDFs of the latest version. The result may come from the record, a word variant or text without OCR positions.
+6	Matching words are highlighted in yellow.
+7	The requested page no longer exists in this PDF. The first page is displayed.
+8	This document is large. Refine your search or view its files from the record.
+9	Search:

@@ -1,0 +1,75 @@
+1	{n} créés ces 30 derniers jours
+2	Afficher le tableau de bord de cette institution
+3	Afficher le tableau de bord de cette unité
+4	Août
+5	Archivé définitivement
+6	archives recensées
+7	Aucun document.
+8	Aucune échéance de conservation dans ce périmètre.
+9	Aucune échéance de conservation.
+10	Aucune institution.
+11	Aucune unité n’est visible dans ce périmètre.
+12	bordereaux d’élimination en cours
+13	Cette section exige l’habilitation nationale de lecture du tableau de bord national.
+14	Cette unité et ses sous-unités
+15	Choisissez une institution (et, si besoin, une unité) dans le périmètre de travail pour voir son tableau de bord.
+16	Confidentialité et échéances
+17	Conservation et échéances
+18	dans les 90 prochains jours
+19	Déc.
+20	Demandes
+21	demandes d’accès en attente
+22	Demandes de consultation déposées ou en instruction
+23	Demandes en attente
+24	détruites
+25	document(s) détruit(s), conservés comme traces.
+26	Documents ajoutés par mois
+27	Documents par niveau
+28	Documents par situation
+29	Documents rattachés
+30	Dossiers rattachés
+31	échéance(s)
+32	Échéances de conservation passées et non traitées
+33	échéances dépassées
+34	Échéances dépassées
+35	Échéances par état
+36	Échue
+37	éléments en traitement
+38	éléments suspendus
+39	Éliminations et transferts
+40	En dépôt
+41	entrées au total
+42	entrées ouvertes
+43	Févr.
+44	Gels
+45	Gels actifs
+46	gels juridiques actifs
+47	Gels juridiques actifs
+48	Indicateurs nationaux
+49	La vue d’ensemble de toutes les institutions et des activités nationales, sur un seul écran.
+50	Le tableau de bord n’est pas disponible dans cette session.
+51	Le tableau de bord national n’est pas disponible dans cette session.
+52	Les chiffres de l’institution ou de l’unité choisie dans le périmètre de travail, sous-unités comprises : ce que vous avez le droit de lire, rien de plus.
+53	Les chiffres de votre institution ou de votre unité, sous-unités comprises.
+54	Les demandes de consultation se comptent par institution, pas par unité
+55	Les institutions
+56	Les unités de l’institution
+57	Mis à jour le {n} à {n}
+58	Niveaux de confidentialité
+59	Non disponible : votre habilitation ne couvre pas cette rubrique dans ce périmètre.
+60	Non disponible : votre habilitation ne couvre pas la conservation dans ce périmètre.
+61	Non disponible : votre habilitation ne couvre pas la numérisation.
+62	Non disponible : votre habilitation ne couvre pas le portail des lecteurs.
+63	Non disponible : votre habilitation ne couvre pas les archives physiques.
+64	Non disponible : votre habilitation ne couvre pas les documents dans ce périmètre.
+65	Non disponible : votre habilitation ne couvre pas les éliminations et les transferts.
+66	Non disponible : votre habilitation ne couvre pas les versements.
+67	Ouvrir le tableau de bord national
+68	PILOTAGE
+69	PILOTAGE NATIONAL
+70	Situation des documents
+71	Tableau des institutions, défilement possible
+72	Tableau des unités, défilement horizontal possible
+73	Toutes les unités de l’institution
+74	Unités
+75	Voir le tableau de bord de toute l’institution

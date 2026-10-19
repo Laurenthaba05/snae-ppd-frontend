@@ -1,0 +1,64 @@
+1	(terme obsolète)
+2	) ne sera plus attribué aux nouveaux documents. Les documents qui l’ont déjà reçu le gardent et leurs valeurs ne changent pas.
+3	) sera retiré de ce brouillon. Aucun document n’y a encore de valeur : rien d’enregistré n’est perdu.
+4	Assistant virtuel des Archives · 24 h/24
+5	Aucun historique
+6	Aucun vocabulaire actif n’est disponible pour ce schéma : constituez-en un dans le module des vocabulaires.
+7	Aucune valeur n’a encore été enregistrée pour ce document.
+8	Ce champ n’est relié à aucun vocabulaire : signalez-le à l’administrateur du schéma.
+9	Ce schéma est actif : ses champs ne se modifient pas, des documents en dépendent. Pour le faire évoluer, créez une nouvelle version, corrigez-la, puis activez-la : l’ancienne version est alors retirée, et les documents qui l’ont reçue la gardent.
+10	Ce schéma est retiré : il n’est plus attribué aux nouveaux documents. Pour le reprendre, créez une nouvelle version.
+11	Choisir votre assistant
+12	Choisissez un vocabulaire contrôlé.
+13	Connecté : l’assistant peut lire vos demandes et abonnements.
+14	Connectez-vous pour que l’assistant suive vos demandes.
+15	Créer une nouvelle version
+16	Date d’effet
+17	Délier mon WhatsApp
+18	Descendre
+19	Écrire à l’assistant sur WhatsApp
+20	écrit…
+21	Entrée en vigueur
+22	Envoyer
+23	Envoyez
+24	Fermer l’assistant
+25	Filtre par terme de métadonnée
+26	Filtrer par terme de métadonnée
+27	Historique des métadonnées
+28	Historique des modifications
+29	L’assistant ne répond pas pour le moment.
+30	L’assistant ne répond pas pour le moment. Réessayez dans quelques minutes.
+31	L’historique est plus long que la page affichée : les modifications les plus anciennes ne sont pas montrées.
+32	Le champ
+33	Le code d’un champ ne change pas : les valeurs sont enregistrées sous ce nom.
+34	Le schéma
+35	Le schéma n’est attribué aux documents qu’à partir de cette date.
+36	Les termes actifs de ce vocabulaire sont proposés à la saisie ; la valeur enregistrée est le terme.
+37	Les valeurs en vigueur, remplacées ou retirées, des plus récentes aux plus anciennes
+38	Lier mon WhatsApp
+39	Modifier le champ
+40	Modifier le nom et la date d’effet
+41	Modifier le schéma
+42	Monter
+43	Ne donnez jamais votre mot de passe.
+44	Nouvelle conversation
+45	Période d’effet
+46	Posez votre question…
+47	Remplacée le
+48	Retirée le
+49	Retirer ce schéma
+50	Retirer ce schéma ?
+51	Retirer le rattachement à
+52	Retirer le schéma
+53	Saisie par
+54	Supprimer ce champ ?
+55	Supprimer le champ
+56	sur WhatsApp avant
+57	Terme d’un vocabulaire
+58	Terme non retrouvé
+59	Termes des métadonnées
+60	Trop de messages : réessayez dans un moment.
+61	Type de document non retrouvé
+62	Vocabulaire contrôlé
+63	Vocabulaire contrôlé :
+64	Votre question

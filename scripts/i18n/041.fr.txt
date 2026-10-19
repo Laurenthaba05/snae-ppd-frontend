@@ -1,0 +1,61 @@
+1	. Le texte fixe se met en majuscules ; l’année s’écrit sur quatre chiffres ; le compteur reprend après le plus grand numéro déjà employé (par année et par contenant quand le modèle les contient), sans combler les trous.
+2	Ajouter une pièce
+3	Aperçu :
+4	ARC, -, /…
+5	Aucun modèle : la référence est libre
+6	Cette référence ne suit pas le modèle : vous pouvez l’enregistrer quand même.
+7	Cette référence ne suit pas le modèle obligatoire de l’institution ; l’enregistrement sera refusé.
+8	Cette section exige l’habilitation de gestion de la codification pour cette institution.
+9	Cette section exige une habilitation de gestion de la codification des références pour ce périmètre.
+10	Chiffres du compteur de la pièce {n}
+11	Choisissez une institution dans le périmètre de travail : les modèles de codification sont ceux d’une institution.
+12	Code du classement
+13	Code du classement, année et numéro ({classement}-AAAA-01)
+15	Comment s’écrit la référence d’un document (son identifiant métier)
+16	Comment s’écrit la référence d’un dossier
+17	Comment s’écrit le code d’une notice de description (fonds, série, dossier, pièce)
+18	Décrire comment s’écrivent les cotes et les codes de l’institution : le système propose la suivante et vérifie la saisie.
+19	Décrire, pour l’institution, comment s’écrivent les références des documents, des dossiers et des notices de description : le système propose la suivante et vérifie ce qui est saisi.
+20	Définir
+21	Définir un modèle pour les documents
+22	Définir un modèle pour les dossiers
+23	Définir un modèle pour les notices de description
+24	Descendre la pièce {n}
+25	Dossier du document
+26	Exemple
+27	Facultatif : à quoi sert ce modèle.
+28	guide la saisie (proposition de la référence suivante, avertissement) sans rien refuser ; le modèle
+29	indicatif
+30	Indicatif
+31	Indicatif : on guide sans refuser. Obligatoire : une référence non conforme est refusée à la création, import compris.
+32	Le modèle
+33	Les références redeviennent libres : plus de proposition, plus de contrôle. Les références déjà enregistrées ne changent pas.
+34	Modèle de codification : documents
+35	Modèle de codification : dossiers
+36	Modèle de codification : notices de description
+37	Modèle de l’institution : {n} (indicatif).
+38	Modèle de l’institution : {n} (obligatoire).
+39	Modèles de
+40	Modifier le modèle des documents
+41	Modifier le modèle des dossiers
+42	Modifier le modèle des notices de description
+43	Monter la pièce {n}
+44	Objet concerné :
+45	obligatoire
+46	Partir d’un exemple
+47	Pièce {n}
+48	Pièces de la référence, dans l’ordre
+49	Proposer la prochaine référence
+50	Référence du contenant et numéro ({contenant}/001)
+51	refuse à la création une référence qui ne le respecte pas, y compris à l’import. Les références déjà enregistrées ne changent jamais.
+52	Remplace les pièces ci-dessous ; rien n’est enregistré avant « Enregistrer ».
+53	Retirer ce modèle ?
+54	Retirer la pièce {n}
+55	Retirer le modèle
+56	Retirer le modèle des documents
+57	Retirer le modèle des dossiers
+58	Retirer le modèle des notices de description
+59	Texte de la pièce {n}
+60	Texte, année et numéro (ARC-AAAA-0001)
+61	Type de la pièce {n}
+62	Un numéro continu (00001)
