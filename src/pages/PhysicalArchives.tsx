@@ -387,6 +387,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     const canManageArchives = can(me, 'PHYSICALARCHIVES_MANAGE', {});
     const [pendingLocation, setPendingLocation] = useState<string | null>(null);
     const [pendingUnit, setPendingUnit] = useState<string | null>(null);
+    const [actionError, setActionError] = useState<unknown>(null);
 
     const locationsQ = useResource(s => physicalArchives!.locations(s), 'physical-locations:' + epoch);
     const locations = useMemo(() => (locationsQ.data ?? []).slice().sort((a, b) => a.libelle.localeCompare(b.libelle)), [locationsQ.data]);
@@ -412,9 +413,13 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
 
     const toggleLocation = async (location: Localisation) => {
         setPendingLocation(location.id);
+        setActionError(null);
         try {
             await physicalArchives!.command(`/locations/${location.id}/${location.statut === 'ACTIVE' ? 'deactivate' : 'activate'}`, {}, crypto.randomUUID(), 'POST');
             locationsQ.refresh();
+        }
+        catch (e) {
+            setActionError(e);
         }
         finally {
             setPendingLocation(null);
@@ -422,10 +427,14 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     };
     const toggleUnit = async (unit: StorageUnit) => {
         setPendingUnit(unit.id);
+        setActionError(null);
         try {
             await physicalArchives!.command(`/storage-units/${unit.id}/${unit.statut === 'ACTIVE' ? 'deactivate' : 'activate'}`, {}, crypto.randomUUID(), 'POST');
             unitsQ.refresh();
             allUnitsQ.refresh();
+        }
+        catch (e) {
+            setActionError(e);
         }
         finally {
             setPendingUnit(null);
@@ -440,6 +449,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     return <><PageHead eyebrow="MODULE · ARCHIVES PHYSIQUES" title="Archives physiques" description="Gérer les emplacements, unités de stockage, cotes physiques et mouvements de sortie/retour.">
         {canManage && <button className="btn primary" onClick={() => setCreatingLocation(true)}>Créer un emplacement</button>}
     </PageHead>
+        {Boolean(actionError) && <ErrorNotice error={actionError}/>}
         <div className="panel">
             <div className="section-heading"><h3>Emplacements</h3></div>
             {locationsQ.loading ? <Busy /> : locationsQ.error ? <div className="panel-padding"><ErrorNotice error={locationsQ.error} onRetry={locationsQ.refresh}/></div> : locations.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun emplacement" description="Créez le premier emplacement de conservation."/>}
