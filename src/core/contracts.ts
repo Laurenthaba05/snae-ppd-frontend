@@ -11,6 +11,10 @@ export function parseMe(data: unknown): Me {
     for (const g of data.grants)
         if (!record(g) || typeof g.permission !== 'string' || typeof g.roleCode !== 'string' || typeof g.roleId !== 'string' || !UUID_RE.test(g.roleId) || !['NATIONAL', 'INSTITUTION', 'DEPARTEMENT'].includes(String(g.scope)) || !nullableId(g.institutionId) || !nullableId(g.departmentId) || !nullableId(g.delegationId) || !(g.expiresAt === null || (typeof g.expiresAt === 'string' && Number.isFinite(Date.parse(g.expiresAt)))))
             throw new Error('Droits serveur invalides.');
+    // une portée « unité » couvre ses sous-unités : le serveur en donne la liste (l'unité elle-même comprise)
+    for (const g of data.grants)
+        if (record(g) && g.departmentIds !== undefined && !(Array.isArray(g.departmentIds) && g.departmentIds.length <= 2000 && g.departmentIds.every(id => typeof id === 'string' && UUID_RE.test(id))))
+            throw new Error('Droits serveur invalides.');
     return data as unknown as Me;
 }
 export function parsePage<T>(data: unknown): Page<T> {

@@ -63,6 +63,8 @@ export interface Grant {
     scope: Scope;
     institutionId: string | null;
     departmentId: string | null;
+    /** Pour une portée « unité » : l'unité et toutes ses sous-unités. Absent ou vide : seule l'unité nommée. */
+    departmentIds?: string[];
     expiresAt: string | null;
     delegationId: string | null;
 }

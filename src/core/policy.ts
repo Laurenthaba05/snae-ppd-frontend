@@ -7,7 +7,10 @@ export function covers(grant: Grant, target: ScopeTarget): boolean {
         return true;
     if (!target.institutionId || grant.institutionId !== target.institutionId)
         return false;
-    return grant.scope === 'INSTITUTION' || (!!target.departmentId && grant.departmentId === target.departmentId);
+    if (grant.scope === 'INSTITUTION')
+        return true;
+    // une unité couvre ses sous-unités, jamais ses sœurs : le serveur donne la liste des unités couvertes (sans elle, l'unité nommée seulement)
+    return !!target.departmentId && (grant.departmentIds?.length ? grant.departmentIds.includes(target.departmentId) : grant.departmentId === target.departmentId);
 }
 export function can(me: Me | null, permission: string, target: ScopeTarget = {}, now = Date.now()): boolean {
     return !!me && me.user.status === 'ACTIF' && me.user.accountType === 'USER' && me.grants.some(g => g.permission === permission && activeGrant(g, now) && covers(g, target));
