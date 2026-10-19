@@ -163,6 +163,8 @@ export const EN: Readonly<Record<string, string>> = {
     'Utilisez votre compte nominatif. Ne partagez jamais vos identifiants ni votre mot de passe.': 'Use your personal account. Never share your credentials or your password.',
     'Besoin d’un accès ?': 'Need access?',
     'Adressez-vous à l’administrateur de votre institution.': 'Contact your institution’s administrator.',
+    'Pour une demande d’accès ou en cas de problème de connexion, écrivez à l’adresse suivante :': 'For an access request or a sign-in problem, write to the following address:',
+    'Demande d’accès SNAE-PPD': 'SNAE-PPD access request',
     'Travail · Justice · Solidarité': 'Work · Justice · Solidarity',
     'Interface française': 'English interface',
     // ---- notifications

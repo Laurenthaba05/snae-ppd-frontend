@@ -1,5 +1,11 @@
 export type AuthMode = 'disabled' | 'supabase' | 'oidc';
+/** Adresse d'assistance de l'écran de connexion. Une valeur qui n'a pas la forme d'une adresse est ignorée : elle n'est jamais placée telle quelle dans un lien. */
+export function supportAddress(value: string | undefined): string {
+    const address = (value ?? '').trim();
+    return /^[^\s@<>"',;:\\()[\]]+@[^\s@<>"',;:\\()[\]]+\.[^\s@<>"',;:\\()[\]]+$/.test(address) ? address : '';
+}
 export const config = {
+    supportEmail: supportAddress(import.meta.env.VITE_SUPPORT_EMAIL),
     demo: __DEMO_BUILD__ && import.meta.env.VITE_DATA_MODE === 'demo',
     authMode: (import.meta.env.VITE_AUTH_MODE || 'disabled') as AuthMode,
     apiBase: import.meta.env.VITE_API_BASE || '/api/v1',

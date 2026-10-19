@@ -14,6 +14,8 @@ export function Login() {
     const [show, setShow] = useState(false);
     const [help, setHelp] = useState(false);
     const issue = configIssue();
+    const contact = config.supportEmail ?? '';
+    const mailto = contact ? 'mailto:' + contact + '?subject=' + encodeURIComponent(tr('Demande d’accès SNAE-PPD')) : '';
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         try { await session.signIn(email, password); }
@@ -62,8 +64,10 @@ export function Login() {
                     {Boolean(session.error) && <ErrorNotice error={session.error} />}
                     <div className="access-security"><Icon name="shield" size={20} /><p>{tr('Utilisez votre compte nominatif. Ne partagez jamais vos identifiants ni votre mot de passe.')}</p></div>
                 </div>
-                <div className="access-assistance"><Icon name="help" size={20} /><div><strong>Besoin d’un accès ?</strong><span>Adressez-vous à l’administrateur de votre institution.</span></div><button className="text-link" onClick={() => setHelp(v => !v)} aria-expanded={help} aria-controls="login-assistance">En savoir plus<Icon name="arrow" size={16} /></button></div>
-                {help && <div id="login-assistance" className="access-help" role="region" aria-label="Assistance à la connexion"><h3>Votre administrateur vous accompagne</h3><p>La création du compte et la récupération du mot de passe relèvent de votre fournisseur d’identité. Ce portail ne crée pas de mot de passe local. La fermeture de l’onglet n’assure pas la déconnexion du fournisseur SSO.</p><button className="text-link" onClick={() => setHelp(false)}>Fermer l’aide</button></div>}
+                <div className="access-assistance"><Icon name="help" size={20} /><div><strong>Besoin d’un accès ?</strong><span>Adressez-vous à l’administrateur de votre institution.</span></div>{contact
+                    ? <a className="text-link" href={mailto}><Icon name="mail" size={16} />{contact}</a>
+                    : <button className="text-link" onClick={() => setHelp(v => !v)} aria-expanded={help} aria-controls="login-assistance">En savoir plus<Icon name="arrow" size={16} /></button>}</div>
+                {help && <div id="login-assistance" className="access-help" role="region" aria-label="Assistance à la connexion"><h3>Votre administrateur vous accompagne</h3><p>La création du compte et la récupération du mot de passe relèvent de votre fournisseur d’identité. Ce portail ne crée pas de mot de passe local. La fermeture de l’onglet n’assure pas la déconnexion du fournisseur SSO.</p>{contact && <p>{tr('Pour une demande d’accès ou en cas de problème de connexion, écrivez à l’adresse suivante :')} <a href={mailto}>{contact}</a></p>}<button className="text-link" onClick={() => setHelp(false)}>Fermer l’aide</button></div>}
                 <p className="login-proposal">Proposition d’interface institutionnelle · Environnement de recette</p>
             </section>
         </main>

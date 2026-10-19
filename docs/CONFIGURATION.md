@@ -21,6 +21,14 @@ Le backend reste un service séparé. Son URL de base de données doit pointer v
 
 Le proxy conserve la vérification des certificats quand le backend cible utilise HTTPS. La valeur http proposée ne convient qu’au trafic de boucle locale. Pour une topologie distante, configurer HTTPS et les autorités de certification attendues.
 
+### Adresse d'assistance de l'écran de connexion
+
+```dotenv
+VITE_SUPPORT_EMAIL=assistance@institution.gn
+```
+
+Facultatif. Avec une adresse, le bandeau « Besoin d'un accès ? » de l'écran de connexion devient un lien de courrier (`mailto:`, objet « Demande d'accès SNAE-PPD ») qui **montre l'adresse** : un poste sans messagerie configurée peut ainsi la copier ; le panneau d'aide (bouton « Assistance » de l'en-tête, « Un problème de connexion ? ») la rappelle aussi. Sans valeur, le bandeau garde son bouton « En savoir plus » et l'aide intégrée. Une valeur qui n'a pas la forme d'une adresse (espace, virgule, point-virgule, `?`, plusieurs adresses…) est ignorée, jamais placée telle quelle dans un lien. Comme toutes les variables `VITE_`, l'adresse est lue **à la construction** (`npm run build`) et visible dans le bundle : à régler dans l'environnement de chaque construction, `.env.local` n'étant pas versionné.
+
 ## 3. Supabase Auth
 
 ```dotenv
