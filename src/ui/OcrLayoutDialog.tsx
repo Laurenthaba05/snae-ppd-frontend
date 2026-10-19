@@ -73,7 +73,7 @@ export function OcrLayoutViewer({ layout }: { layout: OcrLayout }) {
             </div>
             <div className="ocr-layout-details">
                 <div className="ocr-layout-selection" aria-live="polite">
-                    {current ? <><h3>{current.text}</h3><dl>
+                    {current ? <><h3 translate="no">{current.text}</h3><dl>
                         <dt>Position (x, y)</dt><dd>{current.x}, {current.y}</dd>
                         <dt>Dimensions (largeur × hauteur)</dt><dd>{current.width} × {current.height}</dd>
                         <dt>Ligne</dt><dd>{current.line}</dd>
@@ -82,7 +82,7 @@ export function OcrLayoutViewer({ layout }: { layout: OcrLayout }) {
                 </div>
                 {words.length ? <>
                     <div className="ocr-layout-word-list" role="group" aria-label="Mots reconnus">
-                        {words.slice(page * 50, (page + 1) * 50).map(({ word, index }) => <button key={index} className="btn small secondary" aria-pressed={selected === index} onClick={() => select(index)}><span>{word.text}</span>{' '}<small>Ligne {word.line} · {word.confidence === null ? 'Confiance inconnue' : word.confidence + ' %'}</small></button>)}
+                        {words.slice(page * 50, (page + 1) * 50).map(({ word, index }) => <button key={index} className="btn small secondary" aria-pressed={selected === index} onClick={() => select(index)}><span translate="no">{word.text}</span>{' '}<small>Ligne {word.line} · {word.confidence === null ? 'Confiance inconnue' : word.confidence + ' %'}</small></button>)}
                     </div>
                     <Pagination page={page} hasMore={(page + 1) * 50 < words.length} count={words.slice(page * 50, (page + 1) * 50).length} onChange={setPage} />
                 </> : <Empty title="Aucun mot pour ces filtres" description="Modifiez le texte recherché ou le filtre de confiance." />}

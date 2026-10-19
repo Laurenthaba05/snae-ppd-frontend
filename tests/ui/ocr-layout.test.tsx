@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, it, vi } from 'vitest';
 import type { OcrLayout } from '../../src/core/types';
 import { ApiError } from '../../src/core/http';
+import { DomTranslator } from '../../src/ui/domTranslator';
+import { registerCatalog, resetCatalogs } from '../../src/core/i18n';
 const fixture = vi.hoisted(() => ({ epoch: 1, digitization: { ocrLayout: vi.fn(), ocrAlto: vi.fn() } }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 import { OcrLayoutDialog, OcrLayoutViewer } from '../../src/ui/OcrLayoutDialog';
@@ -152,4 +154,20 @@ it('signale un échec de l’export complet et permet de le retenter sans télé
         expect(click).not.toHaveBeenCalled();
         expect((screen.getByRole('button', { name: 'Exporter ALTO · toutes les pages (3)' }) as HTMLButtonElement).disabled).toBe(false);
     } finally { click.mockRestore(); }
+});
+
+it('conserve les mots OCR originaux dans la liste et la sélection lorsque l’interface est anglaise', async () => {
+    registerCatalog({ 'Rechercher un mot': 'Search a word', 'sur': 'on', 'pour': 'for', 'Les': 'The' });
+    const original = ['sur', 'pour', 'Les'];
+    const view = render(<OcrLayoutViewer layout={{ ...layout, words: original.map(text => ({ ...layout.words[0], text })) }} />);
+    const translator = new DomTranslator(view.container, () => 'en');
+    translator.start();
+    try {
+        expect(screen.getByLabelText('Search a word')).toBeTruthy();
+        const list = view.container.querySelector('.ocr-layout-word-list')!;
+        expect(Array.from(list.querySelectorAll('button > span')).map(e => e.textContent)).toEqual(original);
+        fireEvent.click(list.querySelector('button')!);
+        await waitFor(() => expect(view.container.querySelector('.ocr-layout-selection h3')?.textContent).toBe('sur'));
+        expect(Array.from(view.container.querySelectorAll('svg g text')).map(e => e.textContent)).toEqual(original);
+    } finally { translator.stop(); resetCatalogs(); }
 });

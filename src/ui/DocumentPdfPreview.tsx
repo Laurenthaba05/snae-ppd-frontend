@@ -1,28 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import { ocrSearchMatcher, type OcrSearchFocus } from '../core/ocrSearch';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSession } from '../auth/session';
 import type { OcrLayout } from '../core/types';
 import PdfPreview from './PdfPreview';
 import { Busy, ErrorNotice, Notice, useResource } from './components';
 
-export default function DocumentPdfPreview({ blob, fileId }: { blob: Blob; fileId: string }) {
+export default function DocumentPdfPreview({ blob, fileId, searchFocus }: { blob: Blob; fileId: string; searchFocus?: OcrSearchFocus }) {
     const { digitization, epoch } = useSession();
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(searchFocus?.page ?? 1);
     const [show, setShow] = useState(true);
     const q = useResource(s => digitization!.ocrResultsByFile(fileId, s), 'preview-ocr:' + fileId + ':' + epoch);
     const results = (q.data ?? []).filter(r => r.statutValidation === 'VALIDE' && r.hasLayout)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.id.localeCompare(b.id));
     const choices = results.filter(r => (r.layoutPages ?? [r.numeroPage ?? 1]).includes(page));
-    const [chosen, setChosen] = useState('');
-    const selected = choices.find(r => r.id === chosen) ?? choices[0];
+    const [chosen, setChosen] = useState(searchFocus?.resultId ?? '');
+    const selected = choices.find(r => r.id === chosen) ?? (searchFocus ? undefined : choices[0]);
     const positions = useResource<OcrLayout | null>(s => show && selected ? digitization!.ocrLayout(selected.id, s, page) : Promise.resolve(null),
         'preview-layout:' + fileId + ':' + selected?.id + ':' + page + ':' + show + ':' + epoch);
     const layout = show && !positions.loading && !positions.error && positions.data?.resultId === selected?.id
         && (positions.data?.pageNumber ?? 1) === page ? positions.data : null;
     const [filter, setFilter] = useState('');
     const [wordIndex, setWordIndex] = useState<number | null>(null);
-    useEffect(() => { setFilter(''); setWordIndex(null); }, [selected?.id, page]);
+    const query = searchFocus?.query ?? '';
+    const matches = useMemo(() => ocrSearchMatcher(query), [query]);
+    const matched = useMemo(() => layout?.words.flatMap((w, i) => matches(w.text) ? [i] : []) ?? [], [layout, matches]);
+    useEffect(() => { setFilter(''); }, [selected?.id, page]);
+    useEffect(() => { setWordIndex(matched[0] ?? null); }, [matched]);
     const word = layout && wordIndex !== null ? layout.words[wordIndex] : null;
     return <section className="document-ocr-preview" aria-label="Aperçu avec positions OCR">
+        {query && <p className="ocr-search-context"><span>Recherche :</span> <strong translate="no">{query}</strong><br/><span>Les mots correspondants sont surlignés en jaune.</span></p>}
         <label className="scan-toggle"><input type="checkbox" checked={show} onChange={e => setShow(e.target.checked)}/>Afficher les positions OCR validées</label>
         {show && q.loading && <Busy label="Recherche des positions OCR…"/>}
         {show && Boolean(q.error) && <><Notice>Les positions OCR ne sont pas accessibles. L’aperçu du fichier reste disponible.</Notice><ErrorNotice error={q.error} onRetry={q.refresh}/></>}
@@ -33,7 +39,7 @@ export default function DocumentPdfPreview({ blob, fileId }: { blob: Blob; fileI
         {layout && <><label className="field"><span>Rechercher un mot OCR</span><input value={filter} onChange={e => { setFilter(e.target.value); setWordIndex(null); }}/></label>
             <p role="status">{layout.words.filter(w => w.text.toLocaleLowerCase('fr').includes(filter.toLocaleLowerCase('fr'))).length} mot(s) affiché(s) sur {layout.words.length} · page {page}. Sélectionnez un cadre pour lire ses coordonnées.</p>
             {layout.truncated && <Notice tone="warning">Les positions de cette page sont partielles.</Notice>}
-            <div className="ocr-overlay-selection" aria-live="polite">{word && <><strong>{word.text}</strong><p>Position : {word.x}, {word.y} · Dimensions : {word.width} × {word.height} pixels · Confiance : {word.confidence === null ? 'inconnue' : word.confidence + ' %'}</p></>}</div></>}
-        <PdfPreview blob={blob} onPageChange={setPage} overlay={layout ? { layout, filter, selected: wordIndex, onSelect: setWordIndex } : undefined}/>
+            <div className="ocr-overlay-selection" aria-live="polite">{word && <><strong translate="no">{word.text}</strong><p>Position : {word.x}, {word.y} · Dimensions : {word.width} × {word.height} pixels · Confiance : {word.confidence === null ? 'inconnue' : word.confidence + ' %'}</p></>}</div></>}
+        <PdfPreview blob={blob} initialPage={searchFocus?.page} onPageChange={setPage} overlay={layout ? { layout, filter, highlight: query, selected: wordIndex, onSelect: setWordIndex } : undefined}/>
     </section>;
 }

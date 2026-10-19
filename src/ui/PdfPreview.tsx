@@ -7,10 +7,12 @@ import { OcrWordOverlay, layoutFitsPage, type WordOverlay } from './OcrWordOverl
 GlobalWorkerOptions.workerSrc = workerUrl;
 const assets = import.meta.env.BASE_URL + 'pdfjs/';
 
-export default function PdfPreview({ blob, overlay, onPageChange }: { blob: Blob; overlay?: WordOverlay; onPageChange?: (page: number) => void }) {
+export default function PdfPreview({ blob, overlay, onPageChange, initialPage = 1 }: { blob: Blob; overlay?: WordOverlay; onPageChange?: (page: number) => void; initialPage?: number }) {
+    const wrap = useRef<HTMLDivElement>(null);
+    const requestedPage = Number.isSafeInteger(initialPage) && initialPage > 0 ? initialPage : 1;
     const canvas = useRef<HTMLCanvasElement>(null);
     const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(requestedPage);
     const [size, setSize] = useState({ width: 0, height: 0 });
     useEffect(() => { onPageChange?.(page); }, [page, onPageChange]);
     const [zoom, setZoom] = useState(1);
@@ -20,18 +22,18 @@ export default function PdfPreview({ blob, overlay, onPageChange }: { blob: Blob
     useEffect(() => {
         let active = true;
         let task: ReturnType<typeof getDocument> | undefined;
-        setPdf(null); setPage(1); setError(null); setBusy(true);
+        setPdf(null); setPage(requestedPage); setError(null); setBusy(true);
         blob.arrayBuffer().then(data => {
             if (!active) return;
             // Only render pages to canvas; no document scripts, interactive forms or links.
             task = getDocument({ data, enableXfa: false, stopAtErrors: true,
                 cMapUrl: assets + 'cmaps/', standardFontDataUrl: assets + 'standard_fonts/', wasmUrl: assets + 'wasm/', iccUrl: assets + 'iccs/' });
             return task.promise;
-        }).then(document => { if (active && document) setPdf(document); }).catch(() => {
+        }).then(document => { if (active && document) { setPage(requestedPage <= document.numPages ? requestedPage : 1); setPdf(document); } }).catch(() => {
             if (active) { setBusy(false); setError(new Error('Ce PDF ne peut pas être affiché. Il peut être endommagé ou protégé par un mot de passe. Vous pouvez télécharger l’original.')); }
         });
         return () => { active = false; void task?.destroy().catch(() => {}); };
-    }, [blob]);
+    }, [blob, requestedPage]);
     useEffect(() => {
         if (!pdf) return;
         let active = true;
@@ -57,10 +59,19 @@ export default function PdfPreview({ blob, overlay, onPageChange }: { blob: Blob
     }, [pdf, page, zoom]);
     const currentOverlay = overlay && (overlay.layout.pageNumber ?? 1) === page ? overlay : undefined;
     const fits = currentOverlay && layoutFitsPage(currentOverlay.layout, size.width, size.height);
+    const focusedWord = currentOverlay?.selected == null ? undefined : currentOverlay.layout.words[currentOverlay.selected];
+    useEffect(() => {
+        const container = wrap.current;
+        if (busy || error || !fits || !currentOverlay?.highlight || !focusedWord || !container) return;
+        // Keep the highlighted occurrence visible even on a narrow screen or after zooming.
+        container.scrollLeft = Math.max(0, (focusedWord.x + focusedWord.width / 2) * size.width / currentOverlay.layout.width - container.clientWidth / 2);
+        container.scrollTop = Math.max(0, (focusedWord.y + focusedWord.height / 2) * size.height / currentOverlay.layout.height - container.clientHeight / 2);
+    }, [busy, error, fits, currentOverlay?.highlight, currentOverlay?.layout, focusedWord, size]);
     return <div className="pdf-reader">
+        {pdf && requestedPage > pdf.numPages && <Notice tone="warning">La page demandée n’existe plus dans ce PDF. La première page est affichée.</Notice>}
         {pdf && <div className="pdf-toolbar"><button className="btn small secondary" disabled={page <= 1} onClick={() => setPage(value => value - 1)}>Page précédente</button><span aria-live="polite">Page {page} sur {pdf.numPages}</span><button className="btn small secondary" disabled={page >= pdf.numPages} onClick={() => setPage(value => value + 1)}>Page suivante</button><label>Zoom <select value={zoom} onChange={event => setZoom(Number(event.target.value))}><option value={0.75}>75 %</option><option value={1}>100 %</option><option value={1.5}>150 %</option><option value={2}>200 %</option></select></label></div>}
         {busy && <Busy label="Affichage de la page…"/>}{Boolean(error) && <ErrorNotice error={error}/>}
-        <div className="pdf-canvas-wrap" hidden={busy || Boolean(error)}><div className="pdf-page-surface" style={{ width: size.width || undefined, height: size.height || undefined }}><canvas ref={canvas} role="img" aria-label={'Page ' + page + ' du document PDF'}/>{!busy && !error && fits && <OcrWordOverlay {...currentOverlay!}/>}</div></div>
+        <div ref={wrap} className="pdf-canvas-wrap" hidden={busy || Boolean(error)}><div className="pdf-page-surface" style={{ width: size.width || undefined, height: size.height || undefined }}><canvas ref={canvas} role="img" aria-label={'Page ' + page + ' du document PDF'}/>{!busy && !error && fits && <OcrWordOverlay {...currentOverlay!}/>}</div></div>
         {!busy && currentOverlay && !fits && <Notice tone="warning">Les dimensions OCR ne correspondent pas à cette page. Les cadres ne sont pas superposés.</Notice>}
         {!busy && pageText.trim() && <details><summary>Afficher le texte de cette page</summary><pre className="file-preview-text">{pageText}</pre></details>}
     </div>;

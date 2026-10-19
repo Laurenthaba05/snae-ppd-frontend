@@ -91,3 +91,36 @@ it('ignore une ancienne réponse de positions arrivée après le changement de p
     expect(screen.queryByRole('button',{name:'Mot 1 : NAPS2'})).toBeNull();
     expect(screen.getByRole('button',{name:'Mot 1 : Seconde'})).toBeTruthy();
 });
+
+it('ouvre directement la page ciblée et surligne le mot recherché sans changer de résultat OCR',async()=>{
+    render(<DocumentPdfPreview blob={blob()} fileId="file1" searchFocus={{resultId:'ocr1',page:2,query:'seconde'}}/>);
+    const word=await screen.findByRole('button',{name:'Mot 1 : Seconde'});
+    expect(screen.getByText('Page 2 sur 3')).toBeTruthy();
+    expect(word.classList.contains('search-match')).toBe(true);
+    await waitFor(()=>expect(word.getAttribute('aria-pressed')).toBe('true'));
+    expect(word.closest('[translate]')?.getAttribute('translate')).toBe('no');
+    expect(screen.getByText('seconde').getAttribute('translate')).toBe('no');
+    expect(fixture.page.mock.calls.every(c=>c[0]===2)).toBe(true);
+    expect(screen.getByRole('button',{name:'Mot 2 : document'}).classList.contains('search-match')).toBe(false);
+    fireEvent.change(screen.getByRole('combobox',{name:'Zoom'}),{target:{value:'2'}});
+    await waitFor(()=>expect((screen.getByRole('img') as HTMLCanvasElement).width).toBe(1200));
+    expect(screen.getByRole('button',{name:'Mot 1 : Seconde'}).classList.contains('search-match')).toBe(true);
+    fireEvent.click(screen.getByRole('button',{name:'Page précédente'}));
+    await screen.findByRole('button',{name:'Mot 1 : NAPS2'});
+    expect(document.querySelectorAll('.search-match')).toHaveLength(0);
+});
+it('ne substitue pas un autre OCR lorsque le résultat ciblé a perdu sa validation',async()=>{
+    fixture.results.mockResolvedValue([{...result,id:'other'},{...result,statutValidation:'NON_VALIDE'}]);
+    render(<DocumentPdfPreview blob={blob()} fileId="file1" searchFocus={{resultId:'ocr1',page:2,query:'seconde'}}/>);
+    await screen.findByText('Aucune position OCR validée pour cette page.');
+    expect(fixture.layout).not.toHaveBeenCalled();
+    expect(screen.getByText('Page 2 sur 3')).toBeTruthy();
+});
+it('signale une page ciblée hors du PDF et revient à la première page sans cadres erronés',async()=>{
+    render(<DocumentPdfPreview blob={blob()} fileId="file1" searchFocus={{resultId:'ocr1',page:99,query:'seconde'}}/>);
+    await screen.findByText('La page demandée n’existe plus dans ce PDF. La première page est affichée.');
+    await screen.findByRole('button',{name:'Mot 1 : NAPS2'});
+    expect(screen.getByText('Page 1 sur 3')).toBeTruthy();
+    expect(fixture.page.mock.calls.every(c=>c[0]===1)).toBe(true);
+    expect(document.querySelectorAll('.search-match')).toHaveLength(0);
+});

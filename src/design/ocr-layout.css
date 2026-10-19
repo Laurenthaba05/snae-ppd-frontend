@@ -20,3 +20,7 @@
 .ocr-layout .table-toolbar { flex-wrap: wrap; align-items: end; }
 .ocr-layout-details .pagination { flex-wrap: wrap; gap: 8px; }
 @media (max-width: 760px) { .ocr-layout-grid { grid-template-columns: minmax(0, 1fr); } .ocr-layout-canvas { max-height: 48vh; } }
+
+/* Keep the combined export and page export reachable in narrow dialogs. */
+.modal.wide:has(.ocr-layout) .modal-footer { flex-wrap: wrap; }
+.modal.wide:has(.ocr-layout) .modal-footer .btn { max-width: 100%; white-space: normal; }

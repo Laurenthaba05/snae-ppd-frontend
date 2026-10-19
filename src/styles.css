@@ -55,3 +55,8 @@
 .seal-key-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px 24px; margin: 8px 0 18px; }
 .seal-key-facts dt { color: #8b9aaa; font-size: 12px; }
 .seal-key-facts dd { margin: 2px 0 0; overflow-wrap: anywhere; }
+
+.search-ocr-link { margin-top: 10px; white-space: normal; text-align: left; }
+.ocr-search-context { background: #fff8db; border-left: 3px solid #b78200; padding: 10px 14px; color: #4a3910; }
+.ocr-word-box.search-match rect { fill: #ffd44088; stroke: #996600; stroke-width: 2; }
+.ocr-word-box.search-match.selected rect, .ocr-word-box.search-match:focus rect { fill: #ffd440aa; stroke: #164bae; stroke-width: 3; }
