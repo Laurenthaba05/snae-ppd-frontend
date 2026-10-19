@@ -20,6 +20,7 @@ import { PreservationPlanningApi } from '../api/preservationPlanning';
 import { DisseminationApi } from '../api/dissemination';
 import { VocabularyApi } from '../api/vocabulary';
 import { NotificationsApi } from '../api/notifications';
+import { CodificationApi } from '../api/codification';
 
 /**
  * Les clients d'API de l'application, déclarés une seule fois : ajouter un module, c'est ajouter une ligne ici. Chacun est créé sur le même transport quand la connexion est
@@ -46,7 +47,8 @@ const factories = {
     preservationPlanning: (t: Transport) => new PreservationPlanningApi(t),
     dissemination: (t: Transport) => new DisseminationApi(t),
     vocabulary: (t: Transport) => new VocabularyApi(t),
-    notifications: (t: Transport) => new NotificationsApi(t)
+    notifications: (t: Transport) => new NotificationsApi(t),
+    codification: (t: Transport) => new CodificationApi(t)
 };
 
 export type Clients = { [K in keyof typeof factories]: ReturnType<(typeof factories)[K]> };

@@ -11,6 +11,7 @@ const PARENT = '66666666-6666-4666-8666-666666666666';
 const PRODUCER = '77777777-7777-4777-8777-777777777777';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: { user: { institutionId: '97571d20-3f49-497e-a185-dac22208eb3f' } } as unknown,
+    codification: null as null | { model: ReturnType<typeof vi.fn>; check: ReturnType<typeof vi.fn>; proposal: ReturnType<typeof vi.fn> },
     classification: { nodes: vi.fn().mockResolvedValue([]) },
     records: { saveDocumentInfo: vi.fn(), saveDossierInfo: vi.fn(), documentRelations: vi.fn(), addRelation: vi.fn(), updateRelation: vi.fn(), deleteRelation: vi.fn(), dossier: vi.fn(), dossierChildren: vi.fn(),
         dossierVolumetry: vi.fn(), dossierDocuments: vi.fn(), documentTypes: vi.fn(), dossiers: vi.fn(), command: vi.fn(), transport: { request: vi.fn() } }
@@ -35,6 +36,7 @@ const relation = (id: string, label: string, over: Record<string, unknown> = {})
 
 beforeEach(() => {
     fixture.epoch += 1;
+    fixture.codification = null;
     fixture.classification.nodes.mockResolvedValue([]);
     for (const fn of Object.values(fixture.records)) if ('mockReset' in fn) fn.mockReset();
     fixture.records.transport.request.mockReset();
@@ -250,4 +252,37 @@ it('un dossier simple n’envoie pas de parent', async () => {
     fireEvent.submit(dialog.querySelector('form')!);
     await waitFor(() => expect(fixture.records.command).toHaveBeenCalled());
     expect((fixture.records.command.mock.calls[0]![1] as Record<string, unknown>).parentId).toBeNull();
+});
+
+// ---------------------------------------------------------------- la référence guidée par le modèle de l'institution
+it('un sous-dossier propose la référence suivante du modèle de son institution, avec son dossier parent comme contenant', async () => {
+    fixture.codification = { model: vi.fn(), check: vi.fn(), proposal: vi.fn() };
+    fixture.codification.model.mockResolvedValue({ id: 'm', institutionId: INST, kind: 'DOSSIER', label: null, segments: [], mode: 'INDICATIF', version: 1, pattern: '{contenant}/001', example: 'DOS-2026-001/001' });
+    fixture.codification.check.mockResolvedValue({ conform: true, mode: 'INDICATIF', pattern: '{contenant}/001', example: null, message: null });
+    fixture.codification.proposal.mockResolvedValue({ code: 'DOS-2026-001/004', counter: 4, pattern: '{contenant}/001', mode: 'INDICATIF' });
+    fixture.records.command.mockResolvedValue({ id: 'nouveau' });
+    render(<RecordForm kind="dossiers" parent={dossier()} onClose={() => {}} onCreated={() => {}} />);
+    const dialog = await screen.findByRole('dialog');
+    expect(await within(dialog).findByText('Modèle de l’institution : {contenant}/001 (indicatif).')).toBeTruthy();
+    expect(fixture.codification.model).toHaveBeenCalledWith('DOSSIER', INST, expect.anything());
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Proposer la prochaine référence' }));
+    await waitFor(() => expect((within(dialog).getByLabelText(/^Cote ou référence/) as HTMLInputElement).value).toBe('DOS-2026-001/004'));
+    expect(fixture.codification.proposal).toHaveBeenCalledWith('DOSSIER', INST, DOS, null);
+    fireEvent.change(within(dialog).getByLabelText(/^Titre/), { target: { value: 'Carrières' } });
+    fireEvent.submit(dialog.querySelector('form')!);
+    await screen.findByText('Vérifiez les informations avant de confirmer.');
+    fireEvent.submit(dialog.querySelector('form')!);
+    await waitFor(() => expect(fixture.records.command).toHaveBeenCalled());
+    expect(fixture.records.command.mock.calls[0]![1]).toMatchObject({ reference: 'DOS-2026-001/004', parentId: DOS });
+});
+
+it('un document est codifié par le modèle des documents de son institution', async () => {
+    fixture.codification = { model: vi.fn(), check: vi.fn(), proposal: vi.fn() };
+    fixture.codification.model.mockResolvedValue(null);
+    render(<RecordForm kind="documents" onClose={() => {}} onCreated={() => {}} />);
+    const dialog = await screen.findByRole('dialog');
+    await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INST, expect.anything()));
+    expect(within(dialog).queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
+    fireEvent.change(within(dialog).getByLabelText(/^Cote ou référence/), { target: { value: 'LIBRE-1' } });
+    expect((within(dialog).getByLabelText(/^Cote ou référence/) as HTMLInputElement).value).toBe('LIBRE-1');
 });

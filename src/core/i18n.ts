@@ -72,6 +72,7 @@ export const EN: Readonly<Record<string, string>> = {
     'Plan de classement': 'Classification scheme',
     'Métadonnées': 'Metadata',
     'Vocabulaires contrôlés': 'Controlled vocabularies',
+    'Codification des références': 'Reference codification',
     'Recherche': 'Search',
     'Consultations': 'Consultations',
     'Communications': 'Communications',

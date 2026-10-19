@@ -5,6 +5,7 @@ import { CommandDialog } from '../ui/CommandDialog';
 import { Field, useResource, Modal, ErrorNotice } from '../ui/components';
 import { Icon } from '../ui/icons';
 import { ReferencePicker } from '../ui/ReferencePicker';
+import { CodeField } from '../ui/CodeField';
 import { text, uuid } from '../core/validation';
 import { can, platform } from '../core/policy';
 import type { RecordCatalog, DocumentType, Dossier, ClassificationNode } from '../core/types';
@@ -85,7 +86,7 @@ export function RecordForm({ kind, parent, onClose, onCreated }: {
     return <>
         <CommandDialog title={kind === 'documents' ? 'Créer un document' : parent ? 'Créer un sous-dossier' : 'Créer un dossier'} description="Création dans le périmètre autorisé, sans droit implicite." path={'/' + kind} method="POST" api={records!} build={build} onClose={onClose} onSuccess={data => onCreated(data, file)}>
         {parent && <p className="span2"><small>Sous-dossier de <strong>{parent.reference} · {parent.title}</strong> : il reste dans la même institution et le même service, et n’est jamais moins confidentiel que lui.</small></p>}
-        <Field label="Cote ou référence *"><input value={reference} onChange={e => setReference(e.target.value)} required maxLength={150}/></Field>
+        <CodeField kind={kind === 'documents' ? 'DOCUMENT' : 'DOSSIER'} institutionId={institutionId} parentId={kind === 'documents' ? dossierId || null : parent?.id ?? null} classementId={classificationNodeId || null} value={reference} onChange={setReference} label="Cote ou référence *" maxLength={150}/>
         <Field label="Titre *" wide><input value={title} onChange={e => setTitle(e.target.value)} required maxLength={500}/></Field>
         <Field label="Institution *"><ReferencePicker kind="institutions" label="Sélectionner une institution" value={institutionId} disabled={!!parent} onChange={v => { setInstitutionId(v); setDepartmentId(''); setClassificationNodeId(''); setDossierId(''); }} scope={central ? {} : { institutionId: me!.user.institutionId }}/></Field>
         <Field label="Département" hint="Optionnel."><ReferencePicker kind="departments" label="Sélectionner un département" value={departmentId} disabled={!!parent} onChange={setDepartmentId} scope={{ institutionId }} nullable/></Field>

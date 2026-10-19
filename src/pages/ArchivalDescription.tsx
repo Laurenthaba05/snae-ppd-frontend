@@ -5,6 +5,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
 import { ArchiveRecordPicker } from '../ui/ArchiveRecordPicker';
+import { CodeField } from '../ui/CodeField';
 import { can } from '../core/policy';
 import { PageHead, Field, Modal, ErrorNotice, Busy, Empty, Notice, useResource, formatDate } from '../ui/components';
 import { AuthorityRelationsDialog } from '../ui/AuthorityRelations';
@@ -109,7 +110,8 @@ function ArchiveEditor({ api, institution, kind, row, descriptions, authorities,
     const change = (key: string, value: unknown) => setDraft(v => ({ ...v, [key]: value }));
     const submit = async (e: React.FormEvent) => { const signal = cancellation.current.signal; e.preventDefault(); if (readOnly) return; setBusy(true); setError(undefined); intention.current = commandKey(intention.current, draft); try { await api.save(kind, row?.id, draft, intention.current.key, signal); if (!signal.aborted) { onSaved(); onClose(); } } catch (e) { if (!signal.aborted) setError(e); } finally { if (!signal.aborted) setBusy(false); } };
     return <Modal wide title={isDescription ? 'Description archivistique' : 'Notice de producteur'} onClose={onClose} locked={busy}><form id={formId} onSubmit={submit}><div className="form-grid">
-        <Field label="Référence"><input required maxLength={100} value={draft.code} disabled={disabled} onChange={e => change('code', e.target.value)} /></Field>
+        {isDescription && !row ? <CodeField kind="NOTICE" institutionId={institution} parentId={d.parentId ?? null} value={draft.code} onChange={code => change('code', code)} label="Référence" maxLength={100} disabled={disabled} />
+            : <Field label="Référence"><input required maxLength={100} value={draft.code} disabled={disabled} onChange={e => change('code', e.target.value)} /></Field>}
         <Field label={isDescription ? 'Intitulé' : 'Nom retenu'}><input required maxLength={500} value={isDescription ? d.title : a.name} disabled={disabled} onChange={e => change(isDescription ? 'title' : 'name', e.target.value)} /></Field>
         {isDescription ? <>
             <Field label="Niveau de description"><select value={d.level} disabled={disabled} onChange={e => { change('level', e.target.value); change('parentId', null); change('documentId', null); change('dossierId', null); }}>{archiveLevels.map(level => <option key={level} value={level}>{levelLabels[level]}</option>)}</select></Field>

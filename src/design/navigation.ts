@@ -6,7 +6,8 @@ export const modulePermissions: Record<string, { codes: string[]; national?: boo
   acquisition:{codes:['FILE_INGEST','ACQUISITION_IMPORT_PREVIEW','ACQUISITION_EXTRACT','ACQUISITION_REVIEW'],anyScope:true},
   documents: {codes:['DOCUMENT_READ']}, dossiers:{codes:['DOSSIER_READ']},
   fonds:{codes:['ARCHIVAL_DESCRIPTION_READ']}, classement:{codes:['CLASSIFICATION_READ']},
-  metadonnees:{codes:['METADATA_SCHEMA_MANAGE']}, vocabulaires:{codes:['VOCABULARY_MANAGE']},
+  metadonnees:{codes:['METADATA_SCHEMA_MANAGE']}, vocabulaires:{codes:['VOCABULARY_MANAGE']}, codification:{codes:['CODIFICATION_MANAGE']},
+  'tableau-de-bord':{codes:['DOCUMENT_READ','DOSSIER_READ','RETENTION_REVIEW','HERITAGE_READ'],anyScope:true}, 'tableau-national':{codes:['DASHBOARD_NATIONAL_READ'],national:true},
   versements:{codes:['ARCHIVAL_INTAKE_READ'], national:true},
   recherche:{codes:['SEARCH_READ'], anyScope:true},
   consultations:{codes:['CONSULTATION_READ']}, communications:{codes:['COMMUNICATION_READ']},
@@ -45,7 +46,7 @@ export const navGroups = [
 /** Icône de chaque entrée du menu latéral (clé = route). */
 export const navIcons: Record<string,string> = {
   institutions:'building', departments:'users', users:'user', roles:'shield', permissions:'key', governance:'scale',
-  versements:'inbox', acquisition:'download', documents:'document', dossiers:'folder', classement:'tree', metadonnees:'tag', vocabulaires:'tag', fonds:'landmark',
+  versements:'inbox', acquisition:'download', documents:'document', dossiers:'folder', classement:'tree', metadonnees:'tag', vocabulaires:'tag', codification:'tag', 'tableau-de-bord':'chart', 'tableau-national':'chart', fonds:'landmark',
   recherche:'search', consultations:'eye', communications:'send', droits:'scale', portail:'users', 'salle-lecture':'book',
   numerisation:'scanner', ocr:'ocr', taches:'inbox', controle:'checkCircle', 'circuits-validation':'userCheck',
   conservation:'box', 'sort-final':'hourglass', 'gel-legal':'snow', eliminations:'trash', 'archives-physiques':'archive',

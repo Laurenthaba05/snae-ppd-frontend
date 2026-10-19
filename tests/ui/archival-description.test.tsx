@@ -2,14 +2,14 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { ArchivesApi, commandKey, flattenDescriptions, type DescriptionView } from '../../src/api/archives';
-const session = vi.hoisted(() => ({ epoch: 1, me: null, demo: false, records: { transport: { request: vi.fn() } } }));
+const session = vi.hoisted(() => ({ epoch: 1, me: null, demo: false, records: { transport: { request: vi.fn() } }, codification: null as null | { model: ReturnType<typeof vi.fn>; check: ReturnType<typeof vi.fn>; proposal: ReturnType<typeof vi.fn> } }));
 const workspace = vi.hoisted(() => ({ scope: { institutionId: '11111111-1111-4111-8111-111111111111' as string | null } }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => session }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => workspace }));
 vi.mock('../../src/core/policy', () => ({ can: () => true }));
 import { ArchiveImport, ArchivalDescriptionPage } from '../../src/pages/ArchivalDescription';
 const institution = '11111111-1111-4111-8111-111111111111';
-beforeEach(() => { session.records.transport.request.mockReset(); workspace.scope.institutionId = institution; });
+beforeEach(() => { session.codification = null; session.records.transport.request.mockReset(); workspace.scope.institutionId = institution; });
 function file(text: string) { const f = new File([text], 'fonds.csv', { type: 'text/csv' }); Object.defineProperty(f, 'arrayBuffer', { value: async () => new TextEncoder().encode(text).buffer }); return f; }
 it('refuse de lancer une lecture globale sans institution', () => {
     workspace.scope.institutionId = null; render(<ArchivalDescriptionPage />);
@@ -227,4 +227,32 @@ it('refuse une date structurée impossible puis permet de retirer une ligne',asy
     fireEvent.change(ui.getByLabelText('Début structuré'),{target:{value:'2025-02-29'}});
     expect((ui.getByRole('button',{name:'Enregistrer'}) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(ui.getByRole('button',{name:'Supprimer la date 1'})); expect(ui.queryByRole('alert')).toBeNull();
+});
+
+// ------------------------------------------------------------------------------ la référence d'une nouvelle notice, guidée par le modèle de l'institution
+const noticeModel = () => ({ id: 'm', institutionId: institution, kind: 'NOTICE', label: null, segments: [], mode: 'OBLIGATOIRE', version: 1, pattern: '{contenant}/001', example: 'GN/FONDS/001' });
+it('une nouvelle description propose la référence suivante du modèle, avec la notice parente choisie comme contenant', async () => {
+    const fonds = descriptionRow(1);
+    serveDescriptions([fonds]);
+    session.codification = { model: vi.fn().mockResolvedValue(noticeModel()), check: vi.fn().mockResolvedValue({ conform: true, mode: 'OBLIGATOIRE', pattern: '{contenant}/001', example: null, message: null }), proposal: vi.fn().mockResolvedValue({ code: 'GN/FONDS/002', counter: 2, pattern: '{contenant}/001', mode: 'OBLIGATOIRE' }) };
+    render(<ArchivalDescriptionPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(await within(dialog).findByText('Modèle de l’institution : {contenant}/001 (obligatoire).')).toBeTruthy();
+    expect(session.codification.model).toHaveBeenCalledWith('NOTICE', institution, expect.anything());
+    fireEvent.change(within(dialog).getByLabelText(/^Niveau de description/), { target: { value: 'SERIE' } });
+    fireEvent.change(within(dialog).getByLabelText('Parent'), { target: { value: fonds.id } });
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Proposer la prochaine référence' }));
+    await waitFor(() => expect((within(dialog).getByLabelText(/^Référence/) as HTMLInputElement).value).toBe('GN/FONDS/002'));
+    expect(session.codification.proposal).toHaveBeenCalledWith('NOTICE', institution, fonds.id, null);
+});
+it('une description existante garde sa référence libre : le modèle ne la guide qu’à la création', async () => {
+    serveDescriptions([descriptionRow(1)]);
+    session.codification = { model: vi.fn().mockResolvedValue(noticeModel()), check: vi.fn(), proposal: vi.fn() };
+    render(<ArchivalDescriptionPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByLabelText('Référence')).toBeTruthy();
+    expect(within(dialog).queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
+    expect(session.codification.model).not.toHaveBeenCalled();
 });

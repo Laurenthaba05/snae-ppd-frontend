@@ -49,6 +49,7 @@ const PortalAdminPage = screen(() => import('./pages/PortalAdmin'), 'PortalAdmin
 const ReadingRoomPage = screen(() => import('./pages/ReadingRoom'), 'ReadingRoomPage');
 const VocabularyPage = screen(() => import('./ui/Vocabularies'), 'VocabularyPage');
 const MetadataPage = screen(() => import('./pages/Metadata'), 'MetadataPage');
+const CodificationPage = screen(() => import('./ui/Codification'), 'CodificationPage');
 const ArchivalIntakePage = screen(() => import('./pages/ArchivalIntake'), 'ArchivalIntakePage');
 const TaskInboxPage = screen(() => import('./pages/TaskInbox'), 'TaskInboxPage');
 const WorkflowPage = screen(() => import('./pages/Workflow'), 'WorkflowPage');
@@ -59,7 +60,7 @@ const PortalApp = screen(() => import('./portal/PortalApp'), 'PortalApp');
 
 const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
 const recordKeys = ['documents', 'dossiers'];
-const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires']);
+const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires', 'codification']);
 
 function Shell() {
     const { me, demo, epoch, logout, switchPersona, resetDemo } = useSession();
@@ -190,6 +191,7 @@ function Shell() {
         if (!demo && section === 'salle-lecture') return ['READING_ROOM_READ', 'READING_ROOM_DESK', 'READING_ROOM_MANAGE'].some(code => can(me, code, scope)) ? <ReadingRoomPage /> : <Notice tone="warning">Cette section exige une habilitation de la salle de lecture pour ce périmètre.</Notice>;
         if (!demo && section === 'notifications') return <NotificationsPage />;
         if (!demo && section === 'vocabulaires') return can(me, 'VOCABULARY_MANAGE', scope) ? <VocabularyPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion des vocabulaires contrôlés pour ce périmètre.</Notice>;
+        if (!demo && section === 'codification') return can(me, 'CODIFICATION_MANAGE', scope) ? <CodificationPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion de la codification des références pour ce périmètre.</Notice>;
         if (!demo && section === 'metadonnees') return can(me, 'METADATA_SCHEMA_MANAGE', scope) ? <MetadataPage /> : <Notice tone="warning">Cette section exige une habilitation d’administration des schémas de métadonnées.</Notice>;
         if (!demo && section === 'versements') return can(me, 'ARCHIVAL_INTAKE_READ', {}) ? <ArchivalIntakePage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des entrées archivistiques.</Notice>;
         if (!demo && section === 'taches') return <TaskInboxPage />;
