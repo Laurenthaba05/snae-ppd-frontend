@@ -1,0 +1,16 @@
+1	(sans intitulé)
+2	(sans référence)
+3	{n} notice(s) importée(s) en brouillon depuis le fichier EAD3.
+4	Arborescence lue
+5	autres unités.
+6	brouillon
+7	Choisissez un fichier EAD3 au format XML (.xml).
+8	Choisissez un fichier EAD3 au format XML (5 Mo et 5 000 unités au plus). Il doit respecter le schéma EAD3 officiel. Chaque unité devient une notice
+9	Confidentialité des notices créées
+10	Elle est choisie ici et ne vient jamais du fichier ; vous pourrez la modifier notice par notice.
+11	Fichier EAD3 (.xml)
+12	Importer un EAD3
+13	Importer un fichier EAD3
+14	Le contrôle est réussi. Toutes les notices seront enregistrées ensemble. Le serveur vérifiera à nouveau le fichier lors de la confirmation.
+15	Le fichier dépasse 5 Mo.
+16	rattachée à son parent ; les références qui existent déjà sont refusées et rien n’est remplacé. Les éléments sans équivalent (par exemple les accès par sujet) ne sont pas repris : le contrôle les liste.

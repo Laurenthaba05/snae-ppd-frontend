@@ -11,6 +11,7 @@ import { PageHead, Field, Modal, ErrorNotice, Busy, Empty, Notice, useResource, 
 import { AuthorityRelationsDialog } from '../ui/AuthorityRelations';
 import { ArchivalFunctionsPanel } from '../ui/ArchivalFunctions';
 import { KeywordsPanel } from '../ui/Vocabularies';
+import { EadImport } from '../ui/EadImport';
 import { ApiError } from '../core/http';
 import type { RelationView } from '../core/authorityRelations';
 import { DATE_KIND_LABELS, DESCRIPTION_GROUPS, EXTENT_UNITS, STATUS_LABELS, descriptionProblems, isadCompleteness, producerKnown } from '../core/archivalDescription';
@@ -69,14 +70,14 @@ export function ArchivalDescriptionPage() {
 function ArchiveWorkspace({ institution }: { institution: string }) {
     const { records, me } = useSession(); const api = useMemo(() => new ArchivesApi(records!.transport), [records]); const cancellation = useAbort();
     const [kind, setKind] = useState<ArchiveKind>('descriptions'); const [functionsView, setFunctionsView] = useState(false); const [editor, setEditor] = useState<{ kind: ArchiveKind; row?: DescriptionView | AuthorityView } | null>(null);
-    const [importing, setImporting] = useState(false); const [error, setError] = useState<unknown>(); const [busy, setBusy] = useState(false); const [success, setSuccess] = useState('');
+    const [importing, setImporting] = useState(false); const [importingEad, setImportingEad] = useState(false); const [error, setError] = useState<unknown>(); const [busy, setBusy] = useState(false); const [success, setSuccess] = useState('');
     const q = useResource(async s => ({ descriptions: await api.descriptions(institution, s), authorities: await api.authorities(institution, s),
         relations: await api.relations(institution, s).catch((e: unknown): RelationView[] => { if (e instanceof ApiError && e.status === 404) return []; throw e; }) }), institution);
     const [relationsFor, setRelationsFor] = useState<AuthorityView | null>(null);
     const manage = can(me, 'ARCHIVAL_DESCRIPTION_MANAGE', { institutionId: institution }); const exporting = can(me, 'ARCHIVAL_DESCRIPTION_EXPORT', { institutionId: institution });
     const download = async (path: string, name: string) => { const signal = cancellation.current.signal; setBusy(true); setError(undefined); try { const blob = await api.file(path, signal); if (!signal.aborted) saveBlob(blob, name); } catch (e) { if (!signal.aborted) setError(e); } finally { if (!signal.aborted) setBusy(false); } };
     return <><PageHead eyebrow="ARCHIVES · DESCRIPTION" title="Fonds et producteurs" description="Décrire les archives dans leur contexte et échanger des notices contrôlées.">
-        {manage && !functionsView && <><button className="btn secondary" disabled={busy} onClick={() => setImporting(true)}>Importer un CSV</button><button className="btn primary" onClick={() => setEditor({ kind })}>{kind === 'descriptions' ? 'Créer une description' : 'Créer un producteur'}</button></>}
+        {manage && !functionsView && <><button className="btn secondary" disabled={busy} onClick={() => setImporting(true)}>Importer un CSV</button>{kind === 'descriptions' && <button className="btn secondary" disabled={busy} onClick={() => setImportingEad(true)}>Importer un EAD3</button>}<button className="btn primary" onClick={() => setEditor({ kind })}>{kind === 'descriptions' ? 'Créer une description' : 'Créer un producteur'}</button></>}
     </PageHead>
         <div className="page-actions" aria-label="Type de notices"><button className={'btn ' + (!functionsView && kind === 'descriptions' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'descriptions'} onClick={() => { setFunctionsView(false); setKind('descriptions'); }}>Fonds et descriptions</button><button className={'btn ' + (!functionsView && kind === 'authorities' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'authorities'} onClick={() => { setFunctionsView(false); setKind('authorities'); }}>Producteurs et autorités</button><button className={'btn ' + (functionsView ? 'primary' : 'secondary')} aria-pressed={functionsView} onClick={() => setFunctionsView(true)}>Fonctions (ISDF)</button>{exporting && !functionsView && <button className="btn secondary" disabled={busy} onClick={() => download(`export/${kind}?institutionId=${institution}`, `${kind}.csv`)}>Exporter les notices visibles (CSV)</button>}</div>
         {error ? <ErrorNotice error={error} /> : null}{success && <Notice>{success}</Notice>}
@@ -90,6 +91,7 @@ function ArchiveWorkspace({ institution }: { institution: string }) {
         {relationsFor && q.data && <AuthorityRelationsDialog api={api} institution={institution} authority={{ id: relationsFor.id, code: relationsFor.input.code, name: relationsFor.input.name, kind: relationsFor.input.kind }}
             authorities={q.data.authorities.map(a => ({ id: a.id, code: a.input.code, name: a.input.name, kind: a.input.kind }))} relations={q.data.relations} canManage={manage}
             onClose={() => setRelationsFor(null)} onChanged={() => q.refresh()} />}
+        {importingEad && <EadImport api={api} institution={institution} onClose={() => setImportingEad(false)} onImported={count => { q.refresh(); setSuccess(`${count} notice(s) importée(s) en brouillon depuis le fichier EAD3.`); }} />}
         {importing && <ArchiveImport api={api} institution={institution} kind={kind} onClose={() => setImporting(false)} onImported={count => { q.refresh(); setSuccess(`${count} notice(s) importée(s).`); }} />}
     </>;
 }

@@ -19,6 +19,10 @@ export interface AuthorityInput {
 export interface DescriptionView { id: string; input: DescriptionInput; version: number; updatedAt: string; createdAt?: string }
 export interface AuthorityView { id: string; input: AuthorityInput; version: number; updatedAt: string; createdAt?: string }
 export interface CsvPreview { hash: string; rows: number; issues: { row: number; message: string }[] }
+/** Import d'un EAD3 : `unit` est le rang de l'unité dans le fichier (0 : le fichier entier). */
+export interface EadIssue { unit: number; reference: string | null; message: string }
+export interface EadOutlineEntry { rank: number; depth: number; level: string | null; reference: string | null; title: string | null }
+export interface EadPreview { hash: string; units: number; issues: EadIssue[]; warnings: string[]; outline: EadOutlineEntry[] }
 export class ArchivesApi {
     constructor(private transport: Transport) { }
     descriptions(institution: string, signal?: AbortSignal): Promise<DescriptionView[]> { return this.transport.request(`/archives/descriptions?institutionId=${uuid(institution)}`, { signal }); }
@@ -54,6 +58,12 @@ export class ArchivesApi {
     fiche(institution: string, signal?: AbortSignal): Promise<InstitutionFicheView> { return this.transport.request(`/archives/institutions/${uuid(institution)}/fiche`, { signal }); }
     saveFiche(institution: string, input: InstitutionFicheInput, key: string, signal?: AbortSignal): Promise<InstitutionFicheView> {
         return this.transport.request(`/archives/institutions/${uuid(institution)}/fiche`, { method: 'PUT', body: input, idempotencyKey: key, signal });
+    }
+    previewEad(institutionId: string, xml: string, confidentiality: string, signal?: AbortSignal): Promise<EadPreview> {
+        return this.transport.request('/archives/imports/ead/preview', { method: 'POST', body: { institutionId, xml, confidentiality }, idempotencyKey: crypto.randomUUID(), signal });
+    }
+    importEad(institutionId: string, xml: string, confidentiality: string, previewHash: string, key: string, signal?: AbortSignal): Promise<{ count: number }> {
+        return this.transport.request('/archives/imports/ead', { method: 'POST', body: { institutionId, xml, confidentiality, previewHash }, idempotencyKey: key, signal });
     }
     preview(institutionId: string, kind: ArchiveKind, csv: string, signal?: AbortSignal): Promise<CsvPreview> {
         return this.transport.request('/archives/imports/preview', { method: 'POST', body: { institutionId, kind, csv }, idempotencyKey: crypto.randomUUID(), signal });

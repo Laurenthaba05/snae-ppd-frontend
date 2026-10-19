@@ -163,6 +163,20 @@ it('l’éditeur de description regroupe les éléments ISAD(G) par zone et prop
     expect((within(dialog).getByLabelText(/^Importance matérielle : unité/) as HTMLSelectElement).value).toBe('ML');
     expect(dialog.textContent).toContain('Description créée le');
 });
+it('« Importer un EAD3 » n’existe que pour les descriptions, et ouvre la fenêtre d’import', async () => {
+    serveDescriptions([descriptionRow(1)]);
+    render(<ArchivalDescriptionPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Importer un EAD3' }));
+    const dialog = await screen.findByRole('dialog');
+    expect(within(dialog).getByText('Importer un fichier EAD3')).toBeTruthy();
+    expect((within(dialog).getByRole('button', { name: 'Confirmer l’import' }) as HTMLButtonElement).disabled).toBe(true);
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Annuler' }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Producteurs et autorités' }));
+    await screen.findByRole('button', { name: 'Créer un producteur' });
+    expect(screen.queryByRole('button', { name: 'Importer un EAD3' })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Importer un CSV' })).toBeTruthy();
+});
 it('une quantité sans unité, ou une validation sans dates ni producteur, bloque l’enregistrement avec le motif', async () => {
     serveDescriptions([descriptionRow(1)]);
     render(<ArchivalDescriptionPage />);

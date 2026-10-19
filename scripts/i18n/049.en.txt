@@ -1,0 +1,16 @@
+1	(untitled)
+2	(no reference)
+3	{1} record(s) imported as drafts from the EAD3 file.
+4	Outline read
+5	other units.
+6	draft
+7	Choose an EAD3 file in XML format (.xml).
+8	Choose an EAD3 file in XML format (5 MB and 5,000 units at most). It must comply with the official EAD3 schema. Each unit becomes a record
+9	Confidentiality of the records created
+10	It is chosen here and never comes from the file; you can change it record by record.
+11	EAD3 file (.xml)
+12	Import an EAD3
+13	Import an EAD3 file
+14	The check succeeded. All records will be saved together. The server will check the file again at confirmation.
+15	The file exceeds 5 MB.
+16	attached to its parent; references that already exist are refused and nothing is replaced. Elements with no equivalent (for example subject access points) are not carried over: the check lists them.
