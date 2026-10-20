@@ -22,7 +22,8 @@ export interface CsvPreview { hash: string; rows: number; issues: { row: number;
 /** Import d'un EAD3 : `unit` est le rang de l'unité dans le fichier (0 : le fichier entier). */
 export interface EadIssue { unit: number; reference: string | null; message: string }
 export interface EadOutlineEntry { rank: number; depth: number; level: string | null; reference: string | null; title: string | null }
-export interface EadPreview { hash: string; units: number; issues: EadIssue[]; warnings: string[]; outline: EadOutlineEntry[] }
+/** `format` : la version reconnue dans le fichier (« EAD3 » ou « EAD 2002 »). */
+export interface EadPreview { hash: string; units: number; issues: EadIssue[]; warnings: string[]; outline: EadOutlineEntry[]; format?: string }
 export class ArchivesApi {
     constructor(private transport: Transport) { }
     descriptions(institution: string, signal?: AbortSignal): Promise<DescriptionView[]> { return this.transport.request(`/archives/descriptions?institutionId=${uuid(institution)}`, { signal }); }

@@ -13,7 +13,7 @@ const INST = '22222222-2222-4222-8222-222222222222';
 const api = { previewEad: vi.fn(), importEad: vi.fn() };
 const asApi = () => api as unknown as ArchivesApi;
 const XML = '<ead xmlns="http://ead3.archivists.org/schema/"><control/><archdesc level="fonds"/></ead>';
-const good: EadPreview = { hash: 'h'.repeat(64), units: 3, issues: [], warnings: ['Éléments non repris : controlaccess (2).'], outline: [
+const good: EadPreview = { hash: 'h'.repeat(64), format: 'EAD 2002', units: 3, issues: [], warnings: ['Éléments non repris : controlaccess (2).'], outline: [
     { rank: 1, depth: 0, level: 'FONDS', reference: 'MIN-1', title: 'Papiers du ministère' }, { rank: 2, depth: 1, level: 'SERIE', reference: 'MIN-1/A', title: 'Correspondance' }, { rank: 3, depth: 2, level: 'DOSSIER', reference: 'MIN-1/A/1', title: 'Dossier 1' }] };
 
 const setup = () => { const onClose = vi.fn(), onImported = vi.fn(); render(<EadImport api={asApi()} institution={INST} onClose={onClose} onImported={onImported} />); return { onClose, onImported }; };
@@ -31,6 +31,7 @@ it('contrôle le fichier, montre l’arborescence lue et les éléments non repr
     await check();
     expect(api.previewEad).toHaveBeenCalledWith(INST, XML, 'CONFIDENTIEL', expect.anything());
     expect(screen.getByRole('status').textContent).toBe('3 unités lues, aucune erreur, 1 remarque.');
+    expect(screen.getByText(/Format reconnu/).textContent).toBe('Format reconnu : EAD 2002.');
     const outline = screen.getByRole('list', { name: 'Arborescence lue' });
     expect(within(outline).getAllByRole('listitem').map(li => li.textContent)).toEqual(['Fonds · MIN-1 — Papiers du ministère', 'Série · MIN-1/A — Correspondance', 'Dossier · MIN-1/A/1 — Dossier 1']);
     expect(screen.getByText('Éléments non repris : controlaccess (2).')).toBeTruthy();
@@ -67,7 +68,7 @@ it('changer la confidentialité après le contrôle oblige à contrôler de nouv
 it('un fichier trop gros ou d’un autre format est refusé avant tout envoi', async () => {
     setup();
     fireEvent.change(document.querySelector('input[type=file]') as HTMLInputElement, { target: { files: [new File(['a,b'], 'fonds.csv')] } });
-    expect((await screen.findByRole('alert')).textContent).toContain('Choisissez un fichier EAD3 au format XML');
+    expect((await screen.findByRole('alert')).textContent).toContain('Choisissez un fichier EAD (EAD3 ou EAD 2002) au format XML');
     fireEvent.change(document.querySelector('input[type=file]') as HTMLInputElement, { target: { files: [new File([new Uint8Array(5_000_001)], 'gros.xml')] } });
     await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('dépasse 5 Mo'));
     expect((screen.getByRole('button', { name: 'Contrôler le fichier' }) as HTMLButtonElement).disabled).toBe(true); expect(api.previewEad).not.toHaveBeenCalled();

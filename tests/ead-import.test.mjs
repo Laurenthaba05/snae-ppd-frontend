@@ -8,7 +8,7 @@ test('Le fichier est contrôlé avant l’envoi : taille, vide, extension', () =
     assert.equal(eadFileProblem({ name: 'fonds.xml', size: EAD_MAX_BYTES }), null);
     assert.equal(eadFileProblem({ name: 'fonds.xml', size: EAD_MAX_BYTES + 1 }), 'Le fichier dépasse 5 Mo.');
     assert.equal(eadFileProblem({ name: 'fonds.xml', size: 0 }), 'Le fichier est vide.');
-    assert.equal(eadFileProblem({ name: 'fonds.csv', size: 10 }), 'Choisissez un fichier EAD3 au format XML (.xml).');
+    assert.equal(eadFileProblem({ name: 'fonds.csv', size: 10 }), 'Choisissez un fichier EAD (EAD3 ou EAD 2002) au format XML (.xml).');
 });
 
 test('Une erreur du contrôle dit où elle est : le fichier entier, ou une unité avec sa référence', () => {

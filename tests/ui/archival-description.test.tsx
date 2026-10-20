@@ -7,6 +7,8 @@ const workspace = vi.hoisted(() => ({ scope: { institutionId: '11111111-1111-411
 vi.mock('../../src/auth/session', () => ({ useSession: () => session }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => workspace }));
 vi.mock('../../src/core/policy', () => ({ can: () => true }));
+vi.mock('../../src/ui/download', async importOriginal => ({ ...(await importOriginal<typeof import('../../src/ui/download')>()), saveBlob: vi.fn() }));
+import { saveBlob } from '../../src/ui/download';
 import { ArchiveImport, ArchivalDescriptionPage } from '../../src/pages/ArchivalDescription';
 const institution = '11111111-1111-4111-8111-111111111111';
 beforeEach(() => { session.codification = null; session.records.transport.request.mockReset(); workspace.scope.institutionId = institution; });
@@ -134,6 +136,7 @@ const descriptionRow = (n: number, extra: Record<string, unknown> = {}, details:
     version: 1, updatedAt: '2026-10-08T09:00:00Z', createdAt: '2026-09-01T09:00:00Z' });
 function serveDescriptions(descriptions: unknown[], authorities: unknown[] = []) {
     session.records.transport.request.mockImplementation(async (path: string, options?: { method?: string }) => {
+        if (/\/descriptions\/[^/?]+\/ead(2002)?$/.test(path)) return new Blob(['<ead/>']);
         if (path.startsWith('/archives/descriptions?')) return descriptions;
         if (path.startsWith('/archives/authorities?')) return authorities;
         if (path.startsWith('/archives/relations?')) return [];
@@ -163,18 +166,31 @@ it('l’éditeur de description regroupe les éléments ISAD(G) par zone et prop
     expect((within(dialog).getByLabelText(/^Importance matérielle : unité/) as HTMLSelectElement).value).toBe('ML');
     expect(dialog.textContent).toContain('Description créée le');
 });
-it('« Importer un EAD3 » n’existe que pour les descriptions, et ouvre la fenêtre d’import', async () => {
+it('chaque description s’exporte en EAD3 ou en EAD 2002, sous le nom du fichier qui dit la version', async () => {
+    const row = descriptionRow(1);
+    serveDescriptions([row]);
+    render(<ArchivalDescriptionPage />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Exporter EAD3' }));
+    await waitFor(() => expect(saveBlob).toHaveBeenCalledTimes(1));
+    expect(session.records.transport.request).toHaveBeenCalledWith(`/archives/descriptions/${row.id}/ead`, expect.objectContaining({ responseType: 'blob' }));
+    expect(vi.mocked(saveBlob).mock.calls[0]![1]).toBe(`fonds-${row.id}.ead.xml`);
+    fireEvent.click(screen.getByRole('button', { name: 'Exporter EAD 2002' }));
+    await waitFor(() => expect(saveBlob).toHaveBeenCalledTimes(2));
+    expect(session.records.transport.request).toHaveBeenCalledWith(`/archives/descriptions/${row.id}/ead2002`, expect.objectContaining({ responseType: 'blob' }));
+    expect(vi.mocked(saveBlob).mock.calls[1]![1]).toBe(`fonds-${row.id}.ead2002.xml`);
+});
+it('« Importer un EAD » n’existe que pour les descriptions, et ouvre la fenêtre d’import', async () => {
     serveDescriptions([descriptionRow(1)]);
     render(<ArchivalDescriptionPage />);
-    fireEvent.click(await screen.findByRole('button', { name: 'Importer un EAD3' }));
+    fireEvent.click(await screen.findByRole('button', { name: 'Importer un EAD' }));
     const dialog = await screen.findByRole('dialog');
-    expect(within(dialog).getByText('Importer un fichier EAD3')).toBeTruthy();
+    expect(within(dialog).getByText('Importer un fichier EAD')).toBeTruthy();
     expect((within(dialog).getByRole('button', { name: 'Confirmer l’import' }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(within(dialog).getByRole('button', { name: 'Annuler' }));
     expect(screen.queryByRole('dialog')).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Producteurs et autorités' }));
     await screen.findByRole('button', { name: 'Créer un producteur' });
-    expect(screen.queryByRole('button', { name: 'Importer un EAD3' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Importer un EAD' })).toBeNull();
     expect(screen.getByRole('button', { name: 'Importer un CSV' })).toBeTruthy();
 });
 it('une quantité sans unité, ou une validation sans dates ni producteur, bloque l’enregistrement avec le motif', async () => {

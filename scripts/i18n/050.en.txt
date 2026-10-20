@@ -1,0 +1,9 @@
+1	{1} record(s) imported as drafts from the EAD file.
+2	Choose an EAD file (EAD3 or EAD 2002) in XML format (.xml).
+3	Choose an EAD file in XML format, EAD3 or EAD 2002 (5 MB and 5,000 units at most). It must comply with the official schema of its version. Each unit becomes a record
+4	Export EAD 2002
+5	Export EAD3
+6	EAD file (.xml)
+7	Format recognised:
+8	Import an EAD
+9	Import an EAD file

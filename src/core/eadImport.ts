@@ -1,5 +1,5 @@
 /**
- * Import d'un fichier EAD3 : ce qu'on dit de la lecture avant d'enregistrer. Le serveur lit, contrôle (schéma officiel, références, niveaux, droits) et reste seul juge ;
+ * Import d'un fichier EAD (EAD3 ou EAD 2002) : ce qu'on dit de la lecture avant d'enregistrer. Le serveur lit, contrôle (schéma officiel, références, niveaux, droits) et reste seul juge ;
  * l'écran montre l'arborescence lue, les erreurs qui bloquent et les éléments non repris.
  */
 export const EAD_MAX_BYTES = 5_000_000;
@@ -14,7 +14,7 @@ export interface EadOutlineLike { rank: number; depth: number; level: string | n
 export function eadFileProblem(file: { name: string; size: number }): string | null {
     if (file.size > EAD_MAX_BYTES) return 'Le fichier dépasse 5 Mo.';
     if (file.size === 0) return 'Le fichier est vide.';
-    return /\.(xml|ead)$/i.test(file.name) ? null : 'Choisissez un fichier EAD3 au format XML (.xml).';
+    return /\.(xml|ead)$/i.test(file.name) ? null : 'Choisissez un fichier EAD (EAD3 ou EAD 2002) au format XML (.xml).';
 }
 
 /** Une erreur du contrôle en une phrase : « Fichier : … » pour tout le fichier, « Unité 3 (MIN-1/A) : … » pour une unité. */

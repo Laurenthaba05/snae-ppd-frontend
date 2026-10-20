@@ -1,0 +1,9 @@
+1	{n} notice(s) importée(s) en brouillon depuis le fichier EAD.
+2	Choisissez un fichier EAD (EAD3 ou EAD 2002) au format XML (.xml).
+3	Choisissez un fichier EAD au format XML, EAD3 ou EAD 2002 (5 Mo et 5 000 unités au plus). Il doit respecter le schéma officiel de sa version. Chaque unité devient une notice
+4	Exporter EAD 2002
+5	Exporter EAD3
+6	Fichier EAD (.xml)
+7	Format reconnu :
+8	Importer un EAD
+9	Importer un fichier EAD
