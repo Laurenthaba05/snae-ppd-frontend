@@ -12,6 +12,7 @@ import {
     selectionText, transferBlockerText, transferHtml, volumeText,
     type DocumentTransferInfo, type Transfer, type TransferCandidate, type TransferDestination, type TransferStatus, type TransferSummary
 } from '../core/transfers';
+import { printHtml } from './printHtml';
 
 export const TransferStatusBadge = ({ status }: { status: TransferStatus }) => <Badge value={status} label={STATUS_LABELS[status]} />;
 
@@ -160,9 +161,7 @@ function TransferDialog({ id, workspaceInstitutionId, departmentId, onClose, onC
             producer: producer.name ?? 'Service versant', destination: destination.name ?? 'Institution d’archives', createdBy: createdBy.name ?? 'Agent', receivedBy: receivedBy.name ?? 'Agent',
             date: formatDate, day: d => formatDay(d)
         });
-        const w = window.open('', '_blank');
-        if (!w) { setError(new Error('Autorisez les fenêtres de ce site pour afficher le bordereau.')); return; }
-        w.document.write(html); w.document.close(); w.focus(); w.print();
+        printHtml(html);
     };
     const actions = t ? availableActions(t.summary, caps, canReceive) : [];
     return <Modal wide title="Bordereau de versement" subtitle={t ? t.summary.reference : ''} onClose={onClose} locked={busy}>

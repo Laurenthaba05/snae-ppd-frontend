@@ -8,6 +8,7 @@ import {
     KIND_LABELS, blockerText, certificateHtml, destroyedSummary, kindCounts, previewSummary,
     type DestructionCertificate, type DestructionPreview
 } from '../core/destruction';
+import { printHtml } from './printHtml';
 
 const SHOWN = 50;
 const shortHash = (h: string | null) => h ? h.slice(0, 12) + '…' : '—';
@@ -42,12 +43,9 @@ export function CertificateDialog({ certificate: c, onClose }: { certificate: De
     const proposer = useEntityName('users', c.proposedById);
     const validator = useEntityName('users', c.validatedById);
     const institution = useEntityName('institutions', c.institutionId);
-    const [error, setError] = useState<unknown>(null);
     const print = () => {
         const html = certificateHtml(c, { operator: operator.name ?? 'Agent', proposer: proposer.name ?? 'Agent', validator: validator.name ?? 'Agent', institution: institution.name ?? 'Institution', date: formatDate });
-        const w = window.open('', '_blank');
-        if (!w) { setError(new Error('Autorisez les fenêtres de ce site pour afficher le certificat.')); return; }
-        w.document.write(html); w.document.close(); w.focus(); w.print();
+        printHtml(html);
     };
     return <Modal wide title="Certificat de destruction" subtitle={c.reference} onClose={onClose}>
         <div className="panel-padding destruction-certificate">
@@ -66,7 +64,6 @@ export function CertificateDialog({ certificate: c, onClose }: { certificate: De
             {c.fingerprint && <p><small>Empreinte de la liste des objets : <code>{c.fingerprint}</code></small></p>}
             <Notice>Ce certificat couvre le stockage de l’application. Les sauvegardes et réplicas éventuels de l’hébergeur ne sont pas couverts.</Notice>
             {c.status === 'COMPLET' && <ActSealPanel type="CERTIFICAT_DESTRUCTION" id={c.id} />}
-            {error ? <ErrorNotice error={error} /> : null}
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={print}>Afficher et imprimer</button><button type="button" className="btn primary" onClick={onClose}>Fermer</button></footer>
     </Modal>;

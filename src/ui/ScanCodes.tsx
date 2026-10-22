@@ -11,19 +11,13 @@ import { Busy, ErrorNotice, Field, Modal, Notice, useResource } from './componen
 import { readFileCodes } from './codeReading';
 import { Icon } from './icons';
 import { importPageRows, type ImportOutcome } from './pageImportRunner';
+import { printHtml } from './printHtml';
 import { elementName } from '../core/format';
 
 /* ---------- Impression des feuilles séparatrices ---------- */
-/** Ouvre les feuilles dans une fenêtre d'impression ; false si le navigateur a bloqué la fenêtre. */
-export function printSheets(title: string, sheets: SheetSpec[]): boolean {
-    const win = window.open('', '_blank');
-    if (!win) return false;
-    win.document.open();
-    win.document.write(sheetsDocument(title, sheets));
-    win.document.close();
-    win.focus();
-    window.setTimeout(() => win.print(), 300);
-    return true;
+/** Imprime les feuilles depuis un cadre invisible de la page (aucune fenêtre n'est ouverte : rien à autoriser, rien qui partage l'origine de l'application par `window.opener`). */
+export function printSheets(title: string, sheets: SheetSpec[]): void {
+    printHtml(sheetsDocument(title, sheets));
 }
 
 export const elementSheet = (element: Pick<DigitizationElement, 'id' | 'descriptionSource' | 'pagesAttendues' | 'rectoVerso'> & Partial<Pick<DigitizationElement, 'ordre'>>, context: string[] = []): SheetSpec => ({
@@ -41,7 +35,7 @@ export function SheetsButton({ label, title, build, small = true }: { label: str
         try {
             const sheets = await build();
             if (!sheets.length) setError('Aucune feuille à imprimer.');
-            else if (!printSheets(title, sheets)) setError('Le navigateur a bloqué la fenêtre d’impression : autorisez les fenêtres pour ce site.');
+            else printSheets(title, sheets);
         } catch (e) { setError(e instanceof Error ? e.message : 'Préparation impossible.'); } finally { setBusy(false); }
     };
     return <>

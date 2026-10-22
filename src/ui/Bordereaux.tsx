@@ -10,6 +10,7 @@ import {
     selectionText, visaBody, visaProblems, visaSummary, volumeText, dossierPlanText,
     type DossierEliminationPlan, type Bordereau, type BordereauCandidate, type BordereauExecution, type BordereauLineFailure, type BordereauReadiness, type BordereauStatus, type BordereauSummary
 } from '../core/bordereaux';
+import { printHtml } from './printHtml';
 
 const today = () => new Date().toISOString().slice(0, 10);
 export const StatusBadge = ({ status }: { status: BordereauStatus }) => <Badge value={status} label={STATUS_LABELS[status]} />;
@@ -205,9 +206,7 @@ function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }
     const print = () => {
         if (!b) return;
         const html = bordereauHtml(b, { institution: institution.name ?? 'Institution', createdBy: createdBy.name ?? 'Agent', submittedBy: submittedBy.name ?? 'Agent', visaBy: visaBy.name ?? 'Agent', date: formatDate, day: d => formatDay(d) });
-        const w = window.open('', '_blank');
-        if (!w) { setError(new Error('Autorisez les fenêtres de ce site pour afficher le bordereau.')); return; }
-        w.document.write(html); w.document.close(); w.focus(); w.print();
+        printHtml(html);
     };
     const actions = b ? availableActions(b.summary, caps) : [];
     const title = b ? b.summary.reference : 'Bordereau d’élimination';

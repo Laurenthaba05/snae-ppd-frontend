@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import type { DigitizationElement, ScanLot } from '../../src/core/types';
 import { buildCode } from '../../src/core/scanCodes';
@@ -14,6 +14,9 @@ vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/ui/codeReading', () => ({
     readFileCodes: async (file: File) => file.name.endsWith('.tif') ? { hits: [], unreadable: true } : { hits: (fixture.codes.get(file.name) ?? []).map(text => ({ text, format: 'QR', source: 'interne' })), unreadable: false }
 }));
+// L'impression passe par un cadre invisible que jsdom ne sait pas imprimer : on vérifie ce qui lui est confié.
+vi.mock('../../src/ui/printHtml', () => ({ printHtml: vi.fn() }));
+import { printHtml } from '../../src/ui/printHtml';
 import { BatchImportDialog, CodeLookup, SheetsButton } from '../../src/ui/ScanCodes';
 
 const ID = '00000000-0000-4000-8000-0000000000';
@@ -189,16 +192,20 @@ it('recherche par code : un code complet ouvre l’élément, un code court n’
     expect(onLot).not.toHaveBeenCalled();
 });
 
-it('impression : ouvre une fenêtre avec les feuilles, ou explique que le navigateur l’a bloquée', async () => {
-    const written: string[] = [];
-    const fakeWindow = { document: { open: vi.fn(), write: (html: string) => written.push(html), close: vi.fn() }, focus: vi.fn(), print: vi.fn() };
-    const open = vi.spyOn(window, 'open').mockReturnValue(fakeWindow as unknown as Window);
+it('impression : confie les feuilles au cadre d’impression de la page, sans ouvrir de fenêtre', async () => {
+    const open = vi.spyOn(window, 'open');
     render(<SheetsButton label="Feuilles" title="Test" build={async () => [{ kind: 'ELEMENT', id: E(1), title: 'Registre <b>1</b>', details: ['Projet A'] }]} />);
     fireEvent.click(screen.getByRole('button', { name: /Feuilles/ }));
-    await waitFor(() => expect(written).toHaveLength(1));
-    expect(written[0]).toContain(buildCode('ELEMENT', E(1)));
-    expect(written[0]).not.toContain('<b>1</b>');
-    open.mockReturnValue(null);
+    await waitFor(() => expect(printHtml).toHaveBeenCalledTimes(1));
+    const html = vi.mocked(printHtml).mock.calls[0]![0];
+    expect(html).toContain(buildCode('ELEMENT', E(1)));
+    expect(html).not.toContain('<b>1</b>');
+    expect(open).not.toHaveBeenCalled();
+    // aucune feuille : rien n'est imprimé, la raison est dite
+    cleanup();
+    vi.mocked(printHtml).mockClear();
+    render(<SheetsButton label="Feuilles" title="Test" build={async () => []} />);
     fireEvent.click(screen.getByRole('button', { name: /Feuilles/ }));
-    await screen.findByText(/bloqué la fenêtre d’impression/);
+    await screen.findByText(/Aucune feuille à imprimer/);
+    expect(printHtml).not.toHaveBeenCalled();
 });

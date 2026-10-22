@@ -9,6 +9,7 @@ import {
     blockerText, documentInfoText, emptyPassage, isSelectable, passageBody, passageHtml, passageProblems, phaseStateText, selectionText, volumeText,
     type IntermediateCandidate, type IntermediateDocumentInfo, type IntermediatePassage, type IntermediatePassageSummary
 } from '../core/intermediate';
+import { printHtml } from './printHtml';
 
 /** Sur la fiche d'un document semi-actif : où il est, depuis quand, sous la garde de qui. Rien tant que le document est en phase courante. */
 export function DocumentIntermediateNotice({ documentId }: { documentId: string }) {
@@ -113,14 +114,11 @@ function PassageDetail({ id, institutionId, onClose }: { id: string; institution
     const q = useResource<IntermediatePassage>(signal => retention!.intermediatePassage(id, signal), `intermediate-passage:${id}:${epoch}`);
     const institution = useEntityName('institutions', institutionId);
     const creator = useEntityName('users', q.data?.summary.createdById);
-    const [error, setError] = useState<unknown>(null);
     const p = q.data;
     const print = () => {
         if (!p) return;
         const html = passageHtml(p, { institution: institution.name ?? 'Institution', createdBy: creator.name ?? 'Agent', date: formatDate, day: d => formatDay(d) });
-        const w = window.open('', '_blank');
-        if (!w) { setError(new Error('Autorisez les fenêtres de ce site pour afficher le passage.')); return; }
-        w.document.write(html); w.document.close(); w.focus(); w.print();
+        printHtml(html);
     };
     return <Modal wide title="Passage en archives intermédiaires" subtitle={p?.summary.reference ?? ''} onClose={onClose}>
         <div className="panel-padding">
@@ -136,7 +134,6 @@ function PassageDetail({ id, institutionId, onClose }: { id: string; institution
                 <div className="table-scroll"><table><thead><tr><th>N°</th><th>Document</th><th>Fin de phase courante</th><th>Échéance</th><th>Contenu</th></tr></thead>
                     <tbody>{p.lines.map(l => <tr key={l.rank}><td>{l.rank}</td><td><strong>{l.reference}</strong><small className="cell-sub">{l.title}</small></td>
                         <td>{formatDay(l.phaseDate)}</td><td>{formatDay(l.dueDate)}</td><td>{l.fileCount} fichier{l.fileCount > 1 ? 's' : ''} · {formatBytes(l.totalBytes)}</td></tr>)}</tbody></table></div>
-                {error ? <ErrorNotice error={error} /> : null}
             </>}
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button>{p && <button type="button" className="btn secondary" onClick={print}>Afficher et imprimer</button>}</footer>

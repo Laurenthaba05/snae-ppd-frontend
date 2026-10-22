@@ -12,6 +12,7 @@ import {
     type ActionSpec, type BordereauView, type StageEvent
 } from '../core/structuredIntake';
 import type { ArchivalIntake } from '../core/types';
+import { printHtml } from './printHtml';
 
 /**
  * Le circuit d'un versement structuré dans la fiche de l'entrée : étape et son explication, parties, accord, actions possibles (avec ce qui les bloque),
@@ -49,9 +50,7 @@ export function StructuredSection({ intake, canManage, onChanged }: { intake: Ar
         if (!view || !intake.accuseReference || !intake.accuseDate) return;
         const html = acknowledgementHtml({ reference: intake.accuseReference, date: formatDate(intake.accuseDate), numero: intake.numero, producteur: producerName ?? 'Producteur', serviceArchives: archives.name ?? 'Service d’archives',
             accord: agreement ? `${agreement.input.reference} · ${agreement.input.intitule}` : null, lines: view.lignes });
-        const w = window.open('', '_blank');
-        if (!w) { setError(new Error('Autorisez les fenêtres de ce site pour afficher l’accusé de réception.')); return; }
-        w.document.write(html); w.document.close(); w.focus(); w.print();
+        printHtml(html);
     };
 
     const actions = canManage && intake.statut === 'OUVERTE' ? actionsFor(stage) : [];
