@@ -18,14 +18,16 @@ const alterations: HeritageReference[] = [
     { domaine: 'ALTERATION', code: 'TACHE', libelle: 'Tache', description: null, ordre: 30, actif: true }];
 const option = (vers: MovementRequestStatus, extra: Partial<MovementTransitionOption> = {}): MovementTransitionOption =>
     ({ vers, permissions: ['HERITAGE_MOVEMENT_AUTHORIZE'], peutAgir: true, motifRequis: false, conditionsRequises: false, conformiteRequise: false, bloquants: [], ...extra });
+// un retour prévu dans le futur proche, quelle que soit la date du jour (la saisie refuse une échéance passée)
+const soon = new Date(Date.now() + 30 * 86_400_000).toISOString().slice(0, 10);
 const step = (par = 'Awa Camara', le = '2026-10-01T09:00:00Z') => ({ parId: ID + 'u1', par, le });
 const request = (extra: Partial<MovementRequest> = {}): MovementRequest => ({ id: ID + 'm1', numero: 'MVT-2026-000001', bienId: ID + 'b1', bienIdentifiant: 'PAT-000001', bienIntitule: 'Registre des naissances', institutionId: INST,
-    archiveId: ID + 'a1', cote: 'ARCH-001', objet: 'CONSULTATION', motif: 'Consultation par un chercheur accrédité', destination: 'Salle de lecture', destinataire: 'Équipe de recherche', retourPrevu: '2026-10-20',
+    archiveId: ID + 'a1', cote: 'ARCH-001', objet: 'CONSULTATION', motif: 'Consultation par un chercheur accrédité', destination: 'Salle de lecture', destinataire: 'Équipe de recherche', retourPrevu: soon,
     statut: 'DEMANDEE', demande: step(), decision: null, decisionMotif: null, conditions: null, remise: null, mouvementId: null, reception: null, retour: null, retourConforme: null, retourNote: null, retourConstatId: null,
     fermeture: null, fermeMotif: null, enRetard: false, joursRetard: null, modifiable: false,
     passages: [option('AUTORISEE'), option('REFUSEE', { motifRequis: true }), option('ANNULEE', { permissions: ['HERITAGE_MOVEMENT_REQUEST'], motifRequis: true, peutAgir: false })], version: 2, createdAt: '2026-10-01T09:00:00Z', ...extra });
 const row = (extra: Partial<MovementRow> = {}): MovementRow => ({ id: ID + 'm1', numero: 'MVT-2026-000001', bienId: ID + 'b1', bienIdentifiant: 'PAT-000001', bienIntitule: 'Registre des naissances', archiveId: ID + 'a1', cote: 'ARCH-001',
-    objet: 'CONSULTATION', destination: 'Salle de lecture', destinataire: 'Équipe de recherche', retourPrevu: '2026-10-20', statut: 'DEMANDEE', demandeLe: '2026-10-01T09:00:00Z', demandePar: 'Awa Camara', enRetard: false, joursRetard: null, ...extra });
+    objet: 'CONSULTATION', destination: 'Salle de lecture', destinataire: 'Équipe de recherche', retourPrevu: soon, statut: 'DEMANDEE', demandeLe: '2026-10-01T09:00:00Z', demandePar: 'Awa Camara', enRetard: false, joursRetard: null, ...extra });
 const page = (items: MovementRow[], extra: Partial<MovementPage> = {}): MovementPage => ({ items, page: 0, size: 20, total: items.length, hasMore: false, ...extra });
 const asset = (extra: Partial<HeritageAsset> = {}) => ({ id: ID + 'b1', version: 4, institutionId: INST, champs: { natureOriginale: 'PHYSIQUE' }, originaux: [{ archivePhysiqueId: ID + 'a1', cote: 'ARCH-001', libelle: 'Registre des naissances', support: null, etatPhysique: null }], ...extra }) as unknown as HeritageAsset;
 
