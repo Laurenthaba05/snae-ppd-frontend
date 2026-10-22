@@ -2,6 +2,7 @@ import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { validateFrontendEnvironment } from './scripts/environment-policy.mjs';
+import { contentSecurityPolicy } from './scripts/csp-policy.mjs';
 
 // Serve the same PDF decoder resources locally in development and production.
 function pdfResources(): Plugin {
@@ -30,11 +31,20 @@ function pdfResources(): Plugin {
     }
   };
 }
+// La politique de sécurité du contenu, en balise <meta> dans la page construite (jamais en développement : Vite y injecte des scripts en ligne pour le rechargement à chaud).
+function contentSecurityPolicyTag(env: Record<string, string | undefined>): Plugin {
+  return {
+    name: 'content-security-policy',
+    apply: 'build',
+    transformIndexHtml: () => [{ tag: 'meta', attrs: { 'http-equiv': 'Content-Security-Policy', content: contentSecurityPolicy(env) }, injectTo: 'head-prepend' as const }]
+  };
+}
 export default defineConfig(({ mode, command }) => {
   const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env };
   const target = validateFrontendEnvironment(env, mode, command);
   return {
-    plugins: [pdfResources()],
+    // la démonstration ne contacte aucun fournisseur d'identité : elle n'autorise que sa propre origine
+    plugins: [pdfResources(), contentSecurityPolicyTag(mode === 'demo' ? {} : env)],
     server: { host: '127.0.0.1', port: Number(env.DEV_SERVER_PORT) || 5173, strictPort: true, proxy: { '/api': { target, changeOrigin: true, secure: true } } },
     preview: { port: 4173, strictPort: true },
     build: { target: 'es2022', sourcemap: false },
