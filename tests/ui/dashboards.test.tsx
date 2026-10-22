@@ -127,7 +127,7 @@ it('les unités sont montrées en arbre, chacune avec ses chiffres, et un clic o
     await screen.findByText('Ministère de la Justice');
     const rows = screen.getAllByRole('row').slice(1).map(r => within(r).getAllByRole('cell').map(c => c.textContent));
     expect(rows.map(r => r[0])).toEqual(['Département des archives', 'Direction des études', 'Service du courrier']);
-    expect(rows[1]).toEqual(['Direction des études', 'DIRECTION', '40', '8', '25', '5']);
+    expect(rows[1]).toEqual(['Direction des études', 'Direction', '40', '8', '25', '5']);   // le type se lit par son nom, jamais par son code
     const indent = (name: string) => Number.parseInt((screen.getByRole('button', { name }).closest('td') as HTMLElement).style.paddingLeft, 10);
     expect(indent('Direction des études')).toBeGreaterThan(indent('Département des archives'));
     expect(indent('Service du courrier')).toBeGreaterThan(indent('Direction des études'));
@@ -257,4 +257,85 @@ it('les deux tableaux de bord n’ont aucune violation d’accessibilité', asyn
     const national = render(<NationalDashboardPage />);
     await screen.findByText('Tableau de bord national');
     expect(await violations(national.container)).toEqual([]);
+});
+
+// ------------------------------------------------------------------------------------------------ la présentation
+it('l’indicateur phare des documents montre sa tendance sur douze mois et sa variation sur trente jours', async () => {
+    render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    const hero = kpi('Documents');
+    expect(hero.className).toContain('hero');
+    expect(hero.querySelector('svg.dv-spark')).not.toBeNull();
+    expect(hero.querySelector('em')!.textContent).toBe('+7 ces 30 derniers jours');
+    expect(hero.title).toBe('7 créés ces 30 derniers jours');   // l'infobulle garde le détail
+    expect(kpi('Dossiers').className).not.toContain('hero');
+});
+
+it('les échéances dépassées ne prennent la mise en garde que s’il y en a', async () => {
+    const first = render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    expect(kpi('Échéances dépassées').className).toContain('alert-critical');
+    expect(kpi('Gels juridiques actifs').className).toContain('alert-info');
+    expect(kpi('Demandes en attente').className).toContain('alert-warning');
+    expect(kpi('Dossiers').className).not.toContain('alert-');
+    first.unmount();
+    fixture.dashboard!.scope.mockResolvedValue(scopeData({ retention: { byStatus: {}, overdue: 0, dueWithin90Days: 0, activeLegalHolds: 0 }, consultation: { byStatus: {}, pending: 0 } }));
+    render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    expect(kpi('Échéances dépassées').className).not.toContain('alert-');
+    expect(kpi('Demandes en attente').className).not.toContain('alert-');
+});
+
+it('la confidentialité se lit du plus clair (public) au plus foncé (secret), et le cycle de vie de même', async () => {
+    fixture.dashboard!.scope.mockResolvedValue(scopeData({ documents: { total: 100, destroyed: 0, byArchivalStatus: { BROUILLON: 10, ACTIF: 50, DETRUIT: 5 }, byBusinessStatus: {}, byConfidentiality: { PUBLIC: 10, CONFIDENTIEL: 20, SECRET: 5 }, createdLast30Days: 0, monthly: months } }));
+    render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    const segmentColors = (title: string) => [...(screen.getByRole('img', { name: new RegExp('^' + title) }).querySelectorAll('.db-sbar-seg'))].map(s => (s as HTMLElement).style.background);
+    expect(segmentColors('Documents par niveau')).toEqual(['rgb(135, 186, 253)', 'rgb(63, 112, 173)', 'rgb(29, 77, 135)']);   // public, confidentiel, secret : de plus en plus foncé
+    const ring = [...document.querySelectorAll('circle.db-donut-seg')].map(c => c.getAttribute('stroke'));
+    expect(ring).toEqual(['#61c28e', '#3fa270', '#9aa8ae']);   // brouillon, actif (vert de plus en plus foncé), détruit (teinte neutre)
+});
+
+it('la courbe de l’activité a son tableau, qui s’ouvre à la demande sans s’ajouter au tableau des unités', async () => {
+    render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    expect(screen.getAllByRole('table')).toHaveLength(1);   // les unités seulement
+    fireEvent.click(screen.getByRole('button', { name: 'Afficher les données sous forme de tableau' }));
+    const twin = within(screen.getByRole('table', { name: 'Documents ajoutés' }));
+    expect(twin.getAllByRole('row')).toHaveLength(13);       // l'en-tête et douze mois
+    expect(twin.getByRole('row', { name: /Déc\./ }).textContent).toContain('7');
+    expect(screen.getAllByRole('table')).toHaveLength(2);
+});
+
+it('une relecture garde l’écran affiché, légèrement estompé et signalé comme occupé, au lieu de le vider', async () => {
+    const { container } = render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    expect(container.querySelector('.dv.refreshing')).toBeNull();
+    let release: (value: unknown) => void = () => undefined;
+    fixture.dashboard!.scope.mockImplementation(() => new Promise(resolve => { release = resolve; }));
+    fireEvent.click(screen.getByRole('button', { name: 'Actualiser' }));
+    await waitFor(() => expect(container.querySelector('.dv.refreshing')).not.toBeNull());
+    expect(container.querySelector('.dv')!.getAttribute('aria-busy')).toBe('true');
+    expect(kpiValue('Documents')).toBe('120');                // les chiffres restent
+    release(scopeData());
+    await waitFor(() => expect(container.querySelector('.dv.refreshing')).toBeNull());
+});
+
+it('au national, une institution en retard de conservation montre une pastille critique, les autres un zéro discret', async () => {
+    render(<NationalDashboardPage />);
+    await screen.findByText('Tableau de bord national');
+    const rows = screen.getAllByRole('row').slice(1);
+    expect(rows[0]!.querySelector('.dv-pill.crit')!.textContent).toBe('9');   // MJ : neuf échéances dépassées dans le jeu d'essai
+    expect(rows[1]!.querySelector('.dv-pill.crit')).toBeNull();
+    expect(rows[1]!.querySelector('.dv-pill.zero')!.textContent).toBe('0');
+});
+
+it('changer de périmètre pendant une relecture ne montre jamais les chiffres de l’ancien périmètre', async () => {
+    const { rerender } = render(<ScopeDashboardPage />);
+    await screen.findByText('Ministère de la Justice');
+    fixture.dashboard!.scope.mockImplementation(() => new Promise(() => undefined));
+    fixture.scope = { institutionId: INST, departmentId: DIR1 };
+    rerender(<ScopeDashboardPage />);
+    expect(screen.queryByText('Ministère de la Justice')).toBeNull();   // l'écran attend les chiffres de la nouvelle unité
+    expect(screen.queryByText('120')).toBeNull();
 });

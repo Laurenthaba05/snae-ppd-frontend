@@ -7,7 +7,7 @@ import './institutional.css';
 import './archive-modules.css';
 import './design/f3.css';
 import './design/dashboard.css';
-import './design/dashboards.css';
+import './design/dashviz.css';
 import './design/import.css';
 import './design/scanning.css';
 import './design/heritage.css';

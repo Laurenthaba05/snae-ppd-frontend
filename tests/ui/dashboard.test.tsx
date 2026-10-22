@@ -1,13 +1,16 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { expect, it, vi } from 'vitest';
+import axe from 'axe-core';
 import type { RecordDocument } from '../../src/core/types';
+import { OTHER_COLOR, PALETTE } from '../../src/core/dashboard';
 
 // L'accueil : « jamais un chiffre inventé » — une donnée absente (habilitation, périmètre, erreur) s'affiche « — » avec sa raison, jamais 0 ; les séries et la répartition par type sont
 // calculées sur les documents lus, et un état de service ne se déclare « opérationnel » que si tout ce qui a été mesuré va bien.
 vi.mock('../../src/ui/navigation', () => ({ navigate: vi.fn() }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => ({}) }));
-import { HomeView, monthlySeries, typeSegments, type HomeData } from '../../src/pages/Dashboard';
+import { HomeView, exactSeries, monthlySeries, typeSegments, typeSegmentsOf, type HomeData, type HomeExact } from '../../src/pages/Dashboard';
+import { formatNumber } from '../../src/core/locale';
 
 const doc = (id: string, over: Record<string, unknown> = {}) => ({ id, typeDocumentId: 't1', createdAt: '2026-10-05T08:00:00Z', archivalStatus: 'BROUILLON', businessStatus: 'OUVERT', ...over } as unknown as RecordDocument);
 const NOW = new Date(2026, 9, 16, 12, 0, 0);   // 16 octobre 2026 (heure locale)
@@ -51,6 +54,7 @@ it('les cinq types les plus fréquents sont nommés, le reste est regroupé en �
     expect(segments.map(s => s.label)).toEqual(['Courrier', 'Rapport', 'Plan', 'Photo', 'Carte', 'Autres']);
     expect(segments.map(s => s.value)).toEqual([6, 5, 4, 3, 2, 2]);
     expect(new Set(segments.map(s => s.color)).size).toBe(6);
+    expect(segments.map(s => s.color)).toEqual([...PALETTE.slice(0, 5), OTHER_COLOR]);   // les teintes contrôlées, dans leur ordre ; le reste en teinte neutre
 });
 
 it('un type inconnu est dit tel quel, et sans reste il n’y a pas de segment « Autres »', () => {
@@ -65,18 +69,18 @@ it('l’accueil montre les chiffres lus, sans nombre inventé pour ce qui manque
     expect(kpis.getByText('Documents').closest('a, div, button')!.textContent).toContain('3');
     expect(kpis.getByText('Dossiers').closest('a, div, button')!.textContent).toContain('12');
     expect(kpis.getByText('Versements en attente').closest('a, div, button')!.textContent).toContain('3');
-    expect(kpis.getByText('Volume total').closest('a, div, button')!.textContent).toContain('—');
+    expect(kpis.getByText('Validations en retard').closest('a, div, button')!.textContent).toContain('—');   // sans les nombres exacts du serveur, pas de chiffre pour ce qui ne se compte pas sur un échantillon
 });
 
 it('une donnée indisponible s’affiche « — » avec sa raison, et jamais 0', () => {
     render(<HomeView data={data({ docs: null, dossiers: null, tasks: { intakes: null, toControl: null, eliminations: null, holds: null, requests: null } })} loading={false} name="Ousmane" canGo={() => true} />);
     const kpis = within(screen.getByLabelText('Indicateurs clés'));
-    for (const label of ['Documents', 'Dossiers', 'Versements en attente', 'Documents à contrôler', 'Demandes d’accès']) {
+    for (const label of ['Documents', 'Dossiers', 'Versements en attente', 'Documents à contrôler', 'Demandes d’accès', 'Validations en retard']) {
         const text = kpis.getByText(label).closest('a, div, button')!.textContent!;
         expect(text, label).toContain('—');
         expect(text, label).not.toMatch(/\b0\b/);
     }
-    expect(kpis.getAllByTitle(/Donnée non disponible/).length).toBe(5);   // chacun des cinq indicateurs concernés dit pourquoi dans son infobulle
+    expect(kpis.getAllByTitle(/Donnée non disponible/).length).toBe(6);   // chacun des six indicateurs concernés dit pourquoi dans son infobulle
 });
 
 it('pendant le chargement, les chiffres sont des points de suspension et non des zéros', () => {
@@ -115,4 +119,84 @@ it('l’accueil renvoie au tableau de bord du périmètre, seulement à qui peut
     first.unmount();
     render(<HomeView data={data()} loading={false} name="Mariama" canGo={() => false} />);
     expect(screen.queryByRole('button', { name: 'Voir le tableau de bord complet de votre périmètre' })).toBeNull();
+});
+
+it('l’accueil attire l’œil sur ce qui attend une action, et reste calme quand il n’y a rien', () => {
+    render(<HomeView data={data()} loading={false} name="Mariama" canGo={() => true} />);
+    const tile = (label: string) => screen.getByText(label, { selector: '.hm-kpi-body > span' }).closest('.hm-kpi') as HTMLElement;
+    expect(tile('Versements en attente').className).toContain('alert-warning');   // trois versements ouverts
+    expect(tile('Demandes d’accès').className).toContain('alert-info');
+    expect(tile('Documents à contrôler').className).not.toContain('alert-');       // aucun : rien à signaler
+    expect(tile('Documents').querySelector('svg.dv-spark')).not.toBeNull();         // la tendance des documents ajoutés
+});
+
+it('l’accueil n’a aucune violation d’accessibilité détectée automatiquement', async () => {
+    const titled = data({ docs: { items: [doc('1', { title: 'Rapport annuel' }), doc('2', { title: 'Décision du conseil' })], partial: false } });
+    const { container } = render(<HomeView data={titled} loading={false} name="Mariama" canGo={() => true} />);
+    const result = await axe.run(container, {
+        runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] },
+        rules: { 'color-contrast': { enabled: false }, region: { enabled: false }, 'landmark-one-main': { enabled: false }, 'page-has-heading-one': { enabled: false } }
+    });
+    expect(result.violations.map(v => v.id + ' : ' + v.nodes.map(n => n.target.join(' ')).join(' ; '))).toEqual([]);
+});
+
+// ------------------------------------------------------------------------------------------------ les nombres exacts du serveur
+const months12 = ['2025-11', '2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10'];
+const exact = (over: Partial<HomeExact> = {}): HomeExact => ({
+    documents: 4812, dossiers: 1203, createdLast30Days: 141, monthly: months12.map((month, i) => ({ month, count: i + 1 })), byType: { t1: 3000, t2: 1812 }, workflow: { pending: 30, overdue: 7 }, ...over
+});
+
+it('avec les nombres du serveur, l’accueil écrit les totaux exacts, sans « + » ni mention d’échantillon', () => {
+    render(<HomeView data={data({ exact: exact(), docs: { items: [doc('1')], partial: false }, dossiers: { count: 1203, partial: false } })} loading={false} name="Mariama" canGo={() => true} />);
+    const kpis = within(screen.getByLabelText('Indicateurs clés'));
+    const tile = (label: string) => kpis.getByText(label).closest('.hm-kpi') as HTMLElement;
+    expect(tile('Documents').textContent).toContain(formatNumber(4812));
+    expect(tile('Documents').textContent).not.toContain('812+');   // un total exact n'est pas suivi de « + »
+    expect(tile('Documents').textContent).toContain('+' + formatNumber(141) + ' ces 30 derniers jours');
+    expect(tile('Documents').getAttribute('title')).toBe(formatNumber(141) + ' créés ces 30 derniers jours');
+    expect(tile('Validations en retard').textContent).toContain('7');
+    expect(tile('Validations en retard').className).toContain('alert-critical');
+    expect(tile('Validations en retard').getAttribute('title')).toBe('30 tâche(s) de validation en attente au total');
+    expect(screen.queryByText(/documents les plus récents/)).toBeNull();
+});
+
+it('la répartition par type et la série viennent des totaux du serveur, pas de l’échantillon des derniers documents', () => {
+    const { container } = render(<HomeView data={data({ exact: exact(), docs: { items: [doc('1')], partial: false } })} loading={false} name="Mariama" canGo={() => true} />);
+    const rows = [...container.querySelectorAll('.dv-rows li')].map(li => li.textContent);
+    expect(rows.some(r => r!.includes('Courrier') && r!.includes(formatNumber(3000)))).toBe(true);
+    expect(rows.some(r => r!.includes('Rapport') && r!.includes(formatNumber(1812)))).toBe(true);
+    const group = screen.getByRole('group', { name: /^Documents ajoutés : / });
+    expect(group.getAttribute('aria-label')).toContain('Oct. 12');                       // le dernier mois du serveur
+});
+
+it('« Circuits de validation en retard » compte les tâches échues du serveur ; sans elles, un tiret', () => {
+    const view = render(<HomeView data={data({ exact: exact() })} loading={false} name="X" canGo={() => true} />);
+    const row = () => screen.getByText('Circuits de validation en retard').closest('button')!.textContent;
+    expect(row()).toContain('7');
+    view.unmount();
+    render(<HomeView data={data({ exact: exact({ workflow: null }) })} loading={false} name="X" canGo={() => true} />);
+    expect(screen.getByText('Circuits de validation en retard').closest('button')!.textContent).toContain('—');
+});
+
+it('la série exacte : « cette année » garde les mois depuis janvier, « 12 derniers mois » les garde tous', () => {
+    const monthly = months12.map((month, i) => ({ month, count: i + 1 }));
+    const year = exactSeries(monthly, 'year', NOW);
+    expect(year.map(p => p.key)).toEqual(months12.slice(2));
+    expect(year[0]!.label).toBe('Janv.');
+    expect(exactSeries(monthly, 'rolling', NOW)).toHaveLength(12);
+    expect(exactSeries([], 'year', NOW)).toEqual([]);
+});
+
+it('la répartition par type d’un total serveur : cinq types nommés, le reste en « Autres », les types vides écartés', () => {
+    const segments = typeSegmentsOf({ A: 60, B: 50, C: 40, D: 30, E: 20, F: 10, G: 5, H: 0 }, { A: 'Courrier', B: 'Rapport', C: 'Plan', D: 'Photo', E: 'Carte' });
+    expect(segments.map(s => s.label)).toEqual(['Courrier', 'Rapport', 'Plan', 'Photo', 'Carte', 'Autres']);
+    expect(segments.map(s => s.value)).toEqual([60, 50, 40, 30, 20, 15]);
+    expect(typeSegmentsOf({ X: 3 }, {}).map(s => s.label)).toEqual(['Type inconnu']);   // jamais l'identifiant du type
+});
+
+it('les derniers documents donnent la priorité au titre, la référence et le type passent en seconde ligne', () => {
+    const titled = data({ docs: { items: [doc('1', { title: 'Rapport annuel 2025', reference: 'REF-2025-001' })], partial: false } });
+    render(<HomeView data={titled} loading={false} name="Mariama" canGo={() => true} />);
+    const row = screen.getByRole('button', { name: 'Rapport annuel 2025' }).closest('tr')!;
+    expect(row.querySelector('.hm-ref')!.textContent).toBe('REF-2025-001 · Courrier');
 });

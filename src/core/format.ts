@@ -48,6 +48,8 @@ export const display = (value: string | null | undefined, fallback = '—'): str
 export const LABELS = {
     institutionType: { MINISTERE: 'Ministère', DIRECTION_GENERALE: 'Direction générale', ETABLISSEMENT_PUBLIC: 'Établissement public', COLLECTIVITE: 'Collectivité', AUTRE: 'Autre' },
     metadataType: { TEXTE: 'Texte', TEXTE_LONG: 'Texte long', ENTIER: 'Nombre entier', DECIMAL: 'Nombre décimal', BOOLEEN: 'Oui / non', DATE: 'Date', DATETIME: 'Date et heure', UUID: 'Identifiant', ENUM: 'Liste de choix', TERME: 'Terme d’un vocabulaire' },
+    /** Les types d'unité d'une institution (les codes de la base) : un code ne s'affiche jamais tel quel. */
+    unitType: { DIRECTION: 'Direction', DIRECTION_GENERALE: 'Direction générale', DIRECTION_NATIONALE: 'Direction nationale', DIVISION: 'Division', INSPECTION_GENERALE: 'Inspection générale', ORGANE_SPECIALISE: 'Organe spécialisé', SECRETARIAT: 'Secrétariat', SERVICE: 'Service', SERVICE_APPUI: 'Service d’appui', SERVICE_RATTACHE: 'Service rattaché', DEPARTEMENT: 'Département', BUREAU: 'Bureau', CABINET: 'Cabinet' },
     confidentiality: { PUBLIC: 'Public', INTERNE: 'Interne', CONFIDENTIEL: 'Confidentiel', SECRET: 'Secret' },
     workflowDomain: { DOCUMENT: 'Document', DOSSIER: 'Dossier' },
     outcome: { SUCCES: 'Succès', ECHEC: 'Échec', SUCCESS: 'Succès', FAILED: 'Échec', DENIED: 'Refusé' }
