@@ -14,6 +14,7 @@ import { Login } from './pages/Login';
 import { moduleVisible, navGroups, navIcons } from './design/navigation';
 import { ArchiveModulePage, archiveModules } from './pages/ArchiveModules';
 import { NotificationBell, NotificationsPage } from './ui/Notifications';
+import { StaffAssistant } from './ui/StaffAssistant';
 import { isPortalPath } from './portal/path';
 import type { Catalog, RecordCatalog } from './core/types';
 
@@ -259,6 +260,7 @@ function Shell() {
             <main id="main-content" tabIndex={-1} className="main-content" key={epoch + ':' + path}><React.Suspense fallback={<Busy />}>{render()}</React.Suspense></main>
             <footer className="workspace-footer"><span>{tr('SNAE-PPD · Archives et patrimoine documentaire')}</span><span>{tr('Proposition institutionnelle · F3 · Recette')}</span></footer>
         </div>
+        <StaffAssistant />
     </div>;
 }
 function Gate() {
