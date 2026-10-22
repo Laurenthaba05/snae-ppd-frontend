@@ -1,0 +1,13 @@
+1	Help
+2	Help with using the SNAE-PPD
+3	Assistant
+4	Help assistant
+5	Conversation
+6	Related screens
+7	Clear the conversation
+8	Close the help window
+9	The assistant explains, you act: it sees no archive data. Do not write anything confidential in it; the conversation is cleared after a period set by the institution.
+10	The assistant could not answer. Try again in a moment.
+11	Open the help window
+12	Fallback answer: the assistant is temporarily unavailable.
+13	You:

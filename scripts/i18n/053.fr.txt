@@ -1,0 +1,13 @@
+1	Aide
+2	Aide à l’utilisation du SNAE-PPD
+3	Assistant
+4	Assistant d’aide
+5	Conversation
+6	Écrans concernés
+7	Effacer la conversation
+8	Fermer la fenêtre d’aide
+9	L’assistant explique, vous agissez : il ne voit aucune donnée des archives. N’y écrivez rien de confidentiel ; la conversation s’efface après un délai fixé par l’institution.
+10	L’assistant n’a pas pu répondre. Réessayez dans un instant.
+11	Ouvrir la fenêtre d’aide
+12	Réponse de secours : l’assistant est momentanément indisponible.
+13	Vous :
