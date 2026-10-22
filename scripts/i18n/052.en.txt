@@ -1,0 +1,22 @@
+1	{1} validation task(s) pending in total
+2	Show the {1} institution(s) with no activity
+3	No OCR results in this scope
+4	These figures only count what you are allowed to read, without documents under access restriction; the national dashboard counts everything.
+5	Every move from one stage to the next is logged.
+6	Average OCR confidence
+7	Recorded at the control stage; the latest check of each item is the one that counts.
+8	Defined by the institution’s digitization profiles.
+9	Overdue: deadlines that are still open (scheduled, due or awaiting decision) and whose date has passed; the “due” status below is only a part of them.
+10	Items at the validation workflow stage
+11	Items in validation
+12	Completed items, excluding cancelled projects
+13	Inspectorate general
+14	National totals count every document, including those under access restriction and those of institutions that are no longer active; an institution’s dashboard only counts what you are allowed to read.
+15	Hide the institutions with no activity
+16	Average confidence over {1} result(s): a reading of the engine, not an accuracy rate
+17	Specialised body
+18	Sealed original
+19	Secretariat
+20	Attached service
+21	A single original per page, sealed at the final stage.
+22	Overdue validations

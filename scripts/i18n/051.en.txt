@@ -1,0 +1,15 @@
+1	+{1} in the last 30 days
+2	Life cycle
+3	Documents added each month
+4	Documents and files of each unit, sub-units included
+5	From public to secret
+6	From public to secret, and the status of retention deadlines
+7	items completed
+8	Upcoming disposal decisions
+9	The most frequent actions
+10	Hide the table
+11	Digitization, physical archives and transfers
+12	Where each document stands in its life cycle
+13	By document type
+14	All documents, over twelve months
+15	One click opens the institution's dashboard

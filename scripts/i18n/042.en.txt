@@ -27,7 +27,7 @@
 27	Documents by level
 28	Documents by status
 29	Documents attached
-30	Folders attached
+30	Files attached
 31	deadline(s)
 32	Retention deadlines passed and not handled
 33	deadlines overdue

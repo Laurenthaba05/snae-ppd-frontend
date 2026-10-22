@@ -1,0 +1,22 @@
+1	{n} tâche(s) de validation en attente au total
+2	Afficher les {n} institution(s) sans activité
+3	Aucun résultat OCR dans ce périmètre
+4	Ces chiffres ne comptent que ce que vous avez le droit de lire, sans les documents sous restriction d’accès ; le tableau de bord national, lui, compte tout.
+5	Chaque passage d’une étape à l’autre est journalisé.
+6	Confiance moyenne de l’OCR
+7	Consigné à l’étape de contrôle ; le dernier contrôle de chaque élément fait foi.
+8	Définies par les profils de numérisation de l’institution.
+9	Dépassées : échéances encore ouvertes (planifiées, échues ou en décision) dont la date est passée ; l’état « échue » ci-dessous n’en est qu’une partie.
+10	Éléments à l’étape du circuit de validation
+11	Éléments en validation
+12	Éléments terminés, hors projets annulés
+13	Inspection générale
+14	Les totaux nationaux comptent tous les documents, y compris ceux sous restriction d’accès et ceux d’institutions qui ne sont plus actives ; le tableau de bord d’une institution ne compte que ce que vous avez le droit de lire.
+15	Masquer les institutions sans activité
+16	Moyenne de la confiance de {n} résultat(s) : une lecture du moteur, pas un taux d’exactitude
+17	Organe spécialisé
+18	Original scellé
+19	Secrétariat
+20	Service rattaché
+21	Un seul original par page, scellé à l’étape finale.
+22	Validations en retard

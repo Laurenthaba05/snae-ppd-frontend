@@ -1,0 +1,15 @@
+1	+{n} ces 30 derniers jours
+2	Cycle de vie
+3	Documents ajoutés chaque mois
+4	Documents et dossiers de chaque unité, sous-unités comprises
+5	Du public au secret
+6	Du public au secret, et l’état des échéances de conservation
+7	éléments terminés
+8	Les décisions de sort à venir
+9	Les gestes les plus fréquents
+10	Masquer le tableau
+11	Numérisation, archives physiques et versements
+12	Où en est chaque document dans son cycle de vie
+13	Par type de document
+14	Tous les documents, sur douze mois
+15	Un clic ouvre le tableau de bord de l’institution
