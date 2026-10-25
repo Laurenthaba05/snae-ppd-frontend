@@ -1,0 +1,31 @@
+1	: already read.
+2	: present.
+3	. Read the label of each record: it is recorded as present straight away. At the end, the ones that were not read are offered as “not found”.
+4	” is registered.
+5	No record with reference “
+6	No label to print.
+7	This is a storage unit label, not a record label.
+8	Some records could not be declared not found: see the list.
+9	These records were not read. If you looked for them without finding them, declare them not found and say where you looked; otherwise leave them to be checked.
+10	Code or reference read
+11	Recorded here
+12	Record
+13	Record here
+14	Declare not found
+15	Label
+16	Record labels
+17	Unit labels
+18	Print the label
+19	Not found
+20	Leave to be checked
+21	Read a label
+22	Read a label, or type a reference
+23	Read here but stored elsewhere
+24	is not stored in this unit: record it here if it really is here.
+25	Not read:
+26	Where did you look?
+27	Several records have this reference: read the label’s QR code.
+28	Reading-based check
+29	Reading-based check of the labels
+30	Finish the check
+31	Unit:

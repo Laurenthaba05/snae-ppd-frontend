@@ -1,0 +1,82 @@
+1	, documented in
+2	) with an account that holds the GEC mail deposit permission and the rights to create, upload, validate, seal and close documents in this institution. The source code is written in each of its submissions: it no longer changes once declared.
+3	Acknowledgement
+4	Applied when the GEC does not specify one for a letter.
+5	archived,
+6	Stop
+7	Stopped with code
+8	No mail matches these filters.
+9	No mail received
+10	No GEC has deposited any mail in this institution yet.
+11	No source declared
+12	This file format is not accepted.
+13	The type of the archived mail. Choose a type without a mandatory validation workflow: it would block sealing.
+14	This section requires the permission to read GEC mail for this institution.
+15	This section requires a permission to read GEC mail for this scope.
+16	This source accepts new mail
+17	Choose the document type for the mail from this source.
+18	Choose an institution in the working scope: mail and GEC sources belong to an institution.
+19	Closed in the GEC on
+20	Default confidentiality
+21	GEC mail
+22	Mail received
+23	Short, in capitals, digits and hyphens: the GEC writes it in each of its submissions. It cannot be changed afterwards.
+24	Mail date
+25	Declare a source
+26	Declare a mail source
+27	Outgoing
+28	Deposited under the name:
+29	Recipients
+30	docs/GEC.md
+31	Archived document
+32	Document created
+33	Case file
+34	Clear filters
+35	Fingerprint (SHA-256)
+36	Seal fingerprint (SHA-256):
+37	In progress or to be resumed
+38	in progress,
+39	failed.
+40	Sender
+41	Optional: the classification node where mail from this source is filed.
+42	GECs authorised for
+43	The antivirus found a threat in this file: it is never accepted.
+44	The antivirus was not available: resubmitting the same mail resumes the submission.
+45	The GEC that is allowed to deposit in this institution
+46	The code is 2 to 30 characters: capitals, digits and hyphens, not starting with a hyphen.
+47	The account that uploads does not have all the required permissions in this institution.
+48	The file content does not match its extension.
+49	The case file is closed: it no longer accepts documents.
+50	The file exceeds the allowed size.
+51	The name of the GEC or of the service that runs it.
+52	The source name is at most 200 characters.
+53	The source name is required.
+54	The file name is not acceptable.
+55	The maximum number of deposit attempts has been reached: a review is required.
+56	The storage was not available: resubmitting the same mail resumes the submission.
+57	This source's document type imposes a validation workflow: it blocks sealing. Choose a type without a mandatory workflow.
+58	Closed mail that the electronic mail management system (GEC) deposits with the archives: what has arrived, what is archived, what stopped, and which GECs are authorised to deposit.
+59	GEC metadata
+60	Edit the source
+61	MODULE · COLLECTION
+62	not sealed
+63	Number, subject, sender or acknowledgement
+64	Main item
+65	Items
+66	Items deposited and validated
+67	POST /api/v1/gec/courriers
+68	Reference in the GEC
+69	GEC mail sections
+70	Direction
+71	Mail sources
+72	Follow the mail that the electronic mail management system deposits with the archives (acknowledgements, failures) and declare the authorised GECs.
+73	On this page:
+74	Attempts
+75	All sources
+76	A document already has this archive reference.
+77	An internal error stopped the processing: resubmitting the same mail resumes it.
+78	A GEC can only deposit if the institution has declared it here: its code, the document type and the confidentiality of its mail.
+79	A GEC uploads its mail through the server interface (
+80	An item was refused: the GEC must resubmit the mail (same reference) or, if the item is infected or of a refused format, under a new reference.
+81	A disabled source refuses any new mail; mail already received stays.
+82	See the details of mail

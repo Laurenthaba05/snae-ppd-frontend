@@ -1,0 +1,11 @@
+1	Ce sous-emplacement appartient à la même institution que son emplacement parent.
+2	Cette section exige une habilitation de lecture des archives physiques.
+3	Cette section exige une habilitation de lecture des interventions de restauration.
+4	Comment s’écrit la cote d’une archive physique (boîte, dossier papier, registre)
+5	Cotes des archives physiques
+6	Définir un modèle pour les archives physiques
+7	Dépôt national
+8	L’institution propriétaire de ce lieu et de tout ce qu’il contiendra. Laissé vide : dépôt national, réservé au niveau national.
+9	Modèle de codification : archives physiques
+10	Modifier le modèle des archives physiques
+11	Retirer le modèle des archives physiques

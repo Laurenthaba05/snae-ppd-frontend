@@ -1,0 +1,82 @@
+1	, documentée dans
+2	) avec un compte qui a l’habilitation de dépôt de courrier de la GEC et les droits de créer, déposer, valider, sceller et clore des documents dans cette institution. Le code de la source est écrit dans chacun de ses envois : il ne change plus une fois déclaré.
+3	Accusé
+4	Appliquée quand la GEC n’en précise pas pour un courrier.
+5	archivé(s),
+6	Arrêt
+7	Arrêt avec le code
+8	Aucun courrier ne correspond à ces filtres.
+9	Aucun courrier reçu
+10	Aucune GEC n’a encore versé de courrier dans cette institution.
+11	Aucune source déclarée
+12	Ce format de fichier n’est pas accepté.
+13	Celui des courriers archivés. Choisissez un type sans circuit de validation obligatoire : il bloquerait le scellement.
+14	Cette section exige l’habilitation de lecture des courriers de la GEC pour cette institution.
+15	Cette section exige une habilitation de lecture des courriers de la GEC pour ce périmètre.
+16	Cette source accepte de nouveaux courriers
+17	Choisissez le type de document des courriers de cette source.
+18	Choisissez une institution dans le périmètre de travail : les courriers et les sources de GEC sont ceux d’une institution.
+19	Clos dans la GEC le
+20	Confidentialité par défaut
+21	Courriers de la GEC
+22	Courriers reçus
+23	Court, en majuscules, chiffres et tirets : la GEC l’écrit dans chacun de ses envois. Il ne change plus ensuite.
+24	Date du courrier
+25	Déclarer une source
+26	Déclarer une source de courrier
+27	Départ
+28	Déposée sous le nom :
+29	Destinataires
+30	docs/GEC.md
+31	Document archivé
+32	Document créé
+33	Dossier de l’affaire
+34	Effacer les filtres
+35	Empreinte (SHA-256)
+36	Empreinte du scellé (SHA-256) :
+37	En cours ou à reprendre
+38	en cours,
+39	en échec.
+40	Expéditeur
+41	Facultatif : le nœud où se rangent les courriers de cette source.
+42	GEC autorisées de
+43	L’antivirus a trouvé une menace dans ce fichier : il n’est jamais accepté.
+44	L’antivirus n’était pas disponible : le renvoi du même courrier reprend l’envoi.
+45	La GEC qui a le droit de verser dans cette institution
+46	Le code compte de 2 à 30 caractères : majuscules, chiffres et tirets, sans commencer par un tiret.
+47	Le compte qui téléverse n’a pas toutes les habilitations nécessaires dans cette institution.
+48	Le contenu du fichier ne correspond pas à son extension.
+49	Le dossier de l’affaire est clos : il n’accepte plus de document.
+50	Le fichier dépasse la taille autorisée.
+51	Le nom de la GEC ou du service qui l’exploite.
+52	Le nom de la source compte 200 caractères au plus.
+53	Le nom de la source est obligatoire.
+54	Le nom du fichier n’est pas acceptable.
+55	Le nombre maximal de tentatives de dépôt est atteint : une revue est requise.
+56	Le stockage n’était pas disponible : le renvoi du même courrier reprend l’envoi.
+57	Le type de document de cette source impose un circuit de validation : il bloque le scellement. Choisissez un type sans circuit obligatoire.
+58	Les courriers clos que la gestion électronique du courrier verse aux archives : ce qui est arrivé, ce qui est archivé, ce qui s’est arrêté, et les GEC autorisées à verser.
+59	Métadonnées de la GEC
+60	Modifier la source
+61	MODULE · COLLECTE
+62	non scellée
+63	Numéro, objet, expéditeur ou accusé
+64	Pièce principale
+65	Pièces
+66	Pièces déposées et validées
+67	POST /api/v1/gec/courriers
+68	Référence dans la GEC
+69	Sections des courriers de la GEC
+70	Sens
+71	Sources de courrier
+72	Suivre les courriers que la gestion électronique du courrier verse aux archives (accusés, échecs) et déclarer les GEC autorisées.
+73	Sur cette page :
+74	Tentatives
+75	Toutes les sources
+76	Un document porte déjà cette référence d’archivage.
+77	Une erreur interne a arrêté le traitement : le renvoi du même courrier le reprend.
+78	Une GEC ne peut verser que si l’institution l’a déclarée ici : son code, le type de document et la confidentialité de ses courriers.
+79	Une GEC téléverse ses courriers par l’interface du serveur (
+80	Une pièce a été refusée : la GEC doit renvoyer le courrier (même référence) ou, si la pièce est infectée ou d’un format refusé, sous une nouvelle référence.
+81	Une source désactivée refuse tout nouveau courrier ; ceux déjà reçus restent.
+82	Voir le détail du courrier

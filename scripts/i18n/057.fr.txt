@@ -1,0 +1,2 @@
+1	Écarts d’emplacement
+2	Un morceau de cote

@@ -1,0 +1,89 @@
+1	· Start:
+2	· State:
+3	“Rangement” (shelving) is reserved for changing location: an exit has another purpose.
+4	Archives to hand over
+5	No exit is requested or under way in your scope. Requests are filed from an archive’s record.
+6	These links will be restored only if all the checks succeed.
+7	This archive is in storage. To consult it, lend it or take it out, file a request: it will be authorized by another person.
+8	This information requires mail monitoring authorization.
+9	This section requires authorization to deposit files or to read the scanner fleet.
+10	Choose an authorized scope to view the requests.
+11	Consultation, loan, digitization, restoration…
+12	Checking the reference…
+13	Main date:
+14	structured date(s) carried over
+15	Decisions on my archive exits
+16	Request cancelled
+17	Exit request
+18	Request the exit
+19	Request the exit of the archive
+20	Exit requests
+21	Document:
+22	File:
+23	Outgoing mail failures
+24	State of the archive on return *
+25	Outgoing mail status
+26	Optional: gloves, consultation on site, no photocopying…
+27	Funding:
+28	Manage locations, storage units, physical shelf marks and exits from storage (requested, authorized, handed over, returned).
+29	Authorization required to authorize an exit.
+30	Authorization required to hand over and take back archives.
+31	Planned hours:
+32	Hours worked:
+33	secondary identifier(s) carried over
+34	Say where the archive will go (reading room, workshop, office…).
+35	Say what the archive is leaving for: consultation, loan, digitization, restoration…
+36	Say who receives it (person or department).
+37	Say whether the archive is returned in the state in which it left.
+38	Contributors:
+39	The archive is with its recipient: it must come back before the planned day.
+40	The archive is back: the movement is closed.
+41	The authorization commits the institution: it is kept with its author and date. It is given by a person other than the one who requested the exit, and the archive will be judged again at hand-over.
+42	The notice was cancelled after a change of preferences, address or recipient account.
+43	The check of this reference failed; its conformity is not confirmed.
+44	The email contains a generic notice, with no document content. It uses the address of your profile and needs a configured mail server.
+45	The store hands over the archive: the exit is then entered in the movement history.
+46	The coding template could not be checked. The conformity of the reference remains unknown.
+47	The reason says why the archive leaves: at least {1} characters.
+48	The return closes the movement: the archive is available again. An archive returned in a different state from the one in which it left is reported, with a note.
+49	The exits from storage in your scope: those awaiting a decision, a hand-over or a return, with late exits first. Each exit is requested, authorized by another person, handed over, then returned.
+50	producer link(s) read
+51	Internal links read
+52	Staff notifications
+53	Number, shelf mark, recipient or place
+54	Where the archive will go
+55	Where the archive will go *
+56	Open the communications
+57	Person or department
+58	Processing plan read
+59	To consult a file, use the communications register. Waivers apply to documents under restriction.
+60	Why the archive must leave storage
+61	Main producer:
+62	Who receives it
+63	Who receives it *
+64	attached to its parent; references that already exist are refused and nothing is replaced. Producers, contributors and links to documents or files must exist in the authorized scope; an unavailable or already assigned link blocks the import. Elements with no equivalent (for example subject access points) are not carried over: the check lists them.
+65	Also receive a notice by email
+66	Search for an exit request
+67	Returned in the state in which it left
+68	Returned in a different state
+69	Reading room reservation
+70	Reading room reservations
+71	Selected resource unavailable
+72	Reading room, workshop, office…
+73	Returned through the exit request
+74	Only the requester cancels their request.
+75	Only the requester and the person who authorizes cancel an authorized exit.
+76	Exit of the archive
+77	Archive exits to authorize
+78	Total
+79	A slip is requested, prepared, refused, delivered, returned or cancelled.
+80	An email is abandoned after a refusal, an expiry or exhausted attempts. Reported in the application only.
+81	A discrepancy is noted: describe it.
+82	An archive does not leave without a request: it is authorized by a person other than you, then the store hands it over and the exit is entered in the movement history. You can cancel the request as long as the archive has not been handed over.
+83	A reproduction order changes stage.
+84	A reservation is created, cancelled or declared not honoured.
+85	An archive exit is authorized: the store must hand it over.
+86	An archive exit that you requested is authorized or refused.
+87	An exit from storage of a physical archive in your scope is requested and awaits your authorization (a person other than the requester).
+88	Checking the coding template…
+89	physical volume(s) read

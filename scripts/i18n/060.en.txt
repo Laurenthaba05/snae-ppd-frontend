@@ -1,0 +1,39 @@
+2	Conservation alerts
+3	No readings
+4	No temperature or humidity has been read for this unit yet.
+5	Capacity exceeded
+6	Capacity and conservation conditions
+7	Capacity not set
+8	Conditions
+9	Record
+10	Record a reading
+11	Within the limits
+12	Last reading
+13	Optional: instrument, circumstances
+14	Maximum humidity (%)
+15	Minimum humidity (%)
+16	Relative humidity
+17	Enter the capacity, or remove its unit.
+18	Enter the value read.
+19	The capacity is a positive number.
+20	The value read is a number.
+23	The limits are the ones the institution sets for its premises. An alert appears only if the latest reading is outside a limit that has been entered.
+24	The units whose latest temperature or humidity reading is outside the limits set for their premises.
+25	Linear metres, boxes… Empty: counted in records.
+26	Linear metres, boxes… Empty: the capacity is counted in records.
+27	Optional: it signals when the unit is full, it never refuses anything.
+28	Read on
+29	Readings
+30	Conservation readings
+31	without quantity in this unit: not counted
+32	Limit
+33	Temperature
+34	Maximum temperature (°C)
+35	Minimum temperature (°C)
+36	A number. It signals when the unit is full; it never refuses a record.
+38	Capacity unit
+39	Value read
+1	{1} : a value between {2} and {3} {4} is expected.
+21	The minimum {1} does not exceed its maximum.
+22	The {1} thresholds are numbers.
+37	A {1} threshold is between {2} and {3} {4}.

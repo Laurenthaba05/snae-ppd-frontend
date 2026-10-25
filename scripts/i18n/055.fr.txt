@@ -1,0 +1,35 @@
+1	Aucune archive physique n’est encore enregistrée.
+2	Aucune archive trouvée
+3	Boîtes, mètres linéaires, pièces…
+4	Cette archive a été détruite : elle ne se trouve plus en rayon.
+5	Constatée :
+6	Cote, titre, lieu, service producteur…
+7	Dates extrêmes : à partir du
+8	Dates extrêmes : jusqu’au
+9	Décrire
+10	Décrire l’archive
+11	Direction ou service producteur
+12	Document numérique relié
+13	Essayez avec moins de mots, ou retirez un filtre. Un lieu se cherche par son nom (« salle 3 »), une cote par un morceau.
+14	Inclure les archives détruites
+15	Indiquez la quantité, ou retirez son unité.
+16	La date de fin de la période doit suivre sa date de début.
+17	La date extrême de fin doit suivre la date extrême de début.
+18	La quantité est un nombre positif, avec au plus trois décimales.
+19	Le titre court sous lequel on la cherchera : « Registre des mariages de Conakry 1954-1958 ».
+20	Le titre court sous lequel on la cherchera, par exemple « Dossier personnel Camara, 2015 ».
+21	Les archives produites par cette institution.
+22	Masquer les filtres
+23	Où la trouver
+24	Papier, parchemin, photographie…
+25	Papier, parchemin…
+26	Partout
+27	Retrouver une archive
+28	Retrouver une archive physique
+29	Sans intitulé
+30	Son absence a été constatée à son emplacement habituel.
+31	Sortie le
+32	Tapez ce que vous savez : un mot du titre, un bout de cote, le lieu (« salle 3 »), le service qui l’a produite. Les accents et les majuscules ne comptent pas, et chaque mot doit se retrouver quelque part.
+33	Tout ce que ce lieu contient, sous-lieux compris.
+34	Tout effacer
+35	Un nombre, par exemple 12 ou 0,5.

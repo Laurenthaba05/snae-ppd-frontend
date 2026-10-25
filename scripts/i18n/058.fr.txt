@@ -1,0 +1,31 @@
+1	: déjà lue.
+2	: présente.
+3	. Lisez l’étiquette de chaque archive : elle est constatée présente tout de suite. À la fin, celles qui n’ont pas été lues vous sont proposées « introuvables ».
+4	» n’est enregistrée.
+5	Aucune archive de cote «
+6	Aucune étiquette à imprimer.
+7	C’est l’étiquette d’une unité, pas celle d’une archive.
+8	Certaines archives n’ont pas pu être déclarées introuvables : voir la liste.
+9	Ces archives n’ont pas été lues. Si vous les avez cherchées sans les trouver, déclarez-les introuvables en disant où vous avez cherché ; sinon laissez-les à vérifier.
+10	Code ou cote lu
+11	Constatée ici
+12	Constater
+13	Constater ici
+14	Déclarer introuvables
+15	Étiquette
+16	Étiquettes des archives
+17	Étiquettes des unités
+18	Imprimer l’étiquette
+19	Introuvable
+20	Laisser à vérifier
+21	Lire une étiquette
+22	Lisez une étiquette, ou saisissez une cote
+23	Lues ici mais rangées ailleurs
+24	n’est pas rangée dans cette unité : constatez-la ici si elle y est vraiment.
+25	Non lues :
+26	Où a-t-on cherché ?
+27	Plusieurs archives portent cette cote : lisez le QR de l’étiquette.
+28	Récolement par lecture
+29	Récolement par lecture des étiquettes
+30	Terminer le récolement
+31	Unité :

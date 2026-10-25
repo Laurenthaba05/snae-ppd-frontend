@@ -1,0 +1,2 @@
+1	National repository — reserved to the national level. Choose an institution in the header to import the records of its own repository.
+2	Physical records (inventory)

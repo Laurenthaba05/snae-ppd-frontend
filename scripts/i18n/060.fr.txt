@@ -1,0 +1,39 @@
+1	{n} : une valeur entre {n} et {n} {n} est attendue.
+2	Alertes de conservation
+3	Aucun relevé
+4	Aucune température ni humidité n’a encore été relevée pour cette unité.
+5	Capacité dépassée
+6	Capacité et conditions de conservation
+7	Capacité non fixée
+8	Conditions
+9	Consigner
+10	Consigner un relevé
+11	Dans les seuils
+12	Dernier relevé
+13	Facultatif : appareil, circonstances
+14	Humidité maximale (%)
+15	Humidité minimale (%)
+16	Humidité relative
+17	Indiquez la capacité, ou retirez son unité.
+18	Indiquez la valeur relevée.
+19	La capacité est un nombre positif.
+20	La valeur relevée est un nombre.
+21	Le minimum {n} ne dépasse pas son maximum.
+22	Les seuils {n} sont des nombres.
+23	Les seuils sont ceux que l’institution fixe pour son local. Une alerte n’apparaît que si le dernier relevé sort d’un seuil renseigné.
+24	Les unités dont le dernier relevé de température ou d’humidité sort des seuils fixés pour leur local.
+25	Mètres linéaires, boîtes… Vide : en archives.
+26	Mètres linéaires, boîtes… Vide : la capacité se compte en archives.
+27	Optionnelle : elle signale quand l’unité est pleine, elle ne refuse rien.
+28	Relevé le
+29	Relevés
+30	Relevés de conservation
+31	sans quantité dans cette unité : non comptée
+32	Seuil
+33	Température
+34	Température maximale (°C)
+35	Température minimale (°C)
+36	Un nombre. Elle signale quand l’unité est pleine ; elle ne refuse jamais une archive.
+37	Un seuil {n} est entre {n} et {n} {n}.
+38	Unité de la capacité
+39	Valeur relevée

@@ -1,0 +1,89 @@
+1	· Début :
+2	· État :
+3	« Rangement » est réservé au changement d’emplacement : une sortie a un autre objet.
+4	Archives à remettre
+5	Aucune sortie n’est demandée ni en cours dans votre périmètre. Les demandes se déposent depuis la fiche d’une archive.
+6	Ces liens ne seront rétablis que si tous les contrôles sont réussis.
+7	Cette archive est en réserve. Pour la consulter, la prêter ou la faire sortir, déposez une demande : elle sera autorisée par une autre personne.
+8	Cette information exige une habilitation de surveillance du courrier.
+9	Cette section exige une habilitation de dépôt de fichiers ou de lecture du parc de scanners.
+10	Choisissez un périmètre autorisé pour consulter les demandes.
+11	Consultation, prêt, numérisation, restauration…
+12	Contrôle de la référence…
+13	Date principale :
+14	date(s) structurée(s) reprise(s)
+15	Décisions sur mes sorties d’archives
+16	Demande annulée
+17	Demande de sortie
+18	Demander la sortie
+19	Demander la sortie de l’archive
+20	Demandes de sortie
+21	Document :
+22	Dossier :
+23	Échecs du courrier sortant
+24	État de l’archive au retour *
+25	État du courrier sortant
+26	Facultatif : gants, consultation sur place, interdiction de photocopier…
+27	Financement :
+28	Gérer les emplacements, unités de stockage, cotes physiques et sorties de réserve (demandées, autorisées, remises, rendues).
+29	Habilitation requise pour autoriser une sortie.
+30	Habilitation requise pour remettre et reprendre les archives.
+31	Heures prévues :
+32	Heures réalisées :
+33	identifiant(s) secondaire(s) repris
+34	Indiquez où l’archive ira (salle de lecture, atelier, bureau…).
+35	Indiquez pour quoi l’archive sort : consultation, prêt, numérisation, restauration…
+36	Indiquez qui la reçoit (personne ou service).
+37	Indiquez si l’archive est rendue dans l’état où elle est partie.
+38	Intervenants :
+39	L’archive est chez son destinataire : elle doit rentrer avant le jour prévu.
+40	L’archive est rentrée : le mouvement est clos.
+41	L’autorisation engage l’institution : elle est conservée avec son auteur et sa date. Elle est donnée par une autre personne que celle qui a demandé la sortie, et l’archive sera jugée de nouveau à la remise.
+42	L’avis a été annulé après un changement des préférences, de l’adresse ou du compte destinataire.
+43	Le contrôle de cette référence a échoué ; sa conformité n’est pas confirmée.
+44	Le courriel contient un avis générique, sans contenu documentaire. Il utilise l’adresse de votre profil et nécessite un serveur de courrier configuré.
+45	Le magasin remet l’archive : la sortie s’inscrit alors à l’historique des mouvements.
+46	Le modèle de codification n’a pas pu être vérifié. La conformité de la référence reste inconnue.
+47	Le motif dit pourquoi l’archive sort : au moins {n} caractères.
+48	Le retour clôt le mouvement : l’archive est de nouveau disponible. Une archive rendue dans un autre état que celui où elle est partie se dit, avec une note.
+49	Les sorties de réserve de votre périmètre : celles qui attendent une décision, une remise ou un retour, les sorties en retard d’abord. Chaque sortie est demandée, autorisée par une autre personne, remise, puis rendue.
+50	lien(s) de producteur lu(s)
+51	Liens internes lus
+52	Notifications du personnel
+53	Numéro, cote, destinataire ou lieu
+54	Où l’archive ira
+55	Où l’archive ira *
+56	Ouvrir les communications
+57	Personne ou service
+58	Plan de traitement lu
+59	Pour consulter un dossier, utilisez le registre des communications. Les dérogations portent sur les documents sous restriction.
+60	Pourquoi l’archive doit sortir de réserve
+61	Producteur principal :
+62	Qui la reçoit
+63	Qui la reçoit *
+64	rattachée à son parent ; les références qui existent déjà sont refusées et rien n’est remplacé. Les producteurs, intervenants et liens vers les documents ou dossiers doivent exister dans le périmètre autorisé ; un lien indisponible ou déjà affecté bloque l’import. Les éléments sans équivalent (par exemple les accès par sujet) ne sont pas repris : le contrôle les liste.
+65	Recevoir aussi un avis par courriel
+66	Rechercher une demande de sortie
+67	Rendue dans l’état où elle est partie
+68	Rendue dans un autre état
+69	Réservation de salle de lecture
+70	Réservations de salle de lecture
+71	Ressource sélectionnée indisponible
+72	Salle de lecture, atelier, bureau…
+73	Se rend par la demande de sortie
+74	Seul le demandeur annule sa demande.
+75	Seuls le demandeur et celui qui autorise annulent une sortie autorisée.
+76	Sortie de l’archive
+77	Sorties d’archives à autoriser
+78	Totalité
+79	Un bulletin est demandé, préparé, refusé, communiqué, restitué ou annulé.
+80	Un courrier est abandonné après un refus, une expiration ou des essais épuisés. Signalé dans l’application uniquement.
+81	Une anomalie est constatée : elle se décrit.
+82	Une archive ne sort pas sans demande : elle est autorisée par une autre personne que vous, puis le magasin la remet et la sortie s’inscrit à l’historique des mouvements. Vous pouvez annuler la demande tant que l’archive n’est pas remise.
+83	Une commande de reproduction change d’étape.
+84	Une réservation est créée, annulée ou déclarée non honorée.
+85	Une sortie d’archive est autorisée : le magasin doit la remettre.
+86	Une sortie d’archive que vous avez demandée est autorisée ou refusée.
+87	Une sortie de réserve d’une archive physique de votre périmètre est demandée et attend votre autorisation (une autre personne que le demandeur).
+88	Vérification du modèle de codification…
+89	volume(s) matériel(s) lu(s)

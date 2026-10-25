@@ -1,0 +1,35 @@
+1	No physical record has been registered yet.
+2	No record found
+3	Boxes, linear metres, items…
+4	This record has been destroyed: it is no longer on the shelf.
+5	Found:
+6	Reference, title, place, producing office…
+7	Date range: from
+8	Date range: until
+9	Describe
+10	Describe the record
+11	Producing department or office
+12	Linked digital document
+13	Try fewer words, or remove a filter. A place is searched by its name (“room 3”), a reference by a fragment.
+14	Include destroyed records
+15	Enter the quantity, or remove its unit.
+16	The end of the period must come after its start.
+17	The end date of the date range must come after its start date.
+18	The quantity is a positive number with at most three decimals.
+19	The short title under which it will be searched: “Marriage register of Conakry 1954-1958”.
+20	The short title under which it will be searched, for example “Personnel file Camara, 2015”.
+21	Records produced by this institution.
+22	Hide filters
+23	Where to find it
+24	Paper, parchment, photograph…
+25	Paper, parchment…
+26	Everywhere
+27	Find a record
+28	Find a physical record
+29	Untitled
+30	Its absence was recorded at its usual location.
+31	Taken out on
+32	Type what you know: a word from the title, a fragment of the reference, the place (“room 3”), the office that produced it. Accents and capital letters do not matter, and every word must be found somewhere.
+33	Everything this place contains, sub-places included.
+34	Clear all
+35	A number, for example 12 or 0.5.

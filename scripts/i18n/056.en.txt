@@ -1,0 +1,11 @@
+1	This sub-location belongs to the same institution as its parent location.
+2	This section requires the permission to read physical records.
+3	This section requires the permission to read restoration work.
+4	How the reference of a physical record (box, paper file, register) is written
+5	References of physical records
+6	Define a model for physical records
+7	National repository
+8	The institution that owns this place and everything it will contain. Left empty: national repository, reserved to the national level.
+9	Coding model: physical records
+10	Edit the model for physical records
+11	Remove the model for physical records

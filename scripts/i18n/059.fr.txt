@@ -1,0 +1,2 @@
+1	Dépôt national — réservé au niveau national. Choisissez une institution dans l’en-tête pour importer les archives de son propre dépôt.
+2	Archives physiques (inventaire)
