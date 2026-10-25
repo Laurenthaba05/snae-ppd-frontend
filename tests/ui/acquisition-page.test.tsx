@@ -530,3 +530,19 @@ it('une extraction déjà décidée est en lecture seule : propositions « indic
     expect(screen.queryByRole('button', { name: 'Proposer comme titre' })).toBeNull();
     expect(screen.getByText(/Décision enregistrée\. ACCEPTED/)).toBeTruthy();
 });
+
+it('un inventaire d’archives physiques s’analyse sans institution choisie (dépôt national) ou avec elle, et montre la cote et l’intitulé de chaque ligne', async () => {
+    fixture.scope = { institutionId: null, departmentId: null };
+    fixture.api.preview.mockResolvedValue(preview({ context: { kind: 'ARCHIVES_PHYSIQUES', institutionId: null, departmentId: null },
+        rows: [{ number: 2, values: { cote: 'DP-2015-001', intitule: 'Dossier personnel Camara', unite_cote: 'BOITE-14' }, issues: [] },
+            { number: 3, values: { cote: 'DP-2015-002', unite_cote: 'BOITE-99' }, issues: [{ row: 3, field: 'unite_cote', code: 'UNIT_NOT_FOUND', message: 'Unité de rangement inconnue, inactive, ambiguë ou d’un autre propriétaire.' }] }], valid: false }));
+    await open();
+    fireEvent.change(screen.getByLabelText('Éléments à créer'), { target: { value: 'ARCHIVES_PHYSIQUES' } });
+    expect(screen.getByText(/Dépôt national — réservé au niveau national/)).toBeTruthy();
+    await analyse();
+    expect(await screen.findByText('DP-2015-001')).toBeTruthy();
+    expect(fixture.api.preview).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ kind: 'ARCHIVES_PHYSIQUES' }), expect.any(String));
+    expect(fixture.api.preview.mock.calls[0]![1]).not.toHaveProperty('institutionId');
+    expect(screen.getByText('Dossier personnel Camara')).toBeTruthy();
+    expect(screen.getByText(/unite_cote : Unité de rangement inconnue/)).toBeTruthy();
+});

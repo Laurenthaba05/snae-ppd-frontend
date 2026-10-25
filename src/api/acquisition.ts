@@ -1,6 +1,6 @@
 import type { Transport } from '../core/http';
 import { uuid } from '../core/validation';
-export type ImportKind = 'INSTITUTIONS'|'DEPARTMENTS'|'DOSSIERS'|'DOCUMENTS';
+export type ImportKind = 'INSTITUTIONS'|'DEPARTMENTS'|'DOSSIERS'|'DOCUMENTS'|'ARCHIVES_PHYSIQUES';
 export interface ImportIssue { row:number; field:string; code:string; message:string }
 export interface ImportPreview { id:string; context:{kind:ImportKind;institutionId:string|null;departmentId:string|null}; sourceSha256:string; state:string; expiresAt:string; valid:boolean; rows:{number:number;values:Record<string,string>;issues:ImportIssue[]}[]; created:{row:number;reference:string;id:string;initialVersionId:string|null;fileName:string|null}[] }
 export interface ExtractionCandidate { field:string;value:string;page:number|null;evidence:string;source:string;ruleStrength:string;rule:string;requiresReview:boolean }
