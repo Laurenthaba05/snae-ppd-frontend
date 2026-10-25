@@ -21,6 +21,7 @@ import { DisseminationApi } from '../api/dissemination';
 import { VocabularyApi } from '../api/vocabulary';
 import { NotificationsApi } from '../api/notifications';
 import { CodificationApi } from '../api/codification';
+import { GecApi } from '../api/gec';
 import { DashboardApi } from '../api/dashboard';
 import { AssistantApi } from '../api/assistant';
 
@@ -51,6 +52,7 @@ const factories = {
     vocabulary: (t: Transport) => new VocabularyApi(t),
     notifications: (t: Transport) => new NotificationsApi(t),
     codification: (t: Transport) => new CodificationApi(t),
+    gec: (t: Transport) => new GecApi(t),
     dashboard: (t: Transport) => new DashboardApi(t),
     assistant: (t: Transport) => new AssistantApi(t)
 };

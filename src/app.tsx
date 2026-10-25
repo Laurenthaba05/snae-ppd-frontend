@@ -51,6 +51,7 @@ const ReadingRoomPage = screen(() => import('./pages/ReadingRoom'), 'ReadingRoom
 const VocabularyPage = screen(() => import('./ui/Vocabularies'), 'VocabularyPage');
 const MetadataPage = screen(() => import('./pages/Metadata'), 'MetadataPage');
 const CodificationPage = screen(() => import('./ui/Codification'), 'CodificationPage');
+const GecPage = screen(() => import('./ui/Gec'), 'GecPage');
 const ScopeDashboardPage = screen(() => import('./pages/ScopeDashboard'), 'ScopeDashboardPage');
 const NationalDashboardPage = screen(() => import('./pages/NationalDashboard'), 'NationalDashboardPage');
 const ArchivalIntakePage = screen(() => import('./pages/ArchivalIntake'), 'ArchivalIntakePage');
@@ -63,7 +64,7 @@ const PortalApp = screen(() => import('./portal/PortalApp'), 'PortalApp');
 
 const catalogKeys = ['institutions', 'departments', 'users', 'roles'];
 const recordKeys = ['documents', 'dossiers'];
-const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires', 'codification', 'tableau-de-bord', 'tableau-national']);
+const connectedModules = new Set(['taches', 'acquisition', 'documents', 'dossiers', 'recherche', 'audit', 'classement', 'patrimoine', 'numerisation', 'ocr', 'metadonnees', 'versements', 'sort-final', 'gel-legal', 'eliminations', 'consultations', 'communications', 'controle', 'conservation', 'restauration', 'circuits-validation', 'archives-physiques', 'droits', 'fonds', 'portail', 'salle-lecture', 'vocabulaires', 'codification', 'gec', 'tableau-de-bord', 'tableau-national']);
 
 function Shell() {
     const { me, demo, epoch, logout, switchPersona, resetDemo } = useSession();
@@ -197,6 +198,7 @@ function Shell() {
         if (!demo && section === 'vocabulaires') return can(me, 'VOCABULARY_MANAGE', scope) ? <VocabularyPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion des vocabulaires contrôlés pour ce périmètre.</Notice>;
         if (!demo && section === 'tableau-national') return can(me, 'DASHBOARD_NATIONAL_READ', {}) ? <NationalDashboardPage /> : <Notice tone="warning">Cette section exige l’habilitation nationale de lecture du tableau de bord national.</Notice>;
         if (!demo && section === 'tableau-de-bord') return <ScopeDashboardPage />;
+        if (!demo && section === 'gec') return can(me, 'GEC_READ', scope) || can(me, 'GEC_MANAGE', scope) ? <GecPage /> : <Notice tone="warning">Cette section exige une habilitation de lecture des courriers de la GEC pour ce périmètre.</Notice>;
         if (!demo && section === 'codification') return can(me, 'CODIFICATION_MANAGE', scope) ? <CodificationPage /> : <Notice tone="warning">Cette section exige une habilitation de gestion de la codification des références pour ce périmètre.</Notice>;
         if (!demo && section === 'metadonnees') return can(me, 'METADATA_SCHEMA_MANAGE', scope) ? <MetadataPage /> : <Notice tone="warning">Cette section exige une habilitation d’administration des schémas de métadonnées.</Notice>;
         if (!demo && section === 'versements') return can(me, 'ARCHIVAL_INTAKE_READ', {}) ? <ArchivalIntakePage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des entrées archivistiques.</Notice>;
