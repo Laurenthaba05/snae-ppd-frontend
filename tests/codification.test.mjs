@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { KIND_LABELS, MODE_LABELS, PARENT_LABELS, STARTERS, patternOf, segmentLabel } from '../.test-build/codification.js';
+import { KIND_LABELS, MODE_LABELS, PARENT_LABELS, STARTERS, patternOf, segmentLabel, segmentTypesFor, startersFor } from '../.test-build/codification.js';
 
 // L'aperçu du modèle se lit comme celui du serveur : le texte fixe en majuscules, AAAA pour l'année, un numéro d'exemple pour le compteur.
 test('Le modèle se lit en toutes lettres, comme le serveur le décrit', () => {
@@ -30,11 +30,11 @@ test('La pièce « contenant » porte le nom de ce qu’elle désigne selon l’
     assert.equal(segmentLabel('ANNEE', 'DOCUMENT'), 'Année');
     assert.equal(segmentLabel('CLASSEMENT', 'DOSSIER'), 'Code du classement');
     assert.equal(segmentLabel('COMPTEUR', 'DOCUMENT'), 'Compteur');
-    assert.deepEqual(Object.keys(PARENT_LABELS).sort(), ['DOCUMENT', 'DOSSIER', 'NOTICE']);
+    assert.deepEqual(Object.keys(PARENT_LABELS).sort(), ['ARCHIVE_PHYSIQUE', 'DOCUMENT', 'DOSSIER', 'NOTICE']);
 });
 
 test('Les libellés couvrent chaque objet et chaque mode', () => {
-    assert.deepEqual(Object.keys(KIND_LABELS).sort(), ['DOCUMENT', 'DOSSIER', 'NOTICE']);
+    assert.deepEqual(Object.keys(KIND_LABELS).sort(), ['ARCHIVE_PHYSIQUE', 'DOCUMENT', 'DOSSIER', 'NOTICE']);
     assert.deepEqual(MODE_LABELS, { INDICATIF: 'Indicatif', OBLIGATOIRE: 'Obligatoire' });
 });
 
@@ -55,4 +55,15 @@ test('Un modèle de départ ne partage pas ses pièces avec un autre appel', () 
     const first = STARTERS[0].segments('DOCUMENT');
     first[0].value = 'MUTE';
     assert.equal(STARTERS[0].segments('DOCUMENT')[0].value, 'ARC');
+});
+
+// Une cote d'archive physique n'a ni contenant ni classement : le modèle ne contient que du texte, l'année et un compteur, et seuls les exemples qui ont un sens sont proposés.
+test('la cote d’une archive physique ne propose ni contenant ni classement', () => {
+    assert.deepEqual(segmentTypesFor('ARCHIVE_PHYSIQUE'), ['TEXTE', 'ANNEE', 'COMPTEUR']);
+    assert.deepEqual(segmentTypesFor('DOCUMENT'), ['TEXTE', 'ANNEE', 'CLASSEMENT', 'PARENT', 'COMPTEUR']);
+    assert.equal(KIND_LABELS.ARCHIVE_PHYSIQUE, 'Cotes des archives physiques');
+    assert.deepEqual(startersFor('ARCHIVE_PHYSIQUE').map(s => s.id), ['annuel', 'simple']);
+    assert.equal(startersFor('DOSSIER').length, STARTERS.length);
+    for (const starter of startersFor('ARCHIVE_PHYSIQUE'))
+        for (const segment of starter.segments('ARCHIVE_PHYSIQUE')) assert.ok(segmentTypesFor('ARCHIVE_PHYSIQUE').includes(segment.type), starter.id + ' : ' + segment.type);
 });

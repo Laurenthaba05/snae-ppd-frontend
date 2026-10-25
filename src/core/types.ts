@@ -512,6 +512,8 @@ export interface Localisation {
     description: string | null;
     statut: LocationStatus;
     versionLock: number;
+    /** L'institution propriétaire du lieu ; absente : dépôt national. */
+    institutionId?: string | null;
 }
 export interface StorageUnit {
     id: string;
@@ -522,12 +524,22 @@ export interface StorageUnit {
     conditionsConservation: Json | null;
     statut: LocationStatus;
     versionLock: number;
+    /** Le propriétaire de l'unité : celui de son lieu. */
+    institutionId?: string | null;
+    /** L'unité de la capacité (« mètres linéaires »…) ; absente : la capacité se compte en archives. */
+    uniteCapacite?: string | null;
+    /** Ce qui est rangé, mesuré comme la capacité ; le serveur le calcule à la lecture. */
+    occupation?: { utilise: number | string; unite: string; taux: number | null; nonCompte: number } | null;
+    /** Le dernier relevé de chaque mesure, et s'il sort des seuils de l'unité. */
+    releves?: Array<{ mesure: 'TEMPERATURE' | 'HUMIDITE'; valeur: number | string; releveLe: string; etat: 'CONFORME' | 'TROP_BAS' | 'TROP_HAUT' }>;
 }
 export interface PhysicalArchive {
     id: string;
     documentId: string | null;
     uniteStockageId: string;
     cote: string;
+    /** Le titre court sous lequel on cherche l'archive (facultatif ; absent des archives créées avant son introduction). */
+    intitule?: string | null;
     support: string | null;
     etatPhysique: string | null;
     description: string | null;
@@ -1579,6 +1591,8 @@ export interface PlacementAssetLink { id: string; identifiant: string; intitule:
 export interface HeritagePlacementRow { emplacement: PlacementRow; bien: PlacementAssetLink | null }
 export interface HeritagePlacementPage { items: HeritagePlacementRow[]; page: number; size: number; total: number; hasMore: boolean }
 export interface PlacementFilters { ecart?: string; q?: string; page?: number; size?: number }
+/** Les archives qui s'écartent de ce que l'on attend, réduites à ce que la personne peut lire ; le total est celui de ce qu'elle voit. */
+export interface PlacementGapPage { items: PlacementRow[]; page: number; size: number; total: number; hasMore: boolean }
 /* ---------- Récolement : vérifier la collection pièce par pièce ---------- */
 export type CampaignStatus = 'PLANIFIEE' | 'EN_COURS' | 'CLOTUREE' | 'ANNULEE';
 export type ElementStatus = 'A_VERIFIER' | 'VERIFIE' | 'REPORTE';

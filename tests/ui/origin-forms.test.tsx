@@ -6,7 +6,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 // l'institution et la direction versantes d'un versement portent leurs propres noms de champs.
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: { user: { id: 'u1' } } as unknown,
-    digitization: { command: vi.fn() }, physicalArchives: { command: vi.fn() }, archivalIntake: { command: vi.fn(), agreements: vi.fn() }
+    digitization: { command: vi.fn() }, physicalArchives: { command: vi.fn(), vocabulary: vi.fn() }, archivalIntake: { command: vi.fn(), agreements: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: () => true, platform: () => true }));
@@ -26,6 +26,7 @@ beforeEach(() => {
     fixture.epoch += 1;
     fixture.digitization.command.mockReset().mockResolvedValue({});
     fixture.physicalArchives.command.mockReset().mockResolvedValue({});
+    fixture.physicalArchives.vocabulary.mockReset().mockResolvedValue([]);
     fixture.archivalIntake.command.mockReset().mockResolvedValue({});
     fixture.archivalIntake.agreements.mockReset().mockResolvedValue([]);
 });

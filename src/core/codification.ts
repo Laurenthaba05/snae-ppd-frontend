@@ -1,5 +1,5 @@
-/** La codification guidée des références (documents, dossiers, notices de description) : les types partagés avec le serveur et les libellés de l'écran. */
-export type CodificationKind = 'DOCUMENT' | 'DOSSIER' | 'NOTICE';
+/** La codification guidée des références (documents, dossiers, notices de description, cotes d'archives physiques) : les types partagés avec le serveur et les libellés de l'écran. */
+export type CodificationKind = 'DOCUMENT' | 'DOSSIER' | 'NOTICE' | 'ARCHIVE_PHYSIQUE';
 export type CodificationMode = 'INDICATIF' | 'OBLIGATOIRE';
 export type SegmentType = 'TEXTE' | 'ANNEE' | 'CLASSEMENT' | 'PARENT' | 'COMPTEUR';
 
@@ -24,11 +24,16 @@ export interface CodificationProposal { code: string; counter: number; pattern: 
 
 export interface CodificationCheck { conform: boolean; mode: CodificationMode | null; pattern: string | null; example: string | null; message: string | null }
 
-export const KIND_LABELS: Record<CodificationKind, string> = { DOCUMENT: 'Documents', DOSSIER: 'Dossiers', NOTICE: 'Notices de description' };
+export const KIND_LABELS: Record<CodificationKind, string> = { DOCUMENT: 'Documents', DOSSIER: 'Dossiers', NOTICE: 'Notices de description', ARCHIVE_PHYSIQUE: 'Cotes des archives physiques' };
 export const MODE_LABELS: Record<CodificationMode, string> = { INDICATIF: 'Indicatif', OBLIGATOIRE: 'Obligatoire' };
 
 /** Ce que désigne la pièce « contenant » selon l'objet : le dossier d'un document, le dossier parent d'un dossier, la notice parente d'une notice. */
-export const PARENT_LABELS: Record<CodificationKind, string> = { DOCUMENT: 'Dossier du document', DOSSIER: 'Dossier parent', NOTICE: 'Notice parente' };
+export const PARENT_LABELS: Record<CodificationKind, string> = { DOCUMENT: 'Dossier du document', DOSSIER: 'Dossier parent', NOTICE: 'Notice parente', ARCHIVE_PHYSIQUE: 'Contenant' };
+
+/** Les pièces qu'un modèle peut contenir selon l'objet : une cote d'archive physique n'a ni contenant ni classement, seulement du texte, l'année et un compteur. */
+export function segmentTypesFor(kind: CodificationKind): SegmentType[] {
+    return kind === 'ARCHIVE_PHYSIQUE' ? ['TEXTE', 'ANNEE', 'COMPTEUR'] : ['TEXTE', 'ANNEE', 'CLASSEMENT', 'PARENT', 'COMPTEUR'];
+}
 
 export function segmentLabel(type: SegmentType, kind: CodificationKind): string {
     switch (type) {
@@ -60,3 +65,8 @@ export const STARTERS: Array<{ id: string; label: string; segments: (kind: Codif
     { id: 'classement', label: 'Code du classement, année et numéro ({classement}-AAAA-01)', segments: () => [{ type: 'CLASSEMENT' }, { type: 'TEXTE', value: '-' }, { type: 'ANNEE' }, { type: 'TEXTE', value: '-' }, { type: 'COMPTEUR', digits: 2 }] },
     { id: 'simple', label: 'Un numéro continu (00001)', segments: () => [{ type: 'COMPTEUR', digits: 5 }] }
 ];
+
+/** Les exemples qui ont un sens pour cet objet (ceux qui réclament un contenant ou un classement ne valent pas pour une cote d'archive physique). */
+export function startersFor(kind: CodificationKind): typeof STARTERS {
+    return kind === 'ARCHIVE_PHYSIQUE' ? STARTERS.filter(s => s.id === 'annuel' || s.id === 'simple') : STARTERS;
+}

@@ -21,8 +21,8 @@ export const modulePermissions: Record<string, { codes: string[]; national?: boo
   conservation:{codes:['PRESERVATION_EVENT_READ']},
   'sort-final':{codes:['RETENTION_REVIEW']}, 'gel-legal':{codes:['LEGAL_HOLD_MANAGE']},
   eliminations:{codes:['RETENTION_REVIEW']},
-  'archives-physiques':{codes:['PHYSICALARCHIVES_READ'],national:true},
-  patrimoine:{codes:['HERITAGE_READ'],national:true}, restauration:{codes:['RESTORATION_READ'],national:true},
+  'archives-physiques':{codes:['PHYSICALARCHIVES_READ'],anyScope:true},
+  patrimoine:{codes:['HERITAGE_READ'],national:true}, restauration:{codes:['RESTORATION_READ'],anyScope:true},
   audit:{codes:['AUDIT_READ'],national:true}
 };
 export function moduleVisible(me: Me|null, route: string, scope: ScopeTarget, demo = false): boolean {

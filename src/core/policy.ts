@@ -15,6 +15,10 @@ export function covers(grant: Grant, target: ScopeTarget): boolean {
 export function can(me: Me | null, permission: string, target: ScopeTarget = {}, now = Date.now()): boolean {
     return !!me && me.user.status === 'ACTIF' && me.user.accountType === 'USER' && me.grants.some(g => g.permission === permission && activeGrant(g, now) && covers(g, target));
 }
+/** La personne a-t-elle cette permission dans un périmètre quelconque ? Sert à montrer un écran dont le serveur réduit le contenu à ce qu'elle couvre. */
+export function canAnywhere(me: Me | null, permission: string, now = Date.now()): boolean {
+    return !!me && me.user.status === 'ACTIF' && me.user.accountType === 'USER' && me.grants.some(g => g.permission === permission && activeGrant(g, now));
+}
 export function platform(me: Me | null, now = Date.now()): boolean {
     return !!me && me.user.status === 'ACTIF' && me.user.accountType === 'USER' && me.grants.some(g => g.roleCode === 'SNAE_PLATFORM_ADMIN' && g.scope === 'NATIONAL' && g.delegationId === null && activeGrant(g, now));
 }

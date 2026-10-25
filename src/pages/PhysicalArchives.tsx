@@ -2,14 +2,27 @@ import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import { PhysicalEliminationSection } from '../ui/PhysicalElimination';
 import { PhysicalRiskSection } from '../ui/PhysicalRisk';
+import { PhysicalArchiveFinder } from '../ui/PhysicalArchiveFinder';
+import { DescribeArchiveDialog } from '../ui/PhysicalArchiveDescribe';
+import { PlacementCard } from '../ui/HeritagePlacement';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSession } from '../auth/session';
-import { can } from '../core/policy';
+import { can, canAnywhere } from '../core/policy';
 import { navigate } from '../ui/navigation';
 import { PageHead, Busy, ErrorNotice, Empty, useResource, Modal, Field, Badge, formatDate } from '../ui/components';
 import { uuid } from '../core/validation';
-import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem } from '../core/types';
-import { DocumentName } from '../ui/names';
+import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem, ArchivePlacement } from '../core/types';
+import { DocumentName, EntityName } from '../ui/names';
+import { InstitutionChoice } from '../ui/InstitutionChoice';
+import { CodeField } from '../ui/CodeField';
+import { PhysicalGapsSection } from '../ui/PhysicalGaps';
+import { LabelsButton } from '../ui/PhysicalLabels';
+import { PhysicalInventoryDialog } from '../ui/PhysicalInventory';
+import { ConditionAlertsSection, OccupationCell, ReadingsCell, ReadingsDialog, UnitSettingsDialog } from '../ui/PhysicalConditions';
+import { Suggestions } from '../ui/PhysicalSuggestions';
+import { ArchiveExits, ExitQueueSection } from '../ui/PhysicalExit';
+import { EXIT_REQUEST } from '../core/physicalExit';
+import { locationPath, placeText } from '../core/placement';
 import { display } from '../core/format';
 import { OriginDialog, OriginFields, OriginText, originPayload } from '../ui/Origin';
 
@@ -25,6 +38,7 @@ function CreateLocationDialog({ locations, onClose, onCreated }: {
     const [adresse, setAdresse] = useState('');
     const [description, setDescription] = useState('');
     const [parentId, setParentId] = useState('');
+    const [institutionId, setInstitutionId] = useState('');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
@@ -32,7 +46,7 @@ function CreateLocationDialog({ locations, onClose, onCreated }: {
         setBusy(true);
         setError(null);
         try {
-            await physicalArchives!.command('/locations', { parentId: parentId || null, typeLocalisation: typeLocalisation.trim(), code: code.trim() || null, libelle: libelle.trim(), adresse: adresse.trim() || null, description: description.trim() || null }, crypto.randomUUID(), 'POST');
+            await physicalArchives!.command('/locations', { parentId: parentId || null, institutionId: parentId ? null : institutionId || null, typeLocalisation: typeLocalisation.trim(), code: code.trim() || null, libelle: libelle.trim(), adresse: adresse.trim() || null, description: description.trim() || null }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -47,9 +61,10 @@ function CreateLocationDialog({ locations, onClose, onCreated }: {
         <form onSubmit={submit}>
             <div className="form-grid">
                 <Field label="Libellé" wide><input value={libelle} onChange={e => setLibelle(e.target.value)} required maxLength={255} disabled={busy}/></Field>
-                <Field label="Type" hint="Ex. BATIMENT, MAGASIN, RAYONNAGE"><input value={typeLocalisation} onChange={e => setTypeLocalisation(e.target.value)} required maxLength={40} disabled={busy}/></Field>
+                <Field label="Type" hint="Ex. BATIMENT, MAGASIN, RAYONNAGE"><input value={typeLocalisation} onChange={e => setTypeLocalisation(e.target.value)} required maxLength={40} disabled={busy} list="physical-type-localisation"/></Field><Suggestions id="physical-type-localisation" field="TYPE_LOCALISATION"/>
                 <Field label="Code" hint="Optionnel"><input value={code} onChange={e => setCode(e.target.value)} maxLength={100} disabled={busy}/></Field>
                 <Field label="Emplacement parent" wide><select value={parentId} onChange={e => setParentId(e.target.value)} disabled={busy}><option value="">Aucun (racine)</option>{locations.map(l => <option key={l.id} value={l.id}>{l.code ? l.code + ' · ' : ''}{l.libelle}</option>)}</select></Field>
+                {parentId ? <p className="wf-note span2">Ce sous-emplacement appartient à la même institution que son emplacement parent.</p> : <Field label="Propriétaire" hint="L’institution propriétaire de ce lieu et de tout ce qu’il contiendra. Laissé vide : dépôt national, réservé au niveau national." wide><InstitutionChoice value={institutionId} onChange={setInstitutionId} nullable followWorkspace={false} disabled={busy}/></Field>}
                 <Field label="Adresse" wide><input value={adresse} onChange={e => setAdresse(e.target.value)} disabled={busy}/></Field>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
             </div>
@@ -68,6 +83,7 @@ function CreateStorageUnitDialog({ locationId, onClose, onCreated }: {
     const [typeUnite, setTypeUnite] = useState('');
     const [cote, setCote] = useState('');
     const [capacite, setCapacite] = useState('');
+    const [uniteCapacite, setUniteCapacite] = useState('');
     const extra = useOptionalFields('storage');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
@@ -76,7 +92,7 @@ function CreateStorageUnitDialog({ locationId, onClose, onCreated }: {
         setBusy(true);
         setError(null);
         try {
-            await physicalArchives!.command('/storage-units', { ...extra.payload(), localisationId: locationId, typeUnite: typeUnite.trim(), cote: cote.trim(), capacite: capacite.trim() || null }, crypto.randomUUID(), 'POST');
+            await physicalArchives!.command('/storage-units', { ...extra.payload(), localisationId: locationId, typeUnite: typeUnite.trim(), cote: cote.trim(), capacite: capacite.trim() || null, uniteCapacite: uniteCapacite.trim() || null }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -92,8 +108,9 @@ function CreateStorageUnitDialog({ locationId, onClose, onCreated }: {
             <div className="form-grid">
                 
                 <Field label="Cote" wide><input value={cote} onChange={e => setCote(e.target.value)} required maxLength={150} disabled={busy}/></Field>
-                <Field label="Type" hint="Ex. BOITE, ETAGERE, ARMOIRE"><input value={typeUnite} onChange={e => setTypeUnite(e.target.value)} required maxLength={40} disabled={busy}/></Field>
-                <Field label="Capacité" hint="Optionnelle"><input value={capacite} onChange={e => setCapacite(e.target.value)} disabled={busy}/></Field>
+                <Field label="Type" hint="Ex. BOITE, ETAGERE, ARMOIRE"><input value={typeUnite} onChange={e => setTypeUnite(e.target.value)} required maxLength={40} disabled={busy} list="physical-type-unite"/></Field><Suggestions id="physical-type-unite" field="TYPE_UNITE"/>
+                <Field label="Capacité" hint="Optionnelle : elle signale quand l’unité est pleine, elle ne refuse rien."><input value={capacite} onChange={e => setCapacite(e.target.value)} disabled={busy}/></Field>
+                <Field label="Unité de la capacité" hint="Mètres linéaires, boîtes… Vide : en archives."><input value={uniteCapacite} onChange={e => setUniteCapacite(e.target.value)} maxLength={30} disabled={busy}/></Field>
             <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
             </div>
             {error ? <ErrorNotice error={error}/> : null}
@@ -102,13 +119,16 @@ function CreateStorageUnitDialog({ locationId, onClose, onCreated }: {
     </Modal>;
 }
 
-export function CreateArchiveDialog({ unitId, onClose, onCreated }: {
+export function CreateArchiveDialog({ unitId, unitInstitution = null, onClose, onCreated }: {
     unitId: string;
+    /** Le propriétaire de l'unité : sans autre choix, l'archive lui appartient, et son modèle de codification guide la cote. Sans propriétaire : dépôt national, cote libre. */
+    unitInstitution?: string | null;
     onClose: () => void;
     onCreated: () => void;
 }) {
     const { physicalArchives } = useSession();
     const [cote, setCote] = useState('');
+    const [intitule, setIntitule] = useState('');
     const [support, setSupport] = useState('');
     const [etatPhysique, setEtatPhysique] = useState('');
     const [description, setDescription] = useState('');
@@ -124,7 +144,7 @@ export function CreateArchiveDialog({ unitId, onClose, onCreated }: {
         setError(null);
         try {
             const trimmedDocumentId = documentId.trim();
-            await physicalArchives!.command('/archives', { ...extra.payload(), uniteStockageId: unitId, cote: cote.trim(), support: support.trim() || null, etatPhysique: etatPhysique.trim() || null, description: description.trim() || null, ...originPayload(institutionId, departmentId), documentId: trimmedDocumentId ? uuid(trimmedDocumentId) : null }, crypto.randomUUID(), 'POST');
+            await physicalArchives!.command('/archives', { ...extra.payload(), uniteStockageId: unitId, cote: cote.trim(), intitule: intitule.trim() || null, support: support.trim() || null, etatPhysique: etatPhysique.trim() || null, description: description.trim() || null, ...originPayload(institutionId, departmentId), documentId: trimmedDocumentId ? uuid(trimmedDocumentId) : null }, crypto.randomUUID(), 'POST');
             onCreated();
             onClose();
         }
@@ -139,9 +159,10 @@ export function CreateArchiveDialog({ unitId, onClose, onCreated }: {
         <form onSubmit={submit}>
             <div className="form-grid">
                 
-                <Field label="Cote" wide><input value={cote} onChange={e => setCote(e.target.value)} required maxLength={150} disabled={busy}/></Field>
-                <Field label="Support" hint="Optionnel"><input value={support} onChange={e => setSupport(e.target.value)} maxLength={80} disabled={busy}/></Field>
-                <Field label="État physique" hint="Optionnel"><input value={etatPhysique} onChange={e => setEtatPhysique(e.target.value)} maxLength={40} disabled={busy}/></Field>
+                {unitInstitution ? <CodeField kind="ARCHIVE_PHYSIQUE" institutionId={institutionId || unitInstitution} value={cote} onChange={setCote} label="Cote" maxLength={150} disabled={busy}/> : <Field label="Cote" wide><input value={cote} onChange={e => setCote(e.target.value)} required maxLength={150} disabled={busy}/></Field>}
+                <Field label="Intitulé" hint="Le titre court sous lequel on la cherchera, par exemple « Dossier personnel Camara, 2015 »." wide><input value={intitule} onChange={e => setIntitule(e.target.value)} maxLength={500} disabled={busy}/></Field>
+                <Field label="Support" hint="Optionnel"><input value={support} onChange={e => setSupport(e.target.value)} maxLength={80} disabled={busy} list="physical-support"/></Field><Suggestions id="physical-support" field="SUPPORT"/>
+                <Field label="État physique" hint="Optionnel"><input value={etatPhysique} onChange={e => setEtatPhysique(e.target.value)} maxLength={40} disabled={busy} list="physical-etat"/></Field><Suggestions id="physical-etat" field="ETAT_PHYSIQUE"/>
                 <Field label="Document lié" hint="Identifiant du document, optionnel" wide><input value={documentId} onChange={e => setDocumentId(e.target.value)} disabled={busy}/></Field>
                 <OriginFields institutionId={institutionId} departmentId={departmentId} onChange={(i, d) => { setInstitutionId(i); setDepartmentId(d); }} disabled={busy} hint="Facultatif : l’institution qui a produit ces archives (celle du document quand il y en a un)."/>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
@@ -149,50 +170,6 @@ export function CreateArchiveDialog({ unitId, onClose, onCreated }: {
             </div>
             {error ? <ErrorNotice error={error}/> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Créer</button></footer>
-        </form>
-    </Modal>;
-}
-
-function CheckoutDialog({ archive, units, onClose, onDone }: {
-    archive: PhysicalArchive;
-    units: StorageUnit[];
-    onClose: () => void;
-    onDone: () => void;
-}) {
-    const { physicalArchives } = useSession();
-    const [typeMouvement, setTypeMouvement] = useState('');
-    const [motif, setMotif] = useState('');
-    const [destinationUniteStockageId, setDestination] = useState('');
-    const extra = useOptionalFields('checkout');
-    const [busy, setBusy] = useState(false);
-    const [error, setError] = useState<unknown>(null);
-    const submit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        setBusy(true);
-        setError(null);
-        try {
-            await physicalArchives!.command(`/archives/${archive.id}/checkout`, { ...extra.payload(), typeMouvement: typeMouvement.trim(), motif: motif.trim(), destinationUniteStockageId: destinationUniteStockageId || null }, crypto.randomUUID(), 'POST');
-            onDone();
-            onClose();
-        }
-        catch (e) {
-            setError(e);
-        }
-        finally {
-            setBusy(false);
-        }
-    };
-    return <Modal title={'Sortir l’archive ' + archive.cote} onClose={onClose} locked={busy}>
-        <form onSubmit={submit}>
-            <div className="form-grid">
-                
-                <Field label="Type de mouvement" hint="Ex. CONSULTATION, TRANSFERT"><input value={typeMouvement} onChange={e => setTypeMouvement(e.target.value)} required maxLength={40} disabled={busy}/></Field>
-                <Field label="Unité de destination" hint="Optionnelle, si transfert"><select value={destinationUniteStockageId} onChange={e => setDestination(e.target.value)} disabled={busy}><option value="">Aucune</option>{units.map(u => <option key={u.id} value={u.id}>{u.cote}</option>)}</select></Field>
-                <Field label="Motif" wide><textarea value={motif} onChange={e => setMotif(e.target.value)} required disabled={busy}/></Field>
-            <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
-            </div>
-            {error ? <ErrorNotice error={error}/> : null}
-            <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Sortir l’archive</button></footer>
         </form>
     </Modal>;
 }
@@ -285,25 +262,32 @@ function CompleteRestorationDialog({ restorationId, onClose, onDone }: {
         <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>{busy ? <span className="spinner"/> : null} Clore</button></footer></form>
     </Modal>;
 }
-function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: {
+function ArchiveDetailDialog({ archive, onClose, onChanged }: {
     archive: PhysicalArchive;
-    units: StorageUnit[];
-    canManage: boolean;
     onClose: () => void;
     onChanged: () => void;
 }) {
     const { me, physicalArchives, epoch } = useSession();
-    const [checkingOut, setCheckingOut] = useState(false);
     const [attachingDocument, setAttachingDocument] = useState(false);
     const [creatingRestoration, setCreatingRestoration] = useState(false);
     const [editingOrigin, setEditingOrigin] = useState(false);
+    const [describing, setDescribing] = useState(false);
+    const [placementRevision, setPlacementRevision] = useState(0);
+    const placementQ = useResource<ArchivePlacement>(s => physicalArchives!.placement(archive.id, s), JSON.stringify(['archive-placement', archive.id, placementRevision, epoch]));
     const [completingRestoration, setCompletingRestoration] = useState<string | null>(null);
     const [pending, setPending] = useState<string | null>(null);
-    const canReadRestoration = can(me, 'RESTORATION_READ', {});
-    const canManageRestoration = can(me, 'RESTORATION_MANAGE', {});
+    // les droits sont ceux du propriétaire de l'archive (son institution et son unité) ; sans propriétaire, seul le niveau national
+    const target = { institutionId: archive.institutionId ?? null, departmentId: archive.departmentId ?? null };
+    const canManage = can(me, 'PHYSICALARCHIVES_MANAGE', target);
+    const canRequestExit = can(me, EXIT_REQUEST, target);
+    const canReadRestoration = can(me, 'RESTORATION_READ', target);
+    const canManageRestoration = can(me, 'RESTORATION_MANAGE', target);
     const q = useResource(s => physicalArchives!.movementsByArchive(archive.id, s), JSON.stringify(['archive-movements', archive.id, epoch]));
     const movements = q.data ?? [];
-    const open = movements.find(m => m.statut === 'EN_COURS');
+    const exitsQ = useResource(s => physicalArchives!.exitRequestsByArchive(archive.id, s), JSON.stringify(['archive-exit-requests', archive.id, epoch]));
+    const exits = exitsQ.data ?? [];
+    // une sortie née d'une demande se rend par la demande : c'est elle qui dit si l'archive revient dans l'état où elle est partie
+    const viaRequest = new Set(exits.filter(e => e.statut === 'REMISE').map(e => e.mouvementId));
     const restorationsQ = useResource<RestorationIntervention[]>(s => canReadRestoration ? physicalArchives!.restorationsByArchive(archive.id, s) : Promise.resolve([]), JSON.stringify(['archive-restorations', archive.id, epoch]));
     const restorations = restorationsQ.data ?? [];
     const checkin = async (movement: ArchiveMovement) => {
@@ -328,9 +312,15 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
             setPending(null);
         }
     };
-    return <Modal title={'Archive ' + archive.cote} subtitle={archive.support ?? undefined} onClose={onClose} wide>
+    return <Modal title={'Archive ' + archive.cote} subtitle={archive.intitule || archive.support || undefined} onClose={onClose} wide>
         <div className="form-grid">
+            <div className="span2">
+                {placementQ.loading && !placementQ.data ? <Busy /> : placementQ.error ? <ErrorNotice error={placementQ.error} onRetry={placementQ.refresh}/> : placementQ.data &&
+                    <PlacementCard placement={placementQ.data} canVerify={can(me, 'PHYSICALARCHIVES_VERIFY', target)} canRelocate={canManage} titre="Où la trouver" onChanged={() => { setPlacementRevision(r => r + 1); onChanged(); }}/>}
+            </div>
             <dl className="detail-card">
+                <div><dt>Étiquette</dt><dd><LabelsButton label="Imprimer l’étiquette" title={'Étiquette ' + archive.cote} disabled={!placementQ.data} build={() => [{ kind: 'ARCHIVE', id: archive.id, cote: archive.cote, title: archive.intitule || null, place: placeText(placementQ.data!.habituel) }]}/></dd></div>
+                <div><dt>Intitulé</dt><dd><span className="table-actions"><span>{archive.intitule || '—'}</span>{canManage && <button className="btn small secondary" onClick={() => setDescribing(true)}>Décrire</button>}</span></dd></div>
                 <div><dt>État physique</dt><dd>{display(archive.etatPhysique)}</dd></div>
                 <div><dt>Document lié</dt><dd>{archive.documentId ? <DocumentName id={archive.documentId}/> : <span className="table-actions"><span>—</span>{canManage && <button className="btn small secondary" onClick={() => setAttachingDocument(true)}>Rattacher un document</button>}</span>}</dd></div>
                 <div><dt>Origine</dt><dd><span className="table-actions"><OriginText institutionId={archive.institutionId} departmentId={archive.departmentId}/>{canManage && !archive.documentId && <button className="btn small secondary" onClick={() => setEditingOrigin(true)}>Modifier</button>}</span></dd></div>
@@ -338,9 +328,10 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
                 <div><dt>Quantité</dt><dd>{archive.quantite ? archive.quantite + (archive.uniteQuantite ? ' ' + archive.uniteQuantite : '') : '—'}</dd></div>
                 <div><dt>Description</dt><dd>{archive.description ?? '—'}</dd></div>
             </dl>
+            <ArchiveExits archive={archive} requests={exits} loading={exitsQ.loading} error={exitsQ.error} onRetry={exitsQ.refresh} canRequest={canRequestExit} onChanged={() => { exitsQ.refresh(); q.refresh(); onChanged(); }}/>
             <div>
-                <div className="section-heading"><h3>Mouvements</h3>{canManage && !open && <button className="btn small primary" onClick={() => setCheckingOut(true)}>Sortir l’archive</button>}</div>
-                {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : movements.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Motif</th><th>Statut</th><th>Sortie</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{movements.map(m => <tr key={m.id}><td>{display(m.typeMouvement)}<ResourceDetailsButton resource="physicalMovement" id={m.id} /></td><td>{m.motif}</td><td><Badge value={m.statut}/></td><td>{formatDate(m.dateSortie)}</td><td>{canManage && m.statut === 'EN_COURS' && <button className="btn small secondary" disabled={pending === m.id} onClick={() => checkin(m)}>Réintégrer</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun mouvement" description="Cette archive n’a jamais quitté son unité de stockage."/>}
+                <div className="section-heading"><h3>Mouvements</h3></div>
+                {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : movements.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Motif</th><th>Statut</th><th>Sortie</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{movements.map(m => <tr key={m.id}><td>{display(m.typeMouvement)}<ResourceDetailsButton resource="physicalMovement" id={m.id} /></td><td>{m.motif}</td><td><Badge value={m.statut}/></td><td>{formatDate(m.dateSortie)}</td><td>{canManage && m.statut === 'EN_COURS' && !viaRequest.has(m.id) && <button className="btn small secondary" disabled={pending === m.id} onClick={() => checkin(m)}>Réintégrer</button>}{viaRequest.has(m.id) && <small>Se rend par la demande de sortie</small>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun mouvement" description="Cette archive n’a jamais quitté son unité de stockage."/>}
             </div>
             {canReadRestoration && <div>
                 <div className="section-heading"><h3>Restauration</h3>{canManageRestoration && <button className="btn small primary" onClick={() => setCreatingRestoration(true)}>Déclarer une intervention</button>}</div>
@@ -348,8 +339,8 @@ function ArchiveDetailDialog({ archive, units, canManage, onClose, onChanged }: 
             </div>}
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
-        {checkingOut && <CheckoutDialog archive={archive} units={units} onClose={() => setCheckingOut(false)} onDone={() => { q.refresh(); onChanged(); }}/>}
         {attachingDocument && <AttachDocumentDialog archiveId={archive.id} onClose={() => setAttachingDocument(false)} onAttached={onChanged}/>}
+        {describing && <DescribeArchiveDialog archive={archive} onClose={() => setDescribing(false)} onSaved={onChanged}/>}
         {editingOrigin && <OriginDialog title="Origine de l’archive" subject={archive.cote} institutionId={archive.institutionId ?? null} departmentId={archive.departmentId ?? null}
             onSave={async (institutionId, departmentId) => { await physicalArchives!.command(`/archives/${archive.id}/origin`, { institutionId, departmentId }, crypto.randomUUID(), 'POST'); onChanged(); }} onClose={() => setEditingOrigin(false)}/>}
         {creatingRestoration && <CreateRestorationDialog archiveId={archive.id} onClose={() => setCreatingRestoration(false)} onCreated={restorationsQ.refresh}/>}
@@ -370,6 +361,7 @@ function LocationRow({ location, depth, children, canManage, onToggle, pending, 
         <td style={{ paddingLeft: 12 + depth * 20 }}><button className="record-name" onClick={() => onSelect(location)}><strong>{location.libelle}</strong></button><ResourceDetailsButton resource="physicalLocation" id={location.id} title={location.libelle} /></td>
         <td>{location.typeLocalisation}</td>
         <td>{location.code ?? '—'}</td>
+        <td>{location.institutionId ? <EntityName kind="institutions" id={location.institutionId}/> : 'Dépôt national'}</td>
         <td><Badge value={location.statut}/></td>
         <td>{canManage && <button className="btn small secondary" disabled={pending} onClick={() => onToggle(location)}>{location.statut === 'ACTIVE' ? 'Désactiver' : 'Activer'}</button>}</td>
     </tr>{children}</>;
@@ -382,6 +374,9 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     const [creatingLocation, setCreatingLocation] = useState(false);
     const [creatingUnit, setCreatingUnit] = useState(false);
     const [creatingArchive, setCreatingArchive] = useState(false);
+    const [inventorying, setInventorying] = useState(false);
+    const [settingsFor, setSettingsFor] = useState<StorageUnit | null>(null);
+    const [readingsFor, setReadingsFor] = useState<StorageUnit | null>(null);
     const [selectedLocationId, setSelectedLocationId] = useState<string | null>(null);
     const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
     const [selectedArchiveId, setSelectedArchiveId] = useState<string | null>(initialArchiveId ?? null);
@@ -391,8 +386,9 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         physicalArchives!.archive(initialArchiveId).then(archive => { if (alive) setSelectedUnitId(archive.uniteStockageId); }).catch(() => {});
         return () => { alive = false; };
     }, [initialArchiveId]);
-    const canManage = can(me, 'PHYSICALARCHIVES_LOCATION_MANAGE', {});
-    const canManageArchives = can(me, 'PHYSICALARCHIVES_MANAGE', {});
+    // créer un emplacement : à qui peut en gérer quelque part ; chaque lieu, chaque unité se gère ensuite selon son propriétaire (sans propriétaire : niveau national)
+    const canManage = canAnywhere(me, 'PHYSICALARCHIVES_LOCATION_MANAGE');
+    const managesPlace = (owner: string | null | undefined) => can(me, 'PHYSICALARCHIVES_LOCATION_MANAGE', { institutionId: owner ?? null });
     const [pendingLocation, setPendingLocation] = useState<string | null>(null);
     const [pendingUnit, setPendingUnit] = useState<string | null>(null);
     const [actionError, setActionError] = useState<unknown>(null);
@@ -410,6 +406,9 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         return map;
     }, [locations]);
 
+    const selectedLocation = locations.find(l => l.id === selectedLocationId) ?? null;
+    const locationById = useMemo(() => new Map(locations.map(l => [l.id, l] as const)), [locations]);
+    const placeOfUnit = (u: StorageUnit) => placeText({ cote: u.cote, localisation: locationPath(u.localisationId, locationById) });
     const unitsQ = useResource(s => selectedLocationId ? physicalArchives!.storageUnitsByLocation(selectedLocationId, s) : Promise.resolve([]), 'physical-units:' + selectedLocationId + ':' + epoch);
     const units = unitsQ.data ?? [];
     const allUnitsQ = useResource(s => physicalArchives!.storageUnits(s), 'physical-units-all:' + epoch);
@@ -418,6 +417,8 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     const archivesQ = useResource(s => selectedUnitId ? physicalArchives!.archivesByStorageUnit(selectedUnitId, s) : Promise.resolve([]), 'physical-archives-list:' + selectedUnitId + ':' + epoch);
     const archives = archivesQ.data ?? [];
     const selectedArchive = archives.find(a => a.id === selectedArchiveId) ?? null;
+    const selectedUnit = units.find(u => u.id === selectedUnitId) ?? allUnits.find(u => u.id === selectedUnitId) ?? null;
+    const canManageArchives = !!selectedUnit && can(me, 'PHYSICALARCHIVES_MANAGE', { institutionId: selectedUnit.institutionId ?? null });
 
     const toggleLocation = async (location: Localisation) => {
         setPendingLocation(location.id);
@@ -449,33 +450,47 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         }
     };
     const selectLocation = (location: Localisation) => { setSelectedLocationId(location.id); setSelectedUnitId(null); };
+    /** Ouvre une archive trouvée : l'arbre se place sur son lieu (on voit ce qui l'entoure) et sa fiche s'ouvre. */
+    const openFound = (found: { id: string; habituel: { unitId: string } }) => {
+        const unit = allUnits.find(u => u.id === found.habituel.unitId);
+        if (unit) setSelectedLocationId(unit.localisationId);
+        setSelectedUnitId(found.habituel.unitId);
+        setSelectedArchiveId(found.id);
+    };
     const renderChildren = (parentId: string, depth: number): React.ReactNode => {
         const list = byParent.get(parentId) ?? [];
-        return list.map(l => <LocationRow key={l.id} location={l} depth={depth} canManage={canManage} onToggle={toggleLocation} pending={pendingLocation === l.id} onSelect={selectLocation}>{renderChildren(l.id, depth + 1)}</LocationRow>);
+        return list.map(l => <LocationRow key={l.id} location={l} depth={depth} canManage={managesPlace(l.institutionId)} onToggle={toggleLocation} pending={pendingLocation === l.id} onSelect={selectLocation}>{renderChildren(l.id, depth + 1)}</LocationRow>);
     };
 
-    return <><PageHead eyebrow="MODULE · ARCHIVES PHYSIQUES" title="Archives physiques" description="Gérer les emplacements, unités de stockage, cotes physiques et mouvements de sortie/retour.">
+    return <><PageHead eyebrow="MODULE · ARCHIVES PHYSIQUES" title="Archives physiques" description="Gérer les emplacements, unités de stockage, cotes physiques et sorties de réserve (demandées, autorisées, remises, rendues).">
         {canManage && <button className="btn primary" onClick={() => setCreatingLocation(true)}>Créer un emplacement</button>}
     </PageHead>
         {Boolean(actionError) && <ErrorNotice error={actionError}/>}
+        <PhysicalArchiveFinder locations={locations} onOpen={openFound}/>
+        <ExitQueueSection />
+        <PhysicalGapsSection />
+        <ConditionAlertsSection />
         <div className="panel">
             <div className="section-heading"><h3>Emplacements</h3></div>
-            {locationsQ.loading ? <Busy /> : locationsQ.error ? <div className="panel-padding"><ErrorNotice error={locationsQ.error} onRetry={locationsQ.refresh}/></div> : locations.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun emplacement" description="Créez le premier emplacement de conservation."/>}
+            {locationsQ.loading ? <Busy /> : locationsQ.error ? <div className="panel-padding"><ErrorNotice error={locationsQ.error} onRetry={locationsQ.refresh}/></div> : locations.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Propriétaire</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun emplacement" description="Créez le premier emplacement de conservation."/>}
         </div>
         {selectedLocationId && <div className="panel">
-            <div className="section-heading"><h3>Unités de stockage</h3>{canManage && <button className="btn small primary" onClick={() => setCreatingUnit(true)}>Créer une unité</button>}</div>
-            {unitsQ.loading ? <Busy /> : unitsQ.error ? <ErrorNotice error={unitsQ.error} onRetry={unitsQ.refresh}/> : units.length ? <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Type</th><th>Capacité</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{units.map(u => <tr key={u.id}><td><button className="record-name" onClick={() => setSelectedUnitId(u.id)}><strong>{u.cote}</strong></button><ResourceDetailsButton resource="storageUnit" id={u.id} title={u.cote} /></td><td>{display(u.typeUnite)}</td><td>{u.capacite ?? '—'}</td><td><Badge value={u.statut}/></td><td>{canManage && <button className="btn small secondary" disabled={pendingUnit === u.id} onClick={() => toggleUnit(u)}>{u.statut === 'ACTIVE' ? 'Désactiver' : 'Activer'}</button>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune unité de stockage" description="Créez la première unité de stockage pour cet emplacement."/>}
+            <div className="section-heading"><h3>Unités de stockage</h3><span className="table-actions"><LabelsButton label="Étiquettes des unités" title={'Étiquettes des unités' + (selectedLocation ? ' · ' + selectedLocation.libelle : '')} disabled={!units.length} build={() => units.map(u => ({ kind: 'UNIT' as const, id: u.id, cote: u.cote, title: display(u.typeUnite), place: locationPath(u.localisationId, locationById).join(' › ') }))}/>{selectedLocation && managesPlace(selectedLocation.institutionId) && <button className="btn small primary" onClick={() => setCreatingUnit(true)}>Créer une unité</button>}</span></div>
+            {unitsQ.loading ? <Busy /> : unitsQ.error ? <ErrorNotice error={unitsQ.error} onRetry={unitsQ.refresh}/> : units.length ? <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Type</th><th>Capacité</th><th>Conditions</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{units.map(u => <tr key={u.id}><td><button className="record-name" onClick={() => setSelectedUnitId(u.id)}><strong>{u.cote}</strong></button><ResourceDetailsButton resource="storageUnit" id={u.id} title={u.cote} /></td><td>{display(u.typeUnite)}</td><td><OccupationCell unit={u}/></td><td><ReadingsCell unit={u}/></td><td><Badge value={u.statut}/></td><td><span className="table-actions"><button className="btn small secondary" onClick={() => setReadingsFor(u)}>Relevés</button>{managesPlace(u.institutionId) && <button className="btn small secondary" onClick={() => setSettingsFor(u)}>Réglages</button>}{managesPlace(u.institutionId) && <button className="btn small secondary" disabled={pendingUnit === u.id} onClick={() => toggleUnit(u)}>{u.statut === 'ACTIVE' ? 'Désactiver' : 'Activer'}</button>}</span></td></tr>)}</tbody></table></div> : <Empty title="Aucune unité de stockage" description="Créez la première unité de stockage pour cet emplacement."/>}
         </div>}
         {selectedUnitId && <div className="panel">
-            <div className="section-heading"><h3>Archives physiques</h3>{canManageArchives && <button className="btn small primary" onClick={() => setCreatingArchive(true)}>Créer une archive</button>}</div>
+            <div className="section-heading"><h3>Archives physiques</h3><span className="table-actions">{selectedUnit && can(me, 'PHYSICALARCHIVES_VERIFY', { institutionId: selectedUnit.institutionId ?? null }) && <button className="btn small secondary" disabled={!archives.length} onClick={() => setInventorying(true)}>Récolement par lecture</button>}<LabelsButton label="Étiquettes des archives" title={'Étiquettes des archives' + (selectedUnit ? ' · ' + selectedUnit.cote : '')} disabled={!archives.length || !selectedUnit} build={() => archives.map(a => ({ kind: 'ARCHIVE' as const, id: a.id, cote: a.cote, title: a.intitule || null, place: placeOfUnit(selectedUnit!) }))}/>{canManageArchives && <button className="btn small primary" onClick={() => setCreatingArchive(true)}>Créer une archive</button>}</span></div>
             {archivesQ.loading ? <Busy /> : archivesQ.error ? <ErrorNotice error={archivesQ.error} onRetry={archivesQ.refresh}/> : archives.length ? <div className="table-scroll"><table><thead><tr><th>Cote</th><th>Support</th><th>État</th><th>Document</th><th>Origine</th></tr></thead><tbody>{archives.map(a => <tr key={a.id}><td><button className="record-name" onClick={() => setSelectedArchiveId(a.id)}><strong>{a.cote}</strong></button></td><td>{display(a.support)}</td><td>{display(a.etatPhysique)}</td><td>{a.documentId ? <DocumentName id={a.documentId}/> : '—'}</td><td><OriginText institutionId={a.institutionId} departmentId={a.departmentId}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune archive physique" description="Créez la première archive pour cette unité de stockage."/>}
         </div>}
         <PhysicalEliminationSection />
         <PhysicalRiskSection />
         {creatingLocation && <CreateLocationDialog locations={locations} onClose={() => setCreatingLocation(false)} onCreated={locationsQ.refresh}/>}
         {creatingUnit && selectedLocationId && <CreateStorageUnitDialog locationId={selectedLocationId} onClose={() => setCreatingUnit(false)} onCreated={() => { unitsQ.refresh(); allUnitsQ.refresh(); }}/>}
-        {creatingArchive && selectedUnitId && <CreateArchiveDialog unitId={selectedUnitId} onClose={() => setCreatingArchive(false)} onCreated={archivesQ.refresh}/>}
-        {selectedArchive && <ArchiveDetailDialog archive={selectedArchive} units={allUnits} canManage={canManageArchives} onClose={() => setSelectedArchiveId(null)} onChanged={archivesQ.refresh}/>}
+        {settingsFor && <UnitSettingsDialog unit={settingsFor} onClose={() => setSettingsFor(null)} onSaved={() => { unitsQ.refresh(); allUnitsQ.refresh(); }}/>}
+        {readingsFor && <ReadingsDialog unit={readingsFor} canRecord={can(me, 'PHYSICALARCHIVES_VERIFY', { institutionId: readingsFor.institutionId ?? null })} onClose={() => setReadingsFor(null)} onChanged={() => { unitsQ.refresh(); allUnitsQ.refresh(); }}/>}
+        {inventorying && selectedUnit && <PhysicalInventoryDialog unit={selectedUnit} place={placeOfUnit(selectedUnit)} archives={archives} onClose={() => setInventorying(false)} onDone={archivesQ.refresh}/>}
+        {creatingArchive && selectedUnitId && <CreateArchiveDialog unitId={selectedUnitId} unitInstitution={selectedUnit?.institutionId ?? null} onClose={() => setCreatingArchive(false)} onCreated={archivesQ.refresh}/>}
+        {selectedArchive && <ArchiveDetailDialog archive={selectedArchive} onClose={() => setSelectedArchiveId(null)} onChanged={archivesQ.refresh}/>}
         </>;
 }
 

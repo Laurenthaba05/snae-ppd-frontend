@@ -5,16 +5,16 @@ import { can } from '../core/policy';
 import { Busy, ErrorNotice, Field, Modal, Notice, PageHead, useResource } from './components';
 import { EntityName } from './names';
 import {
-    KIND_LABELS, MODE_LABELS, STARTERS, patternOf, segmentLabel,
+    KIND_LABELS, MODE_LABELS, patternOf, segmentLabel, segmentTypesFor, startersFor,
     type CodificationKind, type CodificationMode, type CodificationModel, type CodificationSegment, type SegmentType
 } from '../core/codification';
 
-const KINDS: CodificationKind[] = ['DOCUMENT', 'DOSSIER', 'NOTICE'];
-const TYPES: SegmentType[] = ['TEXTE', 'ANNEE', 'CLASSEMENT', 'PARENT', 'COMPTEUR'];
+const KINDS: CodificationKind[] = ['DOCUMENT', 'DOSSIER', 'NOTICE', 'ARCHIVE_PHYSIQUE'];
 /** Les textes de chaque objet, écrits en entier (et non composés) pour que l'interface anglaise puisse les traduire. */
 const TEXTS: Record<CodificationKind, { what: string; title: string; define: string; edit: string; remove: string }> = {
     DOCUMENT: { what: 'Comment s’écrit la référence d’un document (son identifiant métier)', title: 'Modèle de codification : documents', define: 'Définir un modèle pour les documents', edit: 'Modifier le modèle des documents', remove: 'Retirer le modèle des documents' },
     DOSSIER: { what: 'Comment s’écrit la référence d’un dossier', title: 'Modèle de codification : dossiers', define: 'Définir un modèle pour les dossiers', edit: 'Modifier le modèle des dossiers', remove: 'Retirer le modèle des dossiers' },
+    ARCHIVE_PHYSIQUE: { what: 'Comment s’écrit la cote d’une archive physique (boîte, dossier papier, registre)', title: 'Modèle de codification : archives physiques', define: 'Définir un modèle pour les archives physiques', edit: 'Modifier le modèle des archives physiques', remove: 'Retirer le modèle des archives physiques' },
     NOTICE: { what: 'Comment s’écrit le code d’une notice de description (fonds, série, dossier, pièce)', title: 'Modèle de codification : notices de description', define: 'Définir un modèle pour les notices de description', edit: 'Modifier le modèle des notices de description', remove: 'Retirer le modèle des notices de description' }
 };
 
@@ -63,7 +63,7 @@ function ModelDialog({ kind, institutionId, model, onClose, onSaved }: { kind: C
     const withKeys = (segments: CodificationSegment[]): Row[] => segments.map(s => ({ ...s, key: counter.current++ }));
     const [label, setLabel] = useState(model?.label ?? '');
     const [mode, setMode] = useState<CodificationMode>(model?.mode ?? 'INDICATIF');
-    const [rows, setRows] = useState<Row[]>(() => withKeys(model?.segments ?? STARTERS[0]!.segments(kind)));
+    const [rows, setRows] = useState<Row[]>(() => withKeys(model?.segments ?? startersFor(kind)[0]!.segments(kind)));
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const change = (key: number, patch: Partial<CodificationSegment>) => setRows(prev => prev.map(r => r.key === key ? { ...r, ...patch } : r));
@@ -87,11 +87,11 @@ function ModelDialog({ kind, institutionId, model, onClose, onSaved }: { kind: C
                 <Field label="Libellé" hint="Facultatif : à quoi sert ce modèle." wide><input value={label} onChange={e => setLabel(e.target.value)} maxLength={200} disabled={busy} /></Field>
                 <Field label="Mode" hint="Indicatif : on guide sans refuser. Obligatoire : une référence non conforme est refusée à la création, import compris."><select value={mode} onChange={e => setMode(e.target.value as CodificationMode)} disabled={busy}>
                     <option value="INDICATIF">Indicatif</option><option value="OBLIGATOIRE">Obligatoire</option></select></Field>
-                <Field label="Partir d’un exemple" hint="Remplace les pièces ci-dessous ; rien n’est enregistré avant « Enregistrer »."><select value="" onChange={e => { const s = STARTERS.find(x => x.id === e.target.value); if (s) setRows(withKeys(s.segments(kind))); }} disabled={busy}>
-                    <option value="">Choisir…</option>{STARTERS.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></Field>
+                <Field label="Partir d’un exemple" hint="Remplace les pièces ci-dessous ; rien n’est enregistré avant « Enregistrer »."><select value="" onChange={e => { const s = startersFor(kind).find(x => x.id === e.target.value); if (s) setRows(withKeys(s.segments(kind))); }} disabled={busy}>
+                    <option value="">Choisir…</option>{startersFor(kind).map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></Field>
                 <div className="span2"><h4>Pièces de la référence, dans l’ordre</h4>
                     {rows.map((r, i) => { const n = i + 1; return <div key={r.key} role="group" aria-label={`Pièce ${n}`} style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 10 }}>
-                        <div className="field" style={{ flex: '1 1 190px' }}><select aria-label={`Type de la pièce ${n}`} value={r.type} onChange={e => retype(r.key, e.target.value as SegmentType)} disabled={busy}>{TYPES.map(t => <option key={t} value={t}>{segmentLabel(t, kind)}</option>)}</select></div>
+                        <div className="field" style={{ flex: '1 1 190px' }}><select aria-label={`Type de la pièce ${n}`} value={r.type} onChange={e => retype(r.key, e.target.value as SegmentType)} disabled={busy}>{segmentTypesFor(kind).map(t => <option key={t} value={t}>{segmentLabel(t, kind)}</option>)}</select></div>
                         {r.type === 'TEXTE' && <div className="field" style={{ flex: '1 1 120px' }}><input aria-label={`Texte de la pièce ${n}`} value={r.value ?? ''} maxLength={40} onChange={e => change(r.key, { value: e.target.value })} disabled={busy} placeholder="ARC, -, /…" /></div>}
                         {r.type === 'COMPTEUR' && <div className="field" style={{ flex: '0 1 100px' }}><input aria-label={`Chiffres du compteur de la pièce ${n}`} type="number" min={1} max={9} value={r.digits ?? 4} onChange={e => change(r.key, { digits: Number(e.target.value) })} disabled={busy} /></div>}
                         <button type="button" className="btn small secondary" onClick={() => move(i, -1)} disabled={busy || i === 0} aria-label={`Monter la pièce ${n}`}>Monter</button>

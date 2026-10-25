@@ -3,25 +3,44 @@ import { uuid } from '../core/validation.js';
 import { allPages, SEARCH_PAGE_SIZE, type PageResult } from '../core/paging.js';
 import { query } from '../core/http.js';
 import type { Elimination, EliminationCandidatePage, EliminationSummary } from '../core/physicalElimination.js';
+import { searchParams, type ArchiveFound, type ArchiveSearchCriteria } from '../core/physicalSearch.js';
+import type { ConditionAlert, Reading } from '../core/physicalConditions.js';
+import type { ExitPage, ExitRequest } from '../core/physicalExit.js';
 import type { EmergencyPlan, Exercise, Hazard, PlanSummary, Risk, RiskSummary, SiteRiskSummary } from '../core/physicalRisk.js';
-import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem, ArchivePlacement, PlacementEvent } from '../core/types.js';
+import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem, ArchivePlacement, PlacementEvent, PlacementFilters, PlacementGapPage } from '../core/types.js';
 export class PhysicalArchivesApi {
     constructor(readonly transport: Transport) { }
-    restorationsByArchive(archiveId: string, signal?: AbortSignal): Promise<RestorationIntervention[]> { return this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/restorations', { signal }); }
+    /** Toutes les pages, les plus récentes d'abord (jamais un tableau sans borne) : au-delà de 5 000 éléments, une erreur explicite. */
+    restorationsByArchive(archiveId: string, signal?: AbortSignal): Promise<RestorationIntervention[]> { return allPages<RestorationIntervention>((page, size) => this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/restorations' + query({ page, size }), { signal })); }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     locations(signal?: AbortSignal): Promise<Localisation[]> { return allPages<Localisation>((page, size) => this.transport.request('/physical-archives/locations' + query({ page, size }), { signal })); }
     location(id: string, signal?: AbortSignal): Promise<Localisation> { return this.transport.request('/physical-archives/locations/' + uuid(id), { signal }); }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     storageUnits(signal?: AbortSignal): Promise<StorageUnit[]> { return allPages<StorageUnit>((page, size) => this.transport.request('/physical-archives/storage-units' + query({ page, size }), { signal })); }
-    storageUnitsByLocation(locationId: string, signal?: AbortSignal): Promise<StorageUnit[]> { return this.transport.request('/physical-archives/locations/' + uuid(locationId) + '/storage-units', { signal }); }
+    storageUnitsByLocation(locationId: string, signal?: AbortSignal): Promise<StorageUnit[]> { return allPages<StorageUnit>((page, size) => this.transport.request('/physical-archives/locations/' + uuid(locationId) + '/storage-units' + query({ page, size }), { signal })); }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     archives(signal?: AbortSignal): Promise<PhysicalArchive[]> { return allPages<PhysicalArchive>((page, size) => this.transport.request('/physical-archives/archives' + query({ page, size }), { signal })); }
     /** Une recherche faite par le serveur (cote ou description, sans tenir compte de la casse) : vingt résultats au plus, hasMore dit s'il y en a d'autres. Un texte vide rend le début de la liste. */
     searchArchives(text: string, signal?: AbortSignal): Promise<PageResult<PhysicalArchive>> { return this.transport.request('/physical-archives/archives' + query({ q: text.trim(), page: 0, size: SEARCH_PAGE_SIZE }), { signal }); }
+    /** Retrouver une archive par ce que l'on en sait (mots, lieu, période, service…) : une page à la fois, sans total ; chaque résultat porte son emplacement complet. */
+    findArchives(criteria: ArchiveSearchCriteria, page: number, signal?: AbortSignal): Promise<PageResult<ArchiveFound>> { return this.transport.request('/physical-archives/archives/search' + query(searchParams(criteria, page, SEARCH_PAGE_SIZE)), { signal }); }
+    /** Les relevés de température et d'humidité d'une unité, le plus récent d'abord. */
+    readings(unitId: string, page: number, signal?: AbortSignal): Promise<PageResult<Reading>> { return this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/readings' + query({ page, size: SEARCH_PAGE_SIZE }), { signal }); }
+    /** Les unités dont le dernier relevé sort des seuils qu'elles se sont fixés. */
+    conditionAlerts(page: number, signal?: AbortSignal): Promise<PageResult<ConditionAlert>> { return this.transport.request('/physical-archives/storage-units/condition-alerts' + query({ page, size: SEARCH_PAGE_SIZE }), { signal }); }
+    /** Les valeurs déjà employées d'un champ libre, à proposer à la saisie (TYPE_LOCALISATION, TYPE_UNITE, TYPE_MOUVEMENT, SUPPORT, ETAT_PHYSIQUE, UNITE_QUANTITE). */
+    vocabulary(field: string, signal?: AbortSignal): Promise<string[]> { return this.transport.request('/physical-archives/vocabulary' + query({ field }), { signal }); }
     archive(id: string, signal?: AbortSignal): Promise<PhysicalArchive> { return this.transport.request('/physical-archives/archives/' + uuid(id), { signal }); }
-    restorations(signal?: AbortSignal): Promise<RestorationListItem[]> { return this.transport.request('/physical-archives/restorations', { signal }); }
-    archivesByStorageUnit(unitId: string, signal?: AbortSignal): Promise<PhysicalArchive[]> { return this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/archives', { signal }); }
-    movementsByArchive(archiveId: string, signal?: AbortSignal): Promise<ArchiveMovement[]> { return this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/movements', { signal }); }
+    restorations(signal?: AbortSignal): Promise<RestorationListItem[]> { return allPages<RestorationListItem>((page, size) => this.transport.request('/physical-archives/restorations' + query({ page, size }), { signal })); }
+    archivesByStorageUnit(unitId: string, signal?: AbortSignal): Promise<PhysicalArchive[]> { return allPages<PhysicalArchive>((page, size) => this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/archives' + query({ page, size }), { signal })); }
+    movementsByArchive(archiveId: string, signal?: AbortSignal): Promise<ArchiveMovement[]> { return allPages<ArchiveMovement>((page, size) => this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/movements' + query({ page, size }), { signal })); }
+    /** La file des demandes de sortie que la personne peut lire : à décider d'abord, puis à remettre, puis dehors (retards en tête), enfin closes. Une page à la fois, sans total. */
+    exitRequests(params: Record<string, string>, page: number, signal?: AbortSignal): Promise<ExitPage> { return this.transport.request('/physical-archives/exit-requests' + query({ ...params, page, size: SEARCH_PAGE_SIZE }), { signal }); }
+    exitRequest(id: string, signal?: AbortSignal): Promise<ExitRequest> { return this.transport.request('/physical-archives/exit-requests/' + uuid(id), { signal }); }
+    /** Les demandes de sortie d'une archive, la plus récente d'abord. */
+    exitRequestsByArchive(archiveId: string, signal?: AbortSignal): Promise<ExitRequest[]> { return allPages<ExitRequest>((page, size) => this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/exit-requests' + query({ page, size }), { signal })); }
+    /** Les archives qui s'écartent de ce que l'on attend (introuvables, trouvées ailleurs, sorties en retard, jamais ou plus vérifiées), les plus graves d'abord. */
+    placementGaps(filters: PlacementFilters, signal?: AbortSignal): Promise<PlacementGapPage> { return this.transport.request('/physical-archives/placements/discrepancies' + query({ ...filters }), { signal }); }
     placement(archiveId: string, signal?: AbortSignal): Promise<ArchivePlacement> { return this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/placement', { signal }); }
     placementHistory(archiveId: string, signal?: AbortSignal): Promise<PlacementEvent[]> { return this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/placement/history', { signal }); }
     // ---------- élimination des archives physiques (V95)

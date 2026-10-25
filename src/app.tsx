@@ -8,7 +8,7 @@ import { Notice, Busy } from './ui/components';
 import { ReferencePicker } from './ui/ReferencePicker';
 import { useScopeText } from './ui/names';
 import { LanguageSwitch, LocaleProvider, useLocale } from './ui/i18n';
-import { can, platform, subjectTarget } from './core/policy';
+import { can, canAnywhere, platform, subjectTarget } from './core/policy';
 import { UUID_RE } from './core/validation';
 import { Login } from './pages/Login';
 import { moduleVisible, navGroups, navIcons } from './design/navigation';
@@ -100,7 +100,7 @@ function Shell() {
         { path: 'circuits-validation', label: 'Circuits de validation', group: 'Traitements', ok: demo || can(me, 'WORKFLOW_DEFINITION_MANAGE', scope), demo: false },
         { path: 'scanners', label: 'Scanners', group: 'Traitements', ok: demo || can(me, 'DIGITIZATION_READ', {}), demo: false },
         { path: 'traitement', label: 'Suivi du traitement', group: 'Traitements', ok: demo || can(me, 'DIGITIZATION_READ', {}), demo: false },
-        { path: 'archives-physiques', label: 'Archives physiques', group: 'Conservation', ok: demo || can(me, 'PHYSICALARCHIVES_READ', {}), demo: false },
+        { path: 'archives-physiques', label: 'Archives physiques', group: 'Conservation', ok: demo || canAnywhere(me, 'PHYSICALARCHIVES_READ'), demo: false },
         { path: 'notifications', label: 'Mes notifications', group: 'support', ok: !demo, demo: false },
         { path: 'profile', label: 'Mon profil', group: 'support', ok: true, demo: false },
         { path: 'help', label: 'Guide & assistance', group: 'support', ok: true, demo: false },
@@ -185,8 +185,8 @@ function Shell() {
         if (!demo && section === 'recherche') return <SearchPage />;
         if (!demo && section === 'audit') return can(me, 'AUDIT_READ', {}) ? <AuditPage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture du journal d’audit.</Notice>;
         if (!demo && section === 'classement') return can(me, 'CLASSIFICATION_READ', scope) ? <ClassificationPage /> : <Notice tone="warning">Cette section exige une habilitation de lecture du plan de classement pour ce périmètre.</Notice>;
-        if (!demo && section === 'archives-physiques') return can(me, 'PHYSICALARCHIVES_READ', {}) ? <PhysicalArchivesPage initialArchiveId={url.searchParams.get('archive') ?? undefined} /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des archives physiques.</Notice>;
-        if (!demo && section === 'restauration') return can(me, 'RESTORATION_READ', {}) ? <RestorationListPage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture des interventions de restauration.</Notice>;
+        if (!demo && section === 'archives-physiques') return canAnywhere(me, 'PHYSICALARCHIVES_READ') ? <PhysicalArchivesPage initialArchiveId={url.searchParams.get('archive') ?? undefined} /> : <Notice tone="warning">Cette section exige une habilitation de lecture des archives physiques.</Notice>;
+        if (!demo && section === 'restauration') return canAnywhere(me, 'RESTORATION_READ') ? <RestorationListPage /> : <Notice tone="warning">Cette section exige une habilitation de lecture des interventions de restauration.</Notice>;
         if (!demo && section === 'patrimoine') return can(me, 'HERITAGE_READ', {}) ? <HeritagePage initialAssetId={url.searchParams.get('bien') ?? undefined} /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture du patrimoine.</Notice>;
         if (!demo && section === 'ocr') return can(me, 'DIGITIZATION_READ', {}) ? <OcrListPage /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture de la numérisation.</Notice>;
         if (!demo && section === 'numerisation') return can(me, 'DIGITIZATION_READ', {}) ? <DigitizationPage initialProjectId={url.searchParams.get('project') ?? undefined} initialElementId={url.searchParams.get('element') ?? undefined} /> : <Notice tone="warning">Cette section exige une habilitation nationale de lecture de la numérisation.</Notice>;

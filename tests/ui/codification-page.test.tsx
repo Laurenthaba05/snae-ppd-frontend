@@ -47,12 +47,12 @@ it('sans l’habilitation de gestion, la page le dit, ne lit rien et ne propose 
     expect(screen.queryByRole('button', { name: /modèle/i })).toBeNull();
 });
 
-it('la liste montre les trois objets : le modèle, le mode et un exemple quand il y en a un, « référence libre » sinon', async () => {
+it('la liste montre les quatre objets : le modèle, le mode et un exemple quand il y en a un, « référence libre » sinon', async () => {
     render(<CodificationPage />);
     expect(await screen.findByText('Dossiers du greffe')).toBeTruthy();
     expect(fixture.codification.models).toHaveBeenCalledWith(INSTITUTION, expect.anything());
     const rows = screen.getAllByRole('row').slice(1).map(r => within(r).getAllByRole('cell').map(c => c.textContent));
-    expect(rows.map(r => r[0])).toEqual(['Documents', 'DossiersDossiers du greffe', 'Notices de description']);
+    expect(rows.map(r => r[0])).toEqual(['Documents', 'DossiersDossiers du greffe', 'Notices de description', 'Cotes des archives physiques']);
     expect(rows[0]!.slice(1, 4)).toEqual(['Aucun modèle : la référence est libre', '—', '—']);
     expect(rows[1]!.slice(1, 4)).toEqual(['DOS-AAAA-0001', 'Obligatoire', 'DOS-2026-0042']);
     expect(within(row('Documents')).getByRole('button', { name: 'Définir un modèle pour les documents' })).toBeTruthy();

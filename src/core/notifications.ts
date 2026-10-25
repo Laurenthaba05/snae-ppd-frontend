@@ -28,7 +28,10 @@ export const CATEGORY_LABELS: Record<string, string> = {
     RISK_FOLLOW_UP: 'Risques et plans d’urgence',
     EXIT_TO_EXAMINE: 'Sorties de collection à examiner',
     EXIT_TO_DECIDE: 'Sorties de collection à décider',
-    EXIT_TO_EXECUTE: 'Sorties de collection à exécuter'
+    EXIT_TO_EXECUTE: 'Sorties de collection à exécuter',
+    PHYSICAL_EXIT_TO_AUTHORIZE: 'Sorties d’archives à autoriser',
+    PHYSICAL_EXIT_DECIDED: 'Décisions sur mes sorties d’archives',
+    PHYSICAL_EXIT_TO_HANDLE: 'Archives à remettre'
 };
 export const CATEGORY_HINTS: Record<string, string> = {
     WORKFLOW_TASK: 'Une étape d’un circuit de validation attend une personne de votre rôle.',
@@ -45,7 +48,10 @@ export const CATEGORY_HINTS: Record<string, string> = {
     RISK_FOLLOW_UP: 'Des revues de risques, des mesures ou des plans d’urgence des emplacements de conservation arrivent à échéance ou sont en retard (une fois par jour au plus).',
     EXIT_TO_EXAMINE: 'Une sortie définitive d’un bien a été proposée : son examen juridique revient à une autre personne que celle qui l’a proposée.',
     EXIT_TO_DECIDE: 'Une sortie définitive d’un bien est examinée : la décision revient à une personne qui n’a ni proposé ni examiné la sortie.',
-    EXIT_TO_EXECUTE: 'Une sortie définitive d’un bien est décidée : son exécution revient à une personne autre que celle qui a décidé.'
+    EXIT_TO_EXECUTE: 'Une sortie définitive d’un bien est décidée : son exécution revient à une personne autre que celle qui a décidé.',
+    PHYSICAL_EXIT_TO_AUTHORIZE: 'Une sortie de réserve d’une archive physique de votre périmètre est demandée et attend votre autorisation (une autre personne que le demandeur).',
+    PHYSICAL_EXIT_DECIDED: 'Une sortie d’archive que vous avez demandée est autorisée ou refusée.',
+    PHYSICAL_EXIT_TO_HANDLE: 'Une sortie d’archive est autorisée : le magasin doit la remettre.'
 };
 export const categoryLabel = (category: string): string => CATEGORY_LABELS[category] ?? 'Notification';
 
@@ -60,6 +66,8 @@ export function notificationPath(objectType: string | null, objectId: string | n
     if (objectType === 'DEMANDE_ACCES_PORTAIL') return '/app/portail';
     // la sortie d'un bien se traite dans l'onglet « Sortie de collection » de sa fiche
     if (objectType === 'BIEN_PATRIMONIAL') return `/app/patrimoine?bien=${objectId}`;
+    // la sortie d'une archive physique se traite dans la file des demandes, depuis la fiche de l'archive
+    if (objectType === 'ARCHIVE_PHYSIQUE') return `/app/archives-physiques?archive=${encodeURIComponent(objectId)}`;
     return null;
 }
 

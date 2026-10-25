@@ -43,11 +43,17 @@ test('Une notification mène à l’objet qu’elle désigne, ou nulle part quan
 test('Chaque catégorie a un libellé, une inconnue reste générique', () => {
     // les mêmes catégories que celles que le serveur émet (NotificationCategories.ALL) : une catégorie sans libellé s'afficherait « Notification »
     for (const code of ['WORKFLOW_TASK', 'INTAKE_SUBMITTED', 'INTAKE_DECISION', 'ELIMINATION_SUBMITTED', 'ELIMINATION_DECIDED', 'ELIMINATION_TO_EXECUTE', 'TRANSFER_SUBMITTED',
-        'TRANSFER_RECEIVED', 'TRANSFER_TO_EXECUTE', 'ACCESS_REQUESTED', 'DEADLINE_APPROACHING', 'RISK_FOLLOW_UP', 'EXIT_TO_EXAMINE', 'EXIT_TO_DECIDE', 'EXIT_TO_EXECUTE']) assert.ok(CATEGORY_LABELS[code] && !/^[A-Z_]+$/.test(CATEGORY_LABELS[code]), code);
+        'TRANSFER_RECEIVED', 'TRANSFER_TO_EXECUTE', 'ACCESS_REQUESTED', 'DEADLINE_APPROACHING', 'RISK_FOLLOW_UP', 'EXIT_TO_EXAMINE', 'EXIT_TO_DECIDE', 'EXIT_TO_EXECUTE',
+        'PHYSICAL_EXIT_TO_AUTHORIZE', 'PHYSICAL_EXIT_DECIDED', 'PHYSICAL_EXIT_TO_HANDLE']) assert.ok(CATEGORY_LABELS[code] && !/^[A-Z_]+$/.test(CATEGORY_LABELS[code]), code);
     assert.equal(categoryLabel('NOUVELLE'), 'Notification');
 });
 
 test('La sortie d’un bien se traite depuis sa fiche : la notification y mène', () => {
     assert.equal(notificationPath('BIEN_PATRIMONIAL', '00000000-0000-4000-8000-000000000001'), '/app/patrimoine?bien=00000000-0000-4000-8000-000000000001');
     assert.equal(notificationPath('BIEN_PATRIMONIAL', null), null);
+});
+
+test('La sortie d’une archive physique mène à sa fiche, où se trouvent ses demandes', () => {
+    assert.equal(notificationPath('ARCHIVE_PHYSIQUE', '00000000-0000-4000-8000-000000000002'), '/app/archives-physiques?archive=00000000-0000-4000-8000-000000000002');
+    assert.equal(notificationPath('ARCHIVE_PHYSIQUE', null), null);
 });
