@@ -1,0 +1,30 @@
+1	{n} archive hors métrage (autre unité ou sans quantité)
+2	{n} archives hors métrage (autre unité ou sans quantité)
+3	{n} document, {n} dossier et {n} archive physique
+4	{n} document, {n} dossier et {n} archives physiques
+5	{n} document, {n} dossiers et {n} archive physique
+6	{n} document, {n} dossiers et {n} archives physiques
+7	{n} documents, {n} dossier et {n} archive physique
+8	{n} documents, {n} dossier et {n} archives physiques
+9	{n} documents, {n} dossiers et {n} archive physique
+10	{n} documents, {n} dossiers et {n} archives physiques
+11	{n} unité sans capacité en mètres linéaires
+12	{n} unités sans capacité en mètres linéaires
+13	Aucune unité de rangement ni aucune archive dans ce périmètre.
+14	Ce que le métrage ne dit pas
+15	Chemin du lieu ouvert
+16	Cote :
+17	L’index n’est pas aligné sur la base : certains documents, dossiers ou archives physiques ne sont pas trouvables. Une réindexation le remet à jour.
+18	La liste est limitée aux 200 premières lignes : ouvrez un lieu pour voir le reste.
+19	Les archives physiques n’ont ni mots-clés ni métadonnées : elles ne figurent pas dans une recherche filtrée.
+20	Les mètres linéaires rangés dans chaque lieu (ou chez chaque institution) et le remplissage des unités dont la capacité est en mètres linéaires. Ce qui est compté en autre chose (boîtes, liasses) ou sans quantité n’est jamais converti : il est signalé à part.
+21	Métrage et occupation
+22	Métrage rangé
+23	Par institution
+24	Par lieu
+25	Recherche plein texte sur les documents, les dossiers et les archives physiques, filtrée par vos habilitations et le niveau de confidentialité.
+26	Regroupement du métrage
+27	Remplissage
+28	Rien à mesurer
+29	Tapez une recherche pour explorer les documents, dossiers et archives physiques accessibles dans votre périmètre.
+30	Tous les lieux

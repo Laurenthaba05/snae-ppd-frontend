@@ -1,0 +1,30 @@
+1	{1} archive outside the linear-meter count (other unit or no quantity)
+2	{1} archives outside the linear-meter count (other unit or no quantity)
+3	{1} document, {2} file and {3} physical archive
+4	{1} document, {2} file and {3} physical archives
+5	{1} document, {2} files and {3} physical archive
+6	{1} document, {2} files and {3} physical archives
+7	{1} documents, {2} file and {3} physical archive
+8	{1} documents, {2} file and {3} physical archives
+9	{1} documents, {2} files and {3} physical archive
+10	{1} documents, {2} files and {3} physical archives
+11	{1} unit without a linear-meter capacity
+12	{1} units without a linear-meter capacity
+13	No storage unit or archive in this scope.
+14	What the linear-meter count leaves out
+15	Path of the open location
+16	Call number:
+17	The index is out of sync with the database: some documents, files or physical archives cannot be found. Reindexing brings it up to date.
+18	The list is limited to the first 200 rows: open a location to see the rest.
+19	Physical archives have no keywords or metadata: they are not included in a filtered search.
+20	The linear meters stored in each location (or by each institution) and the fill level of units whose capacity is in linear meters. Anything counted in something else (boxes, bundles) or without a quantity is never converted: it is reported separately.
+21	Linear meterage and occupancy
+22	Meters stored
+23	By institution
+24	By location
+25	Full-text search across documents, files and physical archives, filtered by your permissions and the confidentiality level.
+26	Meterage grouping
+27	Fill level
+28	Nothing to measure
+29	Type a search to explore the documents, files and physical archives accessible within your scope.
+30	All locations
