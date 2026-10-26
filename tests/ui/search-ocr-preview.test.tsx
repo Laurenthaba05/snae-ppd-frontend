@@ -11,7 +11,7 @@ const fixture=vi.hoisted(()=>({ epoch:0,me:null,allowed:new Set<string>(),vocabu
     digitization:{ocrResultsByFile:vi.fn(),ocrLayout:vi.fn()},
     search:{search:vi.fn(),status:vi.fn()},pdf:vi.fn() }));
 vi.mock('../../src/auth/session',()=>({useSession:()=>fixture}));
-vi.mock('../../src/core/policy',()=>({can:(_me:unknown,p:string)=>fixture.allowed.has(p)}));
+vi.mock('../../src/core/policy',()=>({can:(_me:unknown,p:string)=>fixture.allowed.has(p),canAnywhere:(_me:unknown,p:string)=>fixture.allowed.has(p)}));
 vi.mock('../../src/ui/workspace',()=>({useWorkspace:()=>({scope:{}})}));
 vi.mock('pdfjs-dist',()=>({GlobalWorkerOptions:{},getDocument:fixture.pdf}));
 vi.mock('pdfjs-dist/build/pdf.worker.min.mjs?url',()=>({default:'/worker.mjs'}));

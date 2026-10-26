@@ -369,13 +369,15 @@ export interface DispositionReadiness {
     executable: boolean;
     blockers: string[];
 }
-export type SearchTargetType = 'ALL' | 'DOCUMENT' | 'DOSSIER';
+export type SearchTargetType = 'ALL' | 'DOCUMENT' | 'DOSSIER' | 'ARCHIVE_PHYSIQUE';
 export interface SearchHit {
     id: string;
-    type: 'DOCUMENT' | 'DOSSIER';
+    type: 'DOCUMENT' | 'DOSSIER' | 'ARCHIVE_PHYSIQUE';
     titre: string | null;
     description: string | null;
     score: number;
+    /** La cote d'une archive physique (absente pour un document ou un dossier). */
+    reference?: string | null;
 }
 export interface SearchResultPage {
     hasMore: boolean;
@@ -414,11 +416,13 @@ export type SearchReindexState = 'RUNNING' | 'DONE' | 'FAILED' | 'INTERRUPTED';
 export interface SearchReindexReport {
     documents: number;
     dossiers: number;
+    /** Les archives physiques projetées ; absent d'un ancien serveur. */
+    archives?: number;
     failures: number;
     /** Absents d'un bilan synchrone (ancien serveur) : le bilan est alors définitif. */
     id?: string;
     state?: SearchReindexState;
-    phase?: 'DOCUMENTS' | 'DOSSIERS';
+    phase?: 'DOCUMENTS' | 'DOSSIERS' | 'ARCHIVES';
     errorCode?: string | null;
     startedAt?: string;
     finishedAt?: string | null;

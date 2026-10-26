@@ -9,7 +9,7 @@ const fixture = vi.hoisted(() => ({
     vocabulary: null
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
+vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code), canAnywhere: (_me: unknown, code: string) => fixture.allowed.has(code) }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: null, departmentId: null } }) }));
 import { SearchPage } from '../../src/pages/Search';
 

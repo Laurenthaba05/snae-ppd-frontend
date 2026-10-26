@@ -5,20 +5,22 @@ import { useSession } from '../auth/session';
 import { navigate } from '../ui/navigation';
 import { PageHead, Busy, ErrorNotice, Empty, useResource, Notice } from '../ui/components';
 import { Icon } from '../ui/icons';
-import { can } from '../core/policy';
+import { can, canAnywhere } from '../core/policy';
 import { useWorkspace } from '../ui/workspace';
 import { KeywordFilter } from '../ui/Vocabularies';
-import type { SearchReindexReport, SearchStatus, SearchTargetType } from '../core/types';
+import type { SearchHit, SearchReindexReport, SearchStatus, SearchTargetType } from '../core/types';
 
 const statusMessages: Record<string, string> = {
     SEARCH_NOT_CONFIGURED: 'Le moteur de recherche n’est pas activé sur ce serveur : aucune recherche ne peut aboutir.',
     SEARCH_UNAVAILABLE: 'Le moteur de recherche est injoignable : les recherches échoueront tant qu’il ne répond pas.',
     SEARCH_INDEX_MISSING: 'Un index de recherche est absent : redémarrez le serveur pour le recréer, puis réindexez.',
     SEARCH_INDEX_RED: 'Un index de recherche est endommagé : une partie des résultats peut manquer.',
-    SEARCH_INDEX_OUT_OF_SYNC: 'L’index n’est pas aligné sur la base : certains documents ou dossiers ne sont pas trouvables. Une réindexation le remet à jour.',
+    SEARCH_INDEX_OUT_OF_SYNC: 'L’index n’est pas aligné sur la base : certains documents, dossiers ou archives physiques ne sont pas trouvables. Une réindexation le remet à jour.',
     SEARCH_REPLICAS_UNASSIGNED: 'Les copies de sécurité de l’index ne sont pas placées : la recherche fonctionne, mais sans redondance.'
 };
-const indexLabel = (name: string) => name.endsWith('snae-documents') ? 'Documents' : name.endsWith('snae-dossiers') ? 'Dossiers' : name;
+const indexLabel = (name: string) => name.endsWith('snae-documents') ? 'Documents' : name.endsWith('snae-dossiers') ? 'Dossiers' : name.endsWith('snae-archives-physiques') ? 'Archives physiques' : name;
+const HIT_LABELS: Record<SearchHit['type'], string> = { DOCUMENT: 'Document', DOSSIER: 'Dossier', ARCHIVE_PHYSIQUE: 'Archive physique' };
+const hitPath = (h: SearchHit): string => h.type === 'ARCHIVE_PHYSIQUE' ? '/app/archives-physiques?archive=' + encodeURIComponent(h.id) : '/app/' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers') + '/' + h.id;
 
 /** L'état du moteur, affiché seulement quand il appelle une action ; les volumes ne viennent que pour un détenteur de SEARCH_REINDEX. */
 function SearchStatusNotice({ status }: { status: SearchStatus }) {
@@ -37,16 +39,17 @@ const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : 
 
 /** La réindexation : en cours (avancement), terminée (bilan) ou arrêtée (reprise possible). Un ancien serveur rend un bilan sans état : il est définitif. */
 function ReindexNotice({ run, busy, onResume }: { run: SearchReindexReport; busy: boolean; onResume: () => void }) {
-    const counts = `${plural(run.documents, 'document', 'documents')} et ${plural(run.dossiers, 'dossier', 'dossiers')}`;
+    const counts = run.archives === undefined ? `${plural(run.documents, 'document', 'documents')} et ${plural(run.dossiers, 'dossier', 'dossiers')}`
+        : `${plural(run.documents, 'document', 'documents')}, ${plural(run.dossiers, 'dossier', 'dossiers')} et ${plural(run.archives, 'archive physique', 'archives physiques')}`;
     if (run.state === 'RUNNING') {
-        return <Notice tone="info">Réindexation en cours ({run.phase === 'DOSSIERS' ? 'dossiers' : 'documents'}) : {counts} traités{run.failures ? ` ; ${run.failures} en échec` : ''}. Le travail continue sur le serveur, vous pouvez quitter cette page.</Notice>;
+        return <Notice tone="info">Réindexation en cours ({run.phase === 'ARCHIVES' ? 'archives physiques' : run.phase === 'DOSSIERS' ? 'dossiers' : 'documents'}) : {counts} traités{run.failures ? ` ; ${run.failures} en échec` : ''}. Le travail continue sur le serveur, vous pouvez quitter cette page.</Notice>;
     }
     if (run.state === 'FAILED' || run.state === 'INTERRUPTED') {
         const cause = reindexErrors[run.errorCode ?? ''] ?? 'la cause est dans le journal du serveur';
         return <Notice tone="warning">La réindexation s’est arrêtée : {cause}. {counts} sont déjà traités ; la reprise continue là où elle s’est arrêtée.{' '}
             <button type="button" className="btn small secondary" onClick={onResume} disabled={busy}>Reprendre la réindexation</button></Notice>;
     }
-    return <Notice tone={run.failures ? 'warning' : 'info'}>Réindexation terminée : {run.documents} document{run.documents > 1 ? 's' : ''} et {run.dossiers} dossier{run.dossiers > 1 ? 's' : ''} traités{run.failures ? ` ; ${run.failures} en échec (voir le journal du serveur), relancez la réindexation.` : '.'}</Notice>;
+    return <Notice tone={run.failures ? 'warning' : 'info'}>Réindexation terminée : {counts} traités{run.failures ? ` ; ${run.failures} en échec (voir le journal du serveur), relancez la réindexation.` : '.'}</Notice>;
 }
 
 export function SearchPage() {
@@ -66,11 +69,13 @@ export function SearchPage() {
     const [ocrPreview, setOcrPreview] = useState<{ id: string; title: string; query: string } | null>(null);
     const canPreviewOcr = ['DOCUMENT_READ', 'DIGITIZATION_READ', 'FILE_CONTENT_DOWNLOAD'].every(permission => can(me, permission, scope));
     const canReindex = can(me, 'SEARCH_REINDEX', {});
+    // les archives physiques ont leur propre droit de lecture ; elles n'ont ni mots-clés ni métadonnées
+    const canArchives = canAnywhere(me, 'PHYSICALARCHIVES_READ');
     const keywordIds = keywords.map(k => k.id);
     const metadataTermIds = metadataTerms.map(k => k.id);
     // les métadonnées ont leur propre droit de lecture : le filtre par terme de métadonnée ne se propose qu'à qui peut les lire
     const canFilterMetadata = can(me, 'DOCUMENT_METADATA_READ', scope);
-    const q = useResource(s => query ? search!.search(query, type, page, size, s, keywordIds, metadataTermIds) : Promise.resolve({ hits: [], page: 0, size, hasMore: false }), JSON.stringify(['search', query, type, page, keywordIds, metadataTermIds, epoch]));
+    const q = useResource(s => query ? search!.search(query, type, page, size, s, type === 'ARCHIVE_PHYSIQUE' ? [] : keywordIds, type === 'ARCHIVE_PHYSIQUE' ? [] : metadataTermIds) : Promise.resolve({ hits: [], page: 0, size, hasMore: false }), JSON.stringify(['search', query, type, page, keywordIds, metadataTermIds, epoch]));
     // l'état ne bloque jamais la page : en cas d'échec de la sonde, la recherche elle-même dira ce qui ne va pas
     const health = useResource(s => search!.status(s).catch(() => null), 'search-status:' + epoch);
     // la dernière exécution : visible au retour sur la page tant qu'elle tourne ou qu'elle attend une reprise
@@ -100,13 +105,13 @@ export function SearchPage() {
             .finally(() => { setReindexing(false); health.refresh(); });
     };
     const hits = q.data?.hits ?? [];
-    return <><PageHead eyebrow="MODULE · RECHERCHE" title="Recherche" description="Recherche plein texte sur les documents et dossiers, filtrée par vos habilitations et le niveau de confidentialité.">{canReindex && <button className="btn secondary" onClick={() => reindex(false)} disabled={reindexing || running}><Icon name="refresh" size={18}/>{reindexing || running ? 'Réindexation…' : 'Réindexer'}</button>}</PageHead><PersistentDocumentLookup />
+    return <><PageHead eyebrow="MODULE · RECHERCHE" title="Recherche" description="Recherche plein texte sur les documents, les dossiers et les archives physiques, filtrée par vos habilitations et le niveau de confidentialité.">{canReindex && <button className="btn secondary" onClick={() => reindex(false)} disabled={reindexing || running}><Icon name="refresh" size={18}/>{reindexing || running ? 'Réindexation…' : 'Réindexer'}</button>}</PageHead><PersistentDocumentLookup />
         {Boolean(reindexError) && <ErrorNotice error={reindexError}/>}
         {current && <ReindexNotice run={current} busy={reindexing} onResume={() => reindex(true)}/>}
         {health.data && <SearchStatusNotice status={health.data}/>}
-        <div className="panel"><form onSubmit={submit} className="table-toolbar"><div className="input-icon search-box"><Icon name="search"/><input aria-label="Rechercher" placeholder="Titre, référence, contenu…" value={input} onChange={e => setInput(e.target.value)}/></div><div className="toolbar-right"><select aria-label="Type" value={type} onChange={e => { setType(e.target.value as SearchTargetType); setPage(0); }}><option value="ALL">Tous types</option><option value="DOCUMENT">Documents</option><option value="DOSSIER">Dossiers</option></select><button type="submit" className="btn primary small">Rechercher</button></div></form>
-        <div className="panel-padding"><KeywordFilter institutionId={scope.institutionId ?? null} selected={keywords} onChange={next => { setKeywords(next); setPage(0); }} />{canFilterMetadata && <KeywordFilter kind="metadata" institutionId={scope.institutionId ?? null} selected={metadataTerms} onChange={next => { setMetadataTerms(next); setPage(0); }} />}</div>
-        {!query ? <Notice>Tapez une recherche pour explorer les documents et dossiers accessibles dans votre périmètre.</Notice> : q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : hits.length ? <div className="table-scroll"><table><thead><tr><th>Résultat</th><th>Type</th><th>Pertinence</th></tr></thead><tbody>{hits.map(h => <tr key={h.type + h.id}><td><button className="record-name" onClick={() => navigate('/app/' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers') + '/' + h.id)}><span className={'table-avatar ' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers')}><Icon name={h.type === 'DOCUMENT' ? 'document' : 'archive'} size={19}/></span><span><strong>{h.titre ?? 'Sans titre'}</strong>{h.description && <small>{h.description}</small>}</span></button>{h.type === 'DOCUMENT' && canPreviewOcr && <button className="btn small secondary search-ocr-link" onClick={() => setOcrPreview({ id: h.id, title: h.titre ?? 'Sans titre', query })}>Voir le mot dans le PDF</button>}</td><td><span className="tag">{h.type === 'DOCUMENT' ? 'Document' : 'Dossier'}</span></td><td>{h.score.toFixed(2)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun résultat" description="Essayez d’autres mots-clés, ou vérifiez que l’index a été alimenté (réindexation)."/>}
+        <div className="panel"><form onSubmit={submit} className="table-toolbar"><div className="input-icon search-box"><Icon name="search"/><input aria-label="Rechercher" placeholder="Titre, référence, contenu…" value={input} onChange={e => setInput(e.target.value)}/></div><div className="toolbar-right"><select aria-label="Type" value={type} onChange={e => { setType(e.target.value as SearchTargetType); setPage(0); }}><option value="ALL">Tous types</option><option value="DOCUMENT">Documents</option><option value="DOSSIER">Dossiers</option>{canArchives && <option value="ARCHIVE_PHYSIQUE">Archives physiques</option>}</select><button type="submit" className="btn primary small">Rechercher</button></div></form>
+        {type !== 'ARCHIVE_PHYSIQUE' && <div className="panel-padding"><KeywordFilter institutionId={scope.institutionId ?? null} selected={keywords} onChange={next => { setKeywords(next); setPage(0); }} />{canFilterMetadata && <KeywordFilter kind="metadata" institutionId={scope.institutionId ?? null} selected={metadataTerms} onChange={next => { setMetadataTerms(next); setPage(0); }} />}{canArchives && type === 'ALL' && (keywords.length > 0 || metadataTerms.length > 0) && <p className="wf-note">Les archives physiques n’ont ni mots-clés ni métadonnées : elles ne figurent pas dans une recherche filtrée.</p>}</div>}
+        {!query ? <Notice>Tapez une recherche pour explorer les documents, dossiers et archives physiques accessibles dans votre périmètre.</Notice> : q.loading ? <Busy /> : q.error ? <div className="panel-padding"><ErrorNotice error={q.error} onRetry={q.refresh}/></div> : hits.length ? <div className="table-scroll"><table><thead><tr><th>Résultat</th><th>Type</th><th>Pertinence</th></tr></thead><tbody>{hits.map(h => <tr key={h.type + h.id}><td><button className="record-name" onClick={() => navigate(hitPath(h))}><span className={'table-avatar ' + (h.type === 'DOCUMENT' ? 'documents' : 'dossiers')}><Icon name={h.type === 'DOCUMENT' ? 'document' : 'archive'} size={19}/></span><span><strong>{h.titre ?? 'Sans titre'}</strong>{h.reference && <small>Cote : {h.reference}</small>}{h.description && <small>{h.description}</small>}</span></button>{h.type === 'DOCUMENT' && canPreviewOcr && <button className="btn small secondary search-ocr-link" onClick={() => setOcrPreview({ id: h.id, title: h.titre ?? 'Sans titre', query })}>Voir le mot dans le PDF</button>}</td><td><span className="tag">{HIT_LABELS[h.type]}</span></td><td>{h.score.toFixed(2)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun résultat" description="Essayez d’autres mots-clés, ou vérifiez que l’index a été alimenté (réindexation)."/>}
         {query && !q.loading && !q.error && <div className="pagination"><span>{hits.length} résultat{hits.length > 1 ? 's' : ''} sur cette page · page {page + 1}</span><div><button className="btn small secondary" disabled={page === 0} onClick={() => setPage(p => p - 1)}>Précédente</button><button className="btn small secondary" disabled={!q.data?.hasMore} onClick={() => setPage(p => p + 1)}>Suivante</button></div></div>}
         </div>
         {ocrPreview && <SearchOcrPreview key={ocrPreview.id + ocrPreview.query} documentId={ocrPreview.id} title={ocrPreview.title} query={ocrPreview.query} onClose={() => setOcrPreview(null)}/>}

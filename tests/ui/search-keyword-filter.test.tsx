@@ -10,7 +10,7 @@ const fixture = vi.hoisted(() => ({
     vocabulary: { list: vi.fn(), terms: vi.fn() } as { list: ReturnType<typeof vi.fn>; terms: ReturnType<typeof vi.fn> } | null
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
+vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code), canAnywhere: (_me: unknown, code: string) => fixture.allowed.has(code) }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: INST, departmentId: null } }) }));
 import { SearchPage } from '../../src/pages/Search';
 
