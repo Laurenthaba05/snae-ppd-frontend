@@ -19,6 +19,7 @@ import { PhysicalGapsSection } from '../ui/PhysicalGaps';
 import { LabelsButton } from '../ui/PhysicalLabels';
 import { PhysicalInventoryDialog } from '../ui/PhysicalInventory';
 import { ConditionAlertsSection, OccupationCell, ReadingsCell, ReadingsDialog, UnitSettingsDialog } from '../ui/PhysicalConditions';
+import { PhysicalOccupationSection } from '../ui/PhysicalOccupation';
 import { Suggestions } from '../ui/PhysicalSuggestions';
 import { ArchiveExits, ExitQueueSection } from '../ui/PhysicalExit';
 import { EXIT_REQUEST } from '../core/physicalExit';
@@ -470,6 +471,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         <ExitQueueSection />
         <PhysicalGapsSection />
         <ConditionAlertsSection />
+        <PhysicalOccupationSection />
         <div className="panel">
             <div className="section-heading"><h3>Emplacements</h3></div>
             {locationsQ.loading ? <Busy /> : locationsQ.error ? <div className="panel-padding"><ErrorNotice error={locationsQ.error} onRetry={locationsQ.refresh}/></div> : locations.length ? <div className="table-scroll"><table><thead><tr><th>Libellé</th><th>Type</th><th>Code</th><th>Propriétaire</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{renderChildren('', 0)}</tbody></table></div> : <Empty title="Aucun emplacement" description="Créez le premier emplacement de conservation."/>}

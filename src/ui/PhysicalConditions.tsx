@@ -9,7 +9,7 @@ import type { ConditionAlert, Measure, Reading, ReadingForm, SettingsForm } from
 import type { StorageUnit } from '../core/types';
 
 const STATE_BADGE: Record<string, string> = { TROP_BAS: 'AUTRE_EMPLACEMENT', TROP_HAUT: 'INTROUVABLE', CONFORME: 'CONFORME' };
-const FILLING_BADGE: Record<string, string> = { PRESQUE_PLEINE: 'AUTRE_EMPLACEMENT', PLEINE: 'AUTRE_EMPLACEMENT', DEPASSEE: 'INTROUVABLE' };
+export const FILLING_BADGE: Record<string, string> = { PRESQUE_PLEINE: 'AUTRE_EMPLACEMENT', PLEINE: 'AUTRE_EMPLACEMENT', DEPASSEE: 'INTROUVABLE' };
 
 /** Ce qui est rangé dans l'unité par rapport à sa capacité : « 12 / 40 boîtes (30 %) », et un badge quand elle est presque pleine, pleine ou dépassée. */
 export function OccupationCell({ unit }: { unit: StorageUnit }) {

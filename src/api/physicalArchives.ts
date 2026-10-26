@@ -5,6 +5,7 @@ import { query } from '../core/http.js';
 import type { Elimination, EliminationCandidatePage, EliminationSummary } from '../core/physicalElimination.js';
 import { searchParams, type ArchiveFound, type ArchiveSearchCriteria } from '../core/physicalSearch.js';
 import type { ConditionAlert, Reading } from '../core/physicalConditions.js';
+import { params as occupationParams, type OccupationBy, type OccupationReport } from '../core/physicalOccupation.js';
 import type { ExitPage, ExitRequest } from '../core/physicalExit.js';
 import type { EmergencyPlan, Exercise, Hazard, PlanSummary, Risk, RiskSummary, SiteRiskSummary } from '../core/physicalRisk.js';
 import type { Localisation, StorageUnit, PhysicalArchive, ArchiveMovement, RestorationIntervention, RestorationListItem, ArchivePlacement, PlacementEvent, PlacementFilters, PlacementGapPage } from '../core/types.js';
@@ -26,6 +27,11 @@ export class PhysicalArchivesApi {
     findArchives(criteria: ArchiveSearchCriteria, page: number, signal?: AbortSignal): Promise<PageResult<ArchiveFound>> { return this.transport.request('/physical-archives/archives/search' + query(searchParams(criteria, page, SEARCH_PAGE_SIZE)), { signal }); }
     /** Les relevés de température et d'humidité d'une unité, le plus récent d'abord. */
     readings(unitId: string, page: number, signal?: AbortSignal): Promise<PageResult<Reading>> { return this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/readings' + query({ page, size: SEARCH_PAGE_SIZE }), { signal }); }
+    /** Le métrage linéaire et le remplissage, par lieu (parentId ouvre un lieu) ou par institution : calculés par le serveur sur ce que la personne peut lire. */
+    occupation(by: OccupationBy, parentId: string | null, signal?: AbortSignal): Promise<OccupationReport> {
+        const p = occupationParams(by, parentId);
+        return this.transport.request('/physical-archives/occupation' + query({ by: p.by, parentId: p.parentId ? uuid(p.parentId) : null }), { signal });
+    }
     /** Les unités dont le dernier relevé sort des seuils qu'elles se sont fixés. */
     conditionAlerts(page: number, signal?: AbortSignal): Promise<PageResult<ConditionAlert>> { return this.transport.request('/physical-archives/storage-units/condition-alerts' + query({ page, size: SEARCH_PAGE_SIZE }), { signal }); }
     /** Les valeurs déjà employées d'un champ libre, à proposer à la saisie (TYPE_LOCALISATION, TYPE_UNITE, TYPE_MOUVEMENT, SUPPORT, ETAT_PHYSIQUE, UNITE_QUANTITE). */

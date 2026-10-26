@@ -28,6 +28,7 @@ vi.mock('../../src/ui/PhysicalRisk', () => ({ PhysicalRiskSection: () => <div da
 vi.mock('../../src/ui/printHtml', () => ({ printHtml: fixture.print }));
 vi.mock('../../src/ui/PhysicalInventory', () => ({ PhysicalInventoryDialog: ({ unit, archives, onClose }: { unit: { cote: string }; archives: unknown[]; onClose: () => void }) => <div role="dialog" aria-label="Récolement"><span>Récolement de {unit.cote} : {archives.length} archives</span><button type="button" onClick={onClose}>Fermer le récolement</button></div> }));
 vi.mock('../../src/ui/PhysicalGaps', () => ({ PhysicalGapsSection: () => <div data-testid="gaps" /> }));
+vi.mock('../../src/ui/PhysicalOccupation', () => ({ PhysicalOccupationSection: () => <div data-testid="occupation" /> }));
 // La file et les demandes de sortie ont leurs propres tests (physical-exit) : ici, on vérifie seulement la place qu'elles prennent dans la page et dans la fiche.
 vi.mock('../../src/ui/PhysicalExit', () => ({ ExitQueueSection: () => <div data-testid="exit-queue" />, ArchiveExits: ({ canRequest }: { canRequest: boolean }) => <div data-testid="archive-exits">{canRequest ? 'Demander la sortie' : 'Lecture seule'}</div> }));
 // La recherche et la fiche d'emplacement ont leurs propres tests : ici, on vérifie seulement comment la page les accueille.
@@ -75,6 +76,7 @@ it('les emplacements s’affichent en arbre : le parent d’abord, ses enfants e
     expect(screen.getByText('R-B')).toBeTruthy();
     expect(screen.getByTestId('elimination')).toBeTruthy();
     expect(screen.getByTestId('risk')).toBeTruthy();
+    expect(screen.getByTestId('occupation')).toBeTruthy();
 });
 
 it('sans habilitation, aucune action de gestion n’est proposée', async () => {
