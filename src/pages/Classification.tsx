@@ -1,3 +1,4 @@
+import { ClassificationKeywordsButton } from '../ui/ClassificationSuggestions';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useMemo, useState } from 'react';
@@ -70,7 +71,7 @@ function NodeRow({ node, depth, children, canManage, onToggle, pending }: {
         <td>{display(node.typeNoeud)}</td>
         <td>{node.code ?? '—'}</td>
         <td><Badge value={node.statut}/></td>
-        <td>{canManage && <button className="btn small secondary" disabled={pending} onClick={() => onToggle(node)}>{node.statut === 'ACTIF' ? 'Désactiver' : 'Activer'}</button>}</td>
+        <td>{canManage && <ClassificationKeywordsButton id={node.id}/>} {canManage && <button className="btn small secondary" disabled={pending} onClick={() => onToggle(node)}>{node.statut === 'ACTIF' ? 'Désactiver' : 'Activer'}</button>}</td>
     </tr>{children}</>;
 }
 
