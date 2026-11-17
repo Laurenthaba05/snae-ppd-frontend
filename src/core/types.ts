@@ -388,6 +388,8 @@ export interface SearchHit {
     score: number;
     /** La cote d'une archive physique (absente pour un document ou un dossier). */
     reference?: string | null;
+    /** Le document ne répond à la recherche que par un texte reconnu par le moteur, jugé fiable mais pas encore validé par une personne. */
+    texteNonVerifie?: boolean;
 }
 export interface SearchResultPage {
     hasMore: boolean;
@@ -785,6 +787,9 @@ export interface QualityMetrics {
     brightness: number;
     inkRatio: number;
     skewDegrees: number | null;
+    /** Mesures de la version 2, indépendantes de la quantité d'encre : écart entre fond et encre (0 à 255) et netteté des bords de l'encre rapportée à ce contraste. Absentes des analyses anciennes. */
+    inkContrast?: number | null;
+    relativeSharpness?: number | null;
 }
 export interface QualityIssue {
     code: string;
@@ -1561,6 +1566,38 @@ export interface OcrListItem {
     /** Le moteur a donné la position de chaque mot : l'export ALTO est possible. */
     hasLayout?: boolean;
     layoutPages?: number[];
+    /** Préparation de l'image qui a permis la lecture quand la première lecture n'avait rien rendu ; absente : lecture directe. */
+    preparation?: 'median3' | 'median5' | 'blur_threshold' | null;
+    /** Le texte est-il fiable ? Calculé par le serveur avec les seuils courants ; absent des anciens serveurs. */
+    fiabilite?: TextReliability | null;
+    /** Ce texte est-il dans l'index de recherche ? `VALIDE` (validé par une personne), `AUTOMATIQUE` (jugé fiable, indexé avant validation, signalé « non vérifié »), `NON`. */
+    indexation?: 'VALIDE' | 'AUTOMATIQUE' | 'NON';
+}
+export type OcrIndexingMode = 'VALIDATION_SEULE' | 'FIABLE_SIGNALE';
+/** La politique d'indexation du texte reconnu d'une portée (institution, ou niveau national sans identifiant) et la réindexation que son dernier changement a lancée. */
+export interface OcrIndexingPolicy {
+    institutionId: string | null;
+    effective: OcrIndexingMode;
+    source: 'INSTITUTION' | 'NATIONAL' | 'DEFAUT';
+    explicit: OcrIndexingMode | null;
+    version: number | null;
+    updatedAt: string | null;
+    nationalMode: OcrIndexingMode | null;
+    serverDefault: OcrIndexingMode;
+    reprojection: OcrReprojection | null;
+}
+export interface OcrReprojection {
+    state: 'RUNNING' | 'DONE' | 'FAILED';
+    total: number;
+    done: number;
+    failures: number;
+    startedAt: string;
+    finishedAt: string | null;
+}
+export type ReliabilityLevel = 'FIABLE' | 'A_VERIFIER' | 'NON_FIABLE';
+export interface TextReliability {
+    level: ReliabilityLevel;
+    reasons: { code: string; message: string }[];
 }
 /* ---------- Emplacement des archives physiques : habituel, actuel, dernière présence vérifiée ---------- */
 export type PresenceResult = 'PRESENTE' | 'AUTRE_EMPLACEMENT' | 'ABSENTE';

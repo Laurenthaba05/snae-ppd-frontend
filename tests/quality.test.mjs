@@ -41,3 +41,9 @@ test('Explications d’échec de l’analyse', () => {
     assert.equal(qualityErrorText('NOUVEAU_CODE'), 'échec (NOUVEAU_CODE)');
     assert.equal(qualityErrorText(undefined), 'échec sans précision');
 });
+
+test('Mesures de la version 2 : netteté relative et contraste de l’encre remplacent celles de la version 1', () => {
+    const v2 = { ...metrics, inkContrast: 168.4, relativeSharpness: 0.9 };
+    assert.equal(metricsText({ metrics: v2 }), 'netteté relative 0,90 · inclinaison −2,5° · luminosité 232 · contraste de l’encre 168'.replace('−', '-'));
+    assert.equal(metricsText({ metrics: { ...v2, inkContrast: null, relativeSharpness: null } }), 'netteté 126 · inclinaison −2,5° · luminosité 232 · contraste 30'.replace('−', '-'));
+});

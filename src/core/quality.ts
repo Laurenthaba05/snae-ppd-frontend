@@ -42,7 +42,10 @@ export function metricsText(page: Pick<QualityPage, 'metrics'>): string {
     const m = page.metrics;
     if (!m) return '';
     const fr = (value: number, digits = 0) => value.toLocaleString('fr-FR', { minimumFractionDigits: digits, maximumFractionDigits: digits });
-    return ['netteté ' + fr(m.sharpness), m.skewDegrees === null ? null : 'inclinaison ' + fr(m.skewDegrees, 1) + '°', 'luminosité ' + fr(m.brightness), 'contraste ' + fr(m.contrast)].filter(Boolean).join(' · ');
+    // les mesures de la version 2 ne dépendent pas de la quantité d'encre : elles remplacent celles de la version 1 quand elles existent
+    const sharpness = m.relativeSharpness == null ? 'netteté ' + fr(m.sharpness) : 'netteté relative ' + fr(m.relativeSharpness, 2);
+    const contrast = m.inkContrast == null ? 'contraste ' + fr(m.contrast) : 'contraste de l’encre ' + fr(m.inkContrast);
+    return [sharpness, m.skewDegrees === null ? null : 'inclinaison ' + fr(m.skewDegrees, 1) + '°', 'luminosité ' + fr(m.brightness), contrast].filter(Boolean).join(' · ');
 }
 
 const ERRORS: Record<string, string> = {

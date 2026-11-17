@@ -25,7 +25,7 @@ it('superpose les cadres, filtre les mots et affiche leurs coordonnées par sél
     const word=await screen.findByRole('button',{name:'Mot 1 : NAPS2'});
     expect(word.querySelector('rect')?.getAttribute('x')).toBe('20');
     fireEvent.keyDown(word,{key:'Enter'});
-    expect(screen.getByText(/Position : 20, 40/)).toBeTruthy();
+    expect(await screen.findByText(/Position : 20, 40/)).toBeTruthy();
     fireEvent.change(screen.getByRole('textbox',{name:'Rechercher un mot OCR'}),{target:{value:'naps2'}});
     expect(screen.queryByRole('button',{name:'Mot 2 : document'})).toBeNull();
     expect(screen.getByText(/1 mot\(s\) affiché\(s\) sur 2/)).toBeTruthy();
@@ -123,4 +123,23 @@ it('signale une page ciblée hors du PDF et revient à la première page sans ca
     expect(screen.getByText('Page 1 sur 3')).toBeTruthy();
     expect(fixture.page.mock.calls.every(c=>c[0]===1)).toBe(true);
     expect(document.querySelectorAll('.search-match')).toHaveLength(0);
+});
+
+it('conserve le choix manuel après le surlignage initial et le zoom, puis le réinitialise sur une autre page',async()=>{
+    const pdf=blob();
+    render(<DocumentPdfPreview blob={pdf} fileId="file1" searchFocus={{resultId:'ocr1',page:1,query:'NAPS2'}}/>);
+    const initial=await screen.findByRole('button',{name:'Mot 1 : NAPS2'});
+    expect(initial.getAttribute('aria-pressed')).toBe('true');
+    const other=screen.getByRole('button',{name:'Mot 2 : document'});
+    fireEvent.keyDown(other,{key:'Enter'});
+    expect(screen.getByText(/Position : 140, 40/)).toBeTruthy();
+    expect(initial.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.change(screen.getByRole('combobox',{name:'Zoom'}),{target:{value:'2'}});
+    await waitFor(()=>expect((screen.getByRole('img') as HTMLCanvasElement).width).toBe(1200));
+    expect((await screen.findByRole('button',{name:'Mot 2 : document'})).getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByText(/Position : 140, 40/)).toBeTruthy();
+    fireEvent.click(screen.getByRole('button',{name:'Page suivante'}));
+    const next=await screen.findByRole('button',{name:'Mot 1 : Seconde'});
+    expect(next.getAttribute('aria-pressed')).toBe('false');
+    expect(screen.queryByText(/Position : 140, 40/)).toBeNull();
 });

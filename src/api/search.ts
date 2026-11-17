@@ -1,6 +1,6 @@
 import type { Transport } from '../core/http.js';
 import { query } from '../core/http.js';
-import type { SearchReindexReport, SearchReindexStatus, SearchResultPage, SearchStatus, SearchTargetType } from '../core/types.js';
+import type { OcrIndexingPolicy, SearchReindexReport, SearchReindexStatus, SearchResultPage, SearchStatus, SearchTargetType } from '../core/types.js';
 export class SearchApi {
     constructor(readonly transport: Transport) { }
     /**
@@ -19,4 +19,10 @@ export class SearchApi {
     }
     /** La dernière exécution et son avancement (détenteur de SEARCH_REINDEX). */
     reindexStatus(signal?: AbortSignal): Promise<SearchReindexStatus> { return this.transport.request('/search/reindex', { signal }); }
+    /** La politique d'indexation du texte reconnu d'une institution, ou du niveau national sans identifiant (SEARCH_OCR_POLICY_MANAGE ou lecture de la numérisation). */
+    ocrIndexingPolicy(institutionId: string | null, signal?: AbortSignal): Promise<OcrIndexingPolicy> {
+        return this.transport.request('/search/ocr-indexing-policy' + query({ institutionId: institutionId ?? undefined }), { signal });
+    }
+    /** Les décisions de politique passent par la boîte de commande commune : `PUT /search/ocr-indexing-policy`. */
+    command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request('/search' + path, { method, body, idempotencyKey: key }); }
 }

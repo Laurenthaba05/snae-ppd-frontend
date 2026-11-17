@@ -26,7 +26,7 @@ export class DigitizationApi {
     qualityControls(signal?: AbortSignal): Promise<QualityControlListItem[]> { return this.transport.request('/digitization/quality-controls', { signal }); }
     qualityControlsByElement(elementId: string, signal?: AbortSignal): Promise<QualityControl[]> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/quality-controls', { signal }); }
     ocrLayout(id: string, signal?: AbortSignal, page?: number): Promise<OcrLayout> { return this.transport.request('/digitization/ocr-results/' + uuid(id) + '/layout' + query({ page }), { signal }); }
-    ocrResults(signal?: AbortSignal): Promise<OcrListItem[]> { return this.transport.request('/digitization/ocr-results', { signal }); }
+    ocrResults(options: { page?: number; size?: number; q?: string; status?: string; lowConfidence?: boolean } = {}, signal?: AbortSignal): Promise<Page<OcrListItem>> { return this.transport.request('/digitization/ocr-results' + query({ ...options, lowConfidence: options.lowConfidence === undefined ? undefined : String(options.lowConfidence) }), { signal }); }
     /** Le texte reconnu avec la boîte de chaque mot (ALTO 4). Sans numéro, regroupe toutes les pages OCR disponibles ; avec un numéro, exporte cette seule page. */
     ocrAlto(id: string, signal?: AbortSignal, page?: number): Promise<Blob> { return this.transport.request('/digitization/ocr-results/' + uuid(id) + '/alto' + query({ page }), { signal, responseType: 'blob' }); }
     /** État d'ensemble de l'OCR automatique : configuré, moteur présent, file qui avance, pages en échec. */

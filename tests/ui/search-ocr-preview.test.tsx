@@ -104,3 +104,31 @@ it('ne propose pas le raccourci sans droits de consultation du fichier',async()=
     render(<SearchPage/>);await screen.findByRole('button',{name:'Document de recette'});
     expect(screen.queryByRole('button',{name:'Voir le mot dans le PDF'})).toBeNull();
 });
+it('cherche aussi dans un texte non validé quand le résultat n’est « non vérifié » que par lui, et seulement alors',async()=>{
+    fixture.digitization.ocrResultsByFile.mockResolvedValue([{...result,statutValidation:'NON_VALIDE'}]);
+    expect(await resolve('ALPHA')).toBeNull();                                           // par défaut : texte validé seulement
+    const found=await findOcrSearchTarget(fixture.records,fixture.digitization,'d1','ALPHA',new AbortController().signal,true);
+    expect(found?.file.id).toBe('f1');
+});
+it('signale « Texte non vérifié » sur un résultat que seule une lecture automatique fait répondre, et lui seul',async()=>{
+    fixture.search.search.mockResolvedValue({hits:[
+        {id:'d1',type:'DOCUMENT',titre:'Scan lu par le moteur',description:null,score:1,texteNonVerifie:true},
+        {id:'d2',type:'DOCUMENT',titre:'Texte validé',description:null,score:0.9,texteNonVerifie:false}],hasMore:false});
+    render(<SearchPage/>);
+    fireEvent.change(screen.getByRole('textbox',{name:'Rechercher'}),{target:{value:'alpha'}});
+    fireEvent.click(screen.getByRole('button',{name:'Rechercher'}));
+    await screen.findByText('Scan lu par le moteur');
+    expect(screen.getAllByText('Texte non vérifié')).toHaveLength(1);
+    expect(screen.getByText('Texte non vérifié').closest('tr')!.textContent).toContain('Scan lu par le moteur');
+    expect(screen.getByText('Texte validé').closest('tr')!.textContent).not.toContain('Texte non vérifié');
+});
+it('l’aperçu d’un résultat non vérifié lit les pages non validées',async()=>{
+    fixture.digitization.ocrResultsByFile.mockResolvedValue([{...result,statutValidation:'NON_VALIDE'}]);
+    fixture.search.search.mockResolvedValue({hits:[{id:'d1',type:'DOCUMENT',titre:'Scan lu par le moteur',description:null,score:1,texteNonVerifie:true}],hasMore:false});
+    render(<SearchPage/>);
+    fireEvent.change(screen.getByRole('textbox',{name:'Rechercher'}),{target:{value:'ALPHA'}});
+    fireEvent.click(screen.getByRole('button',{name:'Rechercher'}));
+    fireEvent.click(await screen.findByRole('button',{name:'Voir le mot dans le PDF'}));
+    await screen.findByRole('button',{name:'Mot 1 : ALPHA.'});
+    expect(screen.getByText(/Texte non vérifié : ces positions/)).toBeTruthy();   // l'aperçu dit que ce texte n'est pas validé
+});

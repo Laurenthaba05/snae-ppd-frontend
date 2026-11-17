@@ -6,7 +6,7 @@ import { ocrSearchMatcher, type OcrSearchTarget } from '../core/ocrSearch';
  * Stop at the first matching page; closing the dialog aborts the remaining work. */
 export async function findOcrSearchTarget(records: Pick<RecordsApi, 'versions' | 'files'>,
     digitization: Pick<DigitizationApi, 'ocrResultsByFile' | 'ocrLayout'>,
-    documentId: string, query: string, signal: AbortSignal): Promise<OcrSearchTarget | null> {
+    documentId: string, query: string, signal: AbortSignal, includeUnverified = false): Promise<OcrSearchTarget | null> {
     if (!/[\p{L}\p{N}]/u.test(query)) return null;
     const matches = ocrSearchMatcher(query);
     const versions = await records.versions(documentId, signal);
@@ -23,7 +23,7 @@ export async function findOcrSearchTarget(records: Pick<RecordsApi, 'versions' |
     for (const file of files) {
         budget();
         const results = (await digitization.ocrResultsByFile(file.id, signal))
-            .filter(r => r.statutValidation === 'VALIDE' && r.hasLayout && matches(r.texte))
+            .filter(r => (r.statutValidation === 'VALIDE' || includeUnverified) && r.hasLayout && matches(r.texte))
             .sort((a,b) => b.createdAt.localeCompare(a.createdAt) || a.id.localeCompare(b.id));
         for (const result of results) {
             const pages = [...new Set(result.layoutPages ?? [result.numeroPage ?? 1])]
@@ -33,7 +33,7 @@ export async function findOcrSearchTarget(records: Pick<RecordsApi, 'versions' |
                 const layout = await digitization.ocrLayout(result.id, signal, page);
                 signal.throwIfAborted();
                 if (layout.resultId === result.id && (layout.pageNumber ?? 1) === page && layout.words.some(w => matches(w.text)))
-                    return { file, focus: { resultId: result.id, page, query } };
+                    return { file, focus: { resultId: result.id, page, query, ...(result.statutValidation !== 'VALIDE' ? { unverified: true } : {}) } };
             }
         }
     }

@@ -10,7 +10,8 @@ export default function DocumentPdfPreview({ blob, fileId, searchFocus }: { blob
     const [page, setPage] = useState(searchFocus?.page ?? 1);
     const [show, setShow] = useState(true);
     const q = useResource(s => digitization!.ocrResultsByFile(fileId, s), 'preview-ocr:' + fileId + ':' + epoch);
-    const results = (q.data ?? []).filter(r => r.statutValidation === 'VALIDE' && r.hasLayout)
+    // seul le texte validé, sauf le résultat précis que la recherche a retrouvé quand il n'est que « non vérifié »
+    const results = (q.data ?? []).filter(r => (r.statutValidation === 'VALIDE' || (searchFocus?.unverified === true && r.id === searchFocus.resultId)) && r.hasLayout)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.id.localeCompare(b.id));
     const choices = results.filter(r => (r.layoutPages ?? [r.numeroPage ?? 1]).includes(page));
     const [chosen, setChosen] = useState(searchFocus?.resultId ?? '');
@@ -20,14 +21,18 @@ export default function DocumentPdfPreview({ blob, fileId, searchFocus }: { blob
     const layout = show && !positions.loading && !positions.error && positions.data?.resultId === selected?.id
         && (positions.data?.pageNumber ?? 1) === page ? positions.data : null;
     const [filter, setFilter] = useState('');
-    const [wordIndex, setWordIndex] = useState<number | null>(null);
+    const [selection, setSelection] = useState<{ layout: OcrLayout; query: string; index: number | null } | null>(null);
     const query = searchFocus?.query ?? '';
     const matches = useMemo(() => ocrSearchMatcher(query), [query]);
     const matched = useMemo(() => layout?.words.flatMap((w, i) => matches(w.text) ? [i] : []) ?? [], [layout, matches]);
     useEffect(() => { setFilter(''); }, [selected?.id, page]);
-    useEffect(() => { setWordIndex(matched[0] ?? null); }, [matched]);
+    // Derive the initial search selection without a deferred effect that could erase a keyboard click.
+    // A different page/layout or search query gets its own initial selection.
+    const wordIndex = selection?.layout === layout && selection?.query === query ? selection.index : matched[0] ?? null;
+    const setWordIndex = (index: number | null) => { if (layout) setSelection({ layout, query, index }); };
     const word = layout && wordIndex !== null ? layout.words[wordIndex] : null;
     return <section className="document-ocr-preview" aria-label="Aperçu avec positions OCR">
+        {searchFocus?.unverified && <Notice tone="warning">Texte non vérifié : ces positions viennent de la lecture automatique du scan, que personne n’a encore validée.</Notice>}
         {query && <p className="ocr-search-context"><span>Recherche :</span> <strong translate="no">{query}</strong><br/><span>Les mots correspondants sont surlignés en jaune.</span></p>}
         <label className="scan-toggle"><input type="checkbox" checked={show} onChange={e => setShow(e.target.checked)}/>Afficher les positions OCR validées</label>
         {show && q.loading && <Busy label="Recherche des positions OCR…"/>}
