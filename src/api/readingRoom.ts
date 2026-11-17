@@ -29,7 +29,9 @@ export class ReadingRoomApi {
     reservations(institutionId: string, filter: { roomId?: string | null; day?: string | null; readerId?: string | null; status?: string | null }, signal?: AbortSignal): Promise<Reservation[]> {
         return this.transport.request('/reading-room/reservations' + query({ institutionId, roomId: filter.roomId || undefined, day: filter.day || undefined, readerId: filter.readerId || undefined, status: filter.status || undefined }), { signal });
     }
+    reservation(id: string, signal?: AbortSignal): Promise<Reservation> { return this.transport.request('/reading-room/reservations/' + uuid(id), { signal }); }
     reserve(roomId: string, readerId: string, day: string, slot: string, key: string): Promise<Reservation> { return this.command('/reservations', { roomId, readerId, day, slot }, key); }
+    notifyClosure(id: string, key: string): Promise<Reservation> { return this.command('/reservations/' + uuid(id) + '/notify-closure', {}, key); }
     cancelReservation(id: string, reason: string, key: string): Promise<Reservation> { return this.command('/reservations/' + uuid(id) + '/cancel', { reason }, key); }
     markAbsent(id: string, key: string): Promise<Reservation> { return this.command('/reservations/' + uuid(id) + '/absent', {}, key); }
     visits(institutionId: string, filter: { roomId?: string | null; openOnly?: boolean }, signal?: AbortSignal): Promise<Visit[]> {

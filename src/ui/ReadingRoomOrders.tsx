@@ -90,15 +90,15 @@ function NewOrderDialog({ institutionId, onClose, onDone }: { institutionId: str
     </Modal>;
 }
 
-function OrderDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
+export function OrderDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
     const { me, readingRoom, epoch } = useSession();
-    const mayDesk = can(me, 'READING_ROOM_DESK', { institutionId });
     const [revision, setRevision] = useState(0);
     const [reference, setReference] = useState('');
     const [reason, setReason] = useState<'refuse' | 'cancel' | null>(null);
     const action = useAction();
     const q = useResource<Order>(s => readingRoom!.order(id, s), `rr-order:${id}:${revision}:${epoch}`);
     const order = q.data;
+    const mayDesk = can(me, 'READING_ROOM_DESK', { institutionId: order?.summary.institutionId ?? institutionId });
     const actions = order ? orderActions(order) : null;
     const changed = () => { setRevision(n => n + 1); onChanged(); };
     const simple = (name: string, call: (key: string) => Promise<unknown>) => async () => { if (await action.run({ name, id }, call)) changed(); };

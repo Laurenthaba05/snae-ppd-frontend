@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
+import { RoomClosureNotification } from './RoomClosureNotification';
+import { RoomClosureEditor, RoomClosureList, closureLabel, closureProblems } from './RoomClosures';
+import { RoomOpeningEditor, RoomOpeningSummary, defaultRoomOpening, openingProblems, useRoomClockTick } from './RoomOpeningHours';
 import { can } from '../core/policy';
 import { formatDay } from '../core/format';
 import { ReasonPrompt, ReaderPicker, useAction } from './ReadingRoomParts';
 import {
     CARD_LABELS, MAX_CARD_YEARS, PIECE_LABELS, RESERVATION_LABELS, ROOM_LABELS, SLOT_LABELS, addYears, emptyRegistration, occupancyText, pieceText, readerName, registrationBody,
     registrationProblems, reservationProblems, roomProblems, slotFull, todayIso,
-    type DayOccupancy, type Reader, type ReaderDetail, type Reservation, type Room, type Slot, type Visit
+    type RoomClosure, type RoomOpening, type DayOccupancy, type Reader, type ReaderDetail, type Reservation, type Room, type Slot, type Visit
 } from '../core/readingRoom';
 
 /** Le code de style du badge (couleurs existantes) pour l'état de la carte. */
@@ -18,18 +21,20 @@ export function ReadingRoomDesk({ institutionId }: { institutionId: string }) {
     const { me, readingRoom, epoch } = useSession();
     const mayDesk = can(me, 'READING_ROOM_DESK', { institutionId });
     const [roomId, setRoomId] = useState('');
+    const clockTick = useRoomClockTick();
     const [day, setDay] = useState(todayIso());
     const [revision, setRevision] = useState(0);
     const [reserving, setReserving] = useState(false);
     const [walkIn, setWalkIn] = useState(false);
     const [cancelling, setCancelling] = useState<Reservation | null>(null);
+    const [contactReader, setContactReader] = useState<string | null>(null);
     const action = useAction();
     const roomsQ = useResource<Room[]>(s => readingRoom!.rooms(institutionId, s), `rr-rooms:${institutionId}:${revision}:${epoch}`);
     const rooms = roomsQ.data ?? [];
     const room = rooms.find(r => r.id === roomId) ?? rooms[0];
-    const occupancy = useResource<DayOccupancy | null>(s => room ? readingRoom!.occupancy(room.id, day, s) : Promise.resolve(null), `rr-occupancy:${room?.id ?? ''}:${day}:${revision}:${epoch}`);
+    const occupancy = useResource<DayOccupancy | null>(s => room ? readingRoom!.occupancy(room.id, day, s) : Promise.resolve(null), `rr-occupancy:${room?.id ?? ''}:${day}:${revision}:${epoch}:${clockTick}`);
     const visits = useResource<Visit[]>(s => room ? readingRoom!.visits(institutionId, { roomId: room.id, openOnly: true }, s) : Promise.resolve([]), `rr-visits:${institutionId}:${room?.id ?? ''}:${revision}:${epoch}`);
-    const bookings = useResource<Reservation[]>(s => room ? readingRoom!.reservations(institutionId, { roomId: room.id, day }, s) : Promise.resolve([]), `rr-bookings:${institutionId}:${room?.id ?? ''}:${day}:${revision}:${epoch}`);
+    const bookings = useResource<Reservation[]>(s => room ? readingRoom!.reservations(institutionId, { roomId: room.id, day }, s) : Promise.resolve([]), `rr-bookings:${institutionId}:${room?.id ?? ''}:${day}:${revision}:${epoch}:${clockTick}`);
     const refresh = () => setRevision(n => n + 1);
     const isToday = day === todayIso();
 
@@ -43,8 +48,8 @@ export function ReadingRoomDesk({ institutionId }: { institutionId: string }) {
     return <div className="panel reading-room-desk" aria-label="Accueil de la salle de lecture" role="region">
         <div className="section-heading"><h3>Accueil</h3>
             {mayDesk && <span className="table-actions">
-                <button type="button" className="btn small secondary" onClick={() => setWalkIn(true)} disabled={room.status !== 'OUVERTE'}>Arrivée sans réservation</button>
-                <button type="button" className="btn small primary" onClick={() => setReserving(true)} disabled={room.status !== 'OUVERTE'}>Nouvelle réservation</button>
+                <button type="button" className="btn small secondary" onClick={() => setWalkIn(true)} disabled={room.status !== 'OUVERTE' || !occupancy.data?.arrivalSlots?.length || occupancy.loading || !!occupancy.error}>Arrivée sans réservation</button>
+                <button type="button" className="btn small primary" onClick={() => setReserving(true)} disabled={room.status !== 'OUVERTE' || !room.openingSchedule?.length}>Nouvelle réservation</button>
             </span>}
         </div>
         <div className="form-grid panel-padding">
@@ -53,7 +58,12 @@ export function ReadingRoomDesk({ institutionId }: { institutionId: string }) {
         </div>
         <div className="panel-padding">
             {room.status === 'FERMEE' && <Notice tone="warning">Cette salle est fermée : aucune nouvelle réservation ni arrivée.</Notice>}
-            {room.hours && <p><small>Horaires : {room.hours}</small></p>}
+            <p><RoomOpeningSummary value={room.openingSchedule} /></p>
+            <RoomClosureList value={room.closures} />
+            {occupancy.data?.closure && <Notice tone="warning">{closureLabel(occupancy.data.closure)}. Réservations et arrivées bloquées pour cette date. Les réservations existantes restent à traiter.</Notice>}
+            {room.hours && <p><small>Précisions : {room.hours}</small></p>}
+            {room.status === 'OUVERTE' && occupancy.data && !occupancy.data.arrivalSlots?.length && <Notice tone="warning">{occupancy.data.arrivalClosure ? `${closureLabel(occupancy.data.arrivalClosure)}. Arrivées bloquées aujourd’hui.` : 'Arrivées fermées à cette heure. Choisissez un créneau ouvert pour une réservation à venir.'}</Notice>}
+            {!!occupancy.error && <ErrorNotice error={occupancy.error} onRetry={occupancy.refresh} />}
             {occupancy.data && <p><strong>{formatDay(occupancy.data.day)}</strong> — {occupancyText(occupancy.data)} <small>(capacité {occupancy.data.capacity} places)</small></p>}
             {action.error ? <ErrorNotice error={action.error} /> : null}
         </div>
@@ -69,17 +79,20 @@ export function ReadingRoomDesk({ institutionId }: { institutionId: string }) {
         <h4 className="panel-padding">Réservations du {formatDay(day)}</h4>
         {bookings.loading && !bookings.data ? <Busy /> : bookings.error ? <ErrorNotice error={bookings.error} onRetry={bookings.refresh} />
             : (bookings.data ?? []).length === 0 ? <Empty title="Aucune réservation ce jour" icon="archive" />
-                : <div className="table-scroll"><table><thead><tr><th>Lecteur</th><th>Créneau</th><th>État</th><th><span className="sr-only">Actions</span></th></tr></thead>
+                : <div className="table-scroll"><table><thead><tr><th>Lecteur</th><th>Créneau</th><th>État</th><th>Alerte lecteur</th><th><span className="sr-only">Actions</span></th></tr></thead>
                     <tbody>{(bookings.data ?? []).map(r => <tr key={r.id}>
                         <td><strong>{r.readerName}</strong><small className="cell-sub">{r.readerNumber}</small></td>
                         <td>{SLOT_LABELS[r.slot]}</td>
                         <td><Badge value={r.status} label={RESERVATION_LABELS[r.status]} />{r.cancellationReason && <small className="cell-sub">{r.cancellationReason}</small>}</td>
+                        <td><RoomClosureNotification notice={r.closureNotification} mayDesk={mayDesk} busy={action.busy}
+                            onContact={() => setContactReader(r.readerId)} onRetry={async () => { if (await action.run({ closureNotice: r.id }, key => readingRoom!.notifyClosure(r.id, key))) refresh(); }} /></td>
                         <td className="table-actions">{mayDesk && r.status === 'RESERVEE' && <>
-                            {isToday && <button type="button" className="btn small primary" disabled={action.busy} onClick={() => arrive(r)}>Arrivée</button>}
+                            {isToday && <button type="button" className="btn small primary" disabled={action.busy || occupancy.loading || !!occupancy.error || !occupancy.data?.arrivalSlots?.includes(r.slot)} onClick={() => arrive(r)}>Arrivée</button>}
                             {day <= todayIso() && <button type="button" className="btn small secondary" disabled={action.busy} onClick={() => absent(r)}>Non honorée</button>}
                             <button type="button" className="btn small secondary" disabled={action.busy} onClick={() => setCancelling(r)}>Annuler</button>
                         </>}</td>
                     </tr>)}</tbody></table></div>}
+        {contactReader && <ReaderDialog id={contactReader} institutionId={institutionId} onClose={() => setContactReader(null)} onChanged={refresh} />}
         {reserving && <ReserveDialog institutionId={institutionId} rooms={rooms} initialRoomId={room.id} initialDay={day} onClose={() => setReserving(false)} onDone={() => { setReserving(false); refresh(); }} />}
         {walkIn && <WalkInDialog institutionId={institutionId} room={room} onClose={() => setWalkIn(false)} onDone={() => { setWalkIn(false); refresh(); }} />}
         {cancelling && <ReasonPrompt title="Annuler la réservation" subtitle={`${cancelling.readerName} — ${formatDay(cancelling.day)}, ${SLOT_LABELS[cancelling.slot].toLowerCase()}`}
@@ -93,52 +106,65 @@ function ReserveDialog({ institutionId, rooms, initialRoomId, initialDay, onClos
 }) {
     const { readingRoom, epoch } = useSession();
     const [roomId, setRoomId] = useState(initialRoomId);
+    const clockTick = useRoomClockTick();
     const [readerId, setReaderId] = useState('');
     const [day, setDay] = useState(initialDay < todayIso() ? todayIso() : initialDay);
     const [slot, setSlot] = useState<Slot>('JOURNEE');
     const [attempted, setAttempted] = useState(false);
     const action = useAction();
-    const occupancy = useResource<DayOccupancy | null>(s => roomId && day ? readingRoom!.occupancy(roomId, day, s) : Promise.resolve(null), `rr-reserve-occupancy:${roomId}:${day}:${epoch}`);
+    const occupancy = useResource<DayOccupancy | null>(s => roomId && day ? readingRoom!.occupancy(roomId, day, s) : Promise.resolve(null), `rr-reserve-occupancy:${roomId}:${day}:${epoch}:${clockTick}`);
+    const available = occupancy.data?.day === day && occupancy.data.roomId === roomId ? occupancy.data.availableSlots ?? [] : [];
     const problems = reservationProblems(roomId, readerId, day, slot);
+    if (!available.some(item => item.slot === slot)) problems.push('Ce jour ou créneau est fermé ou déjà terminé (heure de Conakry).');
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (problems.length) { setAttempted(true); return; }
+        if (problems.length || occupancy.loading || occupancy.error) { setAttempted(true); return; }
         if (await action.run({ roomId, readerId, day, slot }, key => readingRoom!.reserve(roomId, readerId, day, slot, key))) onDone();
     };
-    return <Modal title="Nouvelle réservation" subtitle="Une place par créneau, dans la limite de la capacité" onClose={onClose} locked={action.busy}>
+    return <Modal title="Nouvelle réservation" subtitle="Une place par créneau ouvert, en heure de Conakry, dans la limite de la capacité" onClose={onClose} locked={action.busy}>
         <form onSubmit={submit}>
             <div className="form-grid">
                 <Field label="Salle *"><select value={roomId} onChange={e => setRoomId(e.target.value)} disabled={action.busy}>{rooms.filter(r => r.status === 'OUVERTE').map(r => <option key={r.id} value={r.id}>{r.name}</option>)}</select></Field>
                 <Field label="Jour *"><input type="date" value={day} min={todayIso()} onChange={e => setDay(e.target.value)} disabled={action.busy} /></Field>
                 <Field label="Créneau *" hint={occupancy.data ? occupancyText(occupancy.data) : undefined}>
                     <select value={slot} onChange={e => setSlot(e.target.value as Slot)} disabled={action.busy}>
-                        {(Object.keys(SLOT_LABELS) as Slot[]).map(s => <option key={s} value={s} disabled={slotFull(occupancy.data, s)}>{SLOT_LABELS[s]}{slotFull(occupancy.data, s) ? ' (complet)' : ''}</option>)}
+                        {(Object.keys(SLOT_LABELS) as Slot[]).map(s => {
+                            const range = available.find(item => item.slot === s);
+                            return <option key={s} value={s} disabled={!range || slotFull(occupancy.data, s)}>{SLOT_LABELS[s]}{range ? ` (${range.startsAt}–${range.endsAt})` : ' (fermé)'}{slotFull(occupancy.data, s) ? ' (complet)' : ''}</option>;
+                        })}
                     </select></Field>
                 <ReaderPicker institutionId={institutionId} value={readerId} onChange={id => setReaderId(id)} disabled={action.busy} />
             </div>
             {attempted && problems.length > 0 && <Notice tone="warning">{problems.join(' ')}</Notice>}
             {action.error ? <ErrorNotice error={action.error} /> : null}
+            {!!occupancy.error && <ErrorNotice error={occupancy.error} onRetry={occupancy.refresh} />}
+            {!occupancy.loading && !occupancy.error && available.length === 0 && <Notice tone="warning">Aucun créneau ouvert pour ce jour. {occupancy.data?.closure ? closureLabel(occupancy.data.closure) + '. ' : ''}Choisissez une autre date.</Notice>}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={action.busy}>Fermer</button>
-                <button type="submit" className="btn primary" disabled={action.busy}>Réserver</button></footer>
+                <button type="submit" className="btn primary" disabled={action.busy || occupancy.loading || !!occupancy.error || !available.some(item => item.slot === slot) || slotFull(occupancy.data, slot)}>Réserver</button></footer>
         </form>
     </Modal>;
 }
 
 function WalkInDialog({ institutionId, room, onClose, onDone }: { institutionId: string; room: Room; onClose: () => void; onDone: () => void }) {
     const { readingRoom } = useSession();
+    const clockTick = useRoomClockTick();
+    const availability = useResource<DayOccupancy>(s => readingRoom!.occupancy(room.id, todayIso(), s), `rr-arrival:${room.id}:${clockTick}`);
+    const mayArrive = !availability.loading && !availability.error && !!availability.data?.arrivalSlots?.length;
     const [readerId, setReaderId] = useState('');
     const action = useAction();
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (!readerId) return;
+        if (!readerId || !mayArrive) return;
         if (await action.run({ roomId: room.id, readerId }, key => readingRoom!.checkIn(room.id, readerId, null, key))) onDone();
     };
     return <Modal title="Arrivée sans réservation" subtitle={`${room.name} — dans la limite des places libres`} onClose={onClose} locked={action.busy}>
         <form onSubmit={submit}>
             <ReaderPicker institutionId={institutionId} value={readerId} onChange={id => setReaderId(id)} disabled={action.busy} />
+            {availability.data?.arrivalClosure && <Notice tone="warning">{closureLabel(availability.data.arrivalClosure)}. Arrivées bloquées.</Notice>}
+            {!!availability.error && <ErrorNotice error={availability.error} onRetry={availability.refresh} />}
             {action.error ? <ErrorNotice error={action.error} /> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={action.busy}>Fermer</button>
-                <button type="submit" className="btn primary" disabled={action.busy || !readerId}>Enregistrer l’arrivée</button></footer>
+                <button type="submit" className="btn primary" disabled={action.busy || !readerId || !mayArrive}>Enregistrer l’arrivée</button></footer>
         </form>
     </Modal>;
 }
@@ -324,7 +350,7 @@ export function ReadingRoomRooms({ institutionId }: { institutionId: string }) {
                     <tbody>{list.map(r => <tr key={r.id}>
                         <td><strong>{r.name}</strong><small className="cell-sub">{r.code}</small></td>
                         <td>{r.capacity} places</td>
-                        <td>{r.hours ?? '—'}</td>
+                        <td><RoomOpeningSummary value={r.openingSchedule} /><RoomClosureList value={r.closures} />{r.hours && <small className="cell-sub">{r.hours}</small>}</td>
                         <td><Badge value={r.status} label={ROOM_LABELS[r.status]} /></td>
                         <td className="table-actions">{mayManage && <>
                             <button type="button" className="btn small secondary" onClick={() => setEditing(r)}>Modifier</button>
@@ -341,14 +367,16 @@ function RoomDialog({ room, institutionId, onClose, onDone }: { room: Room | nul
     const [name, setName] = useState(room?.name ?? '');
     const [capacity, setCapacity] = useState(room ? String(room.capacity) : '');
     const [hours, setHours] = useState(room?.hours ?? '');
+    const [closures, setClosures] = useState<RoomClosure[]>(room?.closures ?? []);
+    const [openingSchedule, setOpeningSchedule] = useState<RoomOpening[]>(room ? room.openingSchedule ?? [] : defaultRoomOpening());
     const [attempted, setAttempted] = useState(false);
     const action = useAction();
-    const problems = roomProblems(code, name, capacity, !room);
+    const problems = [...roomProblems(code, name, capacity, !room), ...openingProblems(openingSchedule), ...closureProblems(closures)];
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
         if (problems.length) { setAttempted(true); return; }
-        const body = { institutionId, code: code.trim(), name: name.trim(), capacity: Number(capacity), hours: hours.trim() || null };
-        const done = await action.run(body, key => room ? readingRoom!.updateRoom(room.id, { name: body.name, capacity: body.capacity, hours: body.hours }, key) : readingRoom!.createRoom(body, key));
+        const body = { institutionId, code: code.trim(), name: name.trim(), capacity: Number(capacity), hours: hours.trim() || null, openingSchedule, closures };
+        const done = await action.run(body, key => room ? readingRoom!.updateRoom(room.id, { name: body.name, capacity: body.capacity, hours: body.hours, openingSchedule: body.openingSchedule, closures: body.closures }, key) : readingRoom!.createRoom(body, key));
         if (done) onDone();
     };
     return <Modal title={room ? 'Modifier la salle' : 'Nouvelle salle'} onClose={onClose} locked={action.busy}>
@@ -357,8 +385,10 @@ function RoomDialog({ room, institutionId, onClose, onDone }: { room: Room | nul
                 {!room && <Field label="Code *" hint="Court et stable : SALLE-1."><input value={code} onChange={e => setCode(e.target.value)} maxLength={40} disabled={action.busy} /></Field>}
                 <Field label="Nom *"><input value={name} onChange={e => setName(e.target.value)} maxLength={200} disabled={action.busy} /></Field>
                 <Field label="Capacité (places) *"><input inputMode="numeric" value={capacity} onChange={e => setCapacity(e.target.value)} disabled={action.busy} /></Field>
-                <Field label="Horaires" wide><input value={hours} onChange={e => setHours(e.target.value)} maxLength={500} disabled={action.busy} /></Field>
+                <Field label="Précisions sur les horaires" wide><input value={hours} onChange={e => setHours(e.target.value)} maxLength={500} disabled={action.busy} /></Field>
             </div>
+            <RoomOpeningEditor value={openingSchedule} onChange={setOpeningSchedule} disabled={action.busy} />
+            <RoomClosureEditor value={closures} onChange={setClosures} disabled={action.busy} />
             {attempted && problems.length > 0 && <Notice tone="warning"><ul>{problems.map(p => <li key={p}>{p}</li>)}</ul></Notice>}
             {action.error ? <ErrorNotice error={action.error} /> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={action.busy}>Fermer</button>

@@ -113,9 +113,8 @@ function NewSlipDialog({ institutionId, onClose, onDone }: { institutionId: stri
     </Modal>;
 }
 
-function SlipDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
+export function SlipDialog({ id, institutionId, onClose, onChanged }: { id: string; institutionId: string; onClose: () => void; onChanged: () => void }) {
     const { me, readingRoom, epoch } = useSession();
-    const mayDesk = can(me, 'READING_ROOM_DESK', { institutionId });
     const [revision, setRevision] = useState(0);
     const [refusing, setRefusing] = useState<SlipLine | null>(null);
     const [cancelling, setCancelling] = useState(false);
@@ -124,6 +123,7 @@ function SlipDialog({ id, institutionId, onClose, onChanged }: { id: string; ins
     const action = useAction();
     const q = useResource<Slip>(s => readingRoom!.slip(id, s), `rr-slip:${id}:${revision}:${epoch}`);
     const slip = q.data;
+    const mayDesk = can(me, 'READING_ROOM_DESK', { institutionId: slip?.summary.institutionId ?? institutionId });
     const changed = () => { setRevision(n => n + 1); onChanged(); };
     const actions = slip ? slipActions(slip) : null;
     const prepare = async (line: SlipLine) => { if (await action.run({ prepare: line.id }, key => readingRoom!.prepareSlipLine(id, line.id, key))) changed(); };

@@ -9,7 +9,7 @@ const fixture = vi.hoisted(() => ({
     readingRoom: {
         rooms: vi.fn(), occupancy: vi.fn(), createRoom: vi.fn(), updateRoom: vi.fn(), openRoom: vi.fn(), closeRoom: vi.fn(), readers: vi.fn(), reader: vi.fn(), register: vi.fn(),
         updateReader: vi.fn(), renewCard: vi.fn(), suspendReader: vi.fn(), reinstateReader: vi.fn(), reservations: vi.fn(), reserve: vi.fn(), cancelReservation: vi.fn(),
-        markAbsent: vi.fn(), visits: vi.fn(), checkIn: vi.fn(), checkOut: vi.fn(), slips: vi.fn(), slip: vi.fn(), createSlip: vi.fn(), prepareSlipLine: vi.fn(), refuseSlipLine: vi.fn(),
+        notifyClosure: vi.fn(), markAbsent: vi.fn(), visits: vi.fn(), checkIn: vi.fn(), checkOut: vi.fn(), slips: vi.fn(), slip: vi.fn(), createSlip: vi.fn(), prepareSlipLine: vi.fn(), refuseSlipLine: vi.fn(),
         deliverSlip: vi.fn(), returnSlipLine: vi.fn(), cancelSlip: vi.fn(), tariffs: vi.fn(), createTariff: vi.fn(), retireTariff: vi.fn(), orders: vi.fn(), order: vi.fn(),
         createOrder: vi.fn(), acceptOrder: vi.fn(), refuseOrder: vi.fn(), recordPayment: vi.fn(), completeOrder: vi.fn(), deliverOrder: vi.fn(), cancelOrder: vi.fn(),
         statistics: vi.fn(), statisticsCsv: vi.fn()
@@ -18,13 +18,14 @@ const fixture = vi.hoisted(() => ({
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
+import { defaultRoomOpening } from '../../src/ui/RoomOpeningHours';
 import { ReadingRoomDesk, ReadingRoomReaders, ReadingRoomRooms } from '../../src/ui/ReadingRoom';
 import { ReadingRoomSlips } from '../../src/ui/ReadingRoomSlips';
 import { ReadingRoomOrders } from '../../src/ui/ReadingRoomOrders';
 import { ReadingRoomStatistics } from '../../src/ui/ReadingRoomStatistics';
 
 const today = new Date().toISOString().slice(0, 10);
-const room = (over: Partial<Room> = {}): Room => ({ id: 'room-1', institutionId: INST, code: 'SALLE-1', name: 'Salle principale', capacity: 3, hours: '8 h – 16 h', status: 'OUVERTE', createdAt: '2026-10-01T08:00:00Z', ...over });
+const room = (over: Partial<Room> = {}): Room => ({ id: 'room-1', institutionId: INST, code: 'SALLE-1', name: 'Salle principale', capacity: 3, hours: '8 h – 16 h', openingSchedule: defaultRoomOpening(), status: 'OUVERTE', createdAt: '2026-10-01T08:00:00Z', ...over });
 const reader = (over: Partial<Reader> = {}): Reader => ({
     id: 'reader-1', institutionId: INST, number: 'LS-2026-000001', lastName: 'Diallo', firstName: 'Mariama', birthDate: null, address: null, phone: null, email: null, organization: null,
     researchTopic: 'Histoire des quartiers de Conakry', pieceType: 'PASSEPORT', pieceEnd: '6789', regulationVersion: 'RI-2026', regulationAcceptedOn: '2026-10-01', cardValidUntil: '2027-10-01',
@@ -65,7 +66,7 @@ beforeEach(() => {
     for (const fn of [...Object.values(fixture.readingRoom), fixture.physicalArchives.searchArchives]) fn.mockReset();
     fixture.physicalArchives.searchArchives.mockResolvedValue({ items: [], page: 0, size: 20, hasMore: false });
     fixture.readingRoom.rooms.mockResolvedValue([room()]);
-    fixture.readingRoom.occupancy.mockResolvedValue({ roomId: 'room-1', day: today, capacity: 3, morning: 1, afternoon: 0, present: 1 });
+    fixture.readingRoom.occupancy.mockResolvedValue({ roomId: 'room-1', day: today, capacity: 3, morning: 1, afternoon: 0, present: 1, arrivalSlots: ['MATIN', 'APRES_MIDI', 'JOURNEE'], availableSlots: [{slot:'MATIN',startsAt:'08:00',endsAt:'12:00'},{slot:'APRES_MIDI',startsAt:'12:00',endsAt:'17:00'},{slot:'JOURNEE',startsAt:'08:00',endsAt:'17:00'}], scheduleConfigured: true });
     fixture.readingRoom.visits.mockResolvedValue([]);
     fixture.readingRoom.reservations.mockResolvedValue([]);
     fixture.readingRoom.readers.mockResolvedValue([]);
@@ -328,5 +329,97 @@ it('les salles se créent avec nom et capacité, et se ferment', async () => {
     fireEvent.change(within(dialog).getByLabelText(/^Capacité/), { target: { value: '12' } });
     fireEvent.click(within(dialog).getByRole('button', { name: 'Enregistrer' }));
     await waitFor(() => expect(fixture.readingRoom.createRoom).toHaveBeenCalledWith(
-        { institutionId: INST, code: 'SALLE-2', name: 'Salle des fonds anciens', capacity: 12, hours: null }, expect.any(String)));
+        { institutionId: INST, code: 'SALLE-2', name: 'Salle des fonds anciens', capacity: 12, hours: null, openingSchedule: defaultRoomOpening(), closures: [] }, expect.any(String)));
+});
+
+it('bloque les arrivees hors horaires sans bloquer le depart', async () => {
+    fixture.readingRoom.occupancy.mockResolvedValue({roomId:'room-1',day:today,capacity:3,morning:1,afternoon:0,present:1,arrivalSlots:[],availableSlots:[],scheduleConfigured:true});
+    fixture.readingRoom.visits.mockResolvedValue([visit()]);
+    fixture.readingRoom.reservations.mockResolvedValue([reservation()]);
+    render(<ReadingRoomDesk institutionId={INST}/>);
+    expect((await screen.findByRole('button',{name:'Arrivée sans réservation'}) as HTMLButtonElement).disabled).toBe(true);
+    expect((await screen.findByRole('button',{name:'Arrivée',exact:true}) as HTMLButtonElement).disabled).toBe(true);
+    expect((await screen.findByRole('button',{name:'Enregistrer le départ'}) as HTMLButtonElement).disabled).toBe(false);
+    expect(screen.getByText(/Arrivées fermées à cette heure/)).toBeTruthy();
+});
+
+it('un jour ferme empeche la reservation et explique pourquoi', async () => {
+    fixture.readingRoom.occupancy.mockResolvedValue({roomId:'room-1',day:today,capacity:3,morning:0,afternoon:0,present:0,availableSlots:[],arrivalSlots:[],scheduleConfigured:true});
+    render(<ReadingRoomDesk institutionId={INST}/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Nouvelle réservation'}));
+    const dialog=await screen.findByRole('dialog');
+    expect(await within(dialog).findByText(/Aucun créneau ouvert pour ce jour/)).toBeTruthy();
+    expect((within(dialog).getByRole('button',{name:'Réserver'}) as HTMLButtonElement).disabled).toBe(true);
+    expect(fixture.readingRoom.reserve).not.toHaveBeenCalled();
+});
+
+it('un horaire inverse ne peut pas etre enregistre', async () => {
+    fixture.allowed.add('READING_ROOM_MANAGE');
+    render(<ReadingRoomRooms institutionId={INST}/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Modifier'}));
+    const dialog=await screen.findByRole('dialog');
+    fireEvent.change(within(dialog).getByLabelText('Fermeture lundi'),{target:{value:'07:00'}});
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    expect(await within(dialog).findByText(/heure d’ouverture antérieure/)).toBeTruthy();
+    expect(fixture.readingRoom.updateRoom).not.toHaveBeenCalled();
+});
+
+it('enregistre modifie et retire une fermeture dans la salle avec les dates incluses', async () => {
+    fixture.allowed.add('READING_ROOM_MANAGE');
+    fixture.readingRoom.updateRoom.mockResolvedValue(room());
+    render(<ReadingRoomRooms institutionId={INST}/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Modifier'}));
+    const dialog=await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button',{name:'Ajouter une fermeture'}));
+    fireEvent.change(within(dialog).getByLabelText('Type de fermeture 1'),{target:{value:'FERIE'}});
+    fireEvent.change(within(dialog).getByLabelText('Début de fermeture 1'),{target:{value:'2026-11-17'}});
+    fireEvent.change(within(dialog).getByLabelText('Motif de fermeture 1'),{target:{value:'Jour férié fictif'}});
+    fireEvent.click(within(dialog).getByRole('button',{name:'Ajouter une fermeture'}));
+    fireEvent.click(within(dialog).getByRole('button',{name:'Retirer la fermeture 2'}));
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    await waitFor(()=>expect(fixture.readingRoom.updateRoom).toHaveBeenCalledWith('room-1',expect.objectContaining({closures:[{startsOn:'2026-11-17',endsOn:'2026-11-17',kind:'FERIE',reason:'Jour férié fictif'}]}),expect.any(String)));
+});
+
+it('refuse une fermeture inversee puis des periodes qui se chevauchent', async () => {
+    fixture.allowed.add('READING_ROOM_MANAGE');
+    render(<ReadingRoomRooms institutionId={INST}/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Modifier'}));
+    const dialog=await screen.findByRole('dialog');
+    for(let i=1;i<=2;i++) {
+        fireEvent.click(within(dialog).getByRole('button',{name:'Ajouter une fermeture'}));
+        fireEvent.change(within(dialog).getByLabelText(`Début de fermeture ${i}`),{target:{value:'2026-11-17'}});
+        fireEvent.change(within(dialog).getByLabelText(`Motif de fermeture ${i}`),{target:{value:'Recette fictive'}});
+    }
+    fireEvent.change(within(dialog).getByLabelText('Fin de fermeture 1'),{target:{value:'2026-11-16'}});
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    expect(await within(dialog).findByText(/fin au moins égale au début/)).toBeTruthy();
+    fireEvent.change(within(dialog).getByLabelText('Fin de fermeture 1'),{target:{value:'2026-11-17'}});
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    expect(await within(dialog).findByText(/ne doivent pas se chevaucher/)).toBeTruthy();
+    expect(fixture.readingRoom.updateRoom).not.toHaveBeenCalled();
+});
+
+it.each(['FERIE','EXCEPTIONNELLE'] as const)('affiche le motif %s et bloque reservation et arrivees avec ou sans reservation', async kind => {
+    const closure={startsOn:today,endsOn:today,kind,reason:'Fermeture fictive de recette'};
+    fixture.readingRoom.occupancy.mockResolvedValue({roomId:'room-1',day:today,capacity:3,morning:1,afternoon:0,present:1,availableSlots:[],arrivalSlots:[],closure,arrivalClosure:closure});
+    fixture.readingRoom.reservations.mockResolvedValue([reservation()]);
+    fixture.readingRoom.visits.mockResolvedValue([visit()]);
+    render(<ReadingRoomDesk institutionId={INST}/>);
+    expect((await screen.findByRole('button',{name:'Arrivée sans réservation'}) as HTMLButtonElement).disabled).toBe(true);
+    expect((await screen.findByRole('button',{name:'Arrivée',exact:true}) as HTMLButtonElement).disabled).toBe(true);
+    expect((await screen.findByRole('button',{name:'Enregistrer le départ'}) as HTMLButtonElement).disabled).toBe(false);
+    fireEvent.click(screen.getByRole('button',{name:'Nouvelle réservation'}));
+    const dialog=await screen.findByRole('dialog');
+    expect(await within(dialog).findByText(/Fermeture fictive de recette/)).toBeTruthy();
+    expect((within(dialog).getByRole('button',{name:'Réserver'}) as HTMLButtonElement).disabled).toBe(true);
+    expect(fixture.readingRoom.reserve).not.toHaveBeenCalled();
+    expect(fixture.readingRoom.checkIn).not.toHaveBeenCalled();
+});
+
+it('reprend une alerte en echec depuis la reservation sans doubler les envois', async () => {
+    fixture.readingRoom.reservations.mockResolvedValue([reservation({closureNotification:{state:'ECHEC',recipient:'l***@example.test',sentAt:null}})]);
+    fixture.readingRoom.notifyClosure.mockResolvedValue(reservation());
+    render(<ReadingRoomDesk institutionId={INST}/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Reprendre l’alerte'}));
+    await waitFor(()=>expect(fixture.readingRoom.notifyClosure).toHaveBeenCalledWith('res-1',expect.any(String)));
 });

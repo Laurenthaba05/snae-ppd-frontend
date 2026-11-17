@@ -14,17 +14,21 @@ export type OrderStatus = 'DEMANDEE' | 'ACCEPTEE' | 'REALISEE' | 'LIVREE' | 'REF
 export type TariffUnit = 'PAGE' | 'IMAGE' | 'FICHIER' | 'FEUILLET' | 'LOT';
 export type PieceType = 'CARTE_IDENTITE' | 'PASSEPORT' | 'PERMIS_CONDUIRE' | 'CARTE_PROFESSIONNELLE' | 'AUTRE';
 
-export interface Room { id: string; institutionId: string; code: string; name: string; capacity: number; hours: string | null; status: RoomStatus; createdAt: string }
-export interface DayOccupancy { roomId: string; day: string; capacity: number; morning: number; afternoon: number; present: number }
+export interface RoomOpening { dayOfWeek: number; opensAt: string; closesAt: string }
+export interface RoomClosure { startsOn: string; endsOn: string; kind: 'FERIE' | 'EXCEPTIONNELLE'; reason: string }
+export interface RoomSlot { slot: Slot; startsAt: string; endsAt: string }
+export interface Room { id: string; institutionId: string; code: string; name: string; capacity: number; hours: string | null; status: RoomStatus; createdAt: string; openingSchedule?: RoomOpening[]; timeZone?: string; closures?: RoomClosure[] }
+export interface DayOccupancy { roomId: string; day: string; capacity: number; morning: number; afternoon: number; present: number; availableSlots?: RoomSlot[]; arrivalSlots?: Slot[]; scheduleConfigured?: boolean; serverNow?: string; timeZone?: string; closure?: RoomClosure | null; arrivalClosure?: RoomClosure | null }
 export interface Reader {
     id: string; institutionId: string; number: string; lastName: string; firstName: string; birthDate: string | null; address: string | null; phone: string | null; email: string | null;
     organization: string | null; researchTopic: string; pieceType: PieceType; pieceEnd: string; regulationVersion: string; regulationAcceptedOn: string; cardValidUntil: string;
     status: 'ACTIF' | 'SUSPENDU'; cardState: CardState; suspensionReason: string | null; registeredById: string; registeredAt: string;
 }
 export interface ReaderDetail { reader: Reader; visits: number; reservations: number; slips: number; orders: number; presentRoomId: string | null; presentRoomName: string | null; holding: number }
+export interface ClosureNotification { state: string; recipient: string | null; sentAt: string | null }
 export interface Reservation {
     id: string; roomId: string; roomName: string; readerId: string; readerNumber: string; readerName: string; day: string; slot: Slot; status: ReservationStatus;
-    cancellationReason: string | null; createdAt: string;
+    cancellationReason: string | null; createdAt: string; closureNotification?: ClosureNotification | null;
 }
 export interface Visit {
     id: string; roomId: string; roomName: string; readerId: string; readerNumber: string; readerName: string; reservationId: string | null; arrivedAt: string; leftAt: string | null;
