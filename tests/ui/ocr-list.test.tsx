@@ -193,3 +193,62 @@ it('dit pour chaque texte s’il est dans l’index : validé, jugé fiable et s
     expect(screen.getByText('Pas indexé')).toBeTruthy();
     expect(screen.getAllByText(/^(Indexé|Pas indexé)/)).toHaveLength(3);   // un ancien serveur qui ne dit rien n'affiche rien
 });
+
+it('écarte un texte non validé de l’index avec un motif, une clé d’idempotence, puis recharge la liste', async () => {
+    render(<OcrListPage />);
+    const row = (await screen.findByText('page-1.tif')).closest('tr')!;
+    fireEvent.click(within(row).getByRole('button', { name: 'Écarter' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.change(within(dialog).getByRole('textbox'), { target: { value: 'Texte illisible : bruit de numérisation' } });
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Écarter de l’index' }));
+    await waitFor(() => expect(fixture.digitization.command).toHaveBeenCalledTimes(1));
+    const call = fixture.digitization.command.mock.calls[0]!;
+    expect(call[0]).toBe(`/ocr-results/${ID}11/discard`);
+    expect(call[1]).toEqual({ reason: 'Texte illisible : bruit de numérisation' });
+    expect(typeof call[2]).toBe('string');
+    expect(call[3]).toBe('POST');
+    await waitFor(() => expect(fixture.digitization.ocrResults).toHaveBeenCalledTimes(2));
+    expect(screen.queryByRole('dialog')).toBeNull();
+});
+
+it('un motif trop court est refusé dans la fenêtre, sans rien envoyer au serveur', async () => {
+    render(<OcrListPage />);
+    const row = (await screen.findByText('page-1.tif')).closest('tr')!;
+    fireEvent.click(within(row).getByRole('button', { name: 'Écarter' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.change(within(dialog).getByRole('textbox'), { target: { value: 'trop bref' } });
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Écarter de l’index' }));
+    await within(dialog).findByRole('alert');
+    expect(fixture.digitization.command).not.toHaveBeenCalled();
+    expect(screen.getByRole('dialog')).toBeTruthy();
+});
+
+it('un texte écarté se dit avec son motif, se réintègre, et ne propose plus « Écarter » ; un texte validé ne s’écarte pas', async () => {
+    fixture.digitization.ocrResults.mockResolvedValue(paged([
+        item(1, { indexation: 'ECARTE', ecarteLe: '2026-11-17T09:00:00Z', ecarteMotif: 'Faux : lecture d’une autre page' }),
+        item(2, { statutValidation: 'VALIDE', indexation: 'VALIDE' }),
+        item(3, { indexation: 'NON' })
+    ]));
+    render(<OcrListPage />);
+    const row = (await screen.findByText('page-1.tif')).closest('tr')!;
+    expect(within(row).getByText('Écarté de l’index')).toBeTruthy();
+    expect(within(row).getByText('Motif : Faux : lecture d’une autre page')).toBeTruthy();
+    expect(within(row).queryByRole('button', { name: 'Écarter' })).toBeNull();
+    expect(within(screen.getByText('page-2.tif').closest('tr')!).queryByRole('button', { name: 'Écarter' })).toBeNull();
+    expect(within(screen.getByText('page-3.tif').closest('tr')!).getByRole('button', { name: 'Écarter' })).toBeTruthy();
+    expect(screen.getAllByRole('listitem').map(li => li.textContent)).toContain('1 écarté de l’index');
+    expect(screen.getAllByRole('listitem').map(li => li.textContent)).toContain('1 à vérifier');   // l'écarté n'est plus à vérifier
+    fireEvent.click(within(row).getByRole('button', { name: 'Réintégrer' }));
+    await waitFor(() => expect(fixture.digitization.command).toHaveBeenCalledTimes(1));
+    expect(fixture.digitization.command.mock.calls[0]![0]).toBe(`/ocr-results/${ID}11/restore`);
+    await waitFor(() => expect(fixture.digitization.ocrResults).toHaveBeenCalledTimes(2));
+});
+
+it('sans habilitation de gestion, ni « Écarter » ni « Réintégrer »', async () => {
+    fixture.allowManage = false;
+    fixture.digitization.ocrResults.mockResolvedValue(paged([item(1, { indexation: 'ECARTE', ecarteLe: '2026-11-17T09:00:00Z', ecarteMotif: 'Faux : lecture d’une autre page' }), item(2)]));
+    render(<OcrListPage />);
+    await screen.findByText('page-1.tif');
+    expect(screen.queryByRole('button', { name: 'Écarter' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Réintégrer' })).toBeNull();
+});

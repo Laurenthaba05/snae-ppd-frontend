@@ -1570,8 +1570,11 @@ export interface OcrListItem {
     preparation?: 'median3' | 'median5' | 'blur_threshold' | null;
     /** Le texte est-il fiable ? Calculé par le serveur avec les seuils courants ; absent des anciens serveurs. */
     fiabilite?: TextReliability | null;
-    /** Ce texte est-il dans l'index de recherche ? `VALIDE` (validé par une personne), `AUTOMATIQUE` (jugé fiable, indexé avant validation, signalé « non vérifié »), `NON`. */
-    indexation?: 'VALIDE' | 'AUTOMATIQUE' | 'NON';
+    /** Ce texte est-il dans l'index de recherche ? `VALIDE` (validé par une personne), `AUTOMATIQUE` (jugé fiable, indexé avant validation, signalé « non vérifié »), `NON`, `ECARTE` (une personne l'a écarté de l'index). */
+    indexation?: 'VALIDE' | 'AUTOMATIQUE' | 'NON' | 'ECARTE';
+    /** Date à laquelle une personne a écarté ce texte de l'index, et son motif ; absents : le texte suit la règle ordinaire. */
+    ecarteLe?: string | null;
+    ecarteMotif?: string | null;
 }
 export type OcrIndexingMode = 'VALIDATION_SEULE' | 'FIABLE_SIGNALE';
 /** La politique d'indexation du texte reconnu d'une portée (institution, ou niveau national sans identifiant) et la réindexation que son dernier changement a lancée. */

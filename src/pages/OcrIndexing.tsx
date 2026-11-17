@@ -10,7 +10,8 @@ import { Icon } from '../ui/icons';
 import { OcrLayoutDialog } from '../ui/OcrLayoutDialog';
 import { saveBlob } from '../ui/ReadingRoomParts';
 import { OcrIndexingPolicyPanel } from '../ui/OcrIndexingPolicyPanel';
-import { indexationLabel } from '../core/ocrIndexing';
+import { ReasonDialog } from '../ui/Bordereaux';
+import { DISCARD_REASON_MAX, DISCARD_REASON_MIN, canDiscard, canRestore, discardCommand, indexationLabel } from '../core/ocrIndexing';
 import { RELIABILITY_MEANING, preparationLabel, reliabilityCounts, reliabilityLabel, reliabilityReasons } from '../core/textReliability';
 import type { OcrListItem, Page } from '../core/types';
 
@@ -44,6 +45,7 @@ export function OcrListPage() {
     const { locale, tr } = useLocale();
     const canManage = can(me, 'DIGITIZATION_MANAGE', {});
     const [layoutItem, setLayoutItem] = useState<OcrListItem | null>(null);
+    const [discardItem, setDiscardItem] = useState<OcrListItem | null>(null);
     const [filter, setFilter] = useState('');
     const [status, setStatus] = useState<'' | 'NON_VALIDE' | 'VALIDE'>('');
     const [lowOnly, setLowOnly] = useState(false);
@@ -54,7 +56,8 @@ export function OcrListPage() {
     const items = q.data?.items ?? [];
     const low = (i: OcrListItem) => { const c = confidenceOf(i); return c !== null && c < OCR_CONFIDENCE_THRESHOLD; };
     const rows = items;
-    const toCheck = items.filter(i => i.statutValidation === 'NON_VALIDE').length;
+    const discarded = items.filter(i => i.statutValidation === 'NON_VALIDE' && i.ecarteLe).length;
+    const toCheck = items.filter(i => i.statutValidation === 'NON_VALIDE').length - discarded;
     const counts = reliabilityCounts(items);
     const evaluated = items.length - counts.nonEvalue;
     const confidences = items.map(confidenceOf).filter((c): c is number => c !== null);
@@ -62,6 +65,11 @@ export function OcrListPage() {
     const validate = async (item: OcrListItem) => {
         setBusy(item.id); setError(null);
         try { await digitization!.command(`/ocr-results/${item.id}/validate`, {}, crypto.randomUUID(), 'POST'); q.refresh(); }
+        catch (e) { setError(e); } finally { setBusy(null); }
+    };
+    const restore = async (item: OcrListItem) => {
+        setBusy(item.id); setError(null);
+        try { await digitization!.command(`/ocr-results/${item.id}/restore`, {}, crypto.randomUUID(), 'POST'); q.refresh(); }
         catch (e) { setError(e); } finally { setBusy(null); }
     };
     const exportAlto = async (item: OcrListItem) => {
@@ -85,7 +93,8 @@ export function OcrListPage() {
                 <ul className="scan-chips ocr-chips">
                     <li>{pageSummary(locale, items.length, page + 1)}</li>
                     <li className={toCheck ? 'warn' : 'ok'}>{toCheck} à vérifier</li>
-                    <li className="ok">{items.length - toCheck} {tr(items.length - toCheck > 1 ? 'Validés' : 'Validé')}</li>
+                    <li className="ok">{items.length - toCheck - discarded} {tr(items.length - toCheck - discarded > 1 ? 'Validés' : 'Validé')}</li>
+                    {discarded > 0 && <li>{discarded} {discarded > 1 ? 'écartés de l’index' : 'écarté de l’index'}</li>}
                     <li>Confiance moyenne : {average === null ? '—' : Math.round(average * 100) + ' %'}</li>
                     <li className={items.filter(low).length ? 'warn' : 'ok'}>{items.filter(low).length} sous le seuil de {Math.round(OCR_CONFIDENCE_THRESHOLD * 100)} %</li>
                     {evaluated > 0 && <li className={counts.nonFiable ? 'warn' : 'ok'}>Fiabilité du texte — fiables : {counts.fiable} · à vérifier : {counts.aVerifier} · non fiables : {counts.nonFiable}</li>}
@@ -98,12 +107,16 @@ export function OcrListPage() {
                         <td>{i.projetNom ? <>{i.projetNom}<small className="cell-sub">{i.elementDescription || '—'}</small></> : <span className="cell-sub">Hors projet</span>}</td>
                         <td>{i.moteur ?? i.typeReconnaissance}<small className="cell-sub">{i.moteur ? i.typeReconnaissance : ''}</small></td><td>{i.langue ?? '—'}</td><td>{i.layoutPages?.length ? i.layoutPages.join(', ') : i.numeroPage ?? '—'}</td>
                         <td>{c === null ? '—' : <span className={'ocr-conf ' + (c < OCR_CONFIDENCE_THRESHOLD ? 'low' : 'ok')} title={Math.round(c * 1000) / 10 + ' %'}><i style={{ width: Math.round(c * 100) + '%' }} /><b>{Math.round(c * 100)} %</b></span>}<ReliabilityBadge item={i} /></td>
-                        <td><Badge value={i.statutValidation} />{indexationLabel(i) && <small className={'cell-sub idx-' + (i.indexation ?? '').toLowerCase()}>{indexationLabel(i)}</small>}</td><td>{formatDate(i.createdAt)}</td>
-                        <td><div className="table-actions"><ResourceDetailsButton resource="ocrResult" id={i.id} title={i.fichierNom} label="Lire le texte" />{canManage && i.statutValidation === 'NON_VALIDE' && <button className="btn small primary" disabled={busy === i.id} onClick={() => void validate(i)}>Valider</button>}{i.hasLayout && <button className="btn small secondary" onClick={() => setLayoutItem(i)}>Positions</button>}{i.hasLayout && <button className="btn small secondary" disabled={busy === i.id} onClick={() => void exportAlto(i)} title="Le texte avec la position de chaque mot (ALTO)">ALTO</button>}<button className="btn small secondary" onClick={() => open(i)}>Ouvrir</button></div></td></tr>; })}</tbody></table></div>
+                        <td><Badge value={i.statutValidation} />{indexationLabel(i) && <small className={'cell-sub idx-' + (i.indexation ?? '').toLowerCase()} title={i.ecarteMotif ?? undefined}>{indexationLabel(i)}</small>}{i.ecarteLe && i.ecarteMotif && <small className="cell-sub">Motif : {i.ecarteMotif}</small>}</td><td>{formatDate(i.createdAt)}</td>
+                        <td><div className="table-actions"><ResourceDetailsButton resource="ocrResult" id={i.id} title={i.fichierNom} label="Lire le texte" />{canManage && i.statutValidation === 'NON_VALIDE' && <button className="btn small primary" disabled={busy === i.id} onClick={() => void validate(i)}>Valider</button>}{canManage && canDiscard(i) && <button className="btn small secondary" disabled={busy === i.id} onClick={() => setDiscardItem(i)} title="Ce texte ne figurera plus dans l’index de recherche">Écarter</button>}{canManage && canRestore(i) && <button className="btn small secondary" disabled={busy === i.id} onClick={() => void restore(i)} title="Ce texte suivra de nouveau la règle ordinaire de l’index">Réintégrer</button>}{i.hasLayout && <button className="btn small secondary" onClick={() => setLayoutItem(i)}>Positions</button>}{i.hasLayout && <button className="btn small secondary" disabled={busy === i.id} onClick={() => void exportAlto(i)} title="Le texte avec la position de chaque mot (ALTO)">ALTO</button>}<button className="btn small secondary" onClick={() => open(i)}>Ouvrir</button></div></td></tr>; })}</tbody></table></div>
                     : <Empty title={filter || status || lowOnly ? 'Aucun résultat pour ces filtres' : 'Aucun résultat OCR'} description={filter || status || lowOnly ? 'Modifiez le filtre ou l’état de vérification.' : 'Les textes extraits des fichiers numérisés apparaîtront ici dès qu’un résultat OCR est enregistré sur un fichier.'} />}
                 <Pagination page={page} hasMore={q.data?.hasMore ?? false} count={items.length} onChange={setPage} />
             </>}
         </div>
+        {discardItem && <ReasonDialog title="Écarter ce texte de l’index" subtitle={`${discardItem.fichierNom} · ${discardItem.documentReference}`}
+            hint={`Pourquoi ce texte est-il inutilisable (faux, illisible, hors sujet) ? De ${DISCARD_REASON_MIN} à ${DISCARD_REASON_MAX} caractères. Il ne figurera plus dans la recherche ni dans les propositions de classement ; vous pourrez le réintégrer.`}
+            confirm="Écarter de l’index" onClose={() => setDiscardItem(null)}
+            onSubmit={async (reason, key) => { await digitization!.command(`/ocr-results/${discardItem.id}/discard`, discardCommand(reason), key, 'POST'); q.refresh(); }} />}
         {layoutItem && <OcrLayoutDialog resultId={layoutItem.id} fileName={layoutItem.fichierNom} pageNumber={layoutItem.numeroPage} layoutPages={layoutItem.layoutPages} onClose={() => setLayoutItem(null)} />}
         <p className="page-note"><Icon name="shield"  size={15} />La lecture des positions et du texte reste soumise aux droits d’accès et à la confidentialité de chaque document. Les documents confidentiels ou sous restriction n’apparaissent pas.</p>
         <p className="page-note"><Icon name="info" size={15} />La confiance est un score du moteur : elle ne dit pas si le texte est juste. La fiabilité la croise avec la sûreté de chaque mot, la préparation éventuelle de l’image et la qualité de la page. « Fiable » veut dire que rien ne l’inquiète ; elle est calibrée sur des pages de test et reste à étalonner sur vos scans.</p></>;

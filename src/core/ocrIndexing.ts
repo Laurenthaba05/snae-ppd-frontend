@@ -35,8 +35,24 @@ export function indexationLabel(item: Pick<OcrListItem, 'indexation'>): string {
     if (item.indexation === 'VALIDE') return 'Indexé (validé)';
     if (item.indexation === 'AUTOMATIQUE') return 'Indexé · non vérifié';
     if (item.indexation === 'NON') return 'Pas indexé';
+    if (item.indexation === 'ECARTE') return 'Écarté de l’index';
     return '';
 }
+
+/** Le motif d'un texte écarté de l'index : de 10 à 1 000 caractères, comme l'impose le serveur. */
+export const DISCARD_REASON_MIN = 10;
+export const DISCARD_REASON_MAX = 1000;
+
+/** Le corps de la demande « écarter ce texte de l'index » : le motif, nettoyé, refusé avant tout envoi s'il est trop court ou trop long. */
+export function discardCommand(reason: string): { reason: string } {
+    const motif = text(reason, DISCARD_REASON_MAX) as string;
+    if (motif.length < DISCARD_REASON_MIN) throw new Error(`Le motif doit faire au moins ${DISCARD_REASON_MIN} caractères.`);
+    return { reason: motif };
+}
+
+/** Un texte peut-il être écarté (non validé, pas déjà écarté) ou réintégré (écarté) ? Un texte validé se remplace en en validant un autre. */
+export function canDiscard(item: Pick<OcrListItem, 'statutValidation' | 'ecarteLe'>): boolean { return item.statutValidation === 'NON_VALIDE' && !item.ecarteLe; }
+export function canRestore(item: Pick<OcrListItem, 'statutValidation' | 'ecarteLe'>): boolean { return item.statutValidation === 'NON_VALIDE' && !!item.ecarteLe; }
 
 /** Le corps de la décision de politique : le mode (ou `HERITE` pour une institution), le motif obligatoire, et la version lue pour ne pas écraser un changement concurrent. */
 export function policyCommand(institutionId: string | null, mode: string, motif: string, expectedVersion: number | null): Record<string, unknown> {

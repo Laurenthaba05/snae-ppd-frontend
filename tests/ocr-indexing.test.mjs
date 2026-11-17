@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MODE_EXPLANATION, MODE_LABEL, indexationLabel, modeLabel, policyCommand, sourceLabel } from '../.test-build/ocrIndexing.js';
+import { DISCARD_REASON_MAX, MODE_EXPLANATION, MODE_LABEL, canDiscard, canRestore, discardCommand, indexationLabel, modeLabel, policyCommand, sourceLabel } from '../.test-build/ocrIndexing.js';
 
 // L'indexation du texte reconnu : ce qui est cherchable, signalé « non vérifié », selon la politique de l'institution.
 const INSTITUTION = '20000000-0000-4000-8000-000000000001';
@@ -40,4 +40,23 @@ test('Une décision invalide est refusée avant tout envoi', () => {
     assert.throws(() => policyCommand(INSTITUTION, 'FIABLE_SIGNALE', '   ', null), /Texte requis/);
     assert.throws(() => policyCommand('pas-un-uuid', 'FIABLE_SIGNALE', 'x', null), /UUID/);
     assert.throws(() => policyCommand(INSTITUTION, 'FIABLE_SIGNALE', 'x', -1), /Version/);
+});
+
+test('Un texte écarté de l’index se dit, et seul un texte non validé s’écarte ou se réintègre', () => {
+    assert.equal(indexationLabel({ indexation: 'ECARTE' }), 'Écarté de l’index');
+    assert.equal(canDiscard({ statutValidation: 'NON_VALIDE', ecarteLe: null }), true);
+    assert.equal(canDiscard({ statutValidation: 'NON_VALIDE' }), true);
+    assert.equal(canDiscard({ statutValidation: 'NON_VALIDE', ecarteLe: '2026-11-17T09:00:00Z' }), false);
+    assert.equal(canDiscard({ statutValidation: 'VALIDE', ecarteLe: null }), false);
+    assert.equal(canRestore({ statutValidation: 'NON_VALIDE', ecarteLe: '2026-11-17T09:00:00Z' }), true);
+    assert.equal(canRestore({ statutValidation: 'NON_VALIDE', ecarteLe: null }), false);
+    assert.equal(canRestore({ statutValidation: 'VALIDE', ecarteLe: '2026-11-17T09:00:00Z' }), false);
+});
+
+test('Le motif d’un texte écarté est nettoyé et refusé avant tout envoi s’il est trop court ou trop long', () => {
+    assert.deepEqual(discardCommand('  Texte illisible : bruit de numérisation  '), { reason: 'Texte illisible : bruit de numérisation' });
+    assert.deepEqual(discardCommand('x'.repeat(DISCARD_REASON_MAX)), { reason: 'x'.repeat(DISCARD_REASON_MAX) });
+    assert.throws(() => discardCommand('trop bref'), /au moins 10 caractères/);
+    assert.throws(() => discardCommand('         '), /Texte requis/);
+    assert.throws(() => discardCommand('x'.repeat(DISCARD_REASON_MAX + 1)), /Texte requis/);
 });
