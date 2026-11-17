@@ -4,24 +4,17 @@ import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
-import { EntityName } from '../ui/names';
+import { navigate, usePath } from '../ui/navigation';
+import { EntityName, DocumentName } from '../ui/names';
 import { can } from '../core/policy';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, PageHead, formatDate, useResource } from '../ui/components';
 import { ReferencePicker } from '../ui/ReferencePicker';
 import { AccessRequestsPanel } from '../ui/PortalAdminAccess';
-import type { Communication, ConsultationRequest, Page, RecordDocument } from '../core/types';
+import type { Communication, ConsultationRequest } from '../core/types';
 
-function useDocumentOptions() {
-    const { records } = useSession();
-    const { scope } = useWorkspace();
-    const q = useResource<Page<RecordDocument>>(s => records!.documents({ ...scope, page: 0, size: 100 }, s),
-        JSON.stringify(['consultation-documents', scope]));
-    return q;
-}
-
-function CreateConsultationRequestDialog({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
+export function CreateConsultationRequestDialog({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
     const { consultation } = useSession();
-    const docs = useDocumentOptions();
+    const { scope } = useWorkspace();
     const [documentId, setDocumentId] = useState('');
     const [motif, setMotif] = useState('');
     const [busy, setBusy] = useState(false);
@@ -38,11 +31,7 @@ function CreateConsultationRequestDialog({ onClose, onSuccess }: { onClose: () =
     };
     return <Modal title="Déposer une demande de dérogation" subtitle="Uniquement nécessaire pour un document sous restriction d’accès active." onClose={onClose} locked={busy}>
         <form onSubmit={submit}><div className="form-grid">
-            <Field label="Document *" wide>{docs.loading ? <Busy /> : docs.error ? <ErrorNotice error={docs.error} /> :
-                <select value={documentId} onChange={e => setDocumentId(e.target.value)} required>
-                    <option value="">Choisir un document</option>
-                    {docs.data?.items.map(d => <option key={d.id} value={d.id}>{d.reference} · {d.title}</option>)}
-                </select>}</Field>
+            <Field label="Document *" wide><ArchiveRecordPicker kind="documents" institution={scope.institutionId || ''} department={scope.departmentId} value={documentId || null} onChange={v => setDocumentId(v || '')} disabled={busy} required /></Field>
             <Field label="Motif *" wide hint="Justification de la demande de dérogation."><textarea value={motif} onChange={e => setMotif(e.target.value)} required maxLength={4000} /></Field>
         </div>{Boolean(error) && <ErrorNotice error={error} />}
         <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>{busy ? <span className="spinner" /> : null} Déposer</button></footer></form>
@@ -69,16 +58,22 @@ function RefuseDialog({ onClose, onConfirm }: { onClose: () => void; onConfirm: 
 
 /** Les demandes de dérogation du personnel, et celles des lecteurs du portail pour les documents qu'il n'ouvre pas librement. */
 export function ConsultationsPage() {
-    const [tab, setTab] = useState<'derogations' | 'portail'>('derogations');
-    const tabs: Array<['derogations' | 'portail', string]> = [['derogations', 'Demandes de dérogation'], ['portail', 'Demandes des lecteurs du portail']];
+    const { me } = useSession(); const { scope } = useWorkspace();
+    const path = usePath();
+    const canRead = can(me, 'CONSULTATION_READ', { institutionId: scope.institutionId });
+    const canPortal = can(me, 'CONSULTATION_READ', scope) || can(me, 'CONSULTATION_REVIEW', scope);
+    const selectedTab = new URLSearchParams(path.split('?')[1]).get('tab');
+    const tab = selectedTab === 'portail' || !canRead ? 'portail' : 'derogations';
+    const setTab = (next: 'derogations' | 'portail') => navigate('/app/consultations?tab=' + next);
+    const tabs: Array<readonly ['derogations' | 'portail', string]> = [...(canRead ? [['derogations', 'Demandes de dérogation'] as const] : []), ...(canPortal ? [['portail', 'Demandes des lecteurs du portail'] as const] : [])];
     return <>
         <div role="tablist" className="asset-tabs page-tabs" aria-label="Types de demandes">
             {tabs.map(([key, text]) => <button key={key} role="tab" type="button" aria-selected={tab === key} className={tab === key ? 'active' : ''} onClick={() => setTab(key)}>{text}</button>)}
         </div>
-        {tab === 'derogations' ? <DerogationsPanel /> : <>
+        {tab === 'derogations' && canRead ? <DerogationsPanel /> : canPortal ? <>
             <PageHead eyebrow="ACCÈS" title="Consultations" description="Accès des lecteurs du portail public aux documents que l'institution ne met pas en lecture libre." />
             <AccessRequestsPanel />
-        </>}
+        </> : <Notice>Choisissez un périmètre autorisé pour consulter les demandes.</Notice>}
     </>;
 }
 
@@ -89,7 +84,7 @@ export function ConsultationRequestDetail({ id, onClose }: { id: string; onClose
     return <Modal title="Détail de la demande de dérogation" onClose={onClose} wide><div className="panel-padding">
         {q.loading ? <Busy/> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : request && <dl>
             <dt>Motif de la demande</dt><dd>{request.motif}</dd><dt>Statut</dt><dd><Badge value={request.statut}/></dd>
-            <dt>Document concerné</dt><dd>{request.documentId ?? 'Non renseigné'}</dd>
+            <dt>Document concerné</dt><dd><DocumentName id={request.documentId}/></dd>
             {request.dossierId && <><dt>Dossier concerné</dt><dd>{request.dossierId}</dd></>}
             <dt>Demandeur</dt><dd><EntityName kind="users" id={request.demandeurId}/></dd>
             <dt>Instructeur</dt><dd>{request.instructeurId ? <EntityName kind="users" id={request.instructeurId}/> : 'Non attribué'}</dd>
@@ -129,6 +124,7 @@ function DerogationsPanel() {
         <PageHead eyebrow="ACCÈS" title="Consultations" description="Demandes de dérogation pour les documents sous restriction d’accès active.">
             {canCreate && <button className="btn primary" onClick={() => setCreating(true)}>Déposer une demande</button>}
         </PageHead>
+        <Notice>Pour consulter un dossier, utilisez le registre des communications. Les dérogations portent sur les documents sous restriction.{can(me, 'COMMUNICATION_READ', scope) && <button type="button" className="text-link" onClick={() => navigate('/app/communications')}>Ouvrir les communications</button>}</Notice>
         {!scope.institutionId && <Notice>Périmètre national : cette liste affiche uniquement vos propres demandes. Choisissez une institution pour instruire les demandes déposées auprès d'elle.</Notice>}
         {Boolean(actionError) && <ErrorNotice error={actionError} />}
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : q.data?.length ?

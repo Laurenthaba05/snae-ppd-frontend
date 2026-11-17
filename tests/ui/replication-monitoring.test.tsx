@@ -39,7 +39,7 @@ it('montre la posture, chaque réplica avec son support, son état et ses copies
     }));
     render(<ReplicationMonitoring />);
     expect(await screen.findByText('Hébergement et réplicas')).toBeTruthy();
-    expect(screen.getByText(/la règle 3-2-1 \(trois copies, deux supports, une hors site\) n’est pas atteinte/)).toBeTruthy();
+    expect(await screen.findByText(/la règle 3-2-1 \(trois copies, deux supports, une hors site\) n’est pas atteinte/)).toBeTruthy();
     const row = screen.getAllByText('copie-nationale')[0]!.closest('tr')!;
     expect(within(row).getByText('Centre de données national')).toBeTruthy();
     expect(within(row).getByText('Hors site')).toBeTruthy();

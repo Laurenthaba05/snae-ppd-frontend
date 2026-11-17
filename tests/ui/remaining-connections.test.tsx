@@ -11,7 +11,7 @@ const f = vi.hoisted(() => ({
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => f }));
 vi.mock('../../src/ui/ResourceDetails', () => ({ ResourceDetailsButton: () => null }));
-vi.mock('../../src/ui/names', () => ({ EntityName: ({ id }: { id: string }) => <span>{id}</span> }));
+vi.mock('../../src/ui/names', () => ({ DocumentName: ({ id }: { id: string }) => <span>{id}</span>, EntityName: ({ id }: { id: string }) => <span>{id}</span> }));
 import { BindSchemaDialog, SchemaDetailDialog, EditMetadataDialog } from '../../src/pages/Metadata';
 import { ConsultationRequestDetail } from '../../src/pages/Consultations';
 import { DefinitionDetailDialog } from '../../src/pages/Workflow';

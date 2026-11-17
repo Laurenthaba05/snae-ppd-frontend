@@ -3,7 +3,7 @@
   --nx-side:#0b332a; --nx-side-top:#052a22; --nx-gold:#9d8035; --nx-gold-text:#e5c15c;
   --nx-page:#f3f7f8; --nx-card:#fff; --nx-line:#e3e9ed; --nx-ink:#17332f; --nx-muted:#5d7176;
   --nx-green:#1d6b4a; --nx-green-bg:#e4f3eb; --nx-blue:#1f5fae; --nx-blue-bg:#e3effd; --nx-amber:#8a5f0c; --nx-amber-bg:#fdf1d2;
-  --nx-side-w:262px;
+  --nx-side-w:316px;
 }
 
 /* ---------- Ossature ---------- */
@@ -18,17 +18,34 @@
 .nx-dashboard{display:flex;align-items:center;gap:12px;width:100%;height:36px;padding:0 14px;margin:2px 0 8px;border:0;border-radius:8px;background:transparent;color:#e8f1ed;font-size:15px;font-weight:600;cursor:pointer;text-align:left}
 .nx-dashboard:hover{background:rgba(255,255,255,.07)}
 .nx-dashboard.active{background:linear-gradient(180deg,#a68a3b,#9a7d32);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
-.nx-section{margin-top:3px}
-.nx-section-head{display:flex;align-items:center;justify-content:space-between;width:100%;border:0;background:transparent;color:#b3c9c0;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;text-align:left;padding:4px 10px;min-height:24px;border-radius:7px;cursor:pointer}
-.nx-section-head svg{opacity:0;transition:opacity .15s}
-.nx-section-head:hover svg,.nx-section-head:focus-visible svg,.nx-section-head.current svg{opacity:1}
-.nx-section-head.current{background:linear-gradient(180deg,#a68a3b,#9a7d32);color:#fff;font-weight:700;padding:7px 10px}
-.nx-items{display:grid;gap:0;padding:2px 0 0}
-.nx-item{display:flex;align-items:center;gap:12px;width:100%;min-height:24px;padding:1px 10px 1px 12px;border:0;border-radius:6px;background:transparent;color:#e3eee8;font-size:14px;line-height:1.25;text-align:left;cursor:pointer}
+.nx-sidebar a{text-decoration:none}
+.nx-sidebar a:focus-visible,.nx-sidebar button:focus-visible{outline:2px solid #f0ce77;outline-offset:2px}
+.nx-dashboard{min-height:42px;height:auto;padding-top:8px;padding-bottom:8px}
+.nx-section{margin-top:4px}
+.nx-section-head{display:flex;align-items:center;gap:9px;width:100%;border:0;background:transparent;color:#c5d8cf;font-size:13px;font-weight:650;text-align:left;padding:10px 8px;min-height:42px;border-radius:8px;cursor:pointer;line-height:1.3}
+.nx-section-head>span{flex:1;min-width:0}
+.nx-section-head>svg{flex:none}
+.nx-section-head:hover{background:rgba(255,255,255,.07)}
+.nx-section-head:disabled{opacity:1;cursor:default}
+.nx-section-head.current{color:#f3d98e;background:rgba(229,193,92,.1)}
+.nx-nav-count{font-size:11px;min-width:18px;text-align:center;border-radius:5px;background:rgba(255,255,255,.08);color:inherit}
+.nx-items{display:grid;gap:2px;padding:3px 0 6px 12px;margin-left:16px;border-left:1px solid #3a5c50}
+.nx-items[hidden]{display:none}
+.nx-item{display:flex;align-items:center;gap:9px;width:100%;min-height:38px;padding:8px;border:0;border-radius:6px;background:transparent;color:#e3eee8;font-size:14px;line-height:1.3;text-align:left;cursor:pointer}
+.nx-item>span{min-width:0;overflow-wrap:anywhere}
 .nx-item svg{flex:none;color:#cfe0d8}
 .nx-item:hover{background:rgba(255,255,255,.07)}
-.nx-item.active{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
-.nx-item.featured,.nx-item.featured svg{color:var(--nx-gold-text)}
+.nx-item.active{background:#e4c475;color:#17332f;font-weight:700}
+.nx-item.active svg{color:inherit}
+.nx-nav-filter{display:flex;align-items:center;gap:7px;margin:10px 0 14px;padding:4px 8px;min-height:40px;border:1px solid #4b6b60;border-radius:8px;background:#173d32;color:#dcebe3}
+.nx-nav-filter:focus-within{outline:2px solid #f0ce77;outline-offset:2px}
+.nx-nav-filter>svg{flex:none}
+.nx-nav-filter input{min-width:0;width:100%;min-height:30px;padding:2px;border:0;border-radius:0;background:transparent;color:#fff;font-size:13px;outline:none}
+.nx-nav-filter input::placeholder{color:#c3d5cd;opacity:1}
+.nx-nav-filter input::-webkit-search-cancel-button{display:none}
+.nx-nav-filter button{display:grid;place-items:center;flex:none;width:30px;height:30px;padding:0;border:0;border-radius:5px;background:transparent;color:#fff;cursor:pointer}
+.nx-nav-filter button:hover{background:rgba(255,255,255,.12)}
+.nx-nav-status,.nx-nav-empty{margin:8px;color:#c5d8cf;font-size:13px;line-height:1.5}
 .nx-item .tag{margin-left:auto;font-size:11.5px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.12);color:#dbe8e2;border:0}
 .nx-beta{margin-left:6px;padding:1px 8px;border-radius:999px;background:#2f8f63;color:#fff;font-size:12px;font-style:normal;font-weight:700;line-height:1.5}
 .nx-version{padding:10px 16px 12px;text-align:right;color:#9fb7ae;font-size:13px}
@@ -85,7 +102,18 @@
 @media(max-width:720px){
   .nx-republic span{display:none}
   .nx-search{flex:1}
-  .nx-icon-btn[aria-label="Notifications"]{display:none}
+}
+/* Grand écran : le menu est un volet rangé qui se superpose à la page (elle garde toute sa largeur) : la souris le découvre au bord gauche (.nx-edge) et il se range quand elle le quitte
+   ou quand on navigue (voir app.tsx) ; le bouton du menu l'ouvre aussi. Sans souris (écran tactile), un voile le ferme comme le tiroir des petits écrans. */
+@media(min-width:1001px){
+  .nx-sidebar{transition:transform .2s ease,box-shadow .2s ease}
+  .nx-sidebar:not(.open){transform:translateX(-102%)}
+  .nx-sidebar.open{box-shadow:0 0 40px rgba(0,0,0,.4)}
+  .nx-workspace{margin-left:0}
+  .nx-topbar .mobile-menu{display:inline-flex}
+  .nx-brand .close-navigation{display:inline-flex}
+  .nx-edge{position:fixed;inset:0 auto 0 0;width:12px;z-index:39}
+  .nx-shell .nav-scrim{position:fixed;inset:0;z-index:39;border:0;background:#0e302968}
 }
 @media(prefers-reduced-motion:reduce){.nx-sidebar{transition:none}}
 
@@ -112,4 +140,14 @@
 @media(max-width:720px){
   .nx-shell .nav-scrim{z-index:95;inset:0}
   .nx-shell .nx-sidebar{z-index:100;max-width:90vw}
+}
+
+/* Tous les raccourcis restent visibles sur téléphone, avec une seconde rangée. */
+@media(max-width:600px){
+  .nx-topbar{height:auto;min-height:62px;flex-wrap:wrap;gap:8px;padding:8px 14px}
+  .nx-search{margin-left:0;flex:1 1 120px}
+  .nx-actions{flex:0 0 100%;justify-content:space-between;gap:4px;margin-left:0;min-width:0}
+  .nx-user{gap:4px}
+  .nx-user>.nx-avatar{width:34px;height:34px}
+  .nx-user>svg{display:none}
 }

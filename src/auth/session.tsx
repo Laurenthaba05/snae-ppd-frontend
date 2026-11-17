@@ -1,3 +1,5 @@
+import { StaffIdentityContext } from './staffIdentity';
+import { canonicalStaffPath, isReaderManagementPath, readerManagementSection } from '../core/staffRoutes';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { IamApi } from '../api/iam';
 import { HttpTransport, ApiError } from '../core/http';
@@ -27,8 +29,9 @@ export function useSession(): SessionValue {
         throw new Error('SessionProvider requis');
     return value;
 }
-export function SessionProvider({ children }: {
+export function SessionProvider({ children, enabled = true }: {
     children: React.ReactNode;
+    enabled?: boolean;
 }) {
     const [me, setMe] = useState<Me | null>(null);
     const [clients, setClients] = useState<ClientSet>(noClients);
@@ -103,7 +106,7 @@ export function SessionProvider({ children }: {
         }
     };
     useEffect(() => {
-        if (config.demo || configIssue())
+        if (!enabled || config.demo || configIssue())
             return;
         let alive = true;
         setBusy(true);
@@ -115,11 +118,11 @@ export function SessionProvider({ children }: {
                 setBusy(false);
         });
         return () => { alive = false; };
-    }, []);
+    }, [enabled]);
     useEffect(() => {
-        if (!me || config.demo)
+        if (!enabled || !me || config.demo)
             return;
-        const t = setInterval(() => void refresh(), 60000);
+        const t = setInterval(() => { if (document.visibilityState !== 'hidden') void refresh(); }, 60000);
         const focus = () => {
             if (document.visibilityState === 'visible')
                 void refresh();
@@ -127,7 +130,7 @@ export function SessionProvider({ children }: {
         window.addEventListener('focus', focus);
         document.addEventListener('visibilitychange', focus);
         return () => { clearInterval(t); window.removeEventListener('focus', focus); document.removeEventListener('visibilitychange', focus); };
-    }, [!!me, refresh]);
+    }, [enabled, !!me, refresh]);
     const switchPersona = async (persona: 'a' | 'b' | 'agent') => {
         if (!config.demo)
             return;
@@ -144,6 +147,8 @@ export function SessionProvider({ children }: {
         navigate('/app');
     };
     const signIn = async (email?: string, password?: string) => {
+        const requested = canonicalStaffPath(location.pathname + location.search);
+        const returnTo = isReaderManagementPath(requested) && readerManagementSection(requested) !== null ? requested : '/app';
         setBusy(true);
         setError(null);
         try {
@@ -156,7 +161,7 @@ export function SessionProvider({ children }: {
             if (config.authMode === 'supabase') {
                 await refresh();
                 if (current.current)
-                    navigate('/app');
+                    navigate(returnTo);
             }
         }
         catch (e) {
@@ -180,5 +185,5 @@ export function SessionProvider({ children }: {
             setError(e);
         }
     };
-    return <Context.Provider value={{ me, ...clients, busy, error, demo: config.demo, epoch, signIn, logout, refresh, switchPersona, resetDemo: async () => { mock.current = null; await switchPersona('a'); } }}>{children}</Context.Provider>;
+    return <StaffIdentityContext.Provider value={me}><Context.Provider value={{ me, ...clients, busy, error, demo: config.demo, epoch, signIn, logout, refresh, switchPersona, resetDemo: async () => { mock.current = null; await switchPersona('a'); } }}>{children}</Context.Provider></StaffIdentityContext.Provider>;
 }

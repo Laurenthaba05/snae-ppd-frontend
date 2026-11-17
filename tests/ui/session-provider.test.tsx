@@ -1,3 +1,6 @@
+import { IamApi } from '../../src/api/iam';
+import { navigate } from '../../src/ui/navigation';
+import type { Me } from '../../src/core/types';
 import React from 'react';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -60,4 +63,40 @@ it('hors du fournisseur, useSession le dit', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     expect(() => render(<Probe />)).toThrow('SessionProvider requis');
     spy.mockRestore();
+});
+
+it('le catalogue public n’initialise pas l’authentification institutionnelle', async () => {
+    const view = render(<SessionProvider enabled={false}><Probe /></SessionProvider>);
+    expect(screen.getByTestId('clients').textContent).toBe('aucun');
+    expect(driver.initialize).not.toHaveBeenCalled();
+    view.rerender(<SessionProvider enabled><Probe /></SessionProvider>);
+    await waitFor(() => expect(screen.getByTestId('clients').textContent).toBe(CLIENTS.join(',')));
+    expect(driver.initialize).toHaveBeenCalledTimes(1);
+    const first = captured!.api;
+    view.rerender(<SessionProvider enabled={false}><Probe /></SessionProvider>);
+    view.rerender(<SessionProvider enabled><Probe /></SessionProvider>);
+    await waitFor(() => expect(captured!.busy).toBe(false));
+    expect(captured!.api).toBe(first);
+    expect(driver.initialize).toHaveBeenCalledTimes(1);
+});
+
+
+it('la connexion depuis un ancien lien revient à la gestion et conserve l’identité en passant au public', async () => {
+    const identity = {user:{id:'staff',status:'ACTIF',accountType:'USER'},grants:[],truncated:false} as unknown as Me;
+    vi.spyOn(IamApi.prototype,'me').mockResolvedValue(identity);
+    settings.authMode='supabase';
+    history.replaceState(null,'','/app/consultations?tab=portail');
+    try {
+        const view=render(<SessionProvider><Probe /></SessionProvider>);
+        await waitFor(()=>expect(captured!.busy).toBe(false));
+        await act(async()=>{await captured!.signIn('staff@example.test','fixture-only');});
+        expect(navigate).toHaveBeenLastCalledWith('/portail/gestion/consultations?tab=portail');
+        expect(captured!.me).toBe(identity);
+        view.rerender(<SessionProvider enabled={false}><Probe /></SessionProvider>);
+        expect(captured!.me).toBe(identity);
+        view.rerender(<SessionProvider enabled><Probe /></SessionProvider>);
+        await waitFor(()=>expect(captured!.busy).toBe(false));
+        expect(captured!.me).toBe(identity);
+        expect(driver.initialize).toHaveBeenCalledTimes(1);
+    } finally { settings.authMode='oidc';history.replaceState(null,'','/'); }
 });

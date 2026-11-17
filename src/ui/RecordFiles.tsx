@@ -196,12 +196,13 @@ export function PreservationDialog({ fileId, canManage, onClose }: {
 }
 
 export function PreservationEventListPage() {
-    const { records, epoch } = useSession();
+    const { me, records, epoch } = useSession();
     const { scope } = useWorkspace();
-    const q = useResource<PreservationEventListItem[]>(s => records!.allPreservationEvents(scope.institutionId, scope.departmentId, s), JSON.stringify(['preservation-events-all', scope, epoch]));
+    const canReadEvents = can(me, 'PRESERVATION_EVENT_READ', scope);
+    const q = useResource<PreservationEventListItem[]>(s => canReadEvents ? records!.allPreservationEvents(scope.institutionId, scope.departmentId, s) : Promise.resolve([]), JSON.stringify(['preservation-events-all', scope, epoch, canReadEvents]));
     const items = q.data ?? [];
     return <><PageHead eyebrow="CONSERVATION" title="Conservation" description="Suivi de l’intégrité des fichiers et des 200 derniers événements de préservation visibles dans votre périmètre."/>
-        <PreservationMonitoring/>
+        {canReadEvents && <PreservationMonitoring/>}
         <BackupMonitoring/>
         <ReplicationMonitoring/>
         <PreservationPlanningSection/>
@@ -209,9 +210,9 @@ export function PreservationEventListPage() {
         <TrustAnchorsSection/>
         <RevocationListsSection/>
         <SealKeyStatusSection/>
-        <div className="panel">
+        {canReadEvents && <div className="panel">
             {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh}/> : items.length ? <div className="table-scroll"><table><thead><tr><th>Document</th><th>Type</th><th>Résultat</th><th>Outil</th><th>Date</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{items.map(item => <tr key={item.id}><td>{item.documentReference ?? 'Document non disponible'}</td><td><Badge value={item.typeEvenement}/></td><td><Badge value={item.resultat}/></td><td>{item.outil ?? '—'}</td><td>{formatDate(item.dateEvenement)}</td><td><button className="btn small secondary" onClick={() => navigate('/app/documents/' + item.documentId)}>Ouvrir le document</button></td></tr>)}</tbody></table></div> : <Empty title="Aucun événement" description="Aucun événement de préservation consigné dans ce périmètre."/>}
-        </div>
+        </div>}
     </>;
 }
 

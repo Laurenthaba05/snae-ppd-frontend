@@ -12,7 +12,7 @@ const fixture = vi.hoisted(() => ({
     allowed: true, epoch: 1, demo: false
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/core/policy', () => ({ can: () => fixture.allowed }));
+vi.mock('../../src/core/policy', () => ({ can: () => fixture.allowed, canAnywhere: () => fixture.allowed }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: null, departmentId: null } }) }));
 vi.mock('../../src/ui/ResourceDetails', () => ({ ResourceDetailsButton: () => null }));
 import { AuditPage } from '../../src/pages/Audit';

@@ -5,7 +5,8 @@ import vm from 'node:vm';
 import ts from 'typescript';
 function load(source,deps={}){const exports={};const js=ts.transpileModule(readFileSync(new URL(source,import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;vm.runInNewContext(js,{exports,require:name=>{if(!(name in deps))throw new Error('Import inattendu '+name);return deps[name]},Date,Set});return exports;}
 const policy=load('../../src/core/policy.ts');
-const {moduleVisible}=load('../../src/design/navigation.ts',{'../core/policy':policy});
+const screenAccess=load('../../src/core/screenAccess.ts',{'./policy.js':policy});
+const {moduleVisible}=load('../../src/design/navigation.ts',{'../core/policy':policy,'../core/screenAccess':screenAccess});
 const g=(permission='DOCUMENT_READ',scope='NATIONAL',institutionId=null,departmentId=null)=>({permission,scope,institutionId,departmentId,expiresAt:null,delegationId:null,roleId:'r',roleCode:'ROLE_TEST'});
 const me=(grants=[])=>({user:{id:'u',status:'ACTIF',accountType:'USER',scope:'NATIONAL',institutionId:null,departmentId:null},grants,truncated:false});
 test('Aucun document sans session',()=>assert.equal(moduleVisible(null,'documents',{}),false));

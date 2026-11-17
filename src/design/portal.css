@@ -110,3 +110,17 @@
 .assistant-error{color:#9b2c2c}
 @media (max-width:480px){.assistant-dock{right:8px;bottom:8px;max-width:calc(100vw - 16px)}.assistant-panel{width:calc(100vw - 16px);height:calc(100vh - 80px)}}
 @media print{.assistant-dock{display:none}}
+
+/* Gestion interne déplacée dans le portail ; elle garde la session des agents. */
+.reader-management-identity{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;padding:10px clamp(16px,4vw,48px);background:#eaf1ec;color:#28503d;font-size:13px}
+.reader-management-nav{display:flex;flex-wrap:wrap;gap:8px;padding:12px clamp(16px,4vw,48px);background:white;border-bottom:1px solid #dce5dc}
+.reader-management-nav a{padding:9px 14px;border:1px solid #cad9cf;border-radius:8px;color:#24503b;text-decoration:none;font-weight:600}
+.reader-management-nav a[aria-current=page]{background:#1b4d3a;color:white;border-color:#1b4d3a}
+.reader-management-nav a:hover{box-shadow:0 0 0 2px #b58b39}
+.reader-management-main{max-width:1600px;min-width:0}
+.reader-management-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.reader-management-cards>a{display:grid;gap:10px;border:1px solid #dce5dc;border-radius:12px;padding:22px;background:white;color:#1b4d3a;text-decoration:none}
+.reader-management-cards>a:hover{border-color:#1b4d3a;background:#f4f7f4}
+.reader-management-cards strong{font-size:20px}.reader-management-cards span{color:#5d7176;font-size:14px;line-height:1.5}
+.portal-management .scope-panel{flex-wrap:wrap;gap:12px}.portal-management .scope-strip{flex-wrap:wrap;gap:8px}
+.nx-reader-link{margin-top:4px}.nx-reader-link:hover{color:#f3d98e}
