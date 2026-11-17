@@ -9,9 +9,10 @@ import type { CodificationCheck, CodificationKind, CodificationModel } from '../
  * la référence suivante, et ce qu'on saisit est comparé au modèle. Sans modèle (ou sans client de codification, en démonstration), c'est un champ libre, comme avant.
  * Un modèle **obligatoire** signale l'écart comme une erreur (le serveur refusera la création) ; un modèle **indicatif** le signale seulement.
  */
-export function CodeField({ kind, institutionId, parentId = null, classementId = null, value, onChange, label, maxLength, disabled = false }: {
+export function CodeField({ kind, institutionId, departmentId = null, parentId = null, classementId = null, value, onChange, label, maxLength, disabled = false }: {
     kind: CodificationKind;
     institutionId: string;
+    departmentId?: string | null;
     /** Le dossier d'un document, le dossier parent d'un dossier, la notice parente d'une notice. */
     parentId?: string | null;
     /** Le nœud du plan de classement de l'objet. */
@@ -24,23 +25,26 @@ export function CodeField({ kind, institutionId, parentId = null, classementId =
 }) {
     const { codification, epoch } = useSession();
     const active = !!codification && !!institutionId;
-    // Une erreur de lecture du modèle ne bloque jamais la saisie : sans modèle lisible, la référence reste libre.
-    const modelQ = useResource<CodificationModel | null>(s => active ? codification!.model(kind, institutionId, s).catch(() => null) : Promise.resolve(null), `code-model:${kind}:${institutionId}:${epoch}`);
+    // Une panne ou un refus ne signifie pas que la référence est libre ; le serveur contrôle toujours la création.
+    const modelQ = useResource<CodificationModel | null>(s => active ? codification!.model(kind, institutionId, s, departmentId) : Promise.resolve(null), `code-model:${kind}:${institutionId}:${departmentId}:${epoch}`);
     const model = modelQ.data ?? null;
     const typed = useDebounced(value.trim());
-    const checkQ = useResource<CodificationCheck | null>(s => active && model && typed ? codification!.check(kind, institutionId, typed, parentId, classementId, s).catch(() => null) : Promise.resolve(null),
-        `code-check:${kind}:${institutionId}:${parentId}:${classementId}:${typed}:${model?.version ?? 0}:${epoch}`);
+    const checkQ = useResource<CodificationCheck | null>(s => active && model && typed ? codification!.check(kind, institutionId, typed, parentId, classementId, s, departmentId) : Promise.resolve(null),
+        `code-check:${kind}:${institutionId}:${departmentId}:${parentId}:${classementId}:${typed}:${model?.version ?? 0}:${epoch}`);
     const [proposing, setProposing] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const propose = async () => {
         if (!codification || proposing) return;
         setProposing(true); setError(null);
-        try { onChange((await codification.proposal(kind, institutionId, parentId, classementId)).code); }
+        try { onChange((await codification.proposal(kind, institutionId, parentId, classementId, undefined, departmentId)).code); }
         catch (e) { setError(e); }
         finally { setProposing(false); }
     };
     const input = <input value={value} onChange={e => onChange(e.target.value)} required maxLength={maxLength} disabled={disabled} />;
-    if (!model) return <Field label={label}>{input}</Field>;
+    if (!model) return <div><Field label={label}>{input}</Field>
+        {modelQ.loading && active && <p role="status">Vérification du modèle de codification…</p>}
+        {Boolean(modelQ.error) && <><p role="alert">Le modèle de codification n’a pas pu être vérifié. La conformité de la référence reste inconnue.</p><ErrorNotice error={modelQ.error} onRetry={modelQ.refresh}/></>}
+    </div>;
     const mandatory = model.mode === 'OBLIGATOIRE';
     const off = !!checkQ.data && !checkQ.data.conform && typed === value.trim();
     // les textes sont écrits en entier (et non composés) pour que l'interface anglaise puisse les traduire
@@ -49,6 +53,8 @@ export function CodeField({ kind, institutionId, parentId = null, classementId =
         <Field label={label} hint={guide} error={off && mandatory ? 'Cette référence ne suit pas le modèle obligatoire de l’institution ; l’enregistrement sera refusé.' : undefined}>{input}</Field>
         {off && !mandatory ? <p className="page-note" role="status">Cette référence ne suit pas le modèle : vous pouvez l’enregistrer quand même.</p> : null}
         <div style={{ marginTop: 6 }}><button type="button" className="btn small secondary" disabled={disabled || proposing} onClick={propose}>Proposer la prochaine référence</button></div>
+        {Boolean(checkQ.error) && <><p role="alert">Le contrôle de cette référence a échoué ; sa conformité n’est pas confirmée.</p><ErrorNotice error={checkQ.error} onRetry={checkQ.refresh}/></>}
+        {checkQ.loading && typed && <p role="status">Contrôle de la référence…</p>}
         {error ? <ErrorNotice error={error} /> : null}
     </div>;
 }

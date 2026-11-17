@@ -1,3 +1,4 @@
+import { ArchiveRecordPicker } from '../ui/ArchiveRecordPicker';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from '../ui/workspace';
@@ -76,7 +77,6 @@ export function RecordForm({ kind, parent, onClose, onCreated }: {
     const [documentDate, setDocumentDate] = useState('');
     const [file, setFile] = useState<File | null>(null);
     const types = useResource(s => kind === 'documents' ? records!.documentTypes(s) : Promise.resolve([]), 'record-form-types:' + kind);
-    const dossiers = useResource(s => kind === 'documents' && institutionId ? records!.dossiers({ institutionId, size: 100 }, s) : Promise.resolve({ items: [], page: 0, size: 100, hasMore: false }), 'record-form-dossiers:' + institutionId);
     const build = () => {
         const common = { reference: text(reference, 150)!, institutionId: uuid(institutionId), departmentId: id(departmentId), classificationNodeId: id(classificationNodeId), title: text(title, 500)!, description: text(description, 5000, false), confidentiality };
         if (kind === 'dossiers')
@@ -86,12 +86,12 @@ export function RecordForm({ kind, parent, onClose, onCreated }: {
     return <>
         <CommandDialog title={kind === 'documents' ? 'Créer un document' : parent ? 'Créer un sous-dossier' : 'Créer un dossier'} description="Création dans le périmètre autorisé, sans droit implicite." path={'/' + kind} method="POST" api={records!} build={build} onClose={onClose} onSuccess={data => onCreated(data, file)}>
         {parent && <p className="span2"><small>Sous-dossier de <strong>{parent.reference} · {parent.title}</strong> : il reste dans la même institution et le même service, et n’est jamais moins confidentiel que lui.</small></p>}
-        <CodeField kind={kind === 'documents' ? 'DOCUMENT' : 'DOSSIER'} institutionId={institutionId} parentId={kind === 'documents' ? dossierId || null : parent?.id ?? null} classementId={classificationNodeId || null} value={reference} onChange={setReference} label="Cote ou référence *" maxLength={150}/>
+        <CodeField kind={kind === 'documents' ? 'DOCUMENT' : 'DOSSIER'} institutionId={institutionId} departmentId={departmentId || null} parentId={kind === 'documents' ? dossierId || null : parent?.id ?? null} classementId={classificationNodeId || null} value={reference} onChange={setReference} label="Cote ou référence *" maxLength={150}/>
         <Field label="Titre *" wide><input value={title} onChange={e => setTitle(e.target.value)} required maxLength={500}/></Field>
         <Field label="Institution *"><InstitutionChoice value={institutionId} disabled={!!parent} onChange={v => { setInstitutionId(v); setDepartmentId(''); setClassificationNodeId(''); setDossierId(''); }}/></Field>
-        <Field label="Département" hint="Optionnel."><ReferencePicker kind="departments" label="Sélectionner un département" value={departmentId} disabled={!!parent} onChange={setDepartmentId} scope={{ institutionId }} nullable/></Field>
+        <Field label="Département" hint="Optionnel."><ReferencePicker kind="departments" label="Sélectionner un département" value={departmentId} disabled={!!parent} onChange={v => { setDepartmentId(v); setDossierId(''); }} scope={{ institutionId }} nullable/></Field>
         {kind === 'documents' && <Field label="Type de document *"><div className="input-icon"><select value={typeDocumentId} onChange={e => setTypeDocumentId(e.target.value)} required disabled={types.loading}><option value="">{types.loading ? 'Chargement…' : 'Choisir un type'}</option>{types.data?.map(t => <option key={t.id} value={t.id}>{t.label}</option>)}</select>{can(me, 'TYPE_DOCUMENT_MANAGE', {}) && <button type="button" className="icon-btn" aria-label="Créer un type de document" onClick={() => setCreatingType(true)}><Icon name="plus" size={16}/></button>}</div></Field>}
-        {kind === 'documents' && <Field label="Dossier" hint="Optionnel, limité aux dossiers de l’institution choisie."><select value={dossierId} onChange={e => setDossierId(e.target.value)} disabled={!institutionId || dossiers.loading}><option value="">Aucun</option>{dossiers.data?.items.map(d => <option key={d.id} value={d.id}>{d.title} ({d.reference})</option>)}</select></Field>}
+        {kind === 'documents' && <Field label="Dossier" hint="Optionnel, limité aux dossiers de l’institution choisie."><ArchiveRecordPicker kind="dossiers" institution={institutionId} department={departmentId || null} value={dossierId || null} onChange={v => setDossierId(v || '')} disabled={!institutionId}/></Field>}
         {kind === 'documents' && <Field label="Origine"><select value={origin} onChange={e => setOrigin(e.target.value)}><option value="CREE">Créé</option><option value="RECU">Reçu</option><option value="IMPORTE">Importé</option><option value="NUMERISE">Numérisé</option><option value="VERSE">Versé</option></select></Field>}
         {kind === 'documents' && <Field label="Date du document" hint="Optionnelle."><input type="date" value={documentDate} onChange={e => setDocumentDate(e.target.value)}/></Field>}
         {kind === 'documents' && <Field label="Fichier" wide hint={file ? 'Sélectionné : ' + file.name + ' — téléversé sur la version 1 juste après la création.' : 'Optionnel. Vous pourrez aussi le téléverser plus tard depuis la fiche du document.'}><input type="file" onChange={e => setFile(e.target.files?.[0] ?? null)}/></Field>}

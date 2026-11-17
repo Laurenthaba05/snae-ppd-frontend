@@ -1,3 +1,4 @@
+import { commandKey } from '../api/archives';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { useWorkspace } from './workspace';
@@ -26,7 +27,7 @@ export function CodificationPage() {
     const { me, codification, epoch } = useSession();
     const { scope } = useWorkspace();
     const institutionId = scope.institutionId;
-    const canManage = !!institutionId && can(me, 'CODIFICATION_MANAGE', scope);
+    const canManage = !!institutionId && can(me, 'CODIFICATION_MANAGE', { institutionId });
     const [editing, setEditing] = useState<CodificationKind | null>(null);
     const [removing, setRemoving] = useState<CodificationKind | null>(null);
     const modelsQ = useResource<CodificationModel[]>(s => institutionId && canManage ? codification!.models(institutionId, s) : Promise.resolve([]), `codification-models:${institutionId}:${canManage}:${epoch}`);
@@ -51,7 +52,7 @@ export function CodificationPage() {
                     <p className="panel-footnote">Le modèle <strong>indicatif</strong> guide la saisie (proposition de la référence suivante, avertissement) sans rien refuser ; le modèle <strong>obligatoire</strong> refuse à la création une référence qui ne le respecte pas, y compris à l’import. Les références déjà enregistrées ne changent jamais.</p>
                 </div>}
         {editing && institutionId && <ModelDialog kind={editing} institutionId={institutionId} model={byKind.get(editing) ?? null} onClose={() => setEditing(null)} onSaved={modelsQ.refresh} />}
-        {removing && institutionId && <RemoveDialog kind={removing} institutionId={institutionId} onClose={() => setRemoving(null)} onDone={modelsQ.refresh} />}
+        {removing && institutionId && byKind.get(removing) && <RemoveDialog model={byKind.get(removing)!} kind={removing} institutionId={institutionId} onClose={() => setRemoving(null)} onDone={modelsQ.refresh} />}
     </>;
 }
 
@@ -60,6 +61,7 @@ type Row = CodificationSegment & { key: number };
 function ModelDialog({ kind, institutionId, model, onClose, onSaved }: { kind: CodificationKind; institutionId: string; model: CodificationModel | null; onClose: () => void; onSaved: () => void }) {
     const { codification } = useSession();
     const counter = React.useRef(0);
+    const intention = React.useRef<ReturnType<typeof commandKey> | null>(null);
     const withKeys = (segments: CodificationSegment[]): Row[] => segments.map(s => ({ ...s, key: counter.current++ }));
     const [label, setLabel] = useState(model?.label ?? '');
     const [mode, setMode] = useState<CodificationMode>(model?.mode ?? 'INDICATIF');
@@ -76,7 +78,9 @@ function ModelDialog({ kind, institutionId, model, onClose, onSaved }: { kind: C
         setBusy(true); setError(null);
         try {
             const segments = rows.map(({ key: _key, ...s }) => ({ type: s.type, ...(s.type === 'TEXTE' ? { value: s.value ?? '' } : {}), ...(s.type === 'COMPTEUR' ? { digits: s.digits ?? 4 } : {}) }));
-            await codification!.saveModel(kind, { institutionId, label: label.trim() || null, segments, mode }, crypto.randomUUID());
+            const body = { institutionId, label: label.trim() || null, segments, mode, expectedVersion: model?.version ?? 0, expectedId: model?.id ?? null };
+            intention.current = commandKey(intention.current, { kind, body });
+            await codification!.saveModel(kind, body, intention.current.key);
             onSaved(); onClose();
         } catch (e) { setError(e); }
         finally { setBusy(false); }
@@ -108,14 +112,15 @@ function ModelDialog({ kind, institutionId, model, onClose, onSaved }: { kind: C
     </Modal>;
 }
 
-function RemoveDialog({ kind, institutionId, onClose, onDone }: { kind: CodificationKind; institutionId: string; onClose: () => void; onDone: () => void }) {
+function RemoveDialog({ kind, institutionId, model, onClose, onDone }: { model: CodificationModel; kind: CodificationKind; institutionId: string; onClose: () => void; onDone: () => void }) {
     const { codification } = useSession();
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
+    const intention = React.useRef(crypto.randomUUID());
     const remove = async () => {
         if (busy) return;
         setBusy(true); setError(null);
-        try { await codification!.removeModel(kind, institutionId, crypto.randomUUID()); onDone(); onClose(); }
+        try { await codification!.removeModel(kind, institutionId, intention.current, model.version, model.id); onDone(); onClose(); }
         catch (e) { setError(e); }
         finally { setBusy(false); }
     };

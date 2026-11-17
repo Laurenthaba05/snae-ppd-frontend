@@ -80,7 +80,7 @@ it('définir un modèle part d’un exemple annuel, montre l’aperçu, et enreg
     fireEvent.click(within(dialog).getByRole('button', { name: 'Enregistrer' }));
     await waitFor(() => expect(fixture.codification.saveModel).toHaveBeenCalledTimes(1));
     expect(fixture.codification.saveModel).toHaveBeenCalledWith('DOCUMENT', {
-        institutionId: INSTITUTION, label: 'Pièces courantes', mode: 'OBLIGATOIRE',
+        institutionId: INSTITUTION, label: 'Pièces courantes', mode: 'OBLIGATOIRE', expectedVersion: 0, expectedId: null,
         segments: [{ type: 'TEXTE', value: 'ARC' }, { type: 'TEXTE', value: '-' }, { type: 'ANNEE' }, { type: 'TEXTE', value: '-' }, { type: 'COMPTEUR', digits: 4 }]
     }, expect.any(String));
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
@@ -171,7 +171,7 @@ it('retirer un modèle demande confirmation, annuler ne retire rien, confirmer e
     dialog = await screen.findByRole('dialog');
     fixture.codification.models.mockClear();
     fireEvent.click(within(dialog).getByRole('button', { name: 'Retirer le modèle' }));
-    await waitFor(() => expect(fixture.codification.removeModel).toHaveBeenCalledWith('DOSSIER', INSTITUTION, expect.any(String)));
+    await waitFor(() => expect(fixture.codification.removeModel).toHaveBeenCalledWith('DOSSIER', INSTITUTION, expect.any(String), 1, 'm-DOSSIER'));
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
     expect(fixture.codification.models).toHaveBeenCalled();
 });
@@ -204,4 +204,16 @@ it('la page, l’éditeur de modèle et la confirmation de retrait n’ont aucun
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
     fireEvent.click(screen.getByRole('button', { name: 'Retirer le modèle des dossiers' }));
     expect(await violations(await screen.findByRole('dialog'))).toEqual([]);
+});
+
+it('un nouvel essai après coupure réutilise la même clé et la même version attendue', async () => {
+    fixture.codification.saveModel.mockRejectedValueOnce(new Error('Coupure réseau')).mockResolvedValue({});
+    render(<CodificationPage/>);
+    const dialog = await openDefine('Modifier le modèle des dossiers');
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    await within(dialog).findByText('Coupure réseau');
+    fireEvent.click(within(dialog).getByRole('button',{name:'Enregistrer'}));
+    await waitFor(() => expect(fixture.codification.saveModel).toHaveBeenCalledTimes(2));
+    expect(fixture.codification.saveModel.mock.calls[0]).toEqual(fixture.codification.saveModel.mock.calls[1]);
+    expect(fixture.codification.saveModel.mock.calls[0]![1]).toMatchObject({expectedVersion:1,expectedId:'m-DOSSIER'});
 });

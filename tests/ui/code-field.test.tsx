@@ -34,7 +34,7 @@ beforeEach(() => {
 
 it('sans modèle pour cet objet, la référence reste un champ libre sans proposition ni contrôle', async () => {
     render(<Harness />);
-    await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, expect.anything()));
+    await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, expect.anything(), null));
     fireEvent.change(input(), { target: { value: 'Z-1' } });
     expect(input().value).toBe('Z-1');
     expect(screen.queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
@@ -55,7 +55,8 @@ it('une erreur de lecture du modèle ne bloque jamais la saisie', async () => {
     await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalled());
     fireEvent.change(input(), { target: { value: 'LIBRE' } });
     expect(input().value).toBe('LIBRE');
-    expect(screen.queryByText(/Indisponible/)).toBeNull();
+    expect(await screen.findByText('Indisponible')).toBeTruthy();
+    expect(screen.getByText(/conformité de la référence reste inconnue/)).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
 });
 
@@ -71,7 +72,7 @@ it('proposer la référence suivante remplit le champ avec le conteneur et le cl
     render(<Harness kind="DOSSIER" parentId={PARENT} classementId={CLASSEMENT} />);
     fireEvent.click(await screen.findByRole('button', { name: 'Proposer la prochaine référence' }));
     await waitFor(() => expect(input().value).toBe('ARC-2026-0007'));
-    expect(fixture.codification!.proposal).toHaveBeenCalledWith('DOSSIER', INSTITUTION, PARENT, CLASSEMENT);
+    expect(fixture.codification!.proposal).toHaveBeenCalledWith('DOSSIER', INSTITUTION, PARENT, CLASSEMENT, undefined, null);
 });
 
 it('une proposition refusée par le serveur est dite et laisse la saisie intacte', async () => {
@@ -113,16 +114,25 @@ it('le contrôle suit ce qui est saisi, avec son conteneur et son classement, et
     fireEvent.change(input(), { target: { value: 'AB' } });
     fireEvent.change(input(), { target: { value: ' ABC ' } });
     await waitFor(() => expect(fixture.codification!.check).toHaveBeenCalledTimes(1));
-    expect(fixture.codification!.check).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, 'ABC', PARENT, CLASSEMENT, expect.anything());
+    expect(fixture.codification!.check).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, 'ABC', PARENT, CLASSEMENT, expect.anything(), null);
 });
 
-it('une erreur du contrôle ne gêne pas la saisie : aucune alerte n’apparaît', async () => {
+it('une erreur du contrôle conserve la saisie et affiche son indisponibilité', async () => {
     fixture.codification!.model.mockResolvedValue(model({ mode: 'OBLIGATOIRE' }));
     fixture.codification!.check.mockRejectedValue(new Error('Contrôle indisponible'));
     render(<Harness />);
     await screen.findByText(/Modèle de l’institution/);
     fireEvent.change(input(), { target: { value: 'X-1' } });
     await waitFor(() => expect(fixture.codification!.check).toHaveBeenCalled());
-    expect(screen.queryByText(/Contrôle indisponible/)).toBeNull();
+    expect(await screen.findByText('Contrôle indisponible')).toBeTruthy();
     expect(screen.queryByText(/sera refusé/)).toBeNull();
+});
+
+it('le département choisi est transmis pour lire, contrôler et proposer la référence', async () => {
+    fixture.codification!.model.mockResolvedValue(model());
+    render(<CodeField kind="DOCUMENT" institutionId={INSTITUTION} departmentId={PARENT} value="ARC-2026-0001" onChange={vi.fn()} label="Référence" maxLength={150}/>);
+    fireEvent.click(await screen.findByRole('button', {name:'Proposer la prochaine référence'}));
+    expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, expect.anything(), PARENT);
+    await waitFor(() => expect(fixture.codification!.check).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, 'ARC-2026-0001', null, null, expect.anything(), PARENT));
+    expect(fixture.codification!.proposal).toHaveBeenCalledWith('DOCUMENT', INSTITUTION, null, null, undefined, PARENT);
 });
