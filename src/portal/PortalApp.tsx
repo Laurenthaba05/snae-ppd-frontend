@@ -6,10 +6,12 @@ import type { PortalApi } from '../api/portal';
 import { PortalProvider } from './context';
 import { PortalShell } from './Shell';
 import { CataloguePage, NoticePage } from './Catalogue';
+import { PublicDocumentsPage, PublicDocumentPage } from './PublicDocuments';
 import { ViewerPage } from './Viewer';
 import { PlansPage } from './Plans';
 import { FindingAidNodePage, FindingAidsPage } from './FindingAids';
 import { AccountPage } from './Account';
+import { ReaderPaymentsPage, ReaderPurchasesPage, ReaderAccessAlertsPage, ReaderRenewalPage } from './ReaderPurchases';
 import { ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage, VerifyEmailPage } from './Auth';
 
 export { isPortalPath } from './path';
@@ -19,6 +21,12 @@ export function portalRoute(pathname: string): { screen: string; id?: string } {
     const parts = pathname.split('/').filter(Boolean).slice(1);
     const [head, id] = parts;
     if (!head) return { screen: 'catalogue' };
+    if (head === 'renouveler') return parts.length === 2 && UUID_RE.test(id ?? '') ? { screen: 'renouveler', id } : { screen: 'invalide' };
+    if (head === 'documents') {
+        if (parts.length === 1) return { screen: 'documents-publics' };
+        if (parts.length === 2 && UUID_RE.test(id ?? '')) return { screen: 'document-public', id };
+        return { screen: 'invalide' };
+    }
     if (head === 'notices' && id) return UUID_RE.test(id) ? { screen: 'notice', id } : { screen: 'invalide' };
     if (head === 'lecture' && id) return UUID_RE.test(id) ? { screen: 'lecture', id } : { screen: 'invalide' };
     if (head === 'inventaires') {
@@ -26,7 +34,7 @@ export function portalRoute(pathname: string): { screen: string; id?: string } {
         if (parts.length === 4 && parts[2] === 'notices') return UUID_RE.test(parts[1] ?? '') && UUID_RE.test(parts[3] ?? '') ? { screen: 'inventaire-notice', id: parts[3] } : { screen: 'invalide' };
         return { screen: 'inconnu' };
     }
-    if (parts.length === 1 && ['formules', 'compte', 'connexion', 'inscription', 'verification', 'mot-de-passe-oublie', 'reinitialisation'].includes(head)) return { screen: head };
+    if (parts.length === 1 && ['formules', 'compte', 'paiements', 'achats', 'alertes-acces', 'connexion', 'inscription', 'verification', 'mot-de-passe-oublie', 'reinitialisation'].includes(head)) return { screen: head };
     return { screen: 'inconnu' };
 }
 
@@ -34,6 +42,8 @@ function Routes() {
     const path = usePath();
     const route = portalRoute(new URL(path, location.origin).pathname);
     switch (route.screen) {
+        case 'documents-publics': return <PublicDocumentsPage />;
+        case 'document-public': return <PublicDocumentPage key={route.id} id={route.id!} />;
         case 'catalogue': return <CataloguePage />;
         case 'notice': return <NoticePage key={route.id} id={route.id!} />;
         case 'lecture': return <ViewerPage key={route.id} documentId={route.id!} />;
@@ -41,6 +51,10 @@ function Routes() {
         case 'inventaire-notice': return <FindingAidNodePage key={route.id} id={route.id!} />;
         case 'formules': return <PlansPage />;
         case 'compte': return <AccountPage />;
+        case 'paiements': return <ReaderPaymentsPage />;
+        case 'renouveler': return <ReaderRenewalPage key={route.id} id={route.id!} />;
+        case 'achats': return <ReaderPurchasesPage />;
+        case 'alertes-acces': return <ReaderAccessAlertsPage />;
         case 'connexion': return <LoginPage />;
         case 'inscription': return <RegisterPage />;
         case 'verification': return <VerifyEmailPage />;

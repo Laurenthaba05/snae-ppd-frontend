@@ -5,7 +5,9 @@ import { PageHead } from '../ui/components';
 import { CashierPanel, PlansPanel, ReadersPanel, SubscriptionsPanel } from '../ui/PortalAdmin';
 import { MailStatusPanel } from '../ui/MailMonitoring';
 
-type Tab = 'caisse' | 'abonnements' | 'lecteurs' | 'formules';
+import { DocumentTariffsPanel } from '../ui/DocumentTariffs';
+
+type Tab = 'tarifs' | 'caisse' | 'abonnements' | 'lecteurs' | 'formules';
 
 /** L'administration du portail des lecteurs : caisse, abonnements, comptes lecteurs, formules. Chaque section n'apparaît que pour la personne qui a le droit de la lire. */
 export function PortalAdminPage() {
@@ -14,14 +16,14 @@ export function PortalAdminPage() {
     const tabs: Array<[Tab, string]> = [];
     if (holds('PORTAL_CASHIER', 'PORTAL_READ', 'PORTAL_SUPERVISE')) tabs.push(['caisse', 'Caisse'], ['abonnements', 'Abonnements']);
     if (holds('PORTAL_READ', 'PORTAL_READER_MANAGE', 'PORTAL_CASHIER', 'PORTAL_SUPERVISE')) tabs.push(['lecteurs', 'Lecteurs']);
-    if (holds('PORTAL_READ', 'PORTAL_PLAN_MANAGE')) tabs.push(['formules', 'Formules']);
+    if (holds('PORTAL_READ', 'PORTAL_PLAN_MANAGE')) tabs.push(['formules', 'Formules'], ['tarifs', 'Tarifs des documents']);
     const [tab, setTab] = useState<Tab>(tabs[0]?.[0] ?? 'caisse');
     const current = tabs.some(([key]) => key === tab) ? tab : tabs[0]?.[0];
     return <>
-        <PageHead eyebrow="MODULE · ACCÈS" title="Portail des lecteurs" description="Comptes des lecteurs, formules d’abonnement, caisse et abonnements. Le catalogue public reste ouvert à tous ; la lecture des pages exige un abonnement." />
+        <PageHead eyebrow="MODULE · ACCÈS" title="Portail des lecteurs" description="Comptes des lecteurs, formules d’abonnement, caisse et abonnements. Le catalogue public propose un aperçu gratuit ; la lecture intégrale exige un accès payé et confirmé, sans téléchargement." />
         <div role="tablist" className="asset-tabs page-tabs" aria-label="Sections du portail">
             {tabs.map(([key, text]) => <button key={key} role="tab" type="button" aria-selected={current === key} className={current === key ? 'active' : ''} onClick={() => setTab(key)}>{text}</button>)}
         </div>
-        {current === 'caisse' ? <CashierPanel /> : current === 'abonnements' ? <SubscriptionsPanel /> : current === 'lecteurs' ? <><ReadersPanel /><MailStatusPanel /></> : current === 'formules' ? <PlansPanel /> : null}
+        {current === 'caisse' ? <CashierPanel /> : current === 'abonnements' ? <SubscriptionsPanel /> : current === 'lecteurs' ? <><ReadersPanel /><MailStatusPanel /></> : current === 'formules' ? <PlansPanel /> : current === 'tarifs' ? <DocumentTariffsPanel /> : null}
     </>;
 }

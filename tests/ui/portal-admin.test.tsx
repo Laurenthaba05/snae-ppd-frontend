@@ -51,7 +51,7 @@ it('chaque personne ne voit que les sections que ses droits ouvrent', async () =
     view.unmount();
     fixture.allowed = new Set(['PORTAL_PLAN_MANAGE']);
     const second = render(<PortalAdminPage />);
-    expect(tabNames()).toEqual(['Formules']);
+    expect(tabNames()).toEqual(['Formules', 'Tarifs des documents']);
     second.unmount();
     fixture.allowed = new Set(['PORTAL_READER_MANAGE']);
     render(<PortalAdminPage />);

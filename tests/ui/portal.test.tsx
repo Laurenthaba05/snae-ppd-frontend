@@ -4,6 +4,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { ApiError } from '../../src/core/http';
 import type { PortalApi } from '../../src/api/portal';
 import type { PortalAccessRequest, PortalNotice, PortalNoticeSummary, PortalReader, PortalSubscription, PublicPlan } from '../../src/core/types';
+import { DocumentPaymentsApi } from '../../src/api/documentPayments';
 import { PortalApp, isPortalPath, portalRoute } from '../../src/portal/PortalApp';
 
 const DOC = '00000000-0000-4000-8000-0000000000d1';
@@ -34,6 +35,7 @@ const open = (path: string) => { window.history.pushState(null, '', path); retur
 const signedIn = (subs: PortalSubscription[] = [], requests: PortalAccessRequest[] = []) => { api.me.mockResolvedValue(reader()); api.subscriptions.mockResolvedValue(subs); api.accessRequests.mockResolvedValue(requests); };
 
 beforeEach(() => {
+    vi.spyOn(DocumentPaymentsApi.prototype, 'alerts').mockResolvedValue({items:[],page:0,size:20,hasMore:false,mode:'LOCAL_TEST',evaluatedAt:'2026-11-09T14:00:00Z',alertWindowDays:7,downloadAllowed:false});
     for (const fn of Object.values(api)) fn.mockReset();
     api.me.mockRejectedValue(unauthorized());
     api.subscriptions.mockResolvedValue([]);
@@ -359,6 +361,19 @@ it('une page demandée hors du document revient à la première, et une image re
     expect(await screen.findByText(/n’a pas pu être chargée/)).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Réessayer' }));
     expect(await screen.findByRole('img', { name: 'Page 1 sur 3' })).toBeTruthy();
+});
+
+it('une erreur appartient à son image et ne masque pas la page suivante', async () => {
+    signedIn([sub()]);
+    open('/portail/lecture/' + DOC);
+    const first = await screen.findByRole('img', { name: 'Page 1 sur 3' });
+    fireEvent.error(first);
+    expect(await screen.findByRole('alert')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Page suivante' }));
+    const next = await screen.findByRole('img', { name: 'Page 2 sur 3' });
+    expect(screen.queryByRole('alert')).toBeNull();
+    fireEvent.load(next);
+    expect(next.classList.contains('loaded')).toBe(true);
 });
 
 it('la limite de lecture par heure est expliquée', async () => {

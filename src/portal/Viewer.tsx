@@ -9,6 +9,15 @@ import { PLink, RequireReader } from './Shell';
 
 type Gate = { state: 'loading' } | { state: 'ready'; pages: PortalReadablePage[] } | { state: 'blocked'; error: ApiError } | { state: 'error'; error: unknown };
 
+/** Each image owns its state; a parent effect cannot erase an early load error. */
+function ReadingImage({ src, alt, loadingLabel, onRetry }: { src: string; alt: string; loadingLabel: string; onRetry: () => void }) {
+    const [state, setState] = useState<'loading' | 'loaded' | 'failed'>('loading');
+    if (state === 'failed') return <div className="portal-gate" role="alert"><p>La page n’a pas pu être chargée. Vous avez peut-être atteint la limite de lecture par heure, ou votre session a pris fin.</p><button className="btn small secondary" onClick={onRetry}>Réessayer</button></div>;
+    return <>{state === 'loading' && <Busy label={loadingLabel} />}
+        <img src={src} alt={alt} draggable={false} className={state === 'loaded' ? 'loaded' : ''}
+            onLoad={() => setState('loaded')} onError={() => setState('failed')} onContextMenu={event => event.preventDefault()} /></>;
+}
+
 /**
  * La lecture d'un document, page après page (et image après image pour une page de plusieurs images). Les images viennent du serveur, déjà marquées au nom du lecteur : aucune copie sans marque n'existe côté
  * navigateur. On ne charge que la page affichée (chaque page lue est comptée et limitée par heure), sans bandeau de vignettes ni préchargement.
@@ -18,8 +27,6 @@ function Reading({ documentId }: { documentId: string }) {
     const path = usePath();
     const [gate, setGate] = useState<Gate>({ state: 'loading' });
     const [attempt, setAttempt] = useState(0);
-    const [imageFailed, setImageFailed] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false);
     useEffect(() => {
         const controller = new AbortController();
         setGate({ state: 'loading' });
@@ -37,7 +44,6 @@ function Reading({ documentId }: { documentId: string }) {
     const view = views[index];
     const current = view?.page ?? 1;
     const goto = (target: { page: number; image: number } | undefined) => { if (target) navigate(portalPath('/lecture/' + documentId, { page: target.page, image: target.image > 1 ? target.image : null })); };
-    useEffect(() => { setImageFailed(false); setImageLoaded(false); }, [documentId, current, view?.image]);
     useEffect(() => {
         if (gate.state !== 'ready') return;
         const onKey = (event: KeyboardEvent) => {
@@ -51,6 +57,8 @@ function Reading({ documentId }: { documentId: string }) {
     });
 
     if (gate.state === 'loading') return <div className="portal-page"><Busy label="Ouverture du document…" /></div>;
+    if (gate.state === 'error' && gate.error instanceof ApiError && gate.error.code === 'PUBLIC_DOCUMENT_READER_REQUIRED')
+        return <div className="portal-page"><p>{gate.error.message}</p><PLink to={'/documents/' + documentId} className="btn primary">Ouvrir le document et son aperçu gratuit</PLink></div>;
     if (gate.state === 'error') return <div className="portal-page"><ErrorNotice error={gate.error} onRetry={() => setAttempt(n => n + 1)} /></div>;
     if (gate.state === 'blocked') {
         const { status, message } = gate.error;
@@ -73,11 +81,11 @@ function Reading({ documentId }: { documentId: string }) {
             </div>
         </div>
         <figure className="portal-sheet">
-            {!imageLoaded && !imageFailed && <Busy label={`Chargement de la page ${current}${view.images > 1 ? ', image ' + view.image : ''}…`} />}
-            {imageFailed
-                ? <div className="portal-gate" role="alert"><p>La page n’a pas pu être chargée. Vous avez peut-être atteint la limite de lecture par heure, ou votre session a pris fin.</p><button className="btn small secondary" onClick={() => { setImageFailed(false); setAttempt(n => n + 1); }}>Réessayer</button></div>
-                : <img key={documentId + ':' + viewValue(view)} src={pageUrl(documentId, current, false, view.image)} alt={view.images > 1 ? `Page ${current}, image ${view.image} sur ${view.images}` : `Page ${current} sur ${total}`} draggable={false} className={imageLoaded ? 'loaded' : ''}
-                    onLoad={() => setImageLoaded(true)} onError={() => setImageFailed(true)} onContextMenu={event => event.preventDefault()} />}
+            <ReadingImage key={documentId + ':' + viewValue(view) + ':' + attempt}
+                src={pageUrl(documentId, current, false, view.image)}
+                alt={view.images > 1 ? `Page ${current}, image ${view.image} sur ${view.images}` : `Page ${current} sur ${total}`}
+                loadingLabel={`Chargement de la page ${current}${view.images > 1 ? ', image ' + view.image : ''}…`}
+                onRetry={() => setAttempt(n => n + 1)} />
             <figcaption>Cette page porte votre numéro de lecteur ; chaque page lue est tracée. La reproduction est soumise aux conditions d’utilisation de l’institution.</figcaption>
         </figure>
     </div>;

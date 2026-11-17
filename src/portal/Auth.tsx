@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ApiError } from '../core/http';
 import { navigate, usePath } from '../ui/navigation';
 import { ErrorNotice, Field, Notice } from '../ui/components';
-import { emailProblem, emptyRegistration, passwordProblems, portalPath, registrationBody, registrationProblems, safeReturnPath } from '../core/portal';
+import { emailProblem, emptyRegistration, passwordProblems, registrationBody, registrationProblems, safeReturnPath } from '../core/portal';
 import type { PortalCategory, RegistrationForm } from '../core/types';
 import { usePortal } from './context';
 import { PLink } from './Shell';
@@ -51,12 +51,13 @@ export function LoginPage() {
             {resent && <Notice>{resent}</Notice>}
             <button className="btn primary" disabled={form.busy || !email.trim() || !password}>{form.busy ? 'Connexion…' : 'Se connecter'}</button>
         </form>
-        <p className="portal-links"><PLink to="/mot-de-passe-oublie">Mot de passe oublié</PLink> · <PLink to="/inscription">Créer un compte</PLink></p>
+        <p className="portal-links"><PLink to="/mot-de-passe-oublie">Mot de passe oublié</PLink> · <PLink to="/inscription" params={{ retour: target }}>Créer un compte</PLink></p>
     </div>;
 }
 
 export function RegisterPage() {
     const { api, reader } = usePortal();
+    const target = safeReturnPath(useSearch().get('retour'));
     const [form, setForm] = useState<RegistrationForm>(emptyRegistration());
     const [categories, setCategories] = useState<PortalCategory[]>([]);
     const [terms, setTerms] = useState<string | null>(null);
@@ -69,7 +70,7 @@ export function RegisterPage() {
         api.termsVersion(controller.signal).then(t => setTerms(t.version)).catch(() => { });
         return () => controller.abort();
     }, []);
-    useEffect(() => { if (reader) navigate(portalPath('/compte')); }, [!!reader]);
+    useEffect(() => { if (reader) navigate(target); }, [!!reader]);
     const set = <K extends keyof RegistrationForm>(key: K, value: RegistrationForm[K]) => setForm(f => ({ ...f, [key]: value }));
     const problems = registrationProblems(form);
     const send = (event: React.FormEvent) => {
@@ -78,7 +79,7 @@ export function RegisterPage() {
         if (problems.length) return;
         void submit.run(async () => { const result = await api.register(registrationBody(form)); setForm(f => ({ ...f, motDePasse: '' })); setDone(result.message); });
     };
-    if (done) return <div className="portal-page portal-narrow"><h1>Vérifiez votre courrier</h1><Notice>{done}</Notice><p>Le courrier contient un lien de confirmation. Une fois l’adresse confirmée, vous pourrez vous connecter.</p><p><PLink to="/connexion" className="btn primary">Aller à la connexion</PLink></p></div>;
+    if (done) return <div className="portal-page portal-narrow"><h1>Vérifiez votre courrier</h1><Notice>{done}</Notice><p>Le courrier contient un lien de confirmation. Une fois l’adresse confirmée, vous pourrez vous connecter.</p><p><PLink to="/connexion" params={{ retour: target }} className="btn primary">Aller à la connexion</PLink></p></div>;
     const passwordIssues = form.motDePasse ? passwordProblems(form.motDePasse, form.email) : [];
     return <div className="portal-page portal-narrow">
         <h1>Créer un compte lecteur</h1>
@@ -99,7 +100,7 @@ export function RegisterPage() {
             {submit.error !== null && <ErrorNotice error={submit.error} />}
             <button className="btn primary" disabled={submit.busy}>{submit.busy ? 'Envoi…' : 'Créer mon compte'}</button>
         </form>
-        <p className="portal-links">Déjà inscrit ? <PLink to="/connexion">Se connecter</PLink></p>
+        <p className="portal-links">Déjà inscrit ? <PLink to="/connexion" params={{ retour: target }}>Se connecter</PLink></p>
     </div>;
 }
 

@@ -1,3 +1,4 @@
+import { useStaffIdentity } from '../auth/staffIdentity';
 import React, { useEffect } from 'react';
 import { navigate, usePath } from '../ui/navigation';
 import { Icon } from '../ui/icons';
@@ -27,11 +28,12 @@ export function RequireReader({ children }: { children: React.ReactNode }) {
 }
 
 export function PortalShell({ children }: { children: React.ReactNode }) {
+    const staff = useStaffIdentity();
     const { reader, loading, signOut, access } = usePortal();
     const path = usePath();
     const here = new URL(path, location.origin).pathname;
     const current = (to: string) => here === portalPath(to) || (to !== '' && here.startsWith(portalPath(to) + '/')) ? 'page' : undefined;
-    useEffect(() => { document.getElementById('portal-main')?.focus({ preventScroll: true }); }, [here]);
+    useEffect(() => { document.title = 'SNAE-PPD · Portail des lecteurs'; document.getElementById('portal-main')?.focus({ preventScroll: true }); }, [here]);
     return <div className="portal-shell">
         <a className="skip-link" href="#portal-main">Aller au contenu</a>
         <header className="portal-header">
@@ -39,10 +41,15 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
             <PLink to="" className="portal-title"><span>Archives et patrimoine documentaire</span><small>Portail des lecteurs</small></PLink>
             <nav className="portal-nav" aria-label="Navigation du portail">
                 <PLink to="" aria-current={here === portalPath('') || here.startsWith(portalPath('/notices')) ? 'page' : undefined}>Catalogue</PLink>
+                <PLink to="/documents" aria-current={current('/documents')}>Documents publiés</PLink>
                 <PLink to="/inventaires" aria-current={here.startsWith(portalPath('/inventaires')) ? 'page' : undefined}>Inventaires</PLink>
                 <PLink to="/formules" aria-current={current('/formules')}>Abonnements</PLink>
+                {staff && <PLink to="/gestion">Consultation & diffusion</PLink>}
                 {loading ? null : reader
                     ? <>
+                        <PLink to="/achats" aria-current={current('/achats')}>Mes documents achetés</PLink>
+                        <PLink to="/alertes-acces" aria-current={current('/alertes-acces')}>Mes alertes d’accès</PLink>
+                        <PLink to="/paiements" aria-current={current('/paiements')}>Mes paiements</PLink>
                         <PLink to="/compte" aria-current={current('/compte')}><Icon name="user" size={16} />{reader.prenom}</PLink>
                         <button className="portal-link-button" onClick={() => { void signOut().then(() => navigate(portalPath(''))); }}>Se déconnecter</button>
                     </>
@@ -55,6 +62,6 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         {reader && access === 'EN_ATTENTE' && <div className="portal-banner" role="status"><Icon name="info" size={18} /><span>Votre demande d’abonnement attend le paiement au guichet. <PLink to="/compte">Voir la référence à donner</PLink></span></div>}
         <main id="portal-main" tabIndex={-1} className="portal-main">{children}</main>
         <PortalAssistant />
-        <footer className="portal-footer"><span>SNAE-PPD · Archives et patrimoine documentaire</span><span>Les pages consultées portent le nom du lecteur et sont tracées.</span></footer>
+        <footer className="portal-footer"><PLink to="/gestion">Gestion des consultations · accès agents</PLink><span>SNAE-PPD · Archives et patrimoine documentaire</span><span>Aperçu gratuit des premières 20 % des pages. Lecture intégrale avec compte et paiement. Sans téléchargement.</span></footer>
     </div>;
 }

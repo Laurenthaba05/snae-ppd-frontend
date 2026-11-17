@@ -6,6 +6,7 @@ import { accessStateLabel, accessTone, accessUntilText, daysLeft, formatAmount, 
 import type { PortalAccessRequest, PortalCategory, PortalReceipt, PortalSubscription } from '../core/types';
 import { useAction, usePortal } from './context';
 import { PLink, RequireReader } from './Shell';
+import { AccessAlertsSummary } from './AccessAlerts';
 
 function SubscriptionCard({ sub }: { sub: PortalSubscription }) {
     const { api, reload } = usePortal();
@@ -120,10 +121,16 @@ function Account() {
     return <div className="portal-page">
         <h1>Mon compte</h1>
         <p className="portal-meta">{reader!.prenom} {reader!.nom} · lecteur {reader!.numero} · {reader!.email}</p>
+        <AccessAlertsSummary />
+        <section aria-labelledby="purchases-title" className="portal-section">
+            <h2 id="purchases-title">Mes achats de documents</h2>
+            <p>Retrouvez vos paiements et la date de fin de vos accès. La lecture se fait à l’écran, sans téléchargement.</p>
+            <div className="portal-actions"><PLink to="/achats" className="btn primary small">Mes documents achetés</PLink><PLink to="/paiements" className="btn secondary small">Historique des paiements</PLink></div>
+        </section>
         <section aria-labelledby="subs-title" className="portal-section">
             <h2 id="subs-title">Mes abonnements</h2>
             {access === 'ABONNE' && <Notice>Vous pouvez lire les documents communicables. <PLink to="">Parcourir le catalogue</PLink></Notice>}
-            {access === 'SANS_ABONNEMENT' && <Notice tone="warning">Vous n’avez pas d’abonnement en cours : la lecture des documents est fermée. <PLink to="/formules">Voir les formules</PLink></Notice>}
+            {access === 'SANS_ABONNEMENT' && <Notice tone="warning">Vous n’avez pas d’abonnement en cours. Les documents achetés restent accessibles pendant leur période de validité. <PLink to="/formules">Voir les formules</PLink></Notice>}
             {ordered.length === 0 ? <p className="portal-muted">Aucun abonnement pour le moment.</p> : <div className="portal-subscriptions">{ordered.map(s => <SubscriptionCard key={s.id} sub={s} />)}</div>}
             {access !== 'EN_ATTENTE' && <p><PLink to="/formules" className="btn secondary small">{access === 'ABONNE' ? 'Renouveler' : 'Demander un abonnement'}</PLink></p>}
         </section>
