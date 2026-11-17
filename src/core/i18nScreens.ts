@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 9204 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 9207 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -1731,6 +1731,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Ce dossier ne peut pas être clos par votre compte dans son état actuel.": "This file cannot be closed by your account in its current state.",
     "ce fichier": "this file",
     "Ce fichier a été rejeté par les contrôles de sécurité. Sélectionnez un autre fichier.": "This file was rejected by the security checks. Select another file.",
+    "Ce fichier est plus gros que ce que l’antivirus du serveur accepte d’analyser : il n’a pas été validé. Un administrateur doit relever la limite de l’antivirus (StreamMaxLength dans clamd.conf).": "This file is larger than what the server's antivirus will scan: it was not validated. An administrator must raise the antivirus limit (StreamMaxLength in clamd.conf).",
     "Ce fichier n’est pas un classeur Excel (.xlsx) valide.": "This file is not a valid Excel workbook (.xlsx).",
     "Ce fichier ne porte aucune signature électronique.": "This file carries no electronic signature.",
     "Ce fichier peut devenir une page": "This file can become a page",
@@ -4772,6 +4773,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "L’analyse antivirus n’a pas pu se terminer. Le fichier n’a pas été validé.": "The antivirus analysis could not finish. The file was not validated.",
     "L’analyse automatique est désactivée sur ce serveur : les mesures déjà faites restent affichées.": "Automatic analysis is disabled on this server: the measurements already made remain displayed.",
     "L’annulation est définitive. Les constats déjà faits restent au journal de présence des archives.": "The cancellation is final. The findings already made remain in the archives’ presence log.",
+    "L’antivirus a coupé la connexion pendant l’envoi du fichier, le plus souvent parce qu’il est plus gros que sa limite d’analyse. Le fichier n’a pas été validé : un administrateur doit relever cette limite (StreamMaxLength dans clamd.conf).": "The antivirus closed the connection while the file was being sent, most often because the file is larger than its scan limit. The file was not validated: an administrator must raise that limit (StreamMaxLength in clamd.conf).",
     "L’antivirus a détecté une menace. Ce fichier a été rejeté ; sélectionnez un autre fichier.": "The antivirus detected a threat. This file was rejected; select another file.",
     "L’antivirus a trouvé une menace dans ce fichier : il n’est jamais accepté.": "The antivirus found a threat in this file: it is never accepted.",
     "l’antivirus n’a pas pu analyser le fichier": "the antivirus could not analyse the file",
@@ -8480,6 +8482,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Tous les écarts": "All discrepancies",
     "Tous les éléments sont terminés ou annulés. Cette clôture ne nécessite pas de correction.": "All elements are completed or cancelled. This closing does not need a correction.",
     "Tous les états": "All states",
+    "Tous les formats sont acceptés : document, image, son, vidéo, archive…": "All formats are accepted: document, image, sound, video, archive…",
     "Tous les liens seront enregistrés ensemble.": "All the links will be recorded together.",
     "Tous les lieux": "All locations",
     "Tous les originaux sont rentrés avec leur constat d’état : le dossier est clos et ne se modifie plus.": "All the originals have come back with their condition report: the file is closed and can no longer be changed.",

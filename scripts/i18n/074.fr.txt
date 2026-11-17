@@ -1,0 +1,1 @@
+1	L’antivirus a coupé la connexion pendant l’envoi du fichier, le plus souvent parce qu’il est plus gros que sa limite d’analyse. Le fichier n’a pas été validé : un administrateur doit relever cette limite (StreamMaxLength dans clamd.conf).

@@ -1,0 +1,1 @@
+1	The antivirus closed the connection while the file was being sent, most often because the file is larger than its scan limit. The file was not validated: an administrator must raise that limit (StreamMaxLength in clamd.conf).
