@@ -1,3 +1,4 @@
+import { useTreatmentProjectScope } from './TreatmentProjectScope';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, formatDate, useResource } from './components';
@@ -27,6 +28,7 @@ function openBlob(blob: Blob, fileName: string) {
  */
 export function AccessPdfPanel({ element }: { element: DigitizationElement }) {
     const { me, digitization, epoch } = useSession();
+    const projectScope = useTreatmentProjectScope();
     const q = useResource<AccessPdf>(s => digitization!.accessPdf(element.id, s), 'access-pdf:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const running = q.data?.tache?.state === 'QUEUED' || q.data?.tache?.state === 'RUNNING';
     usePolling(q.refresh, POLL_MS, running);
@@ -37,7 +39,7 @@ export function AccessPdfPanel({ element }: { element: DigitizationElement }) {
     const view = q.data!;
     const state = accessPdfState(view);
     if (state === 'DISABLED' || state === 'NO_PAGES') return null;
-    const mayRequest = (canWith(me, 'DIGITIZATION_SCAN') || canWith(me, 'DIGITIZATION_QC')) && element.statut !== 'ANNULE';
+    const mayRequest = (canWith(me, 'DIGITIZATION_SCAN', projectScope) || canWith(me, 'DIGITIZATION_QC', projectScope)) && element.statut !== 'ANNULE';
     const generate = async () => {
         setBusy('generate'); setError(null);
         try { await digitization!.command('/elements/' + element.id + '/access-pdf', {}, crypto.randomUUID(), 'POST'); q.refresh(); }

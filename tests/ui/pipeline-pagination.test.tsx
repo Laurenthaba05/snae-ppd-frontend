@@ -1,0 +1,22 @@
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { expect, it, vi } from 'vitest';
+const f = vi.hoisted(() => ({ queuePage: vi.fn(), navigate: vi.fn() }));
+vi.mock('../../src/auth/session', () => ({ useSession: () => ({ digitization: { queuePage: f.queuePage }, epoch: 1 }) }));
+vi.mock('../../src/ui/navigation', () => ({ navigate: f.navigate }));
+import { PipelineBoard } from '../../src/ui/PipelineBoard';
+it('pagine la file, ouvre le bon élément et revient à la première page au changement de périmètre', async () => {
+    f.queuePage.mockImplementation((_status, options) => Promise.resolve({ items: [{ elementId: 'e' + options.page, projetId: 'p1', projetNom: 'Projet recette', description: 'Élément ' + options.page, statut: 'RECEPTION' }], page: options.page, size: 50, hasMore: options.page === 0 }));
+    const pipeline = [{ statut: 'RECEPTION' as const, elements: 201, plusAncienJours: 1 }];
+    const { rerender } = render(<PipelineBoard pipeline={pipeline} scope={{ institutionId: 'i1' }} />);
+    fireEvent.click(screen.getByRole('button', { name: /201.*Réception/ }));
+    expect(await screen.findByText('Élément 0')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: /Suivant/ }));
+    expect(await screen.findByText('Élément 1')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Ouvrir' }));
+    expect(f.navigate).toHaveBeenCalledWith('/app/numerisation?project=p1&element=e1');
+    expect(f.queuePage).toHaveBeenLastCalledWith('RECEPTION', { institutionId: 'i1', page: 1, size: 50 }, expect.anything());
+    rerender(<PipelineBoard pipeline={pipeline} scope={{ institutionId: 'i2' }} />);
+    await waitFor(() => expect(f.queuePage).toHaveBeenLastCalledWith('RECEPTION', { institutionId: 'i2', page: 0, size: 50 }, expect.anything()));
+    expect(await screen.findByText('Élément 0')).toBeTruthy();
+});

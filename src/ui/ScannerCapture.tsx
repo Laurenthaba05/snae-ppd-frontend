@@ -6,6 +6,7 @@ import { can } from '../core/policy';
 import { ApiError } from '../core/http';
 import { useSession } from '../auth/session';
 import { useWorkspace } from './workspace';
+import { LotDocumentDeposit } from './LotCapture';
 import { ArchiveRecordPicker } from './ArchiveRecordPicker';
 import { Busy, ErrorNotice, Field, Notice, useResource } from './components';
 import { navigate } from './navigation';
@@ -38,6 +39,7 @@ export function ScannerCapture({ api, capabilities }: { api: AcquisitionApi; cap
     const [jobs, setJobs] = useState<ScannerJob[]>([]), [job, setJob] = useState<ScannerJob | null>(null);
     const [uncertain, setUncertain] = useState(false), [pdf, setPdf] = useState<Blob | null>(null), [url, setUrl] = useState('');
     const [reviewed, setReviewed] = useState(false), [target, setTarget] = useState<Target>({ documentId: null, versionId: '' });
+    const [lotMode,setLotMode]=useState(false);
     const [auto, setAuto] = useState(false), [receipt, setReceipt] = useState<Ingestion | null>(null), [extractId, setExtractId] = useState('');
     const [extractionWaiting, setExtractionWaiting] = useState(false);
     const [uploadStarted, setUploadStarted] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState<unknown>(null);
@@ -167,6 +169,9 @@ export function ScannerCapture({ api, capabilities }: { api: AcquisitionApi; cap
             </section>
         </>}
         {pdf && job && <section className="acq-panel"><h2>3 · Déposer et suivre</h2>
+            <Field label="Destination du scan"><select aria-label="Destination du scan" disabled={busy||uploadStarted} value={lotMode?'lot':'existing'} onChange={e=>setLotMode(e.target.value==='lot')}><option value="existing">Document existant</option><option value="lot">Nouveau document dans un lot validé</option></select></Field>
+            {lotMode?<LotDocumentDeposit key={job.id} source={{blob:pdf,name:'scan-'+job.id+'.pdf',key:'scanner:'+job.id}} ready={reviewed} onStarted={()=>setUploadStarted(true)} onReceipt={(r,d)=>{setReceipt(r);setTarget({documentId:d.documentId,versionId:d.versionId});}}/>:<>
+
             {!scope.institutionId && <Notice tone="warning">Sélectionnez une institution dans l’en-tête pour choisir le document destinataire.</Notice>}
             {!canUpload && <Notice tone="warning">L’habilitation de dépôt de fichiers est nécessaire dans cette institution.</Notice>}
             <fieldset disabled={busy || uploadStarted}>
@@ -196,6 +201,7 @@ export function ScannerCapture({ api, capabilities }: { api: AcquisitionApi; cap
             </>}
             {extractId && <p role="status">Extraction demandée : <code>{extractId}</code>. Cet identifiant permet de reprendre la relecture dans Acquisition.</p>}
             {extractionWaiting && <Notice>Le dépôt est terminé. Un agent habilité doit valider le fichier depuis la fiche documentaire avant l’extraction. Une fois cette validation faite, relisez le dépôt ou reprenez l’extraction.</Notice>}
+        </>}
         </section>}
         {client && job && job.state !== 'SCANNING' && <details className="acq-panel"><summary>Libérer la copie temporaire du poste</summary>
             <p>Cette suppression concerne uniquement le fichier du connecteur. Vérifiez que vous avez terminé le dépôt ou enregistré une copie si vous souhaitez la conserver.</p>

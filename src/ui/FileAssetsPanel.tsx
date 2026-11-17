@@ -1,3 +1,4 @@
+import { useTreatmentProjectScope } from './TreatmentProjectScope';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, useResource } from './components';
@@ -34,6 +35,7 @@ function Copies({ item, onView }: { item: FileAssetItem; onView: () => void }) {
  */
 export function FileAssetsPanel({ element }: { element: DigitizationElement }) {
     const { me, digitization, epoch } = useSession();
+    const projectScope = useTreatmentProjectScope();
     const q = useResource<FileAssets>(s => digitization!.fileAssets(element.id, s), 'file-assets:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const items = q.data?.items ?? [];
     const summary = summarizeAssets(items);
@@ -48,7 +50,7 @@ export function FileAssetsPanel({ element }: { element: DigitizationElement }) {
     const enabled = data.identificationEnabled || data.derivativesEnabled;
     const hasHistory = items.some(i => i.format || i.derivatives.length || i.identifyState || i.deriveState);
     if (!enabled && !hasHistory) return null;
-    const canRun = enabled && (canWith(me, 'DIGITIZATION_SCAN') || canWith(me, 'DIGITIZATION_QC')) && isWorkingStage(element.statut) && summary.runnable > 0;
+    const canRun = enabled && (canWith(me, 'DIGITIZATION_SCAN', projectScope) || canWith(me, 'DIGITIZATION_QC', projectScope)) && isWorkingStage(element.statut) && summary.runnable > 0;
     const run = async () => {
         setBusy(true); setError(null);
         try { await digitization!.command('/elements/' + element.id + '/file-assets/run', {}, crypto.randomUUID(), 'POST'); q.refresh(); }

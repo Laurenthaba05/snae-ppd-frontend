@@ -53,6 +53,7 @@ export interface NationalDashboard {
 export interface QualityMonth { month: string; good: number; warn: number }
 export interface ProjectProgressRow { id: string; name: string; done: number; total: number }
 export interface DigitizationSummary {
+    closedProjectsWithPendingElements?: number;
     generatedAt: string; projects: Record<string, number>; elements: Record<string, number>;
     controls: { conformes: number; aCorriger: number; monthly: QualityMonth[] };
     progress: ProjectProgressRow[]; ocr: { results: number; averageConfidence: number | null };

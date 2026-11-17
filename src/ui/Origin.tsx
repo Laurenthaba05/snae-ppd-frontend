@@ -39,8 +39,9 @@ export function OriginText({ institutionId, departmentId }: { institutionId: str
 }
 
 /** Rattacher (ou détacher) une activité déjà créée à son institution et à sa direction d'origine. */
-export function OriginDialog({ title, subject, institutionId, departmentId, onSave, onClose }: {
+export function OriginDialog({ title, subject, institutionId, departmentId, onSave, onClose, hint }: {
     title: string;
+    hint?: string;
     subject: string;
     institutionId: string | null;
     departmentId: string | null;
@@ -61,7 +62,7 @@ export function OriginDialog({ title, subject, institutionId, departmentId, onSa
     };
     return <Modal title={title} subtitle={subject} onClose={onClose} locked={busy}>
         <form onSubmit={submit}>
-            <div className="form-grid"><OriginFields institutionId={institution} departmentId={department} onChange={(i, d) => { setInstitution(i); setDepartment(d); }} disabled={busy} /></div>
+            <div className="form-grid"><OriginFields hint={hint} institutionId={institution} departmentId={department} onChange={(i, d) => { setInstitution(i); setDepartment(d); }} disabled={busy} /></div>
             {error ? <ErrorNotice error={error} /> : null}
             <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose} disabled={busy}>Annuler</button><button type="submit" className="btn primary" disabled={busy}>Enregistrer</button></footer>
         </form>

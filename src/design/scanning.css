@@ -89,3 +89,21 @@
 .access-pdf-volumes{display:grid;gap:6px;margin:0;padding:0;list-style:none}.access-pdf-volumes li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:14px}
 .batch-manual{display:grid;gap:8px;padding:12px 14px;border:1px solid #dce5dc;border-radius:10px;background:#fbfcfb}.batch-manual h4{margin:0}.batch-manual p{margin:0;color:#33494d}
 .batch-manual-actions{display:flex;align-items:flex-end}
+
+/* The treatment modal also opens in a narrow side panel. Keep its nested
+   classification heading readable and let the refresh action wrap below it. */
+.modal [aria-label="Propositions de classement"] > .section-heading {
+    padding: 0 0 12px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+.modal [aria-label="Propositions de classement"] > .section-heading > h3 {
+    flex: 1 1 14rem;
+    min-width: 0;
+}
+@media (max-width: 600px) {
+    .modal [aria-label="Classement et description du document"],
+    .modal [aria-label="Propositions de classement"] {
+        padding: 12px;
+    }
+}

@@ -13,7 +13,7 @@ const fixture = vi.hoisted(() => ({
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: fixture.scope }) }));
-vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
+vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code), canAnywhere: (_me: unknown, code: string) => fixture.allowed.has(code) }));
 vi.mock('../../src/design/navigation', () => ({ moduleVisible: () => fixture.visible }));
 vi.mock('../../src/ui/navigation', () => ({ navigate: vi.fn() }));
 vi.mock('../../src/ui/PipelineBoard', () => ({ PipelineBoard: ({ pipeline }: { pipeline: unknown[] }) => <div data-testid="pipeline-board">{pipeline.length} étapes</div> }));
@@ -93,12 +93,12 @@ it('l’avancement reprend les projets en cours du serveur, dans son ordre', asy
     expect(table.getByText('1 / 8 (13 %)')).toBeTruthy();
 });
 
-it('le périmètre de travail se transmet au serveur, et le suivi par âge (national seulement) n’est pas lu pour une institution', async () => {
+it('le périmètre de travail se transmet aux indicateurs et au suivi par âge pour une institution', async () => {
     fixture.scope = { institutionId: 'i1', departmentId: 'd1' };
     render(<TreatmentDashboard />);
     await waitFor(() => expect(kpi('Lots en cours de traitement').textContent).toContain('1'));
     expect(fixture.digitization.summary).toHaveBeenCalledWith({ institutionId: 'i1', departmentId: 'd1' }, expect.anything());
-    expect(fixture.digitization.pipeline).not.toHaveBeenCalled();
+    expect(fixture.digitization.pipeline).toHaveBeenCalledWith(undefined, expect.anything(), { institutionId: 'i1', departmentId: 'd1' });
     expect(screen.queryByTestId('pipeline-board')).toBeNull();
     expect(screen.getByText(/Institution sélectionnée/)).toBeTruthy();                    // le périmètre est nommé, jamais un identifiant
     expect([...document.querySelectorAll('.db-count')].map(c => c.textContent)).toEqual(['0', '1', '0', '2', '0', '4', '3']);   // les étapes comptent le même périmètre
@@ -118,7 +118,7 @@ it('la confiance OCR est la moyenne du serveur (une valeur texte est lue), avec 
     expect(kpi('Confiance moyenne de l’OCR').getAttribute('title')).toBe('Aucun résultat OCR dans ce périmètre');
 });
 
-it('le suivi par âge ne s’affiche que pour tout le pays et si le serveur l’expose', async () => {
+it('le suivi par âge s’affiche lorsque le serveur le fournit', async () => {
     fixture.digitization.pipeline.mockResolvedValue([{ statut: 'NUMERISATION', elements: 12, plusAncienJours: 3 }, { statut: 'OCR_INDEXATION', elements: 4, plusAncienJours: null }]);
     const { unmount } = render(<TreatmentDashboard />);
     expect(await screen.findByTestId('pipeline-board')).toBeTruthy();
@@ -191,4 +191,11 @@ it('treatmentFrom : le résumé du serveur se range pour l’écran, sans invent
     expect(data.monthly[5]).toEqual({ key: '2026-10', label: 'Oct.', good: 1, warn: 1 });
     expect(treatmentFrom(summary({ ocr: { results: 0, averageConfidence: 0 } }) as never, null).ocrAverage).toBeNull();   // zéro résultat : pas de moyenne, même si le serveur envoie 0
     expect(treatmentFrom(summary({ ocr: { results: 2, averageConfidence: 'abc' } }) as never, null).ocrAverage).toBeNull();
+});
+
+it('signale les clôtures historiques incohérentes sans les présenter comme du travail actif', async () => {
+    fixture.digitization.summary.mockResolvedValue(summary({ closedProjectsWithPendingElements: 1 }));
+    render(<TreatmentDashboard />);
+    expect(await screen.findByText('1 projet clôturé avec des éléments encore en attente.')).toBeTruthy();
+    expect(screen.getByText(/Ces éléments restent dans l’historique/).textContent).toContain('exclus des files actives');
 });

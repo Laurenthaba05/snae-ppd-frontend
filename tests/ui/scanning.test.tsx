@@ -127,3 +127,20 @@ it('création de lot : refuse une résolution sous le minimum et un recto-verso 
     fireEvent.change(screen.getByLabelText(/Résolution de numérisation/), { target: { value: '1200' } });
     await screen.findByText(/ne dépasse pas 600 dpi/);
 });
+
+it('conserve le succès de l’import lorsque le parent recharge les pages nouvellement enregistrées', async () => {
+    function RefreshingImport() {
+        const [pages, setPages] = React.useState<ScanPage[]>([]);
+        return <PageImportDialog element={element({ pagesAttendues: 1 })} lot={lot} pages={pages} check={null}
+            onClose={vi.fn()} onDone={() => setPages([page(1)])} onPlan={vi.fn()} />;
+    }
+    render(<RefreshingImport />);
+    await screen.findByText('Choisir les images');
+    pick([file('page-1.png', 300)]);
+    fireEvent.click(await screen.findByRole('button', { name: 'Importer 1 page' }));
+    await screen.findByRole('button', { name: 'Terminer' });
+    expect(screen.getByText('Importée')).toBeTruthy();
+    expect(screen.queryByText(/La page 1 existe déjà/)).toBeNull();
+    expect(screen.queryByText(/bloquée/)).toBeNull();
+    expect(fixture.records.uploadContent).toHaveBeenCalledTimes(1);
+});

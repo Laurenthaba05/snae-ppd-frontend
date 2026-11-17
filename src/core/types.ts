@@ -664,6 +664,11 @@ export interface DigitizationProject {
     institutionId?: string | null;
     departmentId?: string | null;
 }
+export interface ProjectClosure {
+    project: DigitizationProject;
+    pendingElements: number;
+    lastCorrection: { auditId: string; correctedAt: string; previousEndDate: string | null; reason: string } | null;
+}
 export interface DigitizationElement {
     id: string;
     projetNumerisationId: string;
@@ -712,6 +717,7 @@ export interface ElementSealing {
     ecartes: number;
 }
 export interface ElementWorkflow {
+    archivingAvailable?: boolean;
     element: DigitizationElement;
     depuis: string | null;
     options: TransitionOption[];

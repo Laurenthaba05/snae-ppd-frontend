@@ -1,4 +1,7 @@
+import { LotContextDialog, LotDocumentDeposit } from './LotCapture';
+import { useTreatmentProjectScope } from './TreatmentProjectScope';
 import { LotAdvanceDialog } from './LotAdvanceDialog';
+import { LotArchivalDialog } from './ArchivalWorkflow';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { canAdvance, isCaptureStage, stageName } from '../core/workflow';
@@ -143,6 +146,7 @@ function LotSummaryTable({ lotId }: { lotId: string }) {
 
 export function LotsPanel({ projectId, canManage, focusLotId, projectName }: { projectId: string; canManage: boolean; focusLotId?: string | null; projectName?: string }) {
     const { me, digitization, epoch } = useSession();
+    const projectScope = useTreatmentProjectScope();
     const q = useResource<ScanLot[]>(s => digitization!.lotsByProject(projectId, s), 'lots:' + projectId + ':' + epoch);
     const scannersQ = useResource<Scanner[]>(s => digitization!.scanners(s), 'lots-scanners:' + epoch);
     const names = Object.fromEntries((scannersQ.data ?? []).map(s => [s.id, s.code + ' · ' + s.nom]));
@@ -151,6 +155,9 @@ export function LotsPanel({ projectId, canManage, focusLotId, projectName }: { p
     const [closing, setClosing] = useState<ScanLot | null>(null);
     const [open, setOpen] = useState<string | null>(focusLotId ?? null);
     const [importLot, setImportLot] = useState<ScanLot | null>(null);
+    const [depositBusy,setDepositBusy]=useState(false);
+    const [archivalLot,setArchivalLot]=useState<ScanLot|null>(null);
+    const [contextLot,setContextLot]=useState<ScanLot|null>(null),[depositLot,setDepositLot]=useState<ScanLot|null>(null);
     const [bump, setBump] = useState(0);
     useEffect(() => { if (focusLotId) setOpen(focusLotId); }, [focusLotId]);
     const lots = q.data ?? [];
@@ -163,9 +170,12 @@ export function LotsPanel({ projectId, canManage, focusLotId, projectName }: { p
         <div className="section-heading"><h3>Lots de numérisation</h3>{canManage && <button className="btn small primary" onClick={() => setCreating(true)}>Créer un lot</button>}</div>
         {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : lots.length ? <div className="table-scroll"><table><thead><tr><th>Lot</th><th>Scanner</th><th>Réglages</th><th>Minimum</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead>
             <tbody>{lots.flatMap(lot => [<tr key={lot.id}><td><strong>{lot.code}</strong>{lot.nom && <small className="cell-sub">{lot.nom}</small>}</td><td>{lot.scannerId ? names[lot.scannerId] ?? 'Scanner non disponible' : '—'}</td><td>{scannerSettings(lot)}</td><td>{lot.resolutionMinDpi} dpi</td><td><Badge value={lot.statut} /></td>
-                <td className="table-actions"><button className="btn small secondary" aria-expanded={open === lot.id} onClick={() => setOpen(open === lot.id ? null : lot.id)}>{open === lot.id ? 'Masquer le suivi' : 'Suivi des pages'}</button>{lot.statut === 'OUVERT' && <SheetsButton label="Feuilles" title={'Feuilles du lot ' + lot.code} build={() => lotSheets(lot)} />}{canManage && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setImportLot(lot)}><Icon name="upload" size={15} />Importer</button>}{(canManage || canAdvance(me)) && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setAdvancing(lot)}>Faire avancer le lot</button>}{canManage && lot.statut === 'OUVERT' && <button className="btn small warning" onClick={() => setClosing(lot)}>Clore</button>}</td></tr>,
+                <td className="table-actions"><button className="btn small secondary" onClick={()=>setArchivalLot(lot)}>Parcours d’archivage</button><button className="btn small secondary" onClick={()=>setContextLot(lot)}>Contexte du lot</button>{canManage&&lot.statut==='OUVERT'&&<button className="btn small secondary" onClick={()=>setDepositLot(lot)}>Déposer des documents</button>}<button className="btn small secondary" aria-expanded={open === lot.id} onClick={() => setOpen(open === lot.id ? null : lot.id)}>{open === lot.id ? 'Masquer le suivi' : 'Suivi des pages'}</button>{lot.statut === 'OUVERT' && <SheetsButton label="Feuilles" title={'Feuilles du lot ' + lot.code} build={() => lotSheets(lot)} />}{canManage && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setImportLot(lot)}><Icon name="upload" size={15} />Importer</button>}{(canManage || canAdvance(me, projectScope)) && lot.statut === 'OUVERT' && <button className="btn small secondary" onClick={() => setAdvancing(lot)}>Faire avancer le lot</button>}{canManage && lot.statut === 'OUVERT' && <button className="btn small warning" onClick={() => setClosing(lot)}>Clore</button>}</td></tr>,
                 open === lot.id ? <tr key={lot.id + ':summary'}><td colSpan={6}><LotSummaryTable key={lot.id + ':' + bump} lotId={lot.id} /></td></tr> : null])}</tbody></table></div>
             : <p className="page-note">Aucun lot dans ce projet : créez-en un pour regrouper les éléments scannés avec les mêmes réglages.</p>}
+        {archivalLot&&<LotArchivalDialog lot={archivalLot} onClose={()=>setArchivalLot(null)}/>}
+        {contextLot&&<LotContextDialog lot={contextLot} scope={projectScope} onClose={()=>setContextLot(null)}/>}
+        {depositLot&&<Modal title={'Déposer dans '+depositLot.code} onClose={()=>setDepositLot(null)} locked={depositBusy} wide><LotDocumentDeposit lot={depositLot} onBusy={setDepositBusy}/></Modal>}
         {advancing && <LotAdvanceDialog lot={advancing} onClose={() => setAdvancing(null)} onDone={() => { q.refresh(); setBump(b => b + 1); }} />}
         {creating && <LotDialog projectId={projectId} onClose={() => setCreating(false)} onCreated={q.refresh} />}
         {closing && <CloseLotDialog lot={closing} onClose={() => setClosing(null)} onClosed={q.refresh} />}
@@ -289,7 +299,7 @@ export function PagesSection({ element, lots, canManage, onChanged }: { element:
         {planning && <ScanPlanDialog element={element} lots={lots} onClose={() => setPlanning(false)} onSaved={onChanged} />}
         {declaring && <DeclarePageDialog element={element} initial={firstGap} onClose={() => setDeclaring(false)} onDone={refresh} />}
         {rescan && <RescanDialog page={rescan} onClose={() => setRescan(null)} onDone={refresh} />}
-        {importing && <PageImportDialog element={element} lot={lot ?? null} pages={pages} check={checkQ.data ?? null} onClose={() => setImporting(false)} onDone={refresh} onPlan={() => { setImporting(false); setPlanning(true); }} />}
+        {importing && <PageImportDialog element={element} lot={lot ?? null} pages={pages} check={checkQ.data ?? null} onClose={() => { setImporting(false); onChanged(); }} onDone={refresh} onPlan={() => { setImporting(false); setPlanning(true); }} />}
     </div>;
 }
 
@@ -309,10 +319,13 @@ export function PageImportDialog({ element, lot, pages, check, onClose, onDone, 
     const [stage, setStage] = useState<Stage>('choose');
     const [outcomes, setOutcomes] = useState<Record<string, ImportOutcome>>({});
     const [halt, setHalt] = useState<string | null>(null);
+    const [submittedRows, setSubmittedRows] = useState<PlanRow[] | null>(null);
     const cancelled = useRef(false);
     const keys = useRef(new Map<string, string>());
     const taken = useMemo(() => new Set(pages.filter(p => p.statut === 'PRESENTE').map(p => p.numeroPage)), [pages]);
-    const rows: PlanRow[] = useMemo(() => planPages(files.map(f => ({ name: f.file.name, size: f.file.size, info: f.info })), { start: Math.max(1, Number(start) || 1), rectoVerso: !!element.rectoVerso, resolutionMin: lot?.resolutionMinDpi ?? null, attendues: element.pagesAttendues ?? null, taken }), [files, start, element.rectoVerso, element.pagesAttendues, lot, taken]);
+    const plannedRows: PlanRow[] = useMemo(() => planPages(files.map(f => ({ name: f.file.name, size: f.file.size, info: f.info })), { start: Math.max(1, Number(start) || 1), rectoVerso: !!element.rectoVerso, resolutionMin: lot?.resolutionMinDpi ?? null, attendues: element.pagesAttendues ?? null, taken }), [files, start, element.rectoVerso, element.pagesAttendues, lot, taken]);
+    // Keep the submitted plan: newly imported pages must not become false duplicates.
+    const rows = submittedRows ?? plannedRows;
     const byName = useMemo(() => new Map(files.map(f => [f.file.name + '|' + f.file.size, f.file])), [files]);
     const sendable = rows.filter(r => r.errors.length === 0);
     const gaps = remainingGaps(element.pagesAttendues ?? null, [...pages.filter(p => p.statut !== 'MANQUANTE' && p.statut !== 'A_RESCANNER').map(p => p.numeroPage)], sendable.map(r => r.numero));
@@ -326,14 +339,14 @@ export function PageImportDialog({ element, lot, pages, check, onClose, onDone, 
         setReading(true); setProblem(null);
         try {
             const read = await Promise.all(chosen.map(async file => ({ file, info: file.size > MAX_FILE_BYTES ? { format: 'INCONNU' as const, width: null, height: null, dpi: null } : await readImageInfo(file) })));
-            setFiles(read); setOutcomes({}); setHalt(null); keys.current = new Map();
+            setFiles(read); setSubmittedRows(null); setOutcomes({}); setHalt(null); keys.current = new Map();
         } catch (e) { setProblem(e instanceof Error ? e.message : 'Lecture des fichiers impossible.'); } finally { setReading(false); }
     };
 
     const run = async (targets: PlanRow[]) => {
         const version = versionId || drafts[0]?.id;
         if (!version || !digitization || !records) return;
-        cancelled.current = false; setStage('running'); setHalt(null);
+        cancelled.current = false; setSubmittedRows(rows); setStage('running'); setHalt(null);
         const jobs = targets.flatMap(row => { const file = byName.get(rowKey(row)); return file ? [{ id: rowKey(row), row, file }] : []; });
         const reason = await importPageRows({ digitization, records, elementId: element.id, versionId: version, jobs, fallbackDpi: fallbackDpi.trim() ? Number(fallbackDpi) : null, keys: keys.current, isCancelled: () => cancelled.current, onOutcome: (id, outcome) => setOutcomes(old => ({ ...old, [id]: outcome })) });
         setHalt(reason);

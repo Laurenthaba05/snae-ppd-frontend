@@ -3,7 +3,8 @@ import { useSession } from '../auth/session';
 import { Badge, Busy, ErrorNotice, Field, Modal, Notice, formatDate, useResource } from './components';
 import { Icon } from './icons';
 import { QualityPanel } from './QualityPanel';
-import { SEAL_NOTICE, STAGES, canAdvance, isTerminalStage, sealingContextText, sealingSummary, shortHash, sinceText, splitOptions, stageIndex, stageName, transitionLabel } from '../core/workflow';
+import { ArchivalWorkflowPanel } from './ArchivalWorkflow';
+import { SEAL_NOTICE, STAGES, canAdvance, classificationContextText, isTerminalStage, sealingContextText, sealingSummary, shortHash, sinceText, splitOptions, stageIndex, stageName, transitionLabel } from '../core/workflow';
 import type { DigitizationElement, ElementTransition, ElementWorkflow, ScanPage, TransitionOption, WorkflowBlocker } from '../core/types';
 
 const MOTIF_MIN = 10;
@@ -77,16 +78,19 @@ function History({ elementId, stamp }: { elementId: string; stamp: string }) {
         <span>{t.de ? <><Badge value={t.de} label={stageName(t.de)} /> → </> : 'Création : '}<Badge value={t.vers} label={stageName(t.vers)} />{t.automatique && <small className="wf-auto"> automatique</small>}</span>
         {t.motif && <p>{t.motif}</p>}
         {Array.isArray(t.contexte?.pagesARescanner) && <small>Pages à rescanner : {(t.contexte!.pagesARescanner as number[]).join(', ')}</small>}
+        {classificationContextText(t.contexte) && <small>{classificationContextText(t.contexte)}</small>}
         {sealingContextText(t.contexte) && <small className="wf-seal">{sealingContextText(t.contexte)}</small>}
         {Array.isArray(t.contexte?.derogations) && <small>Dérogation : {(t.contexte!.derogations as Array<{ message: string }>).map(d => d.message).join(' ')}</small>}
     </li>)}</ol>;
 }
 
 /** Étape de traitement d'un élément : où il en est, ce qui bloque le passage suivant, et les passages offerts (avancer, renvoyer, suspendre). */
-export function ElementWorkflowPanel({ element, onChanged }: { element: DigitizationElement; onChanged: () => void }) {
+export function ElementWorkflowPanel({ element: initialElement, onChanged }: { element: DigitizationElement; onChanged: () => void }) {
     const { me, digitization, epoch } = useSession();
-    const stamp = [element.id, element.statut, element.versionLock].join(':');
-    const q = useResource<ElementWorkflow>(s => digitization!.elementWorkflow(element.id, s), 'element-workflow:' + stamp + ':' + epoch);
+    const stamp = [initialElement.id, initialElement.statut, initialElement.versionLock].join(':');
+    const q = useResource<ElementWorkflow>(s => digitization!.elementWorkflow(initialElement.id, s), 'element-workflow:' + stamp + ':' + epoch);
+    // The server may have advanced the element after an import or OCR validation.
+    const element = q.data?.element ?? initialElement;
     const [chosen, setChosen] = useState<TransitionOption | null>(null);
     const [preselected, setPreselected] = useState<number[]>([]);
     const [showHistory, setShowHistory] = useState(false);
@@ -123,6 +127,7 @@ export function ElementWorkflowPanel({ element, onChanged }: { element: Digitiza
             </div>
             {!canAdvance(me) && <small className="wf-note">Vous consultez cet élément : faire avancer une étape demande l’habilitation correspondante.</small>}
         </>}
+        {q.data?.archivingAvailable && <ArchivalWorkflowPanel elementId={element.id} />}
         <button type="button" className="text-link wf-history-toggle" aria-expanded={showHistory} onClick={() => setShowHistory(v => !v)}>{showHistory ? 'Masquer le journal des étapes' : 'Journal des étapes'}</button>
         {(element.statut === 'NUMERISATION' || element.statut === 'CONTROLE_QUALITE') && <QualityPanel element={element} onSendBack={sendBack} />}
         {showHistory && <History elementId={element.id} stamp={stamp} />}

@@ -1,3 +1,4 @@
+import { useTreatmentProjectScope } from './TreatmentProjectScope';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, ErrorNotice, useResource } from './components';
@@ -16,6 +17,7 @@ const POLL_MS = 8000;
  */
 export function OcrJobsPanel({ element }: { element: DigitizationElement }) {
     const { me, digitization, epoch } = useSession();
+    const projectScope = useTreatmentProjectScope();
     const q = useResource<OcrJobs>(s => digitization!.ocrJobs(element.id, s), 'ocr-jobs:' + [element.id, element.statut, element.versionLock].join(':') + ':' + epoch);
     const items = q.data?.items ?? [];
     const summary = summarizeOcrJobs(items);
@@ -27,7 +29,7 @@ export function OcrJobsPanel({ element }: { element: DigitizationElement }) {
     const enabled = q.data?.enabled ?? false;
     const history = items.some(i => i.state !== null || i.hasText);
     if (!enabled && !history) return null;
-    const canRun = enabled && canWith(me, 'DIGITIZATION_OCR') && isWorkingStage(element.statut) && summary.runnable > 0;
+    const canRun = enabled && canWith(me, 'DIGITIZATION_OCR', projectScope) && isWorkingStage(element.statut) && summary.runnable > 0;
     const run = async () => {
         setBusy(true); setError(null);
         try { await digitization!.command('/elements/' + element.id + '/ocr/run', {}, crypto.randomUUID(), 'POST'); q.refresh(); }

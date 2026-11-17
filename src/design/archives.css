@@ -38,3 +38,36 @@
 .archive-enrichment .form-grid{padding:0}
 .archive-enrichment .btn{justify-self:start;max-width:100%;white-space:normal}
 .archive-enrichment .reference-panel{min-width:0;max-width:100%}
+
+
+/* Keep the EAD and EAC import actions reachable in a narrow browser panel. */
+.modal:has(input:is([accept*=".ead"],[accept*=".eac"]),.archive-csv-import) .modal-footer{flex-wrap:wrap}
+.modal:has(input:is([accept*=".ead"],[accept*=".eac"]),.archive-csv-import) .modal-footer .btn{max-width:100%;white-space:normal}
+.modal:has(input:is([accept*=".ead"],[accept*=".eac"]),.archive-csv-import) .panel-padding{min-width:0;overflow-wrap:anywhere}
+.ead-outline{padding-left:18px;overflow-wrap:anywhere}
+.ead-outline details{margin-top:8px}
+.ead-outline details ul{padding-left:18px}
+@media(max-width:480px){.modal:has(input:is([accept*=".ead"],[accept*=".eac"]),.archive-csv-import) .panel-padding{padding:16px}.modal:has(input:is([accept*=".ead"],[accept*=".eac"]),.archive-csv-import) .modal-footer .btn{flex:1 1 100%}}
+
+/* Let the ISDF CSV actions wrap below the title in narrow panels. */
+.archival-functions-panel>.section-heading{flex-wrap:wrap}
+.archival-functions-panel>.section-heading>.page-actions{max-width:100%;justify-content:flex-start}
+.archival-functions-panel>.section-heading .btn{white-space:normal;overflow-wrap:anywhere}
+
+/* Parcours papier/numérique et rangement guidé : utilisables dans un volet étroit. */
+[aria-label="Parcours d’archivage"] { min-width:0; padding:16px; overflow-wrap:anywhere; }
+[aria-label="Parcours d’archivage"] .panel { padding:12px; }
+[aria-label="Parcours d’archivage"] .btn { min-width:0; max-width:100%; white-space:normal; overflow-wrap:anywhere; }
+.modal:has([aria-label="Parcours d’archivage"],[aria-label="Aperçu du rangement"]) { overflow-wrap:anywhere; }
+.modal:has([aria-label="Parcours d’archivage"],[aria-label="Aperçu du rangement"]) select { width:100%; min-width:0; max-width:100%; }
+.modal:has([aria-label="Parcours d’archivage"]) > label { display:block; padding:16px; }
+.modal:has([aria-label="Aperçu du rangement"]) .modal-footer { flex-wrap:wrap; }
+.modal:has([aria-label="Aperçu du rangement"]) .btn { max-width:100%; min-width:0; white-space:normal; }
+.modal:has([aria-label="Aperçu du rangement"]) > .notice,
+.modal:has([aria-label="Aperçu du rangement"]) form > p { margin:16px; }
+@media (max-width:480px) {
+    [aria-label="Parcours d’archivage"] { padding:12px; }
+    [aria-label="Parcours d’archivage"] .table-actions { justify-content:flex-start; }
+    [aria-label="Parcours d’archivage"] .table-actions .btn,
+    .modal:has([aria-label="Aperçu du rangement"]) .modal-footer .btn { flex:1 1 100%; }
+}

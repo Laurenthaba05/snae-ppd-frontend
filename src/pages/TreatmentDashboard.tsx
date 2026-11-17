@@ -8,7 +8,7 @@ import { Notice, useResource } from '../ui/components';
 import { Meter, ProgressBars, StackedBar, StackedColumns, nf, percent } from '../ui/charts';
 import type { Column, Progress } from '../ui/charts';
 import { EmptyNote, updatedText, useKeptData } from '../ui/DashboardParts';
-import { can } from '../core/policy';
+import { can, canAnywhere } from '../core/policy';
 import { moduleVisible } from '../design/navigation';
 import { formatPercent } from '../core/locale';
 import { PipelineBoard } from '../ui/PipelineBoard';
@@ -29,7 +29,7 @@ const roles: Array<{ name: string; text: string; icon: string; color: string; ce
         3: { tone: 'blue', icon: 'ocr', title: 'Lancer l’OCR', bullets: ['Exécuter la reconnaissance', 'Vérifier la confiance', 'Indexer automatiquement'] } } },
     { name: 'Contrôleur qualité', text: 'Vérifie la conformité des fichiers et du contenu', icon: 'user', color: 'gold', cells: {
         4: { tone: 'amber', icon: 'alert', title: 'Contrôler la qualité', bullets: ['Vérifier l’image', 'Contrôler le texte OCR', 'Détecter les doublons'] },
-        5: { tone: 'blue', icon: 'tag', title: 'Compléter les métadonnées', bullets: ['Enrichir les métadonnées', 'Normaliser les champs', 'Assurer la cohérence'] } } },
+        5: { tone: 'blue', icon: 'tag', title: 'Compléter les métadonnées', bullets: ['Enrichir les métadonnées', 'Normaliser les champs', 'Choisir une rubrique du plan'] } } },
     { name: 'Responsable validation', text: 'Approuve le lot pour versement', icon: 'user', color: 'purple', cells: {
         6: { tone: 'blue', icon: 'userCheck', title: 'Revoir et valider', bullets: ['Examiner le lot', 'Approuver ou rejeter', 'Demander une correction'] },
         7: { tone: 'green', icon: 'checkCircle', title: 'Valider le lot', bullets: ['Confirmer la conformité', 'Clôturer le traitement', 'Préparer le versement'] } } }
@@ -48,8 +48,8 @@ const quickActions: Array<{ route: string; icon: string; label: string; tone: st
     { route: 'numerisation', icon: 'plusCircle', label: 'Nouveau lot de traitement', tone: 'primary' },
     { route: 'ocr', icon: 'ocr', label: 'Lancer l’OCR', tone: 'mint' },
     { route: 'controle', icon: 'search', label: 'Contrôle qualité', tone: 'sand' },
-    { route: 'metadonnees', icon: 'tag', label: 'Enrichir les métadonnées', tone: 'sand' },
-    { route: 'circuits-validation', icon: 'users', label: 'Soumettre à validation', tone: 'sand' }
+    { route: 'documents', icon: 'tag', label: 'Décrire et classer les documents', tone: 'sand' },
+    { route: 'classement', icon: 'tree', label: 'Consulter le plan de classement', tone: 'sand' }
 ];
 /** Ce que le système fait réellement à chaque lot ; les exigences d'image (formats, résolution) ne sont pas codées ici : elles dépendent du profil de numérisation de l'institution. */
 const rules: Array<{ icon: string; title: string; text: string }> = [
@@ -76,6 +76,7 @@ export interface TreatmentData {
     /** Suivi par étapes avec l'âge du plus ancien élément : national seulement (le serveur ne le calcule pas par périmètre) ; null sinon. */
     pipeline: PipelineStage[] | null;
     generatedAt?: string;
+    closedProjectsWithPendingElements?: number;
 }
 
 /** Les nombres du serveur, rangés pour l'écran. Les éléments suspendus se comptent à part : ils n'avancent pas, mais ne sont pas perdus. */
@@ -91,7 +92,7 @@ export function treatmentFrom(summary: DigitizationSummary, pipeline: PipelineSt
         monthly: summary.controls.monthly.map(m => ({ key: m.month, label: monthLabel(m.month), good: m.good, warn: m.warn })),
         progress: summary.progress.map(p => ({ key: p.id, name: p.name, done: p.done, total: p.total })),
         ocrAverage: Number.isFinite(average) && summary.ocr.results > 0 ? average : null, ocrResults: summary.ocr.results,
-        stages: elements, pipeline, generatedAt: summary.generatedAt
+        stages: elements, pipeline, generatedAt: summary.generatedAt, closedProjectsWithPendingElements: summary.closedProjectsWithPendingElements
     };
 }
 
@@ -105,14 +106,14 @@ function useTreatmentData() {
     const { me, digitization, epoch } = useSession();
     const { scope } = useWorkspace();
     const institutionId = scope.institutionId ?? null, departmentId = scope.departmentId ?? null;
-    const allowed = !!digitization && can(me, 'DIGITIZATION_READ', scope);
+    const allowed = !!digitization && (institutionId ? can(me, 'DIGITIZATION_READ', scope) : canAnywhere(me, 'DIGITIZATION_READ'));
     const key = ['treatment', epoch, allowed, institutionId, departmentId].join(':');
     const resource = useResource<TreatmentData | null>(async signal => {
         if (!digitization || !allowed) return null;
-        // un seul appel pour tous les nombres, calculés par le serveur dans le périmètre ; le suivi par étapes avec l'âge du plus ancien n'existe que pour l'ensemble du pays
+        // Les indicateurs et les files utilisent le même périmètre de travail.
         const [summary, pipeline] = await Promise.all([
             digitization.summary({ institutionId, departmentId }, signal),
-            institutionId ? Promise.resolve(null) : digitization.pipeline(undefined, signal).catch(() => null)
+            digitization.pipeline(undefined, signal, { institutionId, departmentId })
         ]);
         return treatmentFrom(summary, pipeline);
     }, key);
@@ -193,17 +194,18 @@ export function TreatmentDashboard() {
     const scopeText = useScopeText(scope);
     const treatment = useTreatmentData();
     return <TreatmentView data={treatment.data ?? undefined} loading={treatment.loading && !treatment.data} error={!!treatment.error} onRetry={treatment.refresh} truncated={!!me?.truncated}
-        scopeLabel={scopeText} canGo={route => moduleVisible(me, route, scope, demo)} />;
+        scopeLabel={scopeText} scope={scope} canGo={route => moduleVisible(me, route, scope, demo)} />;
 }
 
 export interface TreatmentViewProps {
     data: TreatmentData | undefined; loading: boolean; error: boolean; onRetry: () => void; truncated: boolean; canGo: (route: string) => boolean;
     /** Le périmètre de travail en toutes lettres (« National », « Archives nationales »…) : les chiffres sont ceux de ce périmètre. */
     scopeLabel?: string;
+    scope?: { institutionId?: string | null; departmentId?: string | null };
 }
 
 /** Ce que voit la personne : les indicateurs déjà lus, sans accès au serveur (la page les lit, l'aperçu de conception les fabrique). */
-export function TreatmentView({ data, loading, error, onRetry, truncated, canGo, scopeLabel }: TreatmentViewProps) {
+export function TreatmentView({ data, loading, error, onRetry, truncated, canGo, scopeLabel, scope }: TreatmentViewProps) {
     const treatment = { loading, error, refresh: onRetry };
     const count = (n: number | undefined) => treatment.loading ? '…' : treatment.error || n === undefined ? '—' : nf(n);
     const empty = !!data && !data.projects.enCours && !data.projects.termine && !data.projects.annule && !data.controls.conformes && !data.controls.aCorriger;
@@ -218,6 +220,7 @@ export function TreatmentView({ data, loading, error, onRetry, truncated, canGo,
         </section>
         <div className="db-layout">
             <div className="db-main">
+                {!!data?.closedProjectsWithPendingElements && <div role="status" className="notice warning"><strong>{data.closedProjectsWithPendingElements} {data.closedProjectsWithPendingElements > 1 ? 'projets clôturés' : 'projet clôturé'} avec des éléments encore en attente.</strong><p>Ces éléments restent dans l’historique et sont exclus des files actives. Faites vérifier ces clôtures par le responsable du traitement.</p></div>}
                 <section className="db-card db-charts-card" aria-label="Indicateurs de traitement en diagrammes">
                     <div className="db-matrix-head">
                         <div><h2>Suivi du traitement</h2><p>Projets de numérisation, éléments numérisés et contrôles qualité.</p></div>
@@ -229,7 +232,7 @@ export function TreatmentView({ data, loading, error, onRetry, truncated, canGo,
                         : empty ? <EmptyNote>Aucun projet de numérisation ni contrôle qualité enregistré pour le moment.</EmptyNote>
                         : <TreatmentCharts data={data} />}
                 </section>
-                {data?.pipeline && <PipelineBoard pipeline={data.pipeline} />}
+                {data?.pipeline && <PipelineBoard pipeline={data.pipeline} scope={scope} />}
                 <section className="db-card db-matrix-card" aria-label="Cartographie du parcours par rôle utilisateur">
                     <div className="db-matrix-head">
                         <div><h2>Cartographie du parcours par rôle utilisateur</h2><p>Visualisez les actions de chaque acteur tout au long du processus de traitement.</p></div>

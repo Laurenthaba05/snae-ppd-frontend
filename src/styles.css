@@ -60,3 +60,8 @@
 .ocr-search-context { background: #fff8db; border-left: 3px solid #b78200; padding: 10px 14px; color: #4a3910; }
 .ocr-word-box.search-match rect { fill: #ffd44088; stroke: #996600; stroke-width: 2; }
 .ocr-word-box.search-match.selected rect, .ocr-word-box.search-match:focus rect { fill: #ffd440aa; stroke: #164bae; stroke-width: 3; }
+
+/* Les panneaux du traitement doivent rester lisibles dans une fenêtre étroite. */
+.modal > .form-grid:has(> .wf){grid-template-columns:repeat(2,minmax(0,1fr))}
+.modal > .form-grid:has(> .wf) > *{min-width:0;overflow-wrap:anywhere}
+@media(max-width:720px){.modal > .form-grid:has(> .wf){grid-template-columns:minmax(0,1fr)}}

@@ -1,4 +1,4 @@
-import type { DigitizationElementStatus, ElementSealing, Me, TransitionOption } from './types.js';
+import type { DigitizationElementStatus, ElementSealing, Me, ScopeTarget, TransitionOption } from './types.js';
 import { can } from './policy.js';
 
 export type Stage = DigitizationElementStatus;
@@ -32,10 +32,10 @@ export const stageIndex = (status: Stage): number => STAGES.findIndex(s => s.sta
 export type EntryPermission = 'DIGITIZATION_SCAN' | 'DIGITIZATION_OCR' | 'DIGITIZATION_QC';
 
 /** Gérer la numérisation, ou détenir la permission de l'étape concernée (enregistrer des pages, des textes OCR, des contrôles). */
-export const canWith = (me: Me | null, permission: EntryPermission): boolean => can(me, 'DIGITIZATION_MANAGE', {}) || can(me, permission, {});
+export const canWith = (me: Me | null, permission: EntryPermission, scope: ScopeTarget = {}): boolean => can(me, 'DIGITIZATION_MANAGE', scope) || can(me, permission, scope);
 
 /** Détient au moins une permission de passage d'étape (numérisation, OCR, qualité ou validation), sans compter la gestion seule. */
-export const canAdvance = (me: Me | null): boolean => ['DIGITIZATION_SCAN', 'DIGITIZATION_OCR', 'DIGITIZATION_QC', 'DIGITIZATION_VALIDATE'].some(p => can(me, p, {}));
+export const canAdvance = (me: Me | null, scope: ScopeTarget = {}): boolean => ['DIGITIZATION_SCAN', 'DIGITIZATION_OCR', 'DIGITIZATION_QC', 'DIGITIZATION_VALIDATE'].some(p => can(me, p, scope));
 
 /** Libellé du bouton d'un passage, du point de vue de la personne qui agit. */
 export function transitionLabel(from: Stage, to: Stage): string {
@@ -124,4 +124,13 @@ export function sinceText(since: string | null | undefined, now = Date.now()): s
     if (hours < 24) return 'depuis ' + hours + ' h';
     const days = Math.floor(hours / 24);
     return 'depuis ' + days + (days > 1 ? ' jours' : ' jour');
+}
+
+/** Photographie du classement au moment de la validation, indépendante du plan courant. */
+export function classificationContextText(context: Record<string, unknown> | null | undefined): string | null {
+    const value = context?.classement;
+    if (!value || typeof value !== 'object') return null;
+    const c = value as Record<string, unknown>;
+    const label = [c.code, c.label].filter(v => typeof v === 'string' && v.trim()).join(' · ');
+    return label ? 'Classement validé : ' + label : null;
 }

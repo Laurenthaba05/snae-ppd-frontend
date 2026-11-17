@@ -4,11 +4,20 @@ import { uuid } from '../core/validation.js';
 import { allPages } from '../core/paging.js';
 import type { DigitizationSummary } from '../core/dashboard.js';
 import type { ConformityReport, ImageTechnical, PdfaDeclaration, ScanProfile } from '../core/scanProfiles.js';
-import type { LotAdvance, AccessPdf, DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrLayout, OcrResult, Contribution, OcrListItem, Scanner, ScanLot, ScanPage, PageCheck, LotSummary, ElementWorkflow, ElementTransition, PipelineStage, QueueItem, DigitizationElementStatus, OcrJobs, OcrStatus, QualityAnalysis, FileAssets } from '../core/types.js';
+import type { Page, LotAdvance, AccessPdf, ProjectClosure, DigitizationProject, DigitizationElement, QualityControl, QualityControlListItem, OcrLayout, OcrResult, Contribution, OcrListItem, Scanner, ScanLot, ScanPage, PageCheck, LotSummary, ElementWorkflow, ElementTransition, PipelineStage, QueueItem, DigitizationElementStatus, OcrJobs, OcrStatus, QualityAnalysis, FileAssets } from '../core/types.js';
+import type { LotContext, LotContextInput, CaptureInput, CapturedDocument } from '../core/lotCapture.js';
 export class DigitizationApi {
+    lotContext(id: string, signal?: AbortSignal): Promise<{context: LotContext | null}> { return this.transport.request('/digitization/lots/' + uuid(id) + '/context', {signal}); }
+    validateLotContext(id: string, body: LotContextInput, key: string): Promise<LotContext> { return this.command('/lots/' + uuid(id) + '/context/validate', body, key); }
+    captureDocument(id: string, body: CaptureInput, key: string): Promise<CapturedDocument> { return this.command('/lots/' + uuid(id) + '/documents', body, key); }
+    lotResponsibles(id: string, page: number, q: string, signal?: AbortSignal): Promise<{id: string; name: string}[]> { return this.transport.request('/digitization/lots/' + uuid(id) + '/responsibles' + query({page,q}), {signal}); }
+    documentCaptureContext(id: string, signal?: AbortSignal): Promise<{context: LotContext | null}> { return this.transport.request('/documents/' + uuid(id) + '/capture-context', {signal}); }
+
     constructor(readonly transport: Transport) { }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     projects(signal?: AbortSignal): Promise<DigitizationProject[]> { return allPages<DigitizationProject>((page, size) => this.transport.request('/digitization/projects' + query({ page, size }), { signal })); }
+    projectClosure(id: string, signal?: AbortSignal): Promise<ProjectClosure> { return this.transport.request('/digitization/projects/' + uuid(id) + '/closure', { signal }); }
+    reopenProject(id: string, expectedVersion: number, reason: string, key: string = crypto.randomUUID()): Promise<DigitizationProject> { return this.transport.request('/digitization/projects/' + uuid(id) + '/reopen', { method: 'POST', body: { expectedVersion, reason }, idempotencyKey: key }); }
     elementsByProject(projectId: string, signal?: AbortSignal): Promise<DigitizationElement[]> { return this.transport.request('/digitization/projects/' + uuid(projectId) + '/elements', { signal }); }
     /** Les nombres de l'écran de traitement, calculés par le serveur (sans institution : la vue nationale). */
     summary(scope: { institutionId?: string | null; departmentId?: string | null } = {}, signal?: AbortSignal): Promise<DigitizationSummary> {
@@ -42,7 +51,10 @@ export class DigitizationApi {
     accessPdf(elementId: string, signal?: AbortSignal): Promise<AccessPdf> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/access-pdf', { signal }); }
     /** Un volume du PDF d'accès (octets du PDF). */
     accessPdfPart(elementId: string, part: number, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/digitization/elements/' + uuid(elementId) + '/access-pdf/' + Math.trunc(part), { signal, responseType: 'blob' }); }
-    pipeline(projectId?: string, signal?: AbortSignal): Promise<PipelineStage[]> { return this.transport.request('/digitization/pipeline' + (projectId ? '?projetId=' + uuid(projectId) : ''), { signal }); }
+    pipeline(projectId?: string, signal?: AbortSignal, scope: { institutionId?: string | null; departmentId?: string | null } = {}): Promise<PipelineStage[]> { return this.transport.request('/digitization/pipeline' + query({ projetId: projectId ? uuid(projectId) : undefined, institutionId: scope.institutionId ?? undefined, departmentId: scope.departmentId ?? undefined }), { signal }); }
+    queuePage(status: DigitizationElementStatus, options: { page?: number; size?: number; institutionId?: string | null; departmentId?: string | null } = {}, signal?: AbortSignal): Promise<Page<QueueItem>> {
+        return this.transport.request('/digitization/queue-page' + query({ statut: status, page: options.page, size: options.size, institutionId: options.institutionId ?? undefined, departmentId: options.departmentId ?? undefined }), { signal });
+    }
     queue(status: DigitizationElementStatus, projectId?: string, signal?: AbortSignal): Promise<QueueItem[]> { return this.transport.request('/digitization/queue?statut=' + status + (projectId ? '&projetId=' + uuid(projectId) : ''), { signal }); }
     /** Les profils de numérisation nationaux et ceux de l'institution (les profils retirés seulement si demandés). */
     scanProfiles(institutionId: string | null | undefined, includeRetired: boolean, signal?: AbortSignal): Promise<ScanProfile[]> {

@@ -1,7 +1,7 @@
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import React, { useState, useRef } from 'react';
 import { useSession } from '../auth/session';
-import { can } from '../core/policy';
+import { can, canAnywhere } from '../core/policy';
 import { Badge, Busy, ErrorNotice, Notice, PageHead, useResource } from '../ui/components';
 import { Icon } from '../ui/icons';
 import { SCANNER_TYPES, ScannerDialog, scannerStatusActions } from '../ui/Scanning';
@@ -16,8 +16,8 @@ export function ScannersPage() {
     const statusLock = useRef(false);
     const { me, digitization, epoch } = useSession();
     const canManage = can(me, 'DIGITIZATION_MANAGE', {});
-    const canRead = can(me, 'DIGITIZATION_READ', {});
-    const q = useResource<Scanner[]>(s => digitization && canRead ? digitization.scanners(s) : Promise.resolve([]), 'scanners:' + epoch);
+    const canRead = canAnywhere(me, 'DIGITIZATION_READ');
+    const q = useResource<Scanner[]>(s => digitization && canRead ? digitization.scanners(s) : Promise.resolve([]), 'scanners:' + epoch + ':' + canRead);
     const [editing, setEditing] = useState<Scanner | 'new' | null>(null);
     const [error, setError] = useState<unknown>(null);
     const scanners = q.data ?? [];
@@ -36,7 +36,7 @@ export function ScannersPage() {
             <button disabled={!canRead} className={tab === 'inventory' ? 'active' : ''} aria-current={tab === 'inventory' ? 'page' : undefined} onClick={() => setTab('inventory')}>Parc et profils de qualité</button>
         </nav>
         <div hidden={tab !== 'capture'}><ScannerWorkspace /></div>
-        <div hidden={tab !== 'inventory'}><div className="panel">
+        {canRead && tab === 'inventory' && <div><div className="panel">
             {error ? <ErrorNotice error={error} /> : null}
             {q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : scanners.length ? <div className="table-scroll"><table>
                 <thead><tr><th>Scanner</th><th>Type</th><th>Recto-verso</th><th>Résolution max.</th><th>Emplacement</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead>
@@ -46,6 +46,6 @@ export function ScannersPage() {
                 : <p className="page-note">Aucun scanner enregistré. Ajoutez le matériel de l’atelier pour pouvoir l’associer aux lots de numérisation.</p>}
         </div>
         {editing && <ScannerDialog scanner={editing === 'new' ? undefined : editing} onClose={() => setEditing(null)} onSaved={q.refresh} />}
-        <ScanProfilesSection /></div>
+        <ScanProfilesSection /></div>}
     </>;
 }

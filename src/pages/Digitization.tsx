@@ -1,14 +1,18 @@
+import { ProjectClosureDialog } from '../ui/ProjectClosureDialog';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import { OcrLayoutDialog } from '../ui/OcrLayoutDialog';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
-import { can } from '../core/policy';
+import { can, canAnywhere } from '../core/policy';
+import { TreatmentProjectScope, useTreatmentProjectScope } from '../ui/TreatmentProjectScope';
+import { useWorkspace } from '../ui/workspace';
 import { navigate } from '../ui/navigation';
-import { PageHead, Busy, ErrorNotice, Empty, useResource, Modal, Field, Badge, formatDate } from '../ui/components';
+import { PageHead, Busy, ErrorNotice, Empty, Notice, useResource, Modal, Field, Badge, formatDate } from '../ui/components';
 import { Icon } from '../ui/icons';
 import { uuid } from '../core/validation';
 import { LotsPanel, PagesSection } from '../ui/Scanning';
+import { TreatmentClassificationPanel } from '../ui/TreatmentClassification';
 import { ElementWorkflowPanel } from '../ui/ElementWorkflow';
 import { OcrJobsPanel } from '../ui/OcrJobsPanel';
 import { FileAssetsPanel } from '../ui/FileAssetsPanel';
@@ -23,18 +27,20 @@ export function CreateProjectDialog({ onClose, onCreated }: {
     onClose: () => void;
     onCreated: () => void;
 }) {
-    const { digitization } = useSession();
+    const { digitization, me } = useSession();
+    const workspace = useWorkspace()?.scope ?? {};
     const [nom, setNom] = useState('');
     const [code, setCode] = useState('');
     const [perimetre, setPerimetre] = useState('');
     const [description, setDescription] = useState('');
-    const [institutionId, setInstitutionId] = useState('');
-    const [departmentId, setDepartmentId] = useState('');
+    const [institutionId, setInstitutionId] = useState(workspace.institutionId ?? '');
+    const [departmentId, setDepartmentId] = useState(workspace.departmentId ?? '');
     const extra = useOptionalFields('project');
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<unknown>(null);
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (!can(me, 'DIGITIZATION_MANAGE', { institutionId: institutionId || null, departmentId: departmentId || null })) { setError(new Error('Vous ne pouvez pas créer de projet dans ce périmètre.')); return; }
         setBusy(true);
         setError(null);
         try {
@@ -52,11 +58,11 @@ export function CreateProjectDialog({ onClose, onCreated }: {
     return <Modal title="Créer un projet de numérisation" onClose={onClose} locked={busy}>
         <form onSubmit={submit}>
             <div className="form-grid">
-                
+
                 <Field label="Nom" wide><input value={nom} onChange={e => setNom(e.target.value)} required maxLength={255} disabled={busy}/></Field>
                 <Field label="Code" hint="Optionnel"><input value={code} onChange={e => setCode(e.target.value)} maxLength={100} disabled={busy}/></Field>
                 <Field label="Périmètre" hint="Optionnel"><input value={perimetre} onChange={e => setPerimetre(e.target.value)} disabled={busy}/></Field>
-                <OriginFields institutionId={institutionId} departmentId={departmentId} onChange={(i, d) => { setInstitutionId(i); setDepartmentId(d); }} disabled={busy} hint="Facultatif : l’institution dont on numérise les archives. Elle sert aux tableaux de bord."/>
+                <OriginFields institutionId={institutionId} departmentId={departmentId} onChange={(i, d) => { setInstitutionId(i); setDepartmentId(d); }} disabled={busy} hint="L’institution détermine les agents habilités à consulter et traiter le projet. Sans rattachement, seuls les agents nationaux habilités y accèdent."/>
                 <Field label="Description" wide><textarea value={description} onChange={e => setDescription(e.target.value)} disabled={busy}/></Field>
             <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
             </div>
@@ -188,7 +194,7 @@ function CreateQualityControlDialog({ elementId, onClose, onCreated }: {
     return <Modal title="Enregistrer un contrôle qualité" onClose={onClose} locked={busy}>
         <form onSubmit={submit}>
             <div className="form-grid">
-                
+
                 <Field label="DPI" hint="Optionnel"><input type="number" value={dpi} onChange={e => setDpi(e.target.value)} disabled={busy}/></Field>
                 <Field label="Mode couleur" hint="Optionnel"><input value={modeCouleur} onChange={e => setModeCouleur(e.target.value)} maxLength={40} disabled={busy}/></Field>
                 <Field label="Conforme ?"><select value={conforme ? 'oui' : 'non'} onChange={e => setConforme(e.target.value === 'oui')} disabled={busy}><option value="oui">Oui</option><option value="non">Non</option></select></Field>
@@ -247,9 +253,10 @@ export function CreateContributionDialog({ elementId, onClose, onCreated }: {
     </Modal>;
 }
 
-function OcrSection({ canManage }: {
+function OcrSection({ canManage, onChanged }: {
     elementId: string;
     canManage: boolean;
+    onChanged: () => void;
 }) {
     const { digitization, epoch } = useSession();
     const [layoutItem, setLayoutItem] = useState<OcrResult | null>(null);
@@ -265,7 +272,7 @@ function OcrSection({ canManage }: {
     const results = q.data ?? [];
     const validate = async (result: OcrResult) => {
         await digitization!.command(`/ocr-results/${result.id}/validate`, {}, crypto.randomUUID(), 'POST');
-        q.refresh();
+        q.refresh(); onChanged();
     };
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -301,7 +308,7 @@ function OcrSection({ canManage }: {
         {creating && <Modal title="Ajouter un résultat OCR" onClose={() => setCreating(false)} locked={busy}>
             <form onSubmit={submit}>
                 <div className="form-grid">
-                
+
                     <Field label="Type de reconnaissance" hint="Ex. TESSERACT"><input value={typeReconnaissance} onChange={e => setTypeReconnaissance(e.target.value)} required maxLength={20} disabled={busy}/></Field>
                     <Field label="Texte reconnu" wide><textarea value={texte} onChange={e => setTexte(e.target.value)} required rows={6} disabled={busy}/></Field>
                 <details className="span2"><summary>Informations complémentaires</summary><div className="form-grid"><OptionalFields form={extra} disabled={busy}/></div></details>
@@ -320,6 +327,7 @@ function ElementDetailDialog({ element, canManage, onClose, onChanged }: {
     onChanged: () => void;
 }) {
     const { me, digitization, epoch } = useSession();
+    const projectScope = useTreatmentProjectScope();
     const [linkingFile, setLinkingFile] = useState(false);
     const [filesRevision, setFilesRevision] = useState(0);
     const filesChanged = () => { setFilesRevision(value => value + 1); onChanged(); };
@@ -335,16 +343,17 @@ function ElementDetailDialog({ element, canManage, onClose, onChanged }: {
     return <Modal title="Élément de numérisation" subtitle={element.descriptionSource ?? undefined} onClose={onClose} wide>
         <div className="form-grid">
             <ElementWorkflowPanel key={filesRevision} element={element} onChanged={onChanged}/>
+            <TreatmentClassificationPanel key={element.documentId} documentId={element.documentId} onChanged={filesChanged}/>
             {canManage && isWorkingStage(element.statut) && <div className="table-actions"><button className="btn small secondary" onClick={() => setLinkingFile(true)}>Rattacher un fichier</button></div>}
-            <PagesSection element={element} lots={lotsQ.data ?? []} canManage={canManage || canWith(me, 'DIGITIZATION_SCAN') || canWith(me, 'DIGITIZATION_QC')} onChanged={filesChanged}/>
+            <PagesSection element={element} lots={lotsQ.data ?? []} canManage={canManage || canWith(me, 'DIGITIZATION_SCAN', projectScope) || canWith(me, 'DIGITIZATION_QC', projectScope)} onChanged={filesChanged}/>
             <div>
-                <div className="section-heading"><h4>Contrôles qualité</h4>{canWith(me, 'DIGITIZATION_QC') && element.statut === 'CONTROLE_QUALITE' && <button className="btn small secondary" onClick={() => setCreatingQc(true)}>Ajouter un contrôle</button>}</div>
+                <div className="section-heading"><h4>Contrôles qualité</h4>{canWith(me, 'DIGITIZATION_QC', projectScope) && element.statut === 'CONTROLE_QUALITE' && <button className="btn small secondary" onClick={() => setCreatingQc(true)}>Ajouter un contrôle</button>}</div>
                 {qcQ.loading ? <Busy /> : qcQ.error ? <ErrorNotice error={qcQ.error} onRetry={qcQ.refresh}/> : qcQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Date</th><th>DPI</th><th>Conforme</th><th>Décision</th></tr></thead><tbody>{qcQ.data.map(c => <tr key={c.id}><td>{formatDate(c.dateControle)}<ResourceDetailsButton resource="qualityControl" id={c.id} /></td><td>{c.dpi ?? '—'}</td><td>{c.conforme ? 'Oui' : 'Non'}</td><td>{display(c.decision)}</td></tr>)}</tbody></table></div> : <Empty title="Aucun contrôle qualité"/>}
             </div>
             <OcrJobsPanel key={filesRevision} element={element}/>
             <FileAssetsPanel key={filesRevision} element={element}/>
             <AccessPdfPanel key={filesRevision} element={element}/>
-            <OcrSection elementId={element.id} canManage={canWith(me, 'DIGITIZATION_OCR')}/>
+            <OcrSection elementId={element.id} canManage={canWith(me, 'DIGITIZATION_OCR', projectScope)} onChanged={filesChanged}/>
             <div>
                 <div className="section-heading"><h4>Contributions</h4>{canManage && <button className="btn small secondary" onClick={() => setCreatingContribution(true)}>Ajouter une contribution</button>}</div>
                 {contributionsQ.loading ? <Busy /> : contributionsQ.error ? <ErrorNotice error={contributionsQ.error} onRetry={contributionsQ.refresh}/> : contributionsQ.data?.length ? <div className="table-scroll"><table><thead><tr><th>Type</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{contributionsQ.data.map(c => <tr key={c.id}><td>{c.typeContribution}<ResourceDetailsButton resource="contribution" id={c.id} /></td><td><Badge value={c.statut}/></td><td>{canManage && c.statut === 'SOUMISE' && <div className="table-actions"><button className="btn small secondary" onClick={() => moderate(c, true)}>Approuver</button><button className="btn small danger-outline" onClick={() => moderate(c, false)}>Rejeter</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucune contribution"/>}
@@ -352,7 +361,7 @@ function ElementDetailDialog({ element, canManage, onClose, onChanged }: {
         </div>
         <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
         {linkingFile && <LinkFileDialog elementId={element.id} onClose={() => setLinkingFile(false)} onLinked={filesChanged}/>}
-        {creatingQc && <CreateQualityControlDialog elementId={element.id} onClose={() => setCreatingQc(false)} onCreated={qcQ.refresh}/>}
+        {creatingQc && <CreateQualityControlDialog elementId={element.id} onClose={() => setCreatingQc(false)} onCreated={() => { qcQ.refresh(); filesChanged(); }}/>}
         {creatingContribution && <CreateContributionDialog elementId={element.id} onClose={() => setCreatingContribution(false)} onCreated={contributionsQ.refresh}/>}
     </Modal>;
 }
@@ -362,8 +371,10 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
     initialElementId?: string;
 } = {}) {
     const { me, digitization, epoch } = useSession();
-    const canManage = can(me, 'DIGITIZATION_MANAGE', {});
+    const canCreate = canAnywhere(me, 'DIGITIZATION_MANAGE');
+    const canAssignOrigin = can(me, 'DIGITIZATION_MANAGE', {});
     const [creatingProject, setCreatingProject] = useState(false);
+    const [closureOf, setClosureOf] = useState<string | null>(null);
     const [originOf, setOriginOf] = useState<DigitizationProject | null>(null);
     const [creatingElement, setCreatingElement] = useState(false);
     const [selectedProjectId, setSelectedProjectId] = useState<string | null>(initialProjectId ?? null);
@@ -377,19 +388,22 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
     const lotsForLookup = useResource<ScanLot[]>(s => selectedProjectId ? digitization!.lotsByProject(selectedProjectId, s) : Promise.resolve([]), 'lookup-lots:' + selectedProjectId + ':' + epoch);
     const selectedElement = elements.find(el => el.id === selectedElementId) ?? null;
     const selectedProject = projects.find(p => p.id === selectedProjectId) ?? null;
+    const projectScope = { institutionId: selectedProject?.institutionId ?? null, departmentId: selectedProject?.departmentId ?? null };
+    const canManage = !!selectedProject && selectedProject.statut === 'EN_COURS' && can(me, 'DIGITIZATION_MANAGE', projectScope);
     const openElement = (projectId: string, elementId: string) => { setSelectedProjectId(projectId); setSelectedElementId(elementId); };
     const openLot = (projectId: string, lotId: string) => { setSelectedProjectId(projectId); setSelectedElementId(null); setFocusLotId(lotId); };
     const terminate = async (project: DigitizationProject, action: 'complete' | 'cancel') => {
         await digitization!.command(`/projects/${project.id}/${action}`, {}, crypto.randomUUID(), 'POST');
         projectsQ.refresh();
     };
-    return <><PageHead eyebrow="MODULE · NUMÉRISATION" title="Numérisation et OCR" description="Suivre les projets de numérisation, leurs éléments, les contrôles qualité, la reconnaissance de texte et les contributions.">
-        {canManage && <button className="btn primary" onClick={() => setCreatingProject(true)}>Créer un projet</button>}
+    return <TreatmentProjectScope scope={projectScope}><PageHead eyebrow="MODULE · NUMÉRISATION" title="Numérisation et OCR" description="Suivre les projets de numérisation, leurs éléments, les contrôles qualité, la reconnaissance de texte et les contributions.">
+        {canCreate && <button className="btn primary" onClick={() => setCreatingProject(true)}>Créer un projet</button>}
     </PageHead>
         <div className="panel panel-padding"><CodeLookup projectId={selectedProjectId} elements={elements} lots={lotsForLookup.data ?? []} onElement={openElement} onLot={openLot}/></div>
         <div className="panel">
-            <div className="section-heading"><h3>Projets</h3></div>
-            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Origine</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button><ResourceDetailsButton resource="digitizationProject" id={p.id} title={p.nom} /></td><td>{p.code ?? '—'}</td><td><OriginText institutionId={p.institutionId} departmentId={p.departmentId}/></td><td><Badge value={p.statut}/></td><td>{canManage && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => setOriginOf(p)} aria-label={`Rattacher le projet ${p.nom} à son institution`}>Origine</button><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
+            <div className="section-heading"><h3>Projets accessibles</h3></div>
+            {canAssignOrigin && projects.some(p => !p.institutionId) && <Notice tone="warning">{projects.filter(p => !p.institutionId).length} projet(s) sans institution : leurs accès restent nationaux. Utilisez « Rattachement » pour choisir l’institution après vérification des sources.</Notice>}
+            {projectsQ.loading ? <Busy /> : projectsQ.error ? <ErrorNotice error={projectsQ.error} onRetry={projectsQ.refresh}/> : projects.length ? <div className="table-scroll"><table><thead><tr><th>Nom</th><th>Code</th><th>Origine</th><th>Statut</th><th><span className="sr-only">Actions</span></th></tr></thead><tbody>{projects.map(p => <tr key={p.id}><td><button className="record-name" onClick={() => setSelectedProjectId(p.id)}><strong>{p.nom}</strong></button><ResourceDetailsButton resource="digitizationProject" id={p.id} title={p.nom} /></td><td>{p.code ?? '—'}</td><td><OriginText institutionId={p.institutionId} departmentId={p.departmentId}/></td><td><Badge value={p.statut}/></td><td><button className="btn small secondary" onClick={() => setClosureOf(p.id)}>Clôture et historique</button>{canAssignOrigin && <button className="btn small secondary" onClick={() => setOriginOf(p)} aria-label={`Rattacher le projet ${p.nom} à son institution`}>Rattachement</button>}{can(me, 'DIGITIZATION_MANAGE', p) && p.statut === 'EN_COURS' && <div className="table-actions"><button className="btn small secondary" onClick={() => terminate(p, 'complete')}>Terminer</button><button className="btn small danger-outline" onClick={() => terminate(p, 'cancel')}>Annuler</button></div>}</td></tr>)}</tbody></table></div> : <Empty title="Aucun projet de numérisation" description="Créez le premier projet."/>}
         </div>
         {selectedProjectId && <div className="panel">
             <div className="section-heading"><h3>Éléments</h3><div className="table-actions"><SheetsButton label="Feuilles séparatrices" title="Feuilles séparatrices" build={async () => elements.filter(el => isCaptureStage(el.statut)).map(el => elementSheet(el, selectedProject ? [selectedProject.nom] : []))}/>{canManage && <button className="btn small secondary" onClick={() => setBatching(true)}>Importer un lot de fichiers</button>}{canManage && <button className="btn small primary" onClick={() => setCreatingElement(true)}>Créer un élément</button>}</div></div>
@@ -398,11 +412,12 @@ export function DigitizationPage({ initialProjectId, initialElementId }: {
         {selectedProjectId && <LotsPanel projectId={selectedProjectId} canManage={canManage} focusLotId={focusLotId} projectName={selectedProject?.nom}/>}
         {batching && selectedProjectId && <BatchImportDialog projectId={selectedProjectId} lot={null} onClose={() => setBatching(false)} onDone={elementsQ.refresh}/>}
         {creatingProject && <CreateProjectDialog onClose={() => setCreatingProject(false)} onCreated={projectsQ.refresh}/>}
-        {originOf && <OriginDialog title="Origine du projet" subject={originOf.nom} institutionId={originOf.institutionId ?? null} departmentId={originOf.departmentId ?? null}
-            onSave={async (institutionId, departmentId) => { await digitization!.command(`/projects/${originOf.id}/origin`, { institutionId, departmentId }, crypto.randomUUID(), 'POST'); projectsQ.refresh(); }} onClose={() => setOriginOf(null)}/>}
+        {closureOf && <ProjectClosureDialog projectId={closureOf} onClose={() => setClosureOf(null)} onChanged={() => { projectsQ.refresh(); elementsQ.refresh(); }}/>}
+        {originOf && <OriginDialog title="Rattachement du projet" hint="Ce choix détermine les accès au projet. Les documents rattachés doivent appartenir à cette institution. Le changement est conservé dans l’historique." subject={originOf.nom} institutionId={originOf.institutionId ?? null} departmentId={originOf.departmentId ?? null}
+            onSave={async (institutionId, departmentId) => { await digitization!.command(`/projects/${originOf.id}/origin`, { institutionId, departmentId, expectedVersion: originOf.versionLock }, crypto.randomUUID(), 'POST'); projectsQ.refresh(); }} onClose={() => setOriginOf(null)}/>}
         {creatingElement && selectedProjectId && <CreateElementDialog projectId={selectedProjectId} onClose={() => setCreatingElement(false)} onCreated={elementsQ.refresh}/>}
         {selectedElement && <ElementDetailDialog element={selectedElement} canManage={canManage} onClose={() => setSelectedElementId(null)} onChanged={elementsQ.refresh}/>}
-        </>;
+        </TreatmentProjectScope>;
 }
 
 export function QualityControlListPage() {

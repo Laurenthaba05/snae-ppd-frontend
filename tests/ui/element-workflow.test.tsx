@@ -4,7 +4,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import type { DigitizationElement, DigitizationElementStatus, ElementWorkflow, PipelineStage, TransitionOption } from '../../src/core/types';
 const fixture = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['DIGITIZATION_READ', 'DIGITIZATION_MANAGE', 'DIGITIZATION_SCAN', 'DIGITIZATION_OCR', 'DIGITIZATION_QC', 'DIGITIZATION_VALIDATE']),
-    digitization: { elementWorkflow: vi.fn(), elementTransitions: vi.fn(), pagesByElement: vi.fn(), command: vi.fn(), queue: vi.fn(), qualityAnalysis: vi.fn() }
+    digitization: { elementWorkflow: vi.fn(), elementTransitions: vi.fn(), pagesByElement: vi.fn(), command: vi.fn(), queuePage: vi.fn(), qualityAnalysis: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
@@ -27,7 +27,7 @@ beforeEach(() => {
     fixture.digitization.elementTransitions.mockReset().mockResolvedValue([]);
     fixture.digitization.pagesByElement.mockReset().mockResolvedValue([]);
     fixture.digitization.elementWorkflow.mockReset();
-    fixture.digitization.queue.mockReset().mockResolvedValue([]);
+    fixture.digitization.queuePage.mockReset().mockResolvedValue({ items: [], page: 0, size: 50, hasMore: false });
     fixture.digitization.qualityAnalysis.mockReset().mockResolvedValue({ enabled: false, pages: [], flagged: [], pending: 0, sample: [], sampleRate: 0.1, sampleMinimum: 5 });
 });
 
@@ -187,7 +187,7 @@ it('un élément prêt pour versement montre la version scellée, et le journal 
 
 it('le tableau d’avancement affiche les comptes par étape et ouvre la file d’une étape', async () => {
     const stage = (statut: DigitizationElementStatus, elements: number, plusAncienJours: number | null = null): PipelineStage => ({ statut, elements, plusAncienJours });
-    fixture.digitization.queue.mockResolvedValue([{ elementId: ID + '09', projetId: ID + '08', projetNom: 'État civil', description: 'Registre 1964', lotCode: 'LOT-1', statut: 'CONTROLE_QUALITE', depuis: '2026-10-01T09:00:00Z' }]);
+    fixture.digitization.queuePage.mockResolvedValue({ items: [{ elementId: ID + '09', projetId: ID + '08', projetNom: 'État civil', description: 'Registre 1964', lotCode: 'LOT-1', statut: 'CONTROLE_QUALITE', depuis: '2026-10-01T09:00:00Z' }], page: 0, size: 50, hasMore: false });
     render(<PipelineBoard pipeline={[stage('RECEPTION', 2), stage('NUMERISATION', 0), stage('OCR_INDEXATION', 1), stage('CONTROLE_QUALITE', 4, 6), stage('METADONNEES', 0), stage('VALIDATION', 0), stage('TERMINE', 9), stage('SUSPENDU', 1), stage('ANNULE', 0)]} />);
     expect(screen.getByText(/16 éléments dans le parcours/)).toBeTruthy();
     const qc = screen.getByRole('button', { name: /Contrôle qualité/ });
@@ -196,7 +196,19 @@ it('le tableau d’avancement affiche les comptes par étape et ouvre la file d�
     expect(screen.getByRole('button', { name: 'Suspendu : 1' })).toBeTruthy();
     fireEvent.click(qc);
     await screen.findByText('Registre 1964');
-    expect(fixture.digitization.queue).toHaveBeenCalledWith('CONTROLE_QUALITE', undefined, expect.anything());
+    expect(fixture.digitization.queuePage).toHaveBeenCalledWith('CONTROLE_QUALITE', { page: 0, size: 50 }, expect.anything());
     fireEvent.click(screen.getByRole('button', { name: 'Ouvrir' }));
     expect(navigate).toHaveBeenCalledWith(`/app/numerisation?project=${ID}08&element=${ID}09`);
+});
+
+it('utilise l’étape serveur après un import automatique même si la liste conserve l’ancienne étape', async () => {
+    const stale = element('RECEPTION', { versionLock: 1 });
+    const current = element('NUMERISATION', { versionLock: 2 });
+    fixture.digitization.elementWorkflow.mockResolvedValue(workflow(current, [option('OCR_INDEXATION')]));
+    render(<ElementWorkflowPanel element={stale} onChanged={onChanged} />);
+    fireEvent.click(await screen.findByRole('button', { name: 'Terminer la numérisation' }));
+    const dialog = await screen.findByRole('dialog');
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Terminer la numérisation' }));
+    await waitFor(() => expect(fixture.digitization.command).toHaveBeenCalledTimes(1));
+    expect(fixture.digitization.command.mock.calls[0]![1]).toMatchObject({ vers: 'OCR_INDEXATION', etapeAttendue: 'NUMERISATION' });
 });
