@@ -546,6 +546,8 @@ export interface StorageUnit {
 export interface PhysicalArchive {
     id: string;
     documentId: string | null;
+    /** Le dossier du système dont cette archive est le papier (facultatif ; absent des réponses plus anciennes). */
+    dossierId?: string | null;
     uniteStockageId: string;
     cote: string;
     /** Le titre court sous lequel on cherche l'archive (facultatif ; absent des archives créées avant son introduction). */

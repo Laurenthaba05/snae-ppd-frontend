@@ -37,6 +37,8 @@ export class PhysicalArchivesApi {
     /** Les valeurs déjà employées d'un champ libre, à proposer à la saisie (TYPE_LOCALISATION, TYPE_UNITE, TYPE_MOUVEMENT, SUPPORT, ETAT_PHYSIQUE, UNITE_QUANTITE). */
     vocabulary(field: string, signal?: AbortSignal): Promise<string[]> { return this.transport.request('/physical-archives/vocabulary' + query({ field }), { signal }); }
     archive(id: string, signal?: AbortSignal): Promise<PhysicalArchive> { return this.transport.request('/physical-archives/archives/' + uuid(id), { signal }); }
+    /** Les archives papier reliées à un dossier du système, réduites à celles que la personne peut lire (le dossier doit lui-même être lisible). */
+    dossierArchives(dossierId: string, signal?: AbortSignal): Promise<PageResult<PhysicalArchive>> { return this.transport.request('/physical-archives/dossiers/' + uuid(dossierId) + '/archives' + query({ page: 0, size: SEARCH_PAGE_SIZE }), { signal }); }
     restorations(signal?: AbortSignal): Promise<RestorationListItem[]> { return allPages<RestorationListItem>((page, size) => this.transport.request('/physical-archives/restorations' + query({ page, size }), { signal })); }
     archivesByStorageUnit(unitId: string, signal?: AbortSignal): Promise<PhysicalArchive[]> { return allPages<PhysicalArchive>((page, size) => this.transport.request('/physical-archives/storage-units/' + uuid(unitId) + '/archives' + query({ page, size }), { signal })); }
     movementsByArchive(archiveId: string, signal?: AbortSignal): Promise<ArchiveMovement[]> { return allPages<ArchiveMovement>((page, size) => this.transport.request('/physical-archives/archives/' + uuid(archiveId) + '/movements' + query({ page, size }), { signal })); }

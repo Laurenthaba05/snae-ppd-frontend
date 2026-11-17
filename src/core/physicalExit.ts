@@ -1,5 +1,8 @@
+import { code128Svg } from './codeSheets.js';
+import { display } from './format.js';
 import { MAX_DAYS_AHEAD, addDays } from './movements.js';
 import type { PageResult } from './paging.js';
+import { dayText } from './placement.js';
 
 /* Sortie d'une archive physique ordinaire : on ne sort pas une archive de réserve parce que l'on a le droit de gérer les archives.
    La sortie est demandée, autorisée par une autre personne, remise par le magasin, puis rendue ; une archive rendue dans un autre état que celui de départ se dit. */
@@ -149,6 +152,44 @@ export function transitionBody(vers: ExitStatus, expectedVersion: number, form: 
         if (form.texte.trim()) body.texte = form.texte.trim();
     }
     return body;
+}
+
+// ---------- bon de sortie imprimé
+
+/** Un bon de sortie accompagne une archive qui sort : il n'existe qu'une fois la sortie autorisée (et reste lisible après la remise et le retour). */
+export const canPrintSlip = (r: Pick<ExitRequest, 'statut'>): boolean => r.statut === 'AUTORISEE' || r.statut === 'REMISE' || r.statut === 'RETOURNEE';
+
+export interface ExitSlipNames { institution: string }
+
+const escapeHtml = (s: string): string => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+/**
+ * Le bon de sortie : la feuille qui suit l'archive hors du magasin et qui garde la trace de qui l'a demandée, autorisée, remise et reprise, avec les conditions de manipulation, le
+ * retour prévu et des cases de signature à la remise, à la réception et au retour. Page HTML autonome, tout est échappé ; le code-barres de la demande permet de la retrouver au comptoir.
+ */
+export function exitSlipHtml(r: ExitRequest, names: ExitSlipNames, today: string): string {
+    const row = (label: string, value: string | null | undefined): string => value ? `<tr><th>${escapeHtml(label)}</th><td>${escapeHtml(value)}</td></tr>` : '';
+    const late = lateText(r, today);
+    const people = [
+        row('Demandée par', r.demandePar ? `${r.demandePar}, le ${dayText(r.demandeLe)}` : dayText(r.demandeLe)),
+        row('Autorisée par', r.decidePar ? `${r.decidePar}, le ${r.decideLe ? dayText(r.decideLe) : '—'}` : null),
+        row('Remise par', r.remisPar ? `${r.remisPar}, le ${r.remisLe ? dayText(r.remisLe) : '—'}` : null),
+        row('Reprise par', r.retourPar ? `${r.retourPar}, le ${r.retourLe ? dayText(r.retourLe) : '—'}` : null),
+        r.retourConforme === null ? '' : row('État au retour', r.retourConforme ? 'Rendue dans l’état où elle est partie' : 'Rendue dans un autre état' + (r.retourNote ? ' : ' + r.retourNote : ''))
+    ].join('');
+    return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Bon de sortie ${escapeHtml(r.numero)}</title><style>
+body{font:14px/1.5 Georgia,serif;color:#111;margin:32px auto;max-width:820px;padding:0 16px}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;margin:22px 0 6px}
+table{border-collapse:collapse;width:100%}th,td{border:1px solid #888;padding:6px 9px;text-align:left;vertical-align:top;font-size:13px}th{background:#eee;width:30%}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}.barcode svg{max-width:240px;height:auto}.late{color:#a00;font-weight:bold}
+.sign{display:flex;justify-content:space-between;gap:24px;margin-top:64px}.sign div{flex:1;border-top:1px solid #111;padding-top:4px;font-size:12px}
+</style></head><body>
+<div class="head"><div><h1>Bon de sortie d’archive</h1><p>Demande <strong>${escapeHtml(r.numero)}</strong> · ${escapeHtml(names.institution)}</p></div><div class="barcode">${code128Svg(r.numero)}</div></div>
+<h2>Archive</h2><table>${row('Cote', r.archiveCote)}${row('Intitulé', r.archiveIntitule)}${row('Propriétaire', names.institution)}</table>
+<h2>Sortie</h2><table>${row('Pour quoi', display(r.objet))}${row('Où l’archive ira', r.destination)}${row('Qui la reçoit', r.destinataire)}${row('Retour prévu', dayText(r.retourPrevu))}${late ? `<tr><th>Retard</th><td class="late">${escapeHtml(late)}</td></tr>` : ''}${row('Motif', r.motif)}${row('Conditions de manipulation', r.conditions)}</table>
+<h2>Suivi</h2><table>${people}</table>
+<div class="sign"><div>Remise de l’archive (magasin)</div><div>Réception (destinataire)</div><div>Retour de l’archive (magasin)</div></div>
+<p><small>Imprimé le ${escapeHtml(dayText(today))}. Une archive qui sort est rendue à la date prévue ; toute anomalie constatée au retour se déclare au magasin.</small></p>
+</body></html>`;
 }
 
 /** Une ligne de l'historique d'une demande : ce qui s'est passé. */

@@ -22,6 +22,7 @@ import { ConditionAlertsSection, OccupationCell, ReadingsCell, ReadingsDialog, U
 import { PhysicalOccupationSection } from '../ui/PhysicalOccupation';
 import { Suggestions } from '../ui/PhysicalSuggestions';
 import { ArchiveExits, ExitQueueSection } from '../ui/PhysicalExit';
+import { ArchiveDossierField } from '../ui/PhysicalDossierLink';
 import { EXIT_REQUEST } from '../core/physicalExit';
 import { locationPath, placeText } from '../core/placement';
 import { display } from '../core/format';
@@ -324,7 +325,8 @@ function ArchiveDetailDialog({ archive, onClose, onChanged }: {
                 <div><dt>Intitulé</dt><dd><span className="table-actions"><span>{archive.intitule || '—'}</span>{canManage && <button className="btn small secondary" onClick={() => setDescribing(true)}>Décrire</button>}</span></dd></div>
                 <div><dt>État physique</dt><dd>{display(archive.etatPhysique)}</dd></div>
                 <div><dt>Document lié</dt><dd>{archive.documentId ? <DocumentName id={archive.documentId}/> : <span className="table-actions"><span>—</span>{canManage && <button className="btn small secondary" onClick={() => setAttachingDocument(true)}>Rattacher un document</button>}</span>}</dd></div>
-                <div><dt>Origine</dt><dd><span className="table-actions"><OriginText institutionId={archive.institutionId} departmentId={archive.departmentId}/>{canManage && !archive.documentId && <button className="btn small secondary" onClick={() => setEditingOrigin(true)}>Modifier</button>}</span></dd></div>
+                <div><dt>Dossier numérique</dt><dd><ArchiveDossierField archive={archive} canManage={canManage} onChanged={onChanged}/></dd></div>
+                <div><dt>Origine</dt><dd><span className="table-actions"><OriginText institutionId={archive.institutionId} departmentId={archive.departmentId}/>{canManage && !archive.documentId && !archive.dossierId && <button className="btn small secondary" onClick={() => setEditingOrigin(true)}>Modifier</button>}</span></dd></div>
                 <div><dt>Dates extrêmes</dt><dd>{archive.dateExtremeDebut ?? '—'} → {archive.dateExtremeFin ?? '—'}</dd></div>
                 <div><dt>Quantité</dt><dd>{archive.quantite ? archive.quantite + (archive.uniteQuantite ? ' ' + archive.uniteQuantite : '') : '—'}</dd></div>
                 <div><dt>Description</dt><dd>{archive.description ?? '—'}</dd></div>

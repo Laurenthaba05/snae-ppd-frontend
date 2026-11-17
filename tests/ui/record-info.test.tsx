@@ -17,7 +17,7 @@ const fixture = vi.hoisted(() => ({
         dossierVolumetry: vi.fn(), dossierDocuments: vi.fn(), documentTypes: vi.fn(), dossiers: vi.fn(), command: vi.fn(), transport: { request: vi.fn() } }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/core/policy', () => ({ can: () => true, platform: () => false }));
+vi.mock('../../src/core/policy', () => ({ can: () => true, canAnywhere: () => false, platform: () => false }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: INST, departmentId: null } }) }));
 vi.mock('../../src/ui/navigation', () => ({ navigate: vi.fn() }));
 vi.mock('../../src/ui/ArchiveRecordPicker', () => ({ ArchiveRecordPicker: ({ value, onChange, disabled }: { value: string | null; onChange: (id: string | null) => void; disabled: boolean }) =>
@@ -264,10 +264,10 @@ it('un sous-dossier propose la référence suivante du modèle de son institutio
     render(<RecordForm kind="dossiers" parent={dossier()} onClose={() => {}} onCreated={() => {}} />);
     const dialog = await screen.findByRole('dialog');
     expect(await within(dialog).findByText('Modèle de l’institution : {contenant}/001 (indicatif).')).toBeTruthy();
-    expect(fixture.codification.model).toHaveBeenCalledWith('DOSSIER', INST, expect.anything());
+    expect(fixture.codification.model).toHaveBeenCalledWith('DOSSIER', INST, expect.anything(), null);
     fireEvent.click(within(dialog).getByRole('button', { name: 'Proposer la prochaine référence' }));
     await waitFor(() => expect((within(dialog).getByLabelText(/^Cote ou référence/) as HTMLInputElement).value).toBe('DOS-2026-001/004'));
-    expect(fixture.codification.proposal).toHaveBeenCalledWith('DOSSIER', INST, DOS, null);
+    expect(fixture.codification.proposal).toHaveBeenCalledWith('DOSSIER', INST, DOS, null, undefined, null);
     fireEvent.change(within(dialog).getByLabelText(/^Titre/), { target: { value: 'Carrières' } });
     fireEvent.submit(dialog.querySelector('form')!);
     await screen.findByText('Vérifiez les informations avant de confirmer.');
@@ -281,8 +281,26 @@ it('un document est codifié par le modèle des documents de son institution', a
     fixture.codification.model.mockResolvedValue(null);
     render(<RecordForm kind="documents" onClose={() => {}} onCreated={() => {}} />);
     const dialog = await screen.findByRole('dialog');
-    await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INST, expect.anything()));
+    await waitFor(() => expect(fixture.codification!.model).toHaveBeenCalledWith('DOCUMENT', INST, expect.anything(), null));
     expect(within(dialog).queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
     fireEvent.change(within(dialog).getByLabelText(/^Cote ou référence/), { target: { value: 'LIBRE-1' } });
     expect((within(dialog).getByLabelText(/^Cote ou référence/) as HTMLInputElement).value).toBe('LIBRE-1');
+});
+
+it('parcourt les documents après les vingt premiers et réinitialise la page pour un autre dossier', async () => {
+    fixture.records.dossierDocuments.mockImplementation(async (_id, { page }) => ({
+        items: page === 0 ? Array.from({ length: 20 }, (_, n) => doc({ id: 'doc-' + n, reference: 'RECETTE-' + (n + 1) })) : [doc({ id: 'doc-21', reference: 'RECETTE-21' })],
+        page, size: 20, hasMore: page === 0,
+    }));
+    const props = { canEdit: false, canCreate: false, onChanged: vi.fn(), onCreateChild: vi.fn() };
+    const view = render(<DossierStructurePanel dossier={dossier()} {...props} />);
+    await screen.findByText('RECETTE-20');
+    fireEvent.click(screen.getByRole('button', { name: 'Suivante' }));
+    await screen.findByText('RECETTE-21');
+    expect(screen.queryByText('RECETTE-1')).toBeNull();
+    expect(fixture.records.dossierDocuments).toHaveBeenLastCalledWith(DOS, { page: 1, size: 20 }, expect.any(AbortSignal));
+    expect((screen.getByRole('button', { name: 'Suivante' }) as HTMLButtonElement).disabled).toBe(true);
+    view.rerender(<DossierStructurePanel dossier={dossier({ id: PARENT })} {...props} />);
+    await screen.findByText('RECETTE-1');
+    expect(fixture.records.dossierDocuments).toHaveBeenLastCalledWith(PARENT, { page: 0, size: 20 }, expect.any(AbortSignal));
 });

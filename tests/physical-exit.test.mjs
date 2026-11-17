@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { NEXT_STEPS, STATUS_FILTERS, emptyRequestForm, emptyTransitionForm, eventSummary, exitNeeds, exitOptions, isOpen, lateText, listParams, needsForm, requestBody, requestProblems, statusLabel, transitionBody, transitionLabel, transitionProblems } from '../.test-build/physicalExit.js';
+import { NEXT_STEPS, STATUS_FILTERS, canPrintSlip, exitSlipHtml, emptyRequestForm, emptyTransitionForm, eventSummary, exitNeeds, exitOptions, isOpen, lateText, listParams, needsForm, requestBody, requestProblems, statusLabel, transitionBody, transitionLabel, transitionProblems } from '../.test-build/physicalExit.js';
 
 // La sortie d'une archive ordinaire se demande, une autre personne l'autorise, le magasin la remet puis la reprend.
 const today = '2026-10-23';
@@ -105,4 +105,41 @@ test('les libellés sont en toutes lettres', () => {
     assert.equal(isOpen('REMISE'), true);
     assert.equal(isOpen('RETOURNEE'), false);
     for (const status of Object.keys(NEXT_STEPS)) assert.ok(NEXT_STEPS[status].length > 10, status);
+});
+
+const slipRequest = (patch = {}) => ({
+    id: 'r1', numero: 'SOR-2026-000123', archiveId: 'a1', archiveCote: 'DP-A-0042', archiveIntitule: 'Registre des délibérations', institutionId: 'i1', departmentId: null,
+    objet: 'CONSULTATION', motif: 'Consultation par un chercheur accrédité', destination: 'Salle de lecture', destinataire: 'Équipe de recherche', retourPrevu: '2026-10-30', statut: 'REMISE', enRetard: false,
+    demandeParId: 'u1', demandePar: 'Awa Camara', demandeLe: '2026-10-23T09:00:00Z', decidePar: 'Mamadou Bah', decideLe: '2026-10-24T09:00:00Z', decisionMotif: null, conditions: 'Consultation sur place, gants exigés',
+    remisPar: 'Aminata Diallo', remisLe: '2026-10-25T09:00:00Z', mouvementId: 'm1', retourPar: null, retourLe: null, retourConforme: null, retourNote: null, fermePar: null, fermeLe: null, fermeMotif: null,
+    version: 3, evenements: [], ...patch
+});
+
+test('un bon de sortie existe dès que la sortie est autorisée, pas avant', () => {
+    assert.equal(canPrintSlip({ statut: 'DEMANDEE' }), false);
+    assert.equal(canPrintSlip({ statut: 'REFUSEE' }), false);
+    assert.equal(canPrintSlip({ statut: 'ANNULEE' }), false);
+    for (const statut of ['AUTORISEE', 'REMISE', 'RETOURNEE']) assert.equal(canPrintSlip({ statut }), true, statut);
+});
+
+test('le bon de sortie porte l’archive, le trajet, les personnes, les conditions et les cases de signature', () => {
+    const html = exitSlipHtml(slipRequest(), { institution: 'Ministère de la Culture' }, '2026-10-27');
+    for (const text of ['SOR-2026-000123', 'DP-A-0042', 'Registre des délibérations', 'Ministère de la Culture', 'Salle de lecture', 'Équipe de recherche', 'Consultation sur place, gants exigés',
+        'Awa Camara', 'Mamadou Bah', 'Aminata Diallo', 'Remise de l’archive (magasin)', 'Réception (destinataire)', 'Retour de l’archive (magasin)']) assert.ok(html.includes(text), text);
+    assert.ok(html.includes('<svg'), 'le code-barres de la demande est dans la page');
+    assert.ok(!html.includes('Retard'), 'pas de retard avant le jour prévu');
+    assert.ok(!html.includes('Reprise par'), 'personne n’a encore repris l’archive');
+});
+
+test('le bon de sortie dit le retard et l’état au retour', () => {
+    const late = exitSlipHtml(slipRequest({ enRetard: true, retourPrevu: '2026-10-24' }), { institution: 'Ministère' }, '2026-10-27');
+    assert.ok(late.includes('En retard de 3 jours'));
+    const back = exitSlipHtml(slipRequest({ statut: 'RETOURNEE', retourPar: 'Aminata Diallo', retourLe: '2026-10-29T09:00:00Z', retourConforme: false, retourNote: 'Une page déchirée au coin' }), { institution: 'Ministère' }, '2026-10-29');
+    assert.ok(back.includes('Reprise par') && back.includes('Rendue dans un autre état : Une page déchirée au coin'));
+});
+
+test('tout ce qui vient des données est échappé dans le bon de sortie', () => {
+    const html = exitSlipHtml(slipRequest({ motif: '<script>alert(1)</script> & "motif"', destination: '<img src=x onerror=alert(1)>', archiveIntitule: '</td><b>gras</b>' }), { institution: '<i>Ministère</i>' }, '2026-10-27');
+    assert.ok(!/<script>|<img |<b>gras|<i>Minist/.test(html), 'aucune balise venue des données ne subsiste');
+    assert.ok(html.includes('&lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;motif&quot;'));
 });

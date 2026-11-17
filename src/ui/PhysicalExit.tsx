@@ -3,11 +3,13 @@ import { useSession } from '../auth/session';
 import { can } from '../core/policy';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, Pagination, formatDate, useResource } from './components';
 import { Suggestions } from './PhysicalSuggestions';
+import { useEntityName } from './names';
+import { printHtml } from './printHtml';
 import { dayText } from '../core/placement';
 import { display } from '../core/format';
 import { MAX_DAYS_AHEAD, addDays } from '../core/movements';
 import {
-    EXIT_AUTHORIZE, EXIT_HANDLE, EXIT_REQUEST, NEXT_STEPS, STATUS_FILTERS, emptyRequestForm, emptyTransitionForm, eventSummary, exitNeeds, exitOptions, isOpen, lateText, listParams, needsForm, requestBody, requestProblems,
+    EXIT_AUTHORIZE, EXIT_HANDLE, EXIT_REQUEST, NEXT_STEPS, STATUS_FILTERS, canPrintSlip, emptyRequestForm, emptyTransitionForm, eventSummary, exitNeeds, exitOptions, exitSlipHtml, isOpen, lateText, listParams, needsForm, requestBody, requestProblems,
     statusLabel, transitionBody, transitionLabel, transitionProblems
 } from '../core/physicalExit';
 import type { ExitOption, ExitPage, ExitRequest, ExitStatus, RequestForm, TransitionForm } from '../core/physicalExit';
@@ -118,6 +120,7 @@ export function ExitDialog({ id, onClose, onChanged }: { id: string; onClose: ()
     if (q.data) last.current = q.data;
     const request = q.data ?? last.current;
     const { rights, userId } = useExitRights({ institutionId: request?.institutionId ?? null, departmentId: request?.departmentId ?? null });
+    const owner = useEntityName('institutions', request?.institutionId ?? null);
     const refresh = () => { setRevision(r => r + 1); onChanged(); };
     if (!request && q.loading) return <Modal title="Demande de sortie" onClose={onClose} wide><Busy /></Modal>;
     if (!request) return <Modal title="Demande de sortie" onClose={onClose} wide><ErrorNotice error={q.error} onRetry={q.refresh} /></Modal>;
@@ -160,7 +163,9 @@ export function ExitDialog({ id, onClose, onChanged }: { id: string; onClose: ()
                     {e.texte && <p>{e.texte}</p>}</li>)}</ol></section>
         </div>
         {chosen && <TransitionDialog request={request} vers={chosen} onClose={() => setChosen(null)} onDone={refresh} />}
-        <footer className="modal-footer"><button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
+        <footer className="modal-footer">
+            {canPrintSlip(request) && <button type="button" className="btn secondary" onClick={() => printHtml(exitSlipHtml(request, { institution: request.institutionId ? (owner.name ?? 'Institution') : 'Dépôt national' }, today))}>Imprimer le bon de sortie</button>}
+            <button type="button" className="btn secondary" onClick={onClose}>Fermer</button></footer>
     </Modal>;
 }
 

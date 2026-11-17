@@ -2,9 +2,10 @@ import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { commandKey } from '../api/archives';
 import { ArchiveRecordPicker } from './ArchiveRecordPicker';
-import { Badge, Busy, CopyId, Empty, ErrorNotice, Field, Modal, Notice, useResource } from './components';
+import { Badge, Busy, CopyId, Empty, ErrorNotice, Field, Modal, Notice, Pagination, useResource } from './components';
 import { useAuthorities } from './DepositAgreements';
 import { navigate } from './navigation';
+import { DossierPaperArchives } from './PhysicalDossierLink';
 import { EXTENT_UNITS } from '../core/archivalDescription';
 import { formatBytes, formatDay } from '../core/format';
 import {
@@ -202,7 +203,9 @@ export function DossierStructurePanel({ dossier: d, canEdit, canCreate, onChange
     const parent = useResource<Dossier | null>(signal => d.parentId ? records!.dossier(d.parentId, signal).catch(() => null) : Promise.resolve(null), `dossier-parent:${d.parentId ?? ''}:${epoch}`);
     const children = useResource<Dossier[]>(signal => records!.dossierChildren(d.id, signal), `dossier-children:${d.id}:${epoch}`);
     const volumetry = useResource<Volumetry>(signal => records!.dossierVolumetry(d.id, signal), `dossier-volumetry:${d.id}:${epoch}`);
-    const documents = useResource<Page<RecordDocument>>(signal => records!.dossierDocuments(d.id, { page: 0, size: 20 }, signal), `dossier-documents:${d.id}:${epoch}`);
+    const [selection, setSelection] = useState({ dossierId: d.id, page: 0 });
+    const page = selection.dossierId === d.id ? selection.page : 0;
+    const documents = useResource<Page<RecordDocument>>(signal => records!.dossierDocuments(d.id, { page, size: 20 }, signal), `dossier-documents:${d.id}:${page}:${epoch}`);
     const authorities = useAuthorities(d.producerId ? d.institutionId : null);
     const [editing, setEditing] = useState(false);
     const level = d.level ?? 1;
@@ -230,7 +233,9 @@ export function DossierStructurePanel({ dossier: d, canEdit, canCreate, onChange
             : (documents.data?.items ?? []).length === 0 ? <p className="relation-empty">Aucun document que vous puissiez voir directement dans ce dossier.</p>
                 : <div className="table-scroll"><table><thead><tr><th>Cote et titre</th><th>Statut</th></tr></thead><tbody>{documents.data!.items.map(x => <tr key={x.id}>
                     <td><button type="button" className="text-link" onClick={() => navigate('/app/documents/' + x.id)}><strong>{x.reference}</strong> · {x.title}</button></td><td><Badge value={x.archivalStatus} /></td></tr>)}</tbody></table>
-                    {documents.data!.hasMore && <p><small>La liste est limitée aux 20 premiers documents.</small></p>}</div>}
+                    </div>}
+        {!documents.loading && !documents.error && documents.data && <Pagination page={page} hasMore={documents.data.hasMore} count={documents.data.items.length} onChange={next => setSelection({ dossierId: d.id, page: next })} />}
+        <DossierPaperArchives dossierId={d.id} />
         {editing && <DossierInfoDialog dossier={d} onClose={() => setEditing(false)} onSaved={onChanged} />}
     </section>;
 }

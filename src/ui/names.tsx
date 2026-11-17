@@ -47,6 +47,18 @@ export function useDocumentName(id: string | null | undefined): NameState {
     return useResolved(id ? `${String(epoch)}:document:${id}` : '', id && records ? async () => { const d = await records.document(id); return [d.reference, d.title].filter(Boolean).join(' · ') || null; } : null);
 }
 
+/** Un dossier se lit par sa référence et son titre ; un dossier que la personne ne peut pas lire n'a pas de nom (le serveur répond « introuvable »). */
+export function useDossierName(id: string | null | undefined): NameState {
+    const { records, epoch } = useSession();
+    return useResolved(id ? `${String(epoch)}:dossier:${id}` : '', id && records ? async () => { const d = await records.dossier(id); return [d.reference, d.title].filter(Boolean).join(' · ') || null; } : null);
+}
+
+export function DossierName({ id, fallback }: { id: string | null | undefined; fallback?: string }) {
+    const { name, loading } = useDossierName(id);
+    if (!id) return <>{fallback ?? '—'}</>;
+    return <>{name ?? (loading ? '…' : fallback ?? 'Dossier non disponible')}</>;
+}
+
 export function DocumentName({ id, fallback }: { id: string | null | undefined; fallback?: string }) {
     const { name, loading } = useDocumentName(id);
     if (!id) return <>{fallback ?? '—'}</>;

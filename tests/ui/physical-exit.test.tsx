@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import type { ExitPage, ExitRequest } from '../../src/core/physicalExit';
 
@@ -10,6 +10,8 @@ const fixture = vi.hoisted(() => ({
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/core/policy', () => ({ can: (_me: unknown, code: string) => fixture.allowed.has(code) }));
+const printed = vi.hoisted(() => vi.fn());
+vi.mock('../../src/ui/printHtml', () => ({ printHtml: printed }));
 import { ArchiveExits, ExitQueueSection } from '../../src/ui/PhysicalExit';
 
 const soon = new Date(Date.now() + 10 * 86_400_000).toISOString().slice(0, 10);
@@ -173,6 +175,20 @@ it('la fiche montre pour quoi, où, pour qui, jusqu’à quand, l’historique e
     const authorize = within(dialog).getByRole('button', { name: 'Autoriser la sortie' }) as HTMLButtonElement;
     expect(authorize.disabled).toBe(true);
     expect(authorize.title).toContain('Habilitation requise');
+});
+
+it('le bon de sortie s’imprime dès que la sortie est autorisée, jamais avant', async () => {
+    printed.mockClear();
+    const first = await openFiche(req(), ['PHYSICALARCHIVES_EXIT_REQUEST']);
+    await within(first).findByText('Salle de lecture');
+    expect(within(first).queryByRole('button', { name: 'Imprimer le bon de sortie' })).toBeNull();
+    cleanup();
+    const dialog = await openFiche(req({ statut: 'REMISE', decidePar: 'Mamadou Bah', decideLe: '2026-10-02T09:00:00Z', remisPar: 'Aminata Diallo', remisLe: '2026-10-03T09:00:00Z', conditions: 'Gants exigés' }), ['PHYSICALARCHIVES_EXIT_HANDLE']);
+    await within(dialog).findByText('Salle de lecture');
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Imprimer le bon de sortie' }));
+    expect(printed).toHaveBeenCalledTimes(1);
+    const html = String(printed.mock.calls[0]![0]);
+    for (const text of ['SOR-2026-000001', 'DP-001', 'Salle de lecture', 'Gants exigés', 'Mamadou Bah', 'Aminata Diallo']) expect(html).toContain(text);
 });
 
 it('le demandeur ne peut pas autoriser sa propre demande, même avec l’habilitation : la raison est affichée', async () => {
