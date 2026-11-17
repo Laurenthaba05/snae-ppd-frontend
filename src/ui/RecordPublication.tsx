@@ -84,7 +84,7 @@ function PublishDialog({ documentId, confidentiality, documentVersion, canApprov
             setBusy(false);
         }
     };
-    return <Modal title="Publier un fichier" subtitle="Une publication publique éligible permet la consultation et le téléchargement sans compte depuis le catalogue public." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
+    return <Modal title="Publier un fichier" subtitle="Une publication publique éligible rend le document consultable sans compte dans le catalogue public : aperçu gratuit des premières 20 % des pages, lecture intégrale avec compte et paiement, sans téléchargement." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
         <Field label="Fichier *" wide><select value={fichierId} onChange={e => setFichierId(e.target.value)} required disabled={filesLoading}><option value="">{filesLoading ? 'Chargement…' : 'Choisir un fichier'}</option>{files.map(f => <option key={f.id} value={f.id}>v{f.versionNumber} — {f.originalFilename}</option>)}</select>{!filesLoading && !files.length && <small>Aucun fichier téléversé sur ce document.</small>}</Field>
         <Field label="Visibilité *"><select value={visibilite} onChange={e => setVisibilite(e.target.value)}><option value="PUBLIC">Public</option><option value="RESTREINT">Restreint</option><option value="INTERNE">Interne</option></select></Field>
         <Field label="Canal *"><input value={canal} onChange={e => setCanal(e.target.value)} required maxLength={50}/></Field>
