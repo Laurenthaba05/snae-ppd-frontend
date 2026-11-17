@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import { beforeEach, expect, it, vi } from 'vitest';
 
 // Les référentiels (institutions, départements, identités, rôles) : les départements ne se consultent que dans une institution choisie, la création est réservée à qui en a le droit
-// (la plateforme pour les institutions et les rôles), le filtre ne porte que sur la page chargée et le dit, et la pagination suit le serveur.
+// (la plateforme pour les institutions et les rôles), la recherche porte sur toutes les pages, et la pagination suit le serveur.
 const fixture = vi.hoisted(() => ({
     api: { list: vi.fn() }, me: { user: { id: 'u1' } } as unknown, epoch: 1,
     scope: { institutionId: null as string | null, departmentId: null as string | null }, setScope: vi.fn(),
@@ -74,23 +74,26 @@ it('les identités montrent le prénom, le nom, le contact et une institution no
     render(<CatalogPage kind="users" />);
     expect(await screen.findByText('Aïssatou Barry 1')).toBeTruthy();
     expect(screen.getByText('1@exemple.test')).toBeTruthy();
-    expect(screen.getAllByText('Identité SSO liée')).toHaveLength(2);
+    expect(screen.getAllByText('Identifiant SSO absent')).toHaveLength(2);
     expect(screen.getByText('Identité sans nom')).toBeTruthy();
     expect(screen.getByText('National')).toBeTruthy();
     expect(screen.getAllByText('Suspendu')).toHaveLength(2);
 });
 
-it('le filtre de texte et le filtre de statut ne portent que sur la page chargée, et l’écran le dit quand rien ne correspond', async () => {
+it('recherche et statut sont transmis au serveur avant pagination', async () => {
+    fixture.api.list.mockImplementation(async (_k: string, params: {q?:string;status?:string}) =>
+        page(params.status ? [] : params.q ? [institution(31,{code:'INS-31'})] : [institution(1)]));
     render(<CatalogPage kind="institutions" />);
     await screen.findByText('Institution 1');
-    fireEvent.change(screen.getByLabelText('Filtrer Institutions'), { target: { value: 'ins-2' } });
+    fireEvent.change(screen.getByLabelText('Filtrer Institutions'), {target:{value:'INS-31'}});
+    expect(await screen.findByText('Institution 31')).toBeTruthy();
     expect(screen.queryByText('Institution 1')).toBeNull();
-    expect(screen.getByText('Institution 2')).toBeTruthy();
-    fireEvent.change(screen.getByLabelText('Statut sur la page'), { target: { value: 'ACTIF' } });
-    expect(screen.queryByText('Institution 2')).toBeNull();
-    expect(screen.getByText('Aucun résultat sur cette page')).toBeTruthy();
-    expect(screen.getByText(/Les filtres portent uniquement sur les éléments chargés/)).toBeTruthy();
-    expect(fixture.api.list).toHaveBeenCalledTimes(1);
+    expect(fixture.api.list).toHaveBeenLastCalledWith('institutions',expect.objectContaining({q:'INS-31',page:0}),expect.anything());
+    fireEvent.change(screen.getByLabelText('Statut dans le catalogue'),{target:{value:'ACTIF'}});
+    expect(await screen.findByText('Aucun résultat dans ce périmètre')).toBeTruthy();
+    expect(fixture.api.list).toHaveBeenLastCalledWith('institutions',expect.objectContaining({q:'INS-31',status:'ACTIF',page:0}),expect.anything());
+    fireEvent.click(screen.getByRole('button',{name:'Effacer les filtres'}));
+    expect(await screen.findByText('Institution 1')).toBeTruthy();
 });
 
 it('un périmètre sans ressource le dit autrement qu’un filtre sans résultat', async () => {
@@ -129,6 +132,7 @@ it('changer de périmètre revient à la première page et efface les filtres', 
     const view = render(<CatalogPage kind="users" />);
     await screen.findByText('Aïssatou Barry 1');
     fireEvent.change(screen.getByLabelText('Filtrer Utilisateurs'), { target: { value: 'barry' } });
+    await screen.findByText('Aïssatou Barry 1');
     fireEvent.click(screen.getByRole('button', { name: 'Suivante' }));
     await screen.findByText('Aïssatou Barry 2');
     fixture.scope = { institutionId: 'i2', departmentId: null };
@@ -188,4 +192,16 @@ it('l’import des départements reçoit l’institution du périmètre ; celui 
     fireEvent.click(await screen.findByRole('button', { name: 'Importer depuis Excel' }));
     fireEvent.click(await screen.findByRole('button', { name: 'Fermer l’import' }));
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+});
+
+it('les filtres des comptes et la taille de page sont transmis au backend',async()=>{
+ fixture.api.list.mockResolvedValue(page([person(1,{ssoId:'subject-1'})]));render(<CatalogPage kind="users"/>);
+ await screen.findByText('Identifiant SSO renseigné');
+ fireEvent.change(screen.getByLabelText('Type de compte'),{target:{value:'USER'}});
+ fireEvent.change(screen.getByLabelText('Portée du compte'),{target:{value:'INSTITUTION'}});
+ fireEvent.change(screen.getByLabelText('Informations manquantes'),{target:{value:'MISSING_EMAIL'}});
+ fireEvent.change(screen.getByLabelText('Lignes par page'),{target:{value:'100'}});
+ await waitFor(()=>expect(fixture.api.list).toHaveBeenLastCalledWith('users',expect.objectContaining({accountType:'USER',accountScope:'INSTITUTION',completeness:'MISSING_EMAIL',size:100,page:0}),expect.anything()));
+ fireEvent.click(screen.getByText('Effacer les filtres'));
+ await waitFor(()=>expect(fixture.api.list).toHaveBeenLastCalledWith('users',{page:0,size:100,institutionId:null,departmentId:null},expect.anything()));
 });

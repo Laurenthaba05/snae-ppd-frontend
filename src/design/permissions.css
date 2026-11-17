@@ -1,0 +1,16 @@
+/* Catalogue des permissions rangé par domaine, avec les rôles qui détiennent chaque permission. */
+.perm-summary{display:flex;flex-wrap:wrap;gap:6px 20px;margin:4px 0 14px;color:var(--nx-muted,#5d7176);font-size:13.5px}
+.perm-summary strong{color:var(--nx-ink,#17332f)}
+.perm-filter{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--nx-ink,#17332f)}
+.perm-group{border:1px solid var(--line,#e3e9ed);border-radius:10px;margin-bottom:10px;background:#fff;overflow:hidden}
+.perm-group-head{display:flex;align-items:center;gap:12px;width:100%;padding:12px 16px;border:0;background:#f6f9f8;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.perm-group-head:hover{background:#eef5f2}
+.perm-group-title{font-weight:700;color:#17332f;flex:1}
+.perm-group-head small{color:#5d7176}
+.perm-warn{color:#8a5f0c;background:#fdf1d2;border-radius:999px;padding:2px 9px;font-size:12px}
+.perm-group-body{padding:4px 16px 14px}
+.perm-roles{display:flex;flex-wrap:wrap;gap:6px}
+.role-chip{border:1px solid #cfe3d8;background:#eaf5ef;color:#1d6b4a;border-radius:999px;padding:3px 10px;font:inherit;font-size:12.5px;cursor:pointer}
+.role-chip:hover{background:#dcefe5}
+.role-chip.inactive{border-style:dashed;color:#5b6a63;background:#f4f6f5}
+.perm-none{color:#8a5f0c;font-size:13px}

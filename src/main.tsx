@@ -14,6 +14,7 @@ import './design/heritage.css';
 import './design/archives.css';
 import './design/portal.css';
 import './design/intake.css';
+import './design/permissions.css';
 import './design/destruction.css';
 import './design/records.css';
 import './design/assistant.css';

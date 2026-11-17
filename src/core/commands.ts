@@ -25,7 +25,8 @@ export function entityCommand(kind: Catalog, d: Draft, version?: number): Record
     const ssoId = text(d.ssoId ?? '', 255)!;
     if (/\s/.test(ssoId))
         throw new Error('Le sub SSO ne doit pas contenir d’espace.');
-    return { scope, typeCompte, institutionId, departmentId, ssoId, nom: opt(d.nom, 150), prenom: opt(d.prenom, 150), email };
+    const groupId = typeCompte === 'USER' ? id(d.groupId) : null;
+    return { scope, typeCompte, institutionId, departmentId, ssoId, nom: opt(d.nom, 150), prenom: opt(d.prenom, 150), email, ...(groupId ? { groupId } : {}) };
 }
 export function assignmentCommand(userId: string, d: Draft): Record<string, unknown> {
     const institutionId = id(d.institutionId), departmentId = id(d.departmentId);

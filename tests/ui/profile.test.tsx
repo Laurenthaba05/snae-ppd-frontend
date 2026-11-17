@@ -58,7 +58,7 @@ it('mes droits se listent avec leur origine et leur échéance, et se filtrent p
 it('une liste de droits tronquée par le serveur le dit', async () => {
     fixture.me = { user: { id: ME }, grants, truncated: true };
     render(<ProfilePage />);
-    expect(await screen.findByText('Liste tronquée par le serveur à 500 droits.')).toBeTruthy();
+    expect(await screen.findByText('Le serveur a transmis une liste incomplète de droits. Une mise à jour du backend est nécessaire.')).toBeTruthy();
 });
 
 it('revérifier les droits relit le profil auprès du serveur, et la fermeture de session passe par le contexte', async () => {
@@ -106,4 +106,19 @@ it('le texte rappelle qu’aucun jeton ni mot de passe n’est gardé dans le na
     render(<ProfilePage />);
     await screen.findByText('Mariama Diallo');
     expect(screen.getByText(/Aucun token ni mot de passe n’est enregistré dans localStorage/)).toBeTruthy();
+});
+
+it('les droits après la 500e ligne restent filtrables et accessibles par pagination', async () => {
+    fixture.me = { user: { id: ME }, truncated: false, grants: Array.from({length: 620}, (_, i) => ({...grants[0], permission: 'PERMISSION_' + i, roleCode: i === 619 ? 'ULTIME_ROLE' : 'LECTEUR'})) };
+    render(<ProfilePage />);
+    await screen.findByText('Mariama Diallo');
+    expect(screen.getAllByRole('row')).toHaveLength(101);
+    expect(screen.queryByText('PERMISSION_619')).toBeNull();
+    for(let i=0;i<6;i++) fireEvent.click(screen.getByRole('button',{name:'Suivante'}));
+    expect(screen.getByText('PERMISSION_619')).toBeTruthy();
+    expect(screen.getAllByRole('row')).toHaveLength(21);
+    fireEvent.change(screen.getByLabelText('Filtrer mes permissions'),{target:{value:'ultime_role'}});
+    expect(screen.getByText('PERMISSION_619')).toBeTruthy();
+    expect(screen.getAllByRole('row')).toHaveLength(2);
+    expect(screen.getByRole('button',{name:'Précédente'}).hasAttribute('disabled')).toBe(true);
 });

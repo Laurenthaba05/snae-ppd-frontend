@@ -48,3 +48,14 @@ caseTest('Réponse réseau perdue : écriture incertaine, aucune répétition au
 caseTest('Réponse JSON invalide traitée comme échec',async()=>{const t=new HttpTransport('/api/v1',async()=>'t',()=>{},async()=>new Response('<html/>'));await assert.rejects(()=>t.request('/iam/me'),e=>e.code==='INVALID_RESPONSE');});
 caseTest('Annulation préalable du chargement',async()=>{const c=new AbortController();c.abort();const t=new HttpTransport('/api/v1',async()=>'t',()=>{},async()=>{throw new Error('Must not run');});await assert.rejects(()=>t.request('/iam/me',{signal:c.signal}),e=>e.name==='AbortError');});
 caseTest('Délai dépassé traité sans répétition',async()=>{const t=new HttpTransport('/api/v1',async()=>'t',()=>{},async(_u,i)=>new Promise((_,reject)=>i.signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')))),5);await assert.rejects(()=>t.request('/iam/me'),e=>e.code==='NETWORK_UNCERTAIN');});
+
+caseTest('Les droits au-delà de 500 ouvrent les écrans avec leurs vrais périmètres et échéances',()=>{
+ const full=parseMe({...me,grants:[...Array.from({length:700},()=>({...grant,permission:'DOCUMENT_READ'})),{...grant,permission:'ARCHIVAL_DESCRIPTION_EXPORT',scope:'DEPARTEMENT',departmentId:D,departmentIds:[D]},{...grant,roleCode:'SNAE_PLATFORM_ADMIN',scope:'NATIONAL',institutionId:null}]});
+ assert.equal(full.grants.length,702);
+ assert.equal(can(full,'ARCHIVAL_DESCRIPTION_EXPORT',{institutionId:I,departmentId:D}),true);
+ assert.equal(can(full,'ARCHIVAL_DESCRIPTION_EXPORT',{institutionId:I,departmentId:A}),false);
+ assert.equal(platform(full),true);
+ const expired={...full,grants:full.grants.map(g=>({...g,expiresAt:'2000-01-01T00:00:00Z'}))};
+ assert.equal(can(expired,'ARCHIVAL_DESCRIPTION_EXPORT',{institutionId:I,departmentId:D}),false);
+ assert.equal(platform(expired),false);
+});

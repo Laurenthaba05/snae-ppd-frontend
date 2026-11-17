@@ -5,6 +5,7 @@ import { CommandDialog } from '../ui/CommandDialog';
 import { Field } from '../ui/components';
 import { ReferencePicker } from '../ui/ReferencePicker';
 import { InstitutionChoice } from '../ui/InstitutionChoice';
+import { GroupChoice } from '../ui/GroupChoice';
 import { entityCommand, type Draft } from '../core/commands';
 import { platform } from '../core/policy';
 import type { Catalog, RecordEntity } from '../core/types';
@@ -35,6 +36,7 @@ export function EntityForm({ kind, entity, onClose, onSuccess }: {
                     else
                         update('scope', 'NATIONAL');
                 }} disabled={!central}><option value="USER">Utilisateur humain</option><option value="SERVICE">Compte technique</option></select></Field><Field label="Portée *"><select value={d.scope} onChange={ev => update('scope', ev.target.value)}>{d.typeCompte === 'SERVICE' ? <option>SERVICE</option> : <>{central && <option>NATIONAL</option>}{me!.user.scope !== 'DEPARTEMENT' && <option>INSTITUTION</option>}<option>DEPARTEMENT</option></>}</select></Field>{d.scope !== 'NATIONAL' && <Field label="Institution"><InstitutionChoice value={d.institutionId!} onChange={v => update('institutionId', v)} nullable={d.scope === 'SERVICE'}/></Field>}{['DEPARTEMENT', 'SERVICE'].includes(d.scope!) && <Field label="Département"><ReferencePicker kind="departments" label="Sélectionner un département" value={d.departmentId!} onChange={v => update('departmentId', v)} scope={{ institutionId: d.institutionId, departmentId: !central ? me!.user.departmentId : undefined }} nullable={d.scope === 'SERVICE'}/></Field>}</>}</>}
+ {kind === 'users' && !entity && d.typeCompte !== 'SERVICE' && <GroupChoice institutionId={d.scope === 'NATIONAL' ? null : d.institutionId || null} value={d.groupId ?? ''} onChange={v => update('groupId', v)}/>}
  {entity && <Field label="Motif de modification *" wide><textarea required maxLength={2000} value={d.reason} onChange={ev => update('reason', ev.target.value)}/></Field>}
  </CommandDialog>;
 }

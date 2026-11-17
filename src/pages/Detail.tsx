@@ -3,6 +3,7 @@ import { ExtractionSelfAssignmentDialog, extractionSelfOption } from '../ui/Extr
 import { ConservationSelfAssignmentDialog, conservationSelfOption } from '../ui/ConservationSelfAssignment';
 import { DelegationDialog, UserScopeDialog, mayDelegate } from '../ui/IdentityScopeActions';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
+import { UserGroupsPanel } from '../ui/UserGroupsPanel';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { navigate } from '../ui/navigation';
@@ -78,7 +79,7 @@ export function DetailPage({ kind, id }: {
  {selfExtraction && <button type="button" className="btn primary full" onClick={() => setDialog('self-extraction')}>M’attribuer le rôle d’extraction</button>}
  {selfReview && <button type="button" className="btn primary full" onClick={() => setDialog('self-review')}>M’attribuer le rôle de relecture</button>}
  {!editable && !selfConservation && !selfExtraction && !selfReview && <Notice>Modification indisponible pour votre compte, cette ressource ou son état.</Notice>}</section></div>
- {kind === 'departments' && <ResourceDetailsButton resource="departmentImpact" id={id} label="Consulter l’impact du département" />}{kind === 'institutions' && <InstitutionFichePanel institutionId={e.id}/>} {kind === 'users' && <Associated user={e as User}/>} {kind === 'roles' && <RolePermissionList role={e as Role}/>}
+ {kind === 'departments' && <ResourceDetailsButton resource="departmentImpact" id={id} label="Consulter l’impact du département" />}{kind === 'institutions' && <InstitutionFichePanel institutionId={e.id}/>} {kind === 'users' && <UserGroupsPanel user={e as User}/>} {kind === 'users' && <Associated user={e as User}/>} {kind === 'roles' && <RolePermissionList role={e as Role}/>}
  {dialog === 'self-review' && selfReview && <ExtractionReviewSelfAssignmentDialog onClose={() => setDialog('')} onSuccess={() => { setDialog(''); q.refresh(); }} />}
  {dialog === 'self-extraction' && selfExtraction && <ExtractionSelfAssignmentDialog onClose={() => setDialog('')} onSuccess={() => { setDialog(''); q.refresh(); }} />}
  {dialog === 'self-conservation' && selfConservation && <ConservationSelfAssignmentDialog onClose={() => setDialog('')} onSuccess={() => { setDialog(''); q.refresh(); }} />}

@@ -27,6 +27,10 @@ export interface Department {
     status: string;
     version: number;
 }
+export interface UserOverview {
+    total: number; active: number; inactive: number; suspended: number; archived: number;
+    human: number; service: number; missingEmail: number; missingSso: number; missingName: number;
+}
 export interface User {
     id: string;
     institutionId: string | null;
