@@ -1,3 +1,4 @@
+import { can } from '../core/policy';
 import { CommandDialog } from './CommandDialog';
 import React, { useMemo, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
@@ -36,7 +37,7 @@ function DeleteRuleDialog({ rule, onClose, onDone }: { rule: RetentionRuleListIt
  * la version en vigueur à son activation), ou on supprime une règle restée sans version.
  */
 export function RetentionRulesPanel() {
-    const { retention, records, classification, epoch } = useSession();
+    const { me, retention, records, classification, epoch } = useSession();
     const { scope } = useWorkspace();
     const institutionId = scope.institutionId ?? null;
     const [activating, setActivating] = useState<{ id: string; code: string } | null>(null);
@@ -45,9 +46,9 @@ export function RetentionRulesPanel() {
     const [deleting, setDeleting] = useState<RetentionRuleListItem | null>(null);
     const [notice, setNotice] = useState<string | null>(null);
     const rulesQ = useResource<RetentionRuleListItem[]>(s => retention!.rules(institutionId, s), 'retention-rules:' + institutionId + ':' + epoch);
-    const typesQ = useResource<DocumentType[]>(s => records!.documentTypes(s), 'retention-rules-types:' + epoch);
+    const typesQ = useResource<DocumentType[]>(s => can(me, 'DOCUMENT_READ', { institutionId: me?.user.institutionId, departmentId: me?.user.departmentId }) ? records!.documentTypes(s) : Promise.resolve([]), 'retention-rules-types:' + epoch);
     // Le plan de classement donne les noms des rubriques ; s'il ne se lit pas, on les compte sans les nommer.
-    const nodesQ = useResource<ClassificationNode[]>(s => Promise.resolve().then(() => classification!.nodes(institutionId, s)).catch(() => []), 'retention-rules-nodes:' + institutionId + ':' + epoch);
+    const nodesQ = useResource<ClassificationNode[]>(s => can(me, 'CLASSIFICATION_READ', { institutionId }) ? classification!.nodes(institutionId, s) : Promise.resolve([]), 'retention-rules-nodes:' + institutionId + ':' + epoch);
     const typeNames = useMemo(() => new Map((typesQ.data ?? []).map(t => [t.id, t.label] as const)), [typesQ.data]);
     const nodeNames = useMemo(() => new Map((nodesQ.data ?? []).map(n => [n.id, (n.code ? n.code + ' — ' : '') + n.libelle] as const)), [nodesQ.data]);
     const rules = rulesQ.data ?? [];

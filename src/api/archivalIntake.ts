@@ -11,6 +11,7 @@ export class ArchivalIntakeApi {
     constructor(readonly transport: Transport) { }
     /** Toutes les pages (jamais le tableau entier d'une table nationale) : au-delà de 5 000 éléments, une erreur explicite. */
     entries(signal?: AbortSignal): Promise<ArchivalIntake[]> { return allPages<ArchivalIntake>((page, size) => this.transport.request('/archival-intake/entries' + query({ page, size }), { signal })); }
+    entry(id: string, signal?: AbortSignal): Promise<ArchivalIntake> { return this.transport.request('/archival-intake/entries/' + uuid(id), { signal }); }
     command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request('/archival-intake' + path, { method, body, idempotencyKey: key } satisfies RequestOptions); }
 
     // ---- versement structuré : circuit, journal

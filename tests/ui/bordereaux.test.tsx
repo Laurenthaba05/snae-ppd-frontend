@@ -1,3 +1,5 @@
+import { RetentionNotificationDetail } from '../../src/ui/RetentionNotificationDetail';
+import { navigate } from '../../src/ui/navigation';
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -287,4 +289,24 @@ it('bloque l’ajout au bordereau si le dossier contient une pièce sous gel', a
     await within(dialog).findByText('Gel juridique actif.');
     expect((within(dialog).getByRole('button', { name: 'Ajouter le dossier au bordereau' }) as HTMLButtonElement).disabled).toBe(true);
     expect(fixture.retention.addDossierToBordereau).not.toHaveBeenCalled();
+});
+
+it('ouvre le détail désigné par une notification sans charger sa liste', async () => {
+    window.scrollTo = vi.fn();
+    fixture.retention.bordereau.mockResolvedValue(bordereau('BROUILLON', [line(1)]));
+    navigate('/app/eliminations?bordereau=' + BID);
+    render(<RetentionNotificationDetail/>);
+    const dialog = await screen.findByRole('dialog');
+    await waitFor(() => expect(fixture.retention.bordereau).toHaveBeenCalledWith(BID, expect.any(AbortSignal)));
+    await within(dialog).findByText('DOC-1');
+    fireEvent.click(within(dialog).getAllByRole('button', { name: 'Fermer' })[0]!);
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    expect(location.search).toBe('');
+});
+
+it('le lien direct utilise l’institution du bordereau pour rechercher des documents à ajouter', async () => {
+    window.scrollTo = vi.fn(); fixture.retention.bordereau.mockResolvedValue(bordereau('BROUILLON', []));
+    navigate('/app/eliminations?bordereau=' + BID); render(<RetentionNotificationDetail/>);
+    fireEvent.click(await screen.findByRole('button', { name: 'Ajouter des documents' }));
+    await waitFor(() => expect(fixture.retention.eliminationCandidates).toHaveBeenCalledWith(INST, null, expect.any(AbortSignal)));
 });

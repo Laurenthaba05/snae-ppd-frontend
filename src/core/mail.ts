@@ -25,6 +25,7 @@ export const ERROR_TEXT: Record<string, string> = {
     MAIL_RECIPIENT_NOT_ALLOWED: 'Le domaine du destinataire n’est pas dans la liste autorisée de cet environnement.',
     MAIL_MESSAGE_REJECTED: 'Le serveur de courrier a refusé le message.',
     MAIL_MESSAGE_DEFERRED: 'Le serveur de courrier a différé le message.',
+    MAIL_NOTIFICATION_CANCELLED: 'L’avis a été annulé après un changement des préférences, de l’adresse ou du compte destinataire.',
     MAIL_EXPIRED: 'Le courrier est trop ancien pour être encore envoyé.',
     MAIL_SENDER_FAILED: 'L’envoi a échoué de façon inattendue.',
     MAIL_CYCLE_FAILED: 'Le dernier cycle d’envoi a échoué : une intervention technique est nécessaire.'
@@ -33,7 +34,7 @@ export const errorText = (code: string | null): string => code ? (ERROR_TEXT[cod
 
 const plural = (n: number, one: string, many: string) => `${n} ${n > 1 ? many : one}`;
 
-export const CATEGORY_LABELS: Record<string, string> = { PORTAIL: 'Portail des lecteurs' };
+export const CATEGORY_LABELS: Record<string, string> = { PORTAIL: 'Portail des lecteurs', STAFF_NOTIFICATION: 'Notifications du personnel' };
 export const categoryLabel = (category: string): string => CATEGORY_LABELS[category] ?? 'Notification';
 
 /** L'état de l'envoi en une phrase : pas configuré, en pause, en retard, ou normal. */

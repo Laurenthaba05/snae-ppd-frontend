@@ -16,9 +16,9 @@ import { ConsultationsPage } from '../../src/pages/Consultations';
 
 const page = <T,>(items: T[]) => ({ items, page: 0, size: 20, total: items.length, hasMore: false });
 const reader = { id: 'r1', numero: 'LEC-000001', nom: 'Awa Camara', email: 'awa@exemple.gn', categorie: null, suspendu: false, emailVerifie: true };
-const row = (extra: Partial<AccessRequestRow> = {}): AccessRequestRow => ({ id: 'q1', numero: 'ACC-2026-000001', lecteurNumero: 'LEC-000001', lecteurNom: 'Awa Camara', documentTitre: 'Registre sous réserve', noticeIntitule: 'Registre des naissances de Kankan',
+const row = (extra: Partial<AccessRequestRow> = {}): AccessRequestRow => ({ id: '11111111-1111-4111-8111-111111111111', numero: 'ACC-2026-000001', lecteurNumero: 'LEC-000001', lecteurNom: 'Awa Camara', documentTitre: 'Registre sous réserve', noticeIntitule: 'Registre des naissances de Kankan',
     statut: 'DEPOSEE', etat: 'DEPOSEE', deposeLe: '2026-10-05T09:00:00Z', accordeJusquAu: null, instructeur: null, ...extra });
-const detail = (extra: Partial<AdminAccessRequest> = {}): AdminAccessRequest => ({ id: 'q1', numero: 'ACC-2026-000001', lecteur: reader, lecteurOrganisme: 'Université de Kankan', documentId: 'd2', documentTitre: 'Registre sous réserve', documentIdentifiant: 'DOC-000042', noticeId: 'n1',
+const detail = (extra: Partial<AdminAccessRequest> = {}): AdminAccessRequest => ({ id: '11111111-1111-4111-8111-111111111111', numero: 'ACC-2026-000001', lecteur: reader, lecteurOrganisme: 'Université de Kankan', documentId: 'd2', documentTitre: 'Registre sous réserve', documentIdentifiant: 'DOC-000042', noticeId: 'n1',
     noticeIntitule: 'Registre des naissances de Kankan', institutionId: 'inst1', motif: 'Recherche sur l’état civil colonial de Kankan', statut: 'DEPOSEE', etat: 'DEPOSEE', deposeLe: '2026-10-05T09:00:00Z', instructeur: null, prisEnChargeLe: null, decidePar: null, decideLe: null,
     message: null, accordeJusquAu: null, revoquePar: null, revoqueLe: null, revoqueMotif: null, annuleLe: null, peutPrendreEnCharge: true, peutAccorder: false, peutRefuser: false, peutRevoquer: false, lecteurAbonne: true, ...extra });
 const entry = (genre: string, extra: Partial<AccessJournalEntry> = {}): AccessJournalEntry => ({ id: 'e-' + genre, genre, auteur: 'Awa Camara', auteurLecteur: true, motif: null, createdAt: '2026-10-05T09:00:00Z', ...extra });
@@ -29,6 +29,7 @@ const open = async () => {
 };
 
 beforeEach(() => {
+    history.replaceState(null, '', '/app/consultations'); window.scrollTo = vi.fn();
     fixture.allowed = new Set(['CONSULTATION_READ', 'CONSULTATION_REVIEW']);
     for (const fn of [...Object.values(fixture.portalAdmin), ...Object.values(fixture.consultation), ...Object.values(fixture.records)]) fn.mockReset();
     fixture.consultation.requestsByInstitution.mockResolvedValue([]);
@@ -84,7 +85,7 @@ it('prendre en charge envoie la commande une seule fois puis relit la fiche', as
     const claim = await within(dialog).findByRole('button', { name: 'Prendre en charge' });
     fireEvent.click(claim); fireEvent.click(claim);
     await waitFor(() => expect(fixture.portalAdmin.command).toHaveBeenCalledTimes(1));
-    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/q1/claim', {}, expect.any(String), 'POST');
+    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/11111111-1111-4111-8111-111111111111/claim', {}, expect.any(String), 'POST');
     expect(await within(dialog).findByRole('button', { name: 'Accorder l’accès' })).toBeTruthy();
     expect(within(dialog).getByRole('button', { name: 'Refuser' })).toBeTruthy();
     expect(within(dialog).getByText('En instruction')).toBeTruthy();
@@ -113,7 +114,7 @@ it('accorder exige un jour à venir dans l’année et prévient quand le lecteu
     fireEvent.change(within(grant).getByLabelText(/Message au lecteur/), { target: { value: '  Accès accordé pour votre thèse  ' } });
     fireEvent.click(within(grant).getByRole('button', { name: 'Accorder l’accès' }));
     await waitFor(() => expect(fixture.portalAdmin.command).toHaveBeenCalledTimes(1));
-    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/q1/grant', { jusquAu: ok, message: 'Accès accordé pour votre thèse' }, expect.any(String), 'POST');
+    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/11111111-1111-4111-8111-111111111111/grant', { jusquAu: ok, message: 'Accès accordé pour votre thèse' }, expect.any(String), 'POST');
 });
 
 it('refuser exige un message écrit pour le lecteur, et une erreur du serveur reste affichée', async () => {
@@ -130,7 +131,7 @@ it('refuser exige un message écrit pour le lecteur, et une erreur du serveur re
     fireEvent.change(within(refuse).getByLabelText(/^Message au lecteur/), { target: { value: 'Le document est encore sous réserve' } });
     fireEvent.click(within(refuse).getByRole('button', { name: 'Refuser la demande' }));
     expect(await within(refuse).findByText('Vous ne pouvez pas décider cette demande.')).toBeTruthy();
-    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/q1/refuse', { message: 'Le document est encore sous réserve' }, expect.any(String), 'POST');
+    expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/11111111-1111-4111-8111-111111111111/refuse', { message: 'Le document est encore sous réserve' }, expect.any(String), 'POST');
 });
 
 it('révoquer un accès accordé demande le motif et le montre dans la fiche', async () => {
@@ -146,7 +147,7 @@ it('révoquer un accès accordé demande le motif et le montre dans la fiche', a
     const revoke = (await screen.findAllByRole('dialog')).at(-1)!;
     fireEvent.change(within(revoke).getByLabelText(/^Motif de la révocation/), { target: { value: 'Usage non conforme aux conditions' } });
     fireEvent.click(within(revoke).getByRole('button', { name: 'Révoquer l’accès' }));
-    await waitFor(() => expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/q1/revoke', { message: 'Usage non conforme aux conditions' }, expect.any(String), 'POST'));
+    await waitFor(() => expect(fixture.portalAdmin.command).toHaveBeenCalledWith('/access-requests/11111111-1111-4111-8111-111111111111/revoke', { message: 'Usage non conforme aux conditions' }, expect.any(String), 'POST'));
 });
 
 it('une fiche sans action possible le dit, et un historique illisible n’empêche pas de lire la demande', async () => {

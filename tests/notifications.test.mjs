@@ -31,10 +31,10 @@ test('Une notification mène à l’objet qu’elle désigne, ou nulle part quan
     const id = '80f0f431-a8f1-4da0-b0b2-bbca91b9a739';
     assert.equal(notificationPath('DOCUMENT', id), `/app/documents/${id}`);
     assert.equal(notificationPath('DOSSIER', id), `/app/dossiers/${id}`);
-    assert.equal(notificationPath('ENTREE_ARCHIVISTIQUE', id), '/app/versements');
-    assert.equal(notificationPath('BORDEREAU_ELIMINATION', id), '/app/eliminations');
-    assert.equal(notificationPath('TRANSFERT_ARCHIVES', id), '/app/eliminations');
-    assert.equal(notificationPath('DEMANDE_ACCES_PORTAIL', id), '/app/portail');
+    assert.equal(notificationPath('ENTREE_ARCHIVISTIQUE', id), `/app/versements?entree=${id}`);
+    assert.equal(notificationPath('BORDEREAU_ELIMINATION', id), `/app/eliminations?bordereau=${id}`);
+    assert.equal(notificationPath('TRANSFERT_ARCHIVES', id), `/app/eliminations?transfert=${id}`);
+    assert.equal(notificationPath('DEMANDE_ACCES_PORTAIL', id), `/app/consultations?tab=portail&demande=${id}`);
     assert.equal(notificationPath('INCONNU', id), null);
     assert.equal(notificationPath(null, null), null);
     assert.equal(notificationPath('DOCUMENT', null), null);
@@ -44,7 +44,7 @@ test('Chaque catégorie a un libellé, une inconnue reste générique', () => {
     // les mêmes catégories que celles que le serveur émet (NotificationCategories.ALL) : une catégorie sans libellé s'afficherait « Notification »
     for (const code of ['WORKFLOW_TASK', 'INTAKE_SUBMITTED', 'INTAKE_DECISION', 'ELIMINATION_SUBMITTED', 'ELIMINATION_DECIDED', 'ELIMINATION_TO_EXECUTE', 'TRANSFER_SUBMITTED',
         'TRANSFER_RECEIVED', 'TRANSFER_TO_EXECUTE', 'ACCESS_REQUESTED', 'DEADLINE_APPROACHING', 'RISK_FOLLOW_UP', 'EXIT_TO_EXAMINE', 'EXIT_TO_DECIDE', 'EXIT_TO_EXECUTE',
-        'PHYSICAL_EXIT_TO_AUTHORIZE', 'PHYSICAL_EXIT_DECIDED', 'PHYSICAL_EXIT_TO_HANDLE']) assert.ok(CATEGORY_LABELS[code] && !/^[A-Z_]+$/.test(CATEGORY_LABELS[code]), code);
+        'PHYSICAL_EXIT_TO_AUTHORIZE', 'PHYSICAL_EXIT_DECIDED', 'PHYSICAL_EXIT_TO_HANDLE', 'PHYSICAL_EXIT_OVERDUE']) assert.ok(CATEGORY_LABELS[code] && !/^[A-Z_]+$/.test(CATEGORY_LABELS[code]), code);
     assert.equal(categoryLabel('NOUVELLE'), 'Notification');
 });
 
@@ -56,4 +56,10 @@ test('La sortie d’un bien se traite depuis sa fiche : la notification y mène'
 test('La sortie d’une archive physique mène à sa fiche, où se trouvent ses demandes', () => {
     assert.equal(notificationPath('ARCHIVE_PHYSIQUE', '00000000-0000-4000-8000-000000000002'), '/app/archives-physiques?archive=00000000-0000-4000-8000-000000000002');
     assert.equal(notificationPath('ARCHIVE_PHYSIQUE', null), null);
+});
+
+test('Les nouveaux avis de salle et de courrier ouvrent leur cible précise', () => {
+    const id='00000000-0000-4000-8000-000000000001';
+    for(const [kind,parameter] of [['READING_ROOM_RESERVATION','reservation'],['COMMUNICATION_SLIP','bulletin'],['REPRODUCTION_ORDER','reproduction'],['MAIL_DELIVERY','courrier']])
+        assert.equal(notificationPath(kind,id), `/app/notifications?${parameter}=${id}`);
 });

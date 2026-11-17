@@ -10,6 +10,7 @@ const fixture = vi.hoisted(() => ({
     records: { documentTypes: vi.fn() },
     classification: { nodes: vi.fn() }
 }));
+vi.mock('../../src/core/policy', () => ({ can: () => true }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
 vi.mock('../../src/ui/workspace', () => ({ useWorkspace: () => ({ scope: { institutionId: INST, departmentId: null } }) }));
 import { RetentionRulesPanel } from '../../src/ui/RetentionRules';

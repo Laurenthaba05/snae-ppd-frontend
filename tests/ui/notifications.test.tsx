@@ -9,10 +9,10 @@ const N2 = '0a1b2c3d-0000-4000-8000-000000000002';
 const fixture = vi.hoisted(() => ({
     epoch: 1, demo: false, me: null as unknown, allowed: new Set<string>(),
     notifications: { list: vi.fn(), unread: vi.fn(), markRead: vi.fn(), markAllRead: vi.fn(), archive: vi.fn(), preferences: vi.fn(), setPreference: vi.fn() } as Record<string, ReturnType<typeof vi.fn>>,
-    navigate: vi.fn()
+    navigate: vi.fn(), path: '/app/notifications', readingRoom: { reservation: vi.fn() }
 }));
 vi.mock('../../src/auth/session', () => ({ useSession: () => fixture }));
-vi.mock('../../src/ui/navigation', () => ({ navigate: (path: string) => fixture.navigate(path) }));
+vi.mock('../../src/ui/navigation', () => ({ navigate: (path: string) => fixture.navigate(path), usePath: () => fixture.path }));
 import { NotificationBell, NotificationsPage } from '../../src/ui/Notifications';
 
 const note = (over: Partial<StaffNotification> = {}): StaffNotification => ({
@@ -22,7 +22,7 @@ const note = (over: Partial<StaffNotification> = {}): StaffNotification => ({
 const page = (items: StaffNotification[], unread = items.filter(i => !i.read).length, hasMore = false): NotificationPage => ({ items, page: 0, size: 30, hasMore, unread });
 
 beforeEach(() => {
-    fixture.epoch += 1;
+    fixture.epoch += 1; fixture.path = '/app/notifications'; fixture.readingRoom.reservation.mockReset();
     fixture.demo = false;
     for (const fn of Object.values(fixture.notifications)) fn.mockReset();
     fixture.navigate.mockReset();
@@ -87,15 +87,30 @@ it('la page filtre, ouvre, marque lue et archive', async () => {
 it('les préférences se lisent et se changent par catégorie', async () => {
     fixture.notifications.setPreference.mockResolvedValue([{ category: 'WORKFLOW_TASK', enabled: true }, { category: 'INTAKE_SUBMITTED', enabled: true }]);
     render(<NotificationsPage />);
-    const box = await screen.findByRole('checkbox', { name: /Versements à contrôler/ });
+    const box = await screen.findByRole('checkbox', { name: /^Versements à contrôler/ });
     expect((box as HTMLInputElement).checked).toBe(false);
-    expect((screen.getByRole('checkbox', { name: /Tâches de validation/ }) as HTMLInputElement).checked).toBe(true);
+    expect((screen.getByRole('checkbox', { name: /^Tâches de validation/ }) as HTMLInputElement).checked).toBe(true);
     fireEvent.click(box);
-    await waitFor(() => expect(fixture.notifications.setPreference).toHaveBeenCalledWith('INTAKE_SUBMITTED', true, expect.any(String)));
+    await waitFor(() => expect(fixture.notifications.setPreference).toHaveBeenCalledWith('INTAKE_SUBMITTED', true, expect.any(String), undefined));
 });
 
 it('une boîte vide le dit', async () => {
     fixture.notifications.list.mockResolvedValue(page([]));
     render(<NotificationsPage />);
     expect(await screen.findByText('Rien ne vous attend')).toBeTruthy();
+});
+
+it('le courrier est une option distincte, désactivée par défaut et enregistrée explicitement', async () => {
+    render(<NotificationsPage/>);
+    const opt = await screen.findByRole('checkbox',{name:'Courriel : Tâches de validation'});
+    expect((opt as HTMLInputElement).checked).toBe(false);
+    fireEvent.click(opt);
+    await waitFor(() => expect(fixture.notifications.setPreference).toHaveBeenCalledWith('WORKFLOW_TASK',true,expect.any(String),true));
+});
+it('une notification ouvre la réservation exacte même absente de la liste de la salle', async () => {
+    fixture.path='/app/notifications?reservation='+DOC;
+    fixture.readingRoom.reservation.mockResolvedValue({id:DOC,readerName:'Lecteur de recette',readerNumber:'REC-001',roomName:'Salle de recette',day:'2026-10-23',slot:'MATIN',status:'RESERVEE'});
+    render(<NotificationsPage/>);
+    expect(await screen.findByText('Lecteur de recette · REC-001')).toBeTruthy();
+    expect(fixture.readingRoom.reservation).toHaveBeenCalledWith(DOC,expect.anything());
 });

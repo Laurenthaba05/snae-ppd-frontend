@@ -14,6 +14,6 @@ export class NotificationsApi {
     markAllRead(key: string): Promise<{ marked: number }> { return this.command('/notifications/read-all', {}, key); }
     archive(id: string, key: string): Promise<StaffNotification> { return this.command('/notifications/' + uuid(id) + '/archive', {}, key); }
     preferences(signal?: AbortSignal): Promise<NotificationPreference[]> { return this.transport.request('/notifications/preferences', { signal }); }
-    setPreference(category: string, enabled: boolean, key: string): Promise<NotificationPreference[]> { return this.command('/notifications/preferences', { category, enabled }, key); }
+    setPreference(category: string, enabled: boolean, key: string, emailEnabled?: boolean): Promise<NotificationPreference[]> { return this.command('/notifications/preferences', { category, enabled, emailEnabled }, key); }
     command<T>(path: string, body: unknown, key: string): Promise<T> { return this.transport.request(path, { method: 'POST', body, idempotencyKey: key }); }
 }

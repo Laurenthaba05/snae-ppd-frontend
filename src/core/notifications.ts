@@ -9,11 +9,15 @@ export interface StaffNotification {
     read: boolean; readAt: string | null; archivedAt: string | null; createdAt: string;
 }
 export interface NotificationPage { items: StaffNotification[]; page: number; size: number; hasMore: boolean; unread: number }
-export interface NotificationPreference { category: string; enabled: boolean }
+export interface NotificationPreference { category: string; enabled: boolean; emailEnabled?: boolean }
 
 export const FILTERS: Array<[NotificationFilter, string]> = [['UNREAD', 'Non lues'], ['ALL', 'Toutes'], ['ARCHIVED', 'Archivées']];
 
 export const CATEGORY_LABELS: Record<string, string> = {
+    READING_ROOM_RESERVATION: 'Réservations de salle de lecture',
+    READING_ROOM_SLIP: 'Bulletins de communication',
+    READING_ROOM_REPRODUCTION: 'Commandes de reproduction',
+    MAIL_DELIVERY_FAILED: 'Échecs du courrier sortant',
     WORKFLOW_TASK: 'Tâches de validation',
     INTAKE_SUBMITTED: 'Versements à contrôler',
     INTAKE_DECISION: 'Décisions sur mes versements',
@@ -31,9 +35,14 @@ export const CATEGORY_LABELS: Record<string, string> = {
     EXIT_TO_EXECUTE: 'Sorties de collection à exécuter',
     PHYSICAL_EXIT_TO_AUTHORIZE: 'Sorties d’archives à autoriser',
     PHYSICAL_EXIT_DECIDED: 'Décisions sur mes sorties d’archives',
-    PHYSICAL_EXIT_TO_HANDLE: 'Archives à remettre'
+    PHYSICAL_EXIT_TO_HANDLE: 'Archives à remettre',
+    PHYSICAL_EXIT_OVERDUE: 'Archives sorties non rentrées'
 };
 export const CATEGORY_HINTS: Record<string, string> = {
+    READING_ROOM_RESERVATION: 'Une réservation est créée, annulée ou déclarée non honorée.',
+    READING_ROOM_SLIP: 'Un bulletin est demandé, préparé, refusé, communiqué, restitué ou annulé.',
+    READING_ROOM_REPRODUCTION: 'Une commande de reproduction change d’étape.',
+    MAIL_DELIVERY_FAILED: 'Un courrier est abandonné après un refus, une expiration ou des essais épuisés. Signalé dans l’application uniquement.',
     WORKFLOW_TASK: 'Une étape d’un circuit de validation attend une personne de votre rôle.',
     INTAKE_SUBMITTED: 'Un versement a été soumis et attend un contrôle.',
     INTAKE_DECISION: 'Un versement que vous avez soumis est accepté, rejeté, à corriger ou reçu.',
@@ -51,19 +60,25 @@ export const CATEGORY_HINTS: Record<string, string> = {
     EXIT_TO_EXECUTE: 'Une sortie définitive d’un bien est décidée : son exécution revient à une personne autre que celle qui a décidé.',
     PHYSICAL_EXIT_TO_AUTHORIZE: 'Une sortie de réserve d’une archive physique de votre périmètre est demandée et attend votre autorisation (une autre personne que le demandeur).',
     PHYSICAL_EXIT_DECIDED: 'Une sortie d’archive que vous avez demandée est autorisée ou refusée.',
-    PHYSICAL_EXIT_TO_HANDLE: 'Une sortie d’archive est autorisée : le magasin doit la remettre.'
+    PHYSICAL_EXIT_TO_HANDLE: 'Une sortie d’archive est autorisée : le magasin doit la remettre.',
+    PHYSICAL_EXIT_OVERDUE: 'Une archive sortie de réserve n’est pas rentrée à la date prévue : rappel au magasin et à la personne qui l’a demandée (une fois par jour au plus).'
 };
 export const categoryLabel = (category: string): string => CATEGORY_LABELS[category] ?? 'Notification';
 
 /** La page où se traite la notification ; `null` quand on ne sait pas où elle mène (elle reste lisible). */
 export function notificationPath(objectType: string | null, objectId: string | null): string | null {
     if (!objectType || !objectId) return null;
+    if (objectType === 'READING_ROOM_RESERVATION') return '/app/notifications?reservation=' + encodeURIComponent(objectId);
+    if (objectType === 'COMMUNICATION_SLIP') return '/app/notifications?bulletin=' + encodeURIComponent(objectId);
+    if (objectType === 'REPRODUCTION_ORDER') return '/app/notifications?reproduction=' + encodeURIComponent(objectId);
+    if (objectType === 'MAIL_DELIVERY') return '/app/notifications?courrier=' + encodeURIComponent(objectId);
     if (objectType === 'DOCUMENT') return `/app/documents/${objectId}`;
     if (objectType === 'DOSSIER') return `/app/dossiers/${objectId}`;
-    if (objectType === 'ENTREE_ARCHIVISTIQUE') return '/app/versements';
-    // les bordereaux d'élimination et de versement se traitent sur la page des éliminations ; les demandes d'accès sur celle du portail
-    if (objectType === 'BORDEREAU_ELIMINATION' || objectType === 'TRANSFERT_ARCHIVES') return '/app/eliminations';
-    if (objectType === 'DEMANDE_ACCES_PORTAIL') return '/app/portail';
+    if (objectType === 'ENTREE_ARCHIVISTIQUE') return `/app/versements?entree=${encodeURIComponent(objectId)}`;
+    // les bordereaux d'élimination et de versement se traitent sur la page des éliminations ; les demandes d'accès dans les consultations
+    if (objectType === 'BORDEREAU_ELIMINATION') return `/app/eliminations?bordereau=${encodeURIComponent(objectId)}`;
+    if (objectType === 'TRANSFERT_ARCHIVES') return `/app/eliminations?transfert=${encodeURIComponent(objectId)}`;
+    if (objectType === 'DEMANDE_ACCES_PORTAIL') return `/app/consultations?tab=portail&demande=${encodeURIComponent(objectId)}`;
     // la sortie d'un bien se traite dans l'onglet « Sortie de collection » de sa fiche
     if (objectType === 'BIEN_PATRIMONIAL') return `/app/patrimoine?bien=${objectId}`;
     // la sortie d'une archive physique se traite dans la file des demandes, depuis la fiche de l'archive

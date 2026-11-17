@@ -1,3 +1,4 @@
+import { navigate } from '../../src/ui/navigation';
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -11,7 +12,7 @@ const ENTRY = '00000000-0000-4000-8000-0000000000e1';
 const ACC = '00000000-0000-4000-8000-0000000000c1';
 const session = vi.hoisted(() => ({
     epoch: 1, me: null as unknown, allowed: new Set<string>(['ARCHIVAL_INTAKE_READ', 'ARCHIVAL_INTAKE_MANAGE']),
-    archivalIntake: { entries: vi.fn(), cycle: vi.fn(), journal: vi.fn(), bordereau: vi.fn(), replaceBordereau: vi.fn(), addLine: vi.fn(), updateLine: vi.fn(), deleteLine: vi.fn(), controlLine: vi.fn(),
+    archivalIntake: { entry: vi.fn(), entries: vi.fn(), cycle: vi.fn(), journal: vi.fn(), bordereau: vi.fn(), replaceBordereau: vi.fn(), addLine: vi.fn(), updateLine: vi.fn(), deleteLine: vi.fn(), controlLine: vi.fn(),
         conformRemaining: vi.fn(), agreements: vi.fn(), saveAgreement: vi.fn(), command: vi.fn(),
         integrations: vi.fn(), deposits: vi.fn(), integrationPreview: vi.fn(), integrate: vi.fn(), sedaExport: vi.fn() },
     records: { transport: { request: vi.fn() } }
@@ -40,6 +41,7 @@ const agreement = (over: Record<string, unknown> = {}): AgreementView => ({ id: 
 
 function serve(entries: unknown[], view: BordereauView | null, agreements: AgreementView[] = []) {
     session.archivalIntake.entries.mockResolvedValue(entries);
+    session.archivalIntake.entry.mockImplementation(async (id: string) => entries.find(e => (e as { id: string }).id === id));
     session.archivalIntake.bordereau.mockImplementation(async () => view);
     session.archivalIntake.agreements.mockResolvedValue(agreements);
     session.archivalIntake.integrations.mockResolvedValue([]);
@@ -53,6 +55,7 @@ async function openDetail(name = 'ENT-2026-001') {
     return await screen.findByRole('dialog');
 }
 beforeEach(() => {
+    history.replaceState(null, '', '/app/versements'); window.scrollTo = vi.fn();
     counter = 0; session.allowed = new Set(['ARCHIVAL_INTAKE_READ', 'ARCHIVAL_INTAKE_MANAGE']);
     for (const fn of Object.values(session.archivalIntake)) fn.mockReset();
     session.records.transport.request.mockReset();
@@ -321,4 +324,11 @@ it('un accord clos ou utilisé par des versements ne change plus ses parties', a
     expect((within(dialog).getByRole('button', { name: /Service d’archives destinataire/ }) as HTMLButtonElement).disabled).toBe(true);
     expect(within(dialog).getAllByRole('option').map(o => o.textContent)).toEqual(expect.arrayContaining(['Actif', 'Suspendu', 'Clos']));
     expect(within(dialog).queryByRole('option', { name: 'En projet' })).toBeNull();            // pas de retour en arrière
+});
+
+it('une notification ouvre le versement par ID même absent de la liste', async () => {
+    serve([], bordereau('PREPARATION', [])); session.archivalIntake.entry.mockResolvedValue(intake());
+    navigate('/app/versements?entree=' + ENTRY); render(<ArchivalIntakePage/>);
+    const dialog = await screen.findByRole('dialog'); await within(dialog).findByText('ENT-2026-001');
+    expect(session.archivalIntake.entry).toHaveBeenCalledWith(ENTRY, expect.any(AbortSignal));
 });

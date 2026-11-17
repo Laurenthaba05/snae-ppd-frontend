@@ -1,3 +1,5 @@
+import { RetentionNotificationDetail } from '../../src/ui/RetentionNotificationDetail';
+import { navigate } from '../../src/ui/navigation';
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -210,4 +212,17 @@ it('la fiche d’un document non remis ne montre rien', async () => {
     const { container } = render(<DocumentTransferNotice documentId="d1" />);
     await waitFor(() => expect(fixture.retention.documentTransfer).toHaveBeenCalled());
     expect(container.textContent).toBe('');
+});
+
+it('ouvre le détail désigné par une notification sans charger sa liste', async () => {
+    window.scrollTo = vi.fn();
+    fixture.retention.archiveTransfer.mockResolvedValue(transfer('BROUILLON', [line(1)]));
+    navigate('/app/eliminations?transfert=' + TID);
+    render(<RetentionNotificationDetail/>);
+    const dialog = await screen.findByRole('dialog');
+    await waitFor(() => expect(fixture.retention.archiveTransfer).toHaveBeenCalledWith(TID, expect.any(AbortSignal)));
+    await within(dialog).findByText('DOC-1');
+    fireEvent.click(within(dialog).getAllByRole('button', { name: 'Fermer' })[0]!);
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    expect(location.search).toBe('');
 });

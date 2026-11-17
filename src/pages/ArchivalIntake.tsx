@@ -1,3 +1,4 @@
+import { useQuerySelection } from '../ui/useQuerySelection';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import React, { useRef, useState } from 'react';
@@ -178,10 +179,11 @@ export function ArchivalIntakePage() {
     const canManage = can(me, 'ARCHIVAL_INTAKE_MANAGE', {});
     const [creating, setCreating] = useState(false);
     const [tab, setTab] = useState<'entries' | 'agreements'>('entries');
-    const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [selectedId, setSelectedId] = useQuerySelection('entree');
     const entriesQ = useResource<ArchivalIntake[]>(s => archivalIntake!.entries(s), 'archival-intake-entries:' + epoch);
     const entries = entriesQ.data ?? [];
-    const selected = entries.find(e => e.id === selectedId) ?? null;
+    const detail = useResource(s => selectedId ? archivalIntake!.entry(selectedId, s) : Promise.resolve(null), 'intake-detail:' + selectedId + ':' + epoch);
+    const selected = detail.data;
     return <><PageHead eyebrow="MODULE · ENTRÉES D’ARCHIVES" title="Entrées archivistiques" description="Suivre les versements, dons, dépôts et autres entrées de fonds, et leur rattachement aux documents, dossiers et archives physiques.">
         {canManage && tab === 'entries' && <button className="btn primary" onClick={() => setCreating(true)}>Créer une entrée</button>}
     </PageHead>
@@ -191,6 +193,8 @@ export function ArchivalIntakePage() {
             {entriesQ.loading ? <Busy /> : entriesQ.error ? <ErrorNotice error={entriesQ.error} onRetry={entriesQ.refresh}/> : entries.length ? <div className="table-scroll"><table><thead><tr><th>Numéro</th><th>Mode</th><th>Date</th><th>Versant</th><th>Étape</th><th>Statut</th></tr></thead><tbody>{entries.map(e => <tr key={e.id}><td><button className="record-name" onClick={() => setSelectedId(e.id)}><strong>{e.numero}</strong></button><ResourceDetailsButton resource="intakeEntry" id={e.id} title={e.numero} /></td><td>{display(e.modeEntree)}</td><td>{formatDate(e.dateEntree)}</td><td><OriginText institutionId={e.sourceInstitutionId} departmentId={e.sourceDepartmentId}/></td><td>{e.etape ? <Badge value={e.etape} label={STAGE_LABELS[e.etape]}/> : <small>Entrée simple</small>}</td><td><Badge value={e.statut}/></td></tr>)}</tbody></table></div> : <Empty title="Aucune entrée archivistique" description="Créez la première entrée."/>}
         </div>}
         {creating && <CreateIntakeDialog onClose={() => setCreating(false)} onCreated={entriesQ.refresh}/>}
-        {selected && <IntakeDetailDialog intake={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={entriesQ.refresh}/>}
+        {selectedId && detail.loading && <Busy/>}
+        {selectedId && Boolean(detail.error) && <Modal title="Entrée archivistique" onClose={() => setSelectedId(null)}><ErrorNotice error={detail.error} onRetry={detail.refresh}/></Modal>}
+        {selected && <IntakeDetailDialog intake={selected} canManage={canManage} onClose={() => setSelectedId(null)} onChanged={() => { entriesQ.refresh(); detail.refresh(); }}/>}
         </>;
 }

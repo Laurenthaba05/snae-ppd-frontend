@@ -1,3 +1,4 @@
+import { useQuerySelection } from './useQuerySelection';
 import React, { useState } from 'react';
 import { useSession } from '../auth/session';
 import { Badge, Busy, Empty, ErrorNotice, Field, Modal, Notice, Pagination, formatDate, useResource } from './components';
@@ -109,7 +110,7 @@ export function AccessRequestsPanel() {
     const [applied, setApplied] = useState(form);
     const [page, setPage] = useState(0);
     const [revision, setRevision] = useState(0);
-    const [opened, setOpened] = useState<string | null>(null);
+    const [opened, setOpened] = useQuerySelection('demande');
     const list = useResource<PortalPage<AccessRequestRow>>(s => portalAdmin!.accessRequests({ statut: applied.statut, q: applied.q, page, size: 20 }, s), JSON.stringify(['portal-access-requests', applied, page, revision, epoch]));
     const apply = (next: typeof form) => { setForm(next); setApplied(next); setPage(0); };
     const items = list.data?.items ?? [];

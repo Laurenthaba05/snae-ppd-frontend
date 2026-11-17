@@ -180,11 +180,13 @@ function DossierDialog({ institutionId, bordereauId, onClose, onDone }: { instit
 type Step = null | 'dossier' | 'candidates' | 'visa' | 'cancel' | 'execute' | { retire: string };
 
 /** Un bordereau : ses lignes, où il en est, et ce que la personne peut faire maintenant selon ses droits. */
-function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }: { id: string; institutionId: string; departmentId: string | null; onClose: () => void; onChanged: () => void }) {
+export function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }: { id: string; institutionId: string; departmentId: string | null; onClose: () => void; onChanged: () => void }) {
     const { retention, epoch } = useSession();
-    const caps = useCapabilities(institutionId, departmentId);
     const q = useResource<Bordereau>(signal => retention!.bordereau(id, signal), `elimination-bordereau:${id}:${epoch}`);
     const b = q.data ?? null;
+    const targetInstitution = b?.summary.institutionId ?? institutionId;
+    const targetDepartment = targetInstitution === institutionId ? departmentId : null;
+    const caps = useCapabilities(targetInstitution, null);
     const readyQ = useResource<BordereauReadiness | null>(async signal => b?.summary.status === 'VISE' ? await retention!.bordereauReadiness(id, signal) : null, `elimination-readiness:${id}:${b?.summary.status}:${b?.summary.accepted}:${epoch}`);
     const [step, setStep] = useState<Step>(null);
     const [busy, setBusy] = useState(false);
@@ -194,7 +196,7 @@ function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }
     const createdBy = useEntityName('users', b?.summary.createdById);
     const submittedBy = useEntityName('users', b?.submittedById);
     const visaBy = useEntityName('users', b?.visaById);
-    const institution = useEntityName('institutions', institutionId);
+    const institution = useEntityName('institutions', targetInstitution);
     const blockersOf = useMemo(() => new Map((readyQ.data?.lines ?? []).map(l => [l.lineId, l.blockers])), [readyQ.data]);
     const changed = () => { q.refresh(); readyQ.refresh(); onChanged(); };
     const run = async (call: (key: string) => Promise<unknown>, payload: unknown) => {
@@ -254,8 +256,8 @@ function BordereauDialog({ id, institutionId, departmentId, onClose, onChanged }
             {actions.includes('VISA') && <button type="button" className="btn primary" disabled={busy} onClick={() => setStep('visa')}>Viser le bordereau</button>}
             {actions.includes('EXECUTE') && <button type="button" className="btn danger" disabled={busy} onClick={() => setStep('execute')}>Détruire les documents visés</button>}
         </footer>
-        {b && step === 'candidates' && <CandidatesDialog institutionId={institutionId} departmentId={departmentId} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
-        {b && step === 'dossier' && <DossierDialog institutionId={institutionId} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
+        {b && step === 'candidates' && <CandidatesDialog institutionId={targetInstitution} departmentId={targetDepartment} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
+        {b && step === 'dossier' && <DossierDialog institutionId={targetInstitution} bordereauId={id} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {b && step === 'visa' && <VisaDialog bordereau={b} onClose={() => setStep(null)} onDone={() => { setStep(null); changed(); }} />}
         {b && step === 'cancel' && <ReasonDialog title="Annuler le bordereau" subtitle={b.summary.reference} confirm="Annuler le bordereau" hint="Les propositions et validations en cours sont annulées ; les échéances redeviennent disponibles. Le motif est conservé au journal."
             onClose={() => setStep(null)} onSubmit={(reason, key) => retention!.cancelBordereau(id, reason, key).then(changed)} />}

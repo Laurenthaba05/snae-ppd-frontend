@@ -41,10 +41,11 @@ it('sans institution dans le périmètre, la page le dit et n’interroge rien',
     expect(fixture.retention.events).not.toHaveBeenCalled();
 });
 
-it('sans aucune habilitation, chaque section dit laquelle lui manque et aucun panneau ne s’ouvre', async () => {
+it('sans aucune habilitation, aucune requête interdite ni panneau ne s’ouvre', async () => {
     render(<RetentionNationalPage />);
-    expect(await screen.findByText(/exige une habilitation de revue de rétention/)).toBeTruthy();
-    expect(screen.getByText(/exige une habilitation de gestion des gels légaux/)).toBeTruthy();
+    expect(screen.queryByText(/exige une habilitation/)).toBeNull();
+    expect(fixture.retention.events).not.toHaveBeenCalled();
+    expect(fixture.retention.legalHolds).not.toHaveBeenCalled();
     for (const id of ['rules', 'trigger-types', 'refresh', 'intermediate', 'sampling', 'bordereaux', 'transfers', 'certificates']) expect(screen.queryByTestId(id)).toBeNull();
     expect(screen.queryByRole('button', { name: 'Ouvrir un gel' })).toBeNull();
 });
@@ -55,7 +56,7 @@ it('la revue ouvre les échéances et les panneaux de suite, mais pas la gestion
     await waitFor(() => expect(screen.getAllByRole('row').length).toBeGreaterThan(1));
     for (const id of ['refresh', 'intermediate', 'sampling', 'bordereaux', 'transfers', 'certificates', 'trigger-types']) expect(screen.getByTestId(id)).toBeTruthy();
     expect(screen.queryByTestId('rules')).toBeNull();
-    expect(screen.getByText(/exige une habilitation de gestion des gels légaux/)).toBeTruthy();
+    expect(fixture.retention.legalHolds).not.toHaveBeenCalled();
     expect(fixture.retention.events).toHaveBeenCalledWith('i-1', null, expect.anything());
 });
 
@@ -111,5 +112,5 @@ it('une proposition de sort final ouvre les bordereaux sans ouvrir la revue des 
     expect(await screen.findByTestId('bordereaux')).toBeTruthy();
     expect(screen.getByTestId('transfers')).toBeTruthy();
     expect(screen.queryByTestId('intermediate')).toBeNull();
-    expect(screen.getByText(/exige une habilitation de revue de rétention/)).toBeTruthy();
+    expect(fixture.retention.events).not.toHaveBeenCalled();
 });

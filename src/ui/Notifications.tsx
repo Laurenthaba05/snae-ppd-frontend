@@ -1,3 +1,4 @@
+import { NotificationTarget } from './NotificationTarget';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSession } from '../auth/session';
 import { Busy, Empty, ErrorNotice, Notice, PageHead, Pagination, useResource } from './components';
@@ -128,6 +129,7 @@ export function NotificationsPage() {
             {data && <Pagination page={page} hasMore={data.hasMore} onChange={setPage} count={items.length} />}
         </section>
         <NotificationPreferences />
+        <NotificationTarget />
     </>;
 }
 
@@ -137,8 +139,8 @@ function NotificationPreferences() {
     const [revision, setRevision] = useState(0);
     const action = useAction();
     const q = useResource<NotificationPreference[]>(s => notifications!.preferences(s), `notification-preferences:${revision}:${epoch}`);
-    const change = async (category: string, enabled: boolean) => {
-        if (await action.run({ category, enabled }, key => notifications!.setPreference(category, enabled, key))) setRevision(n => n + 1);
+    const change = async (category: string, enabled: boolean, emailEnabled?: boolean) => {
+        if (await action.run({ category, enabled, emailEnabled }, key => notifications!.setPreference(category, enabled, key, emailEnabled))) setRevision(n => n + 1);
     };
     return <section className="panel" aria-label={tr('Préférences de notification')}>
         <div className="section-heading"><h3>{tr('Ce que vous souhaitez recevoir')}</h3></div>
@@ -147,7 +149,11 @@ function NotificationPreferences() {
             {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} />
                 : <ul className="notification-prefs">{(q.data ?? []).map(p => <li key={p.category}>
                     <label><input type="checkbox" checked={p.enabled} disabled={action.busy} onChange={e => change(p.category, e.target.checked)} />
-                        <span><strong>{tr(categoryLabel(p.category))}</strong><small>{tr(CATEGORY_HINTS[p.category] ?? '')}</small></span></label></li>)}</ul>}
+                        <span><strong>{tr(categoryLabel(p.category))}</strong><small>{tr(CATEGORY_HINTS[p.category] ?? '')}</small></span></label>
+                    {p.category !== 'MAIL_DELIVERY_FAILED' && <label><input type="checkbox" aria-label={'Courriel : ' + tr(categoryLabel(p.category))} checked={p.emailEnabled ?? false} disabled={action.busy || !p.enabled}
+                        onChange={e => change(p.category, p.enabled, e.target.checked)}/><span>Recevoir aussi un avis par courriel</span></label>}
+                </li>)}</ul>}
+            <p><small>Le courriel contient un avis générique, sans contenu documentaire. Il utilise l’adresse de votre profil et nécessite un serveur de courrier configuré.</small></p>
             <p><small>{tr('Une catégorie refusée ne dépose plus rien dans votre boîte ; les décisions et les tâches elles-mêmes restent consultables dans leurs écrans.')}</small></p>
         </div>
     </section>;

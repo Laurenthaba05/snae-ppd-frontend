@@ -127,7 +127,7 @@ function TransferCandidatesDialog({ institutionId, departmentId, transferId, onC
 type Step = null | 'candidates' | 'receive' | 'execute' | 'cancel' | { retire: string };
 
 /** Un bordereau de versement : ses lignes, où il en est, et ce que la personne peut faire maintenant selon ses droits côté versant ou côté destinataire. */
-function TransferDialog({ id, workspaceInstitutionId, departmentId, onClose, onChanged }: {
+export function TransferDialog({ id, workspaceInstitutionId, departmentId, onClose, onChanged }: {
     id: string; workspaceInstitutionId: string; departmentId: string | null; onClose: () => void; onChanged: () => void;
 }) {
     const { me, retention, epoch } = useSession();
