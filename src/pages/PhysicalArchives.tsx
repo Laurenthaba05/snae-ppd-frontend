@@ -1,3 +1,4 @@
+import { ShelvingDialog } from '../ui/ShelvingDialog';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
 import { OptionalFields, useOptionalFields } from '../ui/OptionalFields';
 import { PhysicalEliminationSection } from '../ui/PhysicalElimination';
@@ -374,6 +375,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     initialArchiveId?: string;
 } = {}) {
     const { me, physicalArchives, epoch } = useSession();
+    const [creatingShelving, setCreatingShelving] = useState(false);
     const [creatingLocation, setCreatingLocation] = useState(false);
     const [creatingUnit, setCreatingUnit] = useState(false);
     const [creatingArchive, setCreatingArchive] = useState(false);
@@ -466,7 +468,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
     };
 
     return <><PageHead eyebrow="MODULE · ARCHIVES PHYSIQUES" title="Archives physiques" description="Gérer les emplacements, unités de stockage, cotes physiques et sorties de réserve (demandées, autorisées, remises, rendues).">
-        {canManage && <button className="btn primary" onClick={() => setCreatingLocation(true)}>Créer un emplacement</button>}
+        {canManage && <span className="table-actions"><button className="btn primary" onClick={() => setCreatingShelving(true)}>Créer un rangement détaillé</button><button className="btn secondary" onClick={() => setCreatingLocation(true)}>Créer un emplacement</button></span>}
     </PageHead>
         {Boolean(actionError) && <ErrorNotice error={actionError}/>}
         <PhysicalArchiveFinder locations={locations} onOpen={openFound}/>
@@ -488,6 +490,7 @@ export function PhysicalArchivesPage({ initialArchiveId }: {
         </div>}
         <PhysicalEliminationSection />
         <PhysicalRiskSection />
+        {creatingShelving && <ShelvingDialog locations={locations} onClose={()=>setCreatingShelving(false)} onCreated={unit=>{locationsQ.refresh();allUnitsQ.refresh();setSelectedLocationId(unit.localisationId);setSelectedUnitId(unit.id);}}/>}
         {creatingLocation && <CreateLocationDialog locations={locations} onClose={() => setCreatingLocation(false)} onCreated={locationsQ.refresh}/>}
         {creatingUnit && selectedLocationId && <CreateStorageUnitDialog locationId={selectedLocationId} onClose={() => setCreatingUnit(false)} onCreated={() => { unitsQ.refresh(); allUnitsQ.refresh(); }}/>}
         {settingsFor && <UnitSettingsDialog unit={settingsFor} onClose={() => setSettingsFor(null)} onSaved={() => { unitsQ.refresh(); allUnitsQ.refresh(); }}/>}
