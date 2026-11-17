@@ -298,7 +298,13 @@ export interface Actor {
     legalName: string | null;
     externalId: string | null;
 }
+export interface DocumentActorHistoryEntry {
+    id: string; linkId: string; action: string; occurredAt: string; performedBy: string;
+    before: Record<string, unknown> | null; after: Record<string, unknown> | null;
+}
 export interface DocumentActor {
+    version: number;
+    actor?: Actor | null;
     id: string;
     documentId: string;
     actorId: string;

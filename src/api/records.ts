@@ -10,7 +10,7 @@ import type { DocumentSignature } from '../core/signatures.js';
 import type { TrustAnchor } from '../core/trustAnchors.js';
 import type { RevocationList } from '../core/revocationLists.js';
 import type { ReplicationStatus } from '../core/replication.js';
-import type { DocumentLifecycle, Page, RecordDocument, Dossier, DocumentVersion, DocumentFile, DocumentType, Ingestion, Actor, DocumentActor, QualifiedTimestamp, IntegrityCheck, PreservationEvent, PreservationEventListItem } from '../core/types.js';
+import type { DocumentLifecycle, Page, RecordDocument, Dossier, DocumentVersion, DocumentFile, DocumentType, Ingestion, Actor, DocumentActor, DocumentActorHistoryEntry, QualifiedTimestamp, IntegrityCheck, PreservationEvent, PreservationEventListItem } from '../core/types.js';
 export class RecordsApi {
     constructor(readonly transport: Transport) { }
     backupMonitor(signal?: AbortSignal): Promise<BackupMonitor> { return this.transport.request('/preservation/backups', { signal }); }
@@ -77,6 +77,8 @@ export class RecordsApi {
     ingestion(id: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.request('/ingestions/' + uuid(id), { signal }); }
     ingestions(versionId: string, signal?: AbortSignal, before?: string | null): Promise<{ items: Ingestion[]; nextCursor: string | null }> { return this.transport.request('/versions/' + uuid(versionId) + '/ingestions' + query({ before, limit: 20 }), { signal }); }
     async actors(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Actor>> { return parsePage<Actor>(await this.transport.request('/actors' + query(params), { signal })); }
+    actor(id: string, signal?: AbortSignal): Promise<Actor> { return this.transport.request('/actors/' + uuid(id), { signal }); }
+    actorHistory(documentId: string, page: number, signal?: AbortSignal): Promise<Page<DocumentActorHistoryEntry>> { return this.transport.request('/documents/' + uuid(documentId) + '/actors/history?page=' + page + '&size=20', { signal }); }
     documentActors(documentId: string, signal?: AbortSignal): Promise<DocumentActor[]> { return this.transport.request('/documents/' + uuid(documentId) + '/actors', { signal }); }
     createTimestamp(versionId: string, key: string): Promise<QualifiedTimestamp> { return this.transport.request('/versions/' + uuid(versionId) + '/timestamp', { method: 'POST', idempotencyKey: key }); }
     timestamp(versionId: string, signal?: AbortSignal): Promise<QualifiedTimestamp> { return this.transport.request('/versions/' + uuid(versionId) + '/timestamp', { signal }); }
