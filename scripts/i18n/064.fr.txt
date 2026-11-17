@@ -1,0 +1,27 @@
+1	(inactif)
+2	{n} rôles
+3	1 rôle
+4	Acquisition et imports
+5	Attribution
+6	Aucune permission trouvée
+7	Code, domaine ou description
+8	Conservation numérique
+9	Dépôt de fichiers
+10	Documents et dossiers
+11	domaine
+12	Droits et communicabilité
+13	Durées de conservation et sort final
+14	Effacer la recherche
+15	Identité et habilitations
+16	La recherche porte sur tout le catalogue.
+17	Les permissions exécutables définies par le serveur, rangées par domaine, avec les rôles qui détiennent chacune. Ce catalogue n’est pas modifiable ici : les permissions d’un rôle se configurent depuis la fiche du rôle.
+18	permission
+19	Recherche : «
+20	Rechercher une permission
+21	sans aucun rôle
+22	Sans aucun rôle
+23	sans rôle
+24	Tableaux de bord
+25	Tout déplier
+26	Tout replier
+27	Toutes les permissions trouvées sont détenues par au moins un rôle.

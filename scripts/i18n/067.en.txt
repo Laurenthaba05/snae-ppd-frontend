@@ -1,0 +1,30 @@
+1	: run a full reindex.
+2	· failed:
+3	None (inherited)
+4	Choose a policy.
+5	decided at national level
+6	decided by this institution
+7	Decide whether the text read by the engine and judged reliable enters the search index before it is validated. A reason is recorded in the log.
+8	Inherit from the national level
+9	Indexing of recognised text
+10	Indexed · unverified
+11	Indexed (validated)
+12	The institution follows the national level's policy (or the server's default setting).
+13	The national level inherits from nothing: choose a policy.
+14	Text judged reliable is searchable right away; results that match only through it are flagged “unverified”. Texts to check or unreliable stay out of the index.
+15	Reliability thresholds have only been calibrated on test pages: check them on your scans before enabling this indexing.
+16	Locating the word in the OCR pages…
+17	Change the policy
+18	Not indexed
+19	Policy *
+20	Recognised-text indexing policy
+21	server default setting
+22	Reindexing in progress:
+23	Reindexing interrupted after
+24	Only the automatic reading of a scan matches this search; no one has validated this text.
+25	Unverified text
+26	Unverified text: these positions come from the automatic reading of the scan, which no one has validated yet.
+27	Validated text only
+28	Validated text, and text judged reliable flagged “unverified”
+29	Texts extracted from digitised files: recognition confidence and verification. A validated text feeds full-text search; depending on the institution's policy, so does a text judged reliable, flagged “unverified”.
+30	A scan is searchable only after a person has validated each page.

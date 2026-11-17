@@ -1,0 +1,55 @@
+1	· default group
+2	(default)
+3	If no group is chosen, the account joins its institution's default group, otherwise the national default group. A group grants no rights: roles are assigned separately.
+4	Added on
+5	Add to a group
+6	Add a member
+7	Archive the group
+8	No other group is available for this account.
+9	No group
+10	No group in your scope.
+11	No group matches the search.
+12	No visible member
+13	This code already exists.
+14	This account is already in this group.
+15	This account is in no group.
+16	This account is not in this group.
+17	This group still has members: move them before archiving it.
+18	This group has no member in your scope.
+19	This group only takes accounts of its institution.
+20	This group does not exist, is archived or cannot be used for this account.
+21	Every human account belongs to at least one group, from its creation. A group arranges accounts (team, trade, institution); it grants no rights: roles are assigned separately.
+22	Choose a group
+23	Choose an account.
+24	Choose a group.
+25	Account *
+26	Create a group
+27	Group record
+28	Group
+29	Group *
+30	Account group
+31	General group
+32	Group where any account created without another choice joins. It grants no rights.
+33	Default group
+34	Groups
+35	User groups
+36	IDENTITY & ORGANISATION
+37	Archiving is final. It is only possible for an empty group that is not the default group.
+38	Leave empty for a national group (reserved for platform administration).
+39	The group has changed.
+40	The national default group cannot be withdrawn: designate another one in its place.
+41	The default group cannot be archived: designate another one first.
+42	The group arranges the account; it grants no rights. Roles are assigned separately.
+43	Accounts created without a group choice join it. It replaces the current default group, if any, of the same scope.
+44	The institution's groups are unavailable: the account will join the default group.
+45	Members
+46	Edit the group
+47	Change the name, the description or the default-group status, and give the reason.
+48	Group name or code
+49	Search for a group
+50	Remove from the group
+51	Select an account
+52	Only accounts of the group's institution can join it.
+53	An account always belongs to at least one group: add it to another group first.
+54	An account always stays in at least one group.
+55	A group arranges accounts; it grants no rights.

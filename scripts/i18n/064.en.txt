@@ -1,0 +1,27 @@
+1	(inactive)
+2	{1} roles
+3	1 role
+4	Acquisition and imports
+5	Assignment
+6	No permission found
+7	Code, domain or description
+8	Digital preservation
+9	File deposit
+10	Documents and files
+11	domain
+12	Rights and communicability
+13	Retention periods and final disposition
+14	Clear the search
+15	Identity and permissions
+16	The search covers the whole catalogue.
+17	The permissions the server can enforce, grouped by domain, with the roles that hold each one. This catalogue cannot be edited here: a role’s permissions are configured from the role’s page.
+18	permission
+19	Search: «
+20	Search for a permission
+21	with no role
+22	With no role
+23	no role
+24	Dashboards
+25	Expand all
+26	Collapse all
+27	Every permission found is held by at least one role.

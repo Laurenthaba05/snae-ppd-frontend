@@ -1,0 +1,20 @@
+1	Archives papier
+2	Archives sorties non rentrées
+3	Aucun dossier lisible par vous dans l’institution de cette archive.
+4	Aucun dossier lisible par vous ne correspond à ces mots, dans l’institution de cette archive.
+5	Aucune archive physique n’est reliée à ce dossier.
+6	Autorisée par
+7	D’autres archives papier sont reliées à ce dossier ; ouvrez-les depuis les archives physiques.
+8	D’autres dossiers existent : précisez la référence ou le titre.
+9	Détacher le dossier
+10	Dossier non disponible
+11	Dossier numérique
+12	Imprimer le bon de sortie
+13	L’archive n’est plus reliée à son dossier numérique. Ni l’une ni l’autre n’est supprimé ; le détachement est consigné au journal.
+14	Le dossier numérique et l’archive papier désignent la même affaire. Le lien ne change aucun droit : l’archive et le dossier doivent venir de la même institution, et une archive ne porte qu’un seul dossier.
+15	Recherche des dossiers…
+16	Référence ou titre du dossier
+17	Relier un dossier
+18	Remise par
+19	Reprise par
+20	Une archive sortie de réserve n’est pas rentrée à la date prévue : rappel au magasin et à la personne qui l’a demandée (une fois par jour au plus).

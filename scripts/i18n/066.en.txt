@@ -1,0 +1,16 @@
+1	· to check:
+2	· unreliable:
+3	At least one reason to reread this text before relying on it.
+4	ink contrast
+5	Text reliability — reliable:
+6	Confidence is a score from the engine: it does not say whether the text is right. Reliability crosses it with how sure each word is, any preparation of the image and the quality of the page. “Reliable” means nothing worries it; it is calibrated on test pages and still has to be calibrated on your scans.
+7	Direct reading, high confidence, sure words, sound page: nothing worries it.
+8	Read after preparing the image
+9	Read after preparing the image (strong median filter)
+10	Read after preparing the image (light median filter)
+11	Read after preparing the image (black and white)
+12	relative sharpness
+13	Not assessed
+14	Unreliable
+15	Why?
+16	Almost nothing read, or a very uncertain reading: do not rely on it.

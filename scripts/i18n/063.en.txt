@@ -1,0 +1,20 @@
+1	Paper archives
+2	Archives not returned
+3	No file you can read in this archive’s institution.
+4	No file you can read matches these words in this archive’s institution.
+5	No physical archive is linked to this file.
+6	Authorised by
+7	Other paper archives are linked to this file; open them from the physical archives.
+8	More files exist: refine the reference or the title.
+9	Detach the file
+10	File not available
+11	Digital file
+12	Print the exit slip
+13	The archive is no longer linked to its digital file. Neither is deleted; the detachment is recorded in the log.
+14	The digital file and the paper archive refer to the same case. The link changes no rights: the archive and the file must come from the same institution, and an archive carries only one file.
+15	Searching files…
+16	File reference or title
+17	Link a file
+18	Handed over by
+19	Taken back by
+20	An archive taken out of storage was not returned on the planned date: reminder sent to the stores and to the person who requested it (once a day at most).

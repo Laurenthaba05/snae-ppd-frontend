@@ -1,0 +1,16 @@
+1	· à vérifier :
+2	· non fiables :
+3	Au moins une raison de relire ce texte avant de s’y fier.
+4	contraste de l’encre
+5	Fiabilité du texte — fiables :
+6	La confiance est un score du moteur : elle ne dit pas si le texte est juste. La fiabilité la croise avec la sûreté de chaque mot, la préparation éventuelle de l’image et la qualité de la page. « Fiable » veut dire que rien ne l’inquiète ; elle est calibrée sur des pages de test et reste à étalonner sur vos scans.
+7	Lecture directe, confiance élevée, mots sûrs, page saine : rien ne l’inquiète.
+8	Lu après préparation de l’image
+9	Lu après préparation de l’image (filtre médian fort)
+10	Lu après préparation de l’image (filtre médian léger)
+11	Lu après préparation de l’image (noir et blanc)
+12	netteté relative
+13	Non évaluée
+14	Non fiable
+15	Pourquoi ?
+16	Presque rien lu, ou lecture très incertaine : ne pas s’y fier.

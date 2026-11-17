@@ -1,0 +1,55 @@
+1	· groupe par défaut
+2	(par défaut)
+3	À défaut de choix, le compte entre dans le groupe par défaut de son institution, sinon dans le groupe national par défaut. Un groupe n’accorde aucun droit : les rôles s’attribuent à part.
+4	Ajouté le
+5	Ajouter à un groupe
+6	Ajouter un membre
+7	Archiver le groupe
+8	Aucun autre groupe disponible pour ce compte.
+9	Aucun groupe
+10	Aucun groupe dans votre périmètre.
+11	Aucun groupe ne correspond à la recherche.
+12	Aucun membre visible
+13	Ce code existe déjà.
+14	Ce compte est déjà dans ce groupe.
+15	Ce compte n’est dans aucun groupe.
+16	Ce compte n’est pas dans ce groupe.
+17	Ce groupe a encore des membres : déplacez-les avant de l’archiver.
+18	Ce groupe n’a aucun membre dans votre périmètre.
+19	Ce groupe n’accueille que les comptes de son institution.
+20	Ce groupe n’existe pas, est archivé ou n’est pas utilisable pour ce compte.
+21	Chaque compte humain appartient à au moins un groupe, dès sa création. Un groupe range des comptes (équipe, métier, institution) ; il n’accorde aucun droit : les rôles s’attribuent à part.
+22	Choisir un groupe
+23	Choisissez un compte.
+24	Choisissez un groupe.
+25	Compte *
+26	Créer un groupe
+27	Fiche du groupe
+28	Groupe
+29	Groupe *
+30	Groupe du compte
+31	Groupe général
+32	Groupe où entre tout compte créé sans autre choix. Il n’accorde aucun droit.
+33	Groupe par défaut
+34	Groupes
+35	Groupes d’utilisateurs
+36	IDENTITÉ & ORGANISATION
+37	L’archivage est définitif. Il n’est possible que pour un groupe vide qui n’est pas le groupe par défaut.
+38	Laissez vide pour un groupe national (réservé à l’administration de la plateforme).
+39	Le groupe a changé.
+40	Le groupe national par défaut ne peut pas être retiré : désignez-en un autre à sa place.
+41	Le groupe par défaut ne peut pas être archivé : désignez-en un autre d’abord.
+42	Le groupe range le compte ; il n’accorde aucun droit. Les rôles s’attribuent à part.
+43	Les comptes créés sans choix de groupe y entrent. Il remplace l’éventuel groupe par défaut actuel de la même portée.
+44	Les groupes de l’institution sont indisponibles : le compte entrera dans le groupe par défaut.
+45	Membres
+46	Modifier le groupe
+47	Modifiez le nom, la description ou le statut de groupe par défaut, et indiquez le motif.
+48	Nom ou code du groupe
+49	Rechercher un groupe
+50	Retirer du groupe
+51	Sélectionner un compte
+52	Seuls les comptes de l’institution du groupe peuvent y entrer.
+53	Un compte appartient toujours à au moins un groupe : ajoutez-le d’abord à un autre groupe.
+54	Un compte reste toujours dans au moins un groupe.
+55	Un groupe range des comptes ; il n’accorde aucun droit.

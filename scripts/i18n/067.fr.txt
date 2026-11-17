@@ -1,0 +1,30 @@
+1	: lancez une réindexation complète.
+2	· en échec :
+3	Aucune (héritée)
+4	Choisissez une politique.
+5	décidée au niveau national
+6	décidée par cette institution
+7	Décidez si le texte reconnu par le moteur et jugé fiable entre dans l’index de recherche avant sa validation. Un motif est consigné au journal.
+8	Hériter du niveau national
+9	Indexation du texte reconnu
+10	Indexé · non vérifié
+11	Indexé (validé)
+12	L’institution suit la politique du niveau national (ou le réglage par défaut du serveur).
+13	Le niveau national n’hérite de rien : choisissez une politique.
+14	Le texte reconnu jugé fiable est cherchable tout de suite ; les résultats qui ne répondent que par lui sont signalés « non vérifié ». Les textes à vérifier ou non fiables restent hors de l’index.
+15	Les seuils de fiabilité n’ont été étalonnés que sur des pages de test : vérifiez-les sur vos scans avant d’activer cette indexation.
+16	Localisation du mot dans les pages OCR…
+17	Modifier la politique
+18	Pas indexé
+19	Politique *
+20	Politique d’indexation du texte reconnu
+21	réglage par défaut du serveur
+22	Réindexation en cours :
+23	Réindexation interrompue après
+24	Seule la lecture automatique d’un scan répond à cette recherche ; aucune personne n’a validé ce texte.
+25	Texte non vérifié
+26	Texte non vérifié : ces positions viennent de la lecture automatique du scan, que personne n’a encore validée.
+27	Texte validé seulement
+28	Texte validé, et texte jugé fiable signalé « non vérifié »
+29	Textes extraits des fichiers numérisés : confiance de la reconnaissance et vérification. Un texte validé alimente la recherche plein texte ; selon la politique de l’institution, un texte jugé fiable aussi, signalé « non vérifié ».
+30	Un scan n’est cherchable qu’après la validation de chaque page par une personne.
