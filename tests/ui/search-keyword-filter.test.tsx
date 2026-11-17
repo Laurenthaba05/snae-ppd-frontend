@@ -58,10 +58,10 @@ it('un terme choisi devient un filtre visible, envoyé avec la recherche, et la 
     await runSearch();
     await chooseTerm('Encre');
     await waitFor(() => expect(screen.getByRole('button', { name: 'Retirer le filtre Encre' })).toBeTruthy());
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [INK], []));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [INK], [], false));
     // un second terme s'ajoute : les deux sont exigés
     await chooseTerm('Papier vergé');
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [INK, PAPER], []));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [INK, PAPER], [], false));
 });
 
 it('retirer un filtre relance la recherche sans lui, et un terme déjà choisi ne s’ajoute pas deux fois', async () => {
@@ -71,7 +71,7 @@ it('retirer un filtre relance la recherche sans lui, et un terme déjà choisi n
     await chooseTerm('Encre');
     await waitFor(() => expect(screen.getAllByRole('button', { name: /^Retirer le filtre/ })).toHaveLength(1));
     fireEvent.click(screen.getByRole('button', { name: 'Retirer le filtre Encre' }));
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [], []));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [], [], false));
     expect(screen.getByText('aucun filtre')).toBeTruthy();
 });
 
@@ -110,11 +110,11 @@ it('avec ce droit, un terme de métadonnée se filtre à part des mots-clés : i
     const dialog = await screen.findByRole('dialog', { name: 'Filtrer par terme de métadonnée' });
     fireEvent.change(await within(dialog).findByLabelText('Vocabulaire'), { target: { value: 'v1' } });
     fireEvent.click(await within(dialog).findByRole('button', { name: 'Encre' }));
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [], [INK]));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [], [INK], false));
     expect(within(group).getByRole('button', { name: 'Retirer le filtre Encre' })).toBeTruthy();
     // un mot-clé et un terme de métadonnée se combinent : chacun garde son propre argument
     await chooseTerm('Papier vergé');
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [PAPER], [INK]));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [PAPER], [INK], false));
     fireEvent.click(within(group).getByRole('button', { name: 'Retirer le filtre Encre' }));
-    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [PAPER], []));
+    await waitFor(() => expect(fixture.search.search).toHaveBeenLastCalledWith('registre', 'ALL', 0, 20, expect.anything(), [PAPER], [], false));
 });

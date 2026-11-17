@@ -132,3 +132,18 @@ it('l’aperçu d’un résultat non vérifié lit les pages non validées',asyn
     await screen.findByRole('button',{name:'Mot 1 : ALPHA.'});
     expect(screen.getByText(/Texte non vérifié : ces positions/)).toBeTruthy();   // l'aperçu dit que ce texte n'est pas validé
 });
+
+it('la case « Résultats vérifiés seulement » relance la recherche sans le texte non validé, et la décoche la remet',async()=>{
+    render(<SearchPage/>);
+    fireEvent.change(screen.getByRole('textbox',{name:'Rechercher'}),{target:{value:'ALPHA'}});
+    fireEvent.click(screen.getByRole('button',{name:'Rechercher'}));
+    await screen.findByText('Document de recette');
+    expect(fixture.search.search.mock.calls.at(-1)![7]).toBe(false);
+    const box=screen.getByRole('checkbox',{name:'Résultats vérifiés seulement'}) as HTMLInputElement;
+    expect(box.checked).toBe(false);
+    fireEvent.click(box);
+    await waitFor(()=>expect(fixture.search.search.mock.calls.at(-1)![7]).toBe(true));
+    expect(fixture.search.search.mock.calls.at(-1)![0]).toBe('ALPHA');
+    fireEvent.click(box);
+    await waitFor(()=>expect(fixture.search.search.mock.calls.at(-1)![7]).toBe(false));
+});
