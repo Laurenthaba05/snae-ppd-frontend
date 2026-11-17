@@ -31,7 +31,7 @@ import { AcquisitionPage } from '../../src/pages/Acquisition';
 const caps = (over: Record<string, unknown> = {}) => ({ importsEnabled: true, extractionEnabled: true, workerEnabled: true, maxImportBytes: 1000, maxImportRows: 500, ...over });
 const row = (n: number, over: Record<string, unknown> = {}) => ({ number: n, values: { reference: 'REF-' + n, titre: 'Registre ' + n }, issues: [] as unknown[], ...over });
 const preview = (over: Record<string, unknown> = {}) => ({
-    id: 'lot-1', context: { kind: 'DOCUMENTS', institutionId: 'i1', departmentId: null }, sourceSha256: 'sha-abc', state: 'PREVIEW', expiresAt: '2026-10-20T10:00:00Z', valid: true,
+    id: 'lot-1', context: { kind: 'DOCUMENTS', institutionId: 'i1', departmentId: null }, sourceSha256: 'sha-abc', state: 'PREVIEW', expiresAt: '2099-10-20T10:00:00Z', valid: true,
     rows: [row(1), row(2)], created: [], ...over
 });
 const created = [
@@ -45,6 +45,7 @@ const job = (over: Record<string, unknown> = {}) => ({ id: 'x-1', fileId: 'f1', 
         { field: 'documentDate', value: '1953-04-02', page: null, evidence: 'en-tête', source: 'TEXTE', ruleStrength: 'MOYENNE', rule: 'r2', requiresReview: true }] }, ...over });
 
 beforeEach(() => {
+    history.replaceState(null,"","/app/acquisition");
     fixture.demo = false; fixture.epoch += 1; fixture.scope = { institutionId: 'i1', departmentId: null };
     fixture.records = { transport: {}, uploadContent: vi.fn(), ingestion: vi.fn(), versions: vi.fn().mockResolvedValue([{ id: 'ver-1', number: 1, state: 'ACTIVE', sealed: true }]),
         files: vi.fn().mockResolvedValue([{ id: 'f1', originalFilename: 'scan.pdf', state: 'VALIDATED', scanStatus: 'CLEAN', validatedAt: '2026-10-01T00:00:00Z' }, { id: 'f2', originalFilename: 'suspect.pdf', state: 'QUARANTINED', scanStatus: 'INFECTED', validatedAt: null }]) };

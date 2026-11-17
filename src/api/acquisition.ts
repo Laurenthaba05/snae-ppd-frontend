@@ -1,3 +1,4 @@
+import type { Page } from '../core/types';
 import type { Transport } from '../core/http';
 import { uuid } from '../core/validation';
 export type ImportKind = 'INSTITUTIONS'|'DEPARTMENTS'|'DOSSIERS'|'DOCUMENTS'|'ARCHIVES_PHYSIQUES';
@@ -7,16 +8,32 @@ export interface ExtractionCandidate { field:string;value:string;page:number|nul
 export interface Extraction {id:string;fileId:string;documentId:string;state:string;sourceSha256:string;documentVersion:number;options:{ocr:string;language:string};errorCode:string|null;result:null|{technical:Record<string,unknown>;text:string;pages:Record<string,unknown>[];candidates:ExtractionCandidate[];warnings:string[]};review:Record<string,unknown>|null}
 export interface ExtractionReview {expectedDocumentVersion:number;accept:boolean;applyTitle:boolean;title:string|null;applyDate:boolean;documentDate:string|null;publishVerifiedText:boolean;reason:string;correctedText?:string|null}
 export interface Capabilities {importsEnabled:boolean;extractionEnabled:boolean;workerEnabled:boolean;maxImportBytes:number;maxImportRows:number}
+export type AcquisitionOperationType = 'IMPORT'|'EXTRACTION';
+export interface AcquisitionOperation { id:string;type:AcquisitionOperationType;kind:string|null;state:string;createdAt:string;updatedAt:string;
+    institutionId:string|null;departmentId:string|null;institutionName:string|null;label:string;reference:string|null;documentId:string|null;
+    rowCount:number|null;createdCount:number|null;valid:boolean|null;expiresAt:string|null;errorCode:string|null;canResume:boolean }
+export interface AcquisitionEvent { id:string;action:string;occurredAt:string;performedBy:string;reason:string|null;decision:string|null;resultCode:string|null }
+export interface AcquisitionHistoryFilters { type?:AcquisitionOperationType|'';state?:string;q?:string;from?:string;to?:string;institutionId?:string;departmentId?:string;page?:number }
+
+
 export class AcquisitionApi {
   constructor(readonly transport:Transport){}
+  operations(filters:AcquisitionHistoryFilters,signal?:AbortSignal) {
+    const query=new URLSearchParams({page:String(filters.page??0),size:'20'});
+    for(const [key,value] of Object.entries(filters))if(key!=='page'&&value!==undefined&&value!=='')query.set(key,String(value));
+    return this.transport.request<Page<AcquisitionOperation>>('/acquisition/history?'+query,{signal});
+  }
+  async operationEvents(type:AcquisitionOperationType,id:string,page:number,signal?:AbortSignal) {
+    return this.transport.request<Page<AcquisitionEvent>>('/acquisition/history/'+type+'/'+uuid(id)+'?page='+page+'&size=20',{signal});
+  }
   capabilities(signal?:AbortSignal){return this.transport.request<Capabilities>('/acquisition/capabilities',{signal});}
   preview(file:File,fields:Record<string,string>,key:string){if(!this.transport.upload)throw new Error('Dépôt indisponible.');return this.transport.upload<ImportPreview>('/acquisition/imports/preview',file,fields,key);}
-  import(id:string){return this.transport.request<ImportPreview>('/acquisition/imports/'+uuid(id));}
+  async import(id:string,signal?:AbortSignal){return this.transport.request<ImportPreview>('/acquisition/imports/'+uuid(id),{signal});}
   commit(item:ImportPreview){return this.transport.request<ImportPreview>(`/acquisition/imports/${uuid(item.id)}/commit`,{method:'POST',body:{expectedSha256:item.sourceSha256},idempotencyKey:'commit:'+item.id});}
   cancelImport(id:string){return this.transport.request<ImportPreview>(`/acquisition/imports/${uuid(id)}/cancel`,{method:'POST',idempotencyKey:'cancel:'+id});}
   csv(path:string){return this.transport.request<Blob>('/acquisition/imports/'+path,{responseType:'blob'});}
   extract(fileId:string,options:{ocr:string;language:string},key:string){return this.transport.request<Extraction>(`/acquisition/files/${uuid(fileId)}/extractions`,{method:'POST',body:options,idempotencyKey:key});}
-  extraction(id:string,signal?:AbortSignal){return this.transport.request<Extraction>('/acquisition/extractions/'+uuid(id),{signal});}
+  async extraction(id:string,signal?:AbortSignal){return this.transport.request<Extraction>('/acquisition/extractions/'+uuid(id),{signal});}
   review(item:Extraction,body:ExtractionReview,key:string){return this.transport.request<Extraction>(`/acquisition/extractions/${uuid(item.id)}/review`,{method:'POST',body,idempotencyKey:key});}
   cancelExtraction(id:string){return this.transport.request<Extraction>(`/acquisition/extractions/${uuid(id)}/cancel`,{method:'POST',idempotencyKey:'cancel:'+id});}
 }
