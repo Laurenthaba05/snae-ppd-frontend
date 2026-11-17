@@ -1,0 +1,12 @@
+1	Voir le journal
+2	Voir mes alertes d’accès
+3	Volumes matériels
+4	Votre accès a expiré. Pour reprendre la lecture intégrale, renouvelez-le avec un nouveau paiement confirmé. L’aperçu gratuit reste disponible, sans téléchargement.
+5	Votre accès a expiré. Un nouveau paiement confirmé ouvrira une nouvelle période de lecture à compter de sa confirmation, au tarif actuellement publié. L’ancien achat reste dans votre historique.
+6	Votre accès expire dans les sept prochains jours. Vous pouvez encore lire ce document jusqu’à l’échéance indiquée. Le renouvellement sera disponible après expiration.
+7	Votre session lecteur a expiré. Reconnectez-vous.
+8	Vous n’avez aucun document acheté pour le moment.
+9	Vous n’avez aucun paiement pour le moment.
+10	Vous n’avez pas d’abonnement en cours. Les documents achetés restent accessibles pendant leur période de validité.
+11	Vous ne pouvez pas créer de projet dans ce périmètre.
+12	Vue d’ensemble des comptes

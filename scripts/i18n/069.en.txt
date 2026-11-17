@@ -1,0 +1,220 @@
+1	links
+2	Description of the relation
+3	Scan destination
+4	Differences before confirmation
+5	Document permanently archived.
+6	Document destroyed or unavailable.
+7	Document of the batch
+8	Existing document
+9	Document unavailable for reading
+10	Previous documents
+11	Published documents
+12	Next documents
+13	Descriptive data carried over
+14	Destination file (optional)
+15	Attachment file required.
+16	matching permission(s), across all pages.
+17	from {1} to {2} inclusive
+18	From processing to permanent archiving
+19	Reading period
+20	Reading period of a document (days)
+21	Email sent
+22	Excludes the text recognized by the engine that has not yet been validated by a person.
+23	Sending failed
+24	Erased
+25	Carry out the paper/digital check
+26	Unnamed element
+27	ISAD(G) standard elements filled in
+28	Elements still pending:
+29	It applies to creations. Existing records keep their confidentiality, which never comes from the file.
+30	Physical location:
+31	Waiting for mail to be activated
+32	Waiting for confirmation
+33	Save the decision
+34	Save the expressions
+35	Positive integer or zero; leave empty to erase.
+36	Isolated local test: no money is debited. The Orange Money and PayCard merchant accounts are not connected yet.
+37	is associated with
+38	is related by family to
+39	and 2 MB.
+40	Shelf
+41	Archiving steps
+42	Recorded steps, from the most recent to the oldest. Older events that were not recorded are not reconstructed.
+43	Current status:
+44	Alert status unavailable
+45	Operation status
+46	Payment status
+47	Triggering event to declare.
+48	Previous events
+49	Next events
+50	Explain why the closing was premature (10 to 1,000 characters).
+51	Export the authorized catalogue (CSV)
+52	Export the functions (CSV)
+53	Export the links (CSV)
+54	Classification expressions
+55	Expressions found:
+56	Extraction cancelled
+57	Extraction requested
+58	Extraction started
+59	Extraction failed
+60	Extractions
+61	Close the renewal
+62	Closure
+63	Exceptional closure
+64	File rejected — the record and its history are kept.
+65	File, reference or identifier
+66	Files of the batch
+67	EAC-CPF files (.xml)
+68	Selected files
+69	Filter by producer
+70	End:
+71	Access end
+72	Access end:
+73	End originally planned
+74	Parent function:
+75	Functions: {1} created, {2} updated, {3} unchanged.
+76	Functions read
+77	next functions
+78	fonds and descriptions
+79	Authorized form of the name
+80	GNF for
+81	Permissions checked in the institution of the document. Expired accounts are excluded. The business conditions will be checked again when the action is taken.
+82	Conakry time. Unticked days are closed. The closing time is excluded from the arrival hours.
+83	History of my operations
+84	History of the checks
+85	History of the links
+86	Payment history
+87	History of the attachments
+88	Opening hours to configure: reservations and arrivals blocked.
+89	Operation identifier
+90	SSO identifier provided
+91	Identity: call number, title, number and dates match the original.
+92	Import EAC-CPF producers
+93	Import the links (CSV)
+94	Import an EAC-CPF
+95	First import the functions, producers and fonds. Each row links a source function to another function, a producer or a fonds.
+96	Import the producers before the descriptions that cite them.
+97	Imports
+98	Unchanged — nothing written
+99	Unchanged — no change
+100	unchanged
+101	unchanged.
+102	Unchanged — no change
+103	unchanged
+104	unchanged.
+105	State the origin of the document.
+106	Missing information
+107	Completeness: all the pages, their order, the annexes, signatures and stamps are present.
+108	I have checked the context and I authorize assigning it to the new documents of this batch.
+109	I confirm the erasure of the values shown.
+110	Public holiday
+111	day(s) of reading of this document.
+112	Operation log
+113	Opening days and hours
+114	Public holidays and exceptional closures
+115	Public holidays and exceptional closures (
+116	until
+117	The preview has expired: read the result again, then prepare a new corrected import if necessary.
+118	The free preview is available in the portal, under Published documents: the first 20% of the pages, then an account and payment for full reading. No download. It requires a PUBLIC publication, PUBLIC confidentiality, personal data declared as NONE and a verified file. Active restrictions or redactions close this access.
+119	The link identifier supplied in the export allows correcting its source, its target, its nature and its dates. Without an identifier, matching uses the function, the type and the code of the target, the nature and the start date. Empty dates and comments keep their values. Links absent from the file and records stay unchanged. Check the differences before confirming.
+120	The link identifier will be kept.
+121	The import creates new links; existing links are refused.
+122	The import creates new records; existing references are refused.
+123	The institution determines which agents are authorized to view and process the project. Without an attachment, only authorized national agents have access.
+124	The institution and the department must match those of the physical record.
+125	OCR is in progress. The proposals will be refreshed when the processing ends.
+126	The order must be an integer between 0 and 2,147,483,647.
+127	preservation
+128	Viewing the agents requires access to the directory of this institution.
+129	Viewing the headings requires permission to read the classification scheme.
+130	Viewing is unavailable. Try again.
+131	The call number read does not match the physical record.
+132	The latest version must be sealed.
+133	The destination is kept so that this same request can be resumed without duplicates. Records already created remain accessible even if a file is rejected.
+134	The National Archives Directorate sets the price in GNF and the reading period of a document of each type. A decision reference is kept in the log. No price is prefilled and download is disabled.
+135	The actor's record is kept. The removal and its previous values will be available in the history.
+136	The actor's record and its other attachments will be kept. The operation will remain in the history.
+137	The parent function is given by its code; it may appear elsewhere in the file.
+138	Processing management, document creation and file deposit are required in the institution of this batch.
+139	Reading the document requires the document reading permission. The right to follow the processing does not give access to its content.
+140	Full reading will be opened after the online payment is confirmed. No download.
+141	The nature does not match the type of the target.
+142	Permission to read physical records is required to check a paper copy.
+143	The search covers all authorized pages. Change the search or the scope.
+144	The search covers all authorized pages. Change the filters or the scope.
+145	Reopening allows the elements to resume at their current step. The initial closing remains in the history.
+146	Validation requires an agent authorized to close documents in this institution. Destroyed documents can no longer be checked.
+147	The attachment version is missing. Refresh the list before continuing.
+148	Leave empty to erase the comment.
+149	The classification has been recorded.
+150	The physical finding must be made on site. OCR does not replace the comparison with the original. Any change to the call number, the shelving or the document may require a new check.
+151	The check succeeded.
+152	The check succeeded. The producers and their relations will be recorded together after the server checks again.
+153	The document is internal. A manager who also holds the right to modify its description must validate its public dissemination.
+154	The document and its file use different headings. Check that this choice is justified.
+155	The source file is no longer available or verified. The log remains available.
+156	The filter applies to the producers directly linked to the function.
+157	The producer filter includes the attachments inherited from the parent.
+158	The engine was interrupted.
+159	The engine took the file in charge.
+160	The browser refuses to save. Favorites remain available during this session.
+161	Payment is currently unavailable.
+162	Payment is unavailable. Try again.
+163	The project is reopened. The elements and the history are kept.
+164	The proposer is excluded from validation; the proposer and the validator are excluded from execution. The list changes after each decision.
+165	Matching uses the record identifier or the exact reference in this institution. Absent fields are kept; a supplied period of existence replaces both of its bounds. A modified record goes back to draft. Absent relations are kept; for the same producers, type and start date, the end date and the description are replaced. A different start date creates a distinct relation. Check the differences before confirming.
+166	The attachment of
+167	The attachment will be removed. The linked records will be kept and the operation will remain in the history.
+168	The refund removed the right to read, even if the initial end date has not been reached.
+169	The result is waiting for a human review.
+170	The server sent an incomplete list of permissions. A backend update is needed.
+171	The server will check the data again at confirmation.
+172	final disposition
+173	The rate for this document type has not yet been published by the directorate.
+174	The text is compared with the headings and the expressions of the scheme. The classification stays unchanged until you validate.
+175	On-screen reading only, without download. Dates are shown in UTC, Conakry time.
+176	Reading of
+177	Full reading reserved
+178	The first 20 matches are shown. Refine your search.
+179	Access rights that expire within the next seven days and those already expired are grouped here. After expiry, a new confirmed payment is needed to renew.
+180	Empty descriptive cells and an empty actor link keep the existing data. Relations and links with fonds and descriptions are kept. The name and the type remain mandatory.
+181	Empty descriptive cells and an empty parent function keep the existing data. Functions absent from the CSV and all links are kept. The name and the type remain mandatory. To erase a value or remove the parent function, use the record.
+182	Empty cells and absent children are kept. The lists supplied replace the corresponding lists; an empty list in the enrichments removes its items. The existing confidentiality is kept.
+183	Start and end dates are inclusive, in Conakry time. These closures block all slots and arrivals, even with a reservation. Enter the dates validated by the directorate for each year.
+184	Descriptions remain internal to the professional workspace. Exports include only the records you have access to; they do not authorize their publication. The CSV export covers the full authorized catalogue, regardless of the filters.
+185	the children of
+186	CSV exports cover the full authorized catalogue, regardless of the filters.
+187	Favorites are saved in this browser, for this account. Maximum: 12.
+188	Files must be encoded in UTF-8.
+189	Files refused before a batch is created do not appear here. Temporary scans of the workstation can be found under “Scan a document”; their recorded extractions appear here.
+190	Detailed changes are recorded from this version on, including CSV imports. Only operations whose targets remain accessible are shown.
+191	Modified records go back to draft. Check the differences before confirming.
+192	Records are matched by identifier or exact reference in this institution. Absent fields and children are kept; the lists supplied replace the corresponding lists. The SNAE profile may indicate the removal of producers or of the processing. A main date replaces its period and its label. The existing confidentiality is kept; modified records go back to draft. Check the differences before confirming.
+193	Records are matched by exact reference in this institution.
+194	New records are created as
+195	New records are created as drafts. Existing references are refused; enable the update to review their re-import.
+196	Closure periods must not overlap.
+197	The first 20% of the pages can be read free of charge, rounded up to the next page. Full reading requires an account and a validated payment. Download is disabled.
+198	Producers are shown in pages of 20 records.
+199	References already present are refused. Enable the update to preview their re-import.
+200	Existing reservations are kept: an email alert is scheduled for each reservation concerned. Follow its status on the home page and complete the missing contact details. Sending requires an activated mail server. Cancel the reservations concerned from the home page. Departures and returns remain possible.
+201	The values shown are identical; the full content or the attachment function has changed.
+202	Their period has not started yet
+203	Actor link:
+204	Link added
+205	Link added.
+206	Link changed
+207	Link changed.
+208	Link removed
+209	Link removed.
+210	link(s) checked
+211	Links: {1} created, {2} updated, {3} unchanged.
+212	Links of the function refreshed.
+213	Links read
+214	next links
+215	rows ·
+216	Rows per page
+217	Limit the calendar to 200 periods.
+218	Read the document
+219	Legibility: the reproduction is faithful and the information is readable.
+220	Batch cancelled

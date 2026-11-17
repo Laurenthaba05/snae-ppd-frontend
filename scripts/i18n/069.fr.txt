@@ -1,0 +1,220 @@
+1	des liens
+2	Description de la relation
+3	Destination du scan
+4	Différences avant confirmation
+5	Document archivé définitivement.
+6	Document détruit ou indisponible.
+7	Document du lot
+8	Document existant
+9	Document indisponible à la lecture
+10	Documents précédents
+11	Documents publiés
+12	Documents suivants
+13	Données descriptives reprises
+14	Dossier de destination (facultatif)
+15	Dossier de rattachement requis.
+16	droit(s) correspondant à la recherche, sur toutes les pages.
+17	du {n} au {n} inclus
+18	Du traitement à l’archivage définitif
+19	Durée de lecture
+20	Durée de lecture d’un document (jours)
+21	E-mail envoyé
+22	Écarte le texte reconnu par le moteur et pas encore validé par une personne.
+23	Échec d’envoi
+24	Effacé
+25	Effectuer le contrôle papier/numérique
+26	Élément sans nom
+27	Éléments de la norme ISAD(G) renseignés
+28	Éléments encore en attente :
+29	Elle s’applique aux créations. Les notices existantes conservent leur confidentialité, qui ne vient jamais du fichier.
+30	Emplacement physique :
+31	En attente d’activation du courrier
+32	En attente de confirmation
+33	Enregistrer la décision
+34	Enregistrer les expressions
+35	Entier positif ou nul ; vide pour effacer.
+36	Essai local isolé : aucun argent n’est débité. Les comptes marchands Orange Money et PayCard ne sont pas encore raccordés.
+37	est associé à
+38	est lié familialement à
+39	et 2 Mo.
+40	Étagère
+41	Étapes de l’archivage
+42	Étapes enregistrées, de la plus récente à la plus ancienne. Les anciens événements non enregistrés ne sont pas reconstitués.
+43	État actuel :
+44	État de l’alerte indisponible
+45	État de l’opération
+46	État du paiement
+47	Événement déclencheur à déclarer.
+48	Événements précédents
+49	Événements suivants
+50	Expliquez pourquoi la clôture était prématurée (10 à 1 000 caractères).
+51	Exporter le catalogue autorisé (CSV)
+52	Exporter les fonctions (CSV)
+53	Exporter les liens (CSV)
+54	Expressions de classement
+55	Expressions retrouvées :
+56	Extraction annulée
+57	Extraction demandée
+58	Extraction démarrée
+59	Extraction en échec
+60	Extractions
+61	Fermer le renouvellement
+62	Fermeture
+63	Fermeture exceptionnelle
+64	Fichier rejeté — la notice et son historique sont conservés.
+65	Fichier, référence ou identifiant
+66	Fichiers du lot
+67	Fichiers EAC-CPF (.xml)
+68	Fichiers sélectionnés
+69	Filtrer par producteur
+70	Fin :
+71	Fin d’accès
+72	Fin d’accès :
+73	Fin initialement prévue
+74	Fonction mère :
+75	Fonctions : {n} créée(s), {n} mise(s) à jour, {n} inchangée(s).
+76	Fonctions lues
+77	fonctions suivantes
+78	fonds et descriptions
+79	Forme autorisée du nom
+80	GNF pour
+81	Habilitations vérifiées dans l’institution du document. Les comptes expirés sont exclus. Les conditions métier seront revérifiées lors de l’action.
+82	Heure de Conakry. Les jours décochés sont fermés. La fermeture est exclue des heures d’arrivée.
+83	Historique de mes opérations
+84	Historique des contrôles
+85	Historique des liens
+86	Historique des paiements
+87	Historique des rattachements
+88	Horaires à configurer : réservations et arrivées bloquées.
+89	Identifiant de l’opération
+90	Identifiant SSO renseigné
+91	Identité : cote, titre, numéro et dates correspondent à l’original.
+92	Importer des producteurs EAC-CPF
+93	Importer les liens (CSV)
+94	Importer un EAC-CPF
+95	Importez d’abord les fonctions, producteurs et fonds. Chaque ligne relie une fonction source à une autre fonction, un producteur ou un fonds.
+96	Importez les producteurs avant les descriptions qui les citent.
+97	Imports
+98	Inchangé — aucune écriture
+99	Inchangé — aucune modification
+100	inchangé(s)
+101	inchangé(s).
+102	Inchangée — aucune modification
+103	inchangée(s)
+104	inchangée(s).
+105	Indiquez l’origine du document.
+106	Informations manquantes
+107	Intégralité : toutes les pages, leur ordre, les annexes, signatures et cachets sont présents.
+108	J’ai vérifié le contexte et j’autorise son affectation aux nouveaux documents de ce lot.
+109	Je confirme l’effacement des valeurs indiquées.
+110	Jour férié
+111	jour(s) de lecture de ce document.
+112	Journal de l’opération
+113	Jours et heures d’ouverture
+114	Jours fériés et fermetures exceptionnelles
+115	Jours fériés et fermetures exceptionnelles (
+116	jusqu’à
+117	L’aperçu a expiré : relisez le résultat, puis préparez un nouvel import corrigé si nécessaire.
+118	L’aperçu gratuit est disponible dans le portail, rubrique Documents publiés : premières 20 % des pages, puis compte et paiement pour la lecture intégrale. Aucun téléchargement. Il exige une publication PUBLIC, une confidentialité PUBLIC, des données personnelles déclarées AUCUNE et un fichier vérifié. Les restrictions ou occultations actives ferment cet accès.
+119	L’identifiant du lien fourni dans l’export permet de corriger sa source, sa cible, sa nature et ses dates. Sans identifiant, le rapprochement utilise la fonction, le type et le code de la cible, la nature et la date de début. Les dates et commentaires vides conservent leurs valeurs. Les liens absents du fichier et les notices restent inchangés. Vérifiez les différences avant de confirmer.
+120	L’identifiant du lien sera conservé.
+121	L’import crée de nouveaux liens ; les liens existants sont refusés.
+122	L’import crée de nouvelles notices ; les références existantes sont refusées.
+123	L’institution détermine les agents habilités à consulter et traiter le projet. Sans rattachement, seuls les agents nationaux habilités y accèdent.
+124	L’institution et le département doivent correspondre à ceux de la fiche physique.
+125	L’OCR est en cours. Les propositions seront actualisées à la fin du traitement.
+126	L’ordre doit être un entier entre 0 et 2 147 483 647.
+127	la conservation
+128	La consultation des agents nécessite l’accès à l’annuaire de cette institution.
+129	La consultation des rubriques nécessite l’habilitation de lecture du plan de classement.
+130	La consultation est indisponible. Réessayez.
+131	La cote relevée ne correspond pas à la fiche physique.
+132	La dernière version doit être scellée.
+133	La destination est conservée pour reprendre cette même demande sans doublon. Les notices déjà créées restent accessibles même si un fichier est refusé.
+134	La Direction des Archives nationales fixe le prix en GNF et la durée de lecture d’un document de chaque type. Une référence de décision est conservée dans le journal. Aucun prix n’est prérempli et le téléchargement est désactivé.
+135	La fiche de l’acteur est conservée. Le retrait et ses valeurs précédentes seront consultables dans l’historique.
+136	La fiche de l’acteur et ses autres rattachements seront conservés. L’opération restera dans l’historique.
+137	La fonction mère est indiquée par son code ; elle peut figurer ailleurs dans le fichier.
+138	La gestion du traitement, la création documentaire et le dépôt de fichiers sont nécessaires dans l’institution de ce lot.
+139	La lecture du document nécessite l’habilitation de lecture documentaire. Le droit de suivre le traitement ne donne pas accès à son contenu.
+140	La lecture intégrale sera ouverte après confirmation du paiement en ligne. Aucun téléchargement.
+141	La nature ne correspond pas au type de cible.
+142	La permission de lecture des archives physiques est nécessaire pour contrôler une copie papier.
+143	La recherche couvre toutes les pages autorisées. Modifiez la recherche ou le périmètre.
+144	La recherche couvre toutes les pages autorisées. Modifiez les filtres ou le périmètre.
+145	La remise en cours permet de reprendre les éléments à leur étape actuelle. La clôture initiale reste dans l’historique.
+146	La validation nécessite un agent habilité à clôturer les documents dans cette institution. Les documents détruits ne peuvent plus être contrôlés.
+147	La version du rattachement manque. Actualisez la liste avant de continuer.
+148	Laissez vide pour effacer le commentaire.
+149	Le classement a été enregistré.
+150	Le constat physique doit être effectué sur place. L’OCR ne remplace pas la comparaison avec l’original. Toute modification de la cote, du rangement ou du document peut imposer un nouveau contrôle.
+151	Le contrôle est réussi.
+152	Le contrôle est réussi. Les producteurs et leurs relations seront enregistrés ensemble après une nouvelle vérification du serveur.
+153	Le document est interne. Un responsable disposant aussi du droit de modifier sa description doit valider sa diffusion publique.
+154	Le document et son dossier utilisent des rubriques différentes. Vérifiez que ce choix est justifié.
+155	Le fichier source n’est plus disponible ou vérifié. Le journal reste consultable.
+156	Le filtre porte sur les producteurs directement liés à la fonction.
+157	Le filtre producteur inclut les rattachements hérités du parent.
+158	Le moteur a été interrompu.
+159	Le moteur a pris en charge le fichier.
+160	Le navigateur refuse l’enregistrement. Les favoris restent disponibles pendant cette session.
+161	Le paiement est actuellement indisponible.
+162	Le paiement est indisponible. Réessayez.
+163	Le projet est remis en cours. Les éléments et l’historique sont conservés.
+164	Le proposant est exclu de la validation ; le proposant et le validateur sont exclus de l’exécution. La liste évolue après chaque décision.
+165	Le rapprochement utilise l’identifiant de notice ou la référence exacte dans cette institution. Les champs absents sont conservés ; une période d’existence fournie remplace ses deux bornes. Une notice modifiée repasse en brouillon. Les relations absentes sont conservées ; pour les mêmes producteurs, type et date de début, la date de fin et la description sont remplacées. Une autre date de début crée une relation distincte. Vérifiez les différences avant de confirmer.
+166	Le rattachement de
+167	Le rattachement sera retiré. Les notices liées seront conservées et l’opération restera dans l’historique.
+168	Le remboursement a retiré le droit de lecture, même si la date de fin initiale n’est pas atteinte.
+169	Le résultat attend une relecture humaine.
+170	Le serveur a transmis une liste incomplète de droits. Une mise à jour du backend est nécessaire.
+171	Le serveur vérifiera à nouveau les données lors de la confirmation.
+172	le sort final
+173	Le tarif de ce type de document n’a pas encore été publié par la direction.
+174	Le texte est comparé aux rubriques et aux expressions du plan. Le classement reste inchangé jusqu’à votre validation.
+175	Lecture à l’écran uniquement, sans téléchargement. Les dates sont indiquées en UTC, heure de Conakry.
+176	Lecture de
+177	Lecture intégrale réservée
+178	Les 20 premières correspondances sont affichées. Précisez votre recherche.
+179	Les accès qui expirent dans les sept prochains jours et les accès déjà expirés sont regroupés ici. Après expiration, un nouveau paiement confirmé est nécessaire pour renouveler.
+180	Les cellules descriptives vides et un lien acteur vide conservent les données existantes. Les relations et les liens avec les fonds et descriptions sont conservés. Le nom et le type restent obligatoires.
+181	Les cellules descriptives vides et une fonction mère vide conservent les données existantes. Les fonctions absentes du CSV et tous les liens sont conservés. Le nom et le type restent obligatoires. Pour effacer une valeur ou retirer la fonction mère, utilisez la fiche.
+182	Les cellules vides et les enfants absents sont conservés. Les listes fournies remplacent les listes correspondantes ; une liste vide dans les enrichissements retire ses éléments. La confidentialité existante est conservée.
+183	Les dates de début et de fin sont incluses, en heure de Conakry. Ces fermetures bloquent tous les créneaux et les arrivées, même avec une réservation. Saisissez les dates validées par la direction pour chaque année.
+184	Les descriptions restent internes à l’espace professionnel. Les exports incluent uniquement les notices auxquelles vous avez accès ; ils n’autorisent pas leur publication. L’export CSV porte sur le catalogue autorisé complet, indépendamment des filtres.
+185	les enfants de
+186	Les exports CSV portent sur le catalogue autorisé complet, indépendamment des filtres.
+187	Les favoris sont enregistrés dans ce navigateur, pour ce compte. Maximum : 12.
+188	Les fichiers doivent être encodés en UTF-8.
+189	Les fichiers refusés avant la création d’un lot ne figurent pas ici. Les scans temporaires du poste se retrouvent dans « Scanner un document » ; leurs extractions enregistrées apparaissent ici.
+190	Les modifications détaillées sont enregistrées depuis cette version, y compris les imports CSV. Seules les opérations dont les cibles restent accessibles sont affichées.
+191	Les notices modifiées repassent en brouillon. Vérifiez les différences avant de confirmer.
+192	Les notices sont rapprochées par identifiant ou référence exacte dans cette institution. Les champs et enfants absents sont conservés ; les listes fournies remplacent les listes correspondantes. Le profil SNAE peut indiquer le retrait de producteurs ou du traitement. Une date principale remplace sa période et son libellé. La confidentialité existante est conservée ; les notices modifiées repassent en brouillon. Vérifiez les différences avant de confirmer.
+193	Les notices sont rapprochées par référence exacte dans cette institution.
+194	Les nouvelles notices sont créées en
+195	Les nouvelles notices sont créées en brouillon. Les références existantes sont refusées ; activez la mise à jour pour examiner leur réimport.
+196	Les périodes de fermeture ne doivent pas se chevaucher.
+197	Les premières 20 % des pages sont lisibles gratuitement, arrondies à la page supérieure. La lecture intégrale nécessite un compte et un paiement validé. Le téléchargement est désactivé.
+198	Les producteurs sont affichés par pages de 20 notices.
+199	Les références déjà présentes sont refusées. Activez la mise à jour pour prévisualiser leur réimport.
+200	Les réservations existantes sont conservées : une alerte par e-mail est programmée pour chaque réservation concernée. Suivez son état dans l’accueil et complétez les coordonnées manquantes. L’envoi nécessite un serveur de courrier activé. Annulez les réservations concernées depuis l’accueil. Les départs et restitutions restent possibles.
+201	Les valeurs affichées sont identiques ; le contenu complet ou la fonction de rattachement a changé.
+202	Leur période n’a pas encore commencé
+203	Lien acteur :
+204	Lien ajouté
+205	Lien ajouté.
+206	Lien modifié
+207	Lien modifié.
+208	Lien retiré
+209	Lien retiré.
+210	lien(s) contrôlé(s)
+211	Liens : {n} créé(s), {n} mis à jour, {n} inchangé(s).
+212	Liens de la fonction actualisés.
+213	Liens lus
+214	liens suivants
+215	lignes ·
+216	Lignes par page
+217	Limitez le calendrier à 200 périodes.
+218	Lire le document
+219	Lisibilité : la reproduction est fidèle et les informations sont lisibles.
+220	Lot annulé

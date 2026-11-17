@@ -1,0 +1,220 @@
+1	. Arrivals blocked.
+2	. Coverage:
+3	. New documents inherit this context. To change the context, create another batch.
+4	. Reservations and arrivals are blocked for this date. Existing reservations still need handling.
+5	. A relation target must be in the batch or available in this institution.
+6	· previous closing:
+7	· Destination file defined
+8	· errors to fix
+9	· Until:
+10	· updated on
+11	· Person in charge:
+12	· No destination file
+13	· Unit:
+14	› Box
+15	» — page
+16	(closed)
+17	(Conakry time)
+18	{1} record(s) created, {2} updated, {3} unchanged.
+19	{1} OCR result(s) taken into account, in addition to the title and the description.
+20	{1}. Arrivals blocked today.
+21	% · On-screen reading only
+22	% of this heading's expressions.
+23	← Published documents
+24	1 to 16 characters, no accents
+25	4 · Operations history
+26	To create
+27	to create ·
+28	To update
+29	to update ·
+30	Upcoming access
+31	Access expired
+32	Access not opened
+33	Access required
+34	Access removed after refund
+35	Access ended on
+36	Actor attached. The addition is recorded in the history.
+37	Refresh the history
+38	Refresh the pathway
+39	Refresh the actors
+40	Refresh the indicators
+41	Refresh the links
+42	Email address to complete
+43	Address changed: alert to resume
+44	Show the
+45	Authorized agents —
+46	Agents for
+47	Previous agents
+48	Next agents
+49	Add to favorites
+50	Add a closure
+51	Additions, changes and removals, from newest to oldest. Values not recorded in older events are shown as “Not recorded”.
+52	Alert to prepare
+53	Reader alert
+54	Alert scheduled
+55	Alerts for my access
+56	Partial analysis: the text or heading limit was reached. Also check the rest of the document and of the scheme.
+57	Earlier payment confirmed — access expired
+58	Cancel the change
+59	Cancel the removal
+60	Preview created
+61	Preview of the link changes
+62	Document preview, page
+63	Shelving preview
+64	Preview expired
+65	Free preview of the first 20% of the pages. Full reading with an account and payment. No download.
+66	After:
+67	After creation, attach the paper record to this box. For a file that is already shelved, use the tracked move on its record, then check its presence on site.
+68	Permanent archiving blocked: no valid paper/digital check is recorded.
+69	Permanent archiving blocked: the checked information has changed or the physical presence must be checked again.
+70	Permanent archiving not completed. The accession received and the processing completed remain valid; the checks below complete this pathway.
+71	Batch archiving
+72	Arrivals closed at this time. Choose an open slot for an upcoming reservation.
+73	Agent's attestation
+74	Upcoming assignments
+75	At most 30 expressions of 3 to 100 characters. Without any expression, the significant words of the label are used.
+76	No access granted
+77	No access expired or expiring in the next seven days.
+78	No purchase of this document is attached to this reader account.
+79	No visible agent currently holds all the permissions required for this step.
+80	No check available to view.
+81	No open slot for this day.
+82	No linked document accessible on this page.
+83	No public document matches this search.
+84	No document is attached to this element. Classification and final validation require a document.
+85	No authorized screen matches the search.
+86	No attachment event
+87	No event recorded
+88	No public holiday or exceptional closure configured.
+89	No payment matches this status.
+90	No producer found.
+91	No result in this scope
+92	No match. Complete the text or the expressions of the headings in the classification scheme.
+93	No physical record linked. Create or link the record of the original in the physical records before continuing.
+94	No change to confirm.
+95	No change to the attachment.
+96	No operation accessible on this page.
+97	No operation found
+98	No applicable retention rule.
+99	No relation in this batch.
+100	Before:
+101	with elements still pending.
+102	Catalogue of more than 1,000 permissions: incomplete loading.
+103	This choice determines access to the project. The attached documents must belong to this institution. The change is kept in the history.
+104	This context keeps the original provenance. The current classification appears in the document description.
+105	This document is closed, destroyed or locked for archiving: its attachments are read-only.
+106	This document or page is not available for public consultation.
+107	This document comes from paper: checking the original is mandatory.
+108	This document remains protected by its confidentiality; this publication does not give access to the free catalogue.
+109	This day or slot is closed or already over (Conakry time).
+110	This batch does not have a validated context yet. Have it validated from Processing → Digitization batches → Batch context.
+111	These elements remain in the history and are excluded from the active queues. Have these closings checked by the person in charge of the processing.
+112	This preview has expired. Prepare a new import to create the records.
+113	This branch has no accessible child.
+114	This correction and the initial closing remain in the audit log.
+115	This function is not linked to any other function, any producer or any accessible fonds.
+116	This page is reserved for full reading
+117	This page requires a reader account and a validated payment.
+118	This heading can no longer be used. The document must be reclassified before final validation.
+119	This section requires permission to read digitization in at least one institution.
+120	This validation changes the confidentiality of the record. It requires that there are no personal data, restrictions or active redactions.
+121	This validation replaces the current classification of this record. It does not move the documents to another file.
+122	Each file must be between 1 byte and 64 MiB.
+123	Each file must be a non-empty EAC-CPF XML file (.xml or .eac).
+124	Each level receives a stable code and a label. Identical locations are reused. The call number of the file or document remains distinct from the shelving address.
+125	Loading the function
+126	Loading the record
+127	Loading the page
+128	Loading the links…
+129	Loading the paper/digital check…
+130	Loading the archiving pathway…
+131	Path of the record
+132	Choose this heading
+133	Choose from the scheme
+134	Choose the linked original
+135	Choose the repository
+136	Choose an active agent
+137	Choose an open batch
+138	Choose an attached project
+139	Choose an active heading
+140	Choose a heading from the scheme
+141	Choose at most 100 files, for a total of 5 MB.
+142	Choose PDFs or PNG, JPEG or TIFF images.
+143	Choose between 1 and 100 files.
+144	Choose an EAD3 or EAD 2002 file (5 MB and 5,000 units at most). The check verifies the references, the hierarchy, the producers, the contributors and the internal links, then shows the data before confirmation.
+145	Choose another date.
+146	Choose a target.
+147	Choose a heading that is active and valid today. This choice is logged and does not move the document to another file. Without a heading, the final validation of the processing will be blocked.
+148	Current classification
+149	Classification and description of the document
+150	Classification required before final validation: choose a heading for this document. The classification of the file is not enough.
+151	Classification validated:
+152	Closing and history
+153	Closing and history of the project
+154	Box code
+155	Code or name
+156	Order:
+157	as
+158	Link comment
+159	Long comment: the history keeps an excerpt of 1,000 characters and the fingerprint of the full content.
+160	Compare the archived document with its original, page by page. The OCR text helps the search; it does not replace this check.
+161	Accounts matching the filters, across all pages of the authorized scope. Active status does not guarantee effective permissions.
+162	Reader accounts, subscription plans, cash desk and subscriptions. The public catalogue offers a free preview; full reading requires paid, confirmed access, with no download.
+163	Named accounts
+164	Technical accounts
+165	Accounts found
+166	Paper/digital concordance required.
+167	Confidentiality:
+168	Batch confidentiality
+169	Confirmed
+170	Confirm the change
+171	Confirm the link change
+172	Confirm the removal
+173	Confirm the link removal
+174	Confirm the creations and updates
+175	Concordance finding or justification of the digital origin
+176	View the classification scheme
+177	View your reading orders and their payment status.
+178	Context: institution, producer, type and classification are correct.
+179	Context at deposit
+180	Validated classification context
+181	Batch context
+182	Check to record.
+183	Previous check
+184	Check consistent with the current data. The other validations of the archiving cycle remain mandatory.
+185	Check recorded. The previous validations remain in the history.
+186	Paper/digital check
+187	Check the files
+188	Checks in progress — read the receipt again.
+189	Reader contact details
+190	Call number and linked physical record
+191	Paper call number:
+192	Call number read on the original
+193	Created from
+194	Created until
+195	Created on
+196	Create or find the shelving
+197	Create a detailed shelving
+198	Create, classify and deposit
+199	Create a reader account and pay for your access to read the rest. Your search will be kept so you can return to the page
+200	Closing date:
+201	Departure date in the future.
+202	Departure date missing.
+203	Start:
+204	Access start
+205	Retention decision to propose and validate.
+206	Decision recorded
+207	Decree, order, circular…
+208	Describe and classify the documents
+209	Set the rate for
+210	Expand
+211	Deposit into
+212	Deposit into a batch
+213	Deposit into a validated batch
+214	Deposit documents
+215	Deposit into a validated batch
+216	Deposit completed — classification applied; checks and OCR to follow in the processing.
+217	Since:
+218	Last closing correction
+219	Some access rights expire within the next seven days or have already expired. See the dates and the renewal options.
+220	of the functions

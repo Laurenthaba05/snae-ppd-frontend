@@ -1,0 +1,220 @@
+1	. Arrivées bloquées.
+2	. Couverture :
+3	. Les nouveaux documents héritent de ce contexte. Pour changer de contexte, créez un autre lot.
+4	. Réservations et arrivées bloquées pour cette date. Les réservations existantes restent à traiter.
+5	. Une destination de relation doit figurer dans le lot ou être disponible dans cette institution.
+6	· clôture précédente :
+7	· Dossier de destination défini
+8	· erreurs à corriger
+9	· Jusqu’à :
+10	· mise à jour le
+11	· Responsable :
+12	· Sans dossier de destination
+13	· Unité :
+14	› Boîte
+15	» — page
+16	(fermé)
+17	(heure de Conakry)
+18	{n} notice(s) créée(s), {n} mise(s) à jour, {n} inchangée(s).
+19	{n} résultat(s) OCR pris en compte, en plus du titre et de la description.
+20	{n}. Arrivées bloquées aujourd’hui.
+21	% · Lecture à l’écran uniquement
+22	% des expressions de cette rubrique.
+23	← Documents publiés
+24	1 à 16 caractères, sans accent
+25	4 · Historique des opérations
+26	À créer
+27	à créer ·
+28	À mettre à jour
+29	à mettre à jour ·
+30	Accès à venir
+31	Accès expiré
+32	Accès non ouvert
+33	Accès requis
+34	Accès retiré après remboursement
+35	Accès terminé le
+36	Acteur attaché. L’ajout est enregistré dans l’historique.
+37	Actualiser l’historique
+38	Actualiser le parcours
+39	Actualiser les acteurs
+40	Actualiser les indicateurs
+41	Actualiser les liens
+42	Adresse e-mail à compléter
+43	Adresse modifiée : alerte à reprendre
+44	Afficher les
+45	Agents habilités —
+46	Agents pour
+47	Agents précédents
+48	Agents suivants
+49	Ajouter aux favoris
+50	Ajouter une fermeture
+51	Ajouts, modifications et retraits, du plus récent au plus ancien. Les valeurs non enregistrées dans les anciens événements sont indiquées « Non consigné ».
+52	Alerte à préparer
+53	Alerte lecteur
+54	Alerte programmée
+55	Alertes de mes accès
+56	Analyse partielle : la limite de texte ou de rubriques a été atteinte. Vérifiez aussi le reste du document et du plan.
+57	Ancien paiement confirmé — accès expiré
+58	Annuler la modification
+59	Annuler le retrait
+60	Aperçu créé
+61	Aperçu des modifications du lien
+62	Aperçu du document, page
+63	Aperçu du rangement
+64	Aperçu expiré
+65	Aperçu gratuit des premières 20 % des pages. Lecture intégrale avec compte et paiement. Sans téléchargement.
+66	Après :
+67	Après création, rattachez la fiche papier à cette boîte. Pour un dossier déjà rangé, utilisez le déplacement tracé de sa fiche, puis vérifiez sa présence sur place.
+68	Archivage définitif bloqué : aucun contrôle papier/numérique valide n’est enregistré.
+69	Archivage définitif bloqué : les informations contrôlées ont changé ou la présence physique doit être revérifiée.
+70	Archivage définitif non terminé. Le versement reçu et le traitement terminé restent acquis ; les contrôles ci-dessous complètent ce parcours.
+71	Archivage du lot
+72	Arrivées fermées à cette heure. Choisissez un créneau ouvert pour une réservation à venir.
+73	Attestation de l’agent
+74	Attributions à venir
+75	Au plus 30 expressions de 3 à 100 caractères. Sans expression, les mots significatifs du libellé sont utilisés.
+76	Aucun accès accordé
+77	Aucun accès expiré ou arrivant à échéance dans les sept prochains jours.
+78	Aucun achat de ce document n’est rattaché à ce compte lecteur.
+79	Aucun agent visible ne dispose actuellement de toutes les habilitations requises pour cette étape.
+80	Aucun contrôle consultable.
+81	Aucun créneau ouvert pour ce jour.
+82	Aucun document lié accessible sur cette page.
+83	Aucun document public ne correspond à cette recherche.
+84	Aucun document rattaché à cet élément. Le classement et la validation finale nécessitent un document.
+85	Aucun écran autorisé ne correspond à la recherche.
+86	Aucun événement de rattachement
+87	Aucun événement enregistré
+88	Aucun jour férié ni fermeture exceptionnelle configuré.
+89	Aucun paiement ne correspond à cet état.
+90	Aucun producteur trouvé.
+91	Aucun résultat dans ce périmètre
+92	Aucune correspondance. Complétez le texte ou les expressions des rubriques dans le plan de classement.
+93	Aucune fiche physique liée. Créez ou reliez la fiche de l’original dans les archives physiques avant de poursuivre.
+94	Aucune modification à confirmer.
+95	Aucune modification du rattachement.
+96	Aucune opération accessible sur cette page.
+97	Aucune opération trouvée
+98	Aucune règle de conservation applicable.
+99	Aucune relation dans ce lot.
+100	Avant :
+101	avec des éléments encore en attente.
+102	Catalogue supérieur à 1 000 permissions : chargement incomplet.
+103	Ce choix détermine les accès au projet. Les documents rattachés doivent appartenir à cette institution. Le changement est conservé dans l’historique.
+104	Ce contexte conserve la provenance initiale. Le classement actuel figure dans la description du document.
+105	Ce document est clos, détruit ou verrouillé pour l’archivage : ses rattachements sont en lecture seule.
+106	Ce document ou cette page n’est pas disponible en consultation publique.
+107	Ce document provient du papier : le contrôle de l’original est obligatoire.
+108	Ce document reste protégé par sa confidentialité ; cette publication ne donne pas accès au catalogue libre.
+109	Ce jour ou créneau est fermé ou déjà terminé (heure de Conakry).
+110	Ce lot n’a pas encore de contexte validé. Faites-le valider depuis Traitement → Lots de numérisation → Contexte du lot.
+111	Ces éléments restent dans l’historique et sont exclus des files actives. Faites vérifier ces clôtures par le responsable du traitement.
+112	Cet aperçu a expiré. Préparez un nouvel import pour créer les notices.
+113	Cette branche ne contient aucun enfant accessible.
+114	Cette correction et la clôture initiale restent dans le journal d’audit.
+115	Cette fonction n’est reliée à aucune autre fonction, aucun producteur ni aucun fonds accessible.
+116	Cette page est réservée à la lecture intégrale
+117	Cette page nécessite un compte lecteur et un paiement validé.
+118	Cette rubrique n’est plus utilisable. Le document doit être reclassé avant la validation finale.
+119	Cette section exige une habilitation de lecture de la numérisation dans au moins une institution.
+120	Cette validation change la confidentialité de la notice. Elle exige l'absence de données personnelles, de restrictions et d'occultations actives.
+121	Cette validation remplace le classement actuel de cette fiche. Elle ne déplace pas les documents dans un autre dossier.
+122	Chaque fichier doit contenir entre 1 octet et 64 Mio.
+123	Chaque fichier doit être un XML EAC-CPF non vide (.xml ou .eac).
+124	Chaque niveau reçoit un code stable et un libellé. Les emplacements identiques sont réutilisés. La cote du dossier ou du document reste distincte de l’adresse de rangement.
+125	Chargement de la fonction
+126	Chargement de la notice
+127	Chargement de la page
+128	Chargement des liens…
+129	Chargement du contrôle papier/numérique…
+130	Chargement du parcours d’archivage…
+131	Chemin de la notice
+132	Choisir cette rubrique
+133	Choisir dans le plan
+134	Choisir l’original lié
+135	Choisir le dépôt
+136	Choisir un agent actif
+137	Choisir un lot ouvert
+138	Choisir un projet rattaché
+139	Choisir une rubrique active
+140	Choisir une rubrique du plan
+141	Choisissez au plus 100 fichiers, pour un total de 5 Mo.
+142	Choisissez des PDF ou des images PNG, JPEG ou TIFF.
+143	Choisissez entre 1 et 100 fichiers.
+144	Choisissez un fichier EAD3 ou EAD 2002 (5 Mo et 5 000 unités au plus). Le contrôle vérifie les références, la hiérarchie, les producteurs, les intervenants et les liens internes, puis présente les données avant confirmation.
+145	Choisissez une autre date.
+146	Choisissez une cible.
+147	Choisissez une rubrique active et valable aujourd’hui. Ce choix est journalisé et ne déplace pas le document dans un autre dossier. Sans rubrique, la validation finale du traitement sera bloquée.
+148	Classement actuel
+149	Classement et description du document
+150	Classement obligatoire avant la validation finale : choisissez une rubrique pour ce document. Le classement du dossier ne suffit pas.
+151	Classement validé :
+152	Clôture et historique
+153	Clôture et historique du projet
+154	Code Boîte
+155	Code ou nom
+156	Commande :
+157	comme
+158	Commentaire du lien
+159	Commentaire long : l’historique conserve un extrait de 1 000 caractères et l’empreinte du contenu complet.
+160	Comparez le document archivé à son original, page par page. Le texte OCR aide à la recherche ; il ne remplace pas ce contrôle.
+161	Comptes correspondant aux filtres, sur toutes les pages du périmètre autorisé. Le statut actif ne garantit pas des droits effectifs.
+162	Comptes des lecteurs, formules d’abonnement, caisse et abonnements. Le catalogue public propose un aperçu gratuit ; la lecture intégrale exige un accès payé et confirmé, sans téléchargement.
+163	Comptes nominatifs
+164	Comptes techniques
+165	Comptes trouvés
+166	Concordance papier/numérique obligatoire.
+167	Confidentialité :
+168	Confidentialité du lot
+169	Confirmé
+170	Confirmer la modification
+171	Confirmer la modification du lien
+172	Confirmer le retrait
+173	Confirmer le retrait du lien
+174	Confirmer les créations et mises à jour
+175	Constat de concordance ou justification de l’origine numérique
+176	Consulter le plan de classement
+177	Consultez vos commandes de lecture et leur état de paiement.
+178	Contexte : institution, producteur, type et classement sont corrects.
+179	Contexte au dépôt
+180	Contexte de classement validé
+181	Contexte du lot
+182	Contrôle à enregistrer.
+183	Contrôle antérieur
+184	Contrôle conforme aux données actuelles. Les autres validations du cycle d’archivage restent obligatoires.
+185	Contrôle enregistré. Les validations précédentes restent dans l’historique.
+186	Contrôle papier/numérique
+187	Contrôler les fichiers
+188	Contrôles en cours — relisez le reçu.
+189	Coordonnées du lecteur
+190	Cote et fiche physique liée
+191	Cote papier :
+192	Cote relevée sur l’original
+193	Créée à partir du
+194	Créée jusqu’au
+195	Créée le
+196	Créer ou retrouver le rangement
+197	Créer un rangement détaillé
+198	Créer, classer et déposer
+199	Créez un compte lecteur et payez votre accès pour lire la suite. Votre recherche sera conservée pour revenir à la page
+200	Date de clôture :
+201	Date de départ future.
+202	Date de départ manquante.
+203	Début :
+204	Début d’accès
+205	Décision de conservation à proposer et à valider.
+206	Décision enregistrée
+207	Décret, arrêté, circulaire…
+208	Décrire et classer les documents
+209	Définir le tarif de
+210	Déplier
+211	Déposer dans
+212	Déposer dans un lot
+213	Déposer dans un lot validé
+214	Déposer des documents
+215	Dépôt dans un lot validé
+216	Dépôt terminé — classement appliqué ; contrôles et OCR à suivre dans le traitement.
+217	Depuis :
+218	Dernière correction de clôture
+219	Des accès arrivent à échéance dans les sept prochains jours ou sont déjà expirés. Consultez les dates et les possibilités de renouvellement.
+220	des fonctions

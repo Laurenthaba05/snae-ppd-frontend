@@ -1,0 +1,220 @@
+1	Deposit batch
+2	Destination batch
+3	Imported batch
+4	Hide the check
+5	Hide the file's proposals
+6	My document purchases
+7	My access alerts
+8	My purchased documents
+9	My payments
+10	Update the existing functions
+11	Update the existing fonds and descriptions
+12	Update the existing links
+13	Update the existing producers
+14	Change the link
+15	Change the attachment
+16	Change the search or the scope.
+17	Change the filters or the scope to find a record.
+18	Change the filters or the scope. Only your operations that are still accessible are shown.
+19	My access to the document
+20	Word searched:
+21	Reason for correction
+22	Reason for public dissemination *
+23	Reason for validation
+24	Payment method
+25	Born digital
+26	Born digital — no paper original
+27	Screen name…
+28	Normalized names
+29	Parallel names
+30	Not recorded
+31	Not recorded for this event
+32	Not defined
+33	Not defined
+34	record(s)
+35	record(s) checked
+36	records created
+37	Records read
+38	next records
+39	New document in a validated batch
+40	Orange Money and PayCard are waiting for the merchant accounts to be opened and their APIs to be connected. Publishing a rate does not activate payments yet.
+41	Paper original
+42	Origin of the original
+43	open
+44	Opening the preview…
+45	Open a branch to load its children. Each level is paginated separately.
+46	Open the record and the metadata
+47	Open the document and its free preview
+48	Open the payment simulator
+49	Open the processing
+50	Open the physical records
+51	Previous page for
+52	Next page for
+53	free page(s) out of
+54	Pages found
+55	Inconsistent pagination of the groups.
+56	Payment confirmed by the server
+57	Payment not confirmed
+58	Payment refused or cancelled
+59	Payment refunded — access removed
+60	Archiving pathway
+61	Parent:
+62	Pay with
+63	PDFs or images to deposit
+64	Permissions:
+65	Distinct permissions
+66	Permissions actually available
+67	More than 5,000 groups: narrow the scope.
+68	Several competing rules: arbitration needed.
+69	For each closure, give valid dates (end at least equal to start), a type and a reason of 3 to 200 characters.
+70	For each open day, give an opening time earlier than the closing time.
+71	for the document · Preview of
+72	Previous
+73	Details:
+74	Details on the opening hours
+75	Price in GNF
+76	Price set by the directorate (GNF)
+77	producer(s) and
+78	Producers: {1} created, {2} updated, {3} unchanged. Relations: {4} created, {5} updated, {6} unchanged.
+79	Producers and periods
+80	Producers read
+81	Previous producers
+82	next producers
+83	Next producers
+84	closed project
+85	Deposit project
+86	Processing project
+87	project(s) without an institution: their access remains national. Use “Attachment” to choose the institution after checking the sources.
+88	Accessible projects
+89	closed projects
+90	Propose the classification of the file
+91	Classification proposals
+92	Proposals based on the title, the subject and the description of the file.
+93	Provenance of the classification
+94	Publish this rate
+95	Attachment of the project
+96	Attachment changed. The differences and the reason are recorded in the history.
+97	Attachment removed
+98	Attachment removed. The actor's record is kept and the removal appears in the history.
+99	Attach the document to the classification scheme.
+100	Attach the project to an institution. Validation requires the permissions to manage processing and to create and classify documents.
+101	Local acceptance test: these payments and this access are simulated. No real money was debited.
+102	Search across all authorized records. The path of the results keeps their parents.
+103	Search across all pages of the authorized scope.
+104	Search across all pages, within the authorized scope.
+105	Search across all pages, according to your rights and the confidentiality of the records.
+106	Search in the
+107	Search the whole catalogue…
+108	Search by name, code or contact
+109	Search for a document
+110	Search for a screen
+111	Search for a producer
+112	Search for a person in charge
+113	Search for a title or a reference…
+114	Search for a document type
+115	Search for an operation
+116	Search the titles, the references and the content of the published documents.
+117	Search for an authorized area and keep your favorites within reach.
+118	Reference of the directorate's decision
+119	Refused or cancelled
+120	EAD re-import: {1} record(s) created, {2} updated, {3} unchanged.
+121	Reset the filters
+122	relation(s) read ·
+123	Relations to restore
+124	comes under
+125	Link a physical record to this document.
+126	Read again / resume the deposits
+127	Refunded
+128	Put the project back in progress
+129	Make this document public and publish the chosen file
+130	Renew with
+131	Renew access
+132	Renew access to the document
+133	Enter the call number of the physical record.
+134	Enter a complete and active location.
+135	Collapse all branches
+136	Resume the alert
+137	Resumption needed — see the receipt in the record.
+138	Reserved for documents created in digital form, with no paper original. Justify this origin in the finding.
+139	Person in charge of the processing
+140	Person in charge of the processing *
+141	Result ready for review
+142	OCR result(s) are not yet validated: check the text before choosing a heading.
+143	Verified results only
+144	Remove this link?
+145	Remove from favorites
+146	Remove the closure
+147	Remove the producer filter
+148	Remove the attachment
+149	Find the physical original
+150	Find this batch in the operations history. Preview expires:
+151	Find your documents and the end date of each access. Expired or refunded access remains visible.
+152	Find your recorded imports and extractions, within the selected scope and according to your current rights. The search covers all pages.
+153	Find your payments and the end date of your access. Reading takes place on screen, with no download.
+154	Back to the entry
+155	Heading:
+156	Current heading cannot be used — choose another heading
+157	Heading of the document:
+158	Heading of the file:
+159	Heading of the batch
+160	Heading of the scheme *
+161	is written YYYY, YYYY-MM or YYYY-MM-DD.
+162	Room → Shelf → Row → Compartment → Box
+163	No email address
+164	No SSO identifier
+165	No name
+166	Select the EAC-CPF 3 exports of the producers to import (100 files, 5 MB in total). Add the linked producers together: their relations will be restored in the same batch.
+167	will be removed from this document.
+168	Parent site, building or storeroom
+169	SNAE-PPD · Readers portal
+170	Status in the catalogue
+171	Structure or genealogy
+172	succeeds
+173	Next
+174	Rate and online payment
+175	Rate set by the National Archives Directorate
+176	Reading rates by document type
+177	Document rates
+178	Technique
+179	All elements are completed or cancelled. This closing does not need a correction.
+180	All the links will be recorded together.
+181	All payments
+182	All producers
+183	All statuses
+184	All account types
+185	All my purchased documents
+186	All records
+187	All the records will be recorded together.
+188	All scopes
+189	Too many requests. Try again in a moment.
+190	Find a screen
+191	Find a screen (Ctrl+K)
+192	Operation type
+193	Function type
+194	Record type
+195	Producer type
+196	Batch type
+197	One file creates one document. A multi-page PDF remains a single document. Its classification comes from the batch; OCR is processed afterwards.
+198	A cancelled project cannot be reopened by this correction.
+199	One expression per line
+200	A function cannot be linked to itself.
+201	One seat per open slot, in Conakry time, within the capacity limit
+202	An eligible public publication makes the document viewable without an account in the public catalogue: free preview of the first 20% of the pages, full reading with an account and payment, no download.
+203	Use the UTF-8 template with a comma separator. Maximum 1,000
+204	Validate the concordance
+205	Validate the classification
+206	Validate the proposed classification
+207	Validate the batch context
+208	Check before confirmation
+209	Checking the due dates…
+210	Check before confirming
+211	Check the payment confirmation
+212	Check the payment
+213	Check the differences
+214	Check the changes
+215	Check my access after payment
+216	Check this context once. Each new scan or file deposited in this batch will automatically take these values. Existing documents keep their classification.
+217	Check the presence of the original at its usual shelving: no outgoing movement in progress and a finding less than one year old.
+218	Clear a date or the comment to erase it; this erasure will have to be confirmed in the preview.
+219	See “
+220	See the free preview

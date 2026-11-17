@@ -1,0 +1,220 @@
+1	Lot de dépôt
+2	Lot de destination
+3	Lot importé
+4	Masquer le contrôle
+5	Masquer les propositions du dossier
+6	Mes achats de documents
+7	Mes alertes d’accès
+8	Mes documents achetés
+9	Mes paiements
+10	Mettre à jour les fonctions existantes
+11	Mettre à jour les fonds et descriptions existants
+12	Mettre à jour les liens existants
+13	Mettre à jour les producteurs existants
+14	Modifier le lien
+15	Modifier le rattachement
+16	Modifiez la recherche ou le périmètre.
+17	Modifiez les filtres ou le périmètre pour retrouver une notice.
+18	Modifiez les filtres ou le périmètre. Seules vos opérations encore accessibles sont affichées.
+19	Mon accès au document
+20	Mot recherché :
+21	Motif de correction
+22	Motif de diffusion publique *
+23	Motif de validation
+24	Moyen de paiement
+25	Nativement numérique
+26	Nativement numérique — sans original papier
+27	Nom de l’écran…
+28	Noms normalisés
+29	Noms parallèles
+30	Non consigné
+31	Non consigné pour cet événement
+32	Non défini
+33	Non définie
+34	notice(s)
+35	notice(s) contrôlée(s)
+36	notices créées
+37	Notices lues
+38	notices suivantes
+39	Nouveau document dans un lot validé
+40	Orange Money et PayCard attendent l’ouverture des comptes marchands et le raccordement de leurs API. Publier un tarif n’active pas encore les paiements.
+41	Original papier
+42	Origine de l’original
+43	ouvert
+44	Ouverture de l’aperçu…
+45	Ouvrez une branche pour charger ses enfants. Chaque niveau est paginé séparément.
+46	Ouvrir la fiche et les métadonnées
+47	Ouvrir le document et son aperçu gratuit
+48	Ouvrir le simulateur de paiement
+49	Ouvrir le traitement
+50	Ouvrir les archives physiques
+51	Page précédente pour
+52	Page suivante pour
+53	page(s) gratuite(s) sur
+54	Pages trouvées
+55	Pagination des groupes incohérente.
+56	Paiement confirmé par le serveur
+57	Paiement non confirmé
+58	Paiement refusé ou annulé
+59	Paiement remboursé — accès retiré
+60	Parcours d’archivage
+61	Parent :
+62	Payer avec
+63	PDF ou images à déposer
+64	Permissions :
+65	Permissions distinctes
+66	Permissions effectivement disponibles
+67	Plus de 5 000 groupes : affinez le périmètre.
+68	Plusieurs règles concurrentes : arbitrage nécessaire.
+69	Pour chaque fermeture, indiquez des dates valides (fin au moins égale au début), un type et un motif de 3 à 200 caractères.
+70	Pour chaque jour ouvert, indiquez une heure d’ouverture antérieure à la fermeture.
+71	pour le document · Aperçu de
+72	Précédents
+73	Précisions :
+74	Précisions sur les horaires
+75	Prix en GNF
+76	Prix fixé par la direction (GNF)
+77	producteur(s) et
+78	Producteurs : {n} créé(s), {n} mis à jour, {n} inchangé(s). Relations : {n} créée(s), {n} mise(s) à jour, {n} inchangée(s).
+79	Producteurs et périodes
+80	Producteurs lus
+81	Producteurs précédents
+82	producteurs suivants
+83	Producteurs suivants
+84	projet clôturé
+85	Projet de dépôt
+86	Projet de traitement
+87	projet(s) sans institution : leurs accès restent nationaux. Utilisez « Rattachement » pour choisir l’institution après vérification des sources.
+88	Projets accessibles
+89	projets clôturés
+90	Proposer le classement du dossier
+91	Propositions de classement
+92	Propositions fondées sur le titre, l’objet et la description du dossier.
+93	Provenance du classement
+94	Publier ce tarif
+95	Rattachement du projet
+96	Rattachement modifié. Les différences et le motif sont enregistrés dans l’historique.
+97	Rattachement retiré
+98	Rattachement retiré. La fiche de l’acteur est conservée et le retrait figure dans l’historique.
+99	Rattachez le document au plan de classement.
+100	Rattachez le projet à une institution. La validation exige les habilitations de gestion du traitement, de création et de classement documentaire.
+101	Recette locale : ces paiements et ces accès sont simulés. Aucun argent réel n’a été débité.
+102	Recherche sur toutes les notices autorisées. Le chemin des résultats conserve leurs parents.
+103	Recherche sur toutes les pages du périmètre autorisé.
+104	Recherche sur toutes les pages, dans le périmètre autorisé.
+105	Recherche sur toutes les pages, selon vos droits et la confidentialité des notices.
+106	Rechercher dans les
+107	Rechercher dans tout le catalogue…
+108	Rechercher par nom, code ou contact
+109	Rechercher un document
+110	Rechercher un écran
+111	Rechercher un producteur
+112	Rechercher un responsable
+113	Rechercher un titre ou une référence…
+114	Rechercher un type de document
+115	Rechercher une opération
+116	Recherchez dans les titres, les références et le contenu des documents publiés.
+117	Recherchez un espace autorisé et gardez vos favoris à portée de main.
+118	Référence de la décision de la direction
+119	Refusé ou annulé
+120	Réimport EAD : {n} notice(s) créée(s), {n} mise(s) à jour, {n} inchangée(s).
+121	Réinitialiser les filtres
+122	relation(s) lus ·
+123	Relations à rétablir
+124	relève de
+125	Reliez une archive physique à ce document.
+126	Relire / reprendre les dépôts
+127	Remboursé
+128	Remettre le projet en cours
+129	Rendre ce document public et publier le fichier choisi
+130	Renouveler avec
+131	Renouveler l’accès
+132	Renouveler l’accès au document
+133	Renseignez la cote de la fiche physique.
+134	Renseignez un emplacement complet et actif.
+135	Replier toutes les branches
+136	Reprendre l’alerte
+137	Reprise nécessaire — consultez le reçu dans la notice.
+138	Réservé aux documents créés sous forme numérique, sans original papier. Justifiez cette origine dans le constat.
+139	Responsable du traitement
+140	Responsable du traitement *
+141	Résultat prêt à relire
+142	résultat(s) OCR ne sont pas encore validés : vérifiez le texte avant de choisir une rubrique.
+143	Résultats vérifiés seulement
+144	Retirer ce lien ?
+145	Retirer des favoris
+146	Retirer la fermeture
+147	Retirer le filtre producteur
+148	Retirer le rattachement
+149	Retrouver l’original physique
+150	Retrouvez ce lot dans l’historique des opérations. Expiration de l’aperçu :
+151	Retrouvez vos documents et la date de fin de chaque accès. Les accès expirés ou remboursés restent visibles.
+152	Retrouvez vos imports et extractions enregistrés, dans le périmètre sélectionné et selon vos droits actuels. La recherche porte sur toutes les pages.
+153	Retrouvez vos paiements et la date de fin de vos accès. La lecture se fait à l’écran, sans téléchargement.
+154	Revenir à la saisie
+155	Rubrique :
+156	Rubrique actuelle non utilisable — choisir une autre rubrique
+157	Rubrique du document :
+158	Rubrique du dossier :
+159	Rubrique du lot
+160	Rubrique du plan *
+161	s’écrit AAAA, AAAA-MM ou AAAA-MM-JJ.
+162	Salle → Étagère → Rang → Case → Boîte
+163	Sans adresse e-mail
+164	Sans identifiant SSO
+165	Sans nom
+166	Sélectionnez les exports EAC-CPF 3 des producteurs à importer (100 fichiers, 5 Mo au total). Ajoutez ensemble les producteurs liés : leurs relations seront rétablies dans le même lot.
+167	sera retiré de ce document.
+168	Site, bâtiment ou magasin parent
+169	SNAE-PPD · Portail des lecteurs
+170	Statut dans le catalogue
+171	Structure ou généalogie
+172	succède à
+173	Suivants
+174	Tarif et paiement en ligne
+175	Tarif fixé par la Direction des Archives nationales
+176	Tarifs de lecture par type de document
+177	Tarifs des documents
+178	Technique
+179	Tous les éléments sont terminés ou annulés. Cette clôture ne nécessite pas de correction.
+180	Tous les liens seront enregistrés ensemble.
+181	Tous les paiements
+182	Tous les producteurs
+183	Tous les statuts
+184	Tous les types de compte
+185	Tous mes documents achetés
+186	Toutes les fiches
+187	Toutes les notices seront enregistrées ensemble.
+188	Toutes les portées
+189	Trop de consultations. Réessayez dans un instant.
+190	Trouver un écran
+191	Trouver un écran (Ctrl+K)
+192	Type d’opération
+193	Type de fonction
+194	Type de notice
+195	Type de producteur
+196	Type du lot
+197	Un fichier crée un document. Un PDF de plusieurs pages reste un seul document. Son classement vient du lot ; l’OCR est traité ensuite.
+198	Un projet annulé ne peut pas être rouvert par cette correction.
+199	Une expression par ligne
+200	Une fonction ne se relie pas à elle-même.
+201	Une place par créneau ouvert, en heure de Conakry, dans la limite de la capacité
+202	Une publication publique éligible rend le document consultable sans compte dans le catalogue public : aperçu gratuit des premières 20 % des pages, lecture intégrale avec compte et paiement, sans téléchargement.
+203	Utilisez le modèle UTF-8 avec séparateur virgule. Maximum 1 000
+204	Valider la concordance
+205	Valider le classement
+206	Valider le classement proposé
+207	Valider le contexte du lot
+208	Vérification avant confirmation
+209	Vérification des échéances…
+210	Vérifier avant confirmation
+211	Vérifier la confirmation du paiement
+212	Vérifier le paiement
+213	Vérifier les différences
+214	Vérifier les modifications
+215	Vérifier mon accès après paiement
+216	Vérifiez ce contexte une fois. Chaque nouveau scan ou fichier déposé dans ce lot reprendra automatiquement ces valeurs. Les documents existants conservent leur classement.
+217	Vérifiez la présence de l’original à son rangement habituel : aucune sortie en cours et constat de moins d’un an.
+218	Videz une date ou le commentaire pour l’effacer ; cet effacement devra être confirmé dans l’aperçu.
+219	Voir «
+220	Voir l’aperçu gratuit

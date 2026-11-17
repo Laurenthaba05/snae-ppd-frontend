@@ -1,0 +1,12 @@
+1	See the log
+2	See my access alerts
+3	Physical volumes
+4	Your access has expired. To resume full reading, renew it with a new confirmed payment. The free preview remains available, with no download.
+5	Your access has expired. A new confirmed payment will open a new reading period starting from its confirmation, at the currently published rate. The earlier purchase remains in your history.
+6	Your access expires within the next seven days. You can still read this document until the date shown. Renewal will be available after expiry.
+7	Your reader session has expired. Sign in again.
+8	You have no purchased document at the moment.
+9	You have no payment at the moment.
+10	You have no subscription in progress. Purchased documents remain accessible during their validity period.
+11	You cannot create a project in this scope.
+12	Overview of the accounts
