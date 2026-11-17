@@ -1,3 +1,6 @@
+import { ArchiveBrowse } from '../ui/ArchiveBrowse';
+import { ArchiveImport } from '../ui/ArchiveCsvImport';
+export { ArchiveImport } from '../ui/ArchiveCsvImport';
 import { ArchiveEnrichmentFields } from '../ui/ArchiveEnrichmentFields';
 import { enrichmentProblems, enrichedDetails } from '../core/archiveEnrichment';
 import { ResourceDetailsButton } from '../ui/ResourceDetails';
@@ -7,15 +10,16 @@ import { useWorkspace } from '../ui/workspace';
 import { ArchiveRecordPicker } from '../ui/ArchiveRecordPicker';
 import { CodeField } from '../ui/CodeField';
 import { can } from '../core/policy';
-import { PageHead, Field, Modal, ErrorNotice, Busy, Empty, Notice, useResource, formatDate } from '../ui/components';
+import { PageHead, Field, Modal, ErrorNotice, Busy, Notice, useResource, formatDate } from '../ui/components';
 import { AuthorityRelationsDialog } from '../ui/AuthorityRelations';
 import { ArchivalFunctionsPanel } from '../ui/ArchivalFunctions';
 import { KeywordsPanel } from '../ui/Vocabularies';
 import { EadImport } from '../ui/EadImport';
+import { EacImport } from '../ui/EacImport';
 import { ApiError } from '../core/http';
 import type { RelationView } from '../core/authorityRelations';
 import { DATE_KIND_LABELS, DESCRIPTION_GROUPS, EXTENT_UNITS, STATUS_LABELS, descriptionProblems, isadCompleteness, producerKnown } from '../core/archivalDescription';
-import { ArchivesApi, archiveLevels, commandKey, flattenDescriptions, type ArchiveKind, type DescriptionView, type DescriptionInput, type AuthorityView, type AuthorityInput, type CsvPreview } from '../api/archives';
+import { ArchivesApi, archiveLevels, commandKey, type ArchiveKind, type DescriptionView, type DescriptionInput, type AuthorityView, type AuthorityInput } from '../api/archives';
 import { label } from '../core/format';
 import { LANGUAGE_SUGGESTIONS, SCRIPT_SUGGESTIONS, languageCodesProblem, partialDateOrderProblem, partialDateProblem } from '../core/archivalCodes';
 import { saveBlob } from '../ui/download';
@@ -70,29 +74,55 @@ export function ArchivalDescriptionPage() {
 function ArchiveWorkspace({ institution }: { institution: string }) {
     const { records, me } = useSession(); const api = useMemo(() => new ArchivesApi(records!.transport), [records]); const cancellation = useAbort();
     const [kind, setKind] = useState<ArchiveKind>('descriptions'); const [functionsView, setFunctionsView] = useState(false); const [editor, setEditor] = useState<{ kind: ArchiveKind; row?: DescriptionView | AuthorityView } | null>(null);
-    const [importing, setImporting] = useState(false); const [importingEad, setImportingEad] = useState(false); const [error, setError] = useState<unknown>(); const [busy, setBusy] = useState(false); const [success, setSuccess] = useState('');
-    const q = useResource(async s => ({ descriptions: await api.descriptions(institution, s), authorities: await api.authorities(institution, s),
-        relations: await api.relations(institution, s).catch((e: unknown): RelationView[] => { if (e instanceof ApiError && e.status === 404) return []; throw e; }) }), institution);
+    const [importing, setImporting] = useState(false); const [importingEad, setImportingEad] = useState(false); const [importingEac, setImportingEac] = useState(false); const [error, setError] = useState<unknown>(); const [busy, setBusy] = useState(false); const [success, setSuccess] = useState('');
     const [relationsFor, setRelationsFor] = useState<AuthorityView | null>(null);
+    const [revision,setRevision]=useState(0);
+    const lookupNeeded=!!editor||!!relationsFor;
+    const q=useResource(async signal=>{
+        if(!lookupNeeded)return null;
+        const [descriptions,authorities,relations]=await Promise.all([api.descriptions(institution,signal),api.authorities(institution,signal),
+            api.relations(institution,signal).catch((e:unknown):RelationView[]=>{if(e instanceof ApiError&&e.status===404)return [];throw e;})]);
+        return {descriptions,authorities,relations};
+    },JSON.stringify([institution,lookupNeeded,revision]));
+    const refresh=()=>{setRevision(v=>v+1);q.refresh();};
     const manage = can(me, 'ARCHIVAL_DESCRIPTION_MANAGE', { institutionId: institution }); const exporting = can(me, 'ARCHIVAL_DESCRIPTION_EXPORT', { institutionId: institution });
     const download = async (path: string, name: string) => { const signal = cancellation.current.signal; setBusy(true); setError(undefined); try { const blob = await api.file(path, signal); if (!signal.aborted) saveBlob(blob, name); } catch (e) { if (!signal.aborted) setError(e); } finally { if (!signal.aborted) setBusy(false); } };
     return <><PageHead eyebrow="ARCHIVES · DESCRIPTION" title="Fonds et producteurs" description="Décrire les archives dans leur contexte et échanger des notices contrôlées.">
-        {manage && !functionsView && <><button className="btn secondary" disabled={busy} onClick={() => setImporting(true)}>Importer un CSV</button>{kind === 'descriptions' && <button className="btn secondary" disabled={busy} onClick={() => setImportingEad(true)}>Importer un EAD</button>}<button className="btn primary" onClick={() => setEditor({ kind })}>{kind === 'descriptions' ? 'Créer une description' : 'Créer un producteur'}</button></>}
+        {manage && !functionsView && <><button className="btn secondary" disabled={busy} onClick={() => setImporting(true)}>Importer un CSV</button>{kind === 'descriptions' && <button className="btn secondary" disabled={busy} onClick={() => setImportingEad(true)}>Importer un EAD</button>}{kind === 'authorities' && <button className="btn secondary" disabled={busy} onClick={() => setImportingEac(true)}>Importer un EAC-CPF</button>}<button className="btn primary" onClick={() => setEditor({ kind })}>{kind === 'descriptions' ? 'Créer une description' : 'Créer un producteur'}</button></>}
     </PageHead>
-        <div className="page-actions" aria-label="Type de notices"><button className={'btn ' + (!functionsView && kind === 'descriptions' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'descriptions'} onClick={() => { setFunctionsView(false); setKind('descriptions'); }}>Fonds et descriptions</button><button className={'btn ' + (!functionsView && kind === 'authorities' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'authorities'} onClick={() => { setFunctionsView(false); setKind('authorities'); }}>Producteurs et autorités</button><button className={'btn ' + (functionsView ? 'primary' : 'secondary')} aria-pressed={functionsView} onClick={() => setFunctionsView(true)}>Fonctions (ISDF)</button>{exporting && !functionsView && <button className="btn secondary" disabled={busy} onClick={() => download(`export/${kind}?institutionId=${institution}`, `${kind}.csv`)}>Exporter les notices visibles (CSV)</button>}</div>
+        <div className="page-actions" aria-label="Type de notices"><button className={'btn ' + (!functionsView && kind === 'descriptions' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'descriptions'} onClick={() => { setFunctionsView(false); setKind('descriptions'); }}>Fonds et descriptions</button><button className={'btn ' + (!functionsView && kind === 'authorities' ? 'primary' : 'secondary')} aria-pressed={!functionsView && kind === 'authorities'} onClick={() => { setFunctionsView(false); setKind('authorities'); }}>Producteurs et autorités</button><button className={'btn ' + (functionsView ? 'primary' : 'secondary')} aria-pressed={functionsView} onClick={() => setFunctionsView(true)}>Fonctions (ISDF)</button>{exporting && !functionsView && <button className="btn secondary" disabled={busy} onClick={() => download(`export/${kind}?institutionId=${institution}`, `${kind}.csv`)}>Exporter le catalogue autorisé (CSV)</button>}</div>
         {error ? <ErrorNotice error={error} /> : null}{success && <Notice>{success}</Notice>}
-        <Notice>Les descriptions restent internes à l’espace professionnel. Les exports incluent uniquement les notices auxquelles vous avez accès ; ils n’autorisent pas leur publication.</Notice>
-        {functionsView ? (q.data ? <ArchivalFunctionsPanel api={api} institution={institution} descriptions={q.data.descriptions} authorities={q.data.authorities} canManage={manage} /> : q.loading ? <Busy /> : <ErrorNotice error={q.error} onRetry={q.refresh} />)
-        : q.loading ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : <div className="panel table-scroll">
-            {kind === 'descriptions' ? q.data?.descriptions.length ? <table><thead><tr><th>Référence et intitulé</th><th>Niveau</th><th>État</th><th>ISAD(G)</th><th>Confidentialité</th><th>Actions</th></tr></thead><tbody>{flattenDescriptions(q.data.descriptions).map(({ row, depth }) => <tr key={row.id}><td style={{ paddingLeft: 16 + depth * 22 }}><strong>{row.input.code}</strong> · {row.input.title}</td><td>{levelLabels[row.input.level]}</td><td>{STATUS_LABELS[row.input.details.status ?? ''] ?? 'Brouillon'}</td><td>{(c => <span title="Éléments de la norme ISAD(G) renseignés ; un niveau n’a pas à tous les remplir">{c.done} / {c.total}</span>)(isadCompleteness(enrichedDetails(row.input), producerKnown(row.input.producerId || row.input.enrichment?.producers[0]?.authorityId || null, row.input.parentId, q.data!.descriptions.map(x => ({ id: x.id, parentId: x.input.parentId, producerId: x.input.producerId || x.input.enrichment?.producers[0]?.authorityId || null })))))}</td><td>{label('confidentiality', row.input.confidentiality)}</td><td><ResourceDetailsButton resource="archiveDescription" id={row.id} /><button className="btn small secondary" onClick={() => setEditor({ kind, row })}>{manage ? 'Consulter / modifier' : 'Consulter'}</button>{exporting && <><button className="btn small secondary" disabled={busy} onClick={() => download(`descriptions/${row.id}/ead`, `fonds-${row.id}.ead.xml`)}>Exporter EAD3</button><button className="btn small secondary" disabled={busy} onClick={() => download(`descriptions/${row.id}/ead2002`, `fonds-${row.id}.ead2002.xml`)}>Exporter EAD 2002</button></>}</td></tr>)}</tbody></table> : <Empty title="Aucune description" description="Commencez par décrire un fonds, puis ses séries, dossiers et pièces." />
-                : q.data?.authorities.length ? <table><thead><tr><th>Référence</th><th>Nom retenu</th><th>Type</th><th>État</th><th>Relations</th><th>Actions</th></tr></thead><tbody>{q.data.authorities.map(row => <tr key={row.id}><td>{row.input.code}</td><td>{row.input.name}</td><td>{{ PERSONNE: 'Personne', COLLECTIVITE: 'Collectivité', FAMILLE: 'Famille' }[row.input.kind]}</td><td>{authorityStatusLabels[row.input.details.status ?? ''] ?? 'Brouillon'}</td><td><button className="btn small secondary" onClick={() => setRelationsFor(row)}>{relationCountLabel(q.data!.relations.filter(r => r.input.sourceId === row.id || r.input.targetId === row.id).length)}</button></td><td><ResourceDetailsButton resource="archiveAuthority" id={row.id} /><ResourceDetailsButton resource="authorityRelations" id={row.id} label="Relire les relations" /><button className="btn small secondary" onClick={() => setEditor({ kind, row })}>{manage ? 'Consulter / modifier' : 'Consulter'}</button>{exporting && <button className="btn small secondary" disabled={busy} onClick={() => download(`authorities/${row.id}/eac`, `producteur-${row.id}.eac.xml`)}>Exporter EAC-CPF</button>}</td></tr>)}</tbody></table> : <Empty title="Aucun producteur" description="Ajoutez une personne, une collectivité ou une famille, puis reliez-la aux fonds qu’elle a produits." />}
+        <Notice>Les descriptions restent internes à l’espace professionnel. Les exports incluent uniquement les notices auxquelles vous avez accès ; ils n’autorisent pas leur publication. L’export CSV porte sur le catalogue autorisé complet, indépendamment des filtres.</Notice>
+        {functionsView ? <ArchivalFunctionsPanel api={api} institution={institution} canManage={manage} canExport={exporting}/>
+        : <div className="panel">
+            {kind==='descriptions'?<ArchiveBrowse<DescriptionView> key={kind} api={api} institution={institution} kind={kind} revision={revision} columns={6}
+                headers={<><th>Niveau</th><th>État</th><th>ISAD(G)</th><th>Confidentialité</th><th>Actions</th></>}
+                renderCells={({row,producerKnown:known})=><>
+                    <td>{levelLabels[row.input.level]}</td><td>{STATUS_LABELS[row.input.details.status??'']??'Brouillon'}</td>
+                    <td>{(c=><span title="Éléments de la norme ISAD(G) renseignés">{c.done} / {c.total}</span>)(isadCompleteness(enrichedDetails(row.input),known))}</td>
+                    <td>{label('confidentiality',row.input.confidentiality)}</td>
+                    <td><ResourceDetailsButton resource="archiveDescription" id={row.id}/><button className="btn small secondary" onClick={()=>setEditor({kind,row})}>{manage?'Consulter / modifier':'Consulter'}</button>
+                    {exporting&&<><button className="btn small secondary" disabled={busy} onClick={()=>download('descriptions/'+row.id+'/ead','fonds-'+row.id+'.ead.xml')}>Exporter EAD3</button>
+                    <button className="btn small secondary" disabled={busy} onClick={()=>download('descriptions/'+row.id+'/ead2002','fonds-'+row.id+'.ead2002.xml')}>Exporter EAD 2002</button></>}</td>
+                </>}/>
+            :<ArchiveBrowse<AuthorityView> key={kind} api={api} institution={institution} kind={kind} revision={revision} columns={5}
+                headers={<><th>Type</th><th>État</th><th>Relations</th><th>Actions</th></>}
+                renderCells={({row,relationCount})=><>
+                    <td>{{PERSONNE:'Personne',COLLECTIVITE:'Collectivité',FAMILLE:'Famille'}[row.input.kind]}</td><td>{authorityStatusLabels[row.input.details.status??'']??'Brouillon'}</td>
+                    <td><button className="btn small secondary" onClick={()=>setRelationsFor(row)}>{relationCountLabel(relationCount)}</button></td>
+                    <td><ResourceDetailsButton resource="archiveAuthority" id={row.id}/><ResourceDetailsButton resource="authorityRelations" id={row.id} label="Relire les relations"/>
+                    <button className="btn small secondary" onClick={()=>setEditor({kind,row})}>{manage?'Consulter / modifier':'Consulter'}</button>
+                    {exporting&&<button className="btn small secondary" disabled={busy} onClick={()=>download('authorities/'+row.id+'/eac','producteur-'+row.id+'.eac.xml')}>Exporter EAC-CPF</button>}</td>
+                </>}/>}
         </div>}
-        {editor && q.data && <ArchiveEditor api={api} institution={institution} kind={editor.kind} row={editor.row} descriptions={q.data.descriptions} authorities={q.data.authorities} readOnly={!manage} onClose={() => setEditor(null)} onSaved={() => { q.refresh(); setSuccess('Notice enregistrée.'); }} />}
+        {lookupNeeded&&(q.loading||q.error)&&<Modal title="Chargement de la notice" onClose={()=>{setEditor(null);setRelationsFor(null);}}>{q.loading?<Busy/>:<ErrorNotice error={q.error} onRetry={q.refresh}/>}</Modal>}
+        {editor && q.data && <ArchiveEditor api={api} institution={institution} kind={editor.kind} row={editor.row} descriptions={q.data.descriptions} authorities={q.data.authorities} readOnly={!manage} onClose={() => setEditor(null)} onSaved={() => { refresh(); setSuccess('Notice enregistrée.'); }} />}
         {relationsFor && q.data && <AuthorityRelationsDialog api={api} institution={institution} authority={{ id: relationsFor.id, code: relationsFor.input.code, name: relationsFor.input.name, kind: relationsFor.input.kind }}
             authorities={q.data.authorities.map(a => ({ id: a.id, code: a.input.code, name: a.input.name, kind: a.input.kind }))} relations={q.data.relations} canManage={manage}
-            onClose={() => setRelationsFor(null)} onChanged={() => q.refresh()} />}
-        {importingEad && <EadImport api={api} institution={institution} onClose={() => setImportingEad(false)} onImported={count => { q.refresh(); setSuccess(`${count} notice(s) importée(s) en brouillon depuis le fichier EAD.`); }} />}
-        {importing && <ArchiveImport api={api} institution={institution} kind={kind} onClose={() => setImporting(false)} onImported={count => { q.refresh(); setSuccess(`${count} notice(s) importée(s).`); }} />}
+            onClose={() => setRelationsFor(null)} onChanged={refresh} />}
+        {importingEac && <EacImport api={api} institution={institution} onClose={() => setImportingEac(false)} onImported={result => { refresh(); setSuccess(`Producteurs : ${result.created} créé(s), ${result.updated} mis à jour, ${result.unchanged} inchangé(s). Relations : ${result.relationsCreated} créée(s), ${result.relationsUpdated} mise(s) à jour, ${result.relationsUnchanged} inchangée(s).`); }} />}
+        {importingEad && <EadImport api={api} institution={institution} onClose={() => setImportingEad(false)} onImported={result => { refresh(); setSuccess(`Réimport EAD : ${result.created} notice(s) créée(s), ${result.updated} mise(s) à jour, ${result.unchanged} inchangée(s).`); }} />}
+        {importing && <ArchiveImport api={api} institution={institution} kind={kind} onClose={() => setImporting(false)} onImported={result => { refresh(); setSuccess(`${result.created ?? result.count} notice(s) créée(s), ${result.updated ?? 0} mise(s) à jour, ${result.unchanged ?? 0} inchangée(s).`); }} />}
     </>;
 }
 
@@ -146,16 +176,3 @@ function ArchiveEditor({ api, institution, kind, row, descriptions, authorities,
         <footer className="modal-footer"><button type="button" className="btn secondary" disabled={busy} onClick={onClose}>{readOnly ? 'Fermer' : 'Annuler'}</button>{!readOnly && <button type="submit" form={formId} className="btn primary" disabled={busy || problems.length > 0}>Enregistrer</button>}</footer></Modal>;
 }
 
-export function ArchiveImport({ api, institution, kind, onClose, onImported }: { api: ArchivesApi; institution: string; kind: ArchiveKind; onClose: () => void; onImported: (count: number) => void }) {
-    const cancellation = useAbort(); const [csv, setCsv] = useState(''); const [filename, setFilename] = useState(''); const [preview, setPreview] = useState<CsvPreview | null>(null); const [busy, setBusy] = useState(false); const [error, setError] = useState<unknown>(); const intention = useRef<ReturnType<typeof commandKey> | null>(null);
-    const load = async (file?: File) => { const signal = cancellation.current.signal; setPreview(null); setCsv(''); setError(undefined); setFilename(file?.name ?? ''); if (!file) return; if (file.size > 2_000_000) { setError(new Error('Le fichier dépasse 2 Mo.')); return; } setBusy(true); try { const text = new TextDecoder('utf-8', { fatal: true }).decode(await file.arrayBuffer()); if (!signal.aborted) setCsv(text); } catch { setError(new Error('Le fichier doit être encodé en UTF-8.')); } finally { setBusy(false); } };
-    const check = async () => { const signal = cancellation.current.signal; setBusy(true); setError(undefined); setPreview(null); try { const p = await api.preview(institution, kind, csv, signal); if (!signal.aborted) setPreview(p); } catch (e) { if (!signal.aborted) setError(e); } finally { setBusy(false); } };
-    const confirm = async () => { const signal = cancellation.current.signal; if (!preview || preview.issues.length) return; setBusy(true); setError(undefined); intention.current = commandKey(intention.current, { institution, kind, csv, hash: preview.hash }); try { const r = await api.import(institution, kind, csv, preview.hash, intention.current.key, signal); if (!signal.aborted) { onImported(r.count); onClose(); } } catch (e) { if (!signal.aborted) setError(e); } finally { setBusy(false); } };
-    const template = async () => { const signal = cancellation.current.signal; setBusy(true); setError(undefined); try { const blob = await api.file(`template/${kind}?institutionId=${institution}`, signal); if (!signal.aborted) saveBlob(blob, `modele-${kind}.csv`); } catch (e) { if (!signal.aborted) setError(e); } finally { setBusy(false); } };
-    return <Modal wide title={`Importer ${kind === 'descriptions' ? 'des descriptions' : 'des producteurs'}`} onClose={onClose} locked={busy}><div className="panel-padding">
-        <p>Utilisez le modèle UTF-8 avec séparateur virgule. Maximum 1 000 notices et 2 Mo. L’import crée de nouvelles notices ; les références existantes sont refusées. Importez les producteurs avant les descriptions qui les citent.</p>
-        <button type="button" className="btn secondary" disabled={busy} onClick={template}>Télécharger le modèle CSV</button>
-        <Field label="Fichier CSV"><input type="file" accept=".csv,text/csv" disabled={busy} onChange={e => load(e.target.files?.[0])} /></Field>{filename && <p>{filename}</p>}
-        {error ? <ErrorNotice error={error} /> : null}{preview && <><p role="status">{preview.rows} notice(s) contrôlée(s), {preview.issues.length} erreur(s).</p>{preview.issues.length > 0 ? <ul>{preview.issues.map((issue, i) => <li key={i}>Ligne {issue.row} : {issue.message}</li>)}</ul> : <Notice>Le contrôle est réussi. Toutes les notices seront enregistrées ensemble. Le serveur vérifiera à nouveau les données lors de la confirmation.</Notice>}</>}
-    </div><footer className="modal-footer"><button className="btn secondary" disabled={busy} onClick={onClose}>Annuler</button><button className="btn secondary" disabled={busy || !csv} onClick={check}>Contrôler le fichier</button><button className="btn primary" disabled={busy || !preview || preview.issues.length > 0} onClick={confirm}>Confirmer l’import</button></footer></Modal>;
-}

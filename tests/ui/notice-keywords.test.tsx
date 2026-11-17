@@ -1,3 +1,4 @@
+import { browseFixture } from './archive-browse-fixture';
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -24,6 +25,7 @@ const keyword = (over: Partial<Keyword> = {}): Keyword => ({ termId: TERM, label
 beforeEach(() => {
     session.allowed = new Set(['ARCHIVAL_DESCRIPTION_READ', 'ARCHIVAL_DESCRIPTION_MANAGE']);
     session.records.transport.request.mockReset().mockImplementation(async (path: string) => {
+        if (path.startsWith('/archives/browse/descriptions?')) return browseFixture([description],path);
         if (path.startsWith('/archives/descriptions?')) return [description];
         if (path.startsWith('/archives/authorities?') || path.startsWith('/archives/relations?')) return [];
         throw new Error('appel inattendu ' + path);
@@ -38,7 +40,7 @@ beforeEach(() => {
 async function openEditor() {
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: /^Consulter/ }));
-    return screen.findByRole('dialog');
+    return screen.findByRole('dialog', { name: /^(?!Chargement)/ });
 }
 
 it('la notice d’une description existante montre ses mots-clés avec leur vocabulaire, et propose d’en ajouter ou d’en retirer', async () => {
@@ -64,13 +66,14 @@ it('sans l’habilitation de gestion, les mots-clés se lisent sans pouvoir êtr
 it('une nouvelle description n’a pas encore de mots-clés à poser : le panneau n’apparaît qu’une fois la notice enregistrée', async () => {
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(within(dialog).queryByRole('region', { name: 'Mots-clés' })).toBeNull();
     expect(session.vocabulary.keywords).not.toHaveBeenCalled();
 });
 
 it('le bouton Enregistrer, placé sous le panneau, enregistre toujours la notice', async () => {
     session.records.transport.request.mockImplementation(async (path: string, options?: { method?: string }) => {
+        if (path.startsWith('/archives/browse/descriptions?')) return browseFixture([description],path);
         if (path.startsWith('/archives/descriptions?')) return [description];
         if (path.startsWith('/archives/authorities?') || path.startsWith('/archives/relations?')) return [];
         if (options?.method === 'PUT') return description;

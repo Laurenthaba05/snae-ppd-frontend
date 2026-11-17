@@ -113,3 +113,21 @@ export function functionProblems(input: FunctionInput): string[] {
     if (input.status === 'VALIDEE' && !input.sources?.trim()) problems.push('Une description validée cite ses sources.');
     return problems;
 }
+
+export interface FunctionLinkSnapshot {
+    institutionId:string;functionId:string;functionLabel:string|null;targetId:string;targetKind:FunctionLinkTarget;targetLabel:string|null;nature:FunctionLinkNature;
+    dateStart:string|null;dateEnd:string|null;description:string|null;descriptionTruncated:boolean;descriptionLength:number;version:number;hash:string;origin:string;removed?:boolean;
+}
+export interface FunctionLinkHistoryEntry {id:string;linkId:string;action:string;occurredAt:string;performedBy:string;before:FunctionLinkSnapshot|null;after:FunctionLinkSnapshot|null}
+export interface FunctionLinkHistoryPage {items:FunctionLinkHistoryEntry[];page:number;size:number;hasMore:boolean}
+export function functionLinkProblems(input:FunctionLinkInput):string[] {
+    const problems:string[]=[];
+    if(!input.targetId)problems.push('Choisissez une cible.');
+    if(input.targetKind==='FUNCTION'&&input.targetId===input.functionId)problems.push('Une fonction ne se relie pas à elle-même.');
+    if(!naturesFor(input.targetKind).includes(input.nature))problems.push('La nature ne correspond pas au type de cible.');
+    for(const [label,value] of [['La date de début',input.dateStart],['La date de fin',input.dateEnd]] as const)
+        if(value&&!DATE.test(value))problems.push(label+' s’écrit AAAA, AAAA-MM ou AAAA-MM-JJ.');
+    if(input.dateStart&&input.dateEnd&&DATE.test(input.dateStart)&&DATE.test(input.dateEnd)&&lower(input.dateStart)>upper(input.dateEnd))problems.push('La date de début dépasse la date de fin.');
+    if((input.description?.length??0)>10000)problems.push('Le commentaire dépasse 10 000 caractères.');
+    return problems;
+}

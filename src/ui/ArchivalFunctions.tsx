@@ -1,43 +1,61 @@
+import { FunctionLinks } from './FunctionLinks';
+import { ArchiveBrowse } from './ArchiveBrowse';
+import { ArchiveImport } from './ArchiveCsvImport';
+import { saveBlob } from './download';
 import React, { useId, useRef, useState } from 'react';
 import { type ArchivesApi, type AuthorityView, type DescriptionView, commandKey } from '../api/archives';
-import { Busy, Empty, ErrorNotice, Field, Modal, Notice, useResource } from './components';
+import { Busy, ErrorNotice, Field, Modal, Notice, useResource } from './components';
 import {
-    DETAIL_LABELS, KIND_LABELS, NATURE_LABELS, STATUS_LABELS, TARGET_LABELS, emptyFunction, flattenFunctions, functionProblems, kindsUnder, naturesFor, parentCandidates,
-    type FunctionDetailView, type FunctionInput, type FunctionKind, type FunctionLinkNature, type FunctionLinkTarget, type FunctionView
+    DETAIL_LABELS, KIND_LABELS, STATUS_LABELS, emptyFunction, functionProblems, kindsUnder, parentCandidates,
+    type FunctionDetailView, type FunctionInput, type FunctionKind, type FunctionView
 } from '../core/archivalFunctions';
 
 /**
  * Description des fonctions (ISDF) : ce que les services exercent et qui produit des archives. Une fonction se range sous une fonction plus haute, se relie à une autre fonction,
  * à la notice du producteur qui l'exerce et aux fonds qui la documentent.
  */
-export function ArchivalFunctionsPanel({ api, institution, descriptions, authorities, canManage }: {
-    api: ArchivesApi; institution: string; descriptions: DescriptionView[]; authorities: AuthorityView[]; canManage: boolean;
+export function ArchivalFunctionsPanel({ api, institution, descriptions, authorities, canManage, canExport = false }: {
+    api: ArchivesApi; institution: string; descriptions?: DescriptionView[]; authorities?: AuthorityView[]; canManage: boolean; canExport?: boolean;
 }) {
     const [revision, setRevision] = useState(0);
+    const [importing, setImporting] = useState<'functions' | 'function-links' | null>(null); const [exportBusy, setExportBusy] = useState(false); const [exportError, setExportError] = useState<unknown>();
+    const exportCsv = async (kind: 'functions' | 'function-links' = 'functions') => { setExportBusy(true); setExportError(undefined); try { saveBlob(await api.file(`export/${kind}?institutionId=${institution}`), kind === 'functions' ? 'fonctions.csv' : 'liens-fonctions.csv'); } catch (e) { setExportError(e); } finally { setExportBusy(false); } };
     const [editing, setEditing] = useState<FunctionView | 'new' | null>(null);
     const [done, setDone] = useState('');
-    const q = useResource<FunctionView[]>(s => api.functions(institution, s), `functions:${institution}:${revision}`);
-    const rows = q.data ?? [];
-    return <div className="panel">
+    return <div className="panel archival-functions-panel">
         <div className="section-heading"><h3>Fonctions et activités (ISDF)</h3>
-            {canManage && <button type="button" className="btn small primary" onClick={() => setEditing('new')}>Créer une fonction</button>}</div>
+            <div className="page-actions">{canManage && <button type="button" className="btn small secondary" onClick={() => setImporting('functions')}>Importer un CSV</button>}
+            {canExport && <button type="button" className="btn small secondary" disabled={exportBusy} onClick={() => void exportCsv()}>Exporter les fonctions (CSV)</button>}
+            {canManage && <button type="button" className="btn small secondary" onClick={() => setImporting('function-links')}>Importer les liens (CSV)</button>}
+            {canExport && <button type="button" className="btn small secondary" disabled={exportBusy} onClick={() => void exportCsv('function-links')}>Exporter les liens (CSV)</button>}
+            {canManage && <button type="button" className="btn small primary" onClick={() => setEditing('new')}>Créer une fonction</button>}</div></div>
         <div className="panel-padding">
             <p><small>Une fonction dit <strong>pourquoi</strong> des archives sont produites : elle se range sous une fonction plus haute (fonction, sous-fonction, activité, tâche), se relie
                 à la notice du producteur qui l’exerce et aux fonds qui la documentent.</small></p>
-            {done && <Notice>{done}</Notice>}
-            {q.loading && !q.data ? <Busy /> : q.error ? <ErrorNotice error={q.error} onRetry={q.refresh} /> : rows.length === 0
-                ? <Empty title="Aucune fonction décrite" description="Commencez par les grandes fonctions du service, puis leurs activités." />
-                : <div className="table-scroll"><table><thead><tr><th>Code et nom</th><th>Type</th><th>État</th><th>Période</th><th>Actions</th></tr></thead>
-                    <tbody>{flattenFunctions(rows).map(({ row, depth }) => <tr key={row.id}>
-                        <td style={{ paddingLeft: 16 + depth * 22 }}><strong>{row.input.code}</strong> · {row.input.name}</td>
-                        <td>{KIND_LABELS[row.input.kind]}</td><td>{STATUS_LABELS[row.input.status]}</td>
-                        <td>{[row.input.dateStart, row.input.dateEnd].filter(Boolean).join(' — ') || '—'}</td>
-                        <td><button type="button" className="btn small secondary" onClick={() => setEditing(row)}>{canManage ? 'Consulter / modifier' : 'Consulter'}</button></td>
-                    </tr>)}</tbody></table></div>}
+            {canExport&&<p><small>Les exports CSV portent sur le catalogue autorisé complet, indépendamment des filtres.</small></p>}{done && <Notice>{done}</Notice>}{exportError ? <ErrorNotice error={exportError} /> : null}
+            <ArchiveBrowse<FunctionView> api={api} institution={institution} kind="functions" revision={revision} columns={5}
+                headers={<><th>Type</th><th>État</th><th>Période</th><th>Actions</th></>}
+                renderCells={({row})=><><td>{KIND_LABELS[row.input.kind]}</td><td>{STATUS_LABELS[row.input.status]}</td>
+                    <td>{[row.input.dateStart,row.input.dateEnd].filter(Boolean).join(' — ')||'—'}</td>
+                    <td><button type="button" className="btn small secondary" onClick={()=>setEditing(row)}>{canManage?'Consulter / modifier':'Consulter'}</button></td></>}/>
+
         </div>
-        {editing && <FunctionEditor api={api} institution={institution} row={editing === 'new' ? null : editing} all={rows} descriptions={descriptions} authorities={authorities}
+        {importing && <ArchiveImport api={api} institution={institution} kind={importing} onClose={() => setImporting(null)} onImported={result => { setDone(importing === 'function-links' ? `Liens : ${result.created ?? result.count} créé(s), ${result.updated ?? 0} mis à jour, ${result.unchanged ?? 0} inchangé(s).` : `Fonctions : ${result.created ?? result.count} créée(s), ${result.updated ?? 0} mise(s) à jour, ${result.unchanged ?? 0} inchangée(s).`); setRevision(n => n + 1); }} />}
+        {editing && <FunctionEditorLoader api={api} institution={institution} editing={editing} descriptions={descriptions} authorities={authorities}
             readOnly={!canManage} onClose={() => setEditing(null)} onSaved={message => { setDone(message); setRevision(n => n + 1); }} />}
     </div>;
+}
+
+function FunctionEditorLoader({api,institution,editing,descriptions,authorities,readOnly,onClose,onSaved}:{
+    api:ArchivesApi;institution:string;editing:FunctionView|'new';descriptions?:DescriptionView[];authorities?:AuthorityView[];
+    readOnly:boolean;onClose:()=>void;onSaved:(message:string)=>void;
+}) {
+    const q=useResource(async signal=>{
+        const [all,d,a]=await Promise.all([api.functions(institution,signal),descriptions??api.descriptions(institution,signal),authorities??api.authorities(institution,signal)]);
+        return {all,descriptions:d,authorities:a};
+    },JSON.stringify(['function-editor-options',institution,editing==='new'?'new':editing.id]));
+    if(q.loading||q.error)return <Modal title="Chargement de la fonction" onClose={onClose}>{q.loading?<Busy/>:<ErrorNotice error={q.error} onRetry={q.refresh}/>}</Modal>;
+    return <FunctionEditor api={api} institution={institution} row={editing==='new'?null:editing} all={q.data!.all} descriptions={q.data!.descriptions} authorities={q.data!.authorities} readOnly={readOnly} onClose={onClose} onSaved={onSaved}/>;
 }
 
 function FunctionEditor({ api, institution, row, all, descriptions, authorities, readOnly, onClose, onSaved }: {
@@ -47,6 +65,7 @@ function FunctionEditor({ api, institution, row, all, descriptions, authorities,
     const formId = useId();
     const [draft, setDraft] = useState<FunctionInput>(() => row ? { ...row.input, version: row.version } : emptyFunction(institution));
     const [busy, setBusy] = useState(false);
+    const [linksBusy,setLinksBusy]=useState(false);
     const [error, setError] = useState<unknown>();
     const [attempted, setAttempted] = useState(false);
     const intention = useRef<ReturnType<typeof commandKey> | null>(null);
@@ -69,7 +88,7 @@ function FunctionEditor({ api, institution, row, all, descriptions, authorities,
 
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (readOnly || busy) return;
+        if (readOnly || busy || linksBusy) return;
         if (problems.length) { setAttempted(true); return; }
         setBusy(true); setError(undefined);
         intention.current = commandKey(intention.current, draft);
@@ -80,13 +99,13 @@ function FunctionEditor({ api, institution, row, all, descriptions, authorities,
         } catch (e) { setError(e); } finally { setBusy(false); }
     };
     const remove = async () => {
-        if (!row || busy) return;
+        if (!row || busy || linksBusy || readOnly) return;
         setBusy(true); setError(undefined);
         try { await api.deleteFunction(row.id, institution, row.version, crypto.randomUUID()); onSaved('Fonction supprimée.'); onClose(); }
         catch (e) { setError(e); } finally { setBusy(false); }
     };
-    const disabled = busy || readOnly;
-    return <Modal wide title={row ? 'Fonction' : 'Nouvelle fonction'} subtitle={current && current.ancestors.length ? current.ancestors.map(a => a.name).join(' › ') : undefined} onClose={onClose} locked={busy}>
+    const disabled = busy || linksBusy || readOnly;
+    return <Modal wide title={row ? 'Fonction' : 'Nouvelle fonction'} subtitle={current && current.ancestors.length ? current.ancestors.map(a => a.name).join(' › ') : undefined} onClose={onClose} locked={busy||linksBusy}>
         <form id={formId} onSubmit={submit}><div className="form-grid">
             <h4 className="form-section span2">Identification</h4>
             <Field label="Code *"><input maxLength={100} value={draft.code} disabled={disabled} onChange={e => change('code', e.target.value)} /></Field>
@@ -117,67 +136,14 @@ function FunctionEditor({ api, institution, row, all, descriptions, authorities,
             {attempted && problems.length > 0 && <Notice tone="warning"><ul>{problems.map(p => <li key={p}>{p}</li>)}</ul></Notice>}
             {error ? <ErrorNotice error={error} /> : null}
         </form>
-        {row && <FunctionLinks api={api} institution={institution} functionId={row.id} detail={current} all={all} descriptions={descriptions} authorities={authorities} readOnly={readOnly}
-            onChanged={detail.refresh} />}
+        {row && <FunctionLinks key={institution+row.id} api={api} institution={institution} functionId={row.id} detail={current} all={all} descriptions={descriptions} authorities={authorities} readOnly={readOnly}
+            loading={detail.loading} loadError={detail.error} onReload={detail.refresh} onBusyChange={setLinksBusy}
+            onChanged={()=>{detail.refresh();onSaved('Liens de la fonction actualisés.');}} />}
         <footer className="modal-footer">
-            {row && !readOnly && <button type="button" className="btn danger-outline" disabled={busy} onClick={remove}>Supprimer</button>}
-            <button type="button" className="btn secondary" disabled={busy} onClick={onClose}>{readOnly ? 'Fermer' : 'Annuler'}</button>
-            {!readOnly && <button type="submit" form={formId} className="btn primary" disabled={busy}>Enregistrer</button>}
+            {row && !readOnly && <button type="button" className="btn danger-outline" disabled={busy||linksBusy} onClick={remove}>Supprimer</button>}
+            <button type="button" className="btn secondary" disabled={busy||linksBusy} onClick={onClose}>{readOnly ? 'Fermer' : 'Annuler'}</button>
+            {!readOnly && <button type="submit" form={formId} className="btn primary" disabled={busy||linksBusy}>Enregistrer</button>}
         </footer>
     </Modal>;
 }
 
-function FunctionLinks({ api, institution, functionId, detail, all, descriptions, authorities, readOnly, onChanged }: {
-    api: ArchivesApi; institution: string; functionId: string; detail: FunctionDetailView | null; all: FunctionView[]; descriptions: DescriptionView[]; authorities: AuthorityView[];
-    readOnly: boolean; onChanged: () => void;
-}) {
-    const [target, setTarget] = useState<FunctionLinkTarget>('AUTHORITY');
-    const [targetId, setTargetId] = useState('');
-    const [nature, setNature] = useState<FunctionLinkNature>('EXERCEE_PAR');
-    const [dateStart, setDateStart] = useState('');
-    const [dateEnd, setDateEnd] = useState('');
-    const [busy, setBusy] = useState(false);
-    const [error, setError] = useState<unknown>();
-    const options: Array<{ id: string; label: string }> = target === 'FUNCTION' ? all.filter(f => f.id !== functionId).map(f => ({ id: f.id, label: `${f.input.code} · ${f.input.name}` }))
-        : target === 'AUTHORITY' ? authorities.map(a => ({ id: a.id, label: `${a.input.code} · ${a.input.name}` }))
-            : descriptions.map(d => ({ id: d.id, label: `${d.input.code} · ${d.input.title}` }));
-    const chooseTarget = (value: FunctionLinkTarget) => { setTarget(value); setTargetId(''); setNature(naturesFor(value)[0]!); };
-    const add = async (event: React.FormEvent) => {
-        event.preventDefault();
-        if (busy || !targetId) return;
-        setBusy(true); setError(undefined);
-        try {
-            await api.addFunctionLink({ institutionId: institution, functionId, targetKind: target, targetId, nature, dateStart: dateStart.trim() || null, dateEnd: dateEnd.trim() || null, description: null }, crypto.randomUUID());
-            setTargetId(''); setDateStart(''); setDateEnd('');
-            onChanged();
-        } catch (e) { setError(e); } finally { setBusy(false); }
-    };
-    const remove = async (id: string, version: number) => {
-        setBusy(true); setError(undefined);
-        try { await api.removeFunctionLink(id, institution, version, crypto.randomUUID()); onChanged(); }
-        catch (e) { setError(e); } finally { setBusy(false); }
-    };
-    const links = detail?.links ?? [];
-    return <section aria-label="Liens de la fonction" className="panel-padding">
-        <h4 className="form-section">Liens</h4>
-        {links.length === 0 ? <p><small>Cette fonction n’est reliée à aucune autre fonction, aucun producteur ni aucun fonds.</small></p>
-            : <ul className="plain-list">{links.map(l => <li key={l.id}>
-                <strong>{NATURE_LABELS[l.input.nature]}</strong> · {l.targetLabel ?? '—'} <small>({TARGET_LABELS[l.input.targetKind]}{l.input.dateStart ? `, depuis ${l.input.dateStart}` : ''}{l.input.dateEnd ? ` jusqu’à ${l.input.dateEnd}` : ''})</small>
-                {!readOnly && <> <button type="button" className="btn small danger-outline" disabled={busy} onClick={() => void remove(l.id, l.version)}>Retirer</button></>}
-            </li>)}</ul>}
-        {detail && detail.children.length > 0 && <p><small>Contient : {detail.children.map(c => `${c.code} · ${c.name}`).join(' ; ')}.</small></p>}
-        {!readOnly && <form onSubmit={add} aria-label="Ajouter un lien"><div className="form-grid">
-            <Field label="Relier à"><select value={target} disabled={busy} onChange={e => chooseTarget(e.target.value as FunctionLinkTarget)}>
-                {Object.entries(TARGET_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></Field>
-            <Field label="Nature du lien"><select value={nature} disabled={busy} onChange={e => setNature(e.target.value as FunctionLinkNature)}>
-                {naturesFor(target).map(n => <option key={n} value={n}>{NATURE_LABELS[n]}</option>)}</select></Field>
-            <Field label="Cible" wide><select value={targetId} disabled={busy} onChange={e => setTargetId(e.target.value)}>
-                <option value="">Choisir…</option>{options.map(o => <option key={o.id} value={o.id}>{o.label}</option>)}</select></Field>
-            <Field label="Depuis" hint="AAAA, AAAA-MM ou AAAA-MM-JJ."><input maxLength={10} value={dateStart} disabled={busy} onChange={e => setDateStart(e.target.value)} /></Field>
-            <Field label="Jusqu’à"><input maxLength={10} value={dateEnd} disabled={busy} onChange={e => setDateEnd(e.target.value)} /></Field>
-        </div>
-            {error ? <ErrorNotice error={error} /> : null}
-            <button type="submit" className="btn small secondary" disabled={busy || !targetId}>Ajouter le lien</button>
-        </form>}
-    </section>;
-}

@@ -1,3 +1,4 @@
+import { browseFixture } from './archive-browse-fixture';
 import React from 'react';
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -62,7 +63,9 @@ const authorityRow = (n: number, name: string, kind: 'COLLECTIVITE' | 'PERSONNE'
     id: `00000000-0000-4000-8000-00000000000${n}`, input: { institutionId: institution, code: `P${n}`, name, kind, actorId: null, details, version: 1 }, version: 1, updatedAt: '2026-10-08T09:00:00Z', createdAt: '2026-09-01T09:00:00Z' });
 function serve(authorities: unknown[], relations: unknown[] = []) {
     session.records.transport.request.mockImplementation(async (path: string, options?: { method?: string; body?: unknown }) => {
+        if (path.startsWith('/archives/browse/descriptions?')) return browseFixture([],path);
         if (path.startsWith('/archives/descriptions?')) return [];
+        if (path.startsWith('/archives/browse/authorities?')) return browseFixture(authorities,path,relations);
         if (path.startsWith('/archives/authorities?')) return authorities;
         if (path.startsWith('/archives/relations?')) return relations;
         if (options?.method === 'PUT' || options?.method === 'POST') return authorities[0];
@@ -77,7 +80,8 @@ it('la liste des producteurs montre leur état de rédaction et le nombre de leu
     serve([authorityRow(1, 'Ministère de l’Énergie', 'COLLECTIVITE', { status: 'VALIDEE' }), authorityRow(2, 'Présidence'), authorityRow(3, 'Mariam Keita', 'PERSONNE', { status: 'A_RELIRE' })],
         [{ id: 'r1', version: 0, updatedAt: '', input: { institutionId: institution, sourceId: '00000000-0000-4000-8000-000000000001', targetId: '00000000-0000-4000-8000-000000000002', type: 'TUTELLE', dateStart: '2018', dateEnd: null, description: null } }]);
     await showAuthorities();
-    const rows = (await screen.findAllByRole('row')).slice(1).map(r => r.textContent ?? '');
+    await screen.findAllByRole('button',{name:/Consulter \/ modifier/});
+    const rows = screen.getAllByRole('row').slice(1).map(r => r.textContent ?? '');
     expect(rows[0]).toContain('Validée'); expect(rows[0]).toContain('1 relation');
     expect(rows[1]).toContain('Brouillon'); expect(rows[1]).toContain('1 relation');
     expect(rows[2]).toContain('À relire'); expect(rows[2]).toContain('Relations');
@@ -87,12 +91,14 @@ it('« Relations » ouvre les relations de la notice avec le nom de la notice li
         [{ id: 'r1', version: 0, updatedAt: '', input: { institutionId: institution, sourceId: '00000000-0000-4000-8000-000000000001', targetId: '00000000-0000-4000-8000-000000000002', type: 'TUTELLE', dateStart: '2018', dateEnd: null, description: null } }]);
     await showAuthorities();
     fireEvent.click((await screen.findAllByRole('button', { name: '1 relation' }))[0]!);
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(dialog.textContent).toContain('Sous la tutelle de'); expect(dialog.textContent).toContain('Présidence'); expect(dialog.textContent).toContain('depuis 2018');
 });
 it('un serveur sans relations (404) laisse la liste des producteurs utilisable', async () => {
     session.records.transport.request.mockImplementation(async (path: string) => {
+        if (path.startsWith('/archives/browse/descriptions?')) return browseFixture([],path);
         if (path.startsWith('/archives/descriptions?')) return [];
+        if (path.startsWith('/archives/browse/authorities?')) return browseFixture([authorityRow(1, 'Présidence')],path);
         if (path.startsWith('/archives/authorities?')) return [authorityRow(1, 'Présidence')];
         throw Object.assign(new (await import('../../src/core/http')).ApiError(404, 'ROUTE_NOT_FOUND', 'Cette opération n’existe pas sur ce serveur.'));
     });
@@ -104,7 +110,7 @@ it('l’éditeur de notice d’autorité regroupe les champs ISAAR par zone, ave
     serve([authorityRow(1, 'Ministère de l’Énergie', 'COLLECTIVITE', { status: 'VALIDEE', mandates: 'Décret D/2018/014' })]);
     await showAuthorities();
     fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Description', 'Contrôle de la notice']);
     for (const label of ['Formes parallèles du nom', 'Formes normalisées', 'Identifiants officiels', 'Lieux', 'Statut juridique', 'Textes et mandats', 'Structure interne', 'Contexte général', 'État de rédaction', 'Niveau de détail', 'Règles ou conventions', 'Langues de la notice', 'Notes de mise à jour'])
         expect(within(dialog).getByLabelText(new RegExp('^' + label))).toBeTruthy();
@@ -116,7 +122,7 @@ it('une nouvelle notice d’autorité part en brouillon et enregistre les champs
     serve([authorityRow(1, 'Ministère de l’Énergie')]);
     await showAuthorities();
     fireEvent.click(await screen.findByRole('button', { name: 'Créer un producteur' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect((within(dialog).getByLabelText(/^État de rédaction/) as HTMLSelectElement).value).toBe('BROUILLON');
     fireEvent.change(within(dialog).getByLabelText('Référence'), { target: { value: 'MIN-NEW' } });
     fireEvent.change(within(dialog).getByLabelText('Nom retenu'), { target: { value: 'Ministère du Plan' } });
@@ -137,7 +143,9 @@ const descriptionRow = (n: number, extra: Record<string, unknown> = {}, details:
 function serveDescriptions(descriptions: unknown[], authorities: unknown[] = []) {
     session.records.transport.request.mockImplementation(async (path: string, options?: { method?: string }) => {
         if (/\/descriptions\/[^/?]+\/ead(2002)?$/.test(path)) return new Blob(['<ead/>']);
+        if (path.startsWith('/archives/browse/descriptions?')) return browseFixture(descriptions,path);
         if (path.startsWith('/archives/descriptions?')) return descriptions;
+        if (path.startsWith('/archives/browse/authorities?')) return browseFixture(authorities,path);
         if (path.startsWith('/archives/authorities?')) return authorities;
         if (path.startsWith('/archives/relations?')) return [];
         if (options?.method === 'PUT' || options?.method === 'POST') return descriptions[0];
@@ -150,7 +158,9 @@ it('la liste des descriptions montre l’état de rédaction et les éléments I
     const serie = descriptionRow(2, { level: 'SERIE', parentId: fonds.id }, { scopeContent: 'Correspondance' });
     serveDescriptions([fonds, serie], [authorityRow(1, 'Ministère')]);
     render(<ArchivalDescriptionPage />);
-    const rows = (await screen.findAllByRole('row')).slice(1).map(r => r.textContent ?? '');
+    fireEvent.click(await screen.findByRole('button',{name:'Déplier GN/1'})); await screen.findByText('Fonds 2');
+    await screen.findAllByRole('button',{name:/Consulter \/ modifier/});
+    const rows = screen.getAllByRole('row').slice(1).map(r => r.textContent ?? '');
     expect(rows[0]).toContain('Validée'); expect(rows[0]).toContain('8 / 26');          // 4 de base + producteur (2) + dates + importance matérielle
     expect(rows[1]).toContain('Brouillon'); expect(rows[1]).toContain('7 / 26');        // 4 de base + producteur hérité (2) + contenu
 });
@@ -158,7 +168,7 @@ it('l’éditeur de description regroupe les éléments ISAD(G) par zone et prop
     serveDescriptions([descriptionRow(1, {}, { accruals: 'Versements annuels attendus', extentQuantity: '12,5', extentUnit: 'ML' })]);
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(within(dialog).getAllByRole('heading', { level: 4 }).map(h => h.textContent)).toEqual(['Identification', 'Contexte', 'Contenu et structure', 'Conditions d’accès et d’utilisation', 'Sources complémentaires', 'Notes et contrôle de la description', 'Description enrichie']);
     for (const label of ['Accroissements', 'Écritures des documents', 'Caractéristiques matérielles', 'Existence et lieu de conservation des originaux', 'Existence et lieu de conservation des copies', 'Unités de description associées', 'Note de publication', 'Note générale', 'Note de l’archiviste', 'Règles ou conventions', 'Nature des dates', 'Support'])
         expect(within(dialog).getByLabelText(new RegExp('^' + label)), label).toBeTruthy();
@@ -183,7 +193,7 @@ it('« Importer un EAD » n’existe que pour les descriptions, et ouvre la fen�
     serveDescriptions([descriptionRow(1)]);
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Importer un EAD' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(within(dialog).getByText('Importer un fichier EAD')).toBeTruthy();
     expect((within(dialog).getByRole('button', { name: 'Confirmer l’import' }) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(within(dialog).getByRole('button', { name: 'Annuler' }));
@@ -197,7 +207,7 @@ it('une quantité sans unité, ou une validation sans dates ni producteur, bloqu
     serveDescriptions([descriptionRow(1)]);
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect((within(dialog).getByLabelText(/^État de rédaction/) as HTMLSelectElement).value).toBe('BROUILLON');
     const save = () => within(dialog).getByRole('button', { name: 'Enregistrer' }) as HTMLButtonElement;
     expect(save().disabled).toBe(false);
@@ -215,7 +225,7 @@ it('une date se saisit à l’année, au mois ou au jour, une langue et une écr
     serveDescriptions([descriptionRow(1)], [producer]);
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     const save = () => within(dialog).getByRole('button', { name: 'Enregistrer' }) as HTMLButtonElement;
     const start = within(dialog).getByLabelText(/^Date de début/) as HTMLInputElement;
     expect(start.type).toBe('text');                                                    // plus un sélecteur de jour : l’année seule est possible
@@ -246,7 +256,7 @@ it('une notice d’autorité se date à l’année et donne ses langues en codes
     serve([authorityRow(1, 'Ministère de l’Énergie')]);
     await showAuthorities();
     fireEvent.click(await screen.findByRole('button', { name: 'Créer un producteur' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     fireEvent.change(within(dialog).getByLabelText(/^Date de naissance ou de création/), { target: { value: '1958' } });
     fireEvent.change(within(dialog).getByLabelText(/^Date de décès ou de dissolution/), { target: { value: '1984-04' } });
     fireEvent.change(within(dialog).getByLabelText(/^Langues de la notice/), { target: { value: 'fr' } });
@@ -262,7 +272,7 @@ it('enregistre les éléments ISAD(G) saisis, quantité et unité comprises', as
     serveDescriptions([descriptionRow(1)], [producer]);
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     fireEvent.change(within(dialog).getByLabelText('Référence'), { target: { value: 'GN/NEW' } });
     fireEvent.change(within(dialog).getByLabelText('Intitulé'), { target: { value: 'Nouveau fonds' } });
     fireEvent.change(within(dialog).getByLabelText('Producteur'), { target: { value: producer.id } });
@@ -283,7 +293,7 @@ it('enregistre les éléments ISAD(G) saisis, quantité et unité comprises', as
 
 it('enregistre les enrichissements structurés et valide une notice sans champs historiques dupliqués', async () => {
     const producer=authorityRow(1,'Ministère enrichi'); serveDescriptions([], [producer]); render(<ArchivalDescriptionPage/>);
-    fireEvent.click(await screen.findByRole('button',{name:'Créer une description'})); const dialog=await screen.findByRole('dialog'); const ui=within(dialog);
+    fireEvent.click(await screen.findByRole('button',{name:'Créer une description'})); const dialog=await screen.findByRole('dialog', { name: /^(?!Chargement)/ }); const ui=within(dialog);
     const fill=(label:string,value:string)=>fireEvent.change(ui.getByLabelText(label),{target:{value}});
     fill('Référence','ENR-UI'); fill('Intitulé','Fonds enrichi');
     fireEvent.click(ui.getByRole('button',{name:'Ajouter un identifiant'})); fill('Type d’identifiant','ancienne cote'); fill('Valeur de l’identifiant','AA/1'); fill('Système d’origine','Ancien SI'); fill('URI de l’identifiant','urn:archive:1');
@@ -300,7 +310,7 @@ it('enregistre les enrichissements structurés et valide une notice sans champs 
 });
 it('refuse une date structurée impossible puis permet de retirer une ligne',async()=>{
     serveDescriptions([]); render(<ArchivalDescriptionPage/>); fireEvent.click(await screen.findByRole('button',{name:'Créer une description'}));
-    const ui=within(await screen.findByRole('dialog')); fireEvent.click(ui.getByRole('button',{name:'Ajouter une date'}));
+    const ui=within(await screen.findByRole('dialog', { name: /^(?!Chargement)/ })); fireEvent.click(ui.getByRole('button',{name:'Ajouter une date'}));
     fireEvent.change(ui.getByLabelText('Début structuré'),{target:{value:'2025-02-29'}});
     expect((ui.getByRole('button',{name:'Enregistrer'}) as HTMLButtonElement).disabled).toBe(true);
     fireEvent.click(ui.getByRole('button',{name:'Supprimer la date 1'})); expect(ui.queryByRole('alert')).toBeNull();
@@ -314,21 +324,21 @@ it('une nouvelle description propose la référence suivante du modèle, avec la
     session.codification = { model: vi.fn().mockResolvedValue(noticeModel()), check: vi.fn().mockResolvedValue({ conform: true, mode: 'OBLIGATOIRE', pattern: '{contenant}/001', example: null, message: null }), proposal: vi.fn().mockResolvedValue({ code: 'GN/FONDS/002', counter: 2, pattern: '{contenant}/001', mode: 'OBLIGATOIRE' }) };
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Créer une description' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(await within(dialog).findByText('Modèle de l’institution : {contenant}/001 (obligatoire).')).toBeTruthy();
-    expect(session.codification.model).toHaveBeenCalledWith('NOTICE', institution, expect.anything());
+    expect(session.codification.model).toHaveBeenCalledWith('NOTICE', institution, expect.anything(), null);
     fireEvent.change(within(dialog).getByLabelText(/^Niveau de description/), { target: { value: 'SERIE' } });
     fireEvent.change(within(dialog).getByLabelText('Parent'), { target: { value: fonds.id } });
     fireEvent.click(within(dialog).getByRole('button', { name: 'Proposer la prochaine référence' }));
     await waitFor(() => expect((within(dialog).getByLabelText(/^Référence/) as HTMLInputElement).value).toBe('GN/FONDS/002'));
-    expect(session.codification.proposal).toHaveBeenCalledWith('NOTICE', institution, fonds.id, null);
+    expect(session.codification.proposal).toHaveBeenCalledWith('NOTICE', institution, fonds.id, null, undefined, null);
 });
 it('une description existante garde sa référence libre : le modèle ne la guide qu’à la création', async () => {
     serveDescriptions([descriptionRow(1)]);
     session.codification = { model: vi.fn().mockResolvedValue(noticeModel()), check: vi.fn(), proposal: vi.fn() };
     render(<ArchivalDescriptionPage />);
     fireEvent.click(await screen.findByRole('button', { name: 'Consulter / modifier' }));
-    const dialog = await screen.findByRole('dialog');
+    const dialog = await screen.findByRole('dialog', { name: /^(?!Chargement)/ });
     expect(within(dialog).getByLabelText('Référence')).toBeTruthy();
     expect(within(dialog).queryByRole('button', { name: 'Proposer la prochaine référence' })).toBeNull();
     expect(session.codification.model).not.toHaveBeenCalled();

@@ -20,7 +20,7 @@ const setup = () => { const onClose = vi.fn(), onImported = vi.fn(); render(<Ead
 const upload = async (file: File) => { fireEvent.change(document.querySelector('input[type=file]') as HTMLInputElement, { target: { files: [file] } }); await waitFor(() => expect((screen.getByRole('button', { name: 'Contrôler le fichier' }) as HTMLButtonElement).disabled).toBe(false)); };
 const check = async () => { fireEvent.click(screen.getByRole('button', { name: 'Contrôler le fichier' })); await screen.findByRole('status'); };
 
-beforeEach(() => { fixture.epoch += 1; api.previewEad.mockReset().mockResolvedValue(good); api.importEad.mockReset().mockResolvedValue({ count: 3 }); });
+beforeEach(() => { fixture.epoch += 1; api.previewEad.mockReset().mockResolvedValue(good); api.importEad.mockReset().mockResolvedValue({ count: 3, ids: ['a','b','c'], created: 3, updated: 0, unchanged: 0 }); });
 
 it('contrôle le fichier, montre l’arborescence lue et les éléments non repris, puis confirme avec la confidentialité choisie', async () => {
     const { onClose, onImported } = setup();
@@ -29,7 +29,7 @@ it('contrôle le fichier, montre l’arborescence lue et les éléments non repr
     await upload(new File([XML], 'fonds.xml', { type: 'application/xml' }));
     fireEvent.change(screen.getByLabelText(/^Confidentialité des notices créées/), { target: { value: 'CONFIDENTIEL' } });
     await check();
-    expect(api.previewEad).toHaveBeenCalledWith(INST, XML, 'CONFIDENTIEL', expect.anything());
+    expect(api.previewEad).toHaveBeenCalledWith(INST, XML, 'CONFIDENTIEL', expect.anything(), false);
     expect(screen.getByRole('status').textContent).toBe('3 unités lues, aucune erreur, 1 remarque.');
     expect(screen.getByText(/Format reconnu/).textContent).toBe('Format reconnu : EAD 2002.');
     const outline = screen.getByRole('list', { name: 'Arborescence lue' });
@@ -40,7 +40,7 @@ it('contrôle le fichier, montre l’arborescence lue et les éléments non repr
     await waitFor(() => expect(api.importEad).toHaveBeenCalledTimes(1));
     const [institution, xml, confidentiality, hash, key] = api.importEad.mock.calls[0]!;
     expect(institution).toBe(INST); expect(xml).toBe(XML); expect(confidentiality).toBe('CONFIDENTIEL'); expect(hash).toBe(good.hash); expect(typeof key).toBe('string');
-    await waitFor(() => expect(onImported).toHaveBeenCalledWith(3)); expect(onClose).toHaveBeenCalled();
+    await waitFor(() => expect(onImported).toHaveBeenCalledWith({ count: 3, ids: ['a','b','c'], created: 3, updated: 0, unchanged: 0 })); expect(onClose).toHaveBeenCalled();
 });
 
 it('les erreurs du contrôle bloquent la confirmation et disent où elles sont', async () => {
@@ -96,4 +96,53 @@ it('la fenêtre n’a aucune violation d’accessibilité détectée automatique
     await check();
     const results = await axe.run(document.body, { rules: { 'color-contrast': { enabled: false } } });
     expect(results.violations.map(v => v.id + ' : ' + v.nodes.map(n => n.html).join(' | '))).toEqual([]);
+});
+
+it('affiche les identifiants secondaires et les dates conservées avant confirmation', async () => {
+    api.previewEad.mockResolvedValue({...good, outline:[{...good.outline[0], identifiers:[{type:'ANCIENNE_COTE',value:'RECETTE-1900',source:'Inventaire',label:'Ancienne cote'}], dates:[{type:'PUBLICATION',start:'1960',end:null,expression:'Vers 1960',certainty:'ESTIMEE',calendar:'GREGORIEN'}], primaryDate:{dateStart:'1900',dateEnd:'1950'}}]});
+    setup(); await upload(new File([XML], 'recette.xml')); await check();
+    expect(screen.getByText(/RECETTE-1900/)).toBeTruthy();
+    expect(screen.getByText(/Vers 1960/)).toBeTruthy();
+    expect(screen.getByText(/1900.*1950/)).toBeTruthy();
+});
+
+it('montre volumes, périodes ouvertes, traitement et liens avant confirmation et bloque les liens refusés', async () => {
+    const producer = '00000000-0000-4000-8000-000000000001';
+    const doc = '00000000-0000-4000-8000-000000000002';
+    api.previewEad.mockResolvedValue({...good, issues:[{unit:1,reference:'MIN-1',message:'Ce document possède déjà une description.'}], outline:[{...good.outline[0],
+        extents:[{quantity:'2.5',unit:'ML',medium:'Papier de recette',portion:'PART',dimensions:'A3'}],
+        producers:[{authorityId:producer,role:'VERSEUR',end:'1960'}],producerNames:{[producer]:'Ministère de recette'},
+        processing:{priority:'HAUTE',status:'EN_COURS',plan:'Classer puis décrire',estimatedHours:12.5,actualHours:0,processors:[producer],funding:'Budget recette'},documentId:doc}]});
+    setup(); await upload(new File([XML],'complet.xml')); await check();
+    expect(screen.getByText(/2.5 mètres linéaires.*Partie.*Papier de recette.*A3/)).toBeTruthy();
+    expect(screen.getByText(/Ministère de recette.*VERSEUR.*Fin : 1960/)).toBeTruthy();
+    expect(screen.getByText(/Heures réalisées : 0/)).toBeTruthy();
+    expect(screen.getByText('Classer puis décrire')).toBeTruthy();
+    expect(screen.getByText('Financement : Budget recette')).toBeTruthy();
+    expect(screen.getByText('Document : '+doc)).toBeTruthy();
+    expect((screen.getByRole('button',{name:'Confirmer l’import'}) as HTMLButtonElement).disabled).toBe(true);
+    expect((await axe.run(document.body,{rules:{'color-contrast':{enabled:false}}})).violations).toEqual([]);
+});
+
+it('prévisualise les changements de champ, de parent et de traitement et transmet le mode mise à jour',async()=>{
+    api.previewEad.mockResolvedValue({...good,created:0,updated:1,unchanged:0,outline:[{...good.outline[0],action:'UPDATE',existingId:'a',confidentiality:'CONFIDENTIEL',changes:[
+        {field:'title',before:'Ancien titre',after:'Nouveau titre'},{field:'parentId',before:'Fonds A',after:'Fonds B'},
+        {field:'processing.plan',before:'Ancien plan',after:'Plan révisé'},{field:'status',before:'VALIDEE',after:'BROUILLON'}]}]});
+    const callbacks=setup();await upload(new File([XML],'revision.xml'));fireEvent.click(screen.getByRole('checkbox',{name:'Mettre à jour les fonds et descriptions existants'}));await check();
+    expect(api.previewEad.mock.calls[0][4]).toBe(true);expect(screen.getByLabelText('Différences avant confirmation').textContent).toContain('Avant : Ancien titreAprès : Nouveau titre');
+    expect(screen.getByText(/Avant : Fonds A/).textContent).toContain('Après : Fonds B');expect(screen.getByText(/Avant : Validée/).textContent).toContain('Après : Brouillon');
+    expect(screen.getByText(/Avant : Ancien plan/).textContent).toContain('Plan révisé');expect(screen.getByText('Confidentialité : Confidentiel')).toBeTruthy();
+    expect((await axe.run(document.body,{rules:{'color-contrast':{enabled:false}}})).violations).toEqual([]);
+    fireEvent.click(screen.getByRole('button',{name:'Confirmer les créations et mises à jour'}));await waitFor(()=>expect(callbacks.onImported).toHaveBeenCalled());expect(api.importEad.mock.calls[0][6]).toBe(true);
+    fireEvent.click(screen.getByRole('checkbox',{name:'Mettre à jour les fonds et descriptions existants'}));expect(screen.queryByRole('status')).toBeNull();expect((screen.getByRole('button',{name:'Confirmer l’import'}) as HTMLButtonElement).disabled).toBe(true);
+});
+it('conserve la clé après interruption réseau et demande un nouvel aperçu après conflit',async()=>{
+    api.importEad.mockRejectedValueOnce(new Error('Réseau interrompu')).mockRejectedValueOnce(new Error('Aperçu périmé'));setup();await upload(new File([XML],'revision.xml'));await check();
+    fireEvent.click(screen.getByRole('button',{name:'Confirmer l’import'}));await screen.findByRole('alert');fireEvent.click(screen.getByRole('button',{name:'Confirmer l’import'}));await screen.findByText('Aperçu périmé');
+    expect(api.importEad.mock.calls[0][4]).toBe(api.importEad.mock.calls[1][4]);api.previewEad.mockResolvedValue({...good,hash:'nouvelle-empreinte'});await check();
+    fireEvent.click(screen.getByRole('button',{name:'Confirmer l’import'}));await waitFor(()=>expect(api.importEad).toHaveBeenCalledTimes(3));expect(api.importEad.mock.calls[2][4]).not.toBe(api.importEad.mock.calls[0][4]);
+});
+it('rend toutes les différences accessibles par pages sans limiter l’aperçu aux premières notices',async()=>{
+    api.previewEad.mockResolvedValue({...good,units:101,outline:Array.from({length:101},(_,i)=>({...good.outline[0],rank:i+1,reference:'F-'+i,title:'Notice '+i,action:'UPDATE',changes:[{field:'title',before:'Titre '+i,after:'Correction '+i}]}))});
+    setup();await upload(new File([XML],'grand-fonds.xml'));await check();expect(screen.queryByText(/Avant : Titre 100/)).toBeNull();fireEvent.click(screen.getByRole('button',{name:'Afficher les 1 notices suivantes'}));expect(screen.getByText(/Avant : Titre 100/).textContent).toContain('Correction 100');
 });
