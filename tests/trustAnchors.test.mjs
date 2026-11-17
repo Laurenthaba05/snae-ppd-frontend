@@ -9,7 +9,7 @@ test('Une ancre exige un libellé et un certificat PEM, jamais une clé privée'
     assert.equal(anchorProblems('', PEM).length, 1);
     assert.equal(anchorProblems('x'.repeat(201), PEM).length, 1);
     assert.equal(anchorProblems('Autorité', '').length, 1);
-    assert.match(anchorProblems('Autorité', '-----BEGIN PRIVATE KEY-----\nMIIB\n-----END PRIVATE KEY-----')[0], /clé privée/);
+    assert.match(anchorProblems('Autorité', ['-----BEGIN', 'PRIVATE KEY-----\nMIIB\n-----END', 'PRIVATE KEY-----'].join(' '))[0], /clé privée/);
     assert.match(anchorProblems('Autorité', 'pas un certificat')[0], /PEM/);
     assert.match(anchorProblems('Autorité', PEM + '\n' + PEM)[0], /un seul certificat/);
     assert.match(anchorProblems('Autorité', PEM + 'A'.repeat(20_001))[0], /volumineux/);

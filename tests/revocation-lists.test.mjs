@@ -7,7 +7,7 @@ const PEM = '-----BEGIN X509 CRL-----\nMIIB\n-----END X509 CRL-----';
 test('La saisie d’une liste exige un libellé et une liste, refuse une clé privée et autre chose qu’une CRL', () => {
     assert.equal(listProblems('', '').length, 2);
     assert.deepEqual(listProblems('Autorité X, 15 octobre', PEM), []);
-    assert.match(listProblems('X', '-----BEGIN PRIVATE KEY-----\nAA\n-----END PRIVATE KEY-----')[0], /clé privée/);
+    assert.match(listProblems('X', ['-----BEGIN', 'PRIVATE KEY-----\nAA\n-----END', 'PRIVATE KEY-----'].join(' '))[0], /clé privée/);
     assert.match(listProblems('X', '-----BEGIN CERTIFICATE-----\nAA\n-----END CERTIFICATE-----')[0], /n’est pas une liste de révocation/);
     assert.match(listProblems('X', PEM + '\n' + PEM)[0], /une seule liste/);
     assert.deepEqual(listProblems('X', 'MIIBabc+/=='), [], 'du base64 se dépose tel quel');

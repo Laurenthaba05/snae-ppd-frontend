@@ -22,7 +22,8 @@
     "test:f3": "node --test tests/f3/*.test.mjs",
     "preinstall": "node scripts/check-toolchain.mjs",
     "test:p1": "node --test tests/p1/*.test.mjs",
-    "check:p1": "npm run typecheck && npm run test:p1 && npm run test:f3 && npm test && npm run build"
+    "check:p1": "npm run typecheck && npm run test:p1 && npm run test:f3 && npm test && npm run build",
+    "audit:dependencies": "npm audit --audit-level=moderate"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.117.1",
@@ -49,5 +50,9 @@
     "vite": "8.3.5",
     "vitest": "5.0.3"
   },
-  "packageManager": "npm@11.19.0"
+  "packageManager": "npm@11.19.0",
+  "overrides": {
+    "minimatch": "11.0.1",
+    "undici": "8.12.2"
+  }
 }

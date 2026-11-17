@@ -21,6 +21,8 @@ jobs:
           VITE_OIDC_CLIENT_ID: snae-ppd-ci
         run: |
           npm ci
+          npm run audit:dependencies
+          npm run lint
           npm run typecheck
           npm run test:f3
           npm run test:p1

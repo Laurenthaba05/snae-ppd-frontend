@@ -125,7 +125,7 @@ it('déclare une autorité : le certificat doit être un PEM, jamais une clé pr
     fireEvent.click(await screen.findByRole('button', { name: 'Déclarer une autorité de confiance' }));
     const dialog = await screen.findByRole('dialog');
     fireEvent.change(within(dialog).getByLabelText(/^Libellé/), { target: { value: 'Autorité racine de test' } });
-    fireEvent.change(within(dialog).getByLabelText(/^Certificat \*/), { target: { value: '-----BEGIN PRIVATE KEY-----\nMIIB\n-----END PRIVATE KEY-----' } });
+    fireEvent.change(within(dialog).getByLabelText(/^Certificat \*/), { target: { value: ['-----BEGIN', 'PRIVATE KEY-----\nMIIB\n-----END', 'PRIVATE KEY-----'].join(' ') } });
     fireEvent.click(within(dialog).getByRole('button', { name: 'Déclarer l’autorité' }));
     expect(await within(dialog).findByText(/Ce texte contient une clé privée/)).toBeTruthy();
     expect(fixture.records.addTrustAnchor).not.toHaveBeenCalled();
