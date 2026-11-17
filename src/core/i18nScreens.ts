@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 9195 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 9204 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -1812,6 +1812,8 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Ce texte contient une clé privée : ne la déposez jamais. Fournissez la liste seule.": "This text contains a private key: never deposit it. Provide the list alone.",
     "Ce texte contient une clé privée : ne la déposez jamais. Fournissez le certificat seul.": "This text contains a private key: never deposit it. Provide the certificate alone.",
     "Ce texte n’est pas une liste de révocation : il commence par « -----BEGIN X509 CRL----- ».": "This text is not a revocation list: it starts with “-----BEGIN X509 CRL-----”.",
+    "Ce texte ne figurera plus dans l’index de recherche": "This text will no longer appear in the search index",
+    "Ce texte suivra de nouveau la règle ordinaire de l’index": "This text will follow the ordinary index rule again",
     "Ce transfert n’a pas été accepté par l’institution destinataire : il se traite depuis son bordereau de versement.": "This transfer was not accepted by the receiving institution: it is handled from its transfer schedule.",
     "Ce transfert n’a pas été accepté par l’institution destinataire.": "This transfer was not accepted by the receiving institution.",
     "Ce type d’événement appartient à une autre institution.": "This event type belongs to another institution.",
@@ -3509,10 +3511,15 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "écart": "discrepancy",
     "Écart": "Discrepancy",
     "Écart encore ouvert": "Discrepancy still open",
+    "écarté de l’index": "discarded from the index",
+    "Écarté de l’index": "Discarded from the index",
     "Écarte le texte reconnu par le moteur et pas encore validé par une personne.": "Excludes the text recognized by the engine that has not yet been validated by a person.",
     "Écarter": "Discard",
     "Écarter {n}": "Discard {1}",
+    "Écarter ce texte de l’index": "Discard this text from the index",
     "Écarter de l’échantillon": "Discard from the sample",
+    "Écarter de l’index": "Discard from the index",
+    "écartés de l’index": "discarded from the index",
     "Écarts": "Discrepancies",
     "Écarts constatés": "Discrepancies found",
     "Écarts constatés (": "Discrepancies found (",
@@ -5431,6 +5438,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Le motif dit pourquoi l’archive sort : au moins {n} caractères.": "The reason says why the archive leaves: at least {1} characters.",
     "Le motif dit pourquoi l’original sort : au moins {n} caractères.": "The reason states why the original leaves: at least {1} characters.",
     "Le motif dit pourquoi numériser : au moins {n} caractères.": "The reason states why to digitize: at least {1} characters.",
+    "Le motif doit faire au moins {n} caractères.": "The reason must be at least {1} characters long.",
     "Le motif est limité à 2000 caractères.": "The reason is limited to 2000 characters.",
     "Le motif est limité à 4000 caractères.": "The reason is limited to 4000 characters.",
     "Le motif est limité à 500 caractères.": "The reason is limited to 500 characters.",
@@ -7010,6 +7018,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Pourquoi (au moins 10 caractères).": "Why (at least 10 characters).",
     "Pourquoi avez-vous besoin de ce document ?": "Why do you need this document?",
     "Pourquoi ce risque est tolérable en l’état (au moins 10 caractères).": "Why this risk is tolerable as it stands (at least 10 characters).",
+    "Pourquoi ce texte est-il inutilisable (faux, illisible, hors sujet) ? De {n} à {n} caractères. Il ne figurera plus dans la recherche ni dans les propositions de classement ; vous pourrez le réintégrer.": "Why is this text unusable (wrong, illegible, off-topic)? From {1} to {2} characters. It will no longer appear in search or in classification suggestions; you can restore it.",
     "Pourquoi l’archive doit sortir de réserve": "Why the archive must leave storage",
     "Pourquoi l’original doit sortir de réserve": "Why the original must leave storage",
     "Pourquoi la décision est reportée (4 caractères au moins).": "Why the decision is postponed (at least 4 characters).",

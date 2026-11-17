@@ -1,0 +1,9 @@
+1	This text will no longer appear in the search index
+2	This text will follow the ordinary index rule again
+3	discarded from the index
+4	Discarded from the index
+5	Discard this text from the index
+6	Discard from the index
+7	discarded from the index
+8	The reason must be at least {1} characters long.
+9	Why is this text unusable (wrong, illegible, off-topic)? From {1} to {2} characters. It will no longer appear in search or in classification suggestions; you can restore it.

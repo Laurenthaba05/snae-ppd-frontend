@@ -1,0 +1,9 @@
+1	Ce texte ne figurera plus dans l’index de recherche
+2	Ce texte suivra de nouveau la règle ordinaire de l’index
+3	écarté de l’index
+4	Écarté de l’index
+5	Écarter ce texte de l’index
+6	Écarter de l’index
+7	écartés de l’index
+8	Le motif doit faire au moins {n} caractères.
+9	Pourquoi ce texte est-il inutilisable (faux, illisible, hors sujet) ? De {n} à {n} caractères. Il ne figurera plus dans la recherche ni dans les propositions de classement ; vous pourrez le réintégrer.
