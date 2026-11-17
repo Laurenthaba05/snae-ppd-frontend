@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import type { ArchivalReadiness } from '../../src/api/archivalReadiness';
 import type { Localisation, ScanLot } from '../../src/core/types';
