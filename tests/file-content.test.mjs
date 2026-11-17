@@ -93,6 +93,7 @@ test('Aperçus limités aux formats pris en charge et aux tailles prévues', () 
     assert.equal(previewKind('text/plain; charset=utf-8', 100), 'text');
     assert.equal(previewKind('video/mp4', 100), 'video');
     assert.equal(previewKind('audio/mpeg', 100), 'audio');
+    for (const mime of ['audio/flac', 'audio/aac', 'audio/webm', 'audio/opus']) assert.equal(previewKind(mime, 100), 'audio');
     assert.equal(previewKind('application/pdf', 50 * 1024 * 1024 + 1), null);
     assert.equal(previewKind('text/plain', 1024 * 1024 + 1), null);
     for (const size of [-1, NaN, Infinity]) assert.equal(previewKind('application/pdf', size), null);

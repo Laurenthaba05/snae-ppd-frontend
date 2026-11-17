@@ -26,6 +26,8 @@ export function ingestionMessage(result: Ingestion): string {
         SCANNER_NOT_CONFIGURED: 'Le contrôle antivirus n’est pas configuré sur le serveur. Un administrateur doit l’activer avant que le fichier puisse être validé.',
         SCAN_UNAVAILABLE: 'Le service antivirus est injoignable. Réessayez lorsque le service sera disponible.',
         SCAN_INCOMPLETE: 'L’analyse antivirus n’a pas pu se terminer. Le fichier n’a pas été validé.',
+        SCAN_STREAM_INTERRUPTED: 'L’antivirus a coupé la connexion pendant l’envoi du fichier, le plus souvent parce qu’il est plus gros que sa limite d’analyse. Le fichier n’a pas été validé : un administrateur doit relever cette limite (StreamMaxLength dans clamd.conf).',
+        SCAN_SIZE_LIMIT: 'Ce fichier est plus gros que ce que l’antivirus du serveur accepte d’analyser : il n’a pas été validé. Un administrateur doit relever la limite de l’antivirus (StreamMaxLength dans clamd.conf).',
         SCAN_THREAT_DETECTED: 'L’antivirus a détecté une menace. Ce fichier a été rejeté ; sélectionnez un autre fichier.',
         INGESTION_CANCELLED: 'Ce dépôt a été annulé. Aucun fichier n’a été ajouté.',
     };

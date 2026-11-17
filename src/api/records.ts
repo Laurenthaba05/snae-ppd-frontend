@@ -73,7 +73,8 @@ export class RecordsApi {
     retireRevocationList(id: string, reason: string, key: string): Promise<RevocationList> { return this.command('/revocation-lists/' + uuid(id) + '/retire', { reason }, key); }
     deleteSignature(id: string, signatureId: string, version: number, key: string): Promise<void> { return this.command('/documents/' + uuid(id) + '/signatures/' + uuid(signatureId) + '/delete', { version }, key); }
     command<T>(path: string, body: unknown, key: string, method: 'POST' | 'PUT' = 'POST'): Promise<T> { return this.transport.request(path, { method, body, idempotencyKey: key } satisfies RequestOptions); }
-    uploadContent(versionId: string, file: File, role: 'PIECE_JOINTE' | 'MAITRE_CONSERVATION', key: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.upload!('/versions/' + uuid(versionId) + '/content', file, { role }, key, signal); }
+    /** Dépose un fichier en flux (sans limite de taille ni copie en mémoire) ; le serveur le contrôle, le stocke et l'analyse. */
+    uploadContent(versionId: string, file: File, role: 'PIECE_JOINTE' | 'MAITRE_CONSERVATION', key: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.uploadStream!('/versions/' + uuid(versionId) + '/content/stream', file, { role, filename: file.name }, key, signal); }
     ingestion(id: string, signal?: AbortSignal): Promise<Ingestion> { return this.transport.request('/ingestions/' + uuid(id), { signal }); }
     ingestions(versionId: string, signal?: AbortSignal, before?: string | null): Promise<{ items: Ingestion[]; nextCursor: string | null }> { return this.transport.request('/versions/' + uuid(versionId) + '/ingestions' + query({ before, limit: 20 }), { signal }); }
     async actors(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Actor>> { return parsePage<Actor>(await this.transport.request('/actors' + query(params), { signal })); }

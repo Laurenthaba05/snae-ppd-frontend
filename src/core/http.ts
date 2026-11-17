@@ -12,6 +12,7 @@ export interface RequestOptions {
 export interface Transport {
     request<T>(path: string, options?: RequestOptions): Promise<T>;
     upload?<T>(path: string, file: File, fields: Record<string, string>, idempotencyKey: string, signal?: AbortSignal): Promise<T>;
+    uploadStream?<T>(path: string, file: File, query: Record<string, string>, idempotencyKey: string, signal?: AbortSignal): Promise<T>;
 }
 export class HttpTransport implements Transport {
     private controllers = new Set<AbortController>();
@@ -58,8 +59,8 @@ export class HttpTransport implements Transport {
                     if (typeof v === 'string')
                         fields[k] = v;
             const fallback = response.status === 403 ? 'Accès refusé.' : response.status === 404 ? 'Ressource indisponible ou non autorisée.' : response.status === 409 ? 'Les données ont changé ou cette opération est en conflit.' : response.status === 422 ? 'Ressource rejetée par les contrôles du serveur.' : 'Le serveur ne peut pas traiter cette requête.';
-            const message = response.status >= 500 ? 'Le service est momentanément indisponible.' : (typeof p.message === 'string' ? p.message : fallback);
-            throw new ApiError(response.status, typeof p.code === 'string' ? p.code : 'HTTP_ERROR', message, typeof p.correlationId === 'string' ? p.correlationId : id, fields, uncertainOnWrite && response.status >= 500);
+            const message = response.status >= 500 && response.status !== 507 ? 'Le service est momentanément indisponible.' : (typeof p.message === 'string' ? p.message : fallback);   // 507 : le serveur de fichiers est plein, ce que la personne doit savoir
+            throw new ApiError(response.status, typeof p.code === 'string' ? p.code : 'HTTP_ERROR', message, typeof p.correlationId === 'string' ? p.correlationId : id, fields, uncertainOnWrite && response.status >= 500 && response.status !== 507);
         }
         return data as T;
     }
@@ -141,6 +142,47 @@ export class HttpTransport implements Transport {
         }
         finally {
             clearTimeout(timer);
+            this.controllers.delete(controller);
+            signal?.removeEventListener('abort', relay);
+        }
+    }
+    /**
+     * Envoi d'un fichier **en flux** : le corps de la requête est le fichier lui-même (PUT), que le navigateur lit sur le disque au fil de l'eau, sans le charger en mémoire. Aucune limite de taille
+     * et aucun délai global : un envoi de plusieurs Gio dure des heures ; il s'arrête si la personne l'annule (`signal`) ou si la connexion tombe. Le nom du fichier et le rôle passent en paramètres.
+     */
+    async uploadStream<T>(path: string, file: File, params: Record<string, string>, idempotencyKey: string, signal?: AbortSignal): Promise<T> {
+        if (!path.startsWith('/') || path.startsWith('//') || path.includes('..') || path.includes('?') || /[\\\r\n]/.test(path))
+            throw new Error('Chemin API interdit.');
+        if (!/^[A-Za-z0-9._:-]{1,128}$/.test(idempotencyKey))
+            throw new Error('Idempotency-Key obligatoire.');
+        const controller = new AbortController();
+        this.controllers.add(controller);
+        const relay = () => controller.abort();
+        signal?.addEventListener('abort', relay, { once: true });
+        if (signal?.aborted)
+            controller.abort();
+        const correlationId = crypto.randomUUID();
+        // Jamais « application/x-www-form-urlencoded » ni « multipart » : le serveur lirait le corps comme un formulaire au lieu de le laisser passer.
+        const declared = /^(application\/x-www-form-urlencoded|multipart\/)/i.test(file.type) ? '' : file.type;
+        try {
+            const token = await this.token();
+            if (!token) {
+                this.unauthorized();
+                throw new ApiError(401, 'AUTHENTICATION_REQUIRED', 'Votre session a expiré. Reconnectez-vous.');
+            }
+            if (controller.signal.aborted)
+                throw new DOMException('Aborted', 'AbortError');
+            return await this.perform<T>(path + query(params), { method: 'PUT', credentials: 'omit', cache: 'no-store', redirect: 'error', referrerPolicy: 'no-referrer', signal: controller.signal,
+                headers: { Accept: 'application/json', Authorization: `Bearer ${token}`, 'X-Correlation-Id': correlationId, 'Idempotency-Key': idempotencyKey, 'Content-Type': declared || 'application/octet-stream' }, body: file }, correlationId, controller, true, true);
+        }
+        catch (error) {
+            if (error instanceof ApiError)
+                throw error;
+            if (signal?.aborted)
+                throw new DOMException('Aborted', 'AbortError');
+            throw new ApiError(0, 'NETWORK_UNCERTAIN', 'Le téléversement n’est pas confirmé. Vérifiez l’état avant de recommencer.', correlationId, {}, true);
+        }
+        finally {
             this.controllers.delete(controller);
             signal?.removeEventListener('abort', relay);
         }

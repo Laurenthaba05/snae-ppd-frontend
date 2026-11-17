@@ -84,7 +84,7 @@ export function UploadDialog({ versionId, initialFile, defaultRole = 'PIECE_JOIN
     const done = result?.status === 'COMPLETED';
     const processing = result?.status === 'PROCESSING' && result.leaseExpired !== true;
     return <Modal title="Téléverser un fichier" subtitle="Le fichier est analysé et contrôlé par le serveur avant d’être associé à cette version." onClose={onClose} locked={busy}><form onSubmit={submit}><div className="form-grid">
-        <Field label="Fichier *" wide hint={file ? 'Sélectionné : ' + file.name : undefined}><input type="file" onChange={e => pick(e.target.files?.[0] ?? null)} required={!file} disabled={busy || done || processing}/></Field>
+        <Field label="Fichier *" wide hint={file ? 'Sélectionné : ' + file.name + ' (' + formatBytes(file.size) + ')' : 'Tous les formats sont acceptés : document, image, son, vidéo, archive…'}><input type="file" onChange={e => pick(e.target.files?.[0] ?? null)} required={!file} disabled={busy || done || processing}/></Field>
         <Field label="Rôle"><select value={role} onChange={e => { setRole(e.target.value as typeof defaultRole); setKey(crypto.randomUUID()); setResult(null); setError(null); }} disabled={busy || done || processing}><option value="PIECE_JOINTE">Pièce jointe</option><option value="MAITRE_CONSERVATION">Maître de conservation</option></select></Field>
         {result && result.status === 'COMPLETED' && <Notice tone="info">Dépôt terminé : {result.filename} ({formatBytes(result.size)}). Validez ensuite le fichier dans la liste pour autoriser sa consultation.</Notice>}
         {result && result.status === 'REJECTED' && <Notice tone="warning">{ingestionMessage(result)}</Notice>}

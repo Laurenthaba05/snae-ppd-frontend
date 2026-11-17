@@ -10,7 +10,7 @@ export function previewKind(type: string, size: number): PreviewKind | null {
     if (mime === 'application/pdf') return 'pdf';
     if (['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif'].includes(mime)) return 'image';
     if (mime === 'text/plain' && size <= 1024 * 1024) return 'text';
-    if (['audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4'].includes(mime)) return 'audio';
+    if (['audio/mpeg', 'audio/ogg', 'audio/wav', 'audio/mp4', 'audio/flac', 'audio/aac', 'audio/webm', 'audio/opus'].includes(mime)) return 'audio';
     if (['video/mp4', 'video/webm', 'video/ogg'].includes(mime)) return 'video';
     return null;
 }
