@@ -2,6 +2,7 @@ import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { validateFrontendEnvironment } from './scripts/environment-policy.mjs';
+import { defaultServersPath, frontendFromServers, readServersFile } from './scripts/servers-file.mjs';
 import { contentSecurityPolicy } from './scripts/csp-policy.mjs';
 
 // Serve the same PDF decoder resources locally in development and production.
@@ -40,7 +41,11 @@ function contentSecurityPolicyTag(env: Record<string, string | undefined>): Plug
   };
 }
 export default defineConfig(({ mode, command }) => {
-  const env = { ...loadEnv(mode, process.cwd(), ''), ...process.env };
+  const env: Record<string, string | undefined> = { ...loadEnv(mode, process.cwd(), ''), ...process.env };
+  // Les adresses des serveurs viennent du fichier unique config/serveurs.env du serveur d'application, s'il existe, et l'emportent sur .env.local (développement et construction locale).
+  // Une machine de construction qui n'a pas ce fichier (intégration continue) garde ses variables d'environnement habituelles : rien n'est exigé.
+  const servers = readServersFile(defaultServersPath(process.cwd()));
+  if (servers) for (const [key, value] of Object.entries(frontendFromServers(servers, env.VITE_AUTH_MODE))) { env[key] = value; if (key.startsWith('VITE_')) process.env[key] = value; }
   const target = validateFrontendEnvironment(env, mode, command);
   return {
     // la démonstration ne contacte aucun fournisseur d'identité : elle n'autorise que sa propre origine
