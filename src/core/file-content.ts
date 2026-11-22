@@ -15,6 +15,25 @@ export function previewKind(type: string, size: number): PreviewKind | null {
     return null;
 }
 
+/** Au-delà de cette taille, un fichier n'est plus chargé en mémoire du navigateur : il se lit et se télécharge en continu depuis le serveur. */
+export const MEMORY_LIMIT_BYTES = 50 * 1024 * 1024;
+
+const STREAMABLE: Record<string, 'audio' | 'video'> = {
+    'audio/mpeg': 'audio', 'audio/ogg': 'audio', 'audio/wav': 'audio', 'audio/mp4': 'audio', 'audio/flac': 'audio', 'audio/aac': 'audio', 'audio/webm': 'audio', 'audio/opus': 'audio',
+    'video/mp4': 'video', 'video/webm': 'video', 'video/ogg': 'video'
+};
+
+/** Ce type se lit directement dans la page (balise audio ou vidéo), quelle que soit la taille du fichier. */
+export function streamKind(type: string): 'audio' | 'video' | null { return STREAMABLE[mediaType(type)] ?? null; }
+
+/**
+ * Ce fichier passe-t-il par la lecture en continu (jeton de lecture, plages d'octets, rien en mémoire) ? Toujours pour l'audio et la vidéo qu'on consulte, quelle que soit leur taille ; pour tout
+ * fichier plus gros que la limite de mémoire, qu'on le consulte ou le télécharge. Sinon, il est chargé en entier et vérifié (taille et type) avant d'être proposé.
+ */
+export function usesStreaming(file: Pick<DocumentFile, 'mediaType' | 'size'>, preview: boolean): boolean {
+    return (preview && streamKind(file.mediaType) !== null) || !Number.isSafeInteger(file.size) || file.size > MEMORY_LIMIT_BYTES;
+}
+
 export function fileIsReadable(file: Pick<DocumentFile, 'state' | 'validatedAt'>): boolean {
     return !!file.validatedAt && (file.state === 'VALIDE' || file.state === 'ARCHIVE');
 }

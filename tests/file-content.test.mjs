@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { HttpTransport, ApiError } from '../.test-build/http.js';
-import { checkFileContent, downloadFilename, fileIsReadable, previewKind } from '../.test-build/file-content.js';
+import { MEMORY_LIMIT_BYTES, checkFileContent, downloadFilename, fileIsReadable, previewKind, streamKind, usesStreaming } from '../.test-build/file-content.js';
 
 test('Lecture binaire authentifiée sans URL publique, cookies, cache ni redirection', async () => {
     const bytes = new Uint8Array([0, 255, 3, 128]);
@@ -103,4 +103,23 @@ test('Les noms enregistrés ne conservent ni chemin ni caractères de contrôle'
     assert.equal(downloadFilename('Arrêté 2026.pdf'), 'Arrêté 2026.pdf');
     assert.doesNotMatch(downloadFilename('../dossier\\nom\u202e\r\n.pdf'), /[\\/\r\n\u202e]/);
     assert.equal(downloadFilename('...'), 'document');
+});
+
+test('L’audio et la vidéo se lisent en continu quelle que soit leur taille, le reste seulement au-delà de la limite de mémoire', () => {
+    assert.equal(streamKind('video/mp4'), 'video');
+    assert.equal(streamKind('Video/WebM; codecs=vp9'), 'video');
+    assert.equal(streamKind('audio/flac'), 'audio');
+    for (const mime of ['application/pdf', 'image/png', 'video/x-matroska', 'application/octet-stream', 'text/html']) assert.equal(streamKind(mime), null, mime);
+    // consulter une vidéo ou un son : toujours en continu, même un petit fichier
+    assert.equal(usesStreaming({ mediaType: 'video/mp4', size: 1000 }, true), true);
+    assert.equal(usesStreaming({ mediaType: 'audio/mpeg', size: 5 * 1024 * 1024 }, true), true);
+    // le télécharger : en mémoire tant qu'il est petit, en continu au-delà
+    assert.equal(usesStreaming({ mediaType: 'video/mp4', size: 1000 }, false), false);
+    assert.equal(usesStreaming({ mediaType: 'video/mp4', size: MEMORY_LIMIT_BYTES + 1 }, false), true);
+    assert.equal(usesStreaming({ mediaType: 'video/mp4', size: MEMORY_LIMIT_BYTES }, false), false);
+    // un PDF ou un texte ordinaire reste chargé et vérifié ; un gros fichier de tout type passe en continu
+    assert.equal(usesStreaming({ mediaType: 'application/pdf', size: 2_000_000 }, true), false);
+    assert.equal(usesStreaming({ mediaType: 'application/pdf', size: 80 * 1024 * 1024 }, true), true);
+    assert.equal(usesStreaming({ mediaType: 'application/zip', size: 7 * 1024 * 1024 * 1024 }, false), true);
+    for (const size of [NaN, Infinity, -1.5]) assert.equal(usesStreaming({ mediaType: 'text/plain', size }, false), true, String(size));   // taille inexploitable : le serveur sait, pas le navigateur
 });

@@ -270,6 +270,19 @@ export interface DocumentFile {
     master: boolean;
     validatedAt: string | null;
 }
+/** Un jeton de lecture : l'adresse (avec le jeton) que lit une balise audio ou vidéo, ou un lien de téléchargement, par plages d'octets, sans charger le fichier en mémoire. */
+export interface StreamTicket {
+    /** Adresse relative à l'origine du portail, jeton compris ; `&download=true` en fait un téléchargement. */
+    url: string;
+    /** Échéance si on ne lit plus rien (chaque lecture la repousse) et échéance absolue. */
+    expiresAt: string;
+    maxExpiresAt: string;
+    size: number;
+    mediaType: string;
+    filename: string;
+    /** Le navigateur sait lire ce type directement (audio, vidéo). */
+    playable: boolean;
+}
 export type RecordCatalog = 'documents' | 'dossiers';
 export type PreservationFileState = 'BLOCKED' | 'UNAVAILABLE' | 'UNSCHEDULED' | 'RUNNING' | 'DUE' | 'VERIFIED';
 export interface BackupMonitor {

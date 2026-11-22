@@ -4,7 +4,7 @@ import { parsePage } from '../core/contracts.js';
 import { uuid } from '../core/validation.js';
 import { identifier } from '../core/iiifViewer.js';
 import type { SealKeyStatus } from '../core/sealKey.js';
-import type { PreservationMonitor, BackupMonitor } from '../core/types.js';
+import type { PreservationMonitor, BackupMonitor, StreamTicket } from '../core/types.js';
 import type { Volumetry, DocumentRelation, DocumentRelations, RelationType } from '../core/recordInfo.js';
 import type { DocumentSignature } from '../core/signatures.js';
 import type { TrustAnchor } from '../core/trustAnchors.js';
@@ -38,6 +38,8 @@ export class RecordsApi {
     iiifManifest(documentId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/documents/' + uuid(documentId) + '/iiif/manifest', { signal, responseType: 'blob' }); }
     /** L'état de la clé qui scelle les actes (gestion nationale des autorités de confiance). */
     sealKeyStatus(signal?: AbortSignal): Promise<SealKeyStatus> { return this.transport.request('/signing/key-status', { signal }); }
+    /** Un jeton de lecture pour ce fichier (mêmes contrôles que le téléchargement) : l'adresse que lit une balise audio ou vidéo, par plages, sans charger le fichier en mémoire. */
+    streamTicket(fileId: string, signal?: AbortSignal): Promise<StreamTicket> { return this.transport.request('/files/' + uuid(fileId) + '/stream-ticket', { method: 'POST', idempotencyKey: crypto.randomUUID(), signal }); }
     fileContent(fileId: string, signal?: AbortSignal): Promise<Blob> { return this.transport.request('/files/' + uuid(fileId) + '/content', { signal, responseType: 'blob' }); }
     async dossiers(params: Record<string, string | number | null | undefined>, signal?: AbortSignal): Promise<Page<Dossier>> { return parsePage<Dossier>(await this.transport.request('/dossiers' + query(params), { signal })); }
     dossier(id: string, signal?: AbortSignal): Promise<Dossier> { return this.transport.request('/dossiers/' + uuid(id), { signal }); }

@@ -1,0 +1,5 @@
+1	This file is read directly from the server, without being loaded into memory, when you save it.
+2	This audio format cannot be played by your browser. You can save the file.
+3	This video format cannot be played by your browser. You can save the file.
+4	The built-in viewer is limited to files under 50 MB. This file is read directly from the server, without being loaded into memory, when you save it.
+5	Preparing playback…

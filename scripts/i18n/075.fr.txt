@@ -1,0 +1,5 @@
+1	Ce fichier est lu directement depuis le serveur, sans être chargé en mémoire, quand vous l’enregistrez.
+2	Ce format audio ne peut pas être lu par votre navigateur. Vous pouvez enregistrer le fichier.
+3	Ce format vidéo ne peut pas être lu par votre navigateur. Vous pouvez enregistrer le fichier.
+4	La consultation intégrée est limitée aux fichiers de moins de 50 Mo. Ce fichier est lu directement depuis le serveur, sans être chargé en mémoire, quand vous l’enregistrez.
+5	Préparation de la lecture…

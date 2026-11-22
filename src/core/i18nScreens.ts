@@ -1,5 +1,5 @@
 // Fichier GÉNÉRÉ par `node scripts/i18n-build.mjs build` à partir de scripts/i18n/*.txt : ne pas le modifier à la main.
-// 9207 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
+// 9212 textes des écrans métier (français → anglais). Une clé avec {n} est un modèle : voir registerCatalog dans core/i18n.ts.
 export const EN_SCREENS: Readonly<Record<string, string>> = {
     "— à redemander": "— to request again",
     "— à revoir avant le {n}": "— to review before {1}",
@@ -1731,13 +1731,16 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Ce dossier ne peut pas être clos par votre compte dans son état actuel.": "This file cannot be closed by your account in its current state.",
     "ce fichier": "this file",
     "Ce fichier a été rejeté par les contrôles de sécurité. Sélectionnez un autre fichier.": "This file was rejected by the security checks. Select another file.",
+    "Ce fichier est lu directement depuis le serveur, sans être chargé en mémoire, quand vous l’enregistrez.": "This file is read directly from the server, without being loaded into memory, when you save it.",
     "Ce fichier est plus gros que ce que l’antivirus du serveur accepte d’analyser : il n’a pas été validé. Un administrateur doit relever la limite de l’antivirus (StreamMaxLength dans clamd.conf).": "This file is larger than what the server's antivirus will scan: it was not validated. An administrator must raise the antivirus limit (StreamMaxLength in clamd.conf).",
     "Ce fichier n’est pas un classeur Excel (.xlsx) valide.": "This file is not a valid Excel workbook (.xlsx).",
     "Ce fichier ne porte aucune signature électronique.": "This file carries no electronic signature.",
     "Ce fichier peut devenir une page": "This file can become a page",
     "Ce format audio ne peut pas être lu par votre navigateur.": "This audio format cannot be played by your browser.",
+    "Ce format audio ne peut pas être lu par votre navigateur. Vous pouvez enregistrer le fichier.": "This audio format cannot be played by your browser. You can save the file.",
     "Ce format de fichier n’est pas accepté.": "This file format is not accepted.",
     "Ce format vidéo ne peut pas être lu par votre navigateur.": "This video format cannot be played by your browser.",
+    "Ce format vidéo ne peut pas être lu par votre navigateur. Vous pouvez enregistrer le fichier.": "This video format cannot be played by your browser. You can save the file.",
     "Ce groupe a encore des membres : déplacez-les avant de l’archiver.": "This group still has members: move them before archiving it.",
     "Ce groupe n’a aucun membre dans votre périmètre.": "This group has no member in your scope.",
     "Ce groupe n’accueille que les comptes de son institution.": "This group only takes accounts of its institution.",
@@ -4924,6 +4927,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "La consultation des rubriques nécessite l’habilitation de lecture du plan de classement.": "Viewing the headings requires permission to read the classification scheme.",
     "La consultation est indisponible. Réessayez.": "Viewing is unavailable. Try again.",
     "La consultation intégrée est disponible pour les PDF, images, textes et certains fichiers audio ou vidéo de moins de 50 Mo (1 Mo pour le texte). Téléchargez ce fichier pour le consulter avec une application adaptée.": "Integrated viewing is available for PDFs, images, texts and some audio or video files under 50 MB (1 MB for text). Download this file to view it with a suitable application.",
+    "La consultation intégrée est limitée aux fichiers de moins de 50 Mo. Ce fichier est lu directement depuis le serveur, sans être chargé en mémoire, quand vous l’enregistrez.": "The built-in viewer is limited to files under 50 MB. This file is read directly from the server, without being loaded into memory, when you save it.",
     "La convention ne peut pas être signée dans le futur.": "The agreement cannot be signed in the future.",
     "La conversion ne perd aucune donnée décodée ; elle ne restaure pas ce qu’une compression avec perte a déjà détruit. Les métadonnées incorporées restent dans l’original.": "The conversion loses no decoded data; it does not restore what lossy compression has already destroyed. Embedded metadata remains in the original.",
     "La conversion peut perdre des données.": "The conversion may lose data.",
@@ -7059,6 +7063,7 @@ export const EN_SCREENS: Readonly<Record<string, string>> = {
     "Prénom": "First name",
     "Prénom *": "First name *",
     "prenom.nom@institution.gn": "first.last@institution.gn",
+    "Préparation de la lecture…": "Preparing playback…",
     "Préparation de la version…": "Preparing the version…",
     "Préparation des dossiers dans l’institution de recette.": "Preparation of the files in the acceptance-test institution.",
     "Préparation impossible.": "Preparation impossible.",
